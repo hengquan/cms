@@ -1,0 +1,220 @@
+@charset "utf-8";
+/*!
+* Created by Toma on 2016年5月31日10:19:47
+* 昂沁后台模板
+*/
+
+// theme
+$theme: #333c48;
+
+@import "toma";
+
+/*!
+* 侧边栏
+*/
+.sidebar_left{
+  @include pos(50px,0,fixed);
+  width: 200px;
+  height: 100%;
+  z-index: 100;
+  background: $theme;
+}
+.nav-link{
+  height: 60px;
+  line-height: 60px;
+  padding: 0 0 0 20px !important;
+  background-color: transparent !important;
+  color: #fff !important;
+  font-size: 15px;
+
+  i{
+    margin-right: 15px;
+    opacity: .8;
+  }
+  &::after{
+    content: '>';
+    font-family: 'sans-serif';
+    float: right;
+    padding-right: 20px;
+  }
+}
+.link-lop{
+  display: none;
+  background: #262d36;
+  padding-left: 50px;
+  padding-bottom: 15px;
+  margin-top: -5px;
+  a{
+    color: #929ca9;
+    text-decoration: none;
+    line-height: 32px;
+    font-size: 13px;
+    -webkit-transition: color .2s ease;
+    transition: color .2s ease;
+
+    &:hover{
+      color: #fff;
+    }
+  }
+}
+.nav{
+  li{
+    -webkit-transition: all .2s ease;
+    transition: all .2s ease;
+  }
+  li:hover,li.active{
+    background-color: #262d36 !important;
+    .link-lop{
+      display: block;
+    }
+  }
+}
+
+
+/*!
+* 导航
+*/
+.to-nav{
+  background-color: $theme;
+  border-color: $theme;
+  border-radius: 0;
+}
+.navbar-inverse .navbar-brand{
+  color: #fff;
+}
+
+/*!
+* 主体
+*/
+.content{
+  margin-left: 200px;
+  padding-top: 50px;
+  .con-wap{
+    padding: 15px;
+  }
+}
+.to-h2{
+  margin-top: 10px;
+}
+.min-img{
+  display: inline-block;
+  @include bg(32px,32px);
+  -webkit-background-size: cover;
+  background-size: cover;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+.table td{
+  vertical-align: middle !important;
+}
+.dropdown-menu>li>a{
+  padding: 8px 20px;
+}
+.to-form{
+  padding-top: 15px;
+  .input-group{
+    margin-bottom: 15px;
+  }
+  input,select{
+    height: 42px;
+  }
+}
+.btn-save{
+  padding: 8px 46px;
+  font-size: 16px;
+  margin: 5px 15px;
+}
+.ta-paren{
+  i{
+    -webkit-transition: all .2s ease;
+    transition: all .2s ease;
+  }
+}
+.ta-child{
+  display: none;
+}
+
+/*!
+* 分页
+*/
+.pagination{
+  margin: 7px 0;
+}
+
+
+
+/*!
+* 登录页面
+*/
+.loginbox{
+  @include pos(50%,50%);
+  background-color: rgba(157,149,123,.5);
+  width: 560px;
+  height: 476px;
+  margin-left: -280px;
+  margin-top: -238px;
+  border-radius: 6px;
+  z-index: 50;
+}
+.carent-logo{
+  text-align: center;
+  padding: 40px 0;
+}
+.login-content{
+  width: 80%;
+  margin: 0 auto;
+  color: #fff;
+  .form-group{
+    margin-bottom: 20px;
+    position: relative;
+    i{
+      @include pos(19px,24px);
+      font-size: 20px;
+    }
+  }
+}
+.ms-inp{
+  height: 60px;
+  padding-left: 60px;
+  background-color: transparent;
+  border-color: #afab9f!important;
+  color: #fff;
+  @include pach(#eaeaea);
+}
+.btn-login{
+  height: 60px;
+  width: 100%;
+  background: #d4d4d4;
+  color: #73757a;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.log-bg {
+  @include pos(0,0);
+  @include bg(100%,100%);
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+}
+
+
+/*！
+* 小屏幕
+*/
+@media (max-width:768px) {
+  .sidebar_left{
+    display: none;
+  }
+  .content{
+    margin-left: 0;
+  }
+  .loginbox{
+    width: 90%;
+    left: 0;
+    margin-left: 5%;
+  }
+}

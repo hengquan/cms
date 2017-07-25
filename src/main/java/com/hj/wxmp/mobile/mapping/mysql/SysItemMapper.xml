@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hj.wxmp.mobile.mapping.SysItemMapper" >
+  <resultMap id="BaseResultMap" type="com.hj.wxmp.mobile.entity.SysItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="item_url" property="itemUrl" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+    <result column="is_leaf" property="isLeaf" jdbcType="INTEGER" />
+    <result column="leaf_level" property="leafLevel" jdbcType="INTEGER" />
+    <result column="is_grade" property="isGrade" jdbcType="VARCHAR" />
+    <result column="icon_img" property="iconImg" jdbcType="VARCHAR" />
+    <result column="visible_flag" property="visibleFlag" jdbcType="INTEGER" />
+    <result column="seq_num" property="seqNum" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, item_name, item_url, parent_id, is_leaf, leaf_level, is_grade, icon_img, visible_flag, 
+    seq_num, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.SysItem" >
+    insert into sys_item (id, item_name, item_url, 
+      parent_id, is_leaf, leaf_level, 
+      is_grade, icon_img, visible_flag, 
+      seq_num, remark)
+    values (#{id,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, #{itemUrl,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=VARCHAR}, #{isLeaf,jdbcType=INTEGER}, #{leafLevel,jdbcType=INTEGER}, 
+      #{isGrade,jdbcType=VARCHAR}, #{iconImg,jdbcType=VARCHAR}, #{visibleFlag,jdbcType=INTEGER}, 
+      #{seqNum,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.SysItem" >
+    insert into sys_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="itemName != null" >
+        item_name,
+      </if>
+      <if test="itemUrl != null" >
+        item_url,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="isLeaf != null" >
+        is_leaf,
+      </if>
+      <if test="leafLevel != null" >
+        leaf_level,
+      </if>
+      <if test="isGrade != null" >
+        is_grade,
+      </if>
+      <if test="iconImg != null" >
+        icon_img,
+      </if>
+      <if test="visibleFlag != null" >
+        visible_flag,
+      </if>
+      <if test="seqNum != null" >
+        seq_num,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemUrl != null" >
+        #{itemUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="isLeaf != null" >
+        #{isLeaf,jdbcType=INTEGER},
+      </if>
+      <if test="leafLevel != null" >
+        #{leafLevel,jdbcType=INTEGER},
+      </if>
+      <if test="isGrade != null" >
+        #{isGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="iconImg != null" >
+        #{iconImg,jdbcType=VARCHAR},
+      </if>
+      <if test="visibleFlag != null" >
+        #{visibleFlag,jdbcType=INTEGER},
+      </if>
+      <if test="seqNum != null" >
+        #{seqNum,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.SysItem" >
+    update sys_item
+    <set >
+      <if test="itemName != null" >
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemUrl != null" >
+        item_url = #{itemUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="isLeaf != null" >
+        is_leaf = #{isLeaf,jdbcType=INTEGER},
+      </if>
+      <if test="leafLevel != null" >
+        leaf_level = #{leafLevel,jdbcType=INTEGER},
+      </if>
+      <if test="isGrade != null" >
+        is_grade = #{isGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="iconImg != null" >
+        icon_img = #{iconImg,jdbcType=VARCHAR},
+      </if>
+      <if test="visibleFlag != null" >
+        visible_flag = #{visibleFlag,jdbcType=INTEGER},
+      </if>
+      <if test="seqNum != null" >
+        seq_num = #{seqNum,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.SysItem" >
+    update sys_item
+    set item_name = #{itemName,jdbcType=VARCHAR},
+      item_url = #{itemUrl,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      is_leaf = #{isLeaf,jdbcType=INTEGER},
+      leaf_level = #{leafLevel,jdbcType=INTEGER},
+      is_grade = #{isGrade,jdbcType=VARCHAR},
+      icon_img = #{iconImg,jdbcType=VARCHAR},
+      visible_flag = #{visibleFlag,jdbcType=INTEGER},
+      seq_num = #{seqNum,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

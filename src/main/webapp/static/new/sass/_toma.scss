@@ -1,0 +1,19 @@
+
+/* mixin */
+@mixin bg($w:100%,$h:100%,$po:center center){
+  width: $w;
+  height: $h;
+  background-position: $po;
+  background-repeat: no-repeat;
+}
+@mixin pos($t,$l,$pos:absolute){
+  position: $pos;
+  top: $t;
+  left: $l;
+}
+@mixin pach($c){
+  &:-moz-placeholder, textarea:-moz-placeholder { color: $c; }
+  &::-moz-placeholder, textarea::-moz-placeholder { color: $c; }
+  &:-ms-input-placeholder, textarea:-ms-input-placeholder { color: $c; }
+  &::-webkit-input-placeholder, textarea::-webkit-input-placeholder { color: $c; }
+}

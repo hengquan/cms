@@ -1,0 +1,107 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,
+legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,
+details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+    margin: 0px;
+    padding: 0px;
+}
+html, body {
+    width: 100%;
+    font: 14px "Microsoft YaHei","Simsun","arial","simhei";
+}
+input,select,textarea {
+    font-size: 100%;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+th {
+    text-align: inherit;
+}
+fieldset,img {
+    border: none;
+}
+iframe {
+    display: block;
+}
+ol,ul {
+    list-style: none;
+}
+caption,th {
+    text-align: left;
+}
+h1,h2,h3,h4,h5,h6 {
+    font-size: 100%;
+    font-weight: 500;
+}
+q:before,q:after {
+    content: '"';
+}
+sub,sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+sup {
+    top: -0.5em;
+}
+sub {
+    bottom: -0.25em;
+}
+a {
+    text-decoration: none;
+}
+a:focus,*:focus {
+    outline: none;
+}
+.clear {
+    clear: both;
+    display: block;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    overflow: hidden;
+}
+.hide {
+    display: none;
+}
+.block {
+    display: block;
+}
+.fl,.fr {
+    display: inline;
+}
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+.m_t20 {
+    margin-top: 20px;
+}
+.m_t30 {
+    margin-top: 30px;
+}
+input::-ms-clear {
+    display: none;
+}
+textarea {
+    resize: none;
+}
+li {
+    vertical-align: bottom;
+}
+b,s,u,em {
+    display: inline-block;
+    font-style: normal;
+    text-decoration: none;
+    font-weight: 500;
+    vertical-align: middle;
+}
+a {
+    cursor: pointer;
+}a:hover {
+    text-decoration: none;
+}

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hj.wxmp.mobile.mapping.CustomerMapper" >
+  <resultMap id="BaseResultMap" type="com.hj.wxmp.mobile.entity.Customer" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="custName" property="custname" jdbcType="VARCHAR" />
+    <result column="phoneNum" property="phonenum" jdbcType="VARCHAR" />
+    <result column="custSex" property="custsex" jdbcType="VARCHAR" />
+    <result column="descn" property="descn" jdbcType="VARCHAR" />
+    <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, custName, phoneNum, custSex, descn, cTime, lmTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_Customer
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ql_Customer
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.Customer" >
+    insert into ql_Customer (id, custName, phoneNum, 
+      custSex, descn, cTime, 
+      lmTime)
+    values (#{id,jdbcType=VARCHAR}, #{custname,jdbcType=VARCHAR}, #{phonenum,jdbcType=VARCHAR}, 
+      #{custsex,jdbcType=VARCHAR}, #{descn,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{lmtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.Customer" >
+    insert into ql_Customer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="custname != null" >
+        custName,
+      </if>
+      <if test="phonenum != null" >
+        phoneNum,
+      </if>
+      <if test="custsex != null" >
+        custSex,
+      </if>
+      <if test="descn != null" >
+        descn,
+      </if>
+      <if test="ctime != null" >
+        cTime,
+      </if>
+      <if test="lmtime != null" >
+        lmTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="custname != null" >
+        #{custname,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenum != null" >
+        #{phonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="custsex != null" >
+        #{custsex,jdbcType=VARCHAR},
+      </if>
+      <if test="descn != null" >
+        #{descn,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lmtime != null" >
+        #{lmtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.Customer" >
+    update ql_Customer
+    <set >
+      <if test="custname != null" >
+        custName = #{custname,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenum != null" >
+        phoneNum = #{phonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="custsex != null" >
+        custSex = #{custsex,jdbcType=VARCHAR},
+      </if>
+      <if test="descn != null" >
+        descn = #{descn,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        cTime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lmtime != null" >
+        lmTime = #{lmtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.Customer" >
+    update ql_Customer
+    set custName = #{custname,jdbcType=VARCHAR},
+      phoneNum = #{phonenum,jdbcType=VARCHAR},
+      custSex = #{custsex,jdbcType=VARCHAR},
+      descn = #{descn,jdbcType=VARCHAR},
+      cTime = #{ctime,jdbcType=TIMESTAMP},
+      lmTime = #{lmtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  <!-- 查看客户的所有信息 -->
+  <select id="selectByUserMessge" resultType="java.util.Map" parameterType="java.util.Map">
+  	SELECT
+	*
+	FROM
+		ql_Customer
+  </select>
+</mapper>

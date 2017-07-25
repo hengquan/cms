@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hj.wxmp.mobile.mapping.TabDictRefMapper" >
+  <resultMap id="BaseResultMap" type="com.hj.wxmp.mobile.entity.TabDictRef" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="dmId" property="dmid" jdbcType="VARCHAR" />
+    <result column="ddId" property="ddid" jdbcType="VARCHAR" />
+    <result column="tabName" property="tabname" jdbcType="VARCHAR" />
+    <result column="tabId" property="tabid" jdbcType="VARCHAR" />
+    <result column="refName" property="refname" jdbcType="VARCHAR" />
+    <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dmId, ddId, tabName, tabId, refName, cTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from plat_TabDict_Ref
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from plat_TabDict_Ref
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.TabDictRef" >
+    insert into plat_TabDict_Ref (id, dmId, ddId, 
+      tabName, tabId, refName, 
+      cTime)
+    values (#{id,jdbcType=VARCHAR}, #{dmid,jdbcType=VARCHAR}, #{ddid,jdbcType=VARCHAR}, 
+      #{tabname,jdbcType=VARCHAR}, #{tabid,jdbcType=VARCHAR}, #{refname,jdbcType=VARCHAR}, 
+      #{ctime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.TabDictRef" >
+    insert into plat_TabDict_Ref
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dmid != null" >
+        dmId,
+      </if>
+      <if test="ddid != null" >
+        ddId,
+      </if>
+      <if test="tabname != null" >
+        tabName,
+      </if>
+      <if test="tabid != null" >
+        tabId,
+      </if>
+      <if test="refname != null" >
+        refName,
+      </if>
+      <if test="ctime != null" >
+        cTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="dmid != null" >
+        #{dmid,jdbcType=VARCHAR},
+      </if>
+      <if test="ddid != null" >
+        #{ddid,jdbcType=VARCHAR},
+      </if>
+      <if test="tabname != null" >
+        #{tabname,jdbcType=VARCHAR},
+      </if>
+      <if test="tabid != null" >
+        #{tabid,jdbcType=VARCHAR},
+      </if>
+      <if test="refname != null" >
+        #{refname,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.TabDictRef" >
+    update plat_TabDict_Ref
+    <set >
+      <if test="dmid != null" >
+        dmId = #{dmid,jdbcType=VARCHAR},
+      </if>
+      <if test="ddid != null" >
+        ddId = #{ddid,jdbcType=VARCHAR},
+      </if>
+      <if test="tabname != null" >
+        tabName = #{tabname,jdbcType=VARCHAR},
+      </if>
+      <if test="tabid != null" >
+        tabId = #{tabid,jdbcType=VARCHAR},
+      </if>
+      <if test="refname != null" >
+        refName = #{refname,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        cTime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.TabDictRef" >
+    update plat_TabDict_Ref
+    set dmId = #{dmid,jdbcType=VARCHAR},
+      ddId = #{ddid,jdbcType=VARCHAR},
+      tabName = #{tabname,jdbcType=VARCHAR},
+      tabId = #{tabid,jdbcType=VARCHAR},
+      refName = #{refname,jdbcType=VARCHAR},
+      cTime = #{ctime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

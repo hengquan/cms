@@ -1,0 +1,10 @@
+@charset "utf-8";
+.information h4 {
+    color: #9a9a9a;
+}
+.information .pull-left h4 {
+    margin-top: 5px;
+}
+.information .pull-right {
+    margin-top: 10px;
+}

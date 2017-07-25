@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hj.wxmp.mobile.mapping.MaterialMapper" >
+  <resultMap id="BaseResultMap" type="com.hj.wxmp.mobile.entity.Material" >
+    <result column="ID" property="id" jdbcType="INTEGER" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="IMG" property="img" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="DES" property="des" jdbcType="VARCHAR" />
+    <result column="CON_TYPE" property="con_type" jdbcType="VARCHAR" />
+    <result column="ARTICLE_TYPE" property="article_type" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="update_time" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID,CONTENT,TITLE,IMG,URL,DES,CON_TYPE,ARTICLE_TYPE,UPDATE_TIME
+  </sql>
+
+   <!-- 获取查找查询列表 -->
+  <select id="findAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+	select 
+   		<include refid="Base_Column_List" />
+   	FROM  
+   		tbl_material
+   	WHERE  1=1
+   		<if test="id != null" >
+	        <![CDATA[
+	        	 AND ID = #{id,jdbcType=INTEGER}
+	        ]]>	
+	    </if>
+	    <if test="title !=null and title !='' ">
+		    <![CDATA[
+		       AND TITLE like "%"#{title,jdbcType=VARCHAR}"%"
+		    ]]>
+	    </if>
+	    <if test="con_type !=null and con_type !='' ">
+		    <![CDATA[
+		       AND CON_TYPE = #{con_type,jdbcType=VARCHAR} 
+		    ]]>
+	    </if>
+	    <if test="article_type !=null and article_type !='' ">
+		    <![CDATA[
+		       AND ARTICLE_TYPE =#{article_type,jdbcType=VARCHAR}
+		    ]]>
+	    </if> 
+	ORDER BY UPDATE_TIME DESC     
+	    <if test="pagestart !=null and pagesize !=null">
+	        <![CDATA[
+	          limit #{pagestart,jdbcType=INTEGER} , #{pagesize,jdbcType=INTEGER}
+	        ]]>
+       	</if>
+  </select>
+  
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	select 
+   		<include refid="Base_Column_List" />
+   	FROM  
+   		tbl_material
+   	WHERE  1=1
+   		<if test="id != null" >
+	        <![CDATA[
+	        	 AND ID = #{id,jdbcType=INTEGER}
+	        ]]>	
+	    </if>
+  </select>
+  
+  <!-- 查找总数量 -->
+  <select id="getAllCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    SELECT 
+   		COUNT(1)
+   	FROM  
+   		tbl_material
+   	WHERE  1=1
+   		<if test="id != null" >
+	        <![CDATA[
+	        	 AND ID = #{id,jdbcType=INTEGER}
+	        ]]>	
+	    </if>
+	    <if test="title !=null and title !='' ">
+		    <![CDATA[
+		       AND TITLE like "%"#{title,jdbcType=VARCHAR}"%"
+		    ]]>
+	    </if>
+	     <if test="con_type !=null and con_type !='' ">
+		    <![CDATA[
+		       AND CON_TYPE = #{con_type,jdbcType=VARCHAR} 
+		    ]]>
+	    </if>
+	    <if test="article_type !=null and article_type !='' ">
+		    <![CDATA[
+		       AND ARTICLE_TYPE =#{article_type,jdbcType=VARCHAR}
+		    ]]>
+	    </if>
+  </select>
+   <!-- 插入 -->
+   <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.Material" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    INSERT INTO tbl_material
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="img != null" >
+        IMG,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="des != null" >
+        DES,
+      </if>
+      <if test="con_type != null" >
+        CON_TYPE,
+      </if>
+      <if test="article_type != null" >
+        ARTICLE_TYPE,
+      </if>
+      <if test="update_time != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="des != null" >
+        #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="con_type != null" >
+        #{con_type,jdbcType=VARCHAR},
+      </if>
+      <if test="article_type != null" >
+        #{article_type,jdbcType=VARCHAR},
+      </if>
+      <if test="update_time != null" >
+        #{update_time,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+<!-- 更新 --> 
+    <update id="update" parameterType="com.hj.wxmp.mobile.entity.Material" >
+    UPDATE tbl_material
+    <set >
+      <if test="id != null" >
+        ID=#{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        TITLE=#{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT=#{content,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        IMG=#{img,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL=#{url,jdbcType=VARCHAR},
+      </if>
+      <if test="des != null" >
+        DES=#{des,jdbcType=VARCHAR},
+      </if>
+      <if test="con_type != null" >
+        CON_TYPE=#{con_type,jdbcType=VARCHAR},
+      </if>
+      <if test="article_type != null" >
+        ARTICLE_TYPE=#{article_type,jdbcType=VARCHAR},
+      </if>
+      <if test="update_time != null" >
+        UPDATE_TIME=#{update_time,jdbcType=VARCHAR},
+      </if>
+    </set>
+    WHERE ID=#{id,jdbcType=INTEGER}
+  </update>
+  
+   <!-- 删除数据 -->
+  <delete id="delete" parameterType="com.hj.wxmp.mobile.entity.Material" >
+    DELETE FROM tbl_material WHERE ID = #{id,jdbcType=VARCHAR}
+  </delete>
+</mapper>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hj.wxmp.mobile.mapping.ProjCustRefMapper" >
+  <resultMap id="BaseResultMap" type="com.hj.wxmp.mobile.entity.ProjCustRef" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="projId" property="projid" jdbcType="VARCHAR" />
+    <result column="custId" property="custid" jdbcType="VARCHAR" />
+    <result column="isValidate" property="isvalidate" jdbcType="INTEGER" />
+    <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, projId, custId, isValidate, cTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_ProjCust_Ref
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ql_ProjCust_Ref
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.ProjCustRef" >
+    insert into ql_ProjCust_Ref (id, projId, custId, 
+      isValidate, cTime)
+    values (#{id,jdbcType=VARCHAR}, #{projid,jdbcType=VARCHAR}, #{custid,jdbcType=VARCHAR}, 
+      #{isvalidate,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.ProjCustRef" >
+    insert into ql_ProjCust_Ref
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projid != null" >
+        projId,
+      </if>
+      <if test="custid != null" >
+        custId,
+      </if>
+      <if test="isvalidate != null" >
+        isValidate,
+      </if>
+      <if test="ctime != null" >
+        cTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projid != null" >
+        #{projid,jdbcType=VARCHAR},
+      </if>
+      <if test="custid != null" >
+        #{custid,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalidate != null" >
+        #{isvalidate,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.ProjCustRef" >
+    update ql_ProjCust_Ref
+    <set >
+      <if test="projid != null" >
+        projId = #{projid,jdbcType=VARCHAR},
+      </if>
+      <if test="custid != null" >
+        custId = #{custid,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalidate != null" >
+        isValidate = #{isvalidate,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null" >
+        cTime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.ProjCustRef" >
+    update ql_ProjCust_Ref
+    set projId = #{projid,jdbcType=VARCHAR},
+      custId = #{custid,jdbcType=VARCHAR},
+      isValidate = #{isvalidate,jdbcType=INTEGER},
+      cTime = #{ctime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  <!-- 根据用户Id查询用户信息和所属项目的信息 -->
+<!--   
+  <select id="selectByUserId" resultType="java.util.Map" parameterType="java.util.String">
+	SELECT
+		qlpr.*,qlp.projName
+	FROM
+		ql_ProjCust_Ref qlpr
+	JOIN ql_Project qlp ON qlpr.projId = qlp.id
+	WHERE
+		qlpr.custId = #{userId}
+  </select> -->
+</mapper>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+	  http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<bean name="startQuertz" lazy-init="false" autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="redPacket" />
+				<ref bean="myJobTrigger" />
+				<ref bean="orderPastDue" />
+			</list>
+		</property>
+	</bean>
+	<!-- 问题结算幸运支招  -->
+	<bean id="myJobTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="myJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<!-- <value>*/15 * * * * ?</value> -->
+			<value>0 0/59 * * * ?</value>
+		</property>
+	</bean>
+	<bean id="myJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="myJob" />
+		</property>
+		<property name="targetMethod">
+			<value>doWork</value>
+		</property>
+	</bean>
+	
+	<!-- 发送红包 -->
+	<bean id="redPacket"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="redPacketSttle" />
+		</property>
+		<property name="cronExpression">
+			<!-- <value>*/21 * * * * ?</value>   -->
+			<value>0 0 21 * * ?</value>
+		</property>
+	</bean>
+	<bean id="redPacketSttle"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="myJob1" />
+		</property>
+		<property name="targetMethod">
+			<value>doRedPacket</value>
+		</property>
+	</bean>
+	
+	<!-- 预约订单是否过期 -->
+	<bean id="orderPastDue"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="pastDue" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/59 * * * ?</value>
+			<!-- <value>*/10 * * * * ?</value> -->
+		</property>
+	</bean>
+	<bean id="pastDue"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="myJob2" />
+		</property>
+		<property name="targetMethod">
+			<value>doPastDue</value>
+		</property>
+	</bean>
+	
+	
+	
+	<!-- 工作的bean -->
+	<bean id="myJob" class="com.hj.wxmp.mobile.quartzjob.DoQuarzt" />
+	
+	<bean id="myJob1" class="com.hj.wxmp.mobile.quartzjob.DoRedPacket" />
+	
+	<bean id="myJob2" class="com.hj.wxmp.mobile.quartzjob.OrderPastDue" />
+
+</beans>

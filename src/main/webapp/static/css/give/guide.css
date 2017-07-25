@@ -1,0 +1,18 @@
+@charset "utf-8";
+#guide .speech {
+    margin: 10px auto;
+    display: none;
+}
+#guide .commonTitle {
+    display: inline-block;
+}
+#guide .checkboxs {
+    margin: 15px 0px;
+}
+#guide .videoUrl input {
+    float: right;
+    color: #43413d;
+    padding: 0px 5px;
+}
+
+

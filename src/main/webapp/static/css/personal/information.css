@@ -1,0 +1,93 @@
+@charset "utf-8";
+.container-fluid {
+  padding: 0px 10px;
+}
+.row {
+    margin: 0px -10px;
+}
+input {
+    border: none;
+}
+.header {
+    height: 80px;
+    line-height: 80px;
+    background: url("../../img/personal/pertou.png") no-repeat 90% top;
+    background-color: #f98b42;
+    background-size: 100px auto;
+    position: relative;
+}
+.header .headTitle {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    margin-top: -20px;
+    margin-left: 10px;
+}
+.header span {
+    margin-left: 60px;
+    color: #fff;
+}
+.information label {
+    color: #282828;
+    font-weight: 500;
+}
+.information label b {
+     width: 28px;
+}
+.information .pull-right {
+    color: #f98b42;
+}
+.information .modify {
+    border-bottom: 1px solid #f98b42;
+}
+.information .col-xs-12 {
+    padding: 15px 10px;
+    border-bottom: 1px solid #dcdfe6;
+}
+.information input,
+.information .modify {
+    height: 30px;
+    line-height: 30px;
+}
+.footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+}
+#myModal .modal-title {
+    color: #f98b42;
+}
+#myModal input  {
+    border: 1px solid #dcdfe6;
+    padding: 5px;
+}
+#myModal .modal-body {
+    padding: 15px 20px;
+}
+#myModal .modal-body>input {
+    display: block;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    margin: 0px auto 10px;
+}
+#myModal .validate {
+    width: 100%;
+    height: 30px;
+}
+#myModal .validate input {
+    width: 60%;
+    height: 30px;
+    line-height: 30px;
+}
+#myModal .validate button {
+    width: 38%;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    background-color: #fff;
+    border: 1px solid #f98b42;
+    color: #f98b42;
+}

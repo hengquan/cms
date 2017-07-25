@@ -1,0 +1,116 @@
+@charset "utf-8";
+.header {
+    width: 100%;
+    height: 80px;
+    line-height: 80px;
+    background: url("../../img/personal/pertou.png") no-repeat 90% top;
+    background-color: #f98b42;
+    background-size: 100px auto;
+    position: relative;
+}
+.header .headTitle {
+    width: 40px;
+    height: 40px;
+    background: url("../../img/question/sculpture.png") no-repeat;
+    background-size: cover;
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    margin-top: -20px;
+    margin-left: 10px;
+}
+.headTitle h3 {
+    width: 20px;
+    height: 20px;
+    background: url("../../img/common/icon.png") no-repeat -224px -31px;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+}
+.header span {
+    margin-left: 60px;
+    color: #fff;
+}
+.headerNav li {
+    display: inline-block;
+    width: 32.333%;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    border-bottom: 2px solid transparent;
+}
+.headerNav li a {
+    color: #222;
+}
+.headerNav li.active {
+    border-bottom: 2px solid #f86900;
+}
+.headerNav li.active a {
+    color: #f86900;
+}
+.headerNav li s {
+    height: 26px;
+    border-right: 1px solid #d4d4d4;
+    float: right;
+    margin-top: 8px;
+}
+.optimum {
+    background: url("../../img/answer/optimum.png") no-repeat;
+    background-size: contain;
+}
+.optimum,.optimums {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin-right: 20px;
+}
+.optimums {
+    text-align: center;
+    line-height: 32px;
+    color: #fff;
+    transform: rotate(45deg);
+    font-size: 12px!important;
+}
+.selectList {
+    width: 100%;
+    padding: 10px 0px;
+}
+.selectList .col-xs-2,
+.selectList .col-xs-10,
+.selectList .row {
+    padding: 0px;
+    margin: 0px;
+}
+.selectList .col-xs-10 {
+    position: static;
+}
+.selectList .col-xs-2 {
+    text-align: center;
+}
+.selectList .clearfix {
+    width: 80%;
+    position: absolute;
+    background-color: rgba(0,0,0,.5);
+    z-index: 900;
+    padding-top: 10px;
+    left: 0px;
+    top: 0px;
+    opacity: 0;
+    transition: opacity 1.5s linear;
+    -webkit-transition: opacity 1.5s linear;
+    -moz-transition: opacity 1.5s linear;
+}
+.selectList .clearfix li {
+    display: inline-block;
+    color: #fff;
+    width: 23%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.selectList b {
+    width: 30px;
+    height: 30px;
+    background: url("../../img/common/icon.png") no-repeat 0px -59px;
+}

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hj.wxmp.mobile.mapping.SysItemRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.hj.wxmp.mobile.entity.SysItemRole" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="item_id" property="itemId" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, item_id, role_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_item_role
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_item_role
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.SysItemRole" >
+    insert into sys_item_role (id, item_id, role_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{itemId,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.SysItemRole" >
+    insert into sys_item_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.SysItemRole" >
+    update sys_item_role
+    <set >
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.SysItemRole" >
+    update sys_item_role
+    set item_id = #{itemId,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 根据角色ID查看角色权限 -->
+  <select id="selectByRoleId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select i.*,t.*,r.role_name from sys_item_role i INNER JOIN sys_item t on i.item_id=t.id INNER JOIN sys_role r on i.role_id=r.id where i.role_id=#{roleId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectItemByRoleId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  select i.*,t.*,r.role_name from sys_item_role i INNER JOIN sys_item t on i.item_id=t.id INNER JOIN sys_role r on i.role_id=r.id 
+where i.role_id=#{roleId,jdbcType=VARCHAR} and t.parent_id='' 
+  	<!--select i.*,t.* from sys_item_role i inner JOIN sys_item t on i.item_id=t.id where i.role_id=#{roleId,jdbcType=VARCHAR} and t.parent_id='' 
+  union 
+select i.*,t.* from sys_item_role i right JOIN sys_item t on i.item_id=t.id where t.parent_id in(select st.id from sys_item_role rt inner join sys_item st on rt.item_id=st.id where rt.role_id=#{roleId,jdbcType=VARCHAR}) -->
+  </select>
+</mapper>

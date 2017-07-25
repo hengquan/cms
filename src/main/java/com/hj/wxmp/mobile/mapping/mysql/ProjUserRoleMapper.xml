@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hj.wxmp.mobile.mapping.ProjUserRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.hj.wxmp.mobile.entity.ProjUserRole" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="projId" property="projid" jdbcType="VARCHAR" />
+    <result column="userId" property="userid" jdbcType="VARCHAR" />
+    <result column="roleId" property="roleid" jdbcType="VARCHAR" />
+    <result column="isValidate" property="isvalidate" jdbcType="INTEGER" />
+    <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, projId, userId, roleId, isValidate, cTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_ProjUserRole
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ql_ProjUserRole
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.ProjUserRole" >
+    insert into ql_ProjUserRole (id, projId, userId, 
+      roleId, isValidate, cTime
+      )
+    values (#{id,jdbcType=VARCHAR}, #{projid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, 
+      #{roleid,jdbcType=VARCHAR}, #{isvalidate,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.ProjUserRole" >
+    insert into ql_ProjUserRole
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projid != null" >
+        projId,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="roleid != null" >
+        roleId,
+      </if>
+      <if test="isvalidate != null" >
+        isValidate,
+      </if>
+      <if test="ctime != null" >
+        cTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projid != null" >
+        #{projid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalidate != null" >
+        #{isvalidate,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.ProjUserRole" >
+    update ql_ProjUserRole
+    <set >
+      <if test="projid != null" >
+        projId = #{projid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null" >
+        roleId = #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalidate != null" >
+        isValidate = #{isvalidate,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null" >
+        cTime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.ProjUserRole" >
+    update ql_ProjUserRole
+    set projId = #{projid,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=VARCHAR},
+      roleId = #{roleid,jdbcType=VARCHAR},
+      isValidate = #{isvalidate,jdbcType=INTEGER},
+      cTime = #{ctime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  <!-- 查找该用户所对应项目的所有的信息 -->
+  <select id="selectByUserId" resultType="java.util.Map" parameterType="java.lang.String">
+	SELECT
+		pro.*
+	FROM
+		ql_ProjUserRole qlp
+	JOIN ql_Project pro ON qlp.projId = pro.id 
+	where qlp.userId = #{userId}
+  </select>
+  
+  
+  
+  
+  
+  
+  
+</mapper>

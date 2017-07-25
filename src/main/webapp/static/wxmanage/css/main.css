@@ -1,0 +1,115 @@
+﻿@charset "utf-8";
+/* CSS Document */
+body{color:#333; font:12px/1.4em Arial,Helvetica,sans-serif}
+html,body,div,p,ul,li,dl,dt,dd,h1,h2,h3,h4,form{margin:0;padding:0}
+img{border:0 none; display:block}
+li{list-style:none outside}
+a{color:#07519a; text-decoration:none}
+a:hover{text-decoration:underline; color:#F30; text-decoration:none}
+
+.red{color:#F00}
+.blue{color:#00F}
+.fl{float:left;}
+
+.az-top{background-image:url(../image/top_bg.png); height:66px; border-bottom:1px solid #9eb8cc; position:relative}
+.az-top h1{position:absolute; left:10px; top:25px;font-size: 16px;color: #fff;}
+.az-top .line{height:6px; overflow:hidden; background-color:#dbe8f4; width:100%; position:absolute; left:0; bottom:0}
+.az-nav{position:absolute; top:31px; left:250px}
+.az-nav li{float:left; width:88px; height:28px; line-height:28px; text-align:center; color:#FFF; cursor:pointer}
+.az-nav li:hover{font-weight:bold}
+.az-nav li.act{background-image:url(../image/nav_bg.png); width:120px; font-weight:bold; color:#004080}
+.az-tl{position:absolute; right:10px; top:5px; color:#CCC}
+.az-tl li{float:left}
+.az-tl b{padding-right:6px; color:#F2E8B6}
+.az-tl a{color:#F2E8B6; padding:0 6px}
+.az-tl a:hover{color:#F30}
+.az-error{color:#F00; background-color:#fff2f2}
+.hid{display:none}
+
+#az-body{height:500px; min-width:960px}
+
+.az-left{width:160px; height:100%; overflow:hidden; float:left}
+.az-left .tit{height:31px; line-height:31px; background:url(../image/tit_bg.gif) 0 -1px; font-weight:bold}
+.az-left .tit{text-indent:1em}
+.az-menu{width:100%; overflow:hidden;}
+.az-menu li{float:left; width:100%}
+.az-menu li {display:block; width:100%; height:30px; line-height:30px; text-indent:2em; background:url(../image/menu_bg.gif) 0 -240px; color:#666}
+.az-menu li a{color:#666}
+.az-menu dl {display:none;}
+.az-menu dl dt a{width:100%; height:30px; line-height:30px; text-indent:2em; color:#666;margin-left: 30px;}
+.az-menu li.act a, .az-menu li a:hover{background-position:0 -320px; color:#666}
+
+.az-right{height:100%;  position:relative; overflow:auto}
+/*
+.az-right .tit{background-position:0 -32px}
+.az-right .tit i{position:absolute; height:32px; width:5px; background:url(../image/tit_bg.gif) 0 -64px}
+*/
+
+
+.submit{border:0; width:52px; height:22px; line-height:22px; background:url(../../style/btnbg.gif) no-repeat; cursor:pointer}
+.tit,.btn i{background:url(../image/icons.png) no-repeat}
+
+.btn{background:url(../image/btn_bg.gif) no-repeat; height:22px; line-height:22px; padding-left:5px; cursor:pointer; display:block; position:relative}
+.btn i{display:block; height:16px; width:16px; overflow:hidden; left:5px; top:3px; position:absolute}
+.btn b{background:url(../image/btn_bg.gif) no-repeat top right; height:22px; line-height:22px; display:block; padding:0 8px 0 22px; white-space:nowrap}
+.btn:hover{background-position:left bottom}
+.btn:hover b{background-position:right bottom}
+.btn i.add{background-position:-32px -64px}
+.btn i.edit{background-position:-32px -96px}
+.btn i.view{background-position:-32px -192px}
+.btn i.copy{background-position:-32px -128px}
+.btn i.del{background-position:-32px -160px}
+.btn i.down{background-position:-32px -224px}
+.btn i.sel{background-position:-64px -96px}
+
+.text{border-radius:3px; vertical-align:middle;padding: 2px 2px 3px; background:url(../image/text_bg.gif) repeat-x; border:1px solid; border-color:#789 #ABC #ABC #89A}
+
+.Mcase{width:98%; margin:10px auto}
+.Mcase td.l{background:url(../image/tbg_l.gif) no-repeat}
+.Mcase td.r{width:4px; background:url(../image/tbg_r.gif) no-repeat}
+.tit{font-size:12px; background-position:-64px 2px; text-indent:2em; height:21px; line-height:21px}
+
+
+.tb{border:1px #CCC solid; margin-top:6px; border-collapse:collapse}
+.tb td, .tb th{border:1px #CCC solid; padding-left:5px; color:#555}
+.tb th{background:url(../image/th_bg.gif) repeat-x bottom; height:25px; padding:0 5px 3px; text-align:left; vertical-align:bottom}
+
+
+.tl{text-align:right; width:88px; line-height:25px}
+.az-txt, .az-txt-lng, .az-txt-min {border:1px solid #CCC; width:150px; height:26px; line-height:26px; padding:0 6px; color:black}
+.az-txt-lng{width:300px}
+.az-txt-min{width:50px}
+.az-sel{border:1px solid #CCC; padding:4px}
+.az-textarea, .az-textarea-lng{font-size: 12px;border:1px solid #CCCCCC;width: 310px;height:160px;padding:5px 6px;}
+.az-textarea-lng{font-size: 12px;border:1px solid #CCCCCC;width: 825px;height:80px}
+
+/*分页*/
+.az-page{padding:10px; clear:both; height: 26px; overflow:hidden}
+.az-page a,.az-page strong,.az-page span{display:block; float:left; background-color: #FFF; background-repeat: no-repeat; border: 1px solid #C2D5E3; color: #333; display: inline; height: 26px; line-height:26px; margin-left: 4px; overflow: hidden; padding: 0 10px; text-decoration: none; border-radius: 3px}
+.az-page a:hover{border-color:#369}
+.az-page strong{background-color:#E5EDF2}
+.az-page .rev {background:url(../image/arw.gif) no-repeat 6px top #FFF; padding-left:25px}
+.az-page .nxt {background:url(../image/arw.gif) no-repeat 90% bottom #FFF; padding-right:25px}
+.az-page select{border:1px solid #C8C8C8;float:left;margin-left:5px;padding:4px}
+
+/*更新添加页面*/
+.az-table-inner{margin: 30px 30px;}
+.kuang{ border:1px solid #CCC;}
+
+/*菜单设置*/
+.column-case{background-color: #ffffff;padding: 10px 20px;}
+
+.column-tb{border: 1px solid #DDDDDD;border-collapse: collapse;margin: 10px auto;width: 99%;}
+.column-tb th {background-color: #F7F7F7;}
+.column-tb th, .column-tb td {border: 1px solid #DDDDDD;height: 31px;line-height: 31px;text-align: left;padding-left: 30px;}
+.column-tb td a {cursor: pointer;padding: 0 15px;}
+
+.icon-open{background: url(../image/dp-op.gif) no-repeat scroll 0 -72px rgba(0, 0, 0, 0);cursor: pointer;display: inline-block;height: 16px;width: 16px;}
+.icon-sub{background: url(../image/dp-op.gif) no-repeat scroll 20px -92px rgba(0, 0, 0, 0);display: inline-block;height: 16px;padding-left: 20px;width: 16px;}
+.icon-close {background: url(../image/dp-op.gif) no-repeat scroll -20px -72px rgba(0, 0, 0, 0);cursor: pointer;display: inline-block;height: 16px;width: 16px;}
+
+input{border:1px solid #ddd; border-radius:5px;  height:28px;}
+textarea{border:1px solid #ddd; border-radius:5px; width:300px; height:100px;}
+.menu-url{width:400px;}
+.menu-content{width:400px;}
+.is_operation a{margin-left:20px;letter-spacing: 5px;}

@@ -1,0 +1,100 @@
+@charset "utf-8";
+.axQuestion .col-xs-12:nth-child(2) {
+    padding: 0px;
+}
+.axQuestion .speech {
+    margin: 10px auto;
+    display: none;
+}
+.axQuestion {
+    font-size: 1.2rem;
+}
+.axQuestion h1 {
+    color: #f86900;
+    height: 30px;
+    line-height: 30px;
+    display: inline-block;
+    font-size: 1.5rem;
+    vertical-align: middle;
+}
+.axQuestion .bt-label {
+    border-bottom: 1px solid #d4d4d4;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 10px;
+}
+.axQuestion .bt-tag s {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    background: url("../../img/common/icon.png") no-repeat 0px 0px;
+    vertical-align: middle;
+}
+.axQuestion em {
+    cursor: pointer;
+    color: #7c808c;
+}
+.axQuestion .bt-tag .col-xs-11 {
+    padding-right: 0px;
+}
+.axQuestion .bt-tag .col-xs-1 {
+    padding: 0px;
+}
+.axQuestion .bt-tag em {
+    float: left;
+    position: relative;
+    width: 33.33%;
+}
+.axQuestion em s {
+
+}
+.axQuestion .bt-tag em s.active {
+    background-position: -20px 0px;
+}
+.axQuestion .bt-tag u {
+    float: right;
+    width: 20px;
+    height: 20px;
+    background: url("../../img/common/icon.png") no-repeat -100px 0px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.axQuestion .bt-tag u.active {
+    background-position: -80px 0px;
+}
+.axQuestion .checkboxs {
+    margin-top: 60px;
+    margin-bottom: 20px;
+}
+.axQuestion .btn-block {
+    color: #fff;
+}
+.axQuestion .picture img {
+    display: inline-block;
+    width: 31.33%;
+    height: auto;
+    margin-bottom: 5px;
+}
+#collapseExample {
+    width: 91.66666667%;
+    padding-right: 0px;
+}
+#collapseExample p {
+    margin-top: 20px;
+}
+#myModal {
+    padding: 0px 20px!important;
+}
+#myModal .modal-dialog {
+    width: 100%;
+    margin: 0px;
+}
+#myModal .modal-body input {
+    display: block;
+    width: 100%;
+    height: 30px;
+    line-height: 76px;
+    margin: 0px auto;
+    padding-left: 10px;
+    border: 1px solid #d7d7d7;
+}
