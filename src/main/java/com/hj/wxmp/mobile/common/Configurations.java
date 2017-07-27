@@ -136,6 +136,11 @@ public class Configurations {
 		return getConfig("hotline");
 	}
 	
+	
+	public static String getSiteName() {
+		return getConfig("siteName");
+	}
+	
 	public static String getSVersion() {
 		//return getConfig("static_version");
 		return String.valueOf(Math.random());

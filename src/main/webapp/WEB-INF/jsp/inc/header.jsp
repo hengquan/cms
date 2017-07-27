@@ -72,15 +72,12 @@
 			<!-- user login dropdown start-->
 			<li class="dropdown">
 				<a data-toggle="dropdown" class="dropdown-toggle" href="#"> 
-					<img alt=""src="" id="headImg" style="width: 30px;height: 30px"> 
+					<img alt=""src="${appRoot}/static/img/ql.png" id="headImg" style="width: 30px;height: 30px"> 
 					<span class="username hidden-phone">${currentUser.userName}</span> <b class="caret"></b>
 				</a>
-				<ul class="dropdown-menu extended logout">
-					<div class="log-arrow-up"></div>
-					<li><a onclick="showPassword();" href="#"><i class=" icon-suitcase"></i>修改密码</a></li>
-					<li><a href="#"><i class="icon-cog"></i> 设置</a></li>
-					<li><a href="#" onclick="updateLogo();"><i class="icon-bell-alt"></i> 修改头像</a></li>
-					<li><a href="${appRoot}/logout.ky"><i class="icon-key"></i>退出</a></li>
+				<ul class="dropdown-menu extended">
+					<li><a onclick="showPassword();" href="#"><i class=" icon-suitcase"></i>&nbsp;&nbsp;修改密码</a></li>
+					<li><a href="${appRoot}/logout.ky"><i class="icon-key"></i>&nbsp;&nbsp;退出</a></li>
 				</ul>
 			</li>
 			<!-- user login dropdown end -->
@@ -129,26 +126,6 @@
   <!-- modal -->
   
   
-   <!-- Modal -->
-  <div class="modal fade" id="myModalUpdatelOGO" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">上传头像</h4>
-        </div>
-        <div class="modal-body">
-        	<form action="<%=request.getContextPath()%>/businesslogo/update" id="uplogo"  enctype="multipart/form-data" method="POST">
-				<input type="file" id="business_logo" name="business_logo">
-			</form>	
-        </div>
-        <div class="modal-footer">
-          <button data-dismiss="modal" class="btn btn-default" type="button" id="quxiao">取消</button>
-       	  <button class="btn btn-warning" type="button" onclick="submitUpdateLogo();">确定</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
 <script type="text/javascript">
 
@@ -165,24 +142,12 @@
 				dataType:'json',
 				success:function(data){
 					$('#headImg').attr("src",a+"/"+data.headimgurl);
-				},
-				error:function(){
-					alert("头像读取错误");
 				}
 			});
 		}
 
 
 
-	function updateLogo(){
-		var $modal = $('#myModalUpdatelOGO');
-		$('#modal-title').text("修改头像");
-		$modal.modal();
-	}
-	
-	function submitUpdateLogo(){
-		$('#uplogo').submit();
-	}
 
 
 		function showPassword(){

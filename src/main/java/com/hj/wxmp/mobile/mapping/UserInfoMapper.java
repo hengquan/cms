@@ -40,5 +40,7 @@ public interface UserInfoMapper {
 
 	List<UserInfo> selectByParentId(String parentId);
 
+	UserInfo selectByLoginId(String loginId);
+
 	
 }

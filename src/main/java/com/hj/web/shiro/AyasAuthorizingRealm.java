@@ -16,7 +16,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 
-import com.hj.wxmp.mobile.entity.SysAdmin;
+import com.hj.wxmp.mobile.entity.UserInfo;
 import com.hj.wxmp.mobile.services.LoginService;
 
 public class AyasAuthorizingRealm extends AuthorizingRealm{
@@ -30,7 +30,7 @@ public class AyasAuthorizingRealm extends AuthorizingRealm{
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 		String userName = token.getUsername();
-		SysAdmin user = loginServiceImpl.getUserInfo(userName);
+		UserInfo user = loginServiceImpl.getUserInfo(userName);
 		if (null!=user) {
 			String password = user.getPassword();
 			

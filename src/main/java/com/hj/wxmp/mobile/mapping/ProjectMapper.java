@@ -21,4 +21,6 @@ public interface ProjectMapper {
 	List<Project> getProjectMessge(Map<String, Object> map);
 
 	void deletes(String boxeditId);
+
+	Project selectByProName(String pro);
 }

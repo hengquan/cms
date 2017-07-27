@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.EnumMap;
+
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,7 +19,7 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.hj.wxmp.mobile.entity.SysAdmin;
+import com.hj.wxmp.mobile.entity.UserInfo;
 
 public final class EncodeImgZxing { 
 	//二维码颜色
@@ -121,8 +122,8 @@ public final class EncodeImgZxing {
 		try {
 			Object obj = request.getSession().getAttribute("adminSession");
 			if (null != obj) {
-				 SysAdmin admin = (SysAdmin) obj;
-				 twodimensioncode = EncodeImgZxing.encodeImg(Configurations.getQrcodeUrl()+"?"+"code="+code+"&"+"wxmBusinessId="+admin.getRelationTableId());
+				 UserInfo admin = (UserInfo) obj;
+				 twodimensioncode = EncodeImgZxing.encodeImg(Configurations.getQrcodeUrl()+"?"+"code="+code+"&"+"wxmBusinessId="+admin.getId());
 				 Graphics2D g = twodimensioncode.createGraphics();
 				 BufferedImage logo = getBufferedImage(code);
 		         int logoWidth = logo.getWidth(null) > twodimensioncode.getWidth()*2 /10 ? (twodimensioncode.getWidth()*2 /10) : logo.getWidth(null);  

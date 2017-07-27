@@ -12,7 +12,6 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import com.hj.utils.CookieUtils;
-import com.hj.wxmp.mobile.entity.SysAdmin;
 import com.hj.wxmp.mobile.entity.SysItemRole;
 import com.hj.wxmp.mobile.entity.UserInfo;
 
@@ -143,22 +142,22 @@ public class HashSessions {
 		return ObjectUtils.toString(dicMap.get(Constants.HASH_KEY_APP_ROOT));
 	}
 	
-	public void setAddminSession(HttpServletRequest request,SysAdmin sysAdmin){
-		request.getSession().setAttribute(Constants.HASH_KEY_ADMINSESSION, sysAdmin);
+	public void setUserInfoSession(HttpServletRequest request,UserInfo userInfo){
+		request.getSession().setAttribute(Constants.HASH_KEY_ADMINSESSION, userInfo);
 	}
 	
 	public void setItemRoleSession(HttpServletRequest request,List<SysItemRole> lst){
 		request.getSession().setAttribute(Constants.HASH_KEY_LST, lst);
 	}
 	
-	public SysAdmin getCurrentAdmin(HttpServletRequest request){
+	public UserInfo getCurrentAdmin(HttpServletRequest request){
 		Object obj = request.getSession().getAttribute(Constants.HASH_KEY_ADMINSESSION);
 		if(null!=obj){
-			SysAdmin admin = (SysAdmin)obj;
+			UserInfo admin = (UserInfo)obj;
 			return admin;
 		}
 		
-		return new SysAdmin();
+		return new UserInfo();
 	}
 	
 	public  void setValidateCode(String mobile,String code){

@@ -12,7 +12,6 @@ import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +23,8 @@ import com.hj.web.core.mvc.ControllerBase;
 import com.hj.wxmp.mobile.common.ApiUrls;
 import com.hj.wxmp.mobile.common.Configurations;
 import com.hj.wxmp.mobile.common.HashSessions;
-import com.hj.wxmp.mobile.entity.SysAdmin;
+import com.hj.wxmp.mobile.entity.UserInfo;
 import com.hj.wxmp.mobile.services.LoginService;
-import com.hj.wxmp.mobile.services.SysAdminService;
 
 /**
  * 
@@ -46,8 +44,6 @@ public class LoginController extends ControllerBase {
 	
 	@Resource
 	private LoginService loginService;
-	@Autowired
-	SysAdminService sysAdminService;
 	
 	@RequestMapping(value = "/login.ky", method = RequestMethod.GET)
 	public String login(ModelMap map) {
@@ -64,15 +60,14 @@ public class LoginController extends ControllerBase {
 	
 	@RequestMapping(value = "/login.ky", method = RequestMethod.POST)
 	public String doLogin(ModelMap map) {
-		//SysAdmin admin = new SysAdmin();
 		String userName = getTrimParameter("userName");
 		String password = getTrimParameter("password");
 	 
 		String fallbackUrl = "/";
 		String successUrl = null;
 	    try {
-		  SysAdmin sysAdmin = loginService.getUserInfo(userName);
-	      if (null!=sysAdmin) {
+	    	UserInfo userInfo = loginService.getUserInfo(userName);
+	      if (null!=userInfo) {
 	        UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
 	        Subject subject = SecurityUtils.getSubject();
 	        subject.login(token);
@@ -86,34 +81,21 @@ public class LoginController extends ControllerBase {
 	            successUrl = fallbackUrl;
 	        }
 	        
-	        hashSession.setAddminSession(request, sysAdmin);
+	        hashSession.setUserInfoSession(request, userInfo);
 	        if(successUrl.indexOf("wxmp.ql")>-1){
-	        	successUrl =  successUrl.substring(successUrl.indexOf("wxmp.ql")).replaceAll("wxmp.anw", "");
+	        	successUrl =  successUrl.substring(successUrl.indexOf("wxmp.ql")).replaceAll("wxmp.ql", "");
 	        }
 	        
 	        
 	        String newpassword = MD5Utils.MD5(password);
-	        if(newpassword.equals(sysAdmin.getPassword())){
-	        	String name = sysAdmin.getUserName();
-	        	if(name.equals("管理员")){
-	        		if("/".equals(successUrl))successUrl="/home/index";
-	        		successUrl = "redirect:"+successUrl;
-	        	}else{
-	        		successUrl="/anwStock/update";
-	        		successUrl = "redirect:"+successUrl;
-	        	}
+	        if(newpassword.equals(userInfo.getPassword())){
+        		successUrl="/user/userList";
+        		successUrl = "redirect:"+successUrl;
 	        }else{
 				map.put("loginId", userName);
 				map.put("loginFaild", "用户密码错误，请核实或联系管理员！"); 
 				successUrl = "login/new_login";
 	        }
-	        
-	        
-	        
-//	        admin.setUserName(userName);
-//	        admin.setPassword(newpassword);
-//	        SysAdmin adminMsg = sysAdminService.selectNamePassword(admin);
-	        
 	      }else{
 	    	  map.put("loginId", userName);
 	    	  map.put("loginFaild", "该用户未注册，请核实或联系管理员！"); 
@@ -146,7 +128,7 @@ public class LoginController extends ControllerBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		logger.debug("map---Msg{}",map);
 		return "login/wxlogin";
 	}
 	

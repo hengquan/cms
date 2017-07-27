@@ -73,6 +73,10 @@ public class ProjectServiceImpl implements ProjectService {
 	public void deletes(String boxeditId) {
 		dao.deletes(boxeditId);
 	}
+	@Override
+	public Project selectByProName(String pro) {
+		return dao.selectByProName(pro);
+	}
 
 
 }

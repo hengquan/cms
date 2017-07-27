@@ -23,7 +23,6 @@ import com.hj.wxmp.mobile.entity.SysUserRole;
 import com.hj.wxmp.mobile.services.IKeyGen;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
 import com.hj.wxmp.mobile.services.ProjectService;
-import com.hj.wxmp.mobile.services.SysAdminService;
 import com.hj.wxmp.mobile.services.SysUserRoleService;
 import com.hj.wxmp.mobile.services.UserCustRefService;
 import com.hj.wxmp.mobile.services.UserInfoService;
@@ -42,8 +41,6 @@ public class ProjectController extends ControllerBase {
 	private IKeyGen keyGen;
 	@Autowired
 	private UserInfoService userInfoService;
-	@Autowired
-	private SysAdminService sysAdminService;;
 	@Autowired
 	SysItemRoleDao sysItemRoleDao;
 	@Autowired

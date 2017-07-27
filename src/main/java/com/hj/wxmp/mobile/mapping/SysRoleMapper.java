@@ -1,5 +1,7 @@
 package com.hj.wxmp.mobile.mapping;
 
+import java.util.List;
+
 import com.hj.wxmp.mobile.entity.SysRole;
 
 public interface SysRoleMapper {
@@ -14,4 +16,6 @@ public interface SysRoleMapper {
     int updateByPrimaryKeySelective(SysRole record);
 
     int updateByPrimaryKey(SysRole record);
+
+	List<SysRole> selectAllMsg();
 }

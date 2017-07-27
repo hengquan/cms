@@ -97,4 +97,6 @@ public interface ProjectService {
 
 	public void deletes(String boxeditId);
 
+	public Project selectByProName(String pro);
+
 }

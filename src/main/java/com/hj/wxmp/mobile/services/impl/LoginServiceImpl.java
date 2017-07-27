@@ -5,8 +5,8 @@ import javax.annotation.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.hj.wxmp.mobile.entity.SysAdmin;
-import com.hj.wxmp.mobile.mapping.SysAdminMapper;
+import com.hj.wxmp.mobile.entity.UserInfo;
+import com.hj.wxmp.mobile.mapping.UserInfoMapper;
 import com.hj.wxmp.mobile.services.LoginService;
 
 @Component
@@ -15,17 +15,16 @@ public class LoginServiceImpl implements LoginService {
 	private JdbcTemplate jdbcTemplate;
 	
 	@Resource
-	private SysAdminMapper sysAdminMapper;
+	private UserInfoMapper userInfoMapper;
 	
 	
 	@Override
-	public SysAdmin getUserInfo(String loginId) {
+	public UserInfo getUserInfo(String loginId) {
 		try {
-			return sysAdminMapper.selectByLoginId(loginId);
+			return userInfoMapper.selectByLoginId(loginId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		  
 		return null;
 	}
 

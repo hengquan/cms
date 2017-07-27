@@ -12,7 +12,6 @@ import com.hj.web.core.mvc.ControllerBase;
 import com.hj.wxmp.mobile.common.HashSessions;
 import com.hj.wxmp.mobile.dao.SysItemRoleDao;
 import com.hj.wxmp.mobile.dao.UserDao;
-import com.hj.wxmp.mobile.entity.SysAdmin;
 import com.hj.wxmp.mobile.entity.SysItemRole;
 import com.hj.wxmp.mobile.entity.SysUserRole;
 import com.hj.wxmp.mobile.entity.UserInfo;
@@ -50,7 +49,7 @@ public class UserInfoController extends ControllerBase {
 		try {
 			Object obj = request.getSession().getAttribute("adminSession");
 			if (null != obj) {
-				SysAdmin admin = (SysAdmin) obj;
+				UserInfo admin = (UserInfo) obj;
 				return admin.getId();
 			}
 		} catch (Exception e) {

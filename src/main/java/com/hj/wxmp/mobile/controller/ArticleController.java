@@ -18,10 +18,10 @@ import com.hj.wxmp.mobile.common.HashSessions;
 import com.hj.wxmp.mobile.common.UploadUtils;
 import com.hj.wxmp.mobile.dao.ArticleDao;
 import com.hj.wxmp.mobile.dao.SysItemRoleDao;
-import com.hj.wxmp.mobile.entity.SysAdmin;
 import com.hj.wxmp.mobile.entity.SysItemRole;
 import com.hj.wxmp.mobile.entity.SysUserRole;
 import com.hj.wxmp.mobile.entity.TblArticle;
+import com.hj.wxmp.mobile.entity.UserInfo;
 import com.hj.wxmp.mobile.services.IKeyGen;
 import com.hj.wxmp.mobile.services.SysUserRoleService;
 import com.hj.wxmp.mobile.services.impl.ArticleService;
@@ -59,7 +59,7 @@ public class ArticleController extends ControllerBase {
 		try {
 			Object obj = request.getSession().getAttribute("adminSession");
 			if(null!=obj){
-				SysAdmin admin = (SysAdmin)obj;
+				UserInfo admin = (UserInfo)obj;
 				return admin.getId();
 			}
 			}catch(Exception e){

@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +29,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.hj.utils.SpringContextUtil;
 import com.hj.utils.XmlConverUtils;
 import com.hj.wxmp.core.WxUser;
+import com.hj.wxmp.mobile.common.HashSessions;
 import com.hj.wxmp.mobile.common.Weixin;
 import com.hj.wxmp.mobile.entity.FollowResp;
 import com.hj.wxmp.mobile.entity.FollowRespEx;
@@ -234,6 +234,8 @@ public class WxServlet extends HttpServlet {
 			    		WxUser wxUser = weixin.getUserInfo(openid);
 			    		wxUser.setOpenid(openid);
 			    		wxLoginService.bandingUser(wxUser, "");
+			    		//将openid存进cook
+			    		HashSessions.getInstance().setOpenId(request, response, openid);
 			    	}
 					
 					return;

@@ -1,4 +1,4 @@
-package com.hj.wxmp.mobile.controller;
+/*package com.hj.wxmp.mobile.controller;
 
 import java.io.IOException;
 
@@ -16,11 +16,11 @@ import com.hj.wxmp.mobile.common.HashSessions;
 import com.hj.wxmp.mobile.common.UploadUtils;
 import com.hj.wxmp.mobile.entity.SysAdmin;
 import com.hj.wxmp.mobile.mapping.SysAdminMapper;
-/**
+*//**
  * 
  * @author 王志勇
  * 修改商户以及总后台头像
- */
+ *//*
 @RequestMapping("/businesslogo")
 @Controller
 public class UpdateLogoController extends ControllerBase{
@@ -53,3 +53,4 @@ private final static Logger logger = LoggerFactory.getLogger(HomeController.clas
 				return sysAdmin;
 			}
 }
+*/

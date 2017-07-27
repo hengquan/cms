@@ -279,7 +279,7 @@
 	}
 	
 	function doSelectMaterial(articleType,articleId){
-		var url = "http://beijingainiwan.com/wxmp.ql/article/analysis.do?articleType="+articleType+"&articleId="+articleId;
+		var url = "http://wl.weechao.com/wxmp.ql/article/analysis.do?articleType="+articleType+"&articleId="+articleId;
 		
 		$("#action-link").val(url);
 		

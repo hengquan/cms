@@ -31,9 +31,7 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
 	//添加用户角色
 	@Override
 	public int insert(SysUserRole ur) {
-		ur.setId(key.getUUIDKey());
-		int row=sysUserRoleMapper.insert(ur);
-		return row;
+		return sysUserRoleMapper.insertSelective(ur);
 	}
 
 	//根据userId修改用户角色

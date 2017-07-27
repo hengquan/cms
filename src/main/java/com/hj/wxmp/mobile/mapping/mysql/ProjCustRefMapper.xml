@@ -94,8 +94,7 @@
   
   
   <!-- 根据用户Id查询用户信息和所属项目的信息 -->
-<!--   
-  <select id="selectByUserId" resultType="java.util.Map" parameterType="java.util.String">
+  <select id="selectByUserId" resultType="java.util.Map" parameterType="java.lang.String">
 	SELECT
 		qlpr.*,qlp.projName
 	FROM
@@ -103,5 +102,5 @@
 	JOIN ql_Project qlp ON qlpr.projId = qlp.id
 	WHERE
 		qlpr.custId = #{userId}
-  </select> -->
+  </select>
 </mapper>

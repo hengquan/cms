@@ -58,15 +58,17 @@ public class WeixinFilter implements Filter {
 //				logger.error("QueryString{}",req.getQueryString());
 
 				String currentPageUrl = req.getRequestURL().toString();
+				logger.error("currentPageUrl----msg{}",currentPageUrl);
 				if(StringUtils.isNotBlank(req.getQueryString())){
 					currentPageUrl = req.getRequestURL() + "?" + req.getQueryString();
 				}
+				logger.error("currentPageUrl----msg{}",currentPageUrl);
 				req.getSession().setAttribute("weixin_current_url", currentPageUrl);
 
 				res.sendRedirect(req.getContextPath()+loginUrl);
 				
-				/*logger.error("WeixinFilter——currentPageUrl----" + currentPageUrl);
-				logger.error("WeixinFilter——req.getContextPath()----" + req.getContextPath()+"--loginUrl:"+loginUrl);*/
+				logger.error("WeixinFilter——currentPageUrl----" + currentPageUrl);
+				logger.error("WeixinFilter——req.getContextPath()----" + req.getContextPath()+"--loginUrl:"+loginUrl);
 			}else{
 				WxUser wxUser = new WxUser(true);
 				openId = wxUser.getOpenid();

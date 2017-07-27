@@ -18,13 +18,11 @@ import com.hj.utils.MD5Utils;
 import com.hj.web.core.mvc.ControllerBase;
 import com.hj.wxmp.mobile.common.HashSessions;
 import com.hj.wxmp.mobile.dao.SysItemRoleDao;
-import com.hj.wxmp.mobile.entity.SysAdmin;
 import com.hj.wxmp.mobile.entity.SysItemRole;
 import com.hj.wxmp.mobile.entity.SysUserRole;
 import com.hj.wxmp.mobile.entity.UserInfo;
 import com.hj.wxmp.mobile.services.IKeyGen;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
-import com.hj.wxmp.mobile.services.SysAdminService;
 import com.hj.wxmp.mobile.services.SysUserRoleService;
 import com.hj.wxmp.mobile.services.UserCustRefService;
 import com.hj.wxmp.mobile.services.UserInfoService;
@@ -53,10 +51,6 @@ public class UserController extends ControllerBase {
 	@Autowired
 	private UserInfoService userInfoService;
 	
-	@Autowired
-	private SysAdminService sysAdminService;
-	
-	
 	
 	private HashSessions hashSession = HashSessions.getInstance();
 	
@@ -83,7 +77,7 @@ public class UserController extends ControllerBase {
 		try {
 			Object obj = request.getSession().getAttribute("adminSession");
 			if(null!=obj){
-				SysAdmin admin = (SysAdmin)obj;
+				UserInfo admin = (UserInfo)obj;
 				map.put("currentUser", admin);
 			}
 			
@@ -107,10 +101,10 @@ public class UserController extends ControllerBase {
 			String newpwd = getTrimParameter("newpwd");
 			Object obj = request.getSession().getAttribute("adminSession");
 			if(null!=obj){
-				SysAdmin admin = (SysAdmin)obj;
-				if(admin.getPassword().equals(MD5Utils.MD5(oldPwd))){
-					admin.setPassword(MD5Utils.MD5(newpwd));
-					sysAdminService.update(admin);
+				UserInfo userInfo = (UserInfo)obj;
+				if(userInfo.getPassword().equals(MD5Utils.MD5(oldPwd))){
+					userInfo.setPassword(MD5Utils.MD5(newpwd));
+					userInfoService.update(userInfo);
 				}else{
 					return "{\"code\":\"error\"}";
 				}
@@ -156,6 +150,7 @@ public class UserController extends ControllerBase {
 		Map<String,Object> map = new HashMap<String,Object>();
 		String state = getTrimParameter("selectState");
 		String userName = getTrimParameter("userName");
+		state = "1";
 		map.put("state", state);
 		map.put("userName", userName);
 		Integer start = ((nowPage - 1) * pageSize);
@@ -259,6 +254,7 @@ public class UserController extends ControllerBase {
 		Integer start = ((nowPage - 1) * pageSize);
 		map.put("page", start);
 		map.put("pageSize", pageSize);
+		map.put("isValidate", "");
 		try {
 			//获取用户所有的信息
 			List<UserInfo> selectList = userInfoService.getMessge(map);

@@ -90,4 +90,13 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  
+  
+  <!-- 查询所有信息 -->
+  <select id="selectAllMsg" resultMap="BaseResultMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from sys_role
+  </select>
 </mapper>

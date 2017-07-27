@@ -5,9 +5,9 @@
 <%@ include file="/WEB-INF/jsp/inc/sessions.jsp"%>
 	
 	<%
-			Object obj1 = request.getSession().getAttribute("adminSession");
-			SysAdmin sysAdmin = (SysAdmin)obj1;  
-			sysAdmin.getId();
+	Object obj1 = request.getSession().getAttribute("adminSession");
+	UserInfo userinfo = (UserInfo)obj1;  
+	userinfo.getId();
 	%>
 <style>
 ul.sidebar-menu{

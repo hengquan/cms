@@ -18,13 +18,11 @@ public class ProjUserRoleServiceImpl implements ProjUserRoleService {
 	private ProjUserRoleMapper dao;
 	@Override
 	public boolean insert(ProjUserRole entity) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		return dao.insertSelective(entity)>0?true:false;
 	}
 	@Override
 	public boolean update(ProjUserRole entity) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		return dao.updateByPrimaryKeySelective(entity)>0?true:false;
 	}
 	@Override
 	public List<ProjUserRole> listEntity(Map<String, Object> map) throws Exception {
@@ -33,8 +31,7 @@ public class ProjUserRoleServiceImpl implements ProjUserRoleService {
 	}
 	@Override
 	public void delete(ProjUserRole entity) throws Exception {
-		// TODO Auto-generated method stub
-		
+		dao.deleteByPrimaryKey(entity.getId());
 	}
 	@Override
 	public ProjUserRole saveEntity(ProjUserRole entity) throws Exception {
@@ -43,8 +40,7 @@ public class ProjUserRoleServiceImpl implements ProjUserRoleService {
 	}
 	@Override
 	public ProjUserRole findById(String sys_uuid) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.selectByPrimaryKey(sys_uuid);
 	}
 	@Override
 	public ProjUserRole findByOpenid(String openid) throws Exception {

@@ -414,7 +414,12 @@
 	  </select>
 	
   
-  
-  
+  <!-- 根据登入帐号查询信息 -->
+  <select id="selectByLoginId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from plat_User
+    where loginName = #{loginId,jdbcType=VARCHAR}
+  </select>
   
 </mapper>

@@ -1,6 +1,6 @@
 package com.hj.wxmp.mobile.services;
 
-import com.hj.wxmp.mobile.entity.SysAdmin;
+import com.hj.wxmp.mobile.entity.UserInfo;
 
 public interface LoginService {
 	/**
@@ -8,6 +8,6 @@ public interface LoginService {
 	 * @param loginId
 	 * @return
 	 */
-	public SysAdmin getUserInfo(String loginId);
+	public UserInfo getUserInfo(String loginId);
 	
 }
