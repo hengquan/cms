@@ -20,11 +20,11 @@ import com.hj.wxmp.mobile.dao.SysItemRoleDao;
 import com.hj.wxmp.mobile.dao.SysRoleDao;
 import com.hj.wxmp.mobile.entity.SysItemRole;
 import com.hj.wxmp.mobile.entity.SysRole;
-import com.hj.wxmp.mobile.entity.SysUserRole;
 import com.hj.wxmp.mobile.entity.UserInfo;
+import com.hj.wxmp.mobile.entity.UserRole;
 import com.hj.wxmp.mobile.mapping.SysRoleMapper;
 import com.hj.wxmp.mobile.services.IKeyGen;
-import com.hj.wxmp.mobile.services.SysUserRoleService;
+import com.hj.wxmp.mobile.services.UserRoleService;
 
 /**
  * @author deng.hemei
@@ -47,7 +47,7 @@ public class SysRoleController extends ControllerBase {
 	@Autowired
 	SysRoleMapper sysRoleMapper;
 	@Autowired
-	SysUserRoleService sysUserRoleService;
+	UserRoleService sysUserRoleService;
 	@Autowired
 	SysItemRoleDao sysItemRoleDao;
 
@@ -78,9 +78,9 @@ public class SysRoleController extends ControllerBase {
 	    //model.addAttribute("lst",hashSession.getItemRole("lst"));
 		String itemId = super.getTrimParameter("itemId");
 	    String id = super.getTrimParameter("id");
-	    SysUserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
-	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleId());
-	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleId());
+	    UserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleid());
 	    model.addAttribute("itemNamesss", item);
 		model.addAttribute("lst", lst);
 		model.addAttribute("itemId",itemId);

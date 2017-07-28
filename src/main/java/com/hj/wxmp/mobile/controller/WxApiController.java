@@ -5,7 +5,6 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,8 +32,8 @@ import com.hj.wxmp.mobile.entity.AccessRecord01;
 import com.hj.wxmp.mobile.entity.ProjUserRole;
 import com.hj.wxmp.mobile.entity.Project;
 import com.hj.wxmp.mobile.entity.SysRole;
-import com.hj.wxmp.mobile.entity.SysUserRole;
 import com.hj.wxmp.mobile.entity.UserInfo;
+import com.hj.wxmp.mobile.entity.UserRole;
 import com.hj.wxmp.mobile.services.AccessRecord01Service;
 import com.hj.wxmp.mobile.services.AccessRecord02Service;
 import com.hj.wxmp.mobile.services.AccessRecord03Service;
@@ -44,9 +43,9 @@ import com.hj.wxmp.mobile.services.ProjCustRefService;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
 import com.hj.wxmp.mobile.services.ProjectService;
 import com.hj.wxmp.mobile.services.SysRoleService;
-import com.hj.wxmp.mobile.services.SysUserRoleService;
 import com.hj.wxmp.mobile.services.UserCustRefService;
 import com.hj.wxmp.mobile.services.UserInfoService;
+import com.hj.wxmp.mobile.services.UserRoleService;
 import com.hj.wxmp.mobile.services.WxLoginService;
 
 @RequestMapping("/wx/api")
@@ -67,7 +66,7 @@ public class WxApiController extends ControllerBaseWx {
 	@Autowired
 	SysItemRoleDao sysItemRoleDao;
 	@Autowired
-	SysUserRoleService sysUserRoleService;
+	UserRoleService sysUserRoleService;
 	@Autowired
 	ProjUserRoleService projUserRoleService;
 	@Autowired
@@ -119,21 +118,6 @@ public class WxApiController extends ControllerBaseWx {
 		response.sendRedirect(URLDecoder.decode(wx_url, "UTF-8"));
 	}
 
-//	@RequestMapping(value = "/getOpenid")
-//	@ResponseBody
-//	public JSONObject getOpenid(HttpServletResponse response) {
-//		responseInfo(response);
-//		String openid = HashSessions.getInstance().getOpenId(request);
-//		logger.debug("thisOpenId1234==={}", openid);
-//		updateUserInfo(openid);
-//		JSONObject json = new JSONObject();
-//		if (StringUtils.stripToNull(openid) != null) {
-//			json.put("msg", "100");
-//		} else {
-//			json.put("msg", "103");
-//		}
-//		return json;
-//	}
 
 	public void responseInfo(HttpServletResponse response) {
 		response.setContentType("text/html;charset=UTF-8;");
@@ -163,7 +147,7 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
-	//通用接口
+	//通用接口(访问所有)
 	private Boolean userMsg(Map<String, Object> map,String openid) throws Exception{
 		Boolean isok = false;
 		UserInfo userInfo = userInfoService.findByOpenid(openid);
@@ -185,12 +169,6 @@ public class WxApiController extends ControllerBaseWx {
 		}
 		return isok;
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -238,10 +216,10 @@ public class WxApiController extends ControllerBaseWx {
 			//更新用户数据
 			userInfoService.update(userInfo);
 			//给用户赋权限
-			SysUserRole userRole = new SysUserRole();
+			UserRole userRole = new UserRole();
 			userRole.setId(key.getUUIDKey());
-			userRole.setUserId(userId);
-			userRole.setRoleId(roleId);
+			userRole.setUserid(userId);
+			userRole.setRoleid(roleId);
 			//添加
 			sysUserRoleService.insert(userRole);
 			//绑定用户和项目之间的关系
@@ -266,8 +244,6 @@ public class WxApiController extends ControllerBaseWx {
 		System.out.println(JsonUtils.map2json(map));
 		return JsonUtils.map2json(map);
 	}
-	
-	
 	
 	
 	
@@ -333,11 +309,6 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
-	
-	
-	
-	
-	
 	//添加首访记录
 	@RequestMapping(value = "/addHisFirstRecord")
 	@ResponseBody
@@ -358,8 +329,6 @@ public class WxApiController extends ControllerBaseWx {
 		System.out.println(JsonUtils.map2json(map));
 		return JsonUtils.map2json(map);
 	}	
-	
-	
 	
 	
 	
@@ -412,43 +381,30 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
-	//用户中心-我的二维码
-	@RequestMapping("/myQRcode")
-	@ResponseBody
-	public String myQRcode(Model model,HttpServletResponse response){
-		responseInfo(response);
-		Map<String,Object> map = new HashMap<String,Object>();
-		//用户信息
-		String openid = HashSessions.getInstance().getOpenId(request);
-		openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
-		UserInfo user = userInfoService.selectByOpenId(openid);
-		String qrCodeAddress = user.getDescn();
-		try {
-			if(qrCodeAddress==null || qrCodeAddress.equals("")){
-				String fileName = weixin.getQrcode(openid);
-				user.setDescn(fileName);
-				userInfoService.update(user);
-			}
-			String urlpath=Configurations.getConfig("ACCESSURL");
-			map.put("img", urlpath + user.getDescn());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return JsonUtils.map2json(map);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+//	//用户中心-我的二维码
+//	@RequestMapping("/myQRcode")
+//	@ResponseBody
+//	public String myQRcode(Model model,HttpServletResponse response){
+//		responseInfo(response);
+//		Map<String,Object> map = new HashMap<String,Object>();
+//		//用户信息
+//		String openid = HashSessions.getInstance().getOpenId(request);
+//		openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
+//		UserInfo user = userInfoService.selectByOpenId(openid);
+//		String qrCodeAddress = user.getDescn();
+//		try {
+//			if(qrCodeAddress==null || qrCodeAddress.equals("")){
+//				String fileName = weixin.getQrcode(openid);
+//				user.setDescn(fileName);
+//				userInfoService.update(user);
+//			}
+//			String urlpath=Configurations.getConfig("ACCESSURL");
+//			map.put("img", urlpath + user.getDescn());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return JsonUtils.map2json(map);
+//	}
 	
 
 }
