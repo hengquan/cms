@@ -131,15 +131,10 @@
 		ur.userId = #{userId,jdbcType=VARCHAR}
   </select>
   
-  
-  
   <!-- 获取所有信息 -->
   <select id="selectAll" resultMap="BaseResultMap">
   	select 
     <include refid="Base_Column_List" />
     from ql_UserRole
   </select>
-  
-  
-  
 </mapper>

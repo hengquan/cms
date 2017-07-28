@@ -34,5 +34,4 @@ public interface UserRoleService {
 	public Map<String, Object> findByUserId(String userId);
 
 	public List<UserRole> selectAll();
-	
 }

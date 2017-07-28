@@ -29,6 +29,7 @@ import com.hj.wxmp.mobile.common.MD5;
 import com.hj.wxmp.mobile.common.Weixin;
 import com.hj.wxmp.mobile.dao.SysItemRoleDao;
 import com.hj.wxmp.mobile.entity.AccessRecord01;
+import com.hj.wxmp.mobile.entity.Customer;
 import com.hj.wxmp.mobile.entity.ProjUserRole;
 import com.hj.wxmp.mobile.entity.Project;
 import com.hj.wxmp.mobile.entity.SysRole;
@@ -126,10 +127,6 @@ public class WxApiController extends ControllerBaseWx {
 				"POST, GET, OPTIONS,DELETE,PUT");
 	}
 	
-	
-	
-	
-	
 	//用户微信登入补全信息页面(获取角色列表)
 	@RequestMapping(value = "/getRoleList")
 	@ResponseBody
@@ -223,8 +220,6 @@ public class WxApiController extends ControllerBaseWx {
 		System.out.println(JsonUtils.map2json(map));
 		return JsonUtils.map2json(map);
 	}
-	
-	
 	
 	
 	//查看首访记录是否有该客户信息
@@ -462,41 +457,6 @@ public class WxApiController extends ControllerBaseWx {
 		System.out.println(JsonUtils.map2json(map));
 		return JsonUtils.map2json(map);
 	}	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
 	
 //	//用户中心-我的二维码
 //	@RequestMapping("/myQRcode")

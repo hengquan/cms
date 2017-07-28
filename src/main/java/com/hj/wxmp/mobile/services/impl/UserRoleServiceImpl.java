@@ -51,7 +51,4 @@ public class UserRoleServiceImpl implements UserRoleService {
 	public List<UserRole> selectAll() {
 		return dao.selectAll();
 	}
-	
-	
-
 }
