@@ -17,12 +17,12 @@ import com.hj.wxmp.mobile.dao.SysItemRoleDao;
 import com.hj.wxmp.mobile.dao.SysRoleDao;
 import com.hj.wxmp.mobile.entity.SysItem;
 import com.hj.wxmp.mobile.entity.SysItemRole;
-import com.hj.wxmp.mobile.entity.SysUserRole;
 import com.hj.wxmp.mobile.entity.UserInfo;
+import com.hj.wxmp.mobile.entity.UserRole;
 import com.hj.wxmp.mobile.mapping.SysItemMapper;
 import com.hj.wxmp.mobile.mapping.SysItemRoleMapper;
 import com.hj.wxmp.mobile.services.IKeyGen;
-import com.hj.wxmp.mobile.services.SysUserRoleService;
+import com.hj.wxmp.mobile.services.UserRoleService;
 
 /**
  * @author deng.hemei
@@ -51,7 +51,7 @@ public class SysItemRoleController extends ControllerBase {
 	@Autowired
 	SysItemMapper sysItemMapper;
 	@Autowired
-	SysUserRoleService sysUserRoleService;
+	UserRoleService sysUserRoleService;
 
 	public String Userid() {
 		try {
@@ -120,10 +120,10 @@ public class SysItemRoleController extends ControllerBase {
 		}
 		
 		logger.info("添加角色权限成功");
-		SysUserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+		UserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
 
-	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleId());
-	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleId());
+	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleid());
 	    model.addAttribute("itemNamesss", item);
 		model.addAttribute("lst", lst);
 	    model.addAttribute("itemId",itemIdss);
@@ -188,9 +188,9 @@ public class SysItemRoleController extends ControllerBase {
 		model.addAttribute("itemId",itemId);
 		model.addAttribute("id",id);
 		
-		SysUserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
-	    List<SysItemRole> lstt =sysItemRoleDao.selectItemByRoleId(userRole.getRoleId());
-	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleId());
+		UserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+	    List<SysItemRole> lstt =sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleid());
 	    model.addAttribute("itemNamesss", item);
 		model.addAttribute("lst", lstt);
 		return "itemRole/listItem";

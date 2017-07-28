@@ -100,5 +100,14 @@
     	<filter-name>WeixinFilter</filter-name>
     	<url-pattern>*.az</url-pattern>
     </filter-mapping>
+    <!-- 微信前端拦截 -->
+	<filter>
+    	<filter-name>QlWeixinMenuFilter</filter-name>
+    	<filter-class>com.hj.web.filter.QlWeixinMenuFilter</filter-class>
+    </filter>
+    <filter-mapping>
+    	<filter-name>QlWeixinMenuFilter</filter-name>
+    	<url-pattern>/wxfront/*</url-pattern>
+    </filter-mapping>
 
 </web-app>

@@ -55,7 +55,7 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 	@Override
 	public List<Project> findAll() {
-		return null;
+		return dao.findAll();
 	}
 	@Override
 	public int selectCount() {

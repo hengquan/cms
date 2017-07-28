@@ -19,11 +19,11 @@ import com.hj.wxmp.mobile.common.UploadUtils;
 import com.hj.wxmp.mobile.dao.ArticleDao;
 import com.hj.wxmp.mobile.dao.SysItemRoleDao;
 import com.hj.wxmp.mobile.entity.SysItemRole;
-import com.hj.wxmp.mobile.entity.SysUserRole;
 import com.hj.wxmp.mobile.entity.TblArticle;
 import com.hj.wxmp.mobile.entity.UserInfo;
+import com.hj.wxmp.mobile.entity.UserRole;
 import com.hj.wxmp.mobile.services.IKeyGen;
-import com.hj.wxmp.mobile.services.SysUserRoleService;
+import com.hj.wxmp.mobile.services.UserRoleService;
 import com.hj.wxmp.mobile.services.impl.ArticleService;
 
 /**
@@ -51,7 +51,7 @@ public class ArticleController extends ControllerBase {
 	@Autowired
 	ArticleService articleService;
 	@Autowired
-	SysUserRoleService sysUserRoleService;
+	UserRoleService sysUserRoleService;
 	@Autowired
 	SysItemRoleDao sysItemRoleDao;
 	
@@ -84,9 +84,9 @@ public class ArticleController extends ControllerBase {
 		model.addAttribute("totalPageNum",map.get("totalPageNum"));
 	    model.addAttribute("articleType",articleType);
 	    
-		SysUserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
-	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleId());
-	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleId());
+		UserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleid());
 	    
 	    model.addAttribute("itemNamesss", item);
 		model.addAttribute("lst", lst);
@@ -136,9 +136,9 @@ public class ArticleController extends ControllerBase {
 			logger.info("修改成功!");
 		}
 
-		SysUserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
-	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleId());
-	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleId());
+		UserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleid());
 	    model.addAttribute("itemNamesss", item);
 		model.addAttribute("lst", lst);
 	    model.addAttribute("itemId",itemId);
@@ -169,9 +169,9 @@ public class ArticleController extends ControllerBase {
 			articleDao.dels(strs);
 		}
 		
-	    SysUserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
-	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleId());
-	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleId());
+	    UserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleid());
 	    
 	    model.addAttribute("itemNamesss", item);
 		model.addAttribute("lst", lst);
@@ -194,9 +194,9 @@ public class ArticleController extends ControllerBase {
 		
 	    model.addAttribute("itemId",itemId);
 	    model.addAttribute("id",id);
-	    SysUserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
-	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleId());
-	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleId());
+	    UserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleid());
 	    model.addAttribute("itemNamesss", item);
 		model.addAttribute("lst", lst);
 		return "article/addOrUpdate";	

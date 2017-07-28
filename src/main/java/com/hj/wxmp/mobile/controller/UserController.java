@@ -18,14 +18,18 @@ import com.hj.utils.MD5Utils;
 import com.hj.web.core.mvc.ControllerBase;
 import com.hj.wxmp.mobile.common.HashSessions;
 import com.hj.wxmp.mobile.dao.SysItemRoleDao;
+import com.hj.wxmp.mobile.entity.Project;
 import com.hj.wxmp.mobile.entity.SysItemRole;
-import com.hj.wxmp.mobile.entity.SysUserRole;
+import com.hj.wxmp.mobile.entity.SysRole;
 import com.hj.wxmp.mobile.entity.UserInfo;
+import com.hj.wxmp.mobile.entity.UserRole;
 import com.hj.wxmp.mobile.services.IKeyGen;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
-import com.hj.wxmp.mobile.services.SysUserRoleService;
+import com.hj.wxmp.mobile.services.ProjectService;
+import com.hj.wxmp.mobile.services.SysRoleService;
 import com.hj.wxmp.mobile.services.UserCustRefService;
 import com.hj.wxmp.mobile.services.UserInfoService;
+import com.hj.wxmp.mobile.services.UserRoleService;
 
 import net.sf.json.JSON;
 import net.sf.json.JSONObject;
@@ -57,11 +61,15 @@ public class UserController extends ControllerBase {
 	@Autowired
 	SysItemRoleDao sysItemRoleDao;
 	@Autowired
-	SysUserRoleService sysUserRoleService;
-	@Autowired
 	ProjUserRoleService projUserRoleService;
 	@Autowired
 	UserCustRefService userCustRefService;
+	@Autowired
+	ProjectService projectService;
+	@Autowired
+	UserRoleService userRoleService;
+	@Autowired
+	SysRoleService roleService;
 	
 //	@Autowired
 //	
@@ -163,7 +171,7 @@ public class UserController extends ControllerBase {
 			for(UserInfo userinfo : selectList){
 				String userId = userinfo.getId();
 				//用户所对应的角色
-				Map<String,Object> userRole = sysUserRoleService.findByUserId(userId);
+				Map<String,Object> userRole = userRoleService.findByUserId(userId);
 				userinfo.setUserRole(userRole);
 			}
 			listMessgeCount = userInfoService.getMessgeCount(map);
@@ -183,9 +191,9 @@ public class UserController extends ControllerBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		SysUserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
-	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleId());
-	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleId());
+		UserRole userRole=userRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleid());
 	    model.addAttribute("itemNamesss", item);
 		model.addAttribute("lst", lst);
 	    String itemId = super.getTrimParameter("itemId");
@@ -225,9 +233,9 @@ public class UserController extends ControllerBase {
 //		}
 		model.addAttribute("kehuMessage",kehuMessage);
 		//菜单栏内容
-		SysUserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
-	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleId());
-	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleId());
+		UserRole userRole=userRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleid());
 	    model.addAttribute("itemNamesss", item);
 		model.addAttribute("lst", lst);
 	    String itemId = super.getTrimParameter("itemId");
@@ -262,7 +270,7 @@ public class UserController extends ControllerBase {
 			for(UserInfo userinfo : selectList){
 				String userId = userinfo.getId();
 				//用户所对应的角色
-				Map<String,Object> userRole = sysUserRoleService.findByUserId(userId);
+				Map<String,Object> userRole = userRoleService.findByUserId(userId);
 				userinfo.setUserRole(userRole);
 			}
 			listMessgeCount = userInfoService.getMessgeCount(map);
@@ -282,9 +290,9 @@ public class UserController extends ControllerBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		SysUserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
-	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleId());
-	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleId());
+		UserRole userRole=userRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleid());
 	    model.addAttribute("itemNamesss", item);
 		model.addAttribute("lst", lst);
 	    String itemId = super.getTrimParameter("itemId");
@@ -293,6 +301,54 @@ public class UserController extends ControllerBase {
 	    model.addAttribute("id",id);
 		return pageUrl;
 	}
+	
+	
+	
+	
+	//获取审核用户的信息权限信息和所有项目信息
+	@ResponseBody
+	@RequestMapping(value="/user/getRoleAndProjectMsg")
+	public JSON getRoleAndProjectMsg() throws Exception{
+		Map<String, Object> data = new HashMap<String,Object>();
+		String proIds = "";
+		String projNames = "";
+		try {
+			String id = getTrimParameter("id");
+			UserInfo userInfo = userInfoService.findById(id);
+			String loginname = userInfo.getLoginname();
+			String password = userInfo.getPassword();
+			String realname = userInfo.getRealname();
+			String mainphonenum = userInfo.getMainphonenum();
+			data.put("loginname", loginname);
+			data.put("password", password);
+			data.put("realname", realname);
+			data.put("mainphonenum", mainphonenum);
+			//用户审核所填项目信息
+			List<Map<String, Object>> projUserRoles = projUserRoleService.selectByUserId(id);
+			for(Map<String,Object> pro : projUserRoles){
+				String proId = pro.get("id").toString();
+				String projName = pro.get("projName").toString();
+				proIds += proId+",";
+				projNames += projName+",";
+			}
+			//所有权限信息
+			List<SysRole> roles = roleService.selectAllMsg();
+			//所有项目信息
+			List<Project> projects = projectService.findAll();
+			
+			data.put("roles", roles);
+			data.put("projects", projects);
+			data.put("proIds", proIds);
+			data.put("projNames", projNames);
+			data.put("msg", "100");
+		} catch (Exception e) {
+			data.put("msg", "103");
+			e.printStackTrace();
+		}
+		System.out.println(JSONObject.fromObject(data));
+		return JSONObject.fromObject(data);
+	}
+
 	
 	
 	

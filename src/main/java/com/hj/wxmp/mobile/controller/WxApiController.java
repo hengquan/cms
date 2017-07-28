@@ -5,7 +5,6 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,8 +32,8 @@ import com.hj.wxmp.mobile.entity.AccessRecord01;
 import com.hj.wxmp.mobile.entity.ProjUserRole;
 import com.hj.wxmp.mobile.entity.Project;
 import com.hj.wxmp.mobile.entity.SysRole;
-import com.hj.wxmp.mobile.entity.SysUserRole;
 import com.hj.wxmp.mobile.entity.UserInfo;
+import com.hj.wxmp.mobile.entity.UserRole;
 import com.hj.wxmp.mobile.services.AccessRecord01Service;
 import com.hj.wxmp.mobile.services.AccessRecord02Service;
 import com.hj.wxmp.mobile.services.AccessRecord03Service;
@@ -44,9 +43,9 @@ import com.hj.wxmp.mobile.services.ProjCustRefService;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
 import com.hj.wxmp.mobile.services.ProjectService;
 import com.hj.wxmp.mobile.services.SysRoleService;
-import com.hj.wxmp.mobile.services.SysUserRoleService;
 import com.hj.wxmp.mobile.services.UserCustRefService;
 import com.hj.wxmp.mobile.services.UserInfoService;
+import com.hj.wxmp.mobile.services.UserRoleService;
 import com.hj.wxmp.mobile.services.WxLoginService;
 
 @RequestMapping("/wx/api")
@@ -67,7 +66,7 @@ public class WxApiController extends ControllerBaseWx {
 	@Autowired
 	SysItemRoleDao sysItemRoleDao;
 	@Autowired
-	SysUserRoleService sysUserRoleService;
+	UserRoleService sysUserRoleService;
 	@Autowired
 	ProjUserRoleService projUserRoleService;
 	@Autowired
@@ -119,21 +118,6 @@ public class WxApiController extends ControllerBaseWx {
 		response.sendRedirect(URLDecoder.decode(wx_url, "UTF-8"));
 	}
 
-//	@RequestMapping(value = "/getOpenid")
-//	@ResponseBody
-//	public JSONObject getOpenid(HttpServletResponse response) {
-//		responseInfo(response);
-//		String openid = HashSessions.getInstance().getOpenId(request);
-//		logger.debug("thisOpenId1234==={}", openid);
-//		updateUserInfo(openid);
-//		JSONObject json = new JSONObject();
-//		if (StringUtils.stripToNull(openid) != null) {
-//			json.put("msg", "100");
-//		} else {
-//			json.put("msg", "103");
-//		}
-//		return json;
-//	}
 
 	public void responseInfo(HttpServletResponse response) {
 		response.setContentType("text/html;charset=UTF-8;");
@@ -144,65 +128,15 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
-	//通用方法-用户是否有openid
-	public Boolean getUserOpenid(HttpServletResponse response,String requetUrl,Map<String,Object> map) throws Exception{
-		String openid = HashSessions.getInstance().getOpenId(request);
-		logger.debug("the--------openid{}",openid);
-		Boolean isok = false;
-		if (StringUtils.stripToNull(openid) != null) {
-			updateUserInfo(openid);
-			isok = userMsg(map,openid);
-		}else{
-			String siteName = Configurations.getSiteName();
-			String url = siteName+"/wxmp.ql/wx/api/redirectUrl.az?wx_url="+requetUrl;
-			logger.debug("messageURL----asdfa{}",url);
-			response.sendRedirect(URLDecoder.decode(url, "UTF-8"));
-		}
-		return isok;
-	}
 	
 	
-	
-	//通用接口
-	private Boolean userMsg(Map<String, Object> map,String openid) throws Exception{
-		Boolean isok = false;
-		UserInfo userInfo = userInfoService.findByOpenid(openid);
-		String realname = userInfo.getRealname();
-		String phone = userInfo.getMainphonenum();
-		String loginname = userInfo.getLoginname();
-		String password = userInfo.getPassword();
-		Integer isvalidate = userInfo.getIsvalidate();
-		if(realname!=null && phone !=null && loginname!=null && password!=null){
-			if(isvalidate==0){
-				map.put("msg", "105");
-			}else if(isvalidate==2){
-				map.put("msg", "106");
-			}else{
-				isok = true;
-			}
-		}else{
-			map.put("msg", "104");
-		}
-		return isok;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//用户微信登入补全信息页面
-	@RequestMapping(value = "/signInPageMsg")
+	//用户微信登入补全信息页面(获取角色列表)
+	@RequestMapping(value = "/getRoleList")
 	@ResponseBody
-	public String signInPageMsg(HttpServletResponse response,HttpServletRequest requet) {
+	public String getRoleList(HttpServletResponse response,HttpServletRequest requet) {
 		responseInfo(response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			String requetUrl = requet.getRequestURL().toString();
-			String openid = HashSessions.getInstance().getOpenId(request);
 			//获取所有的用户权限信息
 			List<SysRole> roles = roleService.selectAllMsg();
 			map.put("roles", roles);
@@ -217,7 +151,7 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
-	//用户微信登入补全信息
+	//用户微信登入补全信息(提交用户注册信息)
 	@RequestMapping(value = "/updateUserMsg")
 	@ResponseBody
 	public String updateUserMsg(HttpServletRequest requet,HttpServletResponse response,UserInfo userInfo,
@@ -226,7 +160,30 @@ public class WxApiController extends ControllerBaseWx {
 		responseInfo(response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			String requetUrl = requet.getRequestURL().toString();
+			if(userInfo.getLoginname() == null || "".equals(userInfo.getLoginname())){
+				map.put("msg", "200");
+				return JsonUtils.map2json(map);
+			}
+			if(userInfo.getPassword() == null || "".equals(userInfo.getPassword())){
+				map.put("msg", "201");
+				return JsonUtils.map2json(map);
+			}
+			if(userInfo.getMainphonenum() == null || "".equals(userInfo.getMainphonenum())){
+				map.put("msg", "202");
+				return JsonUtils.map2json(map);
+			}
+			if(userInfo.getRealname() == null || "".equals(userInfo.getRealname())){
+				map.put("msg", "203");
+				return JsonUtils.map2json(map);
+			}
+			if(roleId == null || "".equals(roleId)){
+				map.put("msg", "204");
+				return JsonUtils.map2json(map);
+			}
+			if(prjectNames == null || "".equals(prjectNames)){
+				map.put("msg", "205");
+				return JsonUtils.map2json(map);
+			}
 			String openid = HashSessions.getInstance().getOpenId(request);
 			//用户信息
 			UserInfo userinfo = userInfoService.findByOpenid(openid);
@@ -238,10 +195,10 @@ public class WxApiController extends ControllerBaseWx {
 			//更新用户数据
 			userInfoService.update(userInfo);
 			//给用户赋权限
-			SysUserRole userRole = new SysUserRole();
+			UserRole userRole = new UserRole();
 			userRole.setId(key.getUUIDKey());
-			userRole.setUserId(userId);
-			userRole.setRoleId(roleId);
+			userRole.setUserid(userId);
+			userRole.setRoleid(roleId);
 			//添加
 			sysUserRoleService.insert(userRole);
 			//绑定用户和项目之间的关系
@@ -270,7 +227,6 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
-	
 	//查看首访记录是否有该客户信息
 	@RequestMapping(value = "/isHaveClienteleMsg")
 	@ResponseBody
@@ -285,14 +241,38 @@ public class WxApiController extends ControllerBaseWx {
 			String requetUrl = requet.getRequestURL().toString();
 			Boolean isok = getUserOpenid(response,requetUrl, map);
 			if(isok){
-				String openid = HashSessions.getInstance().getOpenId(request);
-				msg.put("name", name);
-				msg.put("phone", phone);
-				msg.put("project", project);
-				//查询客户信息
-				List<Map<String, Object>> accessRecord01 = accessRecord01Service.selectUserMsy(msg);
-				map.put("accessRecord01", accessRecord01);
-				map.put("msg", "100");
+				if("".equals(name)){
+					map.put("msg", "200");
+				}
+				if("".equals(phone)){
+					map.put("msg", "201");
+				}
+				if("".equals(project)){
+					map.put("msg", "202");
+				}
+				if(!"".equals(name) && !"".equals(project) && !"".equals(phone)){
+					String openid = HashSessions.getInstance().getOpenId(request);
+					UserInfo userInfo = userInfoService.findByOpenid(openid);
+					//用户ID
+					String userId = userInfo.getId();
+					msg.put("name", name);
+					msg.put("phone", phone);
+					msg.put("project", project);
+					//查询客户信息
+					List<Map<String, Object>> accessRecord01 = accessRecord01Service.selectUserMsy(msg);
+					if(accessRecord01.size()>0){
+						//权限人ID
+						String authorId = accessRecord01.get(0).get("authorId").toString();
+						if(userId.equals(authorId)){
+							map.put("msg", "100");
+						}else{
+							
+						}
+						map.put("accessRecord01", accessRecord01);
+					}else{
+						map.put("msg", "104");
+					}
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -301,6 +281,16 @@ public class WxApiController extends ControllerBaseWx {
 		System.out.println(JsonUtils.map2json(map));
 		return JsonUtils.map2json(map);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -333,11 +323,6 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
-	
-	
-	
-	
-	
 	//添加首访记录
 	@RequestMapping(value = "/addHisFirstRecord")
 	@ResponseBody
@@ -358,8 +343,6 @@ public class WxApiController extends ControllerBaseWx {
 		System.out.println(JsonUtils.map2json(map));
 		return JsonUtils.map2json(map);
 	}	
-	
-	
 	
 	
 	
@@ -404,36 +387,33 @@ public class WxApiController extends ControllerBaseWx {
 //	}	
 	
 	
-
 	
 	
 	
-	
-	
-	
-	
-	//用户中心-我的二维码
-	@RequestMapping("/myQRcode")
+	//打开复访记录单
+	@RequestMapping(value = "/openAfterVisit")
 	@ResponseBody
-	public String myQRcode(Model model,HttpServletResponse response){
+	public String openAfterVisit(HttpServletRequest requet,HttpServletResponse response) {
 		responseInfo(response);
-		Map<String,Object> map = new HashMap<String,Object>();
-		//用户信息
-		String openid = HashSessions.getInstance().getOpenId(request);
-		openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
-		UserInfo user = userInfoService.selectByOpenId(openid);
-		String qrCodeAddress = user.getDescn();
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			if(qrCodeAddress==null || qrCodeAddress.equals("")){
-				String fileName = weixin.getQrcode(openid);
-				user.setDescn(fileName);
-				userInfoService.update(user);
+			String requetUrl = requet.getRequestURL().toString();
+			Boolean isok = getUserOpenid(response,requetUrl,map);
+			if(isok){
+				String openid = HashSessions.getInstance().getOpenId(request);
+				//用户信息
+				UserInfo userInfo = userInfoService.findByOpenid(openid);
+				String userId = userInfo.getId();
+				//查询用户和所属项目的所有信息
+				List<Map<String, Object>> datas = projCustRefService.selectByUserId(userId);
+				map.put("datas", datas);
+				map.put("msg", "100");
 			}
-			String urlpath=Configurations.getConfig("ACCESSURL");
-			map.put("img", urlpath + user.getDescn());
 		} catch (Exception e) {
 			e.printStackTrace();
+			map.put("msg", "103");
 		}
+		System.out.println(JsonUtils.map2json(map));
 		return JsonUtils.map2json(map);
 	}
 	
@@ -443,12 +423,105 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
+	//添加首访记录
+	@RequestMapping(value = "/addHisFirstRecord")
+	@ResponseBody
+	public String addHisFirstRecord(HttpServletRequest requet,HttpServletResponse response,AccessRecord01 record01) {
+		responseInfo(response);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			String requetUrl = requet.getRequestURL().toString();
+			String openid = getUserOpenid(response,requetUrl);
+			Boolean isok = userMsg(map,openid);
+			if(isok){
+				//客户表
+				Customer customer = new Customer();
+				String customerId = key.getUUIDKey();
+				customer.setId(customerId);
+				customer.setCustname(record01.getCustname());
+				customer.setPhonenum(record01.getCustphonenum());
+				customer.setCustsex("男");
+				//添加客户
+				customerService.insert(customer);
+				UserInfo userInfo = userInfoService.findByOpenid(openid);
+				//获取用户ID
+				String userId = userInfo.getId();
+				//补全首访信息-并更新
+				record01.setId(key.getUUIDKey());
+				record01.setCustid(customerId);
+				record01.setAuthorid(userId);
+				record01.setCreatorid(userId);
+				//添加首访记录
+				accessRecord01Service.insert(record01);
+				map.put("msg", "100");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("msg", "103");
+		}
+		System.out.println(JsonUtils.map2json(map));
+		return JsonUtils.map2json(map);
+	}	
 	
 	
 	
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+//	//用户中心-我的二维码
+//	@RequestMapping("/myQRcode")
+//	@ResponseBody
+//	public String myQRcode(Model model,HttpServletResponse response){
+//		responseInfo(response);
+//		Map<String,Object> map = new HashMap<String,Object>();
+//		//用户信息
+//		String openid = HashSessions.getInstance().getOpenId(request);
+//		openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
+//		UserInfo user = userInfoService.selectByOpenId(openid);
+//		String qrCodeAddress = user.getDescn();
+//		try {
+//			if(qrCodeAddress==null || qrCodeAddress.equals("")){
+//				String fileName = weixin.getQrcode(openid);
+//				user.setDescn(fileName);
+//				userInfoService.update(user);
+//			}
+//			String urlpath=Configurations.getConfig("ACCESSURL");
+//			map.put("img", urlpath + user.getDescn());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return JsonUtils.map2json(map);
+//	}
 	
 
 }

@@ -2,12 +2,12 @@ package com.hj.wxmp.mobile.entity;
 
 import java.util.Date;
 
-public class SysUserRole {
+public class UserRole {
     private String id;
 
-    private String userId;
+    private String userid;
 
-    private String roleId;
+    private String roleid;
 
     private Integer isvalidate;
 
@@ -21,20 +21,20 @@ public class SysUserRole {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
+    public void setUserid(String userid) {
+        this.userid = userid == null ? null : userid.trim();
     }
 
-    public String getRoleId() {
-        return roleId;
+    public String getRoleid() {
+        return roleid;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId == null ? null : roleId.trim();
+    public void setRoleid(String roleid) {
+        this.roleid = roleid == null ? null : roleid.trim();
     }
 
     public Integer getIsvalidate() {

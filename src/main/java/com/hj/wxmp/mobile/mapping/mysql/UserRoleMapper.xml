@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hj.wxmp.mobile.mapping.SysUserRoleMapper" >
-  <resultMap id="BaseResultMap" type="com.hj.wxmp.mobile.entity.SysUserRole" >
+<mapper namespace="com.hj.wxmp.mobile.mapping.UserRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.hj.wxmp.mobile.entity.UserRole" >
     <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="user_id" property="userId" jdbcType="VARCHAR" />
-    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+    <result column="userId" property="userid" jdbcType="VARCHAR" />
+    <result column="roleId" property="roleid" jdbcType="VARCHAR" />
     <result column="isValidate" property="isvalidate" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, role_id, isValidate, cTime
+    id, userId, roleId, isValidate, cTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from sys_user_role
+    from ql_UserRole
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from sys_user_role
+    delete from ql_UserRole
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.SysUserRole" >
-    insert into sys_user_role (id, user_id, role_id, 
+  <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.UserRole" >
+    insert into ql_UserRole (id, userId, roleId, 
       isValidate, cTime)
-    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{roleid,jdbcType=VARCHAR}, 
       #{isvalidate,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.SysUserRole" >
-    insert into sys_user_role
+  <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.UserRole" >
+    insert into ql_UserRole
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="userId != null" >
-        user_id,
+      <if test="userid != null" >
+        userId,
       </if>
-      <if test="roleId != null" >
-        role_id,
+      <if test="roleid != null" >
+        roleId,
       </if>
       <if test="isvalidate != null" >
         isValidate,
@@ -50,11 +50,11 @@
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=VARCHAR},
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
       </if>
-      <if test="roleId != null" >
-        #{roleId,jdbcType=VARCHAR},
+      <if test="roleid != null" >
+        #{roleid,jdbcType=VARCHAR},
       </if>
       <if test="isvalidate != null" >
         #{isvalidate,jdbcType=INTEGER},
@@ -64,14 +64,14 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.SysUserRole" >
-    update sys_user_role
+  <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.UserRole" >
+    update ql_UserRole
     <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=VARCHAR},
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=VARCHAR},
       </if>
-      <if test="roleId != null" >
-        role_id = #{roleId,jdbcType=VARCHAR},
+      <if test="roleid != null" >
+        roleId = #{roleid,jdbcType=VARCHAR},
       </if>
       <if test="isvalidate != null" >
         isValidate = #{isvalidate,jdbcType=INTEGER},
@@ -82,30 +82,64 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.SysUserRole" >
-    update sys_user_role
-    set user_id = #{userId,jdbcType=VARCHAR},
-      role_id = #{roleId,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.UserRole" >
+    update ql_UserRole
+    set userId = #{userid,jdbcType=VARCHAR},
+      roleId = #{roleid,jdbcType=VARCHAR},
       isValidate = #{isvalidate,jdbcType=INTEGER},
       cTime = #{ctime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
+  
+  
+  
+  
   <!-- 通过管理员Id查询管理员角色 -->
   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
-  	select ur.*,r.role_name,r.pinyin,r.logogram,r.remark from sys_user_role ur INNER JOIN sys_role r on ur.role_id=r.id where ur.user_id=#{userId,jdbcType=VARCHAR}
+	SELECT
+		ur.*, r.role_name,
+		r.pinyin,
+		r.logogram,
+		r.remark
+	FROM
+		ql_UserRole ur
+	INNER JOIN sys_role r ON ur.roleId = r.id
+	WHERE
+		ur.userId = #{userId,jdbcType=VARCHAR}
   </select>
   
   <!-- 根据userId修改用户角色 -->
-  <update id="updateByUserId" parameterType="com.hj.wxmp.mobile.entity.SysUserRole">
-  	update sys_user_role
-    set role_id = #{roleId,jdbcType=VARCHAR}
-    where user_id = #{userId,jdbcType=VARCHAR}
+  <update id="updateByUserId" parameterType="com.hj.wxmp.mobile.entity.UserRole">
+	UPDATE ql_UserRole
+	SET roleId = #{roleId,jdbcType=VARCHAR}
+	WHERE
+		userId = #{userId,jdbcType=VARCHAR}
   </update>
   
   <!-- 用户ID查找用户权限信息 -->
   <select id="findByUserId" resultType="java.util.Map" parameterType="java.lang.String">
-  	select ur.*,r.role_name,r.pinyin,r.logogram,r.remark from sys_user_role ur INNER JOIN sys_role r on ur.role_id=r.id where ur.user_id=#{userId,jdbcType=VARCHAR}
+	SELECT
+		ur.*, r.role_name,
+		r.pinyin,
+		r.logogram,
+		r.remark
+	FROM
+		ql_UserRole ur
+	INNER JOIN sys_role r ON ur.roleId = r.id
+	WHERE
+		ur.userId = #{userId,jdbcType=VARCHAR}
   </select>
+  
+  
+  
+  <!-- 获取所有信息 -->
+  <select id="selectAll" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from ql_UserRole
+  </select>
+  
+  
   
 </mapper>

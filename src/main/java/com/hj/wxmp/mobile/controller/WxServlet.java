@@ -52,7 +52,7 @@ public class WxServlet extends HttpServlet {
 	
 	private static Weixin weixin = Weixin.getInstance();
 	
-	
+	private HashSessions hashSession = HashSessions.getInstance();
 	
 	
     /**
@@ -235,7 +235,10 @@ public class WxServlet extends HttpServlet {
 			    		wxUser.setOpenid(openid);
 			    		wxLoginService.bandingUser(wxUser, "");
 			    		//将openid存进cook
-			    		HashSessions.getInstance().setOpenId(request, response, openid);
+			    		hashSession.setOpenId(request, response, openid);
+			    		//获取cook
+			    		String openIdMsessage = hashSession.getOpenId(request);
+			    		logger.debug("openIdMsessage::::::{}",openIdMsessage);
 			    	}
 					
 					return;

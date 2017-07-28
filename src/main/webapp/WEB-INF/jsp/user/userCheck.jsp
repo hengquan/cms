@@ -100,13 +100,13 @@
 											</td>
 											<td class="hidden-phone">
 												<c:if test="${u.isvalidate == 0}">
-													<button type="button" onclick="subUserMessage('${u.id}',${u.isvalidate})" class="btn btn-send">审核</button>
+													<button type="button" onclick="subUserMessage('${u.id}',${u.isvalidate},'${u.userRole.role_name}')" class="btn btn-send">审核</button>
 												</c:if>
 												<c:if test="${u.isvalidate == 1}">
-													<button type="button" onclick="subUserMessage('${u.id}',${u.isvalidate})" class="btn btn-send">审核通过</button>
+													<button type="button" onclick="subUserMessage('${u.id}',${u.isvalidate},'${u.userRole.role_name}')" class="btn btn-send">审核通过</button>
 												</c:if>
 												<c:if test="${u.isvalidate == 2}">
-													<button type="button" onclick="subUserMessage('${u.id}',${u.isvalidate})" class="btn btn-send">审核未通过</button>
+													<button type="button" onclick="subUserMessage('${u.id}',${u.isvalidate},'${u.userRole.role_name}')" class="btn btn-send">审核未通过</button>
 												</c:if>
 											</td>
 										</tr>
@@ -183,30 +183,89 @@
 	</div>
 	
 	
-	<!-- 确认提交审核状态 -->
-	<div class="panel-body">
-		<!-- Modal -->
-		<div class="modal fade" id="isCheckState" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title">确认更改审核状态警告</h4>
-					</div>
-					<div class="modal-body">您确定要更改审核状态吗？</div>
-					<div class="modal-footer">
-						<input type="hidden" id="yesSubCheckMessage" />
-						<button type="button" onclick="subUserStateMessage('1')" class="btn btn-send">审核通过</button>
-						<button type="button" onclick="subUserStateMessage('2')" class="btn btn-send">审核不通过</button>
-						<button data-dismiss="modal" class="btn btn-default" type="button" id="quxiao">取消</button>
-					</div>
+	
+	
+	
+	<div class="modal fade" id="isCheckState" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="modal-title">确认更改审核状态警告</h4>
+				</div>
+				<div class="modal-body">
+					<form action="${appRoot}/anwStock/edit" method="post"
+						class="form-horizontal" enctype="multipart/form-data" role="form"
+						id="updateMessage" name="itemForm">
+						<input type="hidden" name="editId" id="editId">
+						<input type="hidden" name="userSelectProjIds" id="userSelectProjIds">
+						<div class="form-group">
+							<label class="col-lg-3 control-label pd-r5">登录名<font
+								style="color: red;"></font></label>
+							<div class="col-lg-9">
+								<input type="text" class="form-control" name="loginName" id="loginName" maxlength="10">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label pd-r5">手机号<font
+								style="color: red;"></font></label>
+							<div class="col-lg-9">
+								<input type="text" class="form-control" name="phone" id="phone" maxlength="10">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label pd-r5">真实姓名<font
+								style="color: red;"></font></label>
+							<div class="col-lg-9">
+								<input type="text" class="form-control" name="rename" id="rename" maxlength="10">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label pd-r5">角色<font
+								style="color: red;"></font></label>
+							<div class="col-lg-9">
+								<select class="form-control" name="userRole" id="userRole" maxlength="10">
+								
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label pd-r5">用户填选项目<font
+								style="color: red;"></font></label>
+							<div class="col-lg-9">
+								<input type="text" class="form-control" name="userSelectProj" id="userSelectProj" maxlength="10">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label pd-r5">审核确认项目<font
+								style="color: red;"></font></label>
+							<div class="col-lg-9">
+								<div class="dropdown">
+								  <button class="btn btn-send dropdown-toggle" type="button" maxlength="10" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								    请选择项目...
+								    <span class="caret"></span>
+								  </button>
+								  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="projectMsg">
+								  	
+								  </ul>
+								</div>
+							</div>
+						</div>
+						<hr/>
+						<div class="form-group">
+							<div class="col-lg-offset-2 col-lg-10">
+								<button type="button" onclick="subUserStateMessage('1')" class="btn btn-send">审核通过</button>
+								<button type="button" onclick="subUserStateMessage('2')" class="btn btn-send">审核不通过</button>
+								<button data-dismiss="modal" class="btn btn-default" type="button" id="quxiao">取消</button>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	
-	
 	
 
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
@@ -231,15 +290,8 @@
 			</div>
 			<!-- /.modal-dialog -->
 		</div>
-
-
-
-
-
-
-
-
-	
+		
+		
 	<div class="modal fade" id="seeOneCheckMessage" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -324,17 +376,6 @@
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	$(function(){
 		$('.input-group').hide();
 		$('#sample_1_info').hide();
@@ -374,14 +415,51 @@
 	
 	
 	//是否提交审核结果
-	function subUserMessage(id,isPass){
+	function subUserMessage(id,isPass,rolename){
 		if(isPass!=0){
 			windowShow("该用户已经过审核，请勿重复操作！","");
 			return;
 		}
-		var $modal = $('#isCheckState');
-		$modal.modal();
-		$("#yesSubCheckMessage").val(id);
+		//获取待审核人的信息，所有项目信息，所有权限信息
+		$.ajax({
+			type:'post',
+			data : {"id":id},  
+			url:'${appRoot}/user/getRoleAndProjectMsg',
+			dataType:'json',
+			success:function(data){
+				console.log(data);
+				if(data.msg == 100){
+					var roles = data.roles;
+					var projects = data.projects;
+					console.log(projects);
+					var projectHtml = '';
+					for(var i = 0 ;i<projects.length;i++){
+						projectHtml += '<li><a href="#"><input type="checkbox" name="projbox" value="'+projects[i].id+'">'+ projects[i].projname +'</a></li>';
+					}
+					$("#projectMsg").html(projectHtml);
+					var userRoleHtml = '';
+					for(var i = 0 ;i<roles.length;i++){
+						if(rolename == roles[i].roleName){
+							userRoleHtml += '<option value="'+ roles[i].id +'" selected>'+ roles[i].roleName +'</option>';
+						}else{
+							userRoleHtml += '<option value="'+ roles[i].id +'">'+ roles[i].roleName +'</option>';
+						}
+					}
+					$("#userRole").html(userRoleHtml);
+					//赋值
+					$("#loginName").val(data.loginname);
+					$("#phone").val(data.mainphonenum);
+					$("#rename").val(data.realname);
+					$("#userSelectProj").val(data.projNames);
+					$("#userSelectProjIds").val(data.proIds);
+					var $modal = $('#isCheckState');
+					$modal.modal();
+					$("#yesSubCheckMessage").val(id);
+				}else{
+					windowShow("提交失败","");
+				}
+			}
+		});
 	}
 	
 	//设置审核的状态---确认提交

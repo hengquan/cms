@@ -23,4 +23,6 @@ public interface ProjectMapper {
 	void deletes(String boxeditId);
 
 	Project selectByProName(String pro);
+
+	List<Project> findAll();
 }
