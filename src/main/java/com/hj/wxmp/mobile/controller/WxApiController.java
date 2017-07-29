@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hj.utils.JsonUtils;
 import com.hj.wxmp.core.WxUser;
-import com.hj.wxmp.mobile.common.Configurations;
 import com.hj.wxmp.mobile.common.ControllerBaseWx;
 import com.hj.wxmp.mobile.common.HashSessions;
 import com.hj.wxmp.mobile.common.MD5;
@@ -93,11 +92,6 @@ public class WxApiController extends ControllerBaseWx {
 	public UserInfo getCurrentUser() {
 		UserInfo user = hashSession.getCurrentSessionUser(request);
 		return user;
-	}
-
-	public String path() {
-		String urlpath = Configurations.getConfig("ACCESSURL");
-		return urlpath;
 	}
 
 	// 根据openid去腾讯后台获取用户信息并更新本地userinfo
@@ -233,40 +227,36 @@ public class WxApiController extends ControllerBaseWx {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> msg = new HashMap<String, Object>();
 		try {
-			String requetUrl = requet.getRequestURL().toString();
-			Boolean isok = getUserOpenid(response,requetUrl, map);
-			if(isok){
-				if("".equals(name)){
-					map.put("msg", "200");
-				}
-				if("".equals(phone)){
-					map.put("msg", "201");
-				}
-				if("".equals(project)){
-					map.put("msg", "202");
-				}
-				if(!"".equals(name) && !"".equals(project) && !"".equals(phone)){
-					String openid = HashSessions.getInstance().getOpenId(request);
-					UserInfo userInfo = userInfoService.findByOpenid(openid);
-					//用户ID
-					String userId = userInfo.getId();
-					msg.put("name", name);
-					msg.put("phone", phone);
-					msg.put("project", project);
-					//查询客户信息
-					List<Map<String, Object>> accessRecord01 = accessRecord01Service.selectUserMsy(msg);
-					if(accessRecord01.size()>0){
-						//权限人ID
-						String authorId = accessRecord01.get(0).get("authorId").toString();
-						if(userId.equals(authorId)){
-							map.put("msg", "100");
-						}else{
-							
-						}
-						map.put("accessRecord01", accessRecord01);
+			if("".equals(name)){
+				map.put("msg", "200");
+			}
+			if("".equals(phone)){
+				map.put("msg", "201");
+			}
+			if("".equals(project)){
+				map.put("msg", "202");
+			}
+			if(!"".equals(name) && !"".equals(project) && !"".equals(phone)){
+				String openid = HashSessions.getInstance().getOpenId(request);
+				UserInfo userInfo = userInfoService.findByOpenid(openid);
+				//用户ID
+				String userId = userInfo.getId();
+				msg.put("name", name);
+				msg.put("phone", phone);
+				msg.put("project", project);
+				//查询客户信息
+				List<Map<String, Object>> accessRecord01 = accessRecord01Service.selectUserMsy(msg);
+				if(accessRecord01.size()>0){
+					//权限人ID
+					String authorId = accessRecord01.get(0).get("authorId").toString();
+					if(userId.equals(authorId)){
+						map.put("msg", "100");
 					}else{
-						map.put("msg", "104");
+						
 					}
+					map.put("accessRecord01", accessRecord01);
+				}else{
+					map.put("msg", "104");
 				}
 			}
 		} catch (Exception e) {
@@ -296,18 +286,14 @@ public class WxApiController extends ControllerBaseWx {
 		responseInfo(response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			String requetUrl = requet.getRequestURL().toString();
-			Boolean isok = getUserOpenid(response,requetUrl,map);
-			if(isok){
-				String openid = HashSessions.getInstance().getOpenId(request);
-				//用户信息
-				UserInfo userInfo = userInfoService.findByOpenid(openid);
-				String userId = userInfo.getId();
-				//查询用户和所属项目的所有信息
-				List<Map<String, Object>> datas = projCustRefService.selectByUserId(userId);
-				map.put("datas", datas);
-				map.put("msg", "100");
-			}
+			String openid = HashSessions.getInstance().getOpenId(request);
+			//用户信息
+			UserInfo userInfo = userInfoService.findByOpenid(openid);
+			String userId = userInfo.getId();
+			//查询用户和所属项目的所有信息
+			List<Map<String, Object>> datas = projCustRefService.selectByUserId(userId);
+			map.put("datas", datas);
+			map.put("msg", "100");
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("msg", "103");
@@ -325,12 +311,8 @@ public class WxApiController extends ControllerBaseWx {
 		responseInfo(response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			String requetUrl = requet.getRequestURL().toString();
-			Boolean isok = getUserOpenid(response,requetUrl,map);
-			if(isok){
-				String openid = HashSessions.getInstance().getOpenId(request);
-				map.put("msg", "100");
-			}
+			String openid = HashSessions.getInstance().getOpenId(request);
+			map.put("msg", "100");
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("msg", "103");
@@ -392,18 +374,14 @@ public class WxApiController extends ControllerBaseWx {
 		responseInfo(response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			String requetUrl = requet.getRequestURL().toString();
-			Boolean isok = getUserOpenid(response,requetUrl,map);
-			if(isok){
-				String openid = HashSessions.getInstance().getOpenId(request);
-				//用户信息
-				UserInfo userInfo = userInfoService.findByOpenid(openid);
-				String userId = userInfo.getId();
-				//查询用户和所属项目的所有信息
-				List<Map<String, Object>> datas = projCustRefService.selectByUserId(userId);
-				map.put("datas", datas);
-				map.put("msg", "100");
-			}
+			String openid = HashSessions.getInstance().getOpenId(request);
+			//用户信息
+			UserInfo userInfo = userInfoService.findByOpenid(openid);
+			String userId = userInfo.getId();
+			//查询用户和所属项目的所有信息
+			List<Map<String, Object>> datas = projCustRefService.selectByUserId(userId);
+			map.put("datas", datas);
+			map.put("msg", "100");
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("msg", "103");
@@ -418,38 +396,34 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
-	//添加首访记录
-	@RequestMapping(value = "/addHisFirstRecord")
+	//添加复访记录
+	@RequestMapping(value = "/addAfterVisit")
 	@ResponseBody
-	public String addHisFirstRecord(HttpServletRequest requet,HttpServletResponse response,AccessRecord01 record01) {
+	public String addAfterVisit(HttpServletRequest requet,HttpServletResponse response,AccessRecord01 record01) {
 		responseInfo(response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			String requetUrl = requet.getRequestURL().toString();
-			String openid = getUserOpenid(response,requetUrl);
-			Boolean isok = userMsg(map,openid);
-			if(isok){
-				//客户表
-				Customer customer = new Customer();
-				String customerId = key.getUUIDKey();
-				customer.setId(customerId);
-				customer.setCustname(record01.getCustname());
-				customer.setPhonenum(record01.getCustphonenum());
-				customer.setCustsex("男");
-				//添加客户
-				customerService.insert(customer);
-				UserInfo userInfo = userInfoService.findByOpenid(openid);
-				//获取用户ID
-				String userId = userInfo.getId();
-				//补全首访信息-并更新
-				record01.setId(key.getUUIDKey());
-				record01.setCustid(customerId);
-				record01.setAuthorid(userId);
-				record01.setCreatorid(userId);
-				//添加首访记录
-				accessRecord01Service.insert(record01);
-				map.put("msg", "100");
-			}
+			String openid = HashSessions.getInstance().getOpenId(request);
+			//客户表
+			Customer customer = new Customer();
+			String customerId = key.getUUIDKey();
+			customer.setId(customerId);
+			customer.setCustname(record01.getCustname());
+			customer.setPhonenum(record01.getCustphonenum());
+			customer.setCustsex("男");
+			//添加客户
+			customerService.insert(customer);
+			UserInfo userInfo = userInfoService.findByOpenid(openid);
+			//获取用户ID
+			String userId = userInfo.getId();
+			//补全首访信息-并更新
+			record01.setId(key.getUUIDKey());
+			record01.setCustid(customerId);
+			record01.setAuthorid(userId);
+			record01.setCreatorid(userId);
+			//添加首访记录
+			accessRecord01Service.insert(record01);
+			map.put("msg", "100");
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("msg", "103");
