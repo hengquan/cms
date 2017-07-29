@@ -19,6 +19,7 @@
     <shiro.version>1.2.4</shiro.version>
     <slf4j.version>1.7.5</slf4j.version>
     <logback.version>1.0.13</logback.version>
+    <build.webProjectDir>D:\workIDE\projects\qlCRM\src</build.webProjectDir>
   </properties>
   <dependencies>
     <dependency>
@@ -69,6 +70,14 @@
       <groupId>org.apache.shiro</groupId>
       <artifactId>shiro-ehcache</artifactId>
       <version>${shiro.version}</version>
+    </dependency>
+    <!-- 引入平台包 -->
+    <dependency>
+      <groupId>com.spiritdata</groupId>
+      <artifactId>BasicPlat</artifactId>
+      <version>0.1.0.7</version>
+      <scope>system</scope>
+      <systemPath>${build.webProjectDir}/lib/BasicPlat-0.2.0.01.jar</systemPath>
     </dependency>
 
     <!-- gson -->
