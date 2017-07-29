@@ -31,7 +31,6 @@ import com.hj.wxmp.mobile.services.WxLoginService;
 
 @Component 
 public class QlWeixinMenuFilter implements Filter {
-    
     private final static Logger logger = LoggerFactory.getLogger(QlWeixinMenuFilter.class);
 
     @Resource
