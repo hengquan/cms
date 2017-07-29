@@ -21,21 +21,21 @@
       <input type="text" name="loginName" placeholder="登录名">
     </div>
     <div class="item_inner">
-      <input type="password" placeholder="密码">
+      <input type="password" name="pwd" placeholder="密码">
     </div>
     <div class="item_inner">
-      <input type="password" placeholder="确认密码" class="">
+      <input type="password"  name="pwdConfirm" placeholder="确认密码" class="">
     </div>
     <div class="item_inner">
-      <input type="phone" placeholder="手机号">
+      <input type="phone"  name="phoneNum" placeholder="手机号">
     </div>
     <div class="item_inner">
-      <input type="text" placeholder="姓名">
+      <input type="text"  name="realName" placeholder="姓名">
     </div>
     <div class="item_inner row">
       <div class="item-title col-15">角色</div>
       <div class="item-select col-85">
-        <select>
+        <select name="userRole">
           <option>顾问</option>
           <option>项目负责人</option>
         </select>
@@ -43,7 +43,7 @@
       <i class="fa fa-angle-right fa-lg row"></i>
     </div>
     <div class="item_inner">
-      <input type="text" placeholder="所属项目，可填入多个，逗号隔开">
+      <input type="text" name="prjs" placeholder="所属项目，可填入多个，逗号隔开">
     </div>
     <div class="item-zhc">立即注册</div>
   </div>
@@ -51,8 +51,7 @@
 </body>
 <script>
 $(function() {
-  alert("test");
-  alert($("input[name='loginName']").val());
+  //从后台获得
 });
 </script>
 </html>

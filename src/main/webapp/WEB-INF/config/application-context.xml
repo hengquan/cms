@@ -13,13 +13,16 @@
                ">
       <description>Spring公共配置 </description>
 	
-		<context:component-scan base-package="com.hj.wxmp.mobile">
+		<context:component-scan base-package="com.hj">
+			<context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>  
 			<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 			<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+			<context:exclude-filter type="annotation" expression="com.hj.web.filter.QlWeixinMenuFilter" />
 		</context:component-scan>
 	
-
-	
+		
+		
+		
 	      <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 			<property name="locations">
 				<list>
