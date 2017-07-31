@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 字典与资源对应关系 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="A_DREFRES">
+  <!-- 对应关系 -->
+  <resultMap id="dictRefResMap" type="dictRefRes">
+    <id      column="id"       property="id"       jdbcType="VARCHAR"/>
+    <result  column="dmId"     property="dmId"     jdbcType="VARCHAR"/>
+    <result  column="ddId"     property="ddId"     jdbcType="VARCHAR"/>
+    <result  column="tabName"  property="tabName"  jdbcType="VARCHAR"/>
+    <result  column="tabId"    property="tabId"    jdbcType="VARCHAR"/>
+    <result  column="refName"  property="refName"  jdbcType="VARCHAR"/>
+    <result  column="cTime"    property="CTime"    jdbcType="TIMESTAMP"/>
+  </resultMap>
+
+  <!-- 所有列 -->
+  <sql id="Base_Column_List">
+    id, dmId, ddId, tabName, tabId, refName, cTime
+  </sql>
+
+  <!-- 条件子句 -->
+  <sql id="WhereClauseByEntiey">
+    <where>
+      <trim prefix="(" suffix=")" prefixOverrides="and">
+        <if test="id!=null"> and id=#{id,jdbcType=VARCHAR}</if>
+        <if test="dmId!=null"> and dmId=#{dmId,jdbcType=VARCHAR}</if>
+        <if test="ddId!=null"> and ddId=#{ddId,jdbcType=VARCHAR}</if>
+        <if test="tabName!=null"> and tabName=#{tabName,jdbcType=VARCHAR}</if>
+        <if test="tabId!=null"> and tabId=#{tabId,jdbcType=VARCHAR}</if>
+        <if test="refName!=null"> and refName=#{refName,jdbcType=VARCHAR}</if>
+        <if test="CTime!=null"> and cTime=#{CTime,jdbcType=TIMESTAMP}</if>
+      </trim>
+    </where>
+  </sql>
+
+  <!-- 新增 对应关系 -->
+  <insert id="insert" parameterType="java.util.Map">
+    insert into plat_TabDict_Ref
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id!=null">id,</if>
+      <if test="dmId!=null">dmId,</if>
+      <if test="ddId!=null">ddId,</if>
+      <if test="tabName!=null">tabName,</if>
+      <if test="tabId!=null">tabId,</if>
+      <if test="refName!=null">refName,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id!=null">#{id,jdbcType=VARCHAR},</if>
+      <if test="dmId!=null">#{dmId,jdbcType=VARCHAR},</if>
+      <if test="ddId!=null">#{ddId,jdbcType=VARCHAR},</if>
+      <if test="tabName!=null">#{tabName,jdbcType=VARCHAR},</if>
+      <if test="tabId!=null">#{tabId,jdbcType=VARCHAR},</if>
+      <if test="refName!=null">#{refName,jdbcType=VARCHAR},</if>
+    </trim>
+  </insert>
+
+  <!-- 修改 根据主键-->
+  <update id="update" parameterType="java.util.Map">
+    update plat_TabDict_Ref
+    <set>
+      <if test="dmId!=null">dmId=#{dmId,jdbcType=VARCHAR},</if>
+      <if test="ddId!=null">ddId=#{ddId,jdbcType=VARCHAR},</if>
+      <if test="tabName!=null">tabName=#{tabName,jdbcType=VARCHAR},</if>
+      <if test="tabId!=null">tabId=#{tabId,jdbcType=VARCHAR},</if>
+      <if test="refName!=null">refName=#{refName,jdbcType=VARCHAR},</if>
+      <if test="CTime=null">cTime=#{CTime,jdbcType=TIMESTAMP},</if>
+    </set>
+    where id=#{id,jdbcType=VARCHAR}
+  </update>
+
+  <!-- 看是否有关联 -->
+  <select id="existRefDict" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*) from plat_TabDict_Ref where ${value}
+  </select>
+
+  <!-- 获得列表 -->
+  <select id="getList" parameterType="java.util.Map" resultMap="dictRefResMap">
+    select <include refid="Base_Column_List"/> from plat_TabDict_Ref
+    <if test="_parameter!=null"><include refid="WhereClauseByEntiey"/>
+    <if test="orderByClause!=null">order by ${orderByClause}</if>
+    </if>
+  </select>
+  <select id="getListByTabIds" resultMap="dictRefResMap" parameterType="java.util.Map">
+    select <include refid="Base_Column_List"/> from plat_TabDict_Ref
+    where tabName=#{tabName,jdbcType=VARCHAR} and tabId in (${tabIds})
+    <if test="orderByClause!=null">order by ${orderByClause}</if>
+  </select>
+  
+  <select id="getListByTabId" resultMap="dictRefResMap" parameterType="java.util.Map">
+    select <include refid="Base_Column_List"/> from plat_TabDict_Ref where tabId=#{tabId,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 获得一条数据 -->
+  <select id="getInfo" resultMap="dictRefResMap" parameterType="java.util.Map">
+    select <include refid="Base_Column_List"/> from plat_TabDict_Ref <if test="_parameter!=null"><include refid="WhereClauseByEntiey"/></if>
+  </select>
+  <select id="getInfoById" resultMap="dictRefResMap" parameterType="java.lang.String">
+    select <include refid="Base_Column_List"/> from plat_TabDict_Ref where id=#{id,jdbcType=VARCHAR}
+  </select>
+  <select id="getListByWhere" resultMap="dictRefResMap" parameterType="java.util.Map">
+    select <include refid="Base_Column_List"/> from plat_TabDict_Ref
+    <if test="whereByClause!=null">where ${whereByClause}</if>
+    <if test="orderByClause!=null">order by ${orderByClause}</if>
+  </select>
+
+  <!-- 删除数据 -->
+  <delete id="multiDelByTabId" parameterType="java.lang.String">
+    delete from plat_TabDict_Ref where tabId=#{tabId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="delByDicts" parameterType="java.lang.String">
+    delete from plat_TabDict_Ref where ${value}
+  </delete>
+
+  <!-- ===偏好相关===================================== -->
+  <select id="delPreference" resultMap="dictRefResMap" parameterType="java.util.Map">
+    delete from plat_TabDict_Ref where tabName=#{tabName,jdbcType=VARCHAR} and tabId=#{tabId,jdbcType=VARCHAR} and refName='${refName}'
+  </select>
+</mapper>

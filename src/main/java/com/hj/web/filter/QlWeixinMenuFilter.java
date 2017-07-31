@@ -33,9 +33,7 @@ import com.hj.wxmp.mobile.services.WxLoginService;
 public class QlWeixinMenuFilter implements Filter {
     private final static Logger logger = LoggerFactory.getLogger(QlWeixinMenuFilter.class);
 
-    @Resource
     UserInfoService userInfoService;
-    @Resource
     WxLoginService wxLoginService;
 
     // 根据openid去腾讯后台获取用户信息并更新本地userinfo
@@ -90,8 +88,8 @@ public class QlWeixinMenuFilter implements Filter {
     private void getBean(ServletRequest request) {
         if (wxLoginService==null||userInfoService==null) {
             ServletContext sc=request.getServletContext();
-            if (userInfoService==null) userInfoService=(UserInfoService)WebApplicationContextUtils.getWebApplicationContext(sc).getBean("userInfoService");
-            if (wxLoginService==null) wxLoginService=(WxLoginService)WebApplicationContextUtils.getWebApplicationContext(sc).getBean("wxLoginService");
+            if (userInfoService==null) userInfoService=(UserInfoService)WebApplicationContextUtils.getWebApplicationContext(sc).getBean("userInfoServiceImpl");
+            if (wxLoginService==null) wxLoginService=(WxLoginService)WebApplicationContextUtils.getWebApplicationContext(sc).getBean("wxLoginServiceImpl");
         }
     }
 
