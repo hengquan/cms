@@ -201,6 +201,7 @@
 						id="updateMessage" name="itemForm">
 						<input type="hidden" name="editId" id="editId">
 						<input type="hidden" name="userSelectProjIds" id="userSelectProjIds">
+						<input type="hidden" name="yesSubCheckMessage" id="yesSubCheckMessage">
 						<div class="form-group">
 							<label class="col-lg-3 control-label pd-r5">登录名<font
 								style="color: red;"></font></label>
@@ -452,9 +453,9 @@
 					$("#rename").val(data.realname);
 					$("#userSelectProj").val(data.projNames);
 					$("#userSelectProjIds").val(data.proIds);
+					$("#yesSubCheckMessage").val(id);
 					var $modal = $('#isCheckState');
 					$modal.modal();
-					$("#yesSubCheckMessage").val(id);
 				}else{
 					windowShow("提交失败","");
 				}
@@ -464,13 +465,34 @@
 	
 	//设置审核的状态---确认提交
 	function subUserStateMessage(state){
-		//alert(state);
+		//用户注册所有的项目ID组
+		var projIDs = $("#userSelectProjIds").val();
+		//权限ID
+		var userRole = $("#userRole").val();
+		//用户审核所选定的项目列表
+		var str = document.getElementsByName("projbox");
+		var objarray = str.length;
+		var checkProjIds = "";
+		var jy = false;
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				checkProjIds += str[i].value + ",";
+			}
+		}
 		//state  1 审核通过   2审核不通过
 		var checkedId = $("#yesSubCheckMessage").val();
-		//alert(checkedId);
+		//需要传递的数据
+		var datas = {
+				"checkedId":checkedId,
+				"state":state,
+				"projIDs":projIDs,
+				"userRole":userRole,
+				"checkProjIds":checkProjIds
+		}
 		$.ajax({
 			type:'post',
-			data : {"checkedId":checkedId,"state":state},  
+			data : datas,  
 			url:'${appRoot}/user/checkUser',
 			dataType:'json',
 			success:function(data){

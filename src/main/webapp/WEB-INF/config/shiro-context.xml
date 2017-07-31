@@ -35,6 +35,7 @@
 				/mapi/** = anon 
 				/ueditor/** = anon 
 				/wxfront/** = anon 
+				/wxpage/** = anon 
 				/service/** = anon 
 				/** = user
 				<!-- /** = user 

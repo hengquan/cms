@@ -117,7 +117,10 @@
 	where qlp.userId = #{userId}
   </select>
   
-  
+  <delete id="deleteByProjIds" parameterType="java.lang.String">
+  	delete from ql_ProjUserRole
+    where instr(#{projIDs},projId)
+  </delete>
   
   
   
