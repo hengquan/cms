@@ -107,7 +107,7 @@
     </filter>
     <filter-mapping>
     	<filter-name>QlWeixinMenuFilter</filter-name>
-    	<url-pattern>/wxfront/*</url-pattern>
+    	<url-pattern>/wxpage/*</url-pattern>
     </filter-mapping>
 
 </web-app>

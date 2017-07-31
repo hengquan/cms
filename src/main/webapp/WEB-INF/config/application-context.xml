@@ -14,46 +14,20 @@
       <description>Spring公共配置 </description>
 	
 		<context:component-scan base-package="com.hj">
-			<context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>  
 			<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 			<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
-			<context:exclude-filter type="annotation" expression="com.hj.web.filter.QlWeixinMenuFilter" />
 		</context:component-scan>
 	
 		
-		
-		
-	      <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-			<property name="locations">
-				<list>
-					<value>classpath:jdbc.properties</value>
-				</list>
-			</property>
-		</bean>
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
 	
-	<!-- <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-        <property name="driverClassName" value="${driver}"/>
-
-        <property name="url" value="${url}" />
-        <property name="username" value="${username}" />
-        <property name="password" value="${password}" />
-
-        <property name="maxActive" value="${maxActive}" />
-        <property name="initialSize" value="${initialSize}" />
-        <property name="maxWait" value="${maxWait}" />
-		<property name="maxIdle" value="${maxIdle}"/>
-        <property name="minIdle" value="${minIdle}" />
-
-        <property name="timeBetweenEvictionRunsMillis" value="3000" />
-        <property name="minEvictableIdleTimeMillis" value="300000" />
-
-        <property name="validationQuery" value="SELECT 'x' FROM DUAL" />
-        <property name="testWhileIdle" value="true" />
-        <property name="testOnBorrow" value="false" />
-        <property name="testOnReturn" value="false" />
-
-
-	</bean> -->
 	<!-- 链接数据库 -->
 	<bean id="datasource" class="org.apache.ibatis.datasource.pooled.PooledDataSource">
 		<property name="driver" value="${driver}" />

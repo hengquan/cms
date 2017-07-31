@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hj.utils.JsonUtils;
 import com.hj.wxmp.core.WxUser;
+import com.hj.wxmp.mobile.common.Configurations;
 import com.hj.wxmp.mobile.common.ControllerBaseWx;
 import com.hj.wxmp.mobile.common.HashSessions;
 import com.hj.wxmp.mobile.common.MD5;
@@ -113,6 +114,72 @@ public class WxApiController extends ControllerBaseWx {
 		response.sendRedirect(URLDecoder.decode(wx_url, "UTF-8"));
 	}
 
+	
+	
+	@RequestMapping(value = "/verifyMsg")
+	public void verifyMsg(HttpServletResponse res,String requestURL,
+			HttpServletRequest req) throws IOException {
+		 try {
+	            String openid = HashSessions.getInstance().getOpenId(req);
+	            //openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
+	            logger.debug("this---openid:{}",openid);
+	            if (openid == null || "".equals(openid)) {
+	                getOpenid(res,requestURL,req);
+	            }else{
+	                Integer resultData = userMsg(openid);
+	                if(resultData==100){
+	                    res.sendRedirect(requestURL);
+	                    //req.getRequestDispatcher(requestURL).forward(req,res);
+	                }else if(resultData==103){
+	                    String siteName = Configurations.getSiteName();
+	                    siteName += "/wxmp.ql/wxfront/user/register.html";
+	                    logger.debug("siteNameMessage::::::{}",siteName);
+	                    res.sendRedirect(siteName);
+	                }
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	}
+	
+	
+	//是否有openid
+    public void getOpenid(HttpServletResponse response,String requetUrl, HttpServletRequest request) throws Exception {
+        String openid = HashSessions.getInstance().getOpenId(request);
+        if(openid != null && !openid.equals("")){
+            updateUserInfo(openid);
+        }else{
+        	String siteName = Configurations.getSiteName();
+            String url = siteName+"/wxmp.ql/wx/api/redirectUrl.az?wx_url="+requetUrl;
+            logger.debug("messageURL----asdfa{}",url);
+            response.sendRedirect(URLDecoder.decode(url, "UTF-8"));
+        }
+    }
+
+    //通用接口(所有的接口都会来访问该接口看用户信息是否完整和审核是否通过)
+    private Integer userMsg(String openid) throws Exception{
+        Integer result = 0;
+        UserInfo userInfo = userInfoService.findByOpenid(openid);
+        String realname = userInfo.getRealname();
+        String phone = userInfo.getMainphonenum();
+        String loginname = userInfo.getLoginname();
+        String password = userInfo.getPassword();
+        Integer isvalidate = userInfo.getIsvalidate();
+        if(realname!=null && phone !=null && loginname!=null && password!=null){
+            if(isvalidate==0){
+                result = 104;
+            }else if(isvalidate==2){
+                result = 105;
+            }else{
+                result = 100;
+            }
+        }else{
+            result = 103;
+        }
+        return result;
+    }
+	
+	
 
 	public void responseInfo(HttpServletResponse response) {
 		response.setContentType("text/html;charset=UTF-8;");
@@ -120,6 +187,7 @@ public class WxApiController extends ControllerBaseWx {
 		response.addHeader("Access-Control-Allow-Methods",
 				"POST, GET, OPTIONS,DELETE,PUT");
 	}
+	
 	
 	//用户微信登入补全信息页面(获取角色列表)
 	@RequestMapping(value = "/getRoleList")
@@ -216,10 +284,13 @@ public class WxApiController extends ControllerBaseWx {
 	}
 	
 	
+	
+	
+	
 	//查看首访记录是否有该客户信息
-	@RequestMapping(value = "/isHaveClienteleMsg")
+	@RequestMapping(value = "/getUserClienteleMsg")
 	@ResponseBody
-	public String isHaveClienteleMsg(HttpServletRequest requet,HttpServletResponse response,
+	public String getUserClienteleMsg(HttpServletRequest requet,HttpServletResponse response,
 			@RequestParam(value = "name", defaultValue = "")String name,
 			@RequestParam(value = "phone", defaultValue = "")String phone,
 			@RequestParam(value = "project", defaultValue = "")String project) {
@@ -254,7 +325,6 @@ public class WxApiController extends ControllerBaseWx {
 					}else{
 						
 					}
-					map.put("accessRecord01", accessRecord01);
 				}else{
 					map.put("msg", "104");
 				}

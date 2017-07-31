@@ -27,4 +27,6 @@ public interface UserRoleMapper {
 	Map<String, Object> findByUserId(String userId);
 
 	List<UserRole> selectAll();
+
+	UserRole selectByuserId(String userId);
 }

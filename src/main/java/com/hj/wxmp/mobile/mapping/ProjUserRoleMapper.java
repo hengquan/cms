@@ -19,4 +19,6 @@ public interface ProjUserRoleMapper {
     int updateByPrimaryKey(ProjUserRole record);
 
 	List<Map<String, Object>> selectByUserId(String userId);
+
+	Boolean deleteByProjIds(String projIDs);
 }

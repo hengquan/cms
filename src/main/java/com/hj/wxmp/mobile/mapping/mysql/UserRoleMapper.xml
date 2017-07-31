@@ -137,4 +137,15 @@
     <include refid="Base_Column_List" />
     from ql_UserRole
   </select>
+  
+  <select id="selectByuserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+	SELECT
+		*
+	FROM
+		ql_UserRole
+	WHERE
+		userId = #{userId}
+  </select>
+  
+  
 </mapper>

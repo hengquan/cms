@@ -92,4 +92,6 @@ public interface ProjUserRoleService {
 
 	public List<Map<String, Object>> selectByUserId(String userId);
 
+	public Boolean deleteByProjIds(String projIDs);
+
 }

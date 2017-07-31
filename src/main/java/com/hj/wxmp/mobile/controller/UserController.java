@@ -1,5 +1,6 @@
 package com.hj.wxmp.mobile.controller;
 
+import java.awt.image.Kernel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import com.hj.utils.MD5Utils;
 import com.hj.web.core.mvc.ControllerBase;
 import com.hj.wxmp.mobile.common.HashSessions;
 import com.hj.wxmp.mobile.dao.SysItemRoleDao;
+import com.hj.wxmp.mobile.entity.ProjUserRole;
 import com.hj.wxmp.mobile.entity.Project;
 import com.hj.wxmp.mobile.entity.SysItemRole;
 import com.hj.wxmp.mobile.entity.SysRole;
@@ -362,6 +364,29 @@ public class UserController extends ControllerBase {
 		try {
 			String userId = getTrimParameter("checkedId");
 			String state = getTrimParameter("state");
+			//其他审核数据
+			String projIDs = getTrimParameter("projIDs");
+			String roleId = getTrimParameter("userRole");
+			String checkProjIds = getTrimParameter("checkProjIds");
+			//更新用户权限
+			UserRole userRole = userRoleService.selectByuserId(userId);
+			userRole.setRoleid(roleId);
+			userRoleService.update(userRole);
+			//是否更新用户所对应的项目
+			if(checkProjIds != null && !"".equals(checkProjIds)){
+				//删除用户自选 项目
+				projUserRoleService.deleteByProjIds(projIDs);
+				//添加审核项目
+				String[] projids = checkProjIds.split(",");
+				for(String projid : projids){
+					ProjUserRole projUserRole = new ProjUserRole();
+					projUserRole.setId(keyGen.getUUIDKey());
+					projUserRole.setProjid(projid);
+					projUserRole.setRoleid(roleId);
+					projUserRole.setUserid(userId);
+					projUserRoleService.insert(projUserRole);
+				}
+			}
 			UserInfo userinfo = userInfoService.findById(userId);
 			userinfo.setIsvalidate(Integer.parseInt(state));
 			userInfoService.update(userinfo);
