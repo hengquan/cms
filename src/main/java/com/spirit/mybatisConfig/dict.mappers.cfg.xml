@@ -12,6 +12,6 @@
   <mappers>
     <mapper resource="com/spirit/core/dict/persis/sql/DictMaster.mapper.xml"/>
     <mapper resource="com/spirit/core/dict/persis/sql/DictDetail.mapper.xml"/>
-    <mapper resource="com/spiritcore/dict/persis/sql/DictRefRes.mapper.xml"/>
+    <mapper resource="com/spirit/core/dict/persis/sql/DictRefRes.mapper.xml"/>
   </mappers>
 </configuration>

@@ -1,0 +1,1 @@
+var _URL_BASE="http://wl.weechao.com/wxmp.ql";

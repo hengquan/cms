@@ -10,6 +10,8 @@
   <link href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../css/main.css">
   <script src="../../static/js/jquery.min.js" type="text/javascript"></script>
+  <script src="../js/CONSTANT.js" type="text/javascript"></script>
+  <script src="../js/common.utils.js" type="text/javascript"></script>
 </head>
 <body>
   <header class="head-crm">
@@ -35,23 +37,95 @@
     <div class="item_inner row">
       <div class="item-title col-15">角色</div>
       <div class="item-select col-85">
-        <select name="userRole">
-          <option>顾问</option>
-          <option>项目负责人</option>
-        </select>
+        <select name="userRole"></select>
       </div>
       <i class="fa fa-angle-right fa-lg row"></i>
     </div>
     <div class="item_inner">
       <input type="text" name="prjs" placeholder="所属项目，可填入多个，逗号隔开">
     </div>
-    <div class="item-zhc">立即注册</div>
+    <div class="item-zhc" name="commitBtn">立即注册</div>
   </div>
   <!-- 表单区域结束 -->
 </body>
 <script>
 $(function() {
-  //从后台获得
+  //获取职责
+  var url=_URL_BASE+"/wx/api/getRoleList";
+  $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
+    success: function(json) {
+      if (json.msg=='100') initRols(json.roles);
+    }
+  });
+  //绑定提交方法
+  $("div[name='commitBtn']").click(function() {
+    registerUser();
+  });
 });
+
+/**
+ * 初始化职责权限界面 
+ */
+function initRols(roleList) {
+  $("select[name='userRole'] option").each(function(){ 
+    $(this).remove();
+  });
+  $("select[name='userRole']").append("<option value=''></option>")
+  for (var i=0; i<roleList.length; i++) {
+    if (roleList[i].roleName=='管理员') continue;
+    if (roleList[i].roleName=='超级管理员') continue;
+    $("select[name='userRole']").append("<option value='"+roleList[i].id+"'>"+roleList[i].roleName+"</option>");
+  }
+}
+
+/**
+ * 注册用户
+ */
+function registerUser() {
+  var inputData={};
+  inputData.loginName=$("input[name='loginName']").val();
+  inputData.password=$("input[name='pwd']").val();
+  inputData.pwdConfirm=$("input[name='pwdConfirm']").val();
+  inputData.mainPhoneNum=$("input[name='phoneNum']").val();
+  inputData.realName=$("input[name='realName']").val();
+  inputData.prjectNames=$("input[name='prjs']").val();
+  inputData.roleId=$("select[name='userRole']").val()
+
+  var errMsg=checkInput(inputData);
+
+  if (errMsg!="") alert(errMsg);
+  else {
+    var url=_URL_BASE+"/wx/api/updateUserMsg";
+    $.ajax({type:"post", async:true, url:url, data:inputData, dataType:"json",
+      success: function(json) {
+    	if (json.msg=='100') window.location.href=_URL_BASE+"/wxfront/err.html?1000=已成功提交，请等待管理员审核";
+        else {
+          var errStr="";
+          if (json.msg=="103") errStr="程序出错";
+          else if (json.msg=='200') errStr="登录名为空";
+          else if (json.msg=='201') errStr="密码为空";
+          else if (json.msg=='202') errStr="手机号为空";
+          else if (json.msg=='203') errStr="姓名为空";
+          else if (json.msg=='204') errStr="权限未设置";
+          else if (json.msg=='205') errStr="项目未填写";
+          if (errStr=="") errStr="未知错误";
+          alert(errStr);
+        }
+      }
+    });
+  }
+
+  //检查录入
+  function checkInput(inputData) {
+	if (!inputData.loginName) return "登录名为空";
+	if (!inputData.password) return "密码为空";
+	if (inputData.password!=inputData.pwdConfirm) return "密码与密码确认不匹配";
+	if (!inputData.mainPhoneNum) return "手机号为空";
+	if (!inputData.realName) return "姓名为空";
+	if (!inputData.roleId) return "权限未设置";
+	if (!inputData.prjectNames) return "项目未填写";
+    return "";
+  }
+}
 </script>
 </html>

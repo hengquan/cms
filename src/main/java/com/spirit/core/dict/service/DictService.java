@@ -88,18 +88,15 @@ public class DictService {
 
                 //构造单独的字典树
                 String tempDmId="";
-                param.put("ownerId", "cm");
-                param.put("ownerType", "100");
-                int i=0;
-                Page<DictDetailPo> ddPage=dictDDao.pageQuery("getListByOnwer", param, i++, 10000);
-                List<DictDetailPo> ddpol=new ArrayList<DictDetailPo>();
-                boolean hasDD=!ddPage.getResult().isEmpty();
-                //分页处理
-                while (hasDD) {
-                    ddpol.addAll(ddPage.getResult());
-                    ddPage=dictDDao.pageQuery("getListByOnwer", param, i++,10000);
-                    hasDD=!ddPage.getResult().isEmpty();
-                }
+//                int i=0;
+//                Page<DictDetailPo> ddPage=dictDDao.pageQuery("getListByOnwer", param, i++, 10000);
+//                boolean hasDD=!ddPage.getResult().isEmpty();
+//                //分页处理
+//                while (hasDD) {
+//                    ddpol.addAll(ddPage.getResult());
+//                    ddPage=dictDDao.pageQuery("getListByOnwer", param, i++,10000);
+//                    hasDD=!ddPage.getResult().isEmpty();
+//                }
 
 //                param.put("limitSql", "limit "+((i++)*10000)+", 10000");
 //                List<DictDetailPo> ddpolPage=dictDDao.queryForList("getListByOnwer", param);
@@ -112,6 +109,8 @@ public class DictService {
 //                    ddpolPage=dictDDao.queryForList("getListByOnwer", param);
 //                    hasDD=!ddpolPage.isEmpty();
 //                }
+
+                List<DictDetailPo> ddpol=dictDDao.queryForList("getListByOnwer");
 
                 if (ddpol==null||ddpol.size()==0) return _cd;
                 List<DictDetail> ddl=new ArrayList<DictDetail>();

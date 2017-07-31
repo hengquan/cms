@@ -10,6 +10,10 @@ input,select,textarea{ font-size:100%;}
 .row .col-30{width:30%;}
 .row .col-70{width:70%;}
 .row .col-50{width:37.5%;}
+.row .col-40{width:40%;}
+.row .col-60{width:60%;}
+.row .col-24{width:24%;}
+.row .col-52{width:52%;}
 
 .row select { border:1px solid #fff;width:100%;margin:0.5rem 0;appearance:none;-moz-appearance:none;-webkit-appearance:none;}
 .head-crm h1 {font-size:1.3rem;color:#19a6ee;text-align:center;line-height:5rem;}
@@ -40,7 +44,7 @@ border-radius:4px;
 .col-50 {
 border-radius:4px;
 	margin-left:7.5%;
-	margin-right:5%;
+	margin-right:4%;
 	background-color:#19a6ee;
 	text-align:center;
 	font-size:1.1rem;
@@ -88,3 +92,9 @@ border-radius:4px;
 .col-input-6 {width:61.4%;}
 .col-input-5 {width:67.5%;}
 .item_sflr textarea { border:1px solid #fff;width:92%;}
+.row-link a{color:#FFFFFF; display:block;width:100%;}
+.item-name {color:#b8b8b8;font-size:0.7rem}
+.err {color:#a6a6a6;text-align:center;font-size:1.1rem;}
+.err_left {text-align:right;}
+.err_left img,.err_right img {width:50%;}
+.err_right {text-align:left;}
