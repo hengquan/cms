@@ -1,2 +1,4 @@
 /target/
-/catalina.base_IS_UNDEFINED/
+catalina.base_IS_UNDEFINED/
+
+/nodel.txt
