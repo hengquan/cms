@@ -7,14 +7,56 @@
     <result column="custId" property="custid" jdbcType="VARCHAR" />
     <result column="custName" property="custname" jdbcType="VARCHAR" />
     <result column="custPhoneNum" property="custphonenum" jdbcType="VARCHAR" />
+    <result column="childrenNum" property="childrennum" jdbcType="INTEGER" />
+    <result column="childAgeGroup" property="childagegroup" jdbcType="VARCHAR" />
+    <result column="schoolType" property="schooltype" jdbcType="VARCHAR" />
+    <result column="schoolName" property="schoolname" jdbcType="VARCHAR" />
+    <result column="livingRadius" property="livingradius" jdbcType="VARCHAR" />
+    <result column="communityName" property="communityname" jdbcType="VARCHAR" />
+    <result column="liveAcreage" property="liveacreage" jdbcType="VARCHAR" />
+    <result column="loanStatus" property="loanstatus" jdbcType="VARCHAR" />
+    <result column="fulltimeWifeFlag" property="fulltimewifeflag" jdbcType="INTEGER" />
+    <result column="outEduWill" property="outeduwill" jdbcType="INTEGER" />
+    <result column="nannyFlag" property="nannyflag" jdbcType="INTEGER" />
+    <result column="outExperFlag" property="outexperflag" jdbcType="INTEGER" />
+    <result column="outExperCity" property="outexpercity" jdbcType="VARCHAR" />
+    <result column="childOutExperFlag" property="childoutexperflag" jdbcType="INTEGER" />
+    <result column="childOutExperCity" property="childoutexpercity" jdbcType="VARCHAR" />
+    <result column="petFlag" property="petflag" jdbcType="INTEGER" />
+    <result column="houseCount" property="housecount" jdbcType="INTEGER" />
+    <result column="carFamilyCount" property="carfamilycount" jdbcType="INTEGER" />
+    <result column="carBrand" property="carbrand" jdbcType="VARCHAR" />
+    <result column="carTotalPricce" property="cartotalpricce" jdbcType="VARCHAR" />
+    <result column="attentWX" property="attentwx" jdbcType="VARCHAR" />
+    <result column="appNames" property="appnames" jdbcType="VARCHAR" />
+    <result column="avocations" property="avocations" jdbcType="VARCHAR" />
+    <result column="resistPoint" property="resistpoint" jdbcType="VARCHAR" />
+    <result column="loveActivation" property="loveactivation" jdbcType="VARCHAR" />
+    <result column="freeTimeSection" property="freetimesection" jdbcType="VARCHAR" />
+    <result column="visitorCount" property="visitorcount" jdbcType="INTEGER" />
+    <result column="visitorRefs" property="visitorrefs" jdbcType="VARCHAR" />
+    <result column="recepTimeSection" property="receptimesection" jdbcType="VARCHAR" />
+    <result column="custScore" property="custscore" jdbcType="VARCHAR" />
     <result column="authorId" property="authorid" jdbcType="VARCHAR" />
     <result column="creatorId" property="creatorid" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
+    <result column="avocationsDesc" property="avocationsdesc" jdbcType="LONGVARCHAR" />
+    <result column="resistPointDesc" property="resistpointdesc" jdbcType="LONGVARCHAR" />
+    <result column="loveActDesc" property="loveactdesc" jdbcType="LONGVARCHAR" />
+    <result column="visitorRefsDesc" property="visitorrefsdesc" jdbcType="LONGVARCHAR" />
+    <result column="descn" property="descn" jdbcType="LONGVARCHAR" />
+    <result column="faultDescn" property="faultdescn" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, projId, custId, custName, custPhoneNum, authorId, creatorId, status, cTime, lmTime
+    id, projId, custId, custName, custPhoneNum, childrenNum, childAgeGroup, schoolType, 
+    schoolName, livingRadius, communityName, liveAcreage, loanStatus, fulltimeWifeFlag, 
+    outEduWill, nannyFlag, outExperFlag, outExperCity, childOutExperFlag, childOutExperCity, 
+    petFlag, houseCount, carFamilyCount, carBrand, carTotalPricce, attentWX, appNames, 
+    avocations, resistPoint, loveActivation, freeTimeSection, visitorCount, visitorRefs, 
+    recepTimeSection, custScore, authorId, creatorId, status, cTime, lmTime,
+    avocationsDesc, resistPointDesc, loveActDesc, visitorRefsDesc, descn, faultDescn
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -28,13 +70,37 @@
   </delete>
   <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.AccessRecord02" >
     insert into ql_AccessRecord02 (id, projId, custId, 
-      custName, custPhoneNum, authorId, 
+      custName, custPhoneNum, childrenNum, 
+      childAgeGroup, schoolType, schoolName, 
+      livingRadius, communityName, liveAcreage, 
+      loanStatus, fulltimeWifeFlag, outEduWill, 
+      nannyFlag, outExperFlag, outExperCity, 
+      childOutExperFlag, childOutExperCity, petFlag, 
+      houseCount, carFamilyCount, carBrand, 
+      carTotalPricce, attentWX, appNames, 
+      avocations, resistPoint, loveActivation, 
+      freeTimeSection, visitorCount, visitorRefs, 
+      recepTimeSection, custScore, authorId, 
       creatorId, status, cTime, 
-      lmTime)
+      lmTime, avocationsDesc, resistPointDesc, 
+      loveActDesc, visitorRefsDesc, descn, 
+      faultDescn)
     values (#{id,jdbcType=VARCHAR}, #{projid,jdbcType=VARCHAR}, #{custid,jdbcType=VARCHAR}, 
-      #{custname,jdbcType=VARCHAR}, #{custphonenum,jdbcType=VARCHAR}, #{authorid,jdbcType=VARCHAR}, 
+      #{custname,jdbcType=VARCHAR}, #{custphonenum,jdbcType=VARCHAR}, #{childrennum,jdbcType=INTEGER}, 
+      #{childagegroup,jdbcType=VARCHAR}, #{schooltype,jdbcType=VARCHAR}, #{schoolname,jdbcType=VARCHAR}, 
+      #{livingradius,jdbcType=VARCHAR}, #{communityname,jdbcType=VARCHAR}, #{liveacreage,jdbcType=VARCHAR}, 
+      #{loanstatus,jdbcType=VARCHAR}, #{fulltimewifeflag,jdbcType=INTEGER}, #{outeduwill,jdbcType=INTEGER}, 
+      #{nannyflag,jdbcType=INTEGER}, #{outexperflag,jdbcType=INTEGER}, #{outexpercity,jdbcType=VARCHAR}, 
+      #{childoutexperflag,jdbcType=INTEGER}, #{childoutexpercity,jdbcType=VARCHAR}, #{petflag,jdbcType=INTEGER}, 
+      #{housecount,jdbcType=INTEGER}, #{carfamilycount,jdbcType=INTEGER}, #{carbrand,jdbcType=VARCHAR}, 
+      #{cartotalpricce,jdbcType=VARCHAR}, #{attentwx,jdbcType=VARCHAR}, #{appnames,jdbcType=VARCHAR}, 
+      #{avocations,jdbcType=VARCHAR}, #{resistpoint,jdbcType=VARCHAR}, #{loveactivation,jdbcType=VARCHAR}, 
+      #{freetimesection,jdbcType=VARCHAR}, #{visitorcount,jdbcType=INTEGER}, #{visitorrefs,jdbcType=VARCHAR}, 
+      #{receptimesection,jdbcType=VARCHAR}, #{custscore,jdbcType=VARCHAR}, #{authorid,jdbcType=VARCHAR}, 
       #{creatorid,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, 
-      #{lmtime,jdbcType=TIMESTAMP})
+      #{lmtime,jdbcType=TIMESTAMP}, #{avocationsdesc,jdbcType=LONGVARCHAR}, #{resistpointdesc,jdbcType=LONGVARCHAR}, 
+      #{loveactdesc,jdbcType=LONGVARCHAR}, #{visitorrefsdesc,jdbcType=LONGVARCHAR}, #{descn,jdbcType=LONGVARCHAR}, 
+      #{faultdescn,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.AccessRecord02" >
     insert into ql_AccessRecord02
@@ -54,6 +120,96 @@
       <if test="custphonenum != null" >
         custPhoneNum,
       </if>
+      <if test="childrennum != null" >
+        childrenNum,
+      </if>
+      <if test="childagegroup != null" >
+        childAgeGroup,
+      </if>
+      <if test="schooltype != null" >
+        schoolType,
+      </if>
+      <if test="schoolname != null" >
+        schoolName,
+      </if>
+      <if test="livingradius != null" >
+        livingRadius,
+      </if>
+      <if test="communityname != null" >
+        communityName,
+      </if>
+      <if test="liveacreage != null" >
+        liveAcreage,
+      </if>
+      <if test="loanstatus != null" >
+        loanStatus,
+      </if>
+      <if test="fulltimewifeflag != null" >
+        fulltimeWifeFlag,
+      </if>
+      <if test="outeduwill != null" >
+        outEduWill,
+      </if>
+      <if test="nannyflag != null" >
+        nannyFlag,
+      </if>
+      <if test="outexperflag != null" >
+        outExperFlag,
+      </if>
+      <if test="outexpercity != null" >
+        outExperCity,
+      </if>
+      <if test="childoutexperflag != null" >
+        childOutExperFlag,
+      </if>
+      <if test="childoutexpercity != null" >
+        childOutExperCity,
+      </if>
+      <if test="petflag != null" >
+        petFlag,
+      </if>
+      <if test="housecount != null" >
+        houseCount,
+      </if>
+      <if test="carfamilycount != null" >
+        carFamilyCount,
+      </if>
+      <if test="carbrand != null" >
+        carBrand,
+      </if>
+      <if test="cartotalpricce != null" >
+        carTotalPricce,
+      </if>
+      <if test="attentwx != null" >
+        attentWX,
+      </if>
+      <if test="appnames != null" >
+        appNames,
+      </if>
+      <if test="avocations != null" >
+        avocations,
+      </if>
+      <if test="resistpoint != null" >
+        resistPoint,
+      </if>
+      <if test="loveactivation != null" >
+        loveActivation,
+      </if>
+      <if test="freetimesection != null" >
+        freeTimeSection,
+      </if>
+      <if test="visitorcount != null" >
+        visitorCount,
+      </if>
+      <if test="visitorrefs != null" >
+        visitorRefs,
+      </if>
+      <if test="receptimesection != null" >
+        recepTimeSection,
+      </if>
+      <if test="custscore != null" >
+        custScore,
+      </if>
       <if test="authorid != null" >
         authorId,
       </if>
@@ -68,6 +224,24 @@
       </if>
       <if test="lmtime != null" >
         lmTime,
+      </if>
+      <if test="avocationsdesc != null" >
+        avocationsDesc,
+      </if>
+      <if test="resistpointdesc != null" >
+        resistPointDesc,
+      </if>
+      <if test="loveactdesc != null" >
+        loveActDesc,
+      </if>
+      <if test="visitorrefsdesc != null" >
+        visitorRefsDesc,
+      </if>
+      <if test="descn != null" >
+        descn,
+      </if>
+      <if test="faultdescn != null" >
+        faultDescn,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -86,6 +260,96 @@
       <if test="custphonenum != null" >
         #{custphonenum,jdbcType=VARCHAR},
       </if>
+      <if test="childrennum != null" >
+        #{childrennum,jdbcType=INTEGER},
+      </if>
+      <if test="childagegroup != null" >
+        #{childagegroup,jdbcType=VARCHAR},
+      </if>
+      <if test="schooltype != null" >
+        #{schooltype,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolname != null" >
+        #{schoolname,jdbcType=VARCHAR},
+      </if>
+      <if test="livingradius != null" >
+        #{livingradius,jdbcType=VARCHAR},
+      </if>
+      <if test="communityname != null" >
+        #{communityname,jdbcType=VARCHAR},
+      </if>
+      <if test="liveacreage != null" >
+        #{liveacreage,jdbcType=VARCHAR},
+      </if>
+      <if test="loanstatus != null" >
+        #{loanstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="fulltimewifeflag != null" >
+        #{fulltimewifeflag,jdbcType=INTEGER},
+      </if>
+      <if test="outeduwill != null" >
+        #{outeduwill,jdbcType=INTEGER},
+      </if>
+      <if test="nannyflag != null" >
+        #{nannyflag,jdbcType=INTEGER},
+      </if>
+      <if test="outexperflag != null" >
+        #{outexperflag,jdbcType=INTEGER},
+      </if>
+      <if test="outexpercity != null" >
+        #{outexpercity,jdbcType=VARCHAR},
+      </if>
+      <if test="childoutexperflag != null" >
+        #{childoutexperflag,jdbcType=INTEGER},
+      </if>
+      <if test="childoutexpercity != null" >
+        #{childoutexpercity,jdbcType=VARCHAR},
+      </if>
+      <if test="petflag != null" >
+        #{petflag,jdbcType=INTEGER},
+      </if>
+      <if test="housecount != null" >
+        #{housecount,jdbcType=INTEGER},
+      </if>
+      <if test="carfamilycount != null" >
+        #{carfamilycount,jdbcType=INTEGER},
+      </if>
+      <if test="carbrand != null" >
+        #{carbrand,jdbcType=VARCHAR},
+      </if>
+      <if test="cartotalpricce != null" >
+        #{cartotalpricce,jdbcType=VARCHAR},
+      </if>
+      <if test="attentwx != null" >
+        #{attentwx,jdbcType=VARCHAR},
+      </if>
+      <if test="appnames != null" >
+        #{appnames,jdbcType=VARCHAR},
+      </if>
+      <if test="avocations != null" >
+        #{avocations,jdbcType=VARCHAR},
+      </if>
+      <if test="resistpoint != null" >
+        #{resistpoint,jdbcType=VARCHAR},
+      </if>
+      <if test="loveactivation != null" >
+        #{loveactivation,jdbcType=VARCHAR},
+      </if>
+      <if test="freetimesection != null" >
+        #{freetimesection,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorcount != null" >
+        #{visitorcount,jdbcType=INTEGER},
+      </if>
+      <if test="visitorrefs != null" >
+        #{visitorrefs,jdbcType=VARCHAR},
+      </if>
+      <if test="receptimesection != null" >
+        #{receptimesection,jdbcType=VARCHAR},
+      </if>
+      <if test="custscore != null" >
+        #{custscore,jdbcType=VARCHAR},
+      </if>
       <if test="authorid != null" >
         #{authorid,jdbcType=VARCHAR},
       </if>
@@ -100,6 +364,24 @@
       </if>
       <if test="lmtime != null" >
         #{lmtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="avocationsdesc != null" >
+        #{avocationsdesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="resistpointdesc != null" >
+        #{resistpointdesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="loveactdesc != null" >
+        #{loveactdesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="visitorrefsdesc != null" >
+        #{visitorrefsdesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="descn != null" >
+        #{descn,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="faultdescn != null" >
+        #{faultdescn,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -118,6 +400,96 @@
       <if test="custphonenum != null" >
         custPhoneNum = #{custphonenum,jdbcType=VARCHAR},
       </if>
+      <if test="childrennum != null" >
+        childrenNum = #{childrennum,jdbcType=INTEGER},
+      </if>
+      <if test="childagegroup != null" >
+        childAgeGroup = #{childagegroup,jdbcType=VARCHAR},
+      </if>
+      <if test="schooltype != null" >
+        schoolType = #{schooltype,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolname != null" >
+        schoolName = #{schoolname,jdbcType=VARCHAR},
+      </if>
+      <if test="livingradius != null" >
+        livingRadius = #{livingradius,jdbcType=VARCHAR},
+      </if>
+      <if test="communityname != null" >
+        communityName = #{communityname,jdbcType=VARCHAR},
+      </if>
+      <if test="liveacreage != null" >
+        liveAcreage = #{liveacreage,jdbcType=VARCHAR},
+      </if>
+      <if test="loanstatus != null" >
+        loanStatus = #{loanstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="fulltimewifeflag != null" >
+        fulltimeWifeFlag = #{fulltimewifeflag,jdbcType=INTEGER},
+      </if>
+      <if test="outeduwill != null" >
+        outEduWill = #{outeduwill,jdbcType=INTEGER},
+      </if>
+      <if test="nannyflag != null" >
+        nannyFlag = #{nannyflag,jdbcType=INTEGER},
+      </if>
+      <if test="outexperflag != null" >
+        outExperFlag = #{outexperflag,jdbcType=INTEGER},
+      </if>
+      <if test="outexpercity != null" >
+        outExperCity = #{outexpercity,jdbcType=VARCHAR},
+      </if>
+      <if test="childoutexperflag != null" >
+        childOutExperFlag = #{childoutexperflag,jdbcType=INTEGER},
+      </if>
+      <if test="childoutexpercity != null" >
+        childOutExperCity = #{childoutexpercity,jdbcType=VARCHAR},
+      </if>
+      <if test="petflag != null" >
+        petFlag = #{petflag,jdbcType=INTEGER},
+      </if>
+      <if test="housecount != null" >
+        houseCount = #{housecount,jdbcType=INTEGER},
+      </if>
+      <if test="carfamilycount != null" >
+        carFamilyCount = #{carfamilycount,jdbcType=INTEGER},
+      </if>
+      <if test="carbrand != null" >
+        carBrand = #{carbrand,jdbcType=VARCHAR},
+      </if>
+      <if test="cartotalpricce != null" >
+        carTotalPricce = #{cartotalpricce,jdbcType=VARCHAR},
+      </if>
+      <if test="attentwx != null" >
+        attentWX = #{attentwx,jdbcType=VARCHAR},
+      </if>
+      <if test="appnames != null" >
+        appNames = #{appnames,jdbcType=VARCHAR},
+      </if>
+      <if test="avocations != null" >
+        avocations = #{avocations,jdbcType=VARCHAR},
+      </if>
+      <if test="resistpoint != null" >
+        resistPoint = #{resistpoint,jdbcType=VARCHAR},
+      </if>
+      <if test="loveactivation != null" >
+        loveActivation = #{loveactivation,jdbcType=VARCHAR},
+      </if>
+      <if test="freetimesection != null" >
+        freeTimeSection = #{freetimesection,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorcount != null" >
+        visitorCount = #{visitorcount,jdbcType=INTEGER},
+      </if>
+      <if test="visitorrefs != null" >
+        visitorRefs = #{visitorrefs,jdbcType=VARCHAR},
+      </if>
+      <if test="receptimesection != null" >
+        recepTimeSection = #{receptimesection,jdbcType=VARCHAR},
+      </if>
+      <if test="custscore != null" >
+        custScore = #{custscore,jdbcType=VARCHAR},
+      </if>
       <if test="authorid != null" >
         authorId = #{authorid,jdbcType=VARCHAR},
       </if>
@@ -133,7 +505,74 @@
       <if test="lmtime != null" >
         lmTime = #{lmtime,jdbcType=TIMESTAMP},
       </if>
+      <if test="avocationsdesc != null" >
+        avocationsDesc = #{avocationsdesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="resistpointdesc != null" >
+        resistPointDesc = #{resistpointdesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="loveactdesc != null" >
+        loveActDesc = #{loveactdesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="visitorrefsdesc != null" >
+        visitorRefsDesc = #{visitorrefsdesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="descn != null" >
+        descn = #{descn,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="faultdescn != null" >
+        faultDescn = #{faultdescn,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hj.wxmp.mobile.entity.AccessRecord02" >
+    update ql_AccessRecord02
+    set projId = #{projid,jdbcType=VARCHAR},
+      custId = #{custid,jdbcType=VARCHAR},
+      custName = #{custname,jdbcType=VARCHAR},
+      custPhoneNum = #{custphonenum,jdbcType=VARCHAR},
+      childrenNum = #{childrennum,jdbcType=INTEGER},
+      childAgeGroup = #{childagegroup,jdbcType=VARCHAR},
+      schoolType = #{schooltype,jdbcType=VARCHAR},
+      schoolName = #{schoolname,jdbcType=VARCHAR},
+      livingRadius = #{livingradius,jdbcType=VARCHAR},
+      communityName = #{communityname,jdbcType=VARCHAR},
+      liveAcreage = #{liveacreage,jdbcType=VARCHAR},
+      loanStatus = #{loanstatus,jdbcType=VARCHAR},
+      fulltimeWifeFlag = #{fulltimewifeflag,jdbcType=INTEGER},
+      outEduWill = #{outeduwill,jdbcType=INTEGER},
+      nannyFlag = #{nannyflag,jdbcType=INTEGER},
+      outExperFlag = #{outexperflag,jdbcType=INTEGER},
+      outExperCity = #{outexpercity,jdbcType=VARCHAR},
+      childOutExperFlag = #{childoutexperflag,jdbcType=INTEGER},
+      childOutExperCity = #{childoutexpercity,jdbcType=VARCHAR},
+      petFlag = #{petflag,jdbcType=INTEGER},
+      houseCount = #{housecount,jdbcType=INTEGER},
+      carFamilyCount = #{carfamilycount,jdbcType=INTEGER},
+      carBrand = #{carbrand,jdbcType=VARCHAR},
+      carTotalPricce = #{cartotalpricce,jdbcType=VARCHAR},
+      attentWX = #{attentwx,jdbcType=VARCHAR},
+      appNames = #{appnames,jdbcType=VARCHAR},
+      avocations = #{avocations,jdbcType=VARCHAR},
+      resistPoint = #{resistpoint,jdbcType=VARCHAR},
+      loveActivation = #{loveactivation,jdbcType=VARCHAR},
+      freeTimeSection = #{freetimesection,jdbcType=VARCHAR},
+      visitorCount = #{visitorcount,jdbcType=INTEGER},
+      visitorRefs = #{visitorrefs,jdbcType=VARCHAR},
+      recepTimeSection = #{receptimesection,jdbcType=VARCHAR},
+      custScore = #{custscore,jdbcType=VARCHAR},
+      authorId = #{authorid,jdbcType=VARCHAR},
+      creatorId = #{creatorid,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      cTime = #{ctime,jdbcType=TIMESTAMP},
+      lmTime = #{lmtime,jdbcType=TIMESTAMP},
+      avocationsDesc = #{avocationsdesc,jdbcType=LONGVARCHAR},
+      resistPointDesc = #{resistpointdesc,jdbcType=LONGVARCHAR},
+      loveActDesc = #{loveactdesc,jdbcType=LONGVARCHAR},
+      visitorRefsDesc = #{visitorrefsdesc,jdbcType=LONGVARCHAR},
+      descn = #{descn,jdbcType=LONGVARCHAR},
+      faultDescn = #{faultdescn,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.AccessRecord02" >
@@ -142,6 +581,36 @@
       custId = #{custid,jdbcType=VARCHAR},
       custName = #{custname,jdbcType=VARCHAR},
       custPhoneNum = #{custphonenum,jdbcType=VARCHAR},
+      childrenNum = #{childrennum,jdbcType=INTEGER},
+      childAgeGroup = #{childagegroup,jdbcType=VARCHAR},
+      schoolType = #{schooltype,jdbcType=VARCHAR},
+      schoolName = #{schoolname,jdbcType=VARCHAR},
+      livingRadius = #{livingradius,jdbcType=VARCHAR},
+      communityName = #{communityname,jdbcType=VARCHAR},
+      liveAcreage = #{liveacreage,jdbcType=VARCHAR},
+      loanStatus = #{loanstatus,jdbcType=VARCHAR},
+      fulltimeWifeFlag = #{fulltimewifeflag,jdbcType=INTEGER},
+      outEduWill = #{outeduwill,jdbcType=INTEGER},
+      nannyFlag = #{nannyflag,jdbcType=INTEGER},
+      outExperFlag = #{outexperflag,jdbcType=INTEGER},
+      outExperCity = #{outexpercity,jdbcType=VARCHAR},
+      childOutExperFlag = #{childoutexperflag,jdbcType=INTEGER},
+      childOutExperCity = #{childoutexpercity,jdbcType=VARCHAR},
+      petFlag = #{petflag,jdbcType=INTEGER},
+      houseCount = #{housecount,jdbcType=INTEGER},
+      carFamilyCount = #{carfamilycount,jdbcType=INTEGER},
+      carBrand = #{carbrand,jdbcType=VARCHAR},
+      carTotalPricce = #{cartotalpricce,jdbcType=VARCHAR},
+      attentWX = #{attentwx,jdbcType=VARCHAR},
+      appNames = #{appnames,jdbcType=VARCHAR},
+      avocations = #{avocations,jdbcType=VARCHAR},
+      resistPoint = #{resistpoint,jdbcType=VARCHAR},
+      loveActivation = #{loveactivation,jdbcType=VARCHAR},
+      freeTimeSection = #{freetimesection,jdbcType=VARCHAR},
+      visitorCount = #{visitorcount,jdbcType=INTEGER},
+      visitorRefs = #{visitorrefs,jdbcType=VARCHAR},
+      recepTimeSection = #{receptimesection,jdbcType=VARCHAR},
+      custScore = #{custscore,jdbcType=VARCHAR},
       authorId = #{authorid,jdbcType=VARCHAR},
       creatorId = #{creatorid,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
@@ -149,7 +618,6 @@
       lmTime = #{lmtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
   
   
   <!-- 所有复访访问记录 -->

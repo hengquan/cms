@@ -7,14 +7,35 @@
     <result column="custId" property="custid" jdbcType="VARCHAR" />
     <result column="custName" property="custname" jdbcType="VARCHAR" />
     <result column="custPhoneNum" property="custphonenum" jdbcType="VARCHAR" />
+    <result column="custSex" property="custsex" jdbcType="VARCHAR" />
+    <result column="purchaseDate" property="purchasedate" jdbcType="DATE" />
+    <result column="signDate" property="signdate" jdbcType="DATE" />
+    <result column="houseNum" property="housenum" jdbcType="VARCHAR" />
+    <result column="houseRegiType" property="houseregitype" jdbcType="VARCHAR" />
+    <result column="houseAcreage" property="houseacreage" jdbcType="INTEGER" />
+    <result column="unitPrice" property="unitprice" jdbcType="REAL" />
+    <result column="totalPrice" property="totalprice" jdbcType="REAL" />
+    <result column="paymentType" property="paymenttype" jdbcType="VARCHAR" />
+    <result column="realtyProductType" property="realtyproducttype" jdbcType="VARCHAR" />
+    <result column="addressMail" property="addressmail" jdbcType="VARCHAR" />
+    <result column="livingStatus" property="livingstatus" jdbcType="VARCHAR" />
+    <result column="realUseMen" property="realusemen" jdbcType="VARCHAR" />
+    <result column="realPayMen" property="realpaymen" jdbcType="VARCHAR" />
     <result column="authorId" property="authorid" jdbcType="VARCHAR" />
     <result column="creatorId" property="creatorid" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
+    <result column="suggestion" property="suggestion" jdbcType="LONGVARCHAR" />
+    <result column="talkQandS" property="talkqands" jdbcType="LONGVARCHAR" />
+    <result column="signQandS" property="signqands" jdbcType="LONGVARCHAR" />
+    <result column="sumDescn" property="sumdescn" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, projId, custId, custName, custPhoneNum, authorId, creatorId, status, cTime, lmTime
+    id, projId, custId, custName, custPhoneNum, custSex, purchaseDate, signDate, houseNum, 
+    houseRegiType, houseAcreage, unitPrice, totalPrice, paymentType, realtyProductType, 
+    addressMail, livingStatus, realUseMen, realPayMen, authorId, creatorId, status, cTime, 
+    lmTime,suggestion, talkQandS, signQandS, sumDescn
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -28,13 +49,25 @@
   </delete>
   <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.AccessRecord03" >
     insert into ql_AccessRecord03 (id, projId, custId, 
-      custName, custPhoneNum, authorId, 
-      creatorId, status, cTime, 
-      lmTime)
+      custName, custPhoneNum, custSex, 
+      purchaseDate, signDate, houseNum, 
+      houseRegiType, houseAcreage, unitPrice, 
+      totalPrice, paymentType, realtyProductType, 
+      addressMail, livingStatus, realUseMen, 
+      realPayMen, authorId, creatorId, 
+      status, cTime, lmTime, 
+      suggestion, talkQandS, signQandS, 
+      sumDescn)
     values (#{id,jdbcType=VARCHAR}, #{projid,jdbcType=VARCHAR}, #{custid,jdbcType=VARCHAR}, 
-      #{custname,jdbcType=VARCHAR}, #{custphonenum,jdbcType=VARCHAR}, #{authorid,jdbcType=VARCHAR}, 
-      #{creatorid,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, 
-      #{lmtime,jdbcType=TIMESTAMP})
+      #{custname,jdbcType=VARCHAR}, #{custphonenum,jdbcType=VARCHAR}, #{custsex,jdbcType=VARCHAR}, 
+      #{purchasedate,jdbcType=DATE}, #{signdate,jdbcType=DATE}, #{housenum,jdbcType=VARCHAR}, 
+      #{houseregitype,jdbcType=VARCHAR}, #{houseacreage,jdbcType=INTEGER}, #{unitprice,jdbcType=REAL}, 
+      #{totalprice,jdbcType=REAL}, #{paymenttype,jdbcType=VARCHAR}, #{realtyproducttype,jdbcType=VARCHAR}, 
+      #{addressmail,jdbcType=VARCHAR}, #{livingstatus,jdbcType=VARCHAR}, #{realusemen,jdbcType=VARCHAR}, 
+      #{realpaymen,jdbcType=VARCHAR}, #{authorid,jdbcType=VARCHAR}, #{creatorid,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{lmtime,jdbcType=TIMESTAMP}, 
+      #{suggestion,jdbcType=LONGVARCHAR}, #{talkqands,jdbcType=LONGVARCHAR}, #{signqands,jdbcType=LONGVARCHAR}, 
+      #{sumdescn,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.AccessRecord03" >
     insert into ql_AccessRecord03
@@ -54,6 +87,48 @@
       <if test="custphonenum != null" >
         custPhoneNum,
       </if>
+      <if test="custsex != null" >
+        custSex,
+      </if>
+      <if test="purchasedate != null" >
+        purchaseDate,
+      </if>
+      <if test="signdate != null" >
+        signDate,
+      </if>
+      <if test="housenum != null" >
+        houseNum,
+      </if>
+      <if test="houseregitype != null" >
+        houseRegiType,
+      </if>
+      <if test="houseacreage != null" >
+        houseAcreage,
+      </if>
+      <if test="unitprice != null" >
+        unitPrice,
+      </if>
+      <if test="totalprice != null" >
+        totalPrice,
+      </if>
+      <if test="paymenttype != null" >
+        paymentType,
+      </if>
+      <if test="realtyproducttype != null" >
+        realtyProductType,
+      </if>
+      <if test="addressmail != null" >
+        addressMail,
+      </if>
+      <if test="livingstatus != null" >
+        livingStatus,
+      </if>
+      <if test="realusemen != null" >
+        realUseMen,
+      </if>
+      <if test="realpaymen != null" >
+        realPayMen,
+      </if>
       <if test="authorid != null" >
         authorId,
       </if>
@@ -68,6 +143,18 @@
       </if>
       <if test="lmtime != null" >
         lmTime,
+      </if>
+      <if test="suggestion != null" >
+        suggestion,
+      </if>
+      <if test="talkqands != null" >
+        talkQandS,
+      </if>
+      <if test="signqands != null" >
+        signQandS,
+      </if>
+      <if test="sumdescn != null" >
+        sumDescn,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -86,6 +173,48 @@
       <if test="custphonenum != null" >
         #{custphonenum,jdbcType=VARCHAR},
       </if>
+      <if test="custsex != null" >
+        #{custsex,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasedate != null" >
+        #{purchasedate,jdbcType=DATE},
+      </if>
+      <if test="signdate != null" >
+        #{signdate,jdbcType=DATE},
+      </if>
+      <if test="housenum != null" >
+        #{housenum,jdbcType=VARCHAR},
+      </if>
+      <if test="houseregitype != null" >
+        #{houseregitype,jdbcType=VARCHAR},
+      </if>
+      <if test="houseacreage != null" >
+        #{houseacreage,jdbcType=INTEGER},
+      </if>
+      <if test="unitprice != null" >
+        #{unitprice,jdbcType=REAL},
+      </if>
+      <if test="totalprice != null" >
+        #{totalprice,jdbcType=REAL},
+      </if>
+      <if test="paymenttype != null" >
+        #{paymenttype,jdbcType=VARCHAR},
+      </if>
+      <if test="realtyproducttype != null" >
+        #{realtyproducttype,jdbcType=VARCHAR},
+      </if>
+      <if test="addressmail != null" >
+        #{addressmail,jdbcType=VARCHAR},
+      </if>
+      <if test="livingstatus != null" >
+        #{livingstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="realusemen != null" >
+        #{realusemen,jdbcType=VARCHAR},
+      </if>
+      <if test="realpaymen != null" >
+        #{realpaymen,jdbcType=VARCHAR},
+      </if>
       <if test="authorid != null" >
         #{authorid,jdbcType=VARCHAR},
       </if>
@@ -100,6 +229,18 @@
       </if>
       <if test="lmtime != null" >
         #{lmtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="suggestion != null" >
+        #{suggestion,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="talkqands != null" >
+        #{talkqands,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="signqands != null" >
+        #{signqands,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sumdescn != null" >
+        #{sumdescn,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -118,6 +259,48 @@
       <if test="custphonenum != null" >
         custPhoneNum = #{custphonenum,jdbcType=VARCHAR},
       </if>
+      <if test="custsex != null" >
+        custSex = #{custsex,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasedate != null" >
+        purchaseDate = #{purchasedate,jdbcType=DATE},
+      </if>
+      <if test="signdate != null" >
+        signDate = #{signdate,jdbcType=DATE},
+      </if>
+      <if test="housenum != null" >
+        houseNum = #{housenum,jdbcType=VARCHAR},
+      </if>
+      <if test="houseregitype != null" >
+        houseRegiType = #{houseregitype,jdbcType=VARCHAR},
+      </if>
+      <if test="houseacreage != null" >
+        houseAcreage = #{houseacreage,jdbcType=INTEGER},
+      </if>
+      <if test="unitprice != null" >
+        unitPrice = #{unitprice,jdbcType=REAL},
+      </if>
+      <if test="totalprice != null" >
+        totalPrice = #{totalprice,jdbcType=REAL},
+      </if>
+      <if test="paymenttype != null" >
+        paymentType = #{paymenttype,jdbcType=VARCHAR},
+      </if>
+      <if test="realtyproducttype != null" >
+        realtyProductType = #{realtyproducttype,jdbcType=VARCHAR},
+      </if>
+      <if test="addressmail != null" >
+        addressMail = #{addressmail,jdbcType=VARCHAR},
+      </if>
+      <if test="livingstatus != null" >
+        livingStatus = #{livingstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="realusemen != null" >
+        realUseMen = #{realusemen,jdbcType=VARCHAR},
+      </if>
+      <if test="realpaymen != null" >
+        realPayMen = #{realpaymen,jdbcType=VARCHAR},
+      </if>
       <if test="authorid != null" >
         authorId = #{authorid,jdbcType=VARCHAR},
       </if>
@@ -133,7 +316,50 @@
       <if test="lmtime != null" >
         lmTime = #{lmtime,jdbcType=TIMESTAMP},
       </if>
+      <if test="suggestion != null" >
+        suggestion = #{suggestion,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="talkqands != null" >
+        talkQandS = #{talkqands,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="signqands != null" >
+        signQandS = #{signqands,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sumdescn != null" >
+        sumDescn = #{sumdescn,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hj.wxmp.mobile.entity.AccessRecord03" >
+    update ql_AccessRecord03
+    set projId = #{projid,jdbcType=VARCHAR},
+      custId = #{custid,jdbcType=VARCHAR},
+      custName = #{custname,jdbcType=VARCHAR},
+      custPhoneNum = #{custphonenum,jdbcType=VARCHAR},
+      custSex = #{custsex,jdbcType=VARCHAR},
+      purchaseDate = #{purchasedate,jdbcType=DATE},
+      signDate = #{signdate,jdbcType=DATE},
+      houseNum = #{housenum,jdbcType=VARCHAR},
+      houseRegiType = #{houseregitype,jdbcType=VARCHAR},
+      houseAcreage = #{houseacreage,jdbcType=INTEGER},
+      unitPrice = #{unitprice,jdbcType=REAL},
+      totalPrice = #{totalprice,jdbcType=REAL},
+      paymentType = #{paymenttype,jdbcType=VARCHAR},
+      realtyProductType = #{realtyproducttype,jdbcType=VARCHAR},
+      addressMail = #{addressmail,jdbcType=VARCHAR},
+      livingStatus = #{livingstatus,jdbcType=VARCHAR},
+      realUseMen = #{realusemen,jdbcType=VARCHAR},
+      realPayMen = #{realpaymen,jdbcType=VARCHAR},
+      authorId = #{authorid,jdbcType=VARCHAR},
+      creatorId = #{creatorid,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      cTime = #{ctime,jdbcType=TIMESTAMP},
+      lmTime = #{lmtime,jdbcType=TIMESTAMP},
+      suggestion = #{suggestion,jdbcType=LONGVARCHAR},
+      talkQandS = #{talkqands,jdbcType=LONGVARCHAR},
+      signQandS = #{signqands,jdbcType=LONGVARCHAR},
+      sumDescn = #{sumdescn,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.AccessRecord03" >
@@ -142,6 +368,20 @@
       custId = #{custid,jdbcType=VARCHAR},
       custName = #{custname,jdbcType=VARCHAR},
       custPhoneNum = #{custphonenum,jdbcType=VARCHAR},
+      custSex = #{custsex,jdbcType=VARCHAR},
+      purchaseDate = #{purchasedate,jdbcType=DATE},
+      signDate = #{signdate,jdbcType=DATE},
+      houseNum = #{housenum,jdbcType=VARCHAR},
+      houseRegiType = #{houseregitype,jdbcType=VARCHAR},
+      houseAcreage = #{houseacreage,jdbcType=INTEGER},
+      unitPrice = #{unitprice,jdbcType=REAL},
+      totalPrice = #{totalprice,jdbcType=REAL},
+      paymentType = #{paymenttype,jdbcType=VARCHAR},
+      realtyProductType = #{realtyproducttype,jdbcType=VARCHAR},
+      addressMail = #{addressmail,jdbcType=VARCHAR},
+      livingStatus = #{livingstatus,jdbcType=VARCHAR},
+      realUseMen = #{realusemen,jdbcType=VARCHAR},
+      realPayMen = #{realpaymen,jdbcType=VARCHAR},
       authorId = #{authorid,jdbcType=VARCHAR},
       creatorId = #{creatorid,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
@@ -149,7 +389,6 @@
       lmTime = #{lmtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
   
   
   <!-- 未审核的所有首访记录 -->
