@@ -95,6 +95,7 @@ function registerUser() {
 
   if (errMsg!="") alert(errMsg);
   else {
+    delete inputData.pwdConfirm;
     var url=_URL_BASE+"/wx/api/updateUserMsg";
     $.ajax({type:"post", async:true, url:url, data:inputData, dataType:"json",
       success: function(json) {
@@ -117,11 +118,13 @@ function registerUser() {
 
   //检查录入
   function checkInput(inputData) {
-	if (!inputData.loginName) return "登录名为空";
+	if (!inputData.loginname) return "登录名为空";
 	if (!inputData.password) return "密码为空";
+	if (inputData.password.length<6) return "密码至少六位"; 
 	if (inputData.password!=inputData.pwdConfirm) return "密码与密码确认不匹配";
-	if (!inputData.mainPhoneNum) return "手机号为空";
-	if (!inputData.realName) return "姓名为空";
+	if (!inputData.mainphonenum) return "手机号为空";
+	if (inputData.mainphonenum.length<11) return "手机号码不符合规则"; 
+	if (!inputData.realname) return "姓名为空";
 	if (!inputData.roleId) return "权限未设置";
 	if (!inputData.prjectNames) return "项目未填写";
     return "";

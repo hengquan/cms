@@ -9,27 +9,37 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <link href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
-  <script src="../../static/js/jquery.min.js" type="text/javascript"></script>
-  <script src="../js/CONSTANT.js" type="text/javascript"></script>
-  <script src="../js/common.utils.js" type="text/javascript"></script>
+  <script src="./../static/js/jquery.min.js" type="text/javascript"></script>
+  <script src="./js/CONSTANT.js" type="text/javascript"></script>
+  <script src="./js/common.utils.js" type="text/javascript"></script>
 </head>
 <body>
 <div class="row" style="margin-top:15rem;">
   <div class="col-24 err_left"><img src="images/pic_07.png"></div>
-  <div class="col-52 err">没有您想要的内容</div>
+  <div class="col-52 err">没有您想123要的内容</div>
   <div class="col-24 err_right"><img src="images/pic_08.png"></div>
 </div>
 </body>
 <script>
 $(function() {
-alert(window.location.href);
+  var msg=getMsg(window.location.href);
+  if (!msg) msg="未知错误";
+  $("div[class='col-52 err']").html(msg);
 });
 
 function getMsg(url) {
-  if (!paramName&&!url) return null;
-  var _url = url+"";
+  if (!url) return null;
+  var _url=url+"";
   if (_url.indexOf("?")==-1) return null;
-  
+  _url=_url.substring(_url.indexOf("?")+1);
+  if (_url.indexOf("=")!=-1) {
+	  _url=_url.substring(_url.indexOf("=")+1);
+	  if (_url.indexOf("&")!=-1) _url=_url.substr(0,_url.indexOf("&"));
+	  _url=decodeURIComponent(_url);
+	  return _url;
+  }
+  if (_url=='0001') return "您的账号已作废";
+  if (_url=='0002') return "您的账号正在审核中，请耐心等待";
 }
 </script>
 </html>
