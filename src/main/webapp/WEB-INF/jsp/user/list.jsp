@@ -266,6 +266,10 @@
 	
 	//查看该用户所有对应的项目
 	function sellAllProject(userId){
+		window.location.href="${appRoot}/user/belongToProj?userId="+userId;
+	}
+/* 	//查看该用户所有对应的项目
+	function sellAllProject(userId){
 		$.ajax({
 			type:'post',
 			data : {"userId":userId},  
@@ -295,7 +299,7 @@
 				}
 			}
 		});
-	}
+	} */
 	
 	
 	

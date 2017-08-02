@@ -1,6 +1,5 @@
 package com.hj.wxmp.mobile.controller;
 
-import java.awt.image.Kernel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -232,9 +231,12 @@ public class UserController extends ControllerBase {
 		String pageUrl = "kehuPage/list";
 		String userId = getTrimParameter("userId");
 		List<Map<String,Object>> kehuMessage = userCustRefService.selectByUserId(userId);
-//		for(Map<String,Object> kehu : kehuMessage){
-//		}
+		UserInfo userInfo = userInfoService.findById(userId);
+		Map<String, Object> userrole = userRoleService.findByUserId(userId);
+		String roleName = userrole.get("role_name").toString();
 		model.addAttribute("kehuMessage",kehuMessage);
+		model.addAttribute("userInfo",userInfo);
+		model.addAttribute("roleName",roleName);
 		//菜单栏内容
 		UserRole userRole=userRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
 	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
@@ -247,6 +249,39 @@ public class UserController extends ControllerBase {
 	    model.addAttribute("id",id);
 		return pageUrl;
 	}
+	
+	
+	//该用户所属项目
+	@RequestMapping(value="/user/belongToProj")
+	public String belongToProj(ModelMap model) throws Exception{
+		String pageUrl = "projPage/list";
+		String userId = getTrimParameter("userId");
+		List<Map<String, Object>> projData = projUserRoleService.selectByUserId(userId);
+		UserInfo userInfo = userInfoService.findById(userId);
+		Map<String, Object> userrole = userRoleService.findByUserId(userId);
+		String roleName = userrole.get("role_name").toString();
+		model.addAttribute("projData",projData);
+		model.addAttribute("userInfo",userInfo);
+		model.addAttribute("roleName",roleName);
+		//菜单栏内容
+		UserRole userRole=userRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleid());
+	    model.addAttribute("itemNamesss", item);
+		model.addAttribute("lst", lst);
+	    String itemId = super.getTrimParameter("itemId");
+	    String id = super.getTrimParameter("id");
+	    model.addAttribute("itemId",itemId);
+	    model.addAttribute("id",id);
+		return pageUrl;
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -326,22 +361,14 @@ public class UserController extends ControllerBase {
 			data.put("password", password);
 			data.put("realname", realname);
 			data.put("mainphonenum", mainphonenum);
-			//用户审核所填项目信息
-			List<Map<String, Object>> projUserRoles = projUserRoleService.selectByUserId(id);
-			for(Map<String,Object> pro : projUserRoles){
-				String proId = pro.get("id").toString();
-				String projName = pro.get("projName").toString();
-				proIds += proId+",";
-				projNames += projName+",";
-			}
+			//所选项目
+			projNames = userInfo.getSelfprojauth();
 			//所有权限信息
 			List<SysRole> roles = roleService.selectAllMsg();
 			//所有项目信息
 			List<Project> projects = projectService.findAll();
-			
 			data.put("roles", roles);
 			data.put("projects", projects);
-			data.put("proIds", proIds);
 			data.put("projNames", projNames);
 			data.put("msg", "100");
 		} catch (Exception e) {
@@ -365,7 +392,6 @@ public class UserController extends ControllerBase {
 			String userId = getTrimParameter("checkedId");
 			String state = getTrimParameter("state");
 			//其他审核数据
-			String projIDs = getTrimParameter("projIDs");
 			String roleId = getTrimParameter("userRole");
 			String checkProjIds = getTrimParameter("checkProjIds");
 			//更新用户权限
@@ -374,8 +400,6 @@ public class UserController extends ControllerBase {
 			userRoleService.update(userRole);
 			//是否更新用户所对应的项目
 			if(checkProjIds != null && !"".equals(checkProjIds)){
-				//删除用户自选 项目
-				projUserRoleService.deleteByProjIds(projIDs);
 				//添加审核项目
 				String[] projids = checkProjIds.split(",");
 				for(String projid : projids){

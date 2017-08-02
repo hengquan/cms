@@ -84,49 +84,40 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<section class="panel">
-							<header class="panel-heading">项目列表</header>
-							<form action="${appRoot}/pro/projectList" method="post"
-								id="selectCheckMessage">
-								<!-- 根据用户昵称查询 -->
-								<div
-									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
-									<input type="text" class="btn"
-										style="width: 500px; border: 1px solid #ddd; text-align: left;"
-										placeholder="请输入项目名称" name="projectName" value="${mingzi }"><span>
-										<button class="btn sr-btn-imp" style="float: right"
-											onclick="seeAllMsg()">
-											<i class="icon-search"></i>
-										</button>
-									</span>
-								</div>
-
-
-								<div
-									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
-									<a href="javascript:doRefresh();" class="btn mini btn-white"><i
-										class="icon-refresh"></i></a>
-								</div>
-
-								<div
-									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
-									<a href="javascript:doAdd();" class="btn mini btn-white"><i
-										class="icon-plus"></i></a>
-								</div>
-
-								<div
-									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
-									<a href="javascript:doDelete();" class="btn mini btn-white"><i
-										class="icon-trash"></i></a>
-								</div>
-
-
-
-								<input type="hidden" value="${nowPage}" id="nowPageNumber"
-									name="nowPage"> <input type="hidden"
-									value="${totalPageNum }">
-							</form>
-
-							<div style="clear: both"></div>
+							<header class="panel-heading" style="height:50px;">
+							<div class="col-lg-2">客户列表</div>
+							<a href="javascript:history.go(-1)" class="btn btn-send mini btn-white col-lg-1 pull-right" style="align:right;"><i class="glyphicon glyphicon-arrow-left"></i></a>
+							</header>
+							
+							<div class="modal-body">
+								<form class="form-horizontal" role="form" id="itemForm"
+									name="itemForm">
+									<input type="hidden" name="editId" id="editId">
+									<div class="form-group">
+										<label class="col-lg-1 control-label pd-r5">登录名<font
+											style="color: red;"></font></label>
+										<div class="col-lg-2">
+											<input class="form-control" value ="${userInfo.loginname }"/>
+										</div>
+										<label class="col-lg-1 control-label pd-r5">姓名<font
+											style="color: red;"></font></label>
+										<div class="col-lg-2">
+											<input class="form-control" value ="${userInfo.realname }"/>
+										</div>
+										<label class="col-lg-1 control-label pd-r5">电话<font
+											style="color: red;"></font></label>
+										<div class="col-lg-2">
+											<input class="form-control" value ="${userInfo.mainphonenum }"/>
+										</div>
+										<label class="col-lg-1 control-label pd-r5">用户类型<font
+											style="color: red;"></font></label>
+										<div class="col-lg-2">
+											<input class="form-control" value ="${roleName }"/>
+										</div>
+									</div>
+								</form>
+							</div>
+							
 
 							<table class="table table-striped border-top" id="sample_1">
 								<thead>
@@ -135,30 +126,21 @@
 											class="group-checkable" data-set="#sample_1 .checkboxes"
 											value="" /></th>
 										<th class="hidden-phone">项目名称</th>
-										<th class="hidden-phone">地区</th>
+										<th class="hidden-phone">所在地区</th>
 										<th class="hidden-phone">项目描述</th>
 										<th class="hidden-phone">创建时间</th>
-										<th class="hidden-phone">操作</th>
 									</tr>
 								</thead>
 								<tbody id="theTbody">
-									<c:forEach items="${selectList}" var="u" varStatus="s">
+									<c:forEach items="${projData}" var="u" varStatus="s">
 										<tr class="odd gradeX theTr">
 											<td><input type="checkbox" name="box" class="checkboxes"
 												value="${u.id}" /></td>
-											<td class="hidden-phone">${u.projname}</td>
-											<td class="hidden-phone">${u.areaname}</td>
+											<td class="hidden-phone">${u.projName}</td>
+											<td class="hidden-phone">${u.areaName}</td>
 											<td class="hidden-phone">${u.descn}</td>
 											<td class="hidden-phone">
-												<fmt:formatDate value="${u.ctime}" pattern="yyyy-MM-dd HH:mm:ss"/>
-											</td>
-											<td class="hidden-phone">
-												<button type="button" onclick="editProject('${u.id}','${u.projname}','${u.areaname}','${u.descn}')" 
-												class="btn btn-send">修改</button>
-												<%-- <button type="button" onclick="sellAllUser('${u.id}')" 
-												class="btn btn-send">该项目工作人员</button>
-												<button type="button" onclick="seeKeHuMsg('${u.id}')" 
-												class="btn btn-send">该项目客户信息</button> --%>
+												<fmt:formatDate value="${u.cTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 											</td>
 										</tr>
 									</c:forEach>
@@ -188,38 +170,68 @@
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"
 							aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="modal-title">添加项目</h4>
+						<h4 class="modal-title" id="modal-title">添加商品</h4>
 					</div>
 					<div class="modal-body">
-						<form action="${appRoot}/pro/addProject" method="post" class="form-horizontal"  enctype="multipart/form-data"  role="form" id="addMessage" name="itemForm" >
-							<input type="hidden" name="editId1" id="editId1">
+						<form action="${appRoot}/anwProduct/add" method="post" class="form-horizontal"  enctype="multipart/form-data"  role="form" id="addMessage" name="itemForm" >
+							<input type="hidden" name="editId123" id="editId123">
 							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">项目名称<font style="color:red;"></font></label>
+								<label class="col-lg-2 control-label pd-r5">商品名称<font style="color:red;"></font></label>
 								<div class="col-lg-10">
-									<input type="text" class="form-control" id="projname1"
-										name="projname" maxlength="4" >
+									<input type="text" class="form-control" id="productName"
+										name="productName" maxlength="4" >
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">地区<font style="color:red;"></font></label>
+								<label class="col-lg-2 control-label pd-r5">商品价格<font style="color:red;"></font></label>
 								<div class="col-lg-10">
-									<select class="form-control" name="areaname" id="areaname1">
-											<option value="北京">北京</option>
-											<option value="上海">上海</option>
-											<option value="广州">广州</option>
-											<option value="石家庄">石家庄</option>
-										<%-- <c:forEach items="${categorys}" var="u" varStatus="s">
+									<input type="text" class="form-control" id="price"
+										name="price" maxlength="4" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label pd-r5">销量<font style="color:red;"></font></label>
+								<div class="col-lg-10">
+									<input type="text" class="form-control" id="salesVolume"
+										name="salesVolume" maxlength="4" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label pd-r5">运费<font style="color:red;"></font></label>
+								<div class="col-lg-10">
+									<input type="text" class="form-control" id="freight"
+										name="freight" maxlength="4" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label pd-r5">商品类型<font style="color:red;"></font></label>
+								<div class="col-lg-10">
+									<select class="form-control" name="categoryId">
+										<c:forEach items="${categorys}" var="u" varStatus="s">
 											<option value="${u.id }">${u.name }</option>
-										</c:forEach> --%>
+										</c:forEach>
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">项目描述<font
+								<label class="col-lg-2 control-label pd-r5">商品详情<font
 									style="color: red;"></font></label>
 								<div class="col-lg-10">
 									<textarea rows="5" cols="60" class="form-control"
-										id="descn1" name="descn"></textarea>
+										id="productDetails" name="productDetails">
+										
+										</textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label pd-r5">商品图片<font style="color:red;"></font></label>
+								<div class="col-lg-10">
+									<div class="form-group pic_upload clearfix">
+										<ul id="hiddenImgUrl">
+											<li><img src="${appRoot}/static/img/zanwu1.png" style="height: 70px;" id="imgURL1" /></li>
+											<li><input type="file" name="imgfile1" onchange="addImg(this)" /> <i class="glyphicon glyphicon-plus"></i></li>
+										</ul>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
@@ -232,49 +244,84 @@
 				</div>
 			</div>
 		</div>
-		
-		
-		
-		<!-- 更新信息 -->
-		<div class="modal fade" id="updateProblemType" tabindex="-1" role="dialog"
+
+
+
+
+
+
+
+
+
+		<div class="modal fade" id="editProblemType" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"
 							aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="modal-title">添加项目</h4>
+						<h4 class="modal-title" id="modal-title">修改商品</h4>
 					</div>
 					<div class="modal-body">
-						<form action="${appRoot}/pro/editProject" method="post" class="form-horizontal"  enctype="multipart/form-data"  role="form" id="editMessage" name="itemForm" >
+						<form action="${appRoot}/anwProduct/edit" method="post" class="form-horizontal"  enctype="multipart/form-data"  role="form" id="updateMessage" name="itemForm" >
 							<input type="hidden" name="editId" id="editId">
 							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">项目名称<font style="color:red;"></font></label>
+								<label class="col-lg-2 control-label pd-r5">商品名称<font style="color:red;"></font></label>
 								<div class="col-lg-10">
-									<input type="text" class="form-control" id="projname"
-										name="projname" maxlength="4" >
+									<input type="text" class="form-control" id="productName1"
+										name="productName" maxlength="4" >
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">地区<font style="color:red;"></font></label>
+								<label class="col-lg-2 control-label pd-r5">商品价格<font style="color:red;"></font></label>
 								<div class="col-lg-10">
-									<select class="form-control" name="areaname" id="areaname">
-											<option value="北京">北京</option>
-											<option value="上海">上海</option>
-											<option value="广州">广州</option>
-											<option value="石家庄">石家庄</option>
-										<%-- <c:forEach items="${categorys}" var="u" varStatus="s">
+									<input type="text" class="form-control" id="price1"
+										name="price" maxlength="4" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label pd-r5">销量<font style="color:red;"></font></label>
+								<div class="col-lg-10">
+									<input type="text" class="form-control" id="salesVolume1"
+										name="salesVolume" maxlength="4" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label pd-r5">运费<font style="color:red;"></font></label>
+								<div class="col-lg-10">
+									<input type="text" class="form-control" id="freight1"
+										name="freight" maxlength="4" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label pd-r5">商品类型<font style="color:red;"></font></label>
+								<div class="col-lg-10">
+									<select class="form-control doEditSelect" name="categoryId">
+										<c:forEach items="${categorys}" var="u" varStatus="s">
 											<option value="${u.id }">${u.name }</option>
-										</c:forEach> --%>
+										</c:forEach>
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">项目描述<font
+								<label class="col-lg-2 control-label pd-r5">商品详情<font
 									style="color: red;"></font></label>
 								<div class="col-lg-10">
 									<textarea rows="5" cols="60" class="form-control"
-										id="descn" name="descn"></textarea>
+										id="productDetails1" name="productDetails">
+										
+										</textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label pd-r5">商品图片<font style="color:red;"></font></label>
+								<div class="col-lg-10">
+									<div class="form-group pic_upload clearfix">
+										<ul id="hiddenImgUrl">
+											<li><img src="${appRoot}/static/img/zanwu1.png" style="height: 70px;" id="imgURL2" /></li>
+											<li><input type="file" name="imgfile2" onchange="editImg(this)" /> <i class="glyphicon glyphicon-plus"></i></li>
+										</ul>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
@@ -294,29 +341,10 @@
 
 
 
-		<!-- 该项目中所有的人 -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="modal-title">所属项目列表</h4>
-					</div>
-					<div class="modal-body">
-						<form class="form-horizontal" role="form" id="itemForm" name="itemForm" >
-							<input type="hidden" name="editId" id="editId">
-							<div class="form-group" id="userProjectMsg">
-								
-							</div>
-						</form>
-					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal-dialog -->
-		</div>
+
+
+
+
 
 
 
@@ -393,7 +421,7 @@
 		</div>
 	</div>
 
-	<form action="${appRoot}/pro/del" method="post"
+	<form action="${appRoot}/anwProduct/del" method="post"
 		id="deleForm" name="deleForm">
 		<input type="hidden" name="byid" id="byid"> <input
 			type="hidden" name="boxeditId" id="boxeditId">
@@ -417,68 +445,37 @@
 	<script src="${appRoot}/static/js/dynamic-table.js"></script>
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
-		
 	
 	
-	
-	
-	
-	//查看项目所对应的用户
-	function sellAllUser(proId){
-		$.ajax({
-			type:'post',
-			data : {"proId":proId},  
-			url:'${appRoot}/pro/userMsg',
-			dataType:'json',
-			success:function(data){
-				var htmlmsg ='';
-				console.log(data);
-				if(data.msg==100){
-					var pro = data.userMessage;
-					console.log(pro);
-					if(pro.length>0){
-						for(var i=0;i<pro.length;i++){
-							htmlmsg+='<label class="col-lg-4 control-label pd-r5">'
-							+'<button data-dismiss="modal" class="btn btn-send" type="button" '
-							+'id="userProjectMsg" style="width:150px;">'+ pro[i].realName +'</button>'
-							+'</label>';
-						}
-						$("#userProjectMsg").html(htmlmsg);
-						var $modal = $('#myModal');
-						$modal.modal();
-					}else{
-						windowShow("该项目暂无用户信息","");
-					}
-				}else{
-					windowShow("操作失败","");
-				}
-			}
-		});
+	//更新排序值
+	function updateIndexValue(obj){
+		var msg = $(obj);
+		var id = msg.attr("id");
+		var index = msg.val();
+		window.location.href="${appRoot}/anwProduct/updateIndex?id="+id+"&index="+index;
 	}
 	
 	
 	
-	
-	
-		//修改项目
-		function editProject(id,proname,areaname,descn){
-			$("#projname").val(proname);
-			$("#areaname").val(areaname);
-			$("#descn").val(descn);
-			$("#editId").val(id);
-			var $modal = $('#updateProblemType');
-			$modal.modal(); 
-		}
-	
-	
 		//添加提交
 		function submitData() {
+			var productName = $("#productName").val();
+			if (productName == '' || productName == undefined) {
+				windowShow("商品名称不允许为空！", "");
+				return;
+			}
 			$("#addMessage").submit();
 		}
 
 		//更新数据
 		function submitUpdateData() {
-			$("#editMessage").submit();
+			var productName1 = $("#productName1").val();
+			alert(productName1);
+			if (productName1 == '' || productName1 == undefined) {
+				windowShow("类型名称不允许为空！", "");
+				return;
+			}
+			$("#updateMessage").submit();
 		}
 
 
@@ -526,21 +523,14 @@
 
 		//添加菜单
 		function doAdd() {
-			//window.location.href="${appRoot}/anwProduct/addPage";
-			var $modal = $('#addProblemType');
-			$modal.modal(); 
+			window.location.href="${appRoot}/anwProduct/addPage";
+			/* var $modal = $('#addProblemType');
+			$modal.modal(); */
 		}
 
 		//修改菜单
 		function doEdit(id) {
 			window.location.href="${appRoot}/anwProduct/editPage?id="+id;
-		}
-		
-		
-		
-		//查看客户信息
-		function seeKeHuMsg(id) {
-			window.location.href="${appRoot}/pro/prokehu?proId="+id;
 		}
 		
 		

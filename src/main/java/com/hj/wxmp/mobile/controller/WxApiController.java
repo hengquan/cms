@@ -2,6 +2,7 @@ package com.hj.wxmp.mobile.controller;
 
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hj.utils.JsonUtils;
+import com.hj.utils.MD5Utils;
 import com.hj.wxmp.core.WxUser;
 import com.hj.wxmp.mobile.common.Configurations;
 import com.hj.wxmp.mobile.common.ControllerBaseWx;
@@ -32,8 +34,6 @@ import com.hj.wxmp.mobile.entity.AccessRecord01;
 import com.hj.wxmp.mobile.entity.AccessRecord02;
 import com.hj.wxmp.mobile.entity.AccessRecord03;
 import com.hj.wxmp.mobile.entity.Customer;
-import com.hj.wxmp.mobile.entity.ProjUserRole;
-import com.hj.wxmp.mobile.entity.Project;
 import com.hj.wxmp.mobile.entity.SysRole;
 import com.hj.wxmp.mobile.entity.TabDictRef;
 import com.hj.wxmp.mobile.entity.UserInfo;
@@ -142,6 +142,8 @@ public class WxApiController extends ControllerBaseWx {
 	                }else if(resultData==104){
 	                    siteName += "/wxmp.ql/wxfront/err.html?0002";
 	                }else if(resultData==105){
+	                    siteName += "/wxmp.ql/wxfront/err.html?0003";
+	                }else if(resultData==106){
 	                    siteName += "/wxmp.ql/wxfront/err.html?0001";
 	                }
 	                res.sendRedirect(siteName);
@@ -179,6 +181,8 @@ public class WxApiController extends ControllerBaseWx {
                 result = 104;
             }else if(isvalidate==2){
                 result = 105;
+            }else if(isvalidate==3){
+                result = 106;
             }else{
                 result = 100;
             }
@@ -197,7 +201,7 @@ public class WxApiController extends ControllerBaseWx {
 		}
 		try {
             String openid = HashSessions.getInstance().getOpenId(req);
-            openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
+            //openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
             if (openid == null || "".equals(openid)) {
                 getOpenid(res,requestURL,req);
             }else{
@@ -207,9 +211,17 @@ public class WxApiController extends ControllerBaseWx {
                     siteName += "/wxmp.ql/wxfront/user/register.html";
                     res.sendRedirect(siteName);
                 }else if(resultData==104){
-                    siteName += "/wxmp.ql/wxfront/err.html?0002";
+                	String url = siteName + "/wxmp.ql/wxpage/wxfront/user/info.html";
+                	if(requestURL.equals(url)){
+                		siteName = url;
+                	}else{
+                		siteName += "/wxmp.ql/wxfront/err.html?0002";
+                	}
                     res.sendRedirect(siteName);
                 }else if(resultData==105){
+                    siteName += "/wxmp.ql/wxfront/err.html?0003";
+                    res.sendRedirect(siteName);
+                }else if(resultData==106){
                     siteName += "/wxmp.ql/wxfront/err.html?0001";
                     res.sendRedirect(siteName);
                 }
@@ -290,7 +302,8 @@ public class WxApiController extends ControllerBaseWx {
 			//用户填写的信息
 			userInfo.setId(userId);
 			userInfo.setOpenid(openid);
-			userInfo.setPassword(MD5.GetMD5Code(userInfo.getPassword()));
+			userInfo.setPassword(MD5Utils.MD5(userInfo.getPassword()));
+			userInfo.setSelfprojauth(prjectNames);
 			//更新用户数据
 			userInfoService.update(userInfo);
 			//给用户赋权限
@@ -300,20 +313,6 @@ public class WxApiController extends ControllerBaseWx {
 			userRole.setRoleid(roleId);
 			//添加
 			sysUserRoleService.insert(userRole);
-			//绑定用户和项目之间的关系
-			String[] projNames = prjectNames.split(",");
-			for(String pro : projNames){
-				Project proj = projectServise.selectByProName(pro);
-				//实例用户项目关系表
-				ProjUserRole projUserRole = new ProjUserRole();
-				projUserRole.setId(key.getUUIDKey());
-				projUserRole.setUserid(userId);
-				projUserRole.setRoleid(roleId);
-				//项目组ID
-				String proId = proj.getId();
-				projUserRole.setProjid(proId);
-				projUserRoleService.insert(projUserRole);
-			}
 			map.put("msg", "100");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -423,15 +422,10 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
-	
-	
-	
-	
-	
-	//打开首访记录单
-	@RequestMapping(value = "/openFirstRecord")
+	//获取用户权限项目信息
+	@RequestMapping(value = "/getUserRoleProj")
 	@ResponseBody
-	public String openFirstRecord(HttpServletRequest requet,HttpServletResponse response) {
+	public String getUserRoleProj(HttpServletRequest requet,HttpServletResponse response) {
 		responseInfo(response);
 		visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -441,7 +435,7 @@ public class WxApiController extends ControllerBaseWx {
 			UserInfo userInfo = userInfoService.findByOpenid(openid);
 			String userId = userInfo.getId();
 			//查询用户和所属项目的所有信息
-			List<Map<String, Object>> datas = projCustRefService.selectByUserId(userId);
+			List<Map<String, Object>> datas = projUserRoleService.selectByUserId(userId);
 			map.put("datas", datas);
 			map.put("msg", "100");
 		} catch (Exception e) {
@@ -464,7 +458,7 @@ public class WxApiController extends ControllerBaseWx {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			String openid = HashSessions.getInstance().getOpenId(request);
-			openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
+			//openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
 			//首访记录表ID
 			String record01Id = key.getUUIDKey();
 			//客户表
@@ -630,38 +624,6 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
-	
-	
-	//打开复访记录单
-	@RequestMapping(value = "/openAfterVisit")
-	@ResponseBody
-	public String openAfterVisit(HttpServletRequest requet,HttpServletResponse response) {
-		responseInfo(response);
-		visiitURL(requet,response);
-		Map<String, Object> map = new HashMap<String, Object>();
-		try {
-			String openid = HashSessions.getInstance().getOpenId(request);
-			//用户信息
-			UserInfo userInfo = userInfoService.findByOpenid(openid);
-			String userId = userInfo.getId();
-			//查询用户和所属项目的所有信息
-			List<Map<String, Object>> datas = projCustRefService.selectByUserId(userId);
-			map.put("datas", datas);
-			map.put("msg", "100");
-		} catch (Exception e) {
-			e.printStackTrace();
-			map.put("msg", "103");
-		}
-		System.out.println(JsonUtils.map2json(map));
-		return JsonUtils.map2json(map);
-	}
-	
-	
-	
-	
-	
-	
-	
 	//添加复访记录
 	@RequestMapping(value = "/addAfterVisit")
 	@ResponseBody
@@ -672,7 +634,7 @@ public class WxApiController extends ControllerBaseWx {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			String openid = HashSessions.getInstance().getOpenId(request);
-			openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
+			//openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
 			//复访表ID
 			String record02Id = key.getUUIDKey();
 			//客户表
@@ -773,31 +735,6 @@ public class WxApiController extends ControllerBaseWx {
 	}	
 	
 	
-	//打开成交记录单
-	@RequestMapping(value = "/openKnockdown")
-	@ResponseBody
-	public String openKnockdown(HttpServletRequest requet,HttpServletResponse response) {
-		responseInfo(response);
-		visiitURL(requet,response);
-		Map<String, Object> map = new HashMap<String, Object>();
-		try {
-			String openid = HashSessions.getInstance().getOpenId(request);
-			//用户信息
-			UserInfo userInfo = userInfoService.findByOpenid(openid);
-			String userId = userInfo.getId();
-			//查询用户和所属项目的所有信息
-			List<Map<String, Object>> datas = projCustRefService.selectByUserId(userId);
-			map.put("datas", datas);
-			map.put("msg", "100");
-		} catch (Exception e) {
-			e.printStackTrace();
-			map.put("msg", "103");
-		}
-		System.out.println(JsonUtils.map2json(map));
-		return JsonUtils.map2json(map);
-	}
-	
-	
 	
 	
 	//添加成交记录
@@ -807,10 +744,11 @@ public class WxApiController extends ControllerBaseWx {
 			AccessRecord03 record03,Customer customer) {
 		responseInfo(response);
 		visiitURL(requet,response);
+		 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			String openid = HashSessions.getInstance().getOpenId(request);
-			openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
+			//openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
 			//成交访问记录ID
 			String record03Id = key.getUUIDKey();
 			//客户信息ID
@@ -838,6 +776,12 @@ public class WxApiController extends ControllerBaseWx {
 			String userId = userInfo.getId();
 			//补全首访信息-并更新
 			record03.setId(record03Id);
+			String purchasedate1 = request.getParameter("purchasedate1");
+			//String purchasedate1 = "2017-02-01 12:12:12";
+			String signdate1 = request.getParameter("signdate1");
+			//String signdate1 = "2017-02-01 12:12:12";
+			record03.setPurchasedate(format.parse(purchasedate1));
+			record03.setSigndate(format.parse(signdate1));
 			//户籍类型
 			String houseregitype = record03.getHouseregitype();
 			if(houseregitype != null){
@@ -896,7 +840,53 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
-	
+    //个人中心
+	@RequestMapping(value = "/personalCenter")
+	@ResponseBody
+    public String personalCenter(HttpServletRequest requet,HttpServletResponse response){
+    	responseInfo(response);
+		visiitURL(requet,response);
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> datamsg = new HashMap<String, Object>();
+		try {
+			String openid = HashSessions.getInstance().getOpenId(request);
+			UserInfo userInfo = userInfoService.findByOpenid(openid);
+			String userId = userInfo.getId();
+			String loginname = userInfo.getLoginname();
+			String headimgurl = userInfo.getHeadimgurl();
+			Integer isvalidate = userInfo.getIsvalidate();
+			String realname = userInfo.getRealname();
+			String selfprojauth = userInfo.getSelfprojauth();
+			String mainphonenum = userInfo.getMainphonenum();
+			Map<String, Object> findByUserId = sysUserRoleService.findByUserId(userId);
+			String roleName = findByUserId.get("role_name").toString();
+			if(isvalidate == 1){
+				String message = "";
+				List<Map<String, Object>> projData = projUserRoleService.selectByUserId(userId);
+				for(Map<String, Object> proj : projData){
+					String projName = proj.get("projName").toString();
+					message += projName+",";
+				}
+				map.put("checkProj", message);
+			}else{
+				map.put("checkProj", "");
+			}
+			//添加信息
+			map.put("loginname", loginname);
+			map.put("realname", realname);
+			map.put("mainphonenum", mainphonenum);
+			map.put("roleName", roleName);
+			map.put("selfprojauth", selfprojauth);
+			map.put("isvalidate", isvalidate);
+			map.put("headimgurl", headimgurl);
+			datamsg.put("msg", "100");
+			datamsg.put("userInfo", map);
+		}catch(Exception e){
+			map.put("msg", "103");
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+    }
 	
 	
 	

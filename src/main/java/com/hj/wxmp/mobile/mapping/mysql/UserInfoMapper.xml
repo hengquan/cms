@@ -388,6 +388,8 @@
 		<if test="state != null and state != -1 ">     
 			and isValidate = #{state} 
 		</if> 
+		and realName is not null 
+		and mainPhoneNum is not null 
 		limit #{page},#{pageSize}
 	</select>
 	
@@ -401,10 +403,9 @@
 		<if test="state != null and state != -1 ">     
 			and isValidate = #{state} 
 		</if> 
+		and realName is not null 
+		and mainPhoneNum is not null 
 	</select>
-	
-	
-	
 	
 	  <select id="findByOpenid" resultMap="BaseResultMap" parameterType="java.lang.String" >
 	    select 

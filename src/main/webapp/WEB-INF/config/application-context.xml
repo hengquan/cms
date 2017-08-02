@@ -13,7 +13,7 @@
                ">
       <description>Spring公共配置 </description>
 	
-		<context:component-scan base-package="com.hj">
+		<context:component-scan base-package="com.hj.wxmp.mobile">
 			<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 			<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 		</context:component-scan>
