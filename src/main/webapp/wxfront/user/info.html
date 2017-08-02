@@ -1,10 +1,80 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>房产CRM</title>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="stylesheet" href="../css/main.css">
+  <script src="../../static/js/jquery.min.js" type="text/javascript"></script>
+  <script src="../js/CONSTANT.js" type="text/javascript"></script>
+  <script src="../js/common.utils.js" type="text/javascript"></script>
 </head>
 <body>
-
+<div class="main" style="display:none">
+<div class="item-yhm">
+  <div class="item-my row">
+    <div class="col-item-pic"><img src="images/pic_02.png"></div>
+    <div class="col-item-pic-2"><span>贺渝</span><br>13810052031</div>
+  </div>
+</div>
+<div class="line"></div>
+<div class="item-yhm ">
+  <div class="item-my row">
+    <div class="col-pic"><img src="images/pic_03.png"></div>
+    <div class="col-xm">所在项目</div>
+    <div class="col-xm-2">首开缇香郡</div>
+  </div>
+</div>
+<div class="line"></div>
+<div class="item-yhm ">
+  <div class="item-my row">
+    <div class="col-pic"><img src="images/pic_04.png"></div>
+    <div class="col-xm">修改密码</div>
+  </div>
+</div>
+<div class="item-yhm ">
+  <div class="item-my row">
+    <div class="col-pic"><img src="images/pic_05.png"></div>
+    <div class="col-xm">退出</div>
+  </div>
+</div>
+<div class="line"></div>
+</div>
 </body>
+<script>
+$(function() {
+  //获取用户数据
+  var url=_URL_BASE+"/wx/api/personalCenter";
+  $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
+    success: function(json) {
+      if (json.msg=='100') {
+    	  alert("sss:::"+allFields(json));
+        fillPage(json.userInfo);
+        $("div[class='main']").show();
+      } else {
+        window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息";
+      }
+    }
+  });
+  //绑定修改密码方法
+  $("div[class='col-xm']").click(function() {
+    changePwd();
+  });
+});
+
+/**
+ * 填充页面信息
+ */
+function fillPage(date) {
+  $("div[class='']").html("<span>"+data.realname+"("+data.loginname+")</span><br/>"+data.mainphonenum);
+}
+/**
+ * 修改用户秘密
+ */
+function changePwd() {
+}
+</script>
 </html>

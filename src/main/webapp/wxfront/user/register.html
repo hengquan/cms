@@ -99,7 +99,7 @@ function registerUser() {
     var url=_URL_BASE+"/wx/api/updateUserMsg";
     $.ajax({type:"post", async:true, url:url, data:inputData, dataType:"json",
       success: function(json) {
-    	if (json.msg=='100') window.location.href=_URL_BASE+"/wxfront/err.html?1000=已成功提交，请等待管理员审核";
+    	if (json.msg=='100') window.location.href=_URL_BASE+"/wxfront/err.html?1000=已成功提交<br/>请等待管理员审核";
         else {
           var errStr="";
           if (json.msg=="103") errStr="程序出错";
