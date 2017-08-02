@@ -89,50 +89,35 @@
 							<a href="javascript:history.go(-1)" class="btn btn-send mini btn-white col-lg-1 pull-right" style="align:right;"><i class="glyphicon glyphicon-arrow-left"></i></a>
 							</header>
 							
+							<div class="modal-body">
+								<form class="form-horizontal" role="form" id="itemForm"
+									name="itemForm">
+									<input type="hidden" name="editId" id="editId">
+									<div class="form-group">
+										<label class="col-lg-1 control-label pd-r5">登录名<font
+											style="color: red;"></font></label>
+										<div class="col-lg-2">
+											<input class="form-control" value ="${userInfo.loginname }"/>
+										</div>
+										<label class="col-lg-1 control-label pd-r5">姓名<font
+											style="color: red;"></font></label>
+										<div class="col-lg-2">
+											<input class="form-control" value ="${userInfo.realname }"/>
+										</div>
+										<label class="col-lg-1 control-label pd-r5">电话<font
+											style="color: red;"></font></label>
+										<div class="col-lg-2">
+											<input class="form-control" value ="${userInfo.mainphonenum }"/>
+										</div>
+										<label class="col-lg-1 control-label pd-r5">用户类型<font
+											style="color: red;"></font></label>
+										<div class="col-lg-2">
+											<input class="form-control" value ="${roleName }"/>
+										</div>
+									</div>
+								</form>
+							</div>
 							
-							
-							<%-- <form action="${appRoot}/anwProduct/list" method="post"
-								id="selectCheckMessage">
-								<!-- 根据用户昵称查询 -->
-								<div
-									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
-									<input type="text" class="btn"
-										style="width: 500px; border: 1px solid #ddd; text-align: left;"
-										placeholder="请输入商品名称" name="userName1" value="${mingzi }"><span>
-										<button class="btn sr-btn-imp" style="float: right"
-											onclick="seeAllMsg()">
-											<i class="icon-search"></i>
-										</button>
-									</span>
-								</div>
-
-
-								<div
-									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
-									<a href="javascript:doRefresh();" class="btn mini btn-white"><i
-										class="icon-refresh"></i></a>
-								</div>
-
-								<div
-									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
-									<a href="javascript:doAdd();" class="btn mini btn-white"><i
-										class="icon-plus"></i></a>
-								</div>
-
-								<div
-									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
-									<a href="javascript:doDelete();" class="btn mini btn-white"><i
-										class="icon-trash"></i></a>
-								</div>
-
-
-
-								<input type="hidden" value="${nowPage}" id="nowPageNumber"
-									name="nowPage"> <input type="hidden"
-									value="${totalPageNum }">
-							</form> --%>
-
-							<div style="clear: both"></div>
 
 							<table class="table table-striped border-top" id="sample_1">
 								<thead>

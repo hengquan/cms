@@ -95,9 +95,7 @@
 											</td>
 											<td class="hidden-phone">${u.mainphonenum}</td>
 											<td class="hidden-phone">${u.userRole.role_name}</td>
-											<td><button type="button" class="btn btn-send"
-														onclick="sellAllProject('${u.id}')">查看所属项目</button>
-											</td>
+											<td class="hidden-phone">${u.selfprojauth}</td>
 											<td class="hidden-phone">
 												<c:if test="${u.isvalidate == 0}">
 													<button type="button" onclick="subUserMessage('${u.id}',${u.isvalidate},'${u.userRole.role_name}')" class="btn btn-send">审核</button>
@@ -452,7 +450,6 @@
 					$("#phone").val(data.mainphonenum);
 					$("#rename").val(data.realname);
 					$("#userSelectProj").val(data.projNames);
-					$("#userSelectProjIds").val(data.proIds);
 					$("#yesSubCheckMessage").val(id);
 					var $modal = $('#isCheckState');
 					$modal.modal();
@@ -465,8 +462,6 @@
 	
 	//设置审核的状态---确认提交
 	function subUserStateMessage(state){
-		//用户注册所有的项目ID组
-		var projIDs = $("#userSelectProjIds").val();
 		//权限ID
 		var userRole = $("#userRole").val();
 		//用户审核所选定的项目列表
@@ -486,7 +481,6 @@
 		var datas = {
 				"checkedId":checkedId,
 				"state":state,
-				"projIDs":projIDs,
 				"userRole":userRole,
 				"checkProjIds":checkProjIds
 		}
