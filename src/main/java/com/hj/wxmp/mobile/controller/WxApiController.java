@@ -842,7 +842,7 @@ public class WxApiController extends ControllerBaseWx {
 	@ResponseBody
     public String personalCenter(HttpServletRequest requet,HttpServletResponse response){
     	responseInfo(response);
-		visiitURL(requet,response);
+		//visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> datamsg = new HashMap<String, Object>();
 		try {
@@ -857,17 +857,16 @@ public class WxApiController extends ControllerBaseWx {
 			String mainphonenum = userInfo.getMainphonenum();
 			Map<String, Object> findByUserId = sysUserRoleService.findByUserId(userId);
 			String roleName = findByUserId.get("role_name").toString();
-			if(isvalidate == 1){
-				String message = "";
-				List<Map<String, Object>> projData = projUserRoleService.selectByUserId(userId);
-				for(Map<String, Object> proj : projData){
-					String projName = proj.get("projName").toString();
-					message += projName+",";
-				}
-				map.put("checkProj", message);
-			}else{
-				map.put("checkProj", "");
-			}
+            String message = "";
+            List<Map<String, Object>> projData = projUserRoleService.selectByUserId(userId);
+            if (projData!=null&&!projData.isEmpty()) {
+                for(Map<String, Object> proj : projData){
+                    String projName = proj.get("projName").toString();
+                    message += ","+projName;
+                }
+                message=message.substring(1);
+            }
+            map.put("checkProj", message);
 			//添加信息
 			map.put("loginname", loginname);
 			map.put("realname", realname);

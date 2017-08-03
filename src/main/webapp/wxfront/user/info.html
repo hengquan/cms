@@ -67,16 +67,12 @@
 </div>
 </body>
 <script>
-alert("123");
 $(function() {
   //获取用户数据
   var url=_URL_BASE+"/wx/api/personalCenter";
   //  var url="/wxmp.ql/wx/api/personalCenter";
-  alert(url);
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
-      console.log(allFields(json));
-      alert("DDDDD");
       if (json.msg=='100') {
         fillPage(json.userInfo);
         $("div[class='main']").show();
