@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>房产CRM</title>
+<title>客户数据中心</title>
 <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -59,9 +59,10 @@ $(function() {
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
-    	  alert("sss:::"+allFields(json));
-        fillPage(json.userInfo);
-        $("div[class='main']").show();
+        alert("sss:::"+allFields(json));
+        var type=fillPage(json.userInfo);
+        if (type==1) $("div[class='main']").show();
+        else (type==2) window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息";
       } else {
         window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息";
       }
@@ -80,9 +81,14 @@ function fillPage(date) {
   var userType=data.isvalidate;
   $("#userName").html("<span>"+data.realname+"("+data.loginname+")</span><br/>"+data.mainphonenum);
   $("#portraitImg").attr("src",data.headimgurl);
-  $("#projs").html(""+data.projectName);
-  if (userType)
   $("#roles").html(""+data.roleName);
+  $("#projs").html(""+data.selfprojauth);
+  if (userType==0) {//正在审核
+  } else if (userType==1) {//审核通过
+    $("#projs").html(""+data.checkProj);
+  } else if (userType==2) {//审核未通过
+    
+  } else ;//作废
 }
 /**
  * 修改用户秘密

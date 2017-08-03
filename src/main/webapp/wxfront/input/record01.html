@@ -2,7 +2,7 @@
 <html>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>房产CRM</title>
+<title>客户数据中心</title>
 <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -10,119 +10,118 @@
 	
 </head>
 <body>
-<div class="line"></div>
-<div class="item_sflr row">
-<div class="col-50-1 item-nr">姓名</div>
-<div class="col-50-1 item-nr2">贺渝</div>
-</div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">电话</div>
-<div class="col-40 item-nr2">13810862904</div>
-</div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">性别</div>
-<div class="col-40 item-nr2">女</div>
-</div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">第一次获知时间</div>
-<div class="col-40 item-nr2">2017-07-20</div>
-</div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">到访时间</div>
-<div class="col-40 item-nr2">2017-07-20</div>
-</div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">年龄段</div>
-<div class="col-40 item-nr2">26-35岁</div>
-</div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">居住区域</div>
-<div class="col-40 item-nr2">朝阳双桥</div>
-</div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">外埠居住</div>
-<div class="col-40 item-nr2">安徽滁州</div>
-</div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">工作区域</div>
-<div class="col-40 item-nr2">朝阳双桥</div>
-</div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">家庭情况</div>
-<div class="col-40 item-nr2">一孩家庭</div>
-</div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">出行方式</div>
-<div class="col-40 item-nr2">自驾车</div>
-</div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">有无购房资格</div>
-<div class="col-40 item-nr2">有</div>
-</div>
-
-<div class="line"></div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">从事行业</div>
-<div class="col-40 item-nr2">IT</div>
-</div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">企业性质</div>
-<div class="col-40 item-nr2">民营企业</div>
-</div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">认知本案渠道</div>
-<div class="col-40 item-nr2">网络</div>
-</div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">预估身价</div>
-<div class="col-40 item-nr2">1千万以下</div>
-</div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">重点投资</div>
-<div class="col-40 item-nr2">民间投资</div>
-</div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">资金筹备期</div>
-<div class="col-40 item-nr2">1-3月</div>
+<div id="step1">
+  <div class="line"></div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-2">姓名</div>
+    <div class="col-input">
+      <input type="text" placeholder=""/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-2">电话</div>
+    <div class="col-input">
+      <input type="text" placeholder=""/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-2">性别</div>
+    <div class="col-input">
+      <select>
+        <option></option>
+        <option value='002001'>男</option>
+        <option value='002002'>女</option>
+      </select>
+    </div>
+    <i class="fa fa-angle-right fa-lg row"></i>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-7">第一次获知时间</div>
+    <div class="col-input-7">
+      <input type="date" placeholder=""/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">到访时间</div>
+    <div class="col-input-4">
+      <input type="date" placeholder=""/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-3">年龄段</div>
+      <div class="col-input-3">
+      <select>
+        <option></option>
+        <option>25以下</option>
+        <option>26-35岁</option>
+        <option>36-45岁</option>
+        <option>46-55岁</option>
+        <option>56岁以上</option>
+      </select>
+    </div>
+<i class="fa fa-angle-right fa-lg row"></i>
 </div>
 
-<div class="line"></div>
+<div class="item_sflr row">
+<div class="col-title col-title-4">居住区域</div>
+<div class="col-input-4">
+<input type="text" placeholder="">
+</div>
+</div>
+<div class="item_sflr row">
+<div class="col-title col-title-4">外埠居住</div>
+<div class="col-input-4">
+<input type="text" placeholder="">
+</div>
+</div>
 
 <div class="item_sflr row">
-<div class="col-60 item-nr">您关注的产品类型</div>
-<div class="col-40 item-nr2">平层 两居及以下</div>
+<div class="col-title col-title-4">工作区域</div>
+<div class="col-input-4">
+<input type="text" placeholder="">
 </div>
+</div>
+
 <div class="item_sflr row">
-<div class="col-60 item-nr">您关注的面积区间</div>
-<div class="col-40 item-nr2">200㎡以下</div>
+<div class="col-title col-title-4">外埠工作</div>
+<div class="col-input-4">
+<input type="text" placeholder="">
 </div>
+</div>
+
 <div class="item_sflr row">
-<div class="col-60 item-nr">您接受的总房款</div>
-<div class="col-40 item-nr2">500万以下</div>
+<div class="col-title col-title-4">家庭情况</div>
+<div class="col-input-4">
+              <select>
+        <option></option>
+                <option>单身</option>
+                <option>夫妻</option>
+                <option>一孩家庭</option>
+                <option>两孩家庭</option>
+                <option>三孩及以上家庭</option>
+                <option>三代同堂</option>
+              </select>
 </div>
+<i class="fa fa-angle-right fa-lg row"></i>
+</div>
+
+
 <div class="item_sflr row">
-<div class="col-60 item-nr">您的购房目的</div>
-<div class="col-40 item-nr2">自住第一居所</div>
+<div class="col-title col-title-4">出行方式</div>
+<div class="col-input-4">
+              <select>
+        <option></option>
+                <option>自驾车</option>
+                <option>公交</option>
+                <option>地铁</option>
+                <option>步行</option>
+                <option>打车</option>
+                <option>其他</option>
+              </select>
 </div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">您对本案的关注点</div>
-<div class="col-40 item-nr2">位置 交通 价格</div>
+<i class="fa fa-angle-right fa-lg row"></i>
 </div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">本次参观接待时长</div>
-<div class="col-40 item-nr2">15-30分钟</div>
 </div>
-<div class="item_sflr row">
-<div class="col-60 item-nr">本次参观接待时长</div>
-<div class="col-40 item-nr2">15-30分钟</div>
-</div>
-<div class="item_sflr row">
-<div class="item-nr">您本次置业进行比选项目有</div>
-<div class="item-nr3">XXXXXXXXXXXXX</div>
-</div>
-<div class="item_sflr row">
-<div class="item-nr">客户描述</div>
-<div class="item-nr3">XXXXXXXXXXXXX</div>
-</div>
-</body>
+<div class="item-zhc" style="margin-top:1.5rem;">下一步</div>
+  </body>
 </html>
