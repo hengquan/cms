@@ -153,9 +153,11 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title">确认更改审核状态警告</h4>
+						<h4 class="modal-title">确认更改审核状态警告(审核不通过请填写原因)</h4>
 					</div>
-					<div class="modal-body">您确定要更改审核状态吗？</div>
+					<div class="modal-body">
+						<textarea name="checkContent" class="form-control" id="checkContent" style="width: 100%; height: 100px;font-size: 14px;"></textarea>
+					</div>
 					<div class="modal-footer">
 						<input type="hidden" id="yesSubCheckMessage" />
 						<button type="button" onclick="subUserStateMessage('2')" class="btn btn-send">审核通过</button>
@@ -311,7 +313,7 @@
 		//alert(checkedId);
 		$.ajax({
 			type:'post',
-			data : {"checkedId":checkedId,"state":state},  
+			data : {"checkedId":checkedId,"state":state,"checkContent":checkContent},  
 			url:'${appRoot}/accessRecord/firstRecord',
 			dataType:'json',
 			success:function(data){

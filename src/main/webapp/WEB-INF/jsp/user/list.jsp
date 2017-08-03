@@ -94,7 +94,7 @@
 										<td><button type="button" class="btn btn-send"
 													onclick="sellAllProject('${u.id}')">查看所属项目</button>
 											<button type="button" class="btn btn-send"
-													onclick="seeAllKeHu('${u.id}')">查看所有客户</button>
+													onclick="seeAllKeHu('${u.id}')">查看所有用户</button>
 										</td>
 						 			</tr>
 								</c:if>

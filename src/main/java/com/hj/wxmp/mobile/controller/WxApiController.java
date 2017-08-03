@@ -27,7 +27,6 @@ import com.hj.wxmp.core.WxUser;
 import com.hj.wxmp.mobile.common.Configurations;
 import com.hj.wxmp.mobile.common.ControllerBaseWx;
 import com.hj.wxmp.mobile.common.HashSessions;
-import com.hj.wxmp.mobile.common.MD5;
 import com.hj.wxmp.mobile.common.Weixin;
 import com.hj.wxmp.mobile.dao.SysItemRoleDao;
 import com.hj.wxmp.mobile.entity.AccessRecord01;
@@ -885,6 +884,7 @@ public class WxApiController extends ControllerBaseWx {
 			map.put("msg", "103");
 			e.printStackTrace();
 		}
+		System.out.println(JsonUtils.map2json(map));
 		return JsonUtils.map2json(map);
     }
 	
