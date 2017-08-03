@@ -85,7 +85,7 @@
 					<div class="col-lg-12">
 						<section class="panel">
 							<header class="panel-heading" style="height:50px;">
-							<div class="col-lg-2">客户列表</div>
+							<div class="col-lg-2">项目列表</div>
 							<a href="javascript:history.go(-1)" class="btn btn-send mini btn-white col-lg-1 pull-right" style="align:right;"><i class="glyphicon glyphicon-arrow-left"></i></a>
 							</header>
 							

@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.hj.wxmp.mobile.entity.AuditRecord" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="recordType" property="recordtype" jdbcType="INTEGER" />
-    <result column="acId" property="acid" jdbcType="VARCHAR" />
+    <result column="arId" property="arid" jdbcType="VARCHAR" />
     <result column="auditType" property="audittype" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -12,7 +12,7 @@
     <result column="reason" property="reason" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, recordType, acId, auditType, cTime
+    id, recordType, arId, auditType, cTime
   </sql>
   <sql id="Blob_Column_List" >
     reason
@@ -30,10 +30,10 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.AuditRecord" >
-    insert into ql_AuditRecord (id, recordType, acId, 
+    insert into ql_AuditRecord (id, recordType, arId, 
       auditType, cTime, reason
       )
-    values (#{id,jdbcType=VARCHAR}, #{recordtype,jdbcType=INTEGER}, #{acid,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{recordtype,jdbcType=INTEGER}, #{arId,jdbcType=VARCHAR}, 
       #{audittype,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{reason,jdbcType=LONGVARCHAR}
       )
   </insert>
@@ -46,8 +46,8 @@
       <if test="recordtype != null" >
         recordType,
       </if>
-      <if test="acid != null" >
-        acId,
+      <if test="arId != null" >
+        arId,
       </if>
       <if test="audittype != null" >
         auditType,
@@ -66,8 +66,8 @@
       <if test="recordtype != null" >
         #{recordtype,jdbcType=INTEGER},
       </if>
-      <if test="acid != null" >
-        #{acid,jdbcType=VARCHAR},
+      <if test="arId != null" >
+        #{arId,jdbcType=VARCHAR},
       </if>
       <if test="audittype != null" >
         #{audittype,jdbcType=INTEGER},
@@ -86,8 +86,8 @@
       <if test="recordtype != null" >
         recordType = #{recordtype,jdbcType=INTEGER},
       </if>
-      <if test="acid != null" >
-        acId = #{acid,jdbcType=VARCHAR},
+      <if test="arId != null" >
+        arId = #{arId,jdbcType=VARCHAR},
       </if>
       <if test="audittype != null" >
         auditType = #{audittype,jdbcType=INTEGER},
@@ -104,7 +104,7 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hj.wxmp.mobile.entity.AuditRecord" >
     update ql_AuditRecord
     set recordType = #{recordtype,jdbcType=INTEGER},
-      acId = #{acid,jdbcType=VARCHAR},
+      arId = #{arId,jdbcType=VARCHAR},
       auditType = #{audittype,jdbcType=INTEGER},
       cTime = #{ctime,jdbcType=TIMESTAMP},
       reason = #{reason,jdbcType=LONGVARCHAR}
@@ -113,7 +113,7 @@
   <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.AuditRecord" >
     update ql_AuditRecord
     set recordType = #{recordtype,jdbcType=INTEGER},
-      acId = #{acid,jdbcType=VARCHAR},
+      arId = #{arId,jdbcType=VARCHAR},
       auditType = #{audittype,jdbcType=INTEGER},
       cTime = #{ctime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}

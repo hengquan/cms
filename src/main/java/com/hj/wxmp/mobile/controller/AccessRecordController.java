@@ -21,11 +21,13 @@ import com.hj.wxmp.mobile.dao.SysItemRoleDao;
 import com.hj.wxmp.mobile.entity.AccessRecord01;
 import com.hj.wxmp.mobile.entity.AccessRecord02;
 import com.hj.wxmp.mobile.entity.AccessRecord03;
+import com.hj.wxmp.mobile.entity.AuditRecord;
 import com.hj.wxmp.mobile.entity.SysItemRole;
 import com.hj.wxmp.mobile.entity.UserRole;
 import com.hj.wxmp.mobile.services.AccessRecord01Service;
 import com.hj.wxmp.mobile.services.AccessRecord02Service;
 import com.hj.wxmp.mobile.services.AccessRecord03Service;
+import com.hj.wxmp.mobile.services.AuditRecordService;
 import com.hj.wxmp.mobile.services.CustomerService;
 import com.hj.wxmp.mobile.services.IKeyGen;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
@@ -63,6 +65,8 @@ public class AccessRecordController extends ControllerBase {
 	AccessRecord02Service accessRecord02Service;
 	@Autowired
 	AccessRecord03Service accessRecord03Service;
+	@Autowired
+	AuditRecordService auditRecordService;
 
 	//首访审核列表
 	@RequestMapping(value = "/accessRecord/hisFirstRecord")
@@ -105,10 +109,25 @@ public class AccessRecordController extends ControllerBase {
 		try {
 			String state = getTrimParameter("state");
 			String id = getTrimParameter("checkedId");
+			String checkContent = getTrimParameter("checkContent");
 			//获取首访记录
 			AccessRecord01 record01 = accessRecord01Service.findById(id);
 			record01.setStatus(Integer.parseInt(state));
 			accessRecord01Service.update(record01);
+			//添加审核信息
+			AuditRecord auditRecord = new AuditRecord();
+			auditRecord.setId(keyGen.getUUIDKey());
+			auditRecord.setRecordtype(1);
+			auditRecord.setarid(id);
+			if(Integer.parseInt(state)==2){
+				auditRecord.setAudittype(1);
+				auditRecord.setReason("");
+				auditRecordService.insert(auditRecord);
+			}else if(Integer.parseInt(state)==3){
+				auditRecord.setAudittype(2);
+				auditRecord.setReason(checkContent);
+				auditRecordService.insert(auditRecord);
+			}
 			map.put("msg", "100");
 		} catch (Exception e) {
 			map.put("msg", "103");
@@ -212,10 +231,25 @@ public class AccessRecordController extends ControllerBase {
 		try {
 			String state = getTrimParameter("state");
 			String id = getTrimParameter("checkedId");
+			String checkContent = getTrimParameter("checkContent");
 			//获取首访记录
 			AccessRecord02 record02 = accessRecord02Service.findById(id);
 			record02.setStatus(Integer.parseInt(state));
 			accessRecord02Service.update(record02);
+			//添加审核信息
+			AuditRecord auditRecord = new AuditRecord();
+			auditRecord.setId(keyGen.getUUIDKey());
+			auditRecord.setRecordtype(2);
+			auditRecord.setarid(id);
+			if(Integer.parseInt(state)==2){
+				auditRecord.setAudittype(1);
+				auditRecord.setReason("");
+				auditRecordService.insert(auditRecord);
+			}else if(Integer.parseInt(state)==3){
+				auditRecord.setAudittype(2);
+				auditRecord.setReason(checkContent);
+				auditRecordService.insert(auditRecord);
+			}
 			map.put("msg", "100");
 		} catch (Exception e) {
 			map.put("msg", "103");
@@ -314,10 +348,25 @@ public class AccessRecordController extends ControllerBase {
 		try {
 			String state = getTrimParameter("state");
 			String id = getTrimParameter("checkedId");
+			String checkContent = getTrimParameter("checkContent");
 			//获取首访记录
 			AccessRecord03 record03 = accessRecord03Service.findById(id);
 			record03.setStatus(Integer.parseInt(state));
 			accessRecord03Service.update(record03);
+			//添加审核信息
+			AuditRecord auditRecord = new AuditRecord();
+			auditRecord.setId(keyGen.getUUIDKey());
+			auditRecord.setRecordtype(3);
+			auditRecord.setarid(id);
+			if(Integer.parseInt(state)==2){
+				auditRecord.setAudittype(1);
+				auditRecord.setReason("");
+				auditRecordService.insert(auditRecord);
+			}else if(Integer.parseInt(state)==3){
+				auditRecord.setAudittype(2);
+				auditRecord.setReason(checkContent);
+				auditRecordService.insert(auditRecord);
+			}
 			map.put("msg", "100");
 		} catch (Exception e) {
 			map.put("msg", "103");

@@ -7,7 +7,7 @@ public class AuditRecord {
 
     private Integer recordtype;
 
-    private String acid;
+    private String arid;
 
     private Integer audittype;
 
@@ -31,12 +31,12 @@ public class AuditRecord {
         this.recordtype = recordtype;
     }
 
-    public String getAcid() {
-        return acid;
+    public String getarid() {
+        return arid;
     }
 
-    public void setAcid(String acid) {
-        this.acid = acid == null ? null : acid.trim();
+    public void setarid(String arid) {
+        this.arid = arid == null ? null : arid.trim();
     }
 
     public Integer getAudittype() {
