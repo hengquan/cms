@@ -142,10 +142,10 @@ public class WxApiController extends ControllerBaseWx {
 	                    siteName += "/wxmp.ql/wxfront/user/register.html";
 	                }else if(resultData==104){
 	                	String url = siteName + "/wxmp.ql/wxfront/user/info.html";
-	                	if(requestURL.equals(url)){
-	                		siteName = url;
-	                	}else{
+	                	if(!requestURL.equals(url)){
 	                		siteName += "/wxmp.ql/wxfront/err.html?0002";
+	                	}else{
+	                		siteName = requestURL;
 	                	}
 	                }else if(resultData==105){
 	                    siteName += "/wxmp.ql/wxfront/err.html?0003";
@@ -218,12 +218,10 @@ public class WxApiController extends ControllerBaseWx {
                     res.sendRedirect(siteName);
                 }else if(resultData==104){
                 	String url = siteName + "/wxmp.ql/wxfront/user/info.html";
-                	if(requestURL.equals(url)){
-                		siteName = url;
-                	}else{
+                	if(!requestURL.equals(url)){
                 		siteName += "/wxmp.ql/wxfront/err.html?0002";
+                		res.sendRedirect(siteName);
                 	}
-                    res.sendRedirect(siteName);
                 }else if(resultData==105){
                     siteName += "/wxmp.ql/wxfront/err.html?0003";
                     res.sendRedirect(siteName);
