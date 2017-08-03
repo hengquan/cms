@@ -833,25 +833,18 @@ public class WxApiController extends ControllerBaseWx {
 		System.out.println(JsonUtils.map2json(map));
 		return JsonUtils.map2json(map);
 	}	
-	
-	
-	
-	
-	
-	
-	
-	
-    //个人中心
+
+	//个人中心
 	@RequestMapping(value = "/personalCenter")
 	@ResponseBody
     public String personalCenter(HttpServletRequest requet,HttpServletResponse response){
     	responseInfo(response);
-		visiitURL(requet,response);
+		//visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> datamsg = new HashMap<String, Object>();
 		try {
 			String openid = HashSessions.getInstance().getOpenId(request);
-			//openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
+			openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
 			UserInfo userInfo = userInfoService.findByOpenid(openid);
 			String userId = userInfo.getId();
 			String loginname = userInfo.getLoginname();
@@ -884,11 +877,11 @@ public class WxApiController extends ControllerBaseWx {
 			datamsg.put("msg", "100");
 			datamsg.put("userInfo", map);
 		}catch(Exception e){
-			map.put("msg", "103");
+		    datamsg.put("msg", "103");
 			e.printStackTrace();
 		}
-		System.out.println(JsonUtils.map2json(map));
-		return JsonUtils.map2json(map);
+		System.out.println(JsonUtils.map2json(datamsg));
+		return JsonUtils.map2json(datamsg);
     }
 	
 	

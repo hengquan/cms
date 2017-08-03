@@ -62,7 +62,15 @@ icon-search:before{content:"\e61d"}
 	border-bottom-style: solid;
 	border-bottom-color: #ebebeb;
 }
-.item_inner input,.item_sflr input {width:100%;margin:0.5rem 0; border:1px solid #FFFFFF;padding:0;}
+.item_inner input,.item_sflr input {width:100%;margin:0.7rem 0; border:1px solid #FFFFFF;padding:0;}
+.item_inner-2 {
+	width:100%;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #ebebeb;
+}
+.item_inner-2 input{width:100%;margin:0.7rem 1.2rem; border:1px solid #FFFFFF;padding:0;}
+
 .item-zhc {
 border-radius:4px;
 	width:85%;
@@ -137,3 +145,5 @@ border-radius:4px;
 .item-nr {color:#393939;margin-top:0.5rem;margin-bottom:0.5rem;}
 .item-nr2 {color:#838383;margin-top:0.5rem;margin-bottom:0.5rem;text-align:right;padding-right:1rem;}
 .item-nr3 {color:#838383;margin-top:0.5rem;margin-bottom:0.5rem;padding-right:1rem;}
+.col-xm a {color:#393939; display:block;}
+.xxts {text-align:center;line-height:5rem;color:#bdbdbd;font-size:1.05rem;}
