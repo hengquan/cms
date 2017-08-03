@@ -16,8 +16,8 @@
 <div class="main" style="display:none">
 <div class="item-yhm">
   <div class="item-my row">
-    <div class="col-item-pic"><img src="images/pic_02.png"></div>
-    <div class="col-item-pic-2"><span>贺渝</span><br>13810052031</div>
+    <div class="col-item-pic"><img id="portraitImg" src="images/pic_02.png"></div>
+    <div class="col-item-pic-2" id="userName"><span>贺渝</span><br>13810052031</div>
   </div>
 </div>
 <div class="line"></div>
@@ -25,7 +25,15 @@
   <div class="item-my row">
     <div class="col-pic"><img src="images/pic_03.png"></div>
     <div class="col-xm">所在项目</div>
-    <div class="col-xm-2">首开缇香郡</div>
+    <div class="col-xm-2" id="projs">首开缇香郡</div>
+  </div>
+</div>
+<div class="line"></div>
+<div class="item-yhm ">
+  <div class="item-my row">
+    <div class="col-pic"><img src="images/pic_03.png"></div>
+    <div class="col-xm">人员职责</div>
+    <div class="col-xm-2" id="roles">首开缇香郡</div>
   </div>
 </div>
 <div class="line"></div>
@@ -69,7 +77,12 @@ $(function() {
  * 填充页面信息
  */
 function fillPage(date) {
-  $("div[class='']").html("<span>"+data.realname+"("+data.loginname+")</span><br/>"+data.mainphonenum);
+  var userType=data.isvalidate;
+  $("#userName").html("<span>"+data.realname+"("+data.loginname+")</span><br/>"+data.mainphonenum);
+  $("#portraitImg").attr("src",data.headimgurl);
+  $("#projs").html(""+data.projectName);
+  if (userType)
+  $("#roles").html(""+data.roleName);
 }
 /**
  * 修改用户秘密

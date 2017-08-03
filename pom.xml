@@ -76,7 +76,7 @@
     <dependency>
       <groupId>com.spiritdata</groupId>
       <artifactId>BasicPlat</artifactId>
-      <version>0.1.0.7</version>
+      <version>0.2.0.01</version>
       <scope>system</scope>
       <systemPath>${build.webProjectDir}/lib/BasicPlat-0.2.0.01.jar</systemPath>
     </dependency>
