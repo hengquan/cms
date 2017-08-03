@@ -129,11 +129,13 @@ public class WxApiController extends ControllerBaseWx {
 	            String openid = HashSessions.getInstance().getOpenId(req);
 	            //openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
 	            logger.debug("this---openid:{}",openid);
+	            String siteName = Configurations.getSiteName();
 	            if (openid == null || "".equals(openid)) {
+	            	String[] split = requestURL.split("/wxfront");
+	            	requestURL = siteName + "/wxmp.ql/wxpage/wxfront" + split[1];
 	                getOpenid(res,requestURL,req);
 	            }else{
 	                Integer resultData = userMsg(openid);
-	                String siteName = Configurations.getSiteName();
 	                if(resultData==100){
 	                	siteName = requestURL;
 	                }else if(resultData==103){
@@ -849,6 +851,7 @@ public class WxApiController extends ControllerBaseWx {
 		Map<String, Object> datamsg = new HashMap<String, Object>();
 		try {
 			String openid = HashSessions.getInstance().getOpenId(request);
+			//openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
 			UserInfo userInfo = userInfoService.findByOpenid(openid);
 			String userId = userInfo.getId();
 			String loginname = userInfo.getLoginname();
