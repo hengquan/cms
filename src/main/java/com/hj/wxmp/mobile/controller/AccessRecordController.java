@@ -114,17 +114,20 @@ public class AccessRecordController extends ControllerBase {
 			AccessRecord01 record01 = accessRecord01Service.findById(id);
 			record01.setStatus(Integer.parseInt(state));
 			accessRecord01Service.update(record01);
+			//添加审核信息
+			AuditRecord auditRecord = new AuditRecord();
+			auditRecord.setId(keyGen.getUUIDKey());
+			auditRecord.setRecordtype(1);
+			auditRecord.setarid(id);
 			if(Integer.parseInt(state)==2){
-				//添加审核信息
-				AuditRecord auditRecord = new AuditRecord();
-				auditRecord.setId(keyGen.getUUIDKey());
-				auditRecord.setRecordtype(1);
+				auditRecord.setAudittype(1);
+				auditRecord.setReason("");
+				auditRecordService.insert(auditRecord);
+			}else if(Integer.parseInt(state)==3){
 				auditRecord.setAudittype(2);
-				auditRecord.setarid(id);
 				auditRecord.setReason(checkContent);
 				auditRecordService.insert(auditRecord);
 			}
-			
 			map.put("msg", "100");
 		} catch (Exception e) {
 			map.put("msg", "103");
@@ -233,17 +236,21 @@ public class AccessRecordController extends ControllerBase {
 			AccessRecord02 record02 = accessRecord02Service.findById(id);
 			record02.setStatus(Integer.parseInt(state));
 			accessRecord02Service.update(record02);
-			map.put("msg", "100");
+			//添加审核信息
+			AuditRecord auditRecord = new AuditRecord();
+			auditRecord.setId(keyGen.getUUIDKey());
+			auditRecord.setRecordtype(2);
+			auditRecord.setarid(id);
 			if(Integer.parseInt(state)==2){
-				//添加审核信息
-				AuditRecord auditRecord = new AuditRecord();
-				auditRecord.setId(keyGen.getUUIDKey());
-				auditRecord.setRecordtype(1);
+				auditRecord.setAudittype(1);
+				auditRecord.setReason("");
+				auditRecordService.insert(auditRecord);
+			}else if(Integer.parseInt(state)==3){
 				auditRecord.setAudittype(2);
-				auditRecord.setarid(id);
 				auditRecord.setReason(checkContent);
 				auditRecordService.insert(auditRecord);
 			}
+			map.put("msg", "100");
 		} catch (Exception e) {
 			map.put("msg", "103");
 			e.printStackTrace();
@@ -346,13 +353,17 @@ public class AccessRecordController extends ControllerBase {
 			AccessRecord03 record03 = accessRecord03Service.findById(id);
 			record03.setStatus(Integer.parseInt(state));
 			accessRecord03Service.update(record03);
+			//添加审核信息
+			AuditRecord auditRecord = new AuditRecord();
+			auditRecord.setId(keyGen.getUUIDKey());
+			auditRecord.setRecordtype(3);
+			auditRecord.setarid(id);
 			if(Integer.parseInt(state)==2){
-				//添加审核信息
-				AuditRecord auditRecord = new AuditRecord();
-				auditRecord.setId(keyGen.getUUIDKey());
-				auditRecord.setRecordtype(1);
+				auditRecord.setAudittype(1);
+				auditRecord.setReason("");
+				auditRecordService.insert(auditRecord);
+			}else if(Integer.parseInt(state)==3){
 				auditRecord.setAudittype(2);
-				auditRecord.setarid(id);
 				auditRecord.setReason(checkContent);
 				auditRecordService.insert(auditRecord);
 			}
