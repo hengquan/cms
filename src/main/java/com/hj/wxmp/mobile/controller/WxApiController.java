@@ -141,7 +141,12 @@ public class WxApiController extends ControllerBaseWx {
 	                }else if(resultData==103){
 	                    siteName += "/wxmp.ql/wxfront/user/register.html";
 	                }else if(resultData==104){
-	                    siteName += "/wxmp.ql/wxfront/err.html?0002";
+	                	String url = siteName + "/wxmp.ql/wxfront/user/info.html";
+	                	if(!requestURL.equals(url)){
+	                		siteName += "/wxmp.ql/wxfront/err.html?0002";
+	                	}else{
+	                		siteName = requestURL;
+	                	}
 	                }else if(resultData==105){
 	                    siteName += "/wxmp.ql/wxfront/err.html?0003";
 	                }else if(resultData==106){
@@ -212,13 +217,11 @@ public class WxApiController extends ControllerBaseWx {
                     siteName += "/wxmp.ql/wxfront/user/register.html";
                     res.sendRedirect(siteName);
                 }else if(resultData==104){
-                	String url = siteName + "/wxmp.ql/wxpage/wxfront/user/info.html";
-                	if(requestURL.equals(url)){
-                		siteName = url;
-                	}else{
+                	String url = siteName + "/wxmp.ql/wxfront/user/info.html";
+                	if(!requestURL.equals(url)){
                 		siteName += "/wxmp.ql/wxfront/err.html?0002";
+                		res.sendRedirect(siteName);
                 	}
-                    res.sendRedirect(siteName);
                 }else if(resultData==105){
                     siteName += "/wxmp.ql/wxfront/err.html?0003";
                     res.sendRedirect(siteName);
@@ -839,12 +842,11 @@ public class WxApiController extends ControllerBaseWx {
 	@ResponseBody
     public String personalCenter(HttpServletRequest requet,HttpServletResponse response){
     	responseInfo(response);
-		//visiitURL(requet,response);
+		visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> datamsg = new HashMap<String, Object>();
 		try {
 			String openid = HashSessions.getInstance().getOpenId(request);
-			openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
 			UserInfo userInfo = userInfoService.findByOpenid(openid);
 			String userId = userInfo.getId();
 			String loginname = userInfo.getLoginname();

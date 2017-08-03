@@ -67,7 +67,7 @@
 </div>
 </body>
 <script>
-alert("sdfsdf");
+alert("123");
 $(function() {
   //获取用户数据
   var url=_URL_BASE+"/wx/api/personalCenter";
@@ -75,7 +75,6 @@ $(function() {
   alert(url);
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
-    	alert("211");
       console.log(allFields(json));
       alert("DDDDD");
       if (json.msg=='100') {
@@ -86,9 +85,9 @@ $(function() {
       }
     },
     error: function(XMLHttpRequest, textStatus, errorThrown) {
-    	alert(XMLHttpRequest.status);
-    	 alert(XMLHttpRequest.readyState);
-    	 alert(textStatus);
+   	  alert(XMLHttpRequest.status);
+   	  alert(XMLHttpRequest.readyState);
+   	  alert(textStatus);
     }
   });
   //绑定修改密码方法
