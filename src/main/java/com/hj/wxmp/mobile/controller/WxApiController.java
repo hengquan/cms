@@ -141,7 +141,12 @@ public class WxApiController extends ControllerBaseWx {
 	                }else if(resultData==103){
 	                    siteName += "/wxmp.ql/wxfront/user/register.html";
 	                }else if(resultData==104){
-	                    siteName += "/wxmp.ql/wxfront/err.html?0002";
+	                	String url = siteName + "/wxmp.ql/wxfront/user/info.html";
+	                	if(requestURL.equals(url)){
+	                		siteName = url;
+	                	}else{
+	                		siteName += "/wxmp.ql/wxfront/err.html?0002";
+	                	}
 	                }else if(resultData==105){
 	                    siteName += "/wxmp.ql/wxfront/err.html?0003";
 	                }else if(resultData==106){
@@ -212,7 +217,7 @@ public class WxApiController extends ControllerBaseWx {
                     siteName += "/wxmp.ql/wxfront/user/register.html";
                     res.sendRedirect(siteName);
                 }else if(resultData==104){
-                	String url = siteName + "/wxmp.ql/wxpage/wxfront/user/info.html";
+                	String url = siteName + "/wxmp.ql/wxfront/user/info.html";
                 	if(requestURL.equals(url)){
                 		siteName = url;
                 	}else{
@@ -884,11 +889,11 @@ public class WxApiController extends ControllerBaseWx {
 			datamsg.put("msg", "100");
 			datamsg.put("userInfo", map);
 		}catch(Exception e){
-			map.put("msg", "103");
+			datamsg.put("msg", "103");
 			e.printStackTrace();
 		}
-		System.out.println(JsonUtils.map2json(map));
-		return JsonUtils.map2json(map);
+		System.out.println("++++++++++++"+JsonUtils.map2json(datamsg));
+		return JsonUtils.map2json(datamsg);
     }
 	
 	
