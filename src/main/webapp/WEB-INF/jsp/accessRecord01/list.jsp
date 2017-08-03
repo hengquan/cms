@@ -310,6 +310,7 @@
 		//alert(state);
 		//state  2 审核通过   3作废
 		var checkedId = $("#yesSubCheckMessage").val();
+		var checkContent = $("#checkContent").val();
 		//alert(checkedId);
 		$.ajax({
 			type:'post',
