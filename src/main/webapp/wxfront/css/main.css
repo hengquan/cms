@@ -127,12 +127,16 @@ border-radius:4px;
 .col-title-4 {width:4rem;}
 .col-title-3 {width:3rem;}
 .col-title-6 {width:6rem;}
+.col-title-8 {width:8rem;}
+.col-title-9 {width:9rem;}
 .col-title-5 {width:5rem;}
 .col-input {width:85%;}
 .col-input-7 {width:55.7%;}
 .col-input-4 {width:73%;}
 .col-input-3 {width:79%;}
 .col-input-6 {width:61.4%;}
+.col-input-8 {width:50.5%;}
+.col-input-9 {width:44.6%;}
 .col-input-5 {width:67.5%;}
 .item_sflr textarea { border:1px solid #fff;width:92%;}
 .row-link a{color:#FFFFFF; display:block;width:100%;}

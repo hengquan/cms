@@ -95,8 +95,8 @@ public class HashSessions {
 		if(null != cookie){
 			return cookie.getValue();
 		}
-		
-		return "";
+		return "oaBNt03oinck60Chz73pw-rQnpho";
+//		return "";
 	}
 	
 	public void setAccessToken(String accessToken,String expires_in){

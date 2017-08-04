@@ -7,10 +7,12 @@
 <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <link rel="stylesheet" href="../css/main.css">
-  <script src="../../static/js/jquery.min.js" type="text/javascript"></script>
-  <script src="../js/CONSTANT.js" type="text/javascript"></script>
-  <script src="../js/common.utils.js" type="text/javascript"></script>
+<link rel="stylesheet" href="../css/crm_main.css">
+<link rel="stylesheet" href="../css/crm-extend.min.css.css">
+<link rel="stylesheet" href="../css/main.css">
+<script src="../../static/js/jquery.min.js" type="text/javascript"></script>
+<script src="../js/CONSTANT.js" type="text/javascript"></script>
+<script src="../js/common.utils.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -49,20 +51,20 @@
 </div>
 
 <div class="hidding" id="changePwdArea" style="display:none">
+<!-- 
   <div class="item_inner-2">
-    <input type="password" placeholder="请输入原密码">
+    <input type="password" placeholder="请输入原密码" name="oldPwd"/>
+  </div>
+ -->
+  <div class="item_inner-2">
+    <input type="password" placeholder="请输入新密码" class="" name="newPwd"/>
   </div>
   <div class="item_inner-2">
-    <input type="password" placeholder="请输入新密码" class="">
+    <input type="password" placeholder="再次输入新密码" class="" name="newPwdConfirm">
   </div>
-  <div class="item_inner-2">
-    <input type="password" placeholder="再次输入新密码" class="">
-  </div>
-  <div class="item_inner" style="margin-top:2rem">
-    <a href="#" class="button button-big button-fill button-danger" id="savePwd">保存</a>
-  </div>
-  <div class="item_inner" style="margin-top:2rem">
-    <a href="#" class="button button-big button-fill button-danger" id="cancelPwd">取消</a>
+  <div class="row row-link">
+    <div class="col-50" style="margin-top:1.5rem;"><a href="sflr.html" id="savePwd">保存</a></div>
+    <div class="col-50" style="margin-top:1.5rem;"><a href="sflr_3.html" id="cancelPwd">取消</a></div>
   </div>
 </div>
 </body>
@@ -81,14 +83,23 @@ $(function() {
       }
     },
     error: function(XMLHttpRequest, textStatus, errorThrown) {
-   	  alert(XMLHttpRequest.status);
-   	  alert(XMLHttpRequest.readyState);
-   	  alert(textStatus);
+      window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
+        +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
     }
   });
   //绑定修改密码方法
   $("div[class='col-xm']").click(function() {
-    changePwd();
+    $("div[class='main']").hide();
+    $("#changePwdArea").show();
+  });
+  //绑定修改密码中的取消按钮
+  $("#cancelPwd").click(function(){
+    $("div[class='main']").show();
+    $("#changePwdArea").hide();
+  });
+  //绑定修改密码中的修改密码
+  $("#savePwd").click(function(){
+    savePwd();
   });
 });
 
@@ -107,11 +118,12 @@ function fillPage(data) {
   $("#roles").html(""+userRoles);
 
   var prjNames=data.selfprojauth+"";
+  if (data.checkProj) prjNames=""+data.checkProj;
   var userType=data.isvalidate;
   var pageComment="";
   if (userType=='0') pageComment="您的账号正在审核中，请耐心等待";
   else //审核通过
-  if (userType=='1') prjNames=""+data.checkProj;
+  if (userType=='1') pageComment="";
   else//审核未通过
   if (userType=='2') pageComment="您的账号未通过审核";
   else //作废
@@ -125,9 +137,42 @@ function fillPage(data) {
   $("#projs").html(prjNames);
 }
 
-function changePwd() {
-  $("div[class='main']").hide();
-  $("#changePwdArea").show();
+/*
+ * 修改密码
+ */
+function savePwd() {
+  var inputData={};
+  inputData.newPwd=$("input[name='newPwd']").val();
+  inputData.newPwdConfirm=$("input[name='newPwdConfirm']").val();
+
+  var errMsg="";
+  if (!inputData.loginname) return "登录名为空";
+  if (!inputData.newPwd) errMsg="密码为空";
+  if (inputData.newPwd.length<6) errMsg="密码至少六位"; 
+  if (inputData.newPwd!=inputData.newPwdConfirm) errMsg="密码与密码确认不匹配";
+  if (errMsg!="") {
+    alert(errMsg);
+    $("div[class='main']").show();
+    $("#changePwdArea").hide();
+  } else {
+    delete inputData.newPwdConfirm;
+    var url=_URL_BASE+"/wx/api/updateUserPwd";
+    $.ajax({type:"post", async:true, url:url, data:inputData, dataType:"json",
+      success: function(json) {
+        msg="密码修改成功";
+        if (json.msg!='100') msg="密码修改失败";
+        alert(msg);
+        $("div[class='main']").show();
+        $("#changePwdArea").hide();
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        msg="[XMLHttpRequest]==\n"+allFields(XMLHttpRequest)+"\n[textStatus]==\n"+textStatus+"\n[errorThrown]==\n"+allFields(errorThrown);
+        alert(msg);
+        $("div[class='main']").show();
+        $("#changePwdArea").hide();
+      }
+    });
+  }
 }
 </script>
 </html>
