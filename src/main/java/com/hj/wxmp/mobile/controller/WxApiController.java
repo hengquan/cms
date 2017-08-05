@@ -849,7 +849,7 @@ public class WxApiController extends ControllerBaseWx {
 	@ResponseBody
     public String personalCenter(HttpServletRequest requet,HttpServletResponse response){
     	responseInfo(response);
-		visiitURL(requet,response);
+		//visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> datamsg = new HashMap<String, Object>();
 		try {
@@ -898,30 +898,58 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
-//	//用户中心-我的二维码
-//	@RequestMapping("/myQRcode")
-//	@ResponseBody
-//	public String myQRcode(Model model,HttpServletResponse response){
-//		responseInfo(response);
-//		Map<String,Object> map = new HashMap<String,Object>();
-//		//用户信息
-//		String openid = HashSessions.getInstance().getOpenId(request);
-//		openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
-//		UserInfo user = userInfoService.selectByOpenId(openid);
-//		String qrCodeAddress = user.getDescn();
-//		try {
-//			if(qrCodeAddress==null || qrCodeAddress.equals("")){
-//				String fileName = weixin.getQrcode(openid);
-//				user.setDescn(fileName);
-//				userInfoService.update(user);
-//			}
-//			String urlpath=Configurations.getConfig("ACCESSURL");
-//			map.put("img", urlpath + user.getDescn());
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return JsonUtils.map2json(map);
-//	}
+	//修改密码
+	@RequestMapping("/updateUserPwd")
+	@ResponseBody
+	public String updateUserPwd(Model model,HttpServletResponse response,String newPwd){
+		responseInfo(response);
+		Map<String,Object> map = new HashMap<String,Object>();
+		try {
+			//用户信息
+			String openid = HashSessions.getInstance().getOpenId(request);
+			if(openid!=null){
+				UserInfo user = userInfoService.selectByOpenId(openid);
+				user.setPassword(MD5Utils.MD5(newPwd));
+				userInfoService.update(user);
+				map.put("msg", "100");
+			}else{
+				map.put("msg", "103");
+			}
+		} catch (Exception e) {
+			map.put("msg", "103");
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+	}
+	
+	
+	
+	
+	
+	//用户中心-我的二维码
+	@RequestMapping("/myQRcode")
+	@ResponseBody
+	public String myQRcode(Model model,HttpServletResponse response){
+		responseInfo(response);
+		Map<String,Object> map = new HashMap<String,Object>();
+		//用户信息
+		String openid = HashSessions.getInstance().getOpenId(request);
+		openid = "ohZ3H042fZ_63Arzn4QQjvJgMWR8";
+		UserInfo user = userInfoService.selectByOpenId(openid);
+		String qrCodeAddress = user.getDescn();
+		try {
+			if(qrCodeAddress==null || qrCodeAddress.equals("")){
+				String fileName = weixin.getQrcode(openid);
+				user.setDescn(fileName);
+				userInfoService.update(user);
+			}
+			String urlpath=Configurations.getConfig("ACCESSURL");
+			map.put("img", urlpath + user.getDescn());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+	}
 	
 
 }
