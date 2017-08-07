@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>房产CRM</title>
+  <title>客户数据中心</title>
   <meta name="viewport" content="initial-scale=1, maximum-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -39,7 +39,8 @@ function getMsg(url) {
 	  return _url;
   }
   if (_url=='0001') return "您的账号已作废";
-  if (_url=='0002') return "您的账号正在审核中，请耐心等待";
+  if (_url=='0002') return "您的账号正在审核中<br/>请耐心等待";
+  if (_url=='0003') return "您的账号未通过审核";
 }
 </script>
 </html>

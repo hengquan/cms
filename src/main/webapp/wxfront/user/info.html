@@ -1,10 +1,133 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>客户数据中心-用户信息</title>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="stylesheet" href="../css/main.css">
+  <script src="../../static/js/jquery.min.js" type="text/javascript"></script>
+  <script src="../js/CONSTANT.js" type="text/javascript"></script>
+  <script src="../js/common.utils.js" type="text/javascript"></script>
 </head>
-<body>
 
+<body>
+<div class="main" style="display:none">
+<div class="item-yhm">
+  <div class="item-my row">
+    <div class="col-item-pic"><img id="portraitImg"></div>
+    <div class="col-item-pic-2" id="userName"></div>
+  </div>
+</div>
+<div class="line"></div>
+<div class="item-yhm ">
+  <div class="item-my row">
+    <div class="col-pic"><img src="../images/pic_03.png"></div>
+    <div class="col-xm">所在项目</div>
+    <div class="col-xm-2" id="projs"></div>
+  </div>
+</div>
+<div class="line"></div>
+<div class="item-yhm ">
+  <div class="item-my row">
+    <div class="col-pic"><img src="../images/pic_09.png"></div>
+    <div class="col-xm">用户类型</div>
+    <div class="col-xm-2" id="roles"></div>
+  </div>
+</div>
+<div class="line"></div>
+<div class="item-yhm ">
+  <div class="item-my row">
+    <div class="col-pic"><img src="../images/pic_04.png"></div>
+    <div class="col-xm">修改密码</div>
+  </div>
+</div>
+<div class="line"></div>
+<div class="xxts" id="comment"></div>
+</div>
+
+<div class="hidding" id="changePwdArea" style="display:none">
+  <div class="item_inner-2">
+    <input type="password" placeholder="请输入原密码">
+  </div>
+  <div class="item_inner-2">
+    <input type="password" placeholder="请输入新密码" class="">
+  </div>
+  <div class="item_inner-2">
+    <input type="password" placeholder="再次输入新密码" class="">
+  </div>
+  <div class="item_inner" style="margin-top:2rem">
+    <a href="#" class="button button-big button-fill button-danger" id="savePwd">保存</a>
+  </div>
+  <div class="item_inner" style="margin-top:2rem">
+    <a href="#" class="button button-big button-fill button-danger" id="cancelPwd">取消</a>
+  </div>
+</div>
 </body>
+<script>
+$(function() {
+  //获取用户数据
+  var url=_URL_BASE+"/wx/api/personalCenter";
+  //  var url="/wxmp.ql/wx/api/personalCenter";
+  $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
+    success: function(json) {
+      if (json.msg=='100') {
+        fillPage(json.userInfo);
+        $("div[class='main']").show();
+      } else {
+        window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息";
+      }
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+   	  alert(XMLHttpRequest.status);
+   	  alert(XMLHttpRequest.readyState);
+   	  alert(textStatus);
+    }
+  });
+  //绑定修改密码方法
+  $("div[class='col-xm']").click(function() {
+    changePwd();
+  });
+});
+
+/**
+ * 填充页面信息
+ */
+function fillPage(data) {
+  $("#userName").html("<span>"+data.realname+"</span><span style='color:#999;font-size:.8rem;'>("+data.loginname+")</span><br/>"+data.mainphonenum);
+  $("#portraitImg").attr("src",data.headimgurl);
+
+  var userRoles=data.roleName+"";
+  var lRole=userRoles.split(',');
+  userRoles="";
+  for (var i=0;i<lRole.length; i++) if ($.trim(lRole[i])!='') userRoles+=","+$.trim(lRole[i]);
+  userRoles=userRoles.substr(1);
+  $("#roles").html(""+userRoles);
+
+  var prjNames=data.selfprojauth+"";
+  var userType=data.isvalidate;
+  var pageComment="";
+  if (userType=='0') pageComment="您的账号正在审核中，请耐心等待";
+  else //审核通过
+  if (userType=='1') prjNames=""+data.checkProj;
+  else//审核未通过
+  if (userType=='2') pageComment="您的账号未通过审核";
+  else //作废
+  pageComment="您的账号已作废";
+  $("#comment").html(pageComment);
+
+  var lPrj=prjNames.split(',');
+  prjNames="";
+  for (var i=0;i<lPrj.length; i++) if ($.trim(lPrj[i])!='') prjNames+="<br\/>"+$.trim(lPrj[i]);
+  prjNames=prjNames.substr(5);
+  $("#projs").html(prjNames);
+}
+
+function changePwd() {
+  $("div[class='main']").hide();
+  $("#changePwdArea").show();
+}
+</script>
 </html>

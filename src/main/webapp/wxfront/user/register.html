@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>房产CRM</title>
+  <title>客户数据中心-用户注册</title>
   <meta name="viewport" content="initial-scale=1, maximum-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -15,7 +15,7 @@
 </head>
 <body>
   <header class="head-crm">
-    <h1>房产销售CRM系统</h1>
+    <h1>客户数据中心用户注册</h1>
   </header>
   <!-- 表单区域 -->
   <div class="content">
@@ -35,7 +35,7 @@
       <input type="text"  name="realName" placeholder="姓名">
     </div>
     <div class="item_inner row">
-      <div class="item-title col-15">角色</div>
+      <div class="item-title col-15">用户类型</div>
       <div class="item-select col-85">
         <select name="userRole"></select>
       </div>
@@ -99,7 +99,7 @@ function registerUser() {
     var url=_URL_BASE+"/wx/api/updateUserMsg";
     $.ajax({type:"post", async:true, url:url, data:inputData, dataType:"json",
       success: function(json) {
-    	if (json.msg=='100') window.location.href=_URL_BASE+"/wxfront/err.html?1000=已成功提交，请等待管理员审核";
+    	if (json.msg=='100') window.location.href=_URL_BASE+"/wxfront/err.html?1000=已成功提交<br/>请等待管理员审核";
         else {
           var errStr="";
           if (json.msg=="103") errStr="程序出错";
