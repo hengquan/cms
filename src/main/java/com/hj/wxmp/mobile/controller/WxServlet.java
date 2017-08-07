@@ -84,6 +84,7 @@ public class WxServlet extends HttpServlet {
     }
     
     public void init(ServletConfig servletConfig) throws ServletException {
+    	logger.debug("init weixin");
     	ServletContext servletContext = servletConfig.getServletContext();
     	WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
     	//AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();
@@ -92,7 +93,8 @@ public class WxServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    String signature = "";
+    	logger.debug("doGet weixin");
+    	String signature = "";
 	    String timestamp = "";
 	    String nonce = "";
 	    String echostr = "";
