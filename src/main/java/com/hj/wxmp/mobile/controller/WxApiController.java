@@ -870,8 +870,10 @@ public class WxApiController extends ControllerBaseWx {
 				List<Map<String, Object>> projData = projUserRoleService.selectByUserId(userId);
 				for(Map<String, Object> proj : projData){
 					String projName = proj.get("projName").toString();
-					message += projName+",";
+					String id = proj.get("id").toString();
+					message += ","+id+"-"+projName;
 				}
+				message = message.substring(1);
 				map.put("checkProj", message);
 			}else{
 				map.put("checkProj", "");
