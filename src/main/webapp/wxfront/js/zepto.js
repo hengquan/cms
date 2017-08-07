@@ -8,7 +8,7 @@ var Zepto = function() {
         return "function" == L(t)
     }
 
-    function $(t) {
+    function $$(t) {
         return null != t && t == t.window
     }
 
@@ -21,7 +21,7 @@ var Zepto = function() {
     }
 
     function R(t) {
-        return D(t) && !$(t) && Object.getPrototypeOf(t) == Object.prototype
+        return D(t) && !$$(t) && Object.getPrototypeOf(t) == Object.prototype
     }
 
     function M(t) {
@@ -39,11 +39,11 @@ var Zepto = function() {
     }
 
     function F(t) {
-        return t.replace(/::/g, "/").replace(/([A-Z]+)([A-Z][a-z])/g, "$1_$2").replace(/([a-z\d])([A-Z])/g, "$1_$2").replace(/_/g, "-").toLowerCase()
+        return t.replace(/::/g, "/").replace(/([A-Z]+)([A-Z][a-z])/g, "$$1_$$2").replace(/([a-z\d])([A-Z])/g, "$$1_$$2").replace(/_/g, "-").toLowerCase()
     }
 
     function q(t) {
-        return t in f ? f[t] : f[t] = new RegExp("(^|\\s)" + t + "(\\s|$)")
+        return t in f ? f[t] : f[t] = new RegExp("(^|\\s)" + t + "(\\s|$$)")
     }
 
     function H(t, e) {
@@ -109,9 +109,9 @@ var Zepto = function() {
             "z-index": 1,
             zoom: 1
         }, l = /^\s*<(\w+|!)[^>]*>/,
-        h = /^<(\w+)\s*\/?>(?:<\/\1>|)$/,
+        h = /^<(\w+)\s*\/?>(?:<\/\1>|)$$/,
         p = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi,
-        d = /^(?:body|html)$/i,
+        d = /^(?:body|html)$$/i,
         m = /([A-Z])/g,
         g = ["val", "css", "html", "text", "data", "width", "height", "offset"],
         v = ["after", "prepend", "before", "append"],
@@ -126,7 +126,7 @@ var Zepto = function() {
             th: x,
             "*": a.createElement("div")
         }, w = /complete|loaded|interactive/,
-        E = /^[\w-]*$/,
+        E = /^[\w-]*$$/,
         j = {}, T = j.toString,
         S = {}, O = a.createElement("div"),
         P = {
@@ -162,7 +162,7 @@ var Zepto = function() {
         })
     }, S.fragment = function(e, i, r) {
         var s, u, f;
-        return h.test(e) && (s = n(a.createElement(RegExp.$1))), s || (e.replace && (e = e.replace(p, "<$1></$2>")), i === t && (i = l.test(e) && RegExp.$1), i in b || (i = "*"), f = b[i], f.innerHTML = "" + e, s = n.each(o.call(f.childNodes), function() {
+        return h.test(e) && (s = n(a.createElement(RegExp.$$1))), s || (e.replace && (e = e.replace(p, "<$$1></$$2>")), i === t && (i = l.test(e) && RegExp.$$1), i in b || (i = "*"), f = b[i], f.innerHTML = "" + e, s = n.each(o.call(f.childNodes), function() {
             f.removeChild(this)
         })), R(r) && (u = n(s), n.each(r, function(t, e) {
             g.indexOf(t) > -1 ? u[t](e) : u.attr(t, e)
@@ -175,7 +175,7 @@ var Zepto = function() {
         var r;
         if (!e) return S.Z();
         if ("string" == typeof e)
-            if (e = e.trim(), "<" == e[0] && l.test(e)) r = S.fragment(e, RegExp.$1, i), e = null;
+            if (e = e.trim(), "<" == e[0] && l.test(e)) r = S.fragment(e, RegExp.$$1, i), e = null;
             else {
                 if (i !== t) return n(i).find(e);
                 r = S.qsa(a, e)
@@ -184,7 +184,7 @@ var Zepto = function() {
                 if (S.isZ(e)) return e;
                 if (A(e)) r = k(e);
                 else if (D(e)) r = [e], e = null;
-                else if (l.test(e)) r = S.fragment(e.trim(), RegExp.$1, i), e = null;
+                else if (l.test(e)) r = S.fragment(e.trim(), RegExp.$$1, i), e = null;
                 else {
                     if (i !== t) return n(i).find(e);
                     r = S.qsa(a, e)
@@ -206,7 +206,7 @@ var Zepto = function() {
         return _(t) && a && i ? (n = t.getElementById(s)) ? [n] : [] : 1 !== t.nodeType && 9 !== t.nodeType ? [] : o.call(a && !i ? r ? t.getElementsByClassName(s) : t.getElementsByTagName(e) : t.querySelectorAll(e))
     }, n.contains = function(t, e) {
         return t !== e && t.contains(e)
-    }, n.type = L, n.isFunction = Z, n.isWindow = $, n.isArray = A, n.isPlainObject = R, n.isEmptyObject = function(t) {
+    }, n.type = L, n.isFunction = Z, n.isWindow = $$, n.isArray = A, n.isPlainObject = R, n.isEmptyObject = function(t) {
         var e;
         for (e in t) return !1;
         return !0
@@ -455,7 +455,7 @@ var Zepto = function() {
             })
         },
         data: function(e, n) {
-            var i = this.attr("data-" + e.replace(m, "-$1").toLowerCase(), n);
+            var i = this.attr("data-" + e.replace(m, "-$$1").toLowerCase(), n);
             return null !== i ? Y(i) : t
         },
         val: function(t) {
@@ -591,7 +591,7 @@ var Zepto = function() {
         });
         n.fn[e] = function(r) {
             var o, s = this[0];
-            return r === t ? $(s) ? s["inner" + i] : _(s) ? s.documentElement["scroll" + i] : (o = this.offset()) && o[e] : this.each(function(t) {
+            return r === t ? $$(s) ? s["inner" + i] : _(s) ? s.documentElement["scroll" + i] : (o = this.offset()) && o[e] : this.each(function(t) {
                 s = n(this), s.css(e, J(this, r, t, s[e]()))
             })
         }
@@ -616,7 +616,7 @@ var Zepto = function() {
         }
     }), S.Z.prototype = n.fn, S.uniq = N, S.deserializeValue = Y, n.zepto = S, n
 }();
-window.Zepto = Zepto, void 0 === window.$ && (window.$ = Zepto),
+window.Zepto = Zepto, void 0 === window.$$ && (window.$$ = Zepto),
 function(t) {
     function l(t) {
         return t._zid || (t._zid = e++)
@@ -638,7 +638,7 @@ function(t) {
     }
 
     function d(t) {
-        return new RegExp("(?:^| )" + t.replace(" ", " .* ?") + "(?: |$)")
+        return new RegExp("(?:^| )" + t.replace(" ", " .* ?") + "(?: |$$)")
     }
 
     function m(t, e) {
@@ -731,7 +731,7 @@ function(t) {
         return !0
     }, b = function() {
             return !1
-        }, w = /^([A-Z]|returnValue$|layer[XY]$)/,
+        }, w = /^([A-Z]|returnValue$$|layer[XY]$$)/,
         E = {
             preventDefault: "isDefaultPrevented",
             stopImmediatePropagation: "isImmediatePropagationStopped",
@@ -875,7 +875,7 @@ function(t) {
         a = /^(?:text|application)\/xml/i,
         u = "application/json",
         f = "text/html",
-        c = /^\s*$/;
+        c = /^\s*$$/;
     t.active = 0, t.ajaxJSONP = function(i, r) {
         if (!("type" in i)) return t.ajax(i);
         var f, h, o = i.jsonpCallback,
@@ -891,7 +891,7 @@ function(t) {
             clearTimeout(h), t(a).off().remove(), "error" != e.type && f ? g(f[0], l, i, r) : v(null, n || "error", l, i, r), window[s] = u, f && t.isFunction(u) && u(f[0]), u = f = void 0
         }), m(l, i) === !1 ? (c("abort"), l) : (window[s] = function() {
             f = arguments
-        }, a.src = i.url.replace(/\?(.+)=\?/, "?$1=" + s), n.head.appendChild(a), i.timeout > 0 && (h = setTimeout(function() {
+        }, a.src = i.url.replace(/\?(.+)=\?/, "?$$1=" + s), n.head.appendChild(a), i.timeout > 0 && (h = setTimeout(function() {
             c("timeout")
         }, i.timeout)), l)
     }, t.ajaxSettings = {
@@ -920,14 +920,14 @@ function(t) {
         var n = t.extend({}, e || {}),
             o = t.Deferred && t.Deferred();
         for (i in t.ajaxSettings) void 0 === n[i] && (n[i] = t.ajaxSettings[i]);
-        p(n), n.crossDomain || (n.crossDomain = /^([\w-]+:)?\/\/([^\/]+)/.test(n.url) && RegExp.$2 != window.location.host), n.url || (n.url = window.location.toString()), E(n), n.cache === !1 && (n.url = w(n.url, "_=" + Date.now()));
+        p(n), n.crossDomain || (n.crossDomain = /^([\w-]+:)?\/\/([^\/]+)/.test(n.url) && RegExp.$$2 != window.location.host), n.url || (n.url = window.location.toString()), E(n), n.cache === !1 && (n.url = w(n.url, "_=" + Date.now()));
         var s = n.dataType,
             a = /\?.+=\?/.test(n.url);
         if ("jsonp" == s || a) return a || (n.url = w(n.url, n.jsonp ? n.jsonp + "=?" : n.jsonp === !1 ? "" : "callback=?")), t.ajaxJSONP(n, o);
         var j, u = n.accepts[s],
             f = {}, l = function(t, e) {
                 f[t.toLowerCase()] = [t, e]
-            }, h = /^([\w-]+:)\/\//.test(n.url) ? RegExp.$1 : window.location.protocol,
+            }, h = /^([\w-]+:)\/\//.test(n.url) ? RegExp.$$1 : window.location.protocol,
             d = n.xhr(),
             y = d.setRequestHeader;
         if (o && o.promise(d), n.crossDomain || l("X-Requested-With", "XMLHttpRequest"), l("Accept", u || "*/*"), (u = n.mimeType || u) && (u.indexOf(",") > -1 && (u = u.split(",", 2)[0]), d.overrideMimeType && d.overrideMimeType(u)), (n.contentType || n.contentType !== !1 && n.data && "GET" != n.type.toUpperCase()) && l("Content-Type", n.contentType || "application/x-www-form-urlencoded"), n.headers)

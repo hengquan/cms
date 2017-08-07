@@ -1,0 +1,27 @@
+#box input,#box input:focus{
+    border:none;
+    outline: none;
+}
+#box .input_style {
+    display: block;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #555;
+    background-color: #fff;
+}
+#box > .form-inline > .list-unstyled > li{
+    line-height:40px;
+    border-bottom:1px solid #ddd;
+    color:#ccc;
+}
+#box .form-group{
+    margin:0;
+    position:relative;
+}
+#box .form-group span{
+    position:absolute;
+    top:0;
+    right:0;
+    margin:20px 12px;
+}

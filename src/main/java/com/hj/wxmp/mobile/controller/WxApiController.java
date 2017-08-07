@@ -868,7 +868,8 @@ public class WxApiController extends ControllerBaseWx {
             }
             map.put("checkProj", message);
 			//添加信息
-			map.put("loginname", loginname);
+            map.put("userid", userInfo.getId());
+            map.put("loginname", loginname);
 			map.put("realname", realname);
 			map.put("mainphonenum", mainphonenum);
 			map.put("roleName", roleName);

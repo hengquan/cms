@@ -1,127 +1,308 @@
 <!DOCTYPE html>
 <html>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>客户数据中心</title>
-<meta name="viewport" content="initial-scale=1, maximum-scale=1">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<link rel="stylesheet" href="../css/main.css">
-	
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title>客户数据中心</title>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="../css/index.css"/>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/zepto.mdater.css">
+  <script src="../../static/js/jquery.min.js" type="text/javascript"></script>
+  <script src="../js/CONSTANT.js" type="text/javascript"></script>
+  <script src="../js/common.utils.js" type="text/javascript"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/vue.js"></script>
+  <script src="../js/zepto.js"></script>
+  <script src="../js/zepto.mdater.js"></script>
 </head>
 <body>
-<div id="step1">
+
+<div class="container" id="step1" style="display:none">
+  <div class="line"></div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">置业顾问</div>
+    <div class="col-input">
+      <input type="text" placeholder="" name="user" value="" readonly/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-7">本次到访时间</div>
+    <div class="col-input-6">
+      <input type="text" placeholder="" name="curTime" readonly/>
+    </div>
+  </div>
+  <div class="item_sflr row" id="projArea" style="display:none;">
+    <div class="col-title col-title-4">项目选择</div>
+    <div class="col-input">
+      <input class="input_style" id="role" placeholder="" v-model="u_proj" readonly class="form-group" data-toggle="modal" data-target="#projModal"/>
+    </div>
+  </div>
+  <div class="modal fade" id="projModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times</span></button>
+          <h4 class="modal-title">&nbsp;</h4>
+        </div>
+        <div class="modal-body" id="projData">
+          <label><input type="radio" name="proj" value="002001-男" _text="男"/> 男 </label>
+          <label><input type="radio" name="sex" value="002001-女" _text="女"/> 女 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" @click="selProj()">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="line"></div>
   <div class="item_sflr row">
     <div class="col-title col-title-2">姓名</div>
     <div class="col-input">
-      <input type="text" placeholder=""/>
+      <input type="text" placeholder="" name="custName"/>
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-2">电话</div>
     <div class="col-input">
-      <input type="text" placeholder=""/>
+      <input type="text" placeholder="" name="custPhone"/>
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-2">性别</div>
     <div class="col-input">
-      <select>
-        <option></option>
-        <option value='002001'>男</option>
-        <option value='002002'>女</option>
-      </select>
+      <input class="input_style" id="role" placeholder="" v-model="u_sex" readonly class="form-group" data-toggle="modal" data-target="#sexModal"/>
     </div>
-    <i class="fa fa-angle-right fa-lg row"></i>
+  </div>
+  <div class="modal fade" id="sexModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times</span></button>
+          <h4 class="modal-title">&nbsp;</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="sex" value="002001-男" _text="男"/> 男 </label>
+          <label><input type="radio" name="sex" value="002001-女" _text="女"/> 女 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" @click="selSex()">确定</button>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-7">第一次获知时间</div>
-    <div class="col-input-7">
-      <input type="date" placeholder=""/>
-    </div>
-  </div>
-  <div class="item_sflr row">
-    <div class="col-title col-title-4">到访时间</div>
-    <div class="col-input-4">
-      <input type="date" placeholder=""/>
+    <div class="col-input-6">
+      <input id="first" class="datatime" type="text" readonly placeholder=""/>
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-3">年龄段</div>
-      <div class="col-input-3">
-      <select>
-        <option></option>
-        <option>25以下</option>
-        <option>26-35岁</option>
-        <option>36-45岁</option>
-        <option>46-55岁</option>
-        <option>56岁以上</option>
-      </select>
+    <div class="col-input">
+      <input class="input_style" id="role" placeholder="" v-model="u_ageGroup" readonly class="form-group" data-toggle="modal" data-target="#ageGroupModal"/>
     </div>
-<i class="fa fa-angle-right fa-lg row"></i>
+  </div>
+  <div class="modal fade" id="ageGroupModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times</span></button>
+          <h4 class="modal-title">&nbsp;</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="ageGroup" value="003001-25岁以下-0~25" _text="25岁以下"/> 25岁以下 </label>
+          <label><input type="radio" name="ageGroup" value="003002-26~35岁-26~35" _text="26~35岁"/> 26~35岁 </label>
+          <label><input type="radio" name="ageGroup" value="003003-36~45岁-36~45" _text="36~45岁"/> 36~45岁 </label>
+          <label><input type="radio" name="ageGroup" value="003004-46~55岁-46~55" _text="46~55岁"/> 46~55岁 </label>
+          <label><input type="radio" name="ageGroup" value="003005-56岁以上-56~300" _text="56岁以上"/> 56岁以上 </label>
+          <label><input type="radio" name="ageGroup" value="003000-无法了解" _text="无法了解"/> 无法了解 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" @click="selAgeGroup()">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">居住区域</div>
+    <div class="col-input">
+      <input type="text" placeholder="" name="localResidence"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">工作区域</div>
+    <div class="col-input-4">
+      <input type="text" placeholder="" name="localWorkArea"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">外埠居住</div>
+    <div class="col-input">
+      <input type="text" placeholder="" name="outResidence"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">外埠工作</div>
+    <div class="col-input-4">
+      <input type="text" placeholder="" name="outWorkArea"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-3">家庭状况</div>
+    <div class="col-input">
+      <input class="input_style" id="role" placeholder="" v-model="u_familyStatus" readonly class="form-group" data-toggle="modal" data-target="#familyStatusModal"/>
+    </div>
+  </div>
+  <div class="modal fade" id="familyStatusModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times</span></button>
+          <h4 class="modal-title">&nbsp;</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="familyStatus" value="003001-25岁以下-0~25" _text="25岁以下"/> 25岁以下 </label>
+          <label><input type="radio" name="familyStatus" value="003002-26~35岁-26~35" _text="26~35岁"/> 26~35岁 </label>
+          <label><input type="radio" name="familyStatus" value="003003-36~45岁-36~45" _text="36~45岁"/> 36~45岁 </label>
+          <label><input type="radio" name="familyStatus" value="003004-46~55岁-46~55" _text="46~55岁"/> 46~55岁 </label>
+          <label><input type="radio" name="familyStatus" value="003005-56岁以上-56~300" _text="56岁以上"/> 56岁以上 </label>
+          <label><input type="radio" name="familyStatus" value="003000-无法了解" _text="无法了解"/> 无法了解 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" @click="selFamilyStatus()">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-<div class="item_sflr row">
-<div class="col-title col-title-4">居住区域</div>
-<div class="col-input-4">
-<input type="text" placeholder="">
-</div>
-</div>
-<div class="item_sflr row">
-<div class="col-title col-title-4">外埠居住</div>
-<div class="col-input-4">
-<input type="text" placeholder="">
-</div>
-</div>
+<script>
+var _uProjId="";
+var _uProjName="";
+var _uSex="";
+var _uUserId="";
+var _uAgeGroup="";
+var _uFamilyStatus="";
 
-<div class="item_sflr row">
-<div class="col-title col-title-4">工作区域</div>
-<div class="col-input-4">
-<input type="text" placeholder="">
-</div>
-</div>
+//复选单选处理
+new Vue({
+  el: "#step1",
+  data:{
+    u_proj: "",
+    u_sex: "",
+    u_ageGroup: "",
+    u_familyStatus: "",
+  },
+  methods: {
+    selProj: function() {
+      var choose=document.getElementsByName('proj');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked==true) {
+          this.u_proj=choose[i].getAttribute("_text");
+          _uProjName=this.u_proj;
+          _uProjId=choose[i].value.substring(0, choose[i].value.indexOf('-'));
+        }
+      }
+    },
+    selSex: function() {
+      var choose=document.getElementsByName('sex');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked==true) {
+          this.u_sex=choose[i].getAttribute("_text");
+          _uSex=choose[i].value;
+        }
+      }
+    },
+    selAgeGroup: function() {
+       var choose=document.getElementsByName('ageGroup');
+       for (var i=0; i<choose.length; i++) {
+         if (choose[i].checked==true) {
+           this.u_ageGroup=choose[i].getAttribute("_text");
+           _uGgeGroup=choose[i].value;
+         }
+       }
+    },
+    selFamilyStatus: function() {
+      var choose=document.getElementsByName('familyStatus');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked==true) {
+          this.u_familyStatus=choose[i].getAttribute("_text");
+          _uFamilyStatus=choose[i].value;
+        }
+      }
+    }
+  }
+});
 
-<div class="item_sflr row">
-<div class="col-title col-title-4">外埠工作</div>
-<div class="col-input-4">
-<input type="text" placeholder="">
-</div>
-</div>
+//填充数据,并初始化
+$(function() {
+  $$('.datatime').mdater({
+    minDate: new Date(2015, 2, 10)
+  });
 
-<div class="item_sflr row">
-<div class="col-title col-title-4">家庭情况</div>
-<div class="col-input-4">
-              <select>
-        <option></option>
-                <option>单身</option>
-                <option>夫妻</option>
-                <option>一孩家庭</option>
-                <option>两孩家庭</option>
-                <option>三孩及以上家庭</option>
-                <option>三代同堂</option>
-              </select>
-</div>
-<i class="fa fa-angle-right fa-lg row"></i>
-</div>
+  var url=_URL_BASE+"/wx/api/personalCenter";
+  $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
+    success: function(json) {
+      if (json.msg=='100') {
+        initPage(json.userInfo);
+      } else {
+        window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息<br/>禁止录入";
+      }
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
+        +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
+    }
+  });
+  var nt=new Date();
+  var str=""+nt.getFullYear()+"-";
+  str+=(nt.getMonth()+1)+"-";
+  str+=nt.getDate()+"-";
+  str+=" "+nt.getHours()+":";
+  str+=nt.getMinutes()+":";
+  str+=nt.getSeconds();
+  $("input[name='curTime']").val(str);
+  $("#step1").show();
 
-
-<div class="item_sflr row">
-<div class="col-title col-title-4">出行方式</div>
-<div class="col-input-4">
-              <select>
-        <option></option>
-                <option>自驾车</option>
-                <option>公交</option>
-                <option>地铁</option>
-                <option>步行</option>
-                <option>打车</option>
-                <option>其他</option>
-              </select>
-</div>
-<i class="fa fa-angle-right fa-lg row"></i>
-</div>
-</div>
-<div class="item-zhc" style="margin-top:1.5rem;">下一步</div>
-  </body>
+  function initPage(data) {
+    $("input[name='user']").val(data.realname);
+    _uUserId=data.userid;
+    var canShowProj=false;
+    var prjNames=""+data.checkProj;
+    prjNames="001-项目1";
+    var lPrj=prjNames.split(',');
+    var projHtml="";
+    var projId,projName;
+    for (var i=0;i<lPrj.length; i++) {
+      if ($.trim(lPrj[i])!='') {
+        if (lPrj[i].indexOf('-')!=-1) {
+          _uProj=lPrj[i];
+          if (!canShowProj) canShowProj=true;
+          projId=lPrj[i].substring(0,lPrj[i].indexOf('-'));
+          projName=lPrj[i].substring(lPrj[i].indexOf('-')+1);
+          projHtml+='<label><input type="radio" name="proj" value="'+projId+'_'+projName+'" _text="'+projName+'"/> '+projName+' </label>';
+        }
+      }
+    }
+    _uProjName=projName;
+    _uProjId=projId;
+    if (canShowProj&&lPrj.length>1) {
+      $("#projData").html(projHtml);
+      $("#projArea").show(); 
+    }
+    alert(_uProjId+"=="+_uProjName);
+  }
+});
+</script>
+</body>
 </html>
