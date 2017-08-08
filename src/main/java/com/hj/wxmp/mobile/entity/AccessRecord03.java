@@ -15,6 +15,12 @@ public class AccessRecord03 {
 
     private String custsex;
 
+    private Integer visitcycle;
+
+    private Integer purchasecycle;
+
+    private Integer signcycle;
+
     private Date purchasedate;
 
     private Date signdate;
@@ -51,6 +57,8 @@ public class AccessRecord03 {
 
     private Date lmtime;
     
+    private String realtyproducttypedesc;
+
     private String suggestion;
 
     private String talkqands;
@@ -58,6 +66,14 @@ public class AccessRecord03 {
     private String signqands;
 
     private String sumdescn;
+
+    public String getRealtyproducttypedesc() {
+        return realtyproducttypedesc;
+    }
+
+    public void setRealtyproducttypedesc(String realtyproducttypedesc) {
+        this.realtyproducttypedesc = realtyproducttypedesc == null ? null : realtyproducttypedesc.trim();
+    }
 
     public String getSuggestion() {
         return suggestion;
@@ -137,6 +153,30 @@ public class AccessRecord03 {
 
     public void setCustsex(String custsex) {
         this.custsex = custsex == null ? null : custsex.trim();
+    }
+
+    public Integer getVisitcycle() {
+        return visitcycle;
+    }
+
+    public void setVisitcycle(Integer visitcycle) {
+        this.visitcycle = visitcycle;
+    }
+
+    public Integer getPurchasecycle() {
+        return purchasecycle;
+    }
+
+    public void setPurchasecycle(Integer purchasecycle) {
+        this.purchasecycle = purchasecycle;
+    }
+
+    public Integer getSigncycle() {
+        return signcycle;
+    }
+
+    public void setSigncycle(Integer signcycle) {
+        this.signcycle = signcycle;
     }
 
     public Date getPurchasedate() {

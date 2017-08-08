@@ -9,6 +9,8 @@ public class SysRole {
 
     private String logogram;
 
+    private Integer sort;
+
     private String remark;
 
     public String getId() {
@@ -41,6 +43,14 @@ public class SysRole {
 
     public void setLogogram(String logogram) {
         this.logogram = logogram == null ? null : logogram.trim();
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 
     public String getRemark() {

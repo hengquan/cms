@@ -8,6 +8,9 @@
     <result column="custName" property="custname" jdbcType="VARCHAR" />
     <result column="custPhoneNum" property="custphonenum" jdbcType="VARCHAR" />
     <result column="custSex" property="custsex" jdbcType="VARCHAR" />
+    <result column="visitCycle" property="visitcycle" jdbcType="INTEGER" />
+    <result column="purchaseCycle" property="purchasecycle" jdbcType="INTEGER" />
+    <result column="signCycle" property="signcycle" jdbcType="INTEGER" />
     <result column="purchaseDate" property="purchasedate" jdbcType="DATE" />
     <result column="signDate" property="signdate" jdbcType="DATE" />
     <result column="houseNum" property="housenum" jdbcType="VARCHAR" />
@@ -26,18 +29,20 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
+    <result column="realtyProductTypeDesc" property="realtyproducttypedesc" jdbcType="LONGVARCHAR" />
     <result column="suggestion" property="suggestion" jdbcType="LONGVARCHAR" />
     <result column="talkQandS" property="talkqands" jdbcType="LONGVARCHAR" />
     <result column="signQandS" property="signqands" jdbcType="LONGVARCHAR" />
     <result column="sumDescn" property="sumdescn" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, projId, custId, custName, custPhoneNum, custSex, purchaseDate, signDate, houseNum, 
-    houseRegiType, houseAcreage, unitPrice, totalPrice, paymentType, realtyProductType, 
-    addressMail, livingStatus, realUseMen, realPayMen, authorId, creatorId, status, cTime, 
-    lmTime,suggestion, talkQandS, signQandS, sumDescn
+    id, projId, custId, custName, custPhoneNum, custSex, visitCycle, purchaseCycle, signCycle, 
+    purchaseDate, signDate, houseNum, houseRegiType, houseAcreage, unitPrice, totalPrice, 
+    paymentType, realtyProductType, addressMail, livingStatus, realUseMen, realPayMen, 
+    authorId, creatorId, status, cTime, lmTime,
+    realtyProductTypeDesc, suggestion, talkQandS, signQandS, sumDescn
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from ql_AccessRecord03
@@ -50,24 +55,28 @@
   <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.AccessRecord03" >
     insert into ql_AccessRecord03 (id, projId, custId, 
       custName, custPhoneNum, custSex, 
+      visitCycle, purchaseCycle, signCycle, 
       purchaseDate, signDate, houseNum, 
       houseRegiType, houseAcreage, unitPrice, 
       totalPrice, paymentType, realtyProductType, 
       addressMail, livingStatus, realUseMen, 
       realPayMen, authorId, creatorId, 
       status, cTime, lmTime, 
-      suggestion, talkQandS, signQandS, 
-      sumDescn)
+      realtyProductTypeDesc, suggestion, 
+      talkQandS, signQandS, sumDescn
+      )
     values (#{id,jdbcType=VARCHAR}, #{projid,jdbcType=VARCHAR}, #{custid,jdbcType=VARCHAR}, 
       #{custname,jdbcType=VARCHAR}, #{custphonenum,jdbcType=VARCHAR}, #{custsex,jdbcType=VARCHAR}, 
+      #{visitcycle,jdbcType=INTEGER}, #{purchasecycle,jdbcType=INTEGER}, #{signcycle,jdbcType=INTEGER}, 
       #{purchasedate,jdbcType=DATE}, #{signdate,jdbcType=DATE}, #{housenum,jdbcType=VARCHAR}, 
       #{houseregitype,jdbcType=VARCHAR}, #{houseacreage,jdbcType=INTEGER}, #{unitprice,jdbcType=REAL}, 
       #{totalprice,jdbcType=REAL}, #{paymenttype,jdbcType=VARCHAR}, #{realtyproducttype,jdbcType=VARCHAR}, 
       #{addressmail,jdbcType=VARCHAR}, #{livingstatus,jdbcType=VARCHAR}, #{realusemen,jdbcType=VARCHAR}, 
       #{realpaymen,jdbcType=VARCHAR}, #{authorid,jdbcType=VARCHAR}, #{creatorid,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{lmtime,jdbcType=TIMESTAMP}, 
-      #{suggestion,jdbcType=LONGVARCHAR}, #{talkqands,jdbcType=LONGVARCHAR}, #{signqands,jdbcType=LONGVARCHAR}, 
-      #{sumdescn,jdbcType=LONGVARCHAR})
+      #{realtyproducttypedesc,jdbcType=LONGVARCHAR}, #{suggestion,jdbcType=LONGVARCHAR}, 
+      #{talkqands,jdbcType=LONGVARCHAR}, #{signqands,jdbcType=LONGVARCHAR}, #{sumdescn,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.AccessRecord03" >
     insert into ql_AccessRecord03
@@ -89,6 +98,15 @@
       </if>
       <if test="custsex != null" >
         custSex,
+      </if>
+      <if test="visitcycle != null" >
+        visitCycle,
+      </if>
+      <if test="purchasecycle != null" >
+        purchaseCycle,
+      </if>
+      <if test="signcycle != null" >
+        signCycle,
       </if>
       <if test="purchasedate != null" >
         purchaseDate,
@@ -144,6 +162,9 @@
       <if test="lmtime != null" >
         lmTime,
       </if>
+      <if test="realtyproducttypedesc != null" >
+        realtyProductTypeDesc,
+      </if>
       <if test="suggestion != null" >
         suggestion,
       </if>
@@ -175,6 +196,15 @@
       </if>
       <if test="custsex != null" >
         #{custsex,jdbcType=VARCHAR},
+      </if>
+      <if test="visitcycle != null" >
+        #{visitcycle,jdbcType=INTEGER},
+      </if>
+      <if test="purchasecycle != null" >
+        #{purchasecycle,jdbcType=INTEGER},
+      </if>
+      <if test="signcycle != null" >
+        #{signcycle,jdbcType=INTEGER},
       </if>
       <if test="purchasedate != null" >
         #{purchasedate,jdbcType=DATE},
@@ -230,6 +260,9 @@
       <if test="lmtime != null" >
         #{lmtime,jdbcType=TIMESTAMP},
       </if>
+      <if test="realtyproducttypedesc != null" >
+        #{realtyproducttypedesc,jdbcType=LONGVARCHAR},
+      </if>
       <if test="suggestion != null" >
         #{suggestion,jdbcType=LONGVARCHAR},
       </if>
@@ -261,6 +294,15 @@
       </if>
       <if test="custsex != null" >
         custSex = #{custsex,jdbcType=VARCHAR},
+      </if>
+      <if test="visitcycle != null" >
+        visitCycle = #{visitcycle,jdbcType=INTEGER},
+      </if>
+      <if test="purchasecycle != null" >
+        purchaseCycle = #{purchasecycle,jdbcType=INTEGER},
+      </if>
+      <if test="signcycle != null" >
+        signCycle = #{signcycle,jdbcType=INTEGER},
       </if>
       <if test="purchasedate != null" >
         purchaseDate = #{purchasedate,jdbcType=DATE},
@@ -316,6 +358,9 @@
       <if test="lmtime != null" >
         lmTime = #{lmtime,jdbcType=TIMESTAMP},
       </if>
+      <if test="realtyproducttypedesc != null" >
+        realtyProductTypeDesc = #{realtyproducttypedesc,jdbcType=LONGVARCHAR},
+      </if>
       <if test="suggestion != null" >
         suggestion = #{suggestion,jdbcType=LONGVARCHAR},
       </if>
@@ -331,13 +376,16 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hj.wxmp.mobile.entity.AccessRecord03" >
+  <update id="BaseResultMap" parameterType="com.hj.wxmp.mobile.entity.AccessRecord03" >
     update ql_AccessRecord03
     set projId = #{projid,jdbcType=VARCHAR},
       custId = #{custid,jdbcType=VARCHAR},
       custName = #{custname,jdbcType=VARCHAR},
       custPhoneNum = #{custphonenum,jdbcType=VARCHAR},
       custSex = #{custsex,jdbcType=VARCHAR},
+      visitCycle = #{visitcycle,jdbcType=INTEGER},
+      purchaseCycle = #{purchasecycle,jdbcType=INTEGER},
+      signCycle = #{signcycle,jdbcType=INTEGER},
       purchaseDate = #{purchasedate,jdbcType=DATE},
       signDate = #{signdate,jdbcType=DATE},
       houseNum = #{housenum,jdbcType=VARCHAR},
@@ -356,6 +404,7 @@
       status = #{status,jdbcType=INTEGER},
       cTime = #{ctime,jdbcType=TIMESTAMP},
       lmTime = #{lmtime,jdbcType=TIMESTAMP},
+      realtyProductTypeDesc = #{realtyproducttypedesc,jdbcType=LONGVARCHAR},
       suggestion = #{suggestion,jdbcType=LONGVARCHAR},
       talkQandS = #{talkqands,jdbcType=LONGVARCHAR},
       signQandS = #{signqands,jdbcType=LONGVARCHAR},
@@ -369,6 +418,9 @@
       custName = #{custname,jdbcType=VARCHAR},
       custPhoneNum = #{custphonenum,jdbcType=VARCHAR},
       custSex = #{custsex,jdbcType=VARCHAR},
+      visitCycle = #{visitcycle,jdbcType=INTEGER},
+      purchaseCycle = #{purchasecycle,jdbcType=INTEGER},
+      signCycle = #{signcycle,jdbcType=INTEGER},
       purchaseDate = #{purchasedate,jdbcType=DATE},
       signDate = #{signdate,jdbcType=DATE},
       houseNum = #{housenum,jdbcType=VARCHAR},
