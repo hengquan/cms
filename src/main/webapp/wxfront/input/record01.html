@@ -5,7 +5,7 @@
   <meta name="viewport" content="initial-scale=1, maximum-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <title>客户数据中心</title>
+  <title>客户数据中心-首访信息录入</title>
   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="../css/bootstrap.min.css"/>
   <link rel="stylesheet" href="../css/index.css"/>
@@ -169,12 +169,13 @@
           <h4 class="modal-title">&nbsp;</h4>
         </div>
         <div class="modal-body">
-          <label><input type="radio" name="familyStatus" value="003001-25岁以下-0~25" _text="25岁以下"/> 25岁以下 </label>
-          <label><input type="radio" name="familyStatus" value="003002-26~35岁-26~35" _text="26~35岁"/> 26~35岁 </label>
-          <label><input type="radio" name="familyStatus" value="003003-36~45岁-36~45" _text="36~45岁"/> 36~45岁 </label>
-          <label><input type="radio" name="familyStatus" value="003004-46~55岁-46~55" _text="46~55岁"/> 46~55岁 </label>
-          <label><input type="radio" name="familyStatus" value="003005-56岁以上-56~300" _text="56岁以上"/> 56岁以上 </label>
-          <label><input type="radio" name="familyStatus" value="003000-无法了解" _text="无法了解"/> 无法了解 </label>
+          <label><input type="radio" name="familyStatus" value="005001-单身" _text="单身"/> 单身 </label>
+          <label><input type="radio" name="familyStatus" value="005002-夫妻" _text="夫妻"/> 夫妻 </label>
+          <label><input type="radio" name="familyStatus" value="005003-一孩家庭" _text="一孩家庭"/> 一孩家庭 </label>
+          <label><input type="radio" name="familyStatus" value="005004-俩孩家庭" _text="俩孩家庭"/> 俩孩家庭 </label>
+          <label><input type="radio" name="familyStatus" value="005005-三孩及以上家庭" _text="三孩及以上家庭"/> 俩孩家庭 </label>
+          <label><input type="radio" name="familyStatus" value="005006-三代同堂" _text="三代同堂"/> 三代同堂 </label>
+          <label><input type="radio" name="familyStatus" value="005000-无法了解" _text="无法了解"/> 无法了解 </label>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -300,7 +301,6 @@ $(function() {
       $("#projData").html(projHtml);
       $("#projArea").show(); 
     }
-    alert(_uProjId+"=="+_uProjName);
   }
 });
 </script>
