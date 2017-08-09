@@ -580,7 +580,6 @@
   
   
   
-  
   <!-- 未审核的所有首访记录 -->
   <select id="selectMessage" resultType="java.util.Map" parameterType="java.util.Map">
 	SELECT

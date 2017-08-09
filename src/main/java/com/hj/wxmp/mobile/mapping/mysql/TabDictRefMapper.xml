@@ -8,10 +8,12 @@
     <result column="tabName" property="tabname" jdbcType="VARCHAR" />
     <result column="tabId" property="tabid" jdbcType="VARCHAR" />
     <result column="refName" property="refname" jdbcType="VARCHAR" />
+    <result column="sectionBegin" property="sectionbegin" jdbcType="REAL" />
+    <result column="sectionEnd" property="sectionend" jdbcType="REAL" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, dmId, ddId, tabName, tabId, refName, cTime
+    id, dmId, ddId, tabName, tabId, refName, sectionBegin, sectionEnd, cTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -26,10 +28,12 @@
   <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.TabDictRef" >
     insert into plat_TabDict_Ref (id, dmId, ddId, 
       tabName, tabId, refName, 
-      cTime)
+      sectionBegin, sectionEnd, cTime
+      )
     values (#{id,jdbcType=VARCHAR}, #{dmid,jdbcType=VARCHAR}, #{ddid,jdbcType=VARCHAR}, 
       #{tabname,jdbcType=VARCHAR}, #{tabid,jdbcType=VARCHAR}, #{refname,jdbcType=VARCHAR}, 
-      #{ctime,jdbcType=TIMESTAMP})
+      #{sectionbegin,jdbcType=REAL}, #{sectionend,jdbcType=REAL}, #{ctime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.TabDictRef" >
     insert into plat_TabDict_Ref
@@ -51,6 +55,12 @@
       </if>
       <if test="refname != null" >
         refName,
+      </if>
+      <if test="sectionbegin != null" >
+        sectionBegin,
+      </if>
+      <if test="sectionend != null" >
+        sectionEnd,
       </if>
       <if test="ctime != null" >
         cTime,
@@ -75,6 +85,12 @@
       <if test="refname != null" >
         #{refname,jdbcType=VARCHAR},
       </if>
+      <if test="sectionbegin != null" >
+        #{sectionbegin,jdbcType=REAL},
+      </if>
+      <if test="sectionend != null" >
+        #{sectionend,jdbcType=REAL},
+      </if>
       <if test="ctime != null" >
         #{ctime,jdbcType=TIMESTAMP},
       </if>
@@ -98,6 +114,12 @@
       <if test="refname != null" >
         refName = #{refname,jdbcType=VARCHAR},
       </if>
+      <if test="sectionbegin != null" >
+        sectionBegin = #{sectionbegin,jdbcType=REAL},
+      </if>
+      <if test="sectionend != null" >
+        sectionEnd = #{sectionend,jdbcType=REAL},
+      </if>
       <if test="ctime != null" >
         cTime = #{ctime,jdbcType=TIMESTAMP},
       </if>
@@ -111,7 +133,22 @@
       tabName = #{tabname,jdbcType=VARCHAR},
       tabId = #{tabid,jdbcType=VARCHAR},
       refName = #{refname,jdbcType=VARCHAR},
+      sectionBegin = #{sectionbegin,jdbcType=REAL},
+      sectionEnd = #{sectionend,jdbcType=REAL},
       cTime = #{ctime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  
+  <!-- 查找字典表是否有相同记录 -->
+  <select id="selectCusIdAndTableName" resultMap="BaseResultMap" parameterType="java.util.Map">
+	SELECT
+		*
+	FROM
+		plat_TabDict_Ref
+	WHERE
+		tabName = #{tableName}
+	AND tabId = #{tableId}
+	AND refName = #{refName}
+  </select>
 </mapper>

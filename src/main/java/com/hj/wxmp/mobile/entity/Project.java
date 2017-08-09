@@ -9,7 +9,11 @@ public class Project {
 
     private String areaname;
 
+    private Integer sort;
+
     private String descn;
+
+    private Integer isvalidate;
 
     private Date ctime;
 
@@ -39,12 +43,28 @@ public class Project {
         this.areaname = areaname == null ? null : areaname.trim();
     }
 
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
     public String getDescn() {
         return descn;
     }
 
     public void setDescn(String descn) {
         this.descn = descn == null ? null : descn.trim();
+    }
+
+    public Integer getIsvalidate() {
+        return isvalidate;
+    }
+
+    public void setIsvalidate(Integer isvalidate) {
+        this.isvalidate = isvalidate;
     }
 
     public Date getCtime() {

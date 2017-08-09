@@ -58,7 +58,7 @@
     recepTimeSection, custScore, authorId, creatorId, status, cTime, lmTime,
     avocationsDesc, resistPointDesc, loveActDesc, visitorRefsDesc, descn, faultDescn
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from ql_AccessRecord02
@@ -526,7 +526,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hj.wxmp.mobile.entity.AccessRecord02" >
+  <update id="BaseResultMap" parameterType="com.hj.wxmp.mobile.entity.AccessRecord02" >
     update ql_AccessRecord02
     set projId = #{projid,jdbcType=VARCHAR},
       custId = #{custid,jdbcType=VARCHAR},
