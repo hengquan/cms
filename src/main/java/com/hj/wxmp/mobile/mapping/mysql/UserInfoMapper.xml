@@ -31,12 +31,16 @@
   <sql id="Base_Column_List" >
     id, loginName, password, salt, isValidate, realName, selfProjAuth, mainPhoneNum, 
     cTime, lmTime, signature, subscribe, openid, nickname, sex, city, country, province, 
-    language, headimgurl, subscribe_time, unionid, groupid, remark,
+    language, headimgurl, subscribe_time, unionid, groupid, remark
+  </sql>
+  <sql id="Blob_Column_List" >
     descn
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from plat_User
     where id = #{id,jdbcType=VARCHAR}
   </select>

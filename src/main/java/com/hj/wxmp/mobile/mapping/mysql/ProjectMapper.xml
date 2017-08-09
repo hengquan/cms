@@ -5,12 +5,14 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="projName" property="projname" jdbcType="VARCHAR" />
     <result column="areaName" property="areaname" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
     <result column="descn" property="descn" jdbcType="VARCHAR" />
+    <result column="isValidate" property="isvalidate" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, projName, areaName, descn, cTime, lmTime
+    id, projName, areaName, sort, descn, isValidate, cTime, lmTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -24,11 +26,11 @@
   </delete>
   <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.Project" >
     insert into ql_Project (id, projName, areaName, 
-      descn, cTime, lmTime
-      )
+      sort, descn, isValidate, 
+      cTime, lmTime)
     values (#{id,jdbcType=VARCHAR}, #{projname,jdbcType=VARCHAR}, #{areaname,jdbcType=VARCHAR}, 
-      #{descn,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, #{lmtime,jdbcType=TIMESTAMP}
-      )
+      #{sort,jdbcType=INTEGER}, #{descn,jdbcType=VARCHAR}, #{isvalidate,jdbcType=INTEGER}, 
+      #{ctime,jdbcType=TIMESTAMP}, #{lmtime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.Project" >
     insert into ql_Project
@@ -42,8 +44,14 @@
       <if test="areaname != null" >
         areaName,
       </if>
+      <if test="sort != null" >
+        sort,
+      </if>
       <if test="descn != null" >
         descn,
+      </if>
+      <if test="isvalidate != null" >
+        isValidate,
       </if>
       <if test="ctime != null" >
         cTime,
@@ -62,8 +70,14 @@
       <if test="areaname != null" >
         #{areaname,jdbcType=VARCHAR},
       </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
       <if test="descn != null" >
         #{descn,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalidate != null" >
+        #{isvalidate,jdbcType=INTEGER},
       </if>
       <if test="ctime != null" >
         #{ctime,jdbcType=TIMESTAMP},
@@ -82,8 +96,14 @@
       <if test="areaname != null" >
         areaName = #{areaname,jdbcType=VARCHAR},
       </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
       <if test="descn != null" >
         descn = #{descn,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalidate != null" >
+        isValidate = #{isvalidate,jdbcType=INTEGER},
       </if>
       <if test="ctime != null" >
         cTime = #{ctime,jdbcType=TIMESTAMP},
@@ -98,7 +118,9 @@
     update ql_Project
     set projName = #{projname,jdbcType=VARCHAR},
       areaName = #{areaname,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
       descn = #{descn,jdbcType=VARCHAR},
+      isValidate = #{isvalidate,jdbcType=INTEGER},
       cTime = #{ctime,jdbcType=TIMESTAMP},
       lmTime = #{lmtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}

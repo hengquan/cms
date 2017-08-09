@@ -36,6 +36,8 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.hj.wxmp.mobile.entity.AccessRecord01" extends="BaseResultMap" >
     <result column="trafficTypeDesc" property="traffictypedesc" jdbcType="LONGVARCHAR" />
     <result column="workIndustryDesc" property="workindustrydesc" jdbcType="LONGVARCHAR" />
     <result column="enterpriseTypeDesc" property="enterprisetypedesc" jdbcType="LONGVARCHAR" />
@@ -51,13 +53,17 @@
     localResidence, localWorkArea, outResidence, outWorkArea, familyStatus, trafficType, 
     workIndustry, enterpriseType, realtyProductType, attentAcreage, priceSection, buyPurpose, 
     knowWay, attentionPoint, estCustWorth, investType, captilPrepSection, compareProjs, 
-    recepTimeSection, custScore, authorId, creatorId, status, cTime, lmTime,
+    recepTimeSection, custScore, authorId, creatorId, status, cTime, lmTime
+  </sql>
+  <sql id="Blob_Column_List" >
     trafficTypeDesc, workIndustryDesc, enterpriseTypeDesc, realtyProductTypeDesc, buyPurposeDesc, 
     knowWayDesc, attentionPointDesc, investTypeDesc, custDescn
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from ql_AccessRecord01
     where id = #{id,jdbcType=VARCHAR}
   </select>
@@ -577,7 +583,6 @@
       lmTime = #{lmtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
   
   
   <!-- 未审核的所有首访记录 -->
