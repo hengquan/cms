@@ -26,23 +26,17 @@
     <result column="unionid" property="unionid" jdbcType="VARCHAR" />
     <result column="groupid" property="groupid" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.hj.wxmp.mobile.entity.UserInfo" extends="BaseResultMap" >
     <result column="descn" property="descn" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, loginName, password, salt, isValidate, realName, selfProjAuth, mainPhoneNum, 
     cTime, lmTime, signature, subscribe, openid, nickname, sex, city, country, province, 
-    language, headimgurl, subscribe_time, unionid, groupid, remark
-  </sql>
-  <sql id="Blob_Column_List" >
+    language, headimgurl, subscribe_time, unionid, groupid, remark,
     descn
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from plat_User
     where id = #{id,jdbcType=VARCHAR}
   </select>

@@ -492,32 +492,28 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
-	
-	//添加首访记录
-	@RequestMapping(value = "/addHisFirstRecord")
-	@ResponseBody
-	public String addHisFirstRecord(HttpServletRequest requet,HttpServletResponse response,AccessRecord01 record01) {
-		responseInfo(response);
-		visiitURL(requet,response);
-		Map<String, Object> map = new HashMap<String, Object>();
+	//首访添加修改通用属性
+	public Boolean addRecord(AccessRecord01 record01,Customer customer,String record01Id){
+		Boolean isok = false;
 		try {
 			String openid = HashSessions.getInstance().getOpenId(request);
 			UserInfo userInfo = userInfoService.findByOpenid(openid);
 			//获取用户ID
 			String userId = userInfo.getId();
 			//openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
-			//首访记录表ID
-			String record01Id = key.getUUIDKey();
 			//客户项目关系表
 			ProjCustRef projCustRef = new ProjCustRef();
 			String proJcustId = key.getUUIDKey();
 			projCustRef.setId(proJcustId);
 			//客户表
-			Customer customer = new Customer();
 			String customerId = key.getUUIDKey();
-			customer.setId(customerId);
-			customer.setCustname(record01.getCustname());
-			customer.setPhonenum(record01.getCustphonenum());
+			String customerid = "";
+			if(customer!=null){
+				customerid = customer.getId();
+				if(customerid != null){
+					customerId = customerid;
+				}
+			}
 			customer.setTraffictypedesc(record01.getTraffictypedesc());
 			customer.setWorkindustrydesc(record01.getWorkindustrydesc());
 			customer.setEnterprisetypedesc(record01.getEnterprisetypedesc());
@@ -527,8 +523,6 @@ public class WxApiController extends ControllerBaseWx {
 			projCustRef.setAttentionpointdesc(record01.getAttentionpointdesc());
 			projCustRef.setKnowwaydesc(record01.getKnowwaydesc());
 			projCustRef.setFirstknowtime(record01.getFirstknowtime());
-			//补全首访信息-并更新
-			record01.setId(record01Id);
 			//客户性别
 			String custsex = record01.getCustsex();
 			if(custsex!=null){
@@ -704,7 +698,12 @@ public class WxApiController extends ControllerBaseWx {
 				customer.setCustscore(data);
 			}
 			//添加客户
-			customerService.insert(customer);
+			if(!customerid.equals("")){
+				customerService.update(customer);
+			}else{
+				customer.setId(customerId);
+				customerService.insert(customer);
+			}
 			//添加客户项目关系
 			projCustRef.setProjid(record01.getProjid());
 			projCustRef.setCustid(customerId);
@@ -714,9 +713,61 @@ public class WxApiController extends ControllerBaseWx {
 			record01.setAuthorid(userId);
 			record01.setCreatorid(userId);
 			record01.setStatus(1);
-			//添加首访记录
-			accessRecord01Service.insert(record01);
-			map.put("msg", "100");
+			isok = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return isok;
+		
+	}
+	
+	//添加首访记录
+	@RequestMapping(value = "/addHisFirstRecord")
+	@ResponseBody
+	public String addHisFirstRecord(HttpServletRequest requet,HttpServletResponse response,AccessRecord01 record01,Customer customer) {
+		responseInfo(response);
+		visiitURL(requet,response);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			//首访记录表ID
+			String record01Id = key.getUUIDKey();
+			//补全首访信息-并更新
+			record01.setId(record01Id);
+			customer.setCustname(record01.getCustname());
+			customer.setPhonenum(record01.getCustphonenum());
+			//调用公共方法
+			Boolean isok = addRecord(record01,customer,record01Id);
+			if(isok){
+				//添加首访记录
+				accessRecord01Service.insert(record01);
+				map.put("msg", "100");
+			}else{
+				map.put("msg", "103");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("msg", "103");
+		}
+		System.out.println(JsonUtils.map2json(map));
+		return JsonUtils.map2json(map);
+	}	
+	//修改首访记录
+	@RequestMapping(value = "/updateRecord01")
+	@ResponseBody
+	public String updateRecord01(HttpServletRequest requet,HttpServletResponse response,AccessRecord01 record01,Customer customer) {
+		responseInfo(response);
+		visiitURL(requet,response);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			//调用公共方法
+			Boolean isok = addRecord(record01,customer,record01.getId());
+			if(isok){
+				//添加首访记录
+				accessRecord01Service.insert(record01);
+				map.put("msg", "100");
+			}else{
+				map.put("msg", "103");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("msg", "103");

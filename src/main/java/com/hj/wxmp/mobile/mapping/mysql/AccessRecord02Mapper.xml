@@ -58,7 +58,7 @@
     recepTimeSection, custScore, authorId, creatorId, status, cTime, lmTime,
     avocationsDesc, resistPointDesc, loveActDesc, visitorRefsDesc, descn, faultDescn
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from ql_AccessRecord02

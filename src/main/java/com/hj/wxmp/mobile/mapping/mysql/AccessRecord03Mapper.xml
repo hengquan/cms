@@ -42,7 +42,7 @@
     authorId, creatorId, status, cTime, lmTime,
     realtyProductTypeDesc, suggestion, talkQandS, signQandS, sumDescn
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from ql_AccessRecord03
