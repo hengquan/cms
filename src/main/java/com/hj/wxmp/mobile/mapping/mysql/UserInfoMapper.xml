@@ -27,7 +27,7 @@
     <result column="groupid" property="groupid" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.hj.wxmp.mobile.entity.UserInfo" extends="BaseResultMap" >
+  <resultMap id="BaseResultMap" type="com.hj.wxmp.mobile.entity.UserInfo" extends="BaseResultMap" >
     <result column="descn" property="descn" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -38,7 +38,7 @@
   <sql id="Blob_Column_List" >
     descn
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     ,

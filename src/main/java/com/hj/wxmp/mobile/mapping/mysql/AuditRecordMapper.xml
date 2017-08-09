@@ -7,21 +7,14 @@
     <result column="arId" property="arid" jdbcType="VARCHAR" />
     <result column="auditType" property="audittype" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.hj.wxmp.mobile.entity.AuditRecord" extends="BaseResultMap" >
     <result column="reason" property="reason" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, recordType, arId, auditType, cTime
+    id, recordType, arId, auditType, cTime, reason
   </sql>
-  <sql id="Blob_Column_List" >
-    reason
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from ql_AuditRecord
     where id = #{id,jdbcType=VARCHAR}
   </select>

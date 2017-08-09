@@ -10,21 +10,14 @@
     <result column="thirdLoginCount" property="thirdlogincount" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.hj.wxmp.mobile.entity.ThirdUser" extends="BaseResultMap" >
     <result column="thirdUserInfo" property="thirduserinfo" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, userId, thirdUserId, thirdSysType, thirdSysId, thirdLoginCount, cTime, lmTime
+    id, userId, thirdUserId, thirdSysType, thirdSysId, thirdLoginCount, cTime, lmTime, thirdUserInfo
   </sql>
-  <sql id="Blob_Column_List" >
-    thirdUserInfo
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from plat_ThirdUser
     where id = #{id,jdbcType=VARCHAR}
   </select>
