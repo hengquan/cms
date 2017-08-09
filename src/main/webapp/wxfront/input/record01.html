@@ -20,9 +20,8 @@
   <script src="../js/zepto.mdater.js"></script>
 </head>
 <body>
-
+<!-- 第1页 -->
 <div class="container" id="step1" style="display:none">
-  <div class="line"></div>
   <div class="item_sflr row">
     <div class="col-title col-title-4">置业顾问</div>
     <div class="col-input">
@@ -49,12 +48,11 @@
           <h4 class="modal-title">&nbsp;</h4>
         </div>
         <div class="modal-body" id="projData">
-          <label><input type="radio" name="proj" value="002001-男" _text="男"/> 男 </label>
-          <label><input type="radio" name="sex" value="002001-女" _text="女"/> 女 </label>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" @click="selProj()">确定</button>
+          <button type="button" class="btn btn-primary" @click="selProj()">确定</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanProj()" id="cleanProjBtn" style="display:none;">清除并关闭</button>
         </div>
       </div>
     </div>
@@ -92,7 +90,8 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" @click="selSex()">确定</button>
+          <button type="button" class="btn btn-primary" @click="selSex()">确定</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanSex()" id="cleanSexBtn" style="display:none;">清除并关闭</button>
         </div>
       </div>
     </div>
@@ -126,7 +125,8 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" @click="selAgeGroup()">确定</button>
+          <button type="button" class="btn btn-primary" @click="selAgeGroup()">确定</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanAgeGroup()" id="cleanAgeGroupBtn" style="display:none;">清除并关闭</button>
         </div>
       </div>
     </div>
@@ -156,7 +156,7 @@
     </div>
   </div>
   <div class="item_sflr row">
-    <div class="col-title col-title-3">家庭状况</div>
+    <div class="col-title col-title-4">家庭状况</div>
     <div class="col-input">
       <input class="input_style" id="role" placeholder="" v-model="u_familyStatus" readonly class="form-group" data-toggle="modal" data-target="#familyStatusModal"/>
     </div>
@@ -173,18 +173,164 @@
           <label><input type="radio" name="familyStatus" value="005002-夫妻" _text="夫妻"/> 夫妻 </label>
           <label><input type="radio" name="familyStatus" value="005003-一孩家庭" _text="一孩家庭"/> 一孩家庭 </label>
           <label><input type="radio" name="familyStatus" value="005004-俩孩家庭" _text="俩孩家庭"/> 俩孩家庭 </label>
-          <label><input type="radio" name="familyStatus" value="005005-三孩及以上家庭" _text="三孩及以上家庭"/> 俩孩家庭 </label>
+          <label><input type="radio" name="familyStatus" value="005005-三孩及以上家庭" _text="三孩及以上家庭"/> 三孩及以上家庭 </label>
           <label><input type="radio" name="familyStatus" value="005006-三代同堂" _text="三代同堂"/> 三代同堂 </label>
           <label><input type="radio" name="familyStatus" value="005000-无法了解" _text="无法了解"/> 无法了解 </label>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" @click="selFamilyStatus()">确定</button>
+          <button type="button" class="btn btn-primary" @click="selFamilyStatus()">确定</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanFamilyStatus()" id="cleanFamilyStatusBtn" style="display:none;">清除并关闭</button>
         </div>
       </div>
     </div>
   </div>
-
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">出行方式</div>
+    <div class="col-input">
+      <input class="input_style" id="role" placeholder="" v-model="u_trafficType" readonly class="form-group" data-toggle="modal" data-target="#trafficTypeModal"/>
+    </div>
+  </div>
+  <div class="modal fade" id="trafficTypeModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times</span></button>
+          <h4 class="modal-title">&nbsp;</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="checkbox" name="trafficType" value="006001-自驾车" _text="自驾车"/> 自驾车 </label>
+          <label><input type="checkbox" name="trafficType" value="006002-公交" _text="公交"/> 公交 </label>
+          <label><input type="checkbox" name="trafficType" value="006003-地铁" _text="地铁"/> 地铁 </label>
+          <label><input type="checkbox" name="trafficType" value="006004-步行" _text="步行"/> 步行 </label>
+          <label><input type="checkbox" name="trafficType" value="006005-打车" _text="打车"/> 打车 </label>
+          <label><input type="checkbox" name="trafficType" value="006000-无法了解" _text="无法了解"/> 无法了解 </label><br/>
+          <label><input type="checkbox" name="trafficType" value="006999-其他" _text="其他" @click="trafficOtherClick()"/> 其他 </label>
+          <input type="text" placeholder="" name="trafficDesc" style="display:none;"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" @click="selTrafficType()">确定</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanTrafficType()" id="cleanTrafficTypeBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item-zhc row-link" style="margin-top:1.5rem;" onclick="step1Next()"><a href="#">下一步</a></div>
+</div>
+<!-- 第2页 -->
+<div class="container" id="step2" style="display:none">
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">购房资格</div>
+    <div class="col-input">
+      <input class="input_style" id="role" placeholder="" v-model="u_buyQualify" readonly class="form-group" data-toggle="modal" data-target="#buyQualifyModal"/>
+    </div>
+  </div>
+  <div class="modal fade" id="buyQualifyModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times</span></button>
+          <h4 class="modal-title">&nbsp;</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="buyQualify" value="004001-有" _text="有"/> 有 </label>
+          <label><input type="radio" name="buyQualify" value="004002-无(换产权名解决)" _text="无(换产权名解决)"/> 无(换产权名解决) </label>
+          <label><input type="radio" name="buyQualify" value="004003-无(房产过户解决)" _text="无(房产过户解决)"/> 无(房产过户解决) </label>
+          <label><input type="radio" name="buyQualify" value="004004-无(离婚解决)" _text="无(离婚解决)"/> 无(离婚解决) </label>
+          <label><input type="radio" name="buyQualify" value="004005-无(公司产权解决)" _text="无(公司产权解决)"/> 无(公司产权解决) </label>
+          <label><input type="radio" name="buyQualify" value="004006-无(其它解决)" _text="无(其它解决)"/> 无(其它解决) </label>
+          <label><input type="radio" name="buyQualify" value="004000-无法了解" _text="无法了解"/> 无法了解 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" @click="selBuyQualify()">确定</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanBuyQualify()" id="cleanBuyQualifyBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">从事行业</div>
+    <div class="col-input">
+      <input class="input_style" id="role" placeholder="" v-model="u_workIndustry" readonly class="form-group" data-toggle="modal" data-target="#workIndustryModal"/>
+    </div>
+  </div>
+  <div class="modal fade" id="workIndustryModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times</span></button>
+          <h4 class="modal-title">&nbsp;</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="workIndustry" value="007001-建筑房地产/装修" _text="建筑房地产/装修"/> 建筑房地产/装修 </label>
+          <label><input type="radio" name="workIndustry" value="007002-旅游/文化/媒体" _text="旅游/文化/媒体"/> 旅游/文化/媒体 </label>
+          <label><input type="radio" name="workIndustry" value="007003-能源" _text="能源"/> 能源 </label>
+          <label><input type="radio" name="workIndustry" value="007004-IT" _text="IT"/> IT </label>
+          <label><input type="radio" name="workIndustry" value="007005-金融投资" _text="金融投资"/> 金融投资 </label>
+          <label><input type="radio" name="workIndustry" value="007006-外贸" _text="外贸"/> 外贸 </label>
+          <label><input type="radio" name="workIndustry" value="007007-交通/物流/零售" _text="交通/物流/零售"/> 交通/物流/零售 </label>
+          <label><input type="radio" name="workIndustry" value="007008-餐饮" _text="餐饮"/> 餐饮 </label>
+          <label><input type="radio" name="workIndustry" value="007009-医疗" _text="医疗"/> 医疗 </label>
+          <label><input type="radio" name="workIndustry" value="007010-教育" _text="教育"/> 教育 </label>
+          <label><input type="radio" name="workIndustry" value="007011-通讯" _text="通讯"/> 通讯 </label>
+          <label><input type="radio" name="workIndustry" value="007012-律师/法务" _text="律师/法务"/> 律师/法务 </label>
+          <label><input type="radio" name="workIndustry" value="007013-退休" _text="退休"/> 自驾车 </label>
+          <label><input type="radio" name="workIndustry" value="007000-无法了解" _text="无法了解"/> 无法了解 </label><br/>
+          <label><input type="radio" name="workIndustry" value="007999-其他" _text="其他" @click="workIndustryOtherClick()"/> 其他 </label>
+          <input type="text" placeholder="" name="workIndustryDesc" style="display:none;"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" @click="selWorkIndustry()">确定</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanWorkIndustry()" id="cleanWorkIndustryBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">企业性质</div>
+    <div class="col-input">
+      <input class="input_style" id="role" placeholder="" v-model="u_enterpriseType" readonly class="form-group" data-toggle="modal" data-target="#enterpriseTypeModal"/>
+    </div>
+  </div>
+  <div class="modal fade" id="enterpriseTypeModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times</span></button>
+          <h4 class="modal-title">&nbsp;</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="enterpriseType" value="008001-国家行政机关及国企" _text="国家行政机关及国企"/> 国家行政机关及国企 </label>
+          <label><input type="radio" name="enterpriseType" value="008002-民营企业" _text="民营企业"/> 民营企业 </label>
+          <label><input type="radio" name="enterpriseType" value="008003-外资企业" _text="外资企业"/> 外资企业 </label>
+          <label><input type="radio" name="enterpriseType" value="008004-合资企业" _text="合资企业"/> 合资企业 </label>
+          <label><input type="radio" name="enterpriseType" value="008005-私营" _text="私营"/> 私营 </label>
+          <label><input type="radio" name="enterpriseType" value="008000-无法了解" _text="无法了解"/> 无法了解 </label>
+          <label><input type="radio" name="enterpriseType" value="008999-其他" _text="其他" @click="enterpriseTypeOtherClick()"/> 其他 </label>
+          <input type="text" placeholder="" name="enterpriseTypeDesc" style="display:none;"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" @click="selEnterpriseType()">确定</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanEnterpriseType()" id="cleanEnterpriseTypeBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row row-link">
+    <div class="col-50" style="margin-top:1.5rem;" onclick="step2Prev()"><a href="#">上一步</a></div>
+    <div class="col-50" style="margin-top:1.5rem;" onclick="step2Next()"><a href="#">下一步</a></div>
+  </div>
+</div>
+<!-- 第3页 -->
+<div class="container" id="step3" style="display:none">
+  <div class="row row-link">
+    <div class="col-50" style="margin-top:1.5rem;" onclick="step3Prev()"><a href="#">上一步</a></div>
+    <div class="col-50" style="margin-top:1.5rem;">提交</div>
+  </div>
 </div>
 
 <script>
@@ -194,6 +340,13 @@ var _uSex="";
 var _uUserId="";
 var _uAgeGroup="";
 var _uFamilyStatus="";
+var _uTrafficType="";
+var _uTrafficTypeDesc="";
+var _uBuyQualify="";
+var _uWorkIndustry="";
+var _uWorkIndustryDesc="";
+var _uEnterpriseType="";
+var _uEnterpriseTypeDesc="";
 
 //复选单选处理
 new Vue({
@@ -203,44 +356,250 @@ new Vue({
     u_sex: "",
     u_ageGroup: "",
     u_familyStatus: "",
+    u_trafficType: ""
   },
   methods: {
     selProj: function() {
       var choose=document.getElementsByName('proj');
       for (var i=0; i<choose.length; i++) {
-        if (choose[i].checked==true) {
+        if (choose[i].checked) {
           this.u_proj=choose[i].getAttribute("_text");
           _uProjName=this.u_proj;
           _uProjId=choose[i].value.substring(0, choose[i].value.indexOf('-'));
         }
       }
+      $("#projModal").modal('hide');
+      if (_uProjId!="") $("#cleanProjBtn").show();
+    },
+    cleanProj: function() {
+      this.u_proj="";
+      _uProjId="";
+      _uProjName="";
+      $("#cleanProjBtn").hide();
+      var choose=document.getElementsByName('proj');
+      for (var i=0; i<choose.length; i++) if (choose[i].checked) choose[i].checked=false;
     },
     selSex: function() {
       var choose=document.getElementsByName('sex');
       for (var i=0; i<choose.length; i++) {
-        if (choose[i].checked==true) {
+        if (choose[i].checked) {
           this.u_sex=choose[i].getAttribute("_text");
           _uSex=choose[i].value;
         }
       }
+      $("#sexModal").modal('hide');
+      if (_uSex!="") $("#cleanSexBtn").show();
+    },
+    cleanSex: function() {
+      this.u_sex="";
+      _uSex="";
+      $("#cleanSexBtn").hide();
+      var choose=document.getElementsByName('sex');
+      for (var i=0; i<choose.length; i++) if (choose[i].checked) choose[i].checked=false;
     },
     selAgeGroup: function() {
-       var choose=document.getElementsByName('ageGroup');
-       for (var i=0; i<choose.length; i++) {
-         if (choose[i].checked==true) {
-           this.u_ageGroup=choose[i].getAttribute("_text");
-           _uGgeGroup=choose[i].value;
-         }
-       }
+      var choose=document.getElementsByName('ageGroup');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          this.u_ageGroup=choose[i].getAttribute("_text");
+          _uGgeGroup=choose[i].value;
+        }
+      }
+      $("#ageGroupModal").modal('hide');
+      if (_uGgeGroup!="") $("#cleanAgeGroupBtn").show();
+    },
+    cleanAgeGroup: function() {
+      this.u_ageGroup="";
+      _uGgeGroup="";
+      $("#cleanAgeGroupBtn").hide();
+      var choose=document.getElementsByName('ageGroup');
+      for (var i=0; i<choose.length; i++) if (choose[i].checked) choose[i].checked=false;
     },
     selFamilyStatus: function() {
       var choose=document.getElementsByName('familyStatus');
       for (var i=0; i<choose.length; i++) {
-        if (choose[i].checked==true) {
+        if (choose[i].checked) {
           this.u_familyStatus=choose[i].getAttribute("_text");
           _uFamilyStatus=choose[i].value;
         }
       }
+      $("#familyStatusModal").modal('hide');
+      if (_uFamilyStatus!="") $("#cleanFamilyStatusBtn").show();
+    },
+    cleanFamilyStatus: function() {
+      this.u_familyStatus="";
+      _uFamilyStatus="";
+      $("#cleanFamilyStatusBtn").hide();
+      var choose=document.getElementsByName('familyStatus');
+      for (var i=0; i<choose.length; i++) if (choose[i].checked) choose[i].checked=false;
+    },
+    selTrafficType: function() {
+      var choose=document.getElementsByName('trafficType');
+      var ttArray=[];
+      var selOther=false;
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          var oneText=choose[i].getAttribute("_text");
+          if (choose[i].getAttribute("_text")=='其他') {
+            selOther=true;
+            if ($.trim($("input[name='trafficDesc']").val())!="") {
+              oneText=oneText+"("+$.trim($("input[name='trafficDesc']").val())+")";
+              _uTrafficTypeDesc=$.trim($("input[name='trafficDesc']").val());
+            }
+          }
+          ttArray.push(oneText);
+          _uTrafficType+=","+choose[i].value;
+        }
+      }
+      if (selOther&&_uTrafficTypeDesc=="") alert("请录入“其他”交通出行方式");
+      else {
+        if (_uTrafficType.length>0) _uTrafficType=_uTrafficType.substr(1);
+        this.u_trafficType=ttArray;
+        $("#trafficTypeModal").modal('hide');
+        if (_uTrafficType!="") $("#cleanTrafficTypeBtn").show();
+      }
+    },
+    cleanTrafficType: function() {
+      this.u_trafficType="";
+      _uTrafficType="";
+      _uTrafficTypeDesc="";
+      $("#cleanTrafficTypeBtn").hide();
+      var choose=document.getElementsByName('trafficType');
+      for (var i=0; i<choose.length; i++) if (choose[i].checked) choose[i].checked=false;
+      $("input[name='trafficDesc']").val("");
+      $("input[name='trafficDesc']").hide();
+    },
+    trafficOtherClick: function() {
+      var otherCheck=false;
+      var choose=document.getElementsByName('trafficType');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked&&choose[i].getAttribute("_text")=='其他') {
+          otherCheck=true;
+          break;
+        }
+      }
+      if (otherCheck) $("input[name='trafficDesc']").show(); else $("input[name='trafficDesc']").hide();
+    }
+  }
+});
+//复选单选处理
+new Vue({
+  el: "#step2",
+  data:{
+    u_buyQualify: ""
+  },
+  methods: {
+    selBuyQualify: function() {
+      var choose=document.getElementsByName('buyQualify');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          this.u_buyQualify=choose[i].getAttribute("_text");
+          _uBuyQualify=choose[i].value;
+        }
+      }
+      $("#buyQualifyModal").modal('hide');
+      if (_uBuyQualify!="") $("#cleanBuyQualifyBtn").show();
+    },
+    cleanBuyQualify: function() {
+      this.u_buyQualify="";
+      _uBuyQualify="";
+      $("#cleanBuyQualifyBtn").hide();
+      var choose=document.getElementsByName('buyQualify');
+      for (var i=0; i<choose.length; i++) if (choose[i].checked) choose[i].checked=false;
+    },
+    selWorkIndustry: function() {
+      var choose=document.getElementsByName('workIndustry');
+      var ttArray=[];
+      var selOther=false;
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          var oneText=choose[i].getAttribute("_text");
+          if (choose[i].getAttribute("_text")=='其他') {
+            selOther=true;
+            if ($.trim($("input[name='workIndustryDesc']").val())!="") {
+              oneText=oneText+"("+$.trim($("input[name='workIndustryDesc']").val())+")";
+              _uWorkIndustryDesc=$.trim($("input[name='workIndustryDesc']").val());
+            }
+          }
+          ttArray.push(oneText);
+          _uWorkIndustry+=","+choose[i].value;
+        }
+      }
+      if (selOther&&_uWorkIndustryDesc=="") alert("请录入“其他”从事行业方式");
+      else {
+        if (_uWorkIndustry.length>0) _uWorkIndustry=_uWorkIndustry.substr(1);
+        this.u_workIndustry=ttArray;
+        $("#workIndustryModal").modal('hide');
+        if (_uWorkIndustry!="") $("#cleanWorkIndustryBtn").show();
+      }
+    },
+    cleanWorkIndustry: function() {
+      this.u_workIndustry="";
+      _uWorkIndustry="";
+      _uWorkIndustryDesc="";
+      $("#cleanWorkIndustryBtn").hide();
+      var choose=document.getElementsByName('workIndustry');
+      for (var i=0; i<choose.length; i++) if (choose[i].checked) choose[i].checked=false;
+      $("input[name='workIndustryDesc']").val("");
+      $("input[name='workIndustryDesc']").hide();
+    },
+    workIndustryOtherClick: function() {
+      var otherCheck=false;
+      var choose=document.getElementsByName('workIndustry');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked&&choose[i].getAttribute("_text")=='其他') {
+          otherCheck=true;
+          break;
+        }
+      }
+      if (otherCheck) $("input[name='workIndustryDesc']").show(); else $("input[name='workIndustryDesc']").hide();
+    },
+    selEnterpriseType: function() {
+      var choose=document.getElementsByName('enterpriseType');
+      var ttArray=[];
+      var selOther=false;
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          var oneText=choose[i].getAttribute("_text");
+          if (choose[i].getAttribute("_text")=='其他') {
+            selOther=true;
+            if ($.trim($("input[name='enterpriseTypeDesc']").val())!="") {
+              oneText=oneText+"("+$.trim($("input[name='enterpriseTypeDesc']").val())+")";
+              _uEnterpriseTypeDesc=$.trim($("input[name='enterpriseTypeDesc']").val());
+            }
+          }
+          ttArray.push(oneText);
+          _uEnterpriseType+=","+choose[i].value;
+        }
+      }
+      if (selOther&&_uEnterpriseTypeDesc=="") alert("请录入“其他”从事行业方式");
+      else {
+        if (_uEnterpriseType.length>0) _uEnterpriseType=_uEnterpriseType.substr(1);
+        this.u_enterpriseType=ttArray;
+        $("#enterpriseTypeModal").modal('hide');
+        if (_uEnterpriseType!="") $("#cleanEnterpriseTypeBtn").show();
+      }
+    },
+    cleanEnterpriseType: function() {
+      this.u_enterpriseType="";
+      _uEnterpriseType="";
+      _uEnterpriseTypeDesc="";
+      $("#cleanEnterpriseTypeBtn").hide();
+      var choose=document.getElementsByName('enterpriseType');
+      for (var i=0; i<choose.length; i++) if (choose[i].checked) choose[i].checked=false;
+      $("input[name='enterpriseTypeDesc']").val("");
+      $("input[name='enterpriseTypeDesc']").hide();
+    },
+    enterpriseTypeOtherClick: function() {
+      var otherCheck=false;
+      var choose=document.getElementsByName('enterpriseType');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked&&choose[i].getAttribute("_text")=='其他') {
+          otherCheck=true;
+          break;
+        }
+      }
+      if (otherCheck) $("input[name='enterpriseTypeDesc']").show(); else $("input[name='enterpriseTypeDesc']").hide();
     }
   }
 });
@@ -248,9 +607,8 @@ new Vue({
 //填充数据,并初始化
 $(function() {
   $$('.datatime').mdater({
-    minDate: new Date(2015, 2, 10)
+    minDate: new Date()
   });
-
   var url=_URL_BASE+"/wx/api/personalCenter";
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
@@ -274,13 +632,22 @@ $(function() {
   str+=nt.getSeconds();
   $("input[name='curTime']").val(str);
   $("#step1").show();
+  //清除所有的其他
+  cleanOther('trafficType');
+  cleanOther('workIndustry');
+  cleanOther('enterpriseType');
 
+  function cleanOther(otherId) {
+    var choose=document.getElementsByName(''+otherId);
+    for (var i=0; i<choose.length; i++) if (choose[i].checked) choose[i].checked=false;
+    $("input[name='"+otherId+"Desc']").val("");
+    $("input[name='"+otherId+"Desc']").hide();
+  }
   function initPage(data) {
     $("input[name='user']").val(data.realname);
     _uUserId=data.userid;
     var canShowProj=false;
     var prjNames=""+data.checkProj;
-    prjNames="001-项目1";
     var lPrj=prjNames.split(',');
     var projHtml="";
     var projId,projName;
@@ -291,7 +658,7 @@ $(function() {
           if (!canShowProj) canShowProj=true;
           projId=lPrj[i].substring(0,lPrj[i].indexOf('-'));
           projName=lPrj[i].substring(lPrj[i].indexOf('-')+1);
-          projHtml+='<label><input type="radio" name="proj" value="'+projId+'_'+projName+'" _text="'+projName+'"/> '+projName+' </label>';
+          projHtml+='<label><input type="radio" name="proj" value="'+projId+'-'+projName+'" _text="'+projName+'"/> '+projName+' </label>';
         }
       }
     }
@@ -303,6 +670,28 @@ $(function() {
     }
   }
 });
+
+//翻页切换
+function step1Next() {
+  $("#step1").hide(0);
+  $("#step2").show(0);
+  $("#step3").hide(0);
+}
+function step2Prev() {
+  $("#step1").show(0);
+  $("#step2").hide(0);
+  $("#step3").hide(0);
+}
+function step2Next() {
+  $("#step1").hide(0);
+  $("#step2").hide(0);
+  $("#step3").show(0);
+}
+function step3Prev() {
+  $("#step1").hide(0);
+  $("#step2").show(0);
+  $("#step3").hide(0);
+}
 </script>
 </body>
 </html>

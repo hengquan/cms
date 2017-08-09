@@ -132,7 +132,7 @@ function fillPage(data) {
 
   var lPrj=prjNames.split(',');
   prjNames="";
-  for (var i=0;i<lPrj.length; i++) if ($.trim(lPrj[i])!='') prjNames+="<br\/>"+$.trim(lPrj[i]);
+  for (var i=0;i<lPrj.length; i++) if ($.trim(lPrj[i])!='') prjNames+="<br\/>"+$.trim(lPrj[i].substr(lPrj[i].indexOf('-')+1));
   prjNames=prjNames.substr(5);
   $("#projs").html(prjNames);
 }
