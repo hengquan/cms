@@ -65,6 +65,10 @@ public class TabDictRefServiceImpl implements TabDictRefService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	@Override
+	public TabDictRef selectCusIdAndTableName(Map<String, Object> map) {
+		return dao.selectCusIdAndTableName(map);
+	}
 	
 
 }

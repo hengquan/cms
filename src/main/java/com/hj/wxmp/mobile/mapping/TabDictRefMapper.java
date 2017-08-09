@@ -1,5 +1,7 @@
 package com.hj.wxmp.mobile.mapping;
 
+import java.util.Map;
+
 import com.hj.wxmp.mobile.entity.TabDictRef;
 
 public interface TabDictRefMapper {
@@ -14,4 +16,6 @@ public interface TabDictRefMapper {
     int updateByPrimaryKeySelective(TabDictRef record);
 
     int updateByPrimaryKey(TabDictRef record);
+
+	TabDictRef selectCusIdAndTableName(Map<String, Object> map);
 }

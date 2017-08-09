@@ -6,10 +6,11 @@
     <result column="role_name" property="roleName" jdbcType="VARCHAR" />
     <result column="pinyin" property="pinyin" jdbcType="VARCHAR" />
     <result column="logogram" property="logogram" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, role_name, pinyin, logogram, remark
+    id, role_name, pinyin, logogram, sort, remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -23,9 +24,11 @@
   </delete>
   <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.SysRole" >
     insert into sys_role (id, role_name, pinyin, 
-      logogram, remark)
+      logogram, sort, remark
+      )
     values (#{id,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{pinyin,jdbcType=VARCHAR}, 
-      #{logogram,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+      #{logogram,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.SysRole" >
     insert into sys_role
@@ -41,6 +44,9 @@
       </if>
       <if test="logogram != null" >
         logogram,
+      </if>
+      <if test="sort != null" >
+        sort,
       </if>
       <if test="remark != null" >
         remark,
@@ -59,6 +65,9 @@
       <if test="logogram != null" >
         #{logogram,jdbcType=VARCHAR},
       </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
@@ -76,6 +85,9 @@
       <if test="logogram != null" >
         logogram = #{logogram,jdbcType=VARCHAR},
       </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -87,16 +99,16 @@
     set role_name = #{roleName,jdbcType=VARCHAR},
       pinyin = #{pinyin,jdbcType=VARCHAR},
       logogram = #{logogram,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
   
   
   <!-- 查询所有信息 -->
   <select id="selectAllMsg" resultMap="BaseResultMap">
   	 select 
     <include refid="Base_Column_List" />
-    from sys_role
+    from sys_role order by sort desc
   </select>
 </mapper>

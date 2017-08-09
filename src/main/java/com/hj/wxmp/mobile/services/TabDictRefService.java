@@ -90,4 +90,6 @@ public interface TabDictRefService {
 	 */
 	public int selectCount();
 
+	public TabDictRef selectCusIdAndTableName(Map<String, Object> map);
+
 }

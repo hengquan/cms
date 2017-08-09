@@ -15,6 +15,10 @@ public class TabDictRef {
 
     private String refname;
 
+    private Float sectionbegin;
+
+    private Float sectionend;
+
     private Date ctime;
 
     public String getId() {
@@ -63,6 +67,22 @@ public class TabDictRef {
 
     public void setRefname(String refname) {
         this.refname = refname == null ? null : refname.trim();
+    }
+
+    public Float getSectionbegin() {
+        return sectionbegin;
+    }
+
+    public void setSectionbegin(Float sectionbegin) {
+        this.sectionbegin = sectionbegin;
+    }
+
+    public Float getSectionend() {
+        return sectionend;
+    }
+
+    public void setSectionend(Float sectionend) {
+        this.sectionend = sectionend;
     }
 
     public Date getCtime() {
