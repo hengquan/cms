@@ -20,7 +20,6 @@
 				<entry key="user" value-ref="userFilter" />
 				<entry key="logout" value-ref="logoutFilter" />
 			</util:map>
-		</property>
 		<!--anon匿名 authc登录认证  user用户已登录 logout退出filter-->
 		<property name="filterChainDefinitions">
 			<value>

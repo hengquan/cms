@@ -10,7 +10,8 @@
     <result column="reason" property="reason" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, recordType, arId, auditType, cTime, reason
+    id, recordType, arId, auditType, cTime,
+    reason
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
