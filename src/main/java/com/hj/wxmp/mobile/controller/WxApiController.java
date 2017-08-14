@@ -336,9 +336,9 @@ public class WxApiController extends ControllerBaseWx {
 	@RequestMapping(value = "/getUserClienteleMsg")
 	@ResponseBody
 	public String getUserClienteleMsg(HttpServletRequest requet,HttpServletResponse response,
-			@RequestParam(value = "name", defaultValue = "")String name,
-			@RequestParam(value = "phone", defaultValue = "")String phone,
-			@RequestParam(value = "project", defaultValue = "")String project) {
+			@RequestParam(value = "custName", defaultValue = "")String name,
+			@RequestParam(value = "custPhone", defaultValue = "")String phone,
+			@RequestParam(value = "projId", defaultValue = "")String project) {
 		responseInfo(response);
 		visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -375,6 +375,7 @@ public class WxApiController extends ControllerBaseWx {
 						map.put("msg", "101");
 					}
 					map.put("authorName", authorName);
+					map.put("authorId", userId);
 					map.put("custId", custId);
 				}else{
 					map.put("msg", "104");

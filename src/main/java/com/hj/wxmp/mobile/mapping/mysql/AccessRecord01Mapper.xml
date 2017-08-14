@@ -619,7 +619,7 @@
 	WHERE
 		ql01.custName = #{name}
 	AND ql01.custPhoneNum = #{phone}
-	AND qlp.projName = #{project}
+	AND qlp.id = #{project}
   </select>
   
 </mapper>
