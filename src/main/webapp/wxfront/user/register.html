@@ -53,12 +53,11 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanRole()" id="cleanRoleBtn" style="display:none;">清除并关闭</button>
-            <button type="button" class="btn btn-primary" @click="selRole()">确定</button>
+<!--             <button type="button" class="btn btn-primary" @click="selRole()">确定</button>  -->
           </div>
         </div>
       </div>
     </div>
-
     <div class="item_inner">
       <input type="text" name="prjs" placeholder="所属项目，可填入多个，逗号隔开">
     </div>
@@ -120,11 +119,22 @@ function initRols(roleList) {
   for (var i=0; i<roleList.length; i++) {
     if (roleList[i].roleName=='管理员') continue;
     if (roleList[i].roleName=='超级管理员') continue;
-    userRoleHtml+='<label><input type="radio" name="userRole" value="'+roleList[i].id+'" _text="'+roleList[i].roleName+'"/> '+roleList[i].roleName+' </label>';
+    userRoleHtml+='<label><input type="radio" name="userRole" value="'+roleList[i].id+'" _text="'+roleList[i].roleName+'" onclick="roleClick()"/> '+roleList[i].roleName+' </label>';
   }
   $("#userRoleData").html(userRoleHtml);
 }
 
+function roleClick() {
+  var choose=document.getElementsByName('userRole');
+  for (var i=0; i<choose.length; i++) {
+    if (choose[i].checked==true) {
+      $("#role").val(choose[i].getAttribute("_text"));
+      _uRole=choose[i].value;
+    }
+  }
+  $("#userRoleModal").modal('hide');
+  if (_uRole!="") $("#cleanRoleBtn").show();
+}
 /**
  * 注册用户
  */

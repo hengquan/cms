@@ -606,13 +606,10 @@
   
   <!-- 根据客户姓名，电话，项目ID查询客户信息 -->
   <select id="selectUserMsy" resultType="java.util.Map" parameterType="java.util.Map">
-	SELECT
-		*
-	FROM
-		ql_AccessRecord01 ql01
+	SELECT *
+	FROM ql_AccessRecord01 ql01
 	JOIN ql_Project qlp ON ql01.projId = qlp.id
-	WHERE
-		ql01.custName = #{name}
+	WHERE ql01.custName = #{name}
 	AND ql01.custPhoneNum = #{phone}
 	AND qlp.projName = #{project}
   </select>
