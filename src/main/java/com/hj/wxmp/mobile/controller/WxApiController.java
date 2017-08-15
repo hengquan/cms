@@ -33,6 +33,7 @@ import com.hj.wxmp.mobile.dao.SysItemRoleDao;
 import com.hj.wxmp.mobile.entity.AccessRecord01;
 import com.hj.wxmp.mobile.entity.AccessRecord02;
 import com.hj.wxmp.mobile.entity.AccessRecord03;
+import com.hj.wxmp.mobile.entity.AuditRecord;
 import com.hj.wxmp.mobile.entity.Customer;
 import com.hj.wxmp.mobile.entity.ProjCustRef;
 import com.hj.wxmp.mobile.entity.SysRole;
@@ -42,6 +43,7 @@ import com.hj.wxmp.mobile.entity.UserRole;
 import com.hj.wxmp.mobile.services.AccessRecord01Service;
 import com.hj.wxmp.mobile.services.AccessRecord02Service;
 import com.hj.wxmp.mobile.services.AccessRecord03Service;
+import com.hj.wxmp.mobile.services.AuditRecordService;
 import com.hj.wxmp.mobile.services.CustomerService;
 import com.hj.wxmp.mobile.services.IKeyGen;
 import com.hj.wxmp.mobile.services.ProjCustRefService;
@@ -95,6 +97,8 @@ public class WxApiController extends ControllerBaseWx {
 	ProjectService projectServise;
 	@Autowired
 	TabDictRefService tabDictRefService;
+	@Autowired
+	AuditRecordService auditRecordService;
 	
 	
 	
@@ -494,14 +498,14 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	//首访添加修改通用属性
-	public Boolean addRecord(AccessRecord01 record01,Customer customer,String record01Id){
+	public Boolean addRecord01(AccessRecord01 record01,Customer customer,String record01Id){
 		Boolean isok = false;
 		try {
 			String openid = HashSessions.getInstance().getOpenId(request);
 			UserInfo userInfo = userInfoService.findByOpenid(openid);
 			//获取用户ID
 			String userId = userInfo.getId();
-			//openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
+			openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
 			//客户项目关系表
 			ProjCustRef projCustRef = new ProjCustRef();
 			String proJcustId = key.getUUIDKey();
@@ -699,7 +703,7 @@ public class WxApiController extends ControllerBaseWx {
 				customer.setCustscore(data);
 			}
 			//添加客户
-			if(!customerid.equals("")){
+			if(customerid != null && !customerid.equals("")){
 				customerService.update(customer);
 			}else{
 				customer.setId(customerId);
@@ -727,7 +731,7 @@ public class WxApiController extends ControllerBaseWx {
 	@ResponseBody
 	public String addHisFirstRecord(HttpServletRequest requet,HttpServletResponse response,AccessRecord01 record01,Customer customer) {
 		responseInfo(response);
-		visiitURL(requet,response);
+		//visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			//首访记录表ID
@@ -737,7 +741,7 @@ public class WxApiController extends ControllerBaseWx {
 			customer.setCustname(record01.getCustname());
 			customer.setPhonenum(record01.getCustphonenum());
 			//调用公共方法
-			Boolean isok = addRecord(record01,customer,record01Id);
+			Boolean isok = addRecord01(record01,customer,record01Id);
 			if(isok){
 				//添加首访记录
 				accessRecord01Service.insert(record01);
@@ -752,6 +756,7 @@ public class WxApiController extends ControllerBaseWx {
 		System.out.println(JsonUtils.map2json(map));
 		return JsonUtils.map2json(map);
 	}	
+	
 	//修改首访记录
 	@RequestMapping(value = "/updateRecord01")
 	@ResponseBody
@@ -761,10 +766,10 @@ public class WxApiController extends ControllerBaseWx {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			//调用公共方法
-			Boolean isok = addRecord(record01,customer,record01.getId());
+			Boolean isok = addRecord01(record01,customer,record01.getId());
 			if(isok){
 				//添加首访记录
-				accessRecord01Service.insert(record01);
+				accessRecord01Service.update(record01);
 				map.put("msg", "100");
 			}else{
 				map.put("msg", "103");
@@ -779,25 +784,16 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
-	//添加复访记录
-	@RequestMapping(value = "/addAfterVisit")
-	@ResponseBody
-	public String addAfterVisit(HttpServletRequest requet,HttpServletResponse response,
-			AccessRecord02 record02,Customer customer) {
-		responseInfo(response);
-		visiitURL(requet,response);
-		Map<String, Object> map = new HashMap<String, Object>();
+	//复访添加修改通用属性
+	public Boolean addRecord02(AccessRecord02 record02,Customer customer,String record02Id){
+		Boolean isok = false;
 		try {
 			String openid = HashSessions.getInstance().getOpenId(request);
 			//openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
 			UserInfo userInfo = userInfoService.findByOpenid(openid);
 			//获取用户ID
 			String userId = userInfo.getId();
-			//复访表ID
-			String record02Id = key.getUUIDKey();
 			//客户表
-			customer.setCustname(record02.getCustname());
-			customer.setPhonenum(record02.getCustphonenum());
 			customer.setChildrennum(record02.getChildrennum());
 			customer.setSchoolname(record02.getSchoolname());
 			customer.setCommunityname(record02.getCommunityname());
@@ -926,9 +922,58 @@ public class WxApiController extends ControllerBaseWx {
 			projCustRef.setProjid(record02.getProjid());
 			projCustRef.setCustid(customer.getId());
 			projCustRefService.insert(projCustRef);
-			//添加复访记录
-			accessRecord02Service.insert(record02);
-			map.put("msg", "100");
+			isok = true;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return isok;
+	}
+	
+	
+	//添加复访记录
+	@RequestMapping(value = "/addAfterVisit")
+	@ResponseBody
+	public String addAfterVisit(HttpServletRequest requet,HttpServletResponse response,
+			AccessRecord02 record02,Customer customer) {
+		responseInfo(response);
+		visiitURL(requet,response);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			//复访表ID
+			String record02Id = key.getUUIDKey();
+			//客户表
+			customer.setCustname(record02.getCustname());
+			customer.setPhonenum(record02.getCustphonenum());
+			Boolean isok = addRecord02(record02,customer,record02Id);
+			if(isok){
+				accessRecord02Service.insert(record02);
+				map.put("msg", "100");
+			}else{
+				map.put("msg", "103");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("msg", "103");
+		}
+		System.out.println(JsonUtils.map2json(map));
+		return JsonUtils.map2json(map);
+	}	
+	//修改复访记录
+	@RequestMapping(value = "/updateRecord02")
+	@ResponseBody
+	public String updateRecord02(HttpServletRequest requet,HttpServletResponse response,
+			AccessRecord02 record02,Customer customer) {
+		responseInfo(response);
+		visiitURL(requet,response);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			Boolean isok = addRecord02(record02,customer,record02.getId());
+			if(isok){
+				accessRecord02Service.update(record02);
+				map.put("msg", "100");
+			}else{
+				map.put("msg", "103");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("msg", "103");
@@ -940,23 +985,16 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
-	//添加成交记录
-	@RequestMapping(value = "/addKnockdown")
-	@ResponseBody
-	public String addKnockdown(HttpServletRequest requet,HttpServletResponse response,
-			AccessRecord03 record03,Customer customer) {
-		responseInfo(response);
-		visiitURL(requet,response);
-		 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Map<String, Object> map = new HashMap<String, Object>();
+	//成交添加修改通用属性
+	public Boolean addRecord03(AccessRecord03 record03,Customer customer,String record03Id){
+		Boolean isok = false;
 		try {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String openid = HashSessions.getInstance().getOpenId(request);
 			UserInfo userInfo = userInfoService.findByOpenid(openid);
 			//获取用户ID
 			String userId = userInfo.getId();
 			//openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
-			//成交访问记录ID
-			String record03Id = key.getUUIDKey();
 			//客户信息ID
 			String customerId = key.getUUIDKey();
 			String customerid = "";
@@ -969,8 +1007,6 @@ public class WxApiController extends ControllerBaseWx {
 			//客户性别
 			String custsex = record03.getCustsex();
 			//客户表
-			customer.setCustname(record03.getCustname());
-			customer.setPhonenum(record03.getCustphonenum());
 			customer.setAddressmail(record03.getAddressmail());
 			if(custsex != null){
 				String data = addAccessRecord(custsex,"002",3,"客户性别",record03Id);
@@ -1039,7 +1075,60 @@ public class WxApiController extends ControllerBaseWx {
 			}
 			//添加成交记录
 			accessRecord03Service.insert(record03);
-			map.put("msg", "100");
+			
+			isok = true;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return isok;
+	}
+	
+	
+	
+	//添加成交记录
+	@RequestMapping(value = "/addTradeVisit")
+	@ResponseBody
+	public String addTradeVisit(HttpServletRequest requet,HttpServletResponse response,
+			AccessRecord03 record03,Customer customer) {
+		responseInfo(response);
+		visiitURL(requet,response);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			String record03Id = key.getUUIDKey();
+			customer.setCustname(record03.getCustname());
+			customer.setPhonenum(record03.getCustphonenum());
+			Boolean isok = addRecord03(record03,customer,record03Id);
+			//添加成交记录
+			if(isok){
+				accessRecord03Service.insert(record03);
+				map.put("msg", "100");
+			}else{
+				map.put("msg", "103");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("msg", "103");
+		}
+		System.out.println(JsonUtils.map2json(map));
+		return JsonUtils.map2json(map);
+	}	
+	//修改成交记录
+	@RequestMapping(value = "/updateRecord03")
+	@ResponseBody
+	public String updateRecord03(HttpServletRequest requet,HttpServletResponse response,
+			AccessRecord03 record03,Customer customer) {
+		responseInfo(response);
+		visiitURL(requet,response);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			Boolean isok = addRecord03(record03,customer,record03.getId());
+			//添加成交记录
+			if(isok){
+				accessRecord03Service.update(record03);
+				map.put("msg", "100");
+			}else{
+				map.put("msg", "103");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("msg", "103");
@@ -1130,8 +1219,204 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
+	//获取首访记录
+	@RequestMapping(value = "/getRecord01")
+	@ResponseBody
+	public String getRecord01(HttpServletRequest req){
+		responseInfo(response);
+		visiitURL(req,response);
+		Map<String,Object> map = new HashMap<String,Object>();
+		try {
+			String recordId = req.getParameter("recordId");
+			String userId = req.getParameter("userId");
+			if(recordId != null && "".equals(recordId)){
+				AccessRecord01 accessRecord01 = accessRecord01Service.findById(recordId);
+				map.put("msg", "100");
+				map.put("data", accessRecord01);
+			}else{
+				map.put("msg", "103");
+			}
+		} catch (Exception e) {
+			map.put("msg", "103");
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+	}
+	
+	
+	//获取复访记录
+	@RequestMapping(value = "/getRecord02")
+	@ResponseBody
+	public String getRecord02(HttpServletRequest req){
+		responseInfo(response);
+		visiitURL(req,response);
+		Map<String,Object> map = new HashMap<String,Object>();
+		try {
+			String recordId = req.getParameter("recordId");
+			String userId = req.getParameter("userId");
+			if(recordId != null && "".equals(recordId)){
+				AccessRecord02 accessRecord02 = accessRecord02Service.findById(recordId);
+				map.put("msg", "100");
+				map.put("data", accessRecord02);
+			}else{
+				map.put("msg", "103");
+			}
+		} catch (Exception e) {
+			map.put("msg", "103");
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+	}
+
+	
+	//获取成交记录
+	@RequestMapping(value = "/getRecord03")
+	@ResponseBody
+	public String getRecord03(HttpServletRequest req){
+		responseInfo(response);
+		visiitURL(req,response);
+		Map<String,Object> map = new HashMap<String,Object>();
+		try {
+			String recordId = req.getParameter("recordId");
+			String userId = req.getParameter("userId");
+			if(recordId != null && "".equals(recordId)){
+				AccessRecord03 accessRecord03 = accessRecord03Service.findById(recordId);
+				map.put("msg", "100");
+				map.put("data", accessRecord03);
+			}else{
+				map.put("msg", "103");
+			}
+		} catch (Exception e) {
+			map.put("msg", "103");
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+	}
+	
+	
+	//获取首访记录列表
+	@RequestMapping(value = "/getRecord01List")
+	@ResponseBody
+	public String getRecord01List(HttpServletRequest req,
+			@RequestParam(value="page",defaultValue="1") int nowPage,
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize){
+		responseInfo(response);
+		visiitURL(req,response);
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> result = new HashMap<String,Object>();
+		try {
+			Integer page = ((nowPage - 1) * pageSize);
+			result.put("page", page);
+			result.put("pageSize", pageSize);
+			List<Map<String,Object>> message = accessRecord01Service.getRecord01List(result);
+			map.put("msg", "100");
+			map.put("data", message);
+		} catch (Exception e) {
+			map.put("msg", "103");
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+	}
+	//获取复访记录列表
+	@RequestMapping(value = "/getRecord02List")
+	@ResponseBody
+	public String getRecord02List(HttpServletRequest req,
+			@RequestParam(value="page",defaultValue="1") int nowPage,
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize){
+		responseInfo(response);
+		visiitURL(req,response);
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> result = new HashMap<String,Object>();
+		try {
+			Integer page = ((nowPage - 1) * pageSize);
+			result.put("page", page);
+			result.put("pageSize", pageSize);
+			List<Map<String,Object>> message = accessRecord02Service.getRecord02List(result);
+			map.put("msg", "100");
+			map.put("data", message);
+		} catch (Exception e) {
+			map.put("msg", "103");
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+	}
+	//获取成交记录列表
+	@RequestMapping(value = "/getRecord03List")
+	@ResponseBody
+	public String getRecord03List(HttpServletRequest req,
+			@RequestParam(value="page",defaultValue="1") int nowPage,
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize){
+		responseInfo(response);
+		visiitURL(req,response);
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> result = new HashMap<String,Object>();
+		try {
+			Integer page = ((nowPage - 1) * pageSize);
+			result.put("page", page);
+			result.put("pageSize", pageSize);
+			List<Map<String,Object>> message = accessRecord03Service.getRecord03List(result);
+			map.put("msg", "100");
+			map.put("data", message);
+		} catch (Exception e) {
+			map.put("msg", "103");
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+	}
 	
 	
 	
+	
+	//获取成交记录列表
+	@RequestMapping(value = "/getAuditList")
+	@ResponseBody
+	public String getAuditList(HttpServletRequest req){
+		responseInfo(response);
+		visiitURL(req,response);
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> result = new HashMap<String,Object>();
+		try {
+			String recordId = req.getParameter("recordId");
+			String recordType = req.getParameter("recordType");
+			String userId = req.getParameter("userId");
+			result.put("recordId", recordId);
+			result.put("recordType", recordType);
+			List<Map<String,Object>> message = auditRecordService.selectByRecordIdAndType(result);
+			map.put("msg", "100");
+			map.put("auditList", message);
+		} catch (Exception e) {
+			map.put("msg", "103");
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+	}
+	
+	
+	
+	//获取成交记录列表
+	@RequestMapping(value = "/addAudit")
+	@ResponseBody
+	public String addAudit(HttpServletRequest req){
+		responseInfo(response);
+		visiitURL(req,response);
+		Map<String,Object> map = new HashMap<String,Object>();
+		try {
+			String recordId = req.getParameter("recordId");
+			String recordType = req.getParameter("recordType");
+			String userId = req.getParameter("userId");
+			String auditMsg = req.getParameter("auditMsg");
+			AuditRecord auditRecord = new AuditRecord();
+			auditRecord.setId(key.getUUIDKey());
+			auditRecord.setAudittype(Integer.parseInt(recordType));
+			auditRecord.setarid(recordId);
+			auditRecord.setAudittype(2);
+			auditRecordService.update(auditRecord);
+			map.put("msg", "100");
+		} catch (Exception e) {
+			map.put("msg", "103");
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+	}
 
 }

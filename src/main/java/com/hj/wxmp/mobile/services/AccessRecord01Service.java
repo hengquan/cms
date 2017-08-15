@@ -96,5 +96,7 @@ public interface AccessRecord01Service {
 
 	public List<Map<String, Object>> selectUserMsy(Map<String, Object> msg);
 
+	public List<Map<String, Object>> getRecord01List(Map<String, Object> result);
+
 
 }

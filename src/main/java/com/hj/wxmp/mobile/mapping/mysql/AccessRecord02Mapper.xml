@@ -649,4 +649,8 @@
     where INSTR(#{boxeditId},id)
   </delete>
   
+  <select id="getRecord02List" resultType="java.util.Map" parameterType="java.util.Map">
+  	select * from ql_AccessRecord02 limit page,pageSize
+  </select>
+  
 </mapper>

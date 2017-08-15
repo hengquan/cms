@@ -471,4 +471,10 @@
     delete from ql_AccessRecord03
     where INSTR(#{boxeditId},id)
   </delete>
+  
+  
+  <select id="getRecord03List" resultType="java.util.Map" parameterType="java.util.Map">
+  	select * from ql_AccessRecord03 limit page,pageSize
+  </select>
+  
 </mapper>

@@ -98,4 +98,6 @@ public interface AuditRecordService {
 
 	public AuditRecord selectByProName(String pro);
 
+	public List<Map<String, Object>> selectByRecordIdAndType(Map<String, Object> result);
+
 }

@@ -94,5 +94,7 @@ public interface AccessRecord02Service {
 
 	public void dels(String boxeditId);
 
+	public List<Map<String, Object>> getRecord02List(Map<String, Object> result);
+
 
 }

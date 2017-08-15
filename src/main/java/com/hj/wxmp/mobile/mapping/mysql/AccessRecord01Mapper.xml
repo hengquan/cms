@@ -622,4 +622,8 @@
 	AND qlp.id = #{project}
   </select>
   
+  <select id="getRecord01List" resultType="java.util.Map" parameterType="java.util.Map">
+  	select * from ql_AccessRecord01 limit page,pageSize
+  </select>
+  
 </mapper>

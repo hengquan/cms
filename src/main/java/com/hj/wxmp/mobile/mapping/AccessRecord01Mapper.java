@@ -23,4 +23,6 @@ public interface AccessRecord01Mapper {
 	void dels(String boxeditId);
 
 	List<Map<String, Object>> selectUserMsy(Map<String, Object> msg);
+
+	List<Map<String, Object>> getRecord01List(Map<String, Object> result);
 }

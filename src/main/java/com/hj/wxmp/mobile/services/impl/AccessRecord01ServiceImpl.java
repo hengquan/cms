@@ -76,6 +76,10 @@ public class AccessRecord01ServiceImpl implements AccessRecord01Service {
 	public List<Map<String, Object>> selectUserMsy(Map<String, Object> msg) {
 		return dao.selectUserMsy(msg);
 	}
+	@Override
+	public List<Map<String, Object>> getRecord01List(Map<String, Object> result) {
+		return dao.getRecord01List(result);
+	}
 	
 
 }
