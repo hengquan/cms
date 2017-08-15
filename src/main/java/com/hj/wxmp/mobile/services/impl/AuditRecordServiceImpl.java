@@ -82,8 +82,11 @@ public class AuditRecordServiceImpl implements AuditRecordService {
 	}
 	@Override
 	public AuditRecord selectByProName(String pro) {
-		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public List<Map<String, Object>> selectByRecordIdAndType(Map<String, Object> result) {
+		return dao.selectByRecordIdAndType(result);
 	}
 
 }

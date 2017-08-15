@@ -42,6 +42,8 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.hj.wxmp.mobile.entity.AccessRecord02" extends="BaseResultMap" >
     <result column="avocationsDesc" property="avocationsdesc" jdbcType="LONGVARCHAR" />
     <result column="resistPointDesc" property="resistpointdesc" jdbcType="LONGVARCHAR" />
     <result column="loveActDesc" property="loveactdesc" jdbcType="LONGVARCHAR" />
@@ -55,12 +57,16 @@
     outEduWill, nannyFlag, outExperFlag, outExperCity, childOutExperFlag, childOutExperCity, 
     petFlag, houseCount, carFamilyCount, carBrand, carTotalPricce, attentWX, appNames, 
     avocations, resistPoint, loveActivation, freeTimeSection, visitorCount, visitorRefs, 
-    recepTimeSection, custScore, authorId, creatorId, status, cTime, lmTime,
+    recepTimeSection, custScore, authorId, creatorId, status, cTime, lmTime
+  </sql>
+  <sql id="Blob_Column_List" >
     avocationsDesc, resistPointDesc, loveActDesc, visitorRefsDesc, descn, faultDescn
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from ql_AccessRecord02
     where id = #{id,jdbcType=VARCHAR}
   </select>
@@ -526,7 +532,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="BaseResultMap" parameterType="com.hj.wxmp.mobile.entity.AccessRecord02" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hj.wxmp.mobile.entity.AccessRecord02" >
     update ql_AccessRecord02
     set projId = #{projid,jdbcType=VARCHAR},
       custId = #{custid,jdbcType=VARCHAR},
@@ -642,5 +648,9 @@
     delete from ql_AccessRecord02
     where INSTR(#{boxeditId},id)
   </delete>
+  
+  <select id="getRecord02List" resultType="java.util.Map" parameterType="java.util.Map">
+  	select * from ql_AccessRecord02 limit page,pageSize
+  </select>
   
 </mapper>

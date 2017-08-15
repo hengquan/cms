@@ -73,5 +73,9 @@ public class AccessRecord03ServiceImpl implements AccessRecord03Service {
 	public void dels(String boxeditId) {
 		dao.dels(boxeditId);
 	}
+	@Override
+	public List<Map<String, Object>> getRecord03List(Map<String, Object> result) {
+		return dao.getRecord03List(result);
+	}
 
 }

@@ -112,4 +112,9 @@
       cTime = #{ctime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  
+  <select id="selectByRecordIdAndType" resultType="java.util.Map" parameterType="java.util.Map">
+  	select * from ql_AuditRecord where arId=#{recordId} and auditType=#{recordType}
+  </select>
 </mapper>

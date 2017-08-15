@@ -5,15 +5,31 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="projId" property="projid" jdbcType="VARCHAR" />
     <result column="custId" property="custid" jdbcType="VARCHAR" />
+    <result column="firstKnowTime" property="firstknowtime" jdbcType="TIMESTAMP" />
+    <result column="knowWay" property="knowway" jdbcType="VARCHAR" />
+    <result column="attentionPoint" property="attentionpoint" jdbcType="VARCHAR" />
+    <result column="compareProjs" property="compareprojs" jdbcType="VARCHAR" />
+    <result column="resistPoint" property="resistpoint" jdbcType="VARCHAR" />
     <result column="isValidate" property="isvalidate" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
   </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.hj.wxmp.mobile.entity.ProjCustRef" extends="BaseResultMap" >
+    <result column="knowWayDesc" property="knowwaydesc" jdbcType="LONGVARCHAR" />
+    <result column="attentionPointDesc" property="attentionpointdesc" jdbcType="LONGVARCHAR" />
+    <result column="resistPointDesc" property="resistpointdesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
-    id, projId, custId, isValidate, cTime
+    id, projId, custId, firstKnowTime, knowWay, attentionPoint, compareProjs, resistPoint, 
+    isValidate, cTime
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <sql id="Blob_Column_List" >
+    knowWayDesc, attentionPointDesc, resistPointDesc
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from ql_ProjCust_Ref
     where id = #{id,jdbcType=VARCHAR}
   </select>
@@ -23,9 +39,15 @@
   </delete>
   <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.ProjCustRef" >
     insert into ql_ProjCust_Ref (id, projId, custId, 
-      isValidate, cTime)
+      firstKnowTime, knowWay, attentionPoint, 
+      compareProjs, resistPoint, isValidate, 
+      cTime, knowWayDesc, attentionPointDesc, 
+      resistPointDesc)
     values (#{id,jdbcType=VARCHAR}, #{projid,jdbcType=VARCHAR}, #{custid,jdbcType=VARCHAR}, 
-      #{isvalidate,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP})
+      #{firstknowtime,jdbcType=TIMESTAMP}, #{knowway,jdbcType=VARCHAR}, #{attentionpoint,jdbcType=VARCHAR}, 
+      #{compareprojs,jdbcType=VARCHAR}, #{resistpoint,jdbcType=VARCHAR}, #{isvalidate,jdbcType=INTEGER}, 
+      #{ctime,jdbcType=TIMESTAMP}, #{knowwaydesc,jdbcType=LONGVARCHAR}, #{attentionpointdesc,jdbcType=LONGVARCHAR}, 
+      #{resistpointdesc,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.ProjCustRef" >
     insert into ql_ProjCust_Ref
@@ -39,11 +61,35 @@
       <if test="custid != null" >
         custId,
       </if>
+      <if test="firstknowtime != null" >
+        firstKnowTime,
+      </if>
+      <if test="knowway != null" >
+        knowWay,
+      </if>
+      <if test="attentionpoint != null" >
+        attentionPoint,
+      </if>
+      <if test="compareprojs != null" >
+        compareProjs,
+      </if>
+      <if test="resistpoint != null" >
+        resistPoint,
+      </if>
       <if test="isvalidate != null" >
         isValidate,
       </if>
       <if test="ctime != null" >
         cTime,
+      </if>
+      <if test="knowwaydesc != null" >
+        knowWayDesc,
+      </if>
+      <if test="attentionpointdesc != null" >
+        attentionPointDesc,
+      </if>
+      <if test="resistpointdesc != null" >
+        resistPointDesc,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -56,11 +102,35 @@
       <if test="custid != null" >
         #{custid,jdbcType=VARCHAR},
       </if>
+      <if test="firstknowtime != null" >
+        #{firstknowtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="knowway != null" >
+        #{knowway,jdbcType=VARCHAR},
+      </if>
+      <if test="attentionpoint != null" >
+        #{attentionpoint,jdbcType=VARCHAR},
+      </if>
+      <if test="compareprojs != null" >
+        #{compareprojs,jdbcType=VARCHAR},
+      </if>
+      <if test="resistpoint != null" >
+        #{resistpoint,jdbcType=VARCHAR},
+      </if>
       <if test="isvalidate != null" >
         #{isvalidate,jdbcType=INTEGER},
       </if>
       <if test="ctime != null" >
         #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="knowwaydesc != null" >
+        #{knowwaydesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="attentionpointdesc != null" >
+        #{attentionpointdesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="resistpointdesc != null" >
+        #{resistpointdesc,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -73,24 +143,68 @@
       <if test="custid != null" >
         custId = #{custid,jdbcType=VARCHAR},
       </if>
+      <if test="firstknowtime != null" >
+        firstKnowTime = #{firstknowtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="knowway != null" >
+        knowWay = #{knowway,jdbcType=VARCHAR},
+      </if>
+      <if test="attentionpoint != null" >
+        attentionPoint = #{attentionpoint,jdbcType=VARCHAR},
+      </if>
+      <if test="compareprojs != null" >
+        compareProjs = #{compareprojs,jdbcType=VARCHAR},
+      </if>
+      <if test="resistpoint != null" >
+        resistPoint = #{resistpoint,jdbcType=VARCHAR},
+      </if>
       <if test="isvalidate != null" >
         isValidate = #{isvalidate,jdbcType=INTEGER},
       </if>
       <if test="ctime != null" >
         cTime = #{ctime,jdbcType=TIMESTAMP},
       </if>
+      <if test="knowwaydesc != null" >
+        knowWayDesc = #{knowwaydesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="attentionpointdesc != null" >
+        attentionPointDesc = #{attentionpointdesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="resistpointdesc != null" >
+        resistPointDesc = #{resistpointdesc,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hj.wxmp.mobile.entity.ProjCustRef" >
+    update ql_ProjCust_Ref
+    set projId = #{projid,jdbcType=VARCHAR},
+      custId = #{custid,jdbcType=VARCHAR},
+      firstKnowTime = #{firstknowtime,jdbcType=TIMESTAMP},
+      knowWay = #{knowway,jdbcType=VARCHAR},
+      attentionPoint = #{attentionpoint,jdbcType=VARCHAR},
+      compareProjs = #{compareprojs,jdbcType=VARCHAR},
+      resistPoint = #{resistpoint,jdbcType=VARCHAR},
+      isValidate = #{isvalidate,jdbcType=INTEGER},
+      cTime = #{ctime,jdbcType=TIMESTAMP},
+      knowWayDesc = #{knowwaydesc,jdbcType=LONGVARCHAR},
+      attentionPointDesc = #{attentionpointdesc,jdbcType=LONGVARCHAR},
+      resistPointDesc = #{resistpointdesc,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.ProjCustRef" >
     update ql_ProjCust_Ref
     set projId = #{projid,jdbcType=VARCHAR},
       custId = #{custid,jdbcType=VARCHAR},
+      firstKnowTime = #{firstknowtime,jdbcType=TIMESTAMP},
+      knowWay = #{knowway,jdbcType=VARCHAR},
+      attentionPoint = #{attentionpoint,jdbcType=VARCHAR},
+      compareProjs = #{compareprojs,jdbcType=VARCHAR},
+      resistPoint = #{resistpoint,jdbcType=VARCHAR},
       isValidate = #{isvalidate,jdbcType=INTEGER},
       cTime = #{ctime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
   
   
   <!-- 根据用户Id查询用户信息和所属项目的信息 -->
