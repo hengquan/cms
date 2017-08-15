@@ -236,25 +236,25 @@ public class WxApiController extends ControllerBaseWx {
             e.printStackTrace();
         }
     }
-    
-    private boolean checkUrl(HttpServletRequest req,HttpServletResponse res){
+
+    private String checkUrl(HttpServletRequest req,HttpServletResponse res){
         String requestURL = req.getRequestURL().toString();
         if(StringUtils.isNotBlank(req.getQueryString())){
             requestURL = req.getRequestURL() + "?" + req.getQueryString();
         }
-        boolean ret=true;
+        String url="";
         try {
-            String openid = HashSessions.getInstance().getOpenId(req);
+            String openid=HashSessions.getInstance().getOpenId(req);
             //openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
-            if (openid == null || "".equals(openid)) {
+            if (openid!=null&&!openid.equals("")) {
                 updateUserInfo(openid);
             } else {
-                String url="/wxmp.ql/wx/api/redirectUrl.az?wx_url="+requestURL;
-                response.sendRedirect(URLDecoder.decode(url, "UTF-8"));
+                url="/wxmp.ql/wx/api/redirectUrl.az?wx_url="+requestURL;
+            }
+            if ("".equals(url)) {
                 Integer resultData = userMsg(openid);
                 if(resultData==103){
                     url="/wxmp.ql/wxfront/user/register.html";
-                    //res.sendRedirect(siteName);
                 }else if(resultData==104){
                     url="/wxmp.ql/wxfront/user/info.html";
                     if(!requestURL.equals(url)) url="/wxmp.ql/wxfront/err.html?0002";
@@ -263,15 +263,11 @@ public class WxApiController extends ControllerBaseWx {
                 }else if(resultData==106){
                     url="/wxmp.ql/wxfront/err.html?0001";
                 }
-                if (!"".equals(url)) {
-                    ret=false;
-                    res.sendRedirect(Configurations.getSiteName()+url);
-                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return ret;
+        return url;
     }
     private void setResponse(HttpServletResponse response) {
         response.setContentType("text/html;charset=UTF-8;");
@@ -376,33 +372,33 @@ public class WxApiController extends ControllerBaseWx {
         Map<String, Object> msg = new HashMap<String, Object>();
         try {
             setResponse(response);
-            boolean canContinue=checkUrl(requet,response);
-            if (!canContinue) {
-                map.put("msg", "-1");
-                return JsonUtils.map2json(map);
-            }
-            //用户信息
-            if("".equals(name.trim())) map.put("msg", "200");
-            if("".equals(phone.trim())) map.put("msg", "201");
-            if("".equals(project.trim())) map.put("msg", "202");
-            if (map.get("msg")!=null) {
-                msg.put("name", name);
-                msg.put("phone", phone);
-                msg.put("project", project);
-                //查询客户信息
-                List<Map<String, Object>> accessRecord01=accessRecord01Service.selectUserMsy(msg);
-                if (accessRecord01.size()>0) {
-                    Map<String, Object> mm=accessRecord01.get(0);
-                    String authorId=mm.get("authorId").toString();
-                    String custId=mm.get("custId").toString();
-                    UserInfo authorInfo=userInfoService.findById(authorId);
-//                    if (userId.equals(authorId)) map.put("msg", "100");
-//                    else map.put("msg", "101");
-                    map.put("authorName", authorInfo.getRealname());
-                    map.put("custId", custId);
-                    map.put("msg", "101");
-                } else {
-                    map.put("msg", "104");
+            String reUrl=checkUrl(requet,response);
+            if (!("".equals(reUrl))) {
+                response.sendRedirect(Configurations.getSiteName()+reUrl);
+            } else {
+                //用户信息
+                if("".equals(name.trim())) map.put("msg", "200");
+                if("".equals(phone.trim())) map.put("msg", "201");
+                if("".equals(project.trim())) map.put("msg", "202");
+                if (map.get("msg")!=null) {
+                    msg.put("name", name);
+                    msg.put("phone", phone);
+                    msg.put("project", project);
+                    //查询客户信息
+                    List<Map<String, Object>> accessRecord01=accessRecord01Service.selectUserMsy(msg);
+                    if (accessRecord01.size()>0) {
+                        Map<String, Object> mm=accessRecord01.get(0);
+                        String authorId=mm.get("authorId").toString();
+                        String custId=mm.get("custId").toString();
+                        UserInfo authorInfo=userInfoService.findById(authorId);
+//                        if (userId.equals(authorId)) map.put("msg", "100");
+//                        else map.put("msg", "101");
+                        map.put("authorName", authorInfo.getRealname());
+                        map.put("custId", custId);
+                        map.put("msg", "101");
+                    } else {
+                        map.put("msg", "104");
+                    }
                 }
             }
         } catch (Exception e) {

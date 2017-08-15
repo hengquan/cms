@@ -40,7 +40,7 @@
       <input type="text"  name="realName" placeholder="姓名">
     </div>
     <div class="item_inner">
-      <input class="input_style" readonly="true" id="role" name="userRole" placeholder="用户类型" v-model="u_role" readonly class="form-group" data-toggle="modal" data-target="#userRoleModal"/>
+      <input class="input_style form-group" readonly="true" id="role" name="userRole" placeholder="用户类型" v-model="u_role" data-toggle="modal" data-target="#userRoleModal"/>
     </div>
     <div class="modal fade" id="userRoleModal" role="dialog">
       <div class="modal-dialog">
@@ -53,7 +53,6 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanRole()" id="cleanRoleBtn" style="display:none;">清除并关闭</button>
-<!--             <button type="button" class="btn btn-primary" @click="selRole()">确定</button>  -->
           </div>
         </div>
       </div>
