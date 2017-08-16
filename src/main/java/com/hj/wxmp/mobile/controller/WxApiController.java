@@ -55,6 +55,7 @@ import com.hj.wxmp.mobile.services.UserCustRefService;
 import com.hj.wxmp.mobile.services.UserInfoService;
 import com.hj.wxmp.mobile.services.UserRoleService;
 import com.hj.wxmp.mobile.services.WxLoginService;
+import com.spiritdata.framework.util.RequestUtils;
 
 @RequestMapping("/wx/api")
 @Controller
@@ -725,7 +726,7 @@ public class WxApiController extends ControllerBaseWx {
 		return isok;
 		
 	}
-	
+
 	//添加首访记录
 	@RequestMapping(value = "/addHisFirstRecord")
 	@ResponseBody
@@ -1142,7 +1143,7 @@ public class WxApiController extends ControllerBaseWx {
 	@ResponseBody
     public String personalCenter(HttpServletRequest requet,HttpServletResponse response){
     	responseInfo(response);
-		//visiitURL(requet,response);
+		visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> datamsg = new HashMap<String, Object>();
 		try {
@@ -1157,15 +1158,17 @@ public class WxApiController extends ControllerBaseWx {
 			String mainphonenum = userInfo.getMainphonenum();
 			Map<String, Object> findByUserId = sysUserRoleService.findByUserId(userId);
 			String roleName = findByUserId.get("role_name").toString();
-			if(isvalidate == 1){
+			if (isvalidate == 1) {
 				String message = "";
 				List<Map<String, Object>> projData = projUserRoleService.selectByUserId(userId);
-				for(Map<String, Object> proj : projData){
-					String projName = proj.get("projName").toString();
-					String id = proj.get("id").toString();
-					message += ","+id+"-"+projName;
+				if (projData!=null&&!projData.isEmpty()) {
+	                for(Map<String, Object> proj : projData){
+	                    String projName = proj.get("projName").toString();
+	                    String id = proj.get("id").toString();
+	                    message += ","+id+"-"+projName;
+	                }
+	                message=message.substring(1);
 				}
-				message = message.substring(1);
 				map.put("checkProj", message);
 			}else{
 				map.put("checkProj", "");
@@ -1188,11 +1191,7 @@ public class WxApiController extends ControllerBaseWx {
 		System.out.println(JsonUtils.map2json(datamsg));
 		return JsonUtils.map2json(datamsg);
     }
-	
-	
-	
-	
-	
+
 	//修改密码
 	@RequestMapping("/updateUserPwd")
 	@ResponseBody
@@ -1216,9 +1215,7 @@ public class WxApiController extends ControllerBaseWx {
 		}
 		return JsonUtils.map2json(map);
 	}
-	
-	
-	
+
 	//获取首访记录
 	@RequestMapping(value = "/getRecord01")
 	@ResponseBody
@@ -1227,9 +1224,9 @@ public class WxApiController extends ControllerBaseWx {
 		visiitURL(req,response);
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
-			String recordId = req.getParameter("recordId");
-			String userId = req.getParameter("userId");
-			if(recordId != null && "".equals(recordId)){
+		    Map<String, Object> m=RequestUtils.getDataFromRequest(req);
+			String recordId=m.get("recordId")==null?null:(String)m.get("recordId");
+			if(recordId != null&&!"".equals(recordId)){
 				AccessRecord01 accessRecord01 = accessRecord01Service.findById(recordId);
 				map.put("msg", "100");
 				map.put("data", accessRecord01);
@@ -1242,8 +1239,7 @@ public class WxApiController extends ControllerBaseWx {
 		}
 		return JsonUtils.map2json(map);
 	}
-	
-	
+
 	//获取复访记录
 	@RequestMapping(value = "/getRecord02")
 	@ResponseBody

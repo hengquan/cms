@@ -39,7 +39,7 @@
     <div class="item_inner">
       <input type="text"  name="realName" placeholder="姓名">
     </div>
-    <div class="item_inner">
+     <div class="item_inner">
       <input class="input_style form-group" readonly="true" id="role" name="userRole" placeholder="用户类型" v-model="u_role" data-toggle="modal" data-target="#userRoleModal"/>
     </div>
     <div class="modal fade" id="userRoleModal" role="dialog">
@@ -47,16 +47,18 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span>&times</span></button>
-            <h4 class="modal-title">&nbsp;</h4>
+            <h4 class="modal-title">用户类型</h4>
           </div>
           <div class="modal-body" id="userRoleData"></div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" @click="selRole()">确定</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanRole()" id="cleanRoleBtn" style="display:none;">清除并关闭</button>
           </div>
         </div>
       </div>
     </div>
+
     <div class="item_inner">
       <input type="text" name="prjs" placeholder="所属项目，可填入多个，逗号隔开">
     </div>
@@ -118,22 +120,11 @@ function initRols(roleList) {
   for (var i=0; i<roleList.length; i++) {
     if (roleList[i].roleName=='管理员') continue;
     if (roleList[i].roleName=='超级管理员') continue;
-    userRoleHtml+='<label><input type="radio" name="userRole" value="'+roleList[i].id+'" _text="'+roleList[i].roleName+'" onclick="roleClick()"/> '+roleList[i].roleName+' </label>';
+    userRoleHtml+='<label><input type="radio" name="userRole" value="'+roleList[i].id+'" _text="'+roleList[i].roleName+'"/> '+roleList[i].roleName+' </label>';
   }
   $("#userRoleData").html(userRoleHtml);
 }
 
-function roleClick() {
-  var choose=document.getElementsByName('userRole');
-  for (var i=0; i<choose.length; i++) {
-    if (choose[i].checked==true) {
-      $("#role").val(choose[i].getAttribute("_text"));
-      _uRole=choose[i].value;
-    }
-  }
-  $("#userRoleModal").modal('hide');
-  if (_uRole!="") $("#cleanRoleBtn").show();
-}
 /**
  * 注册用户
  */

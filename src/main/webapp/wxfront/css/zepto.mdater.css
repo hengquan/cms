@@ -61,7 +61,7 @@
 }
 .md_body{
 	position: relative;
-	height: 268px;
+	height: 450px;
 }
 .md_headtext{
 	display: inline-block;
@@ -70,7 +70,7 @@
 	font-size: 1.125em;
 	color: #333;
 }
-.md_prev, .md_next{
+.md_prev,.md_next{
 	position: absolute;
 	top: 0;
 	font-family: arial;
@@ -87,10 +87,10 @@
 	right: 0;
 }
 .md_weekarea{
-	margin: 0;
+	margin: 6% 0;
 	padding: 0;
 	list-style-type: none;
-	border-bottom: 1px solid #4eccc4;
+	border-bottom: 1px solid #19a6ee;
 	overflow: hidden;
 }
 .md_weekarea li, .md_datearea li{
@@ -103,7 +103,7 @@
 	line-height: 3.31em;
 }
 .md_weekarea li, .md_prev, .md_next{
-	color: #4eccc4;
+	color: #19a6ee;
 }
 .md_datearea{
 	position: absolute;
@@ -116,7 +116,7 @@
 	-webkit-transform: translate3d(0,0,0);
 }
 .md_datearea li.current{
-	background-color: #4eccc4;
+	background-color: #19a6ee;
 	color: #FFF;
 }
 .md_datearea li span{
@@ -125,19 +125,21 @@
 	height: 100%;
 }
 .md_datearea li span.current{
-	background-color: #4eccc4;
+	background-color: #19a6ee;
 	color: #FFF;
 }
 .md_foot{
-	margin-top: 10%;
-	margin-bottom: 10%;
+	margin-top: 2%;
+	margin-bottom:2%;
 	text-align: center;
 }
-.md_cancel{
-	margin-left: 16%;
+.md_cancel,.md_ok{
+	width:45%;display:block;float:left;
 }
+.md_cancel {text-align:left;margin-left:5%;}
+.md_ok {text-align:right;margin-right:5%;}
 .md_ok:link, .md_ok:visited, .md_cancel:link, .md_cancel:visited{
-	color: #4eccc4;
+	color: #19a6ee;
 	text-decoration: none;
 }
 .out_left{
