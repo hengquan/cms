@@ -94,6 +94,7 @@
 													<button type="button" onclick="subUserMessage('${u.id}',${u.status})" class="btn btn-send">作废</button>
 												</c:if>
 												<button type="button" onclick="seeAllMessages('${u.id}')" class="btn btn-send">查看详细信息</button>
+												<button type="button" onclick="updateFirstRecord('${u.id}')" class="btn btn-send">修改审核信息</button>
 											</td>
 										</tr>
 									</c:forEach>
@@ -254,7 +255,10 @@
 	
 	
 	function seeAllMessages(id){
-		window.location.href="${appRoot}/accessRecord/firstRecordDetails";
+		window.location.href="${appRoot}/accessRecord/firstRecordDetails?id="+id;
+	}
+	function updateFirstRecord(id){
+		window.location.href="${appRoot}/updateFirstRecord?id="+id;
 	}
 	
 	
@@ -389,6 +393,10 @@
 	function doRefresh(){
 		 location.reload();
 	}
+	
+	function doAdd(){
+		alert("asdfasdfa");
+	} 
 	</script>
 	<input type="hidden" value="" id="adminId"/>
 </body>

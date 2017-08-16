@@ -36,6 +36,7 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
+    <result column="recepTime" property="receptime" jdbcType="TIMESTAMP" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.hj.wxmp.mobile.entity.AccessRecord01" extends="BaseResultMap" >
     <result column="trafficTypeDesc" property="traffictypedesc" jdbcType="LONGVARCHAR" />
@@ -53,7 +54,7 @@
     localResidence, localWorkArea, outResidence, outWorkArea, familyStatus, trafficType, 
     workIndustry, enterpriseType, realtyProductType, attentAcreage, priceSection, buyPurpose, 
     knowWay, attentionPoint, estCustWorth, investType, captilPrepSection, compareProjs, 
-    recepTimeSection, custScore, authorId, creatorId, status, cTime, lmTime
+    recepTimeSection, custScore, authorId, creatorId, status, cTime, lmTime,recepTime
   </sql>
   <sql id="Blob_Column_List" >
     trafficTypeDesc, workIndustryDesc, enterpriseTypeDesc, realtyProductTypeDesc, buyPurposeDesc, 
@@ -235,6 +236,12 @@
       <if test="custdescn != null" >
         custDescn,
       </if>
+      <if test="custdescn != null" >
+        custDescn,
+      </if>
+      <if test="receptime != null" >
+        recepTime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -366,6 +373,9 @@
       <if test="custdescn != null" >
         #{custdescn,jdbcType=LONGVARCHAR},
       </if>
+      <if test="receptime != null" >
+        #{receptime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.AccessRecord01" >
@@ -496,6 +506,9 @@
       </if>
       <if test="custdescn != null" >
         custDescn = #{custdescn,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="receptime != null" >
+        recepTime = #{receptime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
