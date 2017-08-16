@@ -9,7 +9,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.tagext.PageData;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -506,7 +505,7 @@ public class WxApiController extends ControllerBaseWx {
 			UserInfo userInfo = userInfoService.findByOpenid(openid);
 			//获取用户ID
 			String userId = userInfo.getId();
-			openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
+			//openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
 			//客户项目关系表
 			ProjCustRef projCustRef = new ProjCustRef();
 			String proJcustId = key.getUUIDKey();
@@ -735,6 +734,7 @@ public class WxApiController extends ControllerBaseWx {
 		//visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			String openid = HashSessions.getInstance().getOpenId(request);
 			//首访记录表ID
 			String record01Id = key.getUUIDKey();
 			//补全首访信息-并更新
@@ -990,7 +990,7 @@ public class WxApiController extends ControllerBaseWx {
 	public Boolean addRecord03(AccessRecord03 record03,Customer customer,String record03Id){
 		Boolean isok = false;
 		try {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			String openid = HashSessions.getInstance().getOpenId(request);
 			UserInfo userInfo = userInfoService.findByOpenid(openid);
 			//获取用户ID
@@ -1017,10 +1017,10 @@ public class WxApiController extends ControllerBaseWx {
 			}
 			//补全首访信息-并更新
 			record03.setId(record03Id);
-			String purchasedate1 = request.getParameter("purchasedate1");
-			//String purchasedate1 = "2017-02-01 12:12:12";
-			String signdate1 = request.getParameter("signdate1");
-			//String signdate1 = "2017-02-01 12:12:12";
+			//String purchasedate1 = request.getParameter("purchasedate1");
+			String purchasedate1 = "2017-02-01";
+			//String signdate1 = request.getParameter("signdate1");
+			String signdate1 = "2017-02-01";
 			record03.setPurchasedate(format.parse(purchasedate1));
 			record03.setSigndate(format.parse(signdate1));
 			//户籍类型

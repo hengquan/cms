@@ -94,6 +94,16 @@ public class AccessRecord02 {
     private String descn;
 
     private String faultdescn;
+    
+    private Date receptime;
+
+	public Date getReceptime() {
+		return receptime;
+	}
+
+	public void setReceptime(Date receptime) {
+		this.receptime = receptime;
+	}
 
     public String getAvocationsdesc() {
         return avocationsdesc;

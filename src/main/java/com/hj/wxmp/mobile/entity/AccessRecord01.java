@@ -88,8 +88,18 @@ public class AccessRecord01 {
     private String investtypedesc;
 
     private String custdescn;
+    
+    private Date receptime;
 
-    public String getTraffictypedesc() {
+	public Date getReceptime() {
+		return receptime;
+	}
+
+	public void setReceptime(Date receptime) {
+		this.receptime = receptime;
+	}
+
+	public String getTraffictypedesc() {
         return traffictypedesc;
     }
 

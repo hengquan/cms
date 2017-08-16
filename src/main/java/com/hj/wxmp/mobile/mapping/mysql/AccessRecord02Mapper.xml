@@ -42,6 +42,7 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
+    <result column="recepTime" property="receptime" jdbcType="TIMESTAMP" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.hj.wxmp.mobile.entity.AccessRecord02" extends="BaseResultMap" >
     <result column="avocationsDesc" property="avocationsdesc" jdbcType="LONGVARCHAR" />
@@ -57,7 +58,7 @@
     outEduWill, nannyFlag, outExperFlag, outExperCity, childOutExperFlag, childOutExperCity, 
     petFlag, houseCount, carFamilyCount, carBrand, carTotalPricce, attentWX, appNames, 
     avocations, resistPoint, loveActivation, freeTimeSection, visitorCount, visitorRefs, 
-    recepTimeSection, custScore, authorId, creatorId, status, cTime, lmTime
+    recepTimeSection, custScore, authorId, creatorId, status, cTime, lmTime,recepTime
   </sql>
   <sql id="Blob_Column_List" >
     avocationsDesc, resistPointDesc, loveActDesc, visitorRefsDesc, descn, faultDescn
@@ -249,6 +250,9 @@
       <if test="faultdescn != null" >
         faultDescn,
       </if>
+      <if test="receptime != null" >
+        recepTime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -389,6 +393,9 @@
       <if test="faultdescn != null" >
         #{faultdescn,jdbcType=LONGVARCHAR},
       </if>
+      <if test="receptime != null" >
+        #{receptime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.AccessRecord02" >
@@ -528,6 +535,9 @@
       </if>
       <if test="faultdescn != null" >
         faultDescn = #{faultdescn,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="receptime != null" >
+        recepTime = #{receptime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}

@@ -29,6 +29,7 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
+    <result column="recepTime" property="receptime" jdbcType="TIMESTAMP" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.hj.wxmp.mobile.entity.AccessRecord03" extends="BaseResultMap" >
     <result column="realtyProductTypeDesc" property="realtyproducttypedesc" jdbcType="LONGVARCHAR" />
@@ -41,7 +42,7 @@
     id, projId, custId, custName, custPhoneNum, custSex, visitCycle, purchaseCycle, signCycle, 
     purchaseDate, signDate, houseNum, houseRegiType, houseAcreage, unitPrice, totalPrice, 
     paymentType, realtyProductType, addressMail, livingStatus, realUseMen, realPayMen, 
-    authorId, creatorId, status, cTime, lmTime
+    authorId, creatorId, status, cTime, lmTime,recepTime
   </sql>
   <sql id="Blob_Column_List" >
     realtyProductTypeDesc, suggestion, talkQandS, signQandS, sumDescn
@@ -183,6 +184,9 @@
       <if test="sumdescn != null" >
         sumDescn,
       </if>
+      <if test="receptime != null" >
+        recepTime,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -281,6 +285,9 @@
       <if test="sumdescn != null" >
         #{sumdescn,jdbcType=LONGVARCHAR},
       </if>
+      <if test="receptime != null" >
+        #{receptime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.AccessRecord03" >
@@ -378,6 +385,9 @@
       </if>
       <if test="sumdescn != null" >
         sumDescn = #{sumdescn,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="receptime != null" >
+        recepTime = #{receptime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}

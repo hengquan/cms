@@ -70,10 +70,10 @@
       <input type="text" placeholder="" name="custPhone"/>
     </div>
   </div>
-  <div class="item_sflr row" data-toggle="modal" data-target="#sexModal">
+  <div class="item_sflr row">
     <div class="col-title col-title-2">性别</div>
     <div class="col-input">
-      <span class="input_style form-group" id="sex">123</span>
+      <span class="input_style form-group" id="sex" data-toggle="modal" data-target="#sexModal">123</span>
     </div>
   </div>
   <div class="modal fade" id="sexModal" role="dialog">
@@ -103,7 +103,7 @@
   <div class="item_sflr row">
     <div class="col-title col-title-3">年龄段</div>
     <div class="col-input-3">
-      <input class="input_style form-group" id="ageGroup" placeholder="" v-model="u_ageGroup" readonly data-toggle="modal" data-target="#ageGroupModal"/>
+      <input class="input_style form-group" id="ageGroup" placeholder="" v-model="u_ageGroup" readonly="readonly" data-toggle="modal" data-target="#ageGroupModal"/>
     </div>
   </div>
   <div class="modal fade" id="ageGroupModal" role="dialog">

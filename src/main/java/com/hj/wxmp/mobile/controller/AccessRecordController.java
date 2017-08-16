@@ -100,6 +100,30 @@ public class AccessRecordController extends ControllerBase {
 		return pageUrl;
 	}
 	
+	//修改首访信息
+	@RequestMapping(value = "/updateFirstRecord")
+	public String updateFirstRecord(ModelMap model){
+		String pageUrl = "accessRecord01/editRecord01";
+		try {
+			String id = getTrimParameter("id");
+			AccessRecord01 accessRecord01 = accessRecord01Service.findById(id);
+			model.addAttribute("accessRecord01", accessRecord01);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//菜单
+		UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+		List<SysItemRole> lst = sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+		List<SysItemRole> item = sysItemRoleDao.selectItemByPId(userRole.getRoleid());
+		model.addAttribute("itemNamesss", item);
+		model.addAttribute("lst", lst);
+		String itemId = super.getTrimParameter("itemId");
+		String id = super.getTrimParameter("id");
+		model.addAttribute("itemId", itemId);
+		model.addAttribute("id", id);
+		return pageUrl;
+		
+	}
 	
 	//首访审核
 	@ResponseBody
@@ -142,7 +166,7 @@ public class AccessRecordController extends ControllerBase {
 	//首访页面详情
 	@RequestMapping(value = "/accessRecord/firstRecordDetails")
 	public String firstRecordDetails(ModelMap model){
-		String pageUrl = "accessRecord01/msg";
+		String pageUrl = "accessRecord01/seeRecord01";
 		try {
 			String id = getTrimParameter("id");
 			AccessRecord01 accessRecord01 = accessRecord01Service.findById(id);

@@ -66,6 +66,16 @@ public class AccessRecord03 {
     private String signqands;
 
     private String sumdescn;
+    
+    private Date receptime;
+
+	public Date getReceptime() {
+		return receptime;
+	}
+
+	public void setReceptime(Date receptime) {
+		this.receptime = receptime;
+	}
 
     public String getRealtyproducttypedesc() {
         return realtyproducttypedesc;
