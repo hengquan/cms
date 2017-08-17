@@ -367,10 +367,13 @@ public class WxApiController extends ControllerBaseWx {
 				msg.put("project", project);
 				//查询客户信息
 				List<Map<String, Object>> accessRecord01 = accessRecord01Service.selectUserMsy(msg);
-				if(accessRecord01.size()>0){
-					String authorName = userInfoService.findById(userId).getRealname();
+				if(accessRecord01.size()>0) {
+					String authorName = "";
 					//权限人ID
 					String authorId = accessRecord01.get(0).get("authorId").toString();
+                    UserInfo author=userInfoService.findById(authorId);
+                    if (author==null) throw new Exception("");
+                    if (author!=null) authorName=author.getRealname();
 					//客户ID
 					String custId = accessRecord01.get(0).get("custId").toString();
 					if(userId.equals(authorId)){
