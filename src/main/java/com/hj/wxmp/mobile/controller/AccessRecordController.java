@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ import com.hj.wxmp.mobile.entity.AccessRecord02;
 import com.hj.wxmp.mobile.entity.AccessRecord03;
 import com.hj.wxmp.mobile.entity.AuditRecord;
 import com.hj.wxmp.mobile.entity.SysItemRole;
+import com.hj.wxmp.mobile.entity.UserInfo;
 import com.hj.wxmp.mobile.entity.UserRole;
 import com.hj.wxmp.mobile.services.AccessRecord01Service;
 import com.hj.wxmp.mobile.services.AccessRecord02Service;
@@ -102,9 +104,16 @@ public class AccessRecordController extends ControllerBase {
 	
 	//修改首访信息
 	@RequestMapping(value = "/updateFirstRecord")
-	public String updateFirstRecord(ModelMap model){
+	public String updateFirstRecord(ModelMap model,HttpServletRequest req){
 		String pageUrl = "accessRecord01/editRecord01";
+		String userId = "";
 		try {
+			Object obj = req.getSession().getAttribute("adminSession");
+			if (null != obj)  {
+				UserInfo userInfo = (UserInfo) obj;
+				userId = userInfo.getId();
+				System.out.println(userId);
+			}
 			String id = getTrimParameter("id");
 			AccessRecord01 accessRecord01 = accessRecord01Service.findById(id);
 			model.addAttribute("accessRecord01", accessRecord01);
@@ -116,11 +125,12 @@ public class AccessRecordController extends ControllerBase {
 		List<SysItemRole> lst = sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
 		List<SysItemRole> item = sysItemRoleDao.selectItemByPId(userRole.getRoleid());
 		model.addAttribute("itemNamesss", item);
-		model.addAttribute("lst", lst);
 		String itemId = super.getTrimParameter("itemId");
 		String id = super.getTrimParameter("id");
 		model.addAttribute("itemId", itemId);
+		model.addAttribute("lst", lst);
 		model.addAttribute("id", id);
+		model.addAttribute("userId", userId);
 		return pageUrl;
 		
 	}
@@ -174,6 +184,8 @@ public class AccessRecordController extends ControllerBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		UserInfo userInfo = hashSession.getCurrentSessionUser(request);
+		String userId = userInfo.getId();
 		//菜单
 		UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
 		List<SysItemRole> lst = sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
@@ -184,6 +196,7 @@ public class AccessRecordController extends ControllerBase {
 		String id = super.getTrimParameter("id");
 		model.addAttribute("itemId", itemId);
 		model.addAttribute("id", id);
+		model.addAttribute("userId", userId);
 		return pageUrl;
 	}
 	
