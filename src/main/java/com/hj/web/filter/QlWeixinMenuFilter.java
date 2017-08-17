@@ -32,7 +32,8 @@ public class QlWeixinMenuFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest req=(HttpServletRequest)request;
+    	 logger.debug("requestURL000","THIS IS OK");
+    	HttpServletRequest req=(HttpServletRequest)request;
         HttpServletResponse res=(HttpServletResponse)response;
 
         String requestURL = req.getRequestURL().toString();
