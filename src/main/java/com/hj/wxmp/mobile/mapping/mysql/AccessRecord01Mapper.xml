@@ -633,7 +633,7 @@
   </select>
   
   <select id="getRecord01List" resultType="java.util.Map" parameterType="java.util.Map">
-  	select * from ql_AccessRecord01 limit page,pageSize
+  	select * from ql_AccessRecord01 where authorId=#{userId} limit #{page},#{pageSize}
   </select>
   
 </mapper>

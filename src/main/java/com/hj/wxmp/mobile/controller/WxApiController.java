@@ -468,8 +468,8 @@ public class WxApiController extends ControllerBaseWx {
 					tabDictRefService.insert(tabDictRef);
 				}
 				resultData += ","+split[1];
-				resultData = resultData.substring(1);
 			}
+			resultData = resultData.substring(1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -516,10 +516,6 @@ public class WxApiController extends ControllerBaseWx {
 				userId = userInfo.getId();
 			}
 			//openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
-			//客户项目关系表
-			ProjCustRef projCustRef = new ProjCustRef();
-			String proJcustId = key.getUUIDKey();
-			projCustRef.setId(proJcustId);
 			//客户表
 			String customerId = key.getUUIDKey();
 			String customerid = "";
@@ -528,6 +524,20 @@ public class WxApiController extends ControllerBaseWx {
 				if(customerid != null){
 					customerId = customerid;
 				}
+			}
+			//客户项目关系表
+			Map<String,Object>result=new HashMap<String,Object>();
+			String proJcustId = key.getUUIDKey();
+			result.put("cusId", customerId);
+			result.put("projId", record01.getProjid());
+			ProjCustRef projCustRef = projCustRefService.selectByCusIdAndProjId(result);
+			String projCustId="";
+			if(projCustRef == null) {
+				projCustRef = new ProjCustRef();
+				projCustRef.setId(proJcustId);
+			}else{
+				projCustId = projCustRef.getId();
+				proJcustId = projCustId;
 			}
 			customer.setTraffictypedesc(record01.getTraffictypedesc());
 			customer.setWorkindustrydesc(record01.getWorkindustrydesc());
@@ -736,7 +746,11 @@ public class WxApiController extends ControllerBaseWx {
 			//添加客户项目关系
 			projCustRef.setProjid(record01.getProjid());
 			projCustRef.setCustid(customerId);
-			projCustRefService.insert(projCustRef);
+			if("".equals(projCustId)){
+				projCustRefService.insert(projCustRef);
+			}else{
+				projCustRefService.update(projCustRef);
+			}
 			//添加首访表信息
 			record01.setCustid(customerId);
 			record01.setAuthorid(userId);
@@ -1328,12 +1342,16 @@ public class WxApiController extends ControllerBaseWx {
 			@RequestParam(value="pageSize",defaultValue="10") int pageSize){
 		responseInfo(response);
 		visiitURL(req,response);
+		String openid = HashSessions.getInstance().getOpenId(request);
+		UserInfo userInfo = userInfoService.selectByOpenId(openid);
 		Map<String,Object> map = new HashMap<String,Object>();
 		Map<String,Object> result = new HashMap<String,Object>();
 		try {
 			Integer page = ((nowPage - 1) * pageSize);
 			result.put("page", page);
 			result.put("pageSize", pageSize);
+			result.put("pageSize", pageSize);
+			result.put("userId", userInfo.getId());
 			List<Map<String,Object>> message = accessRecord01Service.getRecord01List(result);
 			map.put("msg", "100");
 			map.put("data", message);
@@ -1351,12 +1369,15 @@ public class WxApiController extends ControllerBaseWx {
 			@RequestParam(value="pageSize",defaultValue="10") int pageSize){
 		responseInfo(response);
 		visiitURL(req,response);
+		String openid = HashSessions.getInstance().getOpenId(request);
+		UserInfo userInfo = userInfoService.selectByOpenId(openid);
 		Map<String,Object> map = new HashMap<String,Object>();
 		Map<String,Object> result = new HashMap<String,Object>();
 		try {
 			Integer page = ((nowPage - 1) * pageSize);
 			result.put("page", page);
 			result.put("pageSize", pageSize);
+			result.put("userId", userInfo.getId());
 			List<Map<String,Object>> message = accessRecord02Service.getRecord02List(result);
 			map.put("msg", "100");
 			map.put("data", message);
@@ -1374,12 +1395,15 @@ public class WxApiController extends ControllerBaseWx {
 			@RequestParam(value="pageSize",defaultValue="10") int pageSize){
 		responseInfo(response);
 		visiitURL(req,response);
+		String openid = HashSessions.getInstance().getOpenId(request);
+		UserInfo userInfo = userInfoService.selectByOpenId(openid);
 		Map<String,Object> map = new HashMap<String,Object>();
 		Map<String,Object> result = new HashMap<String,Object>();
 		try {
 			Integer page = ((nowPage - 1) * pageSize);
 			result.put("page", page);
 			result.put("pageSize", pageSize);
+			result.put("userId", userInfo.getId());
 			List<Map<String,Object>> message = accessRecord03Service.getRecord03List(result);
 			map.put("msg", "100");
 			map.put("data", message);
