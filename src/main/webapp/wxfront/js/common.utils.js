@@ -3,6 +3,16 @@
  */
 
 /**
+ * 验证手机号码包含153，159号段
+ */
+function checkPhone(phone) {
+  if (!phone) return 0;
+  var mphone=/^0?1[3|4|5|8][0-9]\d{8}$/;
+  if (mphone.test(phone)) return 1;
+  return 2;
+}
+
+/**
  * 用于调试，得到对象中的元素及其值
  * @param obj 检测对象
  * @returns {String} 对象中元素的信息
@@ -24,6 +34,7 @@ function allFields(obj) {
   }
   return props;
 }
+
 
 /**
  * 判断对象是否为空，为{}或null返回true

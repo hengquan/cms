@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,16 +10,23 @@
   <link rel="stylesheet" href="../css/bootstrap.min.css"/>
   <link rel="stylesheet" href="../css/index.css"/>
   <link rel="stylesheet" href="../css/main.css">
-  <link rel="stylesheet" href="../css/zepto.mdater.css">
   <script src="../../static/js/jquery.min.js" type="text/javascript"></script>
   <script src="../js/CONSTANT.js" type="text/javascript"></script>
   <script src="../js/common.utils.js" type="text/javascript"></script>
   <script src="../js/bootstrap.min.js"></script>
   <script src="../js/vue.js"></script>
-  <script src="../js/zepto.js"></script>
-  <script src="../js/zepto.mdater.js"></script>
 </head>
 <body>
+<div class="item_sflr row" id="auditArea" style="display:none;">
+<!-- 代码 开始 -->
+<div class="subNavBox">
+  <div class="subNav currentDd currentDt">审核意见</div>
+  <ul class="navContent " style="display:block">
+    <li id="auditText">添加新闻添加新闻添加新闻添加新闻添加新闻添加新闻添加新闻添加新闻添加新闻添加新闻添加新闻加新闻添加新闻添加新闻添加新闻添加新闻添加新闻添加新闻添加新闻添加新闻添加新闻加新闻添加新闻添加新闻添加新闻添加新闻添加新闻添加新闻添加新闻添加新闻添加新闻</li>
+  </ul>
+</div>
+<!-- 代码 结束 -->
+</div>
 <!-- 第1页 -->
 <div class="container" id="step1" style="display:none">
   <div class="item_sflr row">
@@ -41,7 +47,7 @@
     <div class="col-input-4">
       <span class="input_style form-group" id="proj">&nbsp;</span>
     </div>
-  </a>
+    </a>
   </div>
   <div class="modal fade" id="projModal" role="dialog">
     <div class="modal-dialog">
@@ -101,7 +107,7 @@
   <div class="item_sflr row">
     <div class="col-title col-title-7">第一次获知时间</div>
     <div class="col-input-7">
-      <input type="date" placeholder="">
+      <input type="date" placeholder="" name="firstTime"/>
     </div>
   </div>
   <div class="item_sflr row">
@@ -1632,48 +1638,6 @@ $('#buyPurposeModal').on('hide.bs.modal', function () {
 $('#attentionPointModal').on('hide.bs.modal', function () {
   vueStep3.cleanAttentionPoint(1);
 });
-//=====================================================================
-var _TYPE="add";
-var recordId="";//记录Id只有当_TYPE=update时，此变量才有值。
-var custId="";
-
-//填充数据,并初始化
-$(function() {
-  _TYPE=getUrlParam(window.location.href, 'type');
-  if (_TYPE==null) _TYPE="add";
-  if (_TYPE.toLocaleLowerCase()=='update') _TYPE="update";
-  $(document).attr("title","客户数据中心-首访信息录入");
-  $$('.datatime').mdater({
-    minDate: new Date()
-  });
-  if (_TYPE=='add') initData();
-  else if (_TYPE=='update') {
-    //设置不能修改的字段:项目名称，客户名称，客户电话号码
-    $(document).attr("title","客户数据中心-首访信息修改");
-    //获得本条记录消息信息
-    var recordId=getUrlParam(window.location.href, 'recordId');
-    if (!recordId) window.location.href=_URL_BASE+"/wxfront/err.html?3000=无记录Id";
-    else {
-      var _data={};
-      _data.recordId=recordId;
-      var url=_URL_BASE+"/wx/api/getRecord01";
-      $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
-        success: function(json) {
-          if (json.msg=='100') {
-            initData();
-            fillData(json.data);
-          } else {
-            window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得首访录入信息";
-          }
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
-            +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
-        }
-      });
-    }
-  }
-});
 
 function fillSelectField(id, value, isSetValue) {
   var choose=document.getElementsByName(''+id);
@@ -1742,6 +1706,56 @@ function fillSelectField(id, value, isSetValue) {
     }
   }
 }
+//=====================================================================
+
+
+//=====================================================================
+var _TYPE="add";
+var recordId="";//记录Id只有当_TYPE=update时，此变量才有值。
+var custId="";
+
+//填充数据,并初始化
+$(function() {
+  $(".subNav").click(function(){
+    $(this).toggleClass("currentDd").siblings(".subNav").removeClass("currentDd");
+    $(this).toggleClass("currentDt").siblings(".subNav").removeClass("currentDt");
+    $(this).next(".navContent").slideToggle(500).siblings(".navContent").slideUp(500);
+  });
+  $("#auditArea").hide();
+  _TYPE=getUrlParam(window.location.href, 'type');
+  if (_TYPE==null) _TYPE="add";
+  if (_TYPE.toLocaleLowerCase()=='update') _TYPE="update";
+  $(document).attr("title","客户数据中心-首访信息录入");
+
+  if (_TYPE=='add') initData();
+  else if (_TYPE=='update') {
+    $("#auditArea").show();
+    $(document).attr("title","客户数据中心-首访信息修改");
+    //获得本条记录消息信息
+    var recordId=getUrlParam(window.location.href, 'recordId');
+    if (!recordId) window.location.href=_URL_BASE+"/wxfront/err.html?3000=无记录Id";
+    else {
+      var _data={};
+      _data.recordId=recordId;
+      var url=_URL_BASE+"/wx/api/getRecord01";
+      $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
+        success: function(json) {
+          if (json.msg=='100') {
+            initData();
+            fillData(json.data);
+          } else {
+            window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得首访录入信息";
+          }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+          window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
+            +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
+        }
+      });
+    }
+  }
+});
+
 function fillData(data) {//填数据
   if (!data) return;
   if (data.custname) $("input[name='custName']").val(data.custname);
@@ -1840,10 +1854,11 @@ function cleanData() {
   clean('attentionPoint');
   clean('recepTimeSection');
   clean('custCore');
-  $("input[name='compareProjs']").val("");
-  $("input[name='custDescn']").val("");
+  $("textarea[name='compareProjs']").html("");
+  $("textarea[name='custDescn']").html("");
 
   function clean(otherId) {
+    $("#"+otherId).html("&nbsp;");
     var choose=document.getElementsByName(''+otherId);
     for (var i=0; i<choose.length; i++) if (choose[i].checked) choose[i].checked=false;
     try {
@@ -1857,36 +1872,34 @@ function cleanData() {
 
 //翻页切换
 function step1Next() {//要判断是否应该进行首访录入
-  if (_TYPE=='update') {
+ if (_TYPE=='update') {
     $("#step1").hide(0);
     $("#step2").show(0);
     $("#step3").hide(0);
   } else if (_TYPE=='add') {//要判断是否应该进行首访录入
-	  alert(_uTrafficType);
     //获得参数
     var _data={};
     _data.custName=$("input[name='custName']").val();
-    _data.phoneNum=$("input[name='custPhone']").val();
+    _data.custPhone=$("input[name='custPhone']").val();
     var errMsg="";
     if (!$.trim(_data.custName)) errMsg+="\n请输入客户姓名！";
-    if (!$.trim(_data.phoneNum)) errMsg+="\n请输入客户电话号码！";
-    else if (_data.phoneNum.length<11) errMsg+="\n手机号码不符合规则"; 
+    if (!$.trim(_data.custPhone)) errMsg+="\n请输入客户电话号码！";
+    else if (checkPhone($.trim(_data.custPhone))!=1) errMsg+="\n手机号码不符合规则"; 
     if (!$.trim(_uProjId)) errMsg+="\n请选择项目！";
     _data.projId=_uProjId;
-    if (errMsg) {
+    if (errMsg!="") {
       alert(errMsg.substr(1));
       return;
     }
     var canNext=false;
-    var url=_URL_BASE+"wx/api/existRecord01";
-    alert(url);
+    var url=_URL_BASE+"/wx/api/existRecord01";
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         if (json.msg=='103') {
           window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>系统出现未知问题，不能录入";
         } else if (json.msg=='100') { //有就已存在
           if (json.authorId==_uUserId) {//转复方
-            alert(_URL_BASE+"/wxfront/input/record02.html?type=add&custName="+encodeURIComponent(_data.custName)+"&custPhone="+encodeURIComponent(_data.custPhone)+"&projId="+encodeURIComponent(_data.projId));
+            alert("此用户已经到访过，将转入复访录入");
             window.location.href=_URL_BASE+"/wxfront/input/record02.html?type=add&custName="+encodeURIComponent(_data.custName)+"&custPhone="+encodeURIComponent(_data.custPhone)+"&projId="+encodeURIComponent(_data.projId);
           } else {
             window.location.href=_URL_BASE+"/wxfront/err.html?4000=此客户已由【"+json.authorName+"】进行接待<br/>您无权录入！";
@@ -1924,15 +1937,13 @@ function step3Prev() {
 
 //=以下为提交，包括修改和删除====================================
 function commitData() {
-  alert(_TYPE);
   var commitData=getData(_TYPE);
-  var msg=validate(comitData, _TYPE);
+  var msg=validate(commitData, _TYPE);
   if (msg.err) {
     if (msg.returnTo==1) step2Prev();
-    alert(err);
+    alert(msg.err);
     return;
   }
-
   if (_TYPE=='add') {
     commitInsert(commitData);
   } else if (_TYPE='update') {
@@ -1949,9 +1960,9 @@ function commitData() {
     temp=$("input[name='custPhone']").val();
     if (temp) retData.custphonenum=temp;
     temp=$("input[name='curTime']").val();
-    if (temp) retData.receptime=temp;
+    if (temp) retData.receptime1=temp;
     temp=$("input[name='firstTime']").val();
-    if (temp) retData.firstknowtime=temp;
+    if (temp) retData.firstknowtime1=temp;
     if (_uSex) retData.custsex=_uSex;
     if (_uAgeGroup) retData.agegroup=_uAgeGroup;
     if (_uBuyQualify) retData.buyqualify=_uBuyQualify;
@@ -2001,33 +2012,29 @@ function commitData() {
       err="请先输入数据";
       return ret;
     }
-    if (!data.projid) ret.err+=";/n无法获得项目Id";
-    if (!data.custid&&type=='update') ret.err+=";/n无法获得客户Id";
+    if (!data.projid) ret.err+=";\n无法获得项目Id";
+    if (!data.custid&&type=='update') ret.err+=";\n无法获得客户Id";
     if (!data.custname) {
-      ret.err+=";/n无法获得客户名称";
+      ret.err+=";\n无法获得客户名称";
       ret.turnTo=1;
     }
     if (!data.custphonenum) {
-      ret.err+=";/n无法获得客户手机";
+      ret.err+=";\n无法获得客户手机";
       ret.turnTo=1;
     }
-    if (data.custphonenum.length<11) {
-      ret.err+=";/n无法获得客户手机";
-      ret.turnTo=1;
-    }
+    if (ret.err) ret.err=ret.err.substring(2);
     return ret;
   }
   function commitInsert(_data) {
-    var url=_URL_BASE+"wx/api/addHisFirstRecord";
-    alert(url);
+    var url=_URL_BASE+"/wx/api/addHisFirstRecord";
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         if (json.msg!='100') {
           window.location.href=_URL_BASE+"/wxfront/err.html?8001=录入首访记录错误！";
         } else {
           if (confirm("录入成功，要录入下一条首访记录吗？")) {
-            step2Prev();
             cleanData();
+            step2Prev();
           } else {
             window.location.href=_URL_BASE+"/wxfront/search/record01.html";
           }
@@ -2040,8 +2047,7 @@ function commitData() {
     });
   }
   function commitUpdate(data) {
-    var url=_URL_BASE+"wx/api/updateRecord01";
-    alert(url);
+    var url=_URL_BASE+"/wx/api/updateRecord01";
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         if (json.msg!='100') {
