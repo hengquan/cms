@@ -19,4 +19,6 @@ public interface ProjCustRefMapper {
     int updateByPrimaryKey(ProjCustRef record);
 
 	List<Map<String, Object>> selectByUserId(String userId);
+
+	ProjCustRef selectByCusIdAndProjId(Map<String, Object> result);
 }

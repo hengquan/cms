@@ -92,4 +92,6 @@ public interface ProjCustRefService {
 
 	public List<Map<String, Object>> selectByUserId(String userId);
 
+	public ProjCustRef selectByCusIdAndProjId(Map<String, Object> result);
+
 }

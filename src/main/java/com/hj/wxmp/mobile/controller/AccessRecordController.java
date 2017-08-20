@@ -184,19 +184,16 @@ public class AccessRecordController extends ControllerBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		UserInfo userInfo = hashSession.getCurrentSessionUser(request);
-		String userId = userInfo.getId();
 		//菜单
 		UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
 		List<SysItemRole> lst = sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
 		List<SysItemRole> item = sysItemRoleDao.selectItemByPId(userRole.getRoleid());
 		model.addAttribute("itemNamesss", item);
-		model.addAttribute("lst", lst);
 		String itemId = super.getTrimParameter("itemId");
 		String id = super.getTrimParameter("id");
 		model.addAttribute("itemId", itemId);
+		model.addAttribute("lst", lst);
 		model.addAttribute("id", id);
-		model.addAttribute("userId", userId);
 		return pageUrl;
 	}
 	

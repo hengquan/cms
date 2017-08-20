@@ -245,6 +245,7 @@ rgba
 								<tr style="">
 									<input type="hidden" name="id" value="${accessRecord01.id }" />
 									<input type="hidden" name="custid" value="${accessRecord01.custid }" />
+									<input type="hidden" name="projid" value="${accessRecord01.projid }" />
 									<input type="hidden" name="userId" value="${userId }" />
 									<td style="width: 330px;">姓名：
 										<input type="text" name="custname" value="${accessRecord01.custname }" style="width: 100px">
@@ -450,7 +451,7 @@ rgba
 										<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord01.familystatus, '俩孩家庭')}">checked</c:if> value="005004-俩孩家庭" _text="俩孩家庭" style="width: 1rem">俩孩家庭 
 										<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord01.familystatus, '三孩及以上家庭')}">checked</c:if> value="005005-三孩及以上家庭" _text="三孩及以上家庭" style="width: 1rem">三孩及以上家庭
 										<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord01.familystatus, '三代同堂')}">checked</c:if> value="005006-三代同堂" _text="三代同堂" style="width: 1rem">三代同堂 
-										<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord01.familystatus, '无法了解')}">checked</c:if> value="无法了解" style="width: 1rem">
+										<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord01.familystatus, '无法了解')}">checked</c:if> value="005000-无法了解" style="width: 1rem">
 										<span style="color: red">无法了解</span>
 									</td>
 								</tr>
@@ -690,9 +691,8 @@ rgba
 
 								<tr>
 									<td colspan="3">首访客户描述：<br>
-									<textarea
-											style="width: 800px; height: 100px; margin-left: 0.1rem"
-											name="miaoshu">${accessRecord01.custdescn}</textarea>
+									<textarea style="width: 800px; height: 100px; margin-left: 0.1rem"
+											name="custdescn">${accessRecord01.custdescn}</textarea>
 									</td>
 								</tr>
 
