@@ -77,5 +77,9 @@ public class AccessRecord03ServiceImpl implements AccessRecord03Service {
 	public List<Map<String, Object>> getRecord03List(Map<String, Object> result) {
 		return dao.getRecord03List(result);
 	}
+	@Override
+	public Integer findByCustIdCount(Map<String,Object> data) {
+		return dao.findByCustIdCount(data);
+	}
 
 }

@@ -388,7 +388,7 @@
 		</if> 
 		and realName is not null 
 		and mainPhoneNum is not null 
-		limit #{page},#{pageSize}
+		<!-- limit #{page},#{pageSize} -->
 	</select>
 	
 	<select id="getMessgeCount" resultType="int" parameterType="map">

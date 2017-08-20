@@ -660,7 +660,10 @@
   </delete>
   
   <select id="getRecord02List" resultType="java.util.Map" parameterType="java.util.Map">
-  	select * from ql_AccessRecord02 where authorId=#{userId} limit #{page},#{pageSize}
+  	select * from ql_AccessRecord02 where authorId=#{userId} order by status desc,cTime desc limit #{page},#{pageSize}
   </select>
   
+  <select id="findByCustIdCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+  	SELECT count(1) from ql_AccessRecord02 where custId = #{custId} and status = 2 and projId = #{projId}
+  </select>
 </mapper>

@@ -3,6 +3,7 @@ package com.hj.wxmp.mobile.controller;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -345,7 +346,6 @@ public class WxApiController extends ControllerBaseWx {
 			@RequestParam(value = "custPhone", defaultValue = "")String phone,
 			@RequestParam(value = "projId", defaultValue = "")String project) {
 		responseInfo(response);
-		visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> msg = new HashMap<String, Object>();
 		try {
@@ -435,8 +435,10 @@ public class WxApiController extends ControllerBaseWx {
 						String[] scope = scopes.split("~");
 						String scopeBegin = scope[0];
 						tabDictRef.setSectionbegin(Float.parseFloat(scopeBegin));
-						String scopeEnd = scope[1];
-						tabDictRef.setSectionend(Float.parseFloat(scopeEnd));
+						if(scope.length>1){
+							String scopeEnd = scope[1];
+							tabDictRef.setSectionend(Float.parseFloat(scopeEnd));
+						}
 					}
 					//添加关系
 					tabDictRef.setDdid(split[0]);
@@ -484,7 +486,6 @@ public class WxApiController extends ControllerBaseWx {
 	@ResponseBody
 	public String getUserRoleProj(HttpServletRequest requet,HttpServletResponse response) {
 		responseInfo(response);
-		visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			String openid = HashSessions.getInstance().getOpenId(request);
@@ -715,11 +716,11 @@ public class WxApiController extends ControllerBaseWx {
 				customer.setInvesttype(data);
 			}
 			//资金筹备期
-			String captilprepsection = record01.getCaptilprepsection();
+			String captilprepsection = record01.getCapitalprepsection();
 			if(captilprepsection != null){
 				String data = addAccessRecord(captilprepsection,"017",1,"资金筹备期",record01Id);
 				addAccessRecord(custsex,"002",4,"资金筹备期",customerId);
-				record01.setCaptilprepsection(data);
+				record01.setCapitalprepsection(data);
 				customer.setCaptilprepsection(data);
 			}
 			//本次接待时间
@@ -771,7 +772,6 @@ public class WxApiController extends ControllerBaseWx {
 			AccessRecord01 record01,Customer customer,String userId,
 			String firstknowtime1,String receptime1) {
 		responseInfo(response);
-		//visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			//首访记录表ID
@@ -804,7 +804,6 @@ public class WxApiController extends ControllerBaseWx {
 			,AccessRecord01 record01,Customer customer,String userId,
 			String firstknowtime1,String receptime1) {
 		responseInfo(response);
-		visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			//调用公共方法
@@ -978,7 +977,6 @@ public class WxApiController extends ControllerBaseWx {
 	public String addAfterVisit(HttpServletRequest requet,HttpServletResponse response,
 			AccessRecord02 record02,Customer customer) {
 		responseInfo(response);
-		visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			//复访表ID
@@ -1006,7 +1004,6 @@ public class WxApiController extends ControllerBaseWx {
 	public String updateRecord02(HttpServletRequest requet,HttpServletResponse response,
 			AccessRecord02 record02,Customer customer) {
 		responseInfo(response);
-		visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			Boolean isok = addRecord02(record02,customer,record02.getId());
@@ -1134,7 +1131,6 @@ public class WxApiController extends ControllerBaseWx {
 	public String addTradeVisit(HttpServletRequest requet,HttpServletResponse response,
 			AccessRecord03 record03,Customer customer) {
 		responseInfo(response);
-		visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			String record03Id = key.getUUIDKey();
@@ -1161,7 +1157,6 @@ public class WxApiController extends ControllerBaseWx {
 	public String updateRecord03(HttpServletRequest requet,HttpServletResponse response,
 			AccessRecord03 record03,Customer customer) {
 		responseInfo(response);
-		visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			Boolean isok = addRecord03(record03,customer,record03.getId(),request);
@@ -1185,7 +1180,6 @@ public class WxApiController extends ControllerBaseWx {
 	@ResponseBody
     public String personalCenter(HttpServletRequest requet,HttpServletResponse response){
     	responseInfo(response);
-		visiitURL(requet,response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> datamsg = new HashMap<String, Object>();
 		try {
@@ -1263,7 +1257,6 @@ public class WxApiController extends ControllerBaseWx {
 	@ResponseBody
 	public String getRecord01(HttpServletRequest req){
 		responseInfo(response);
-		visiitURL(req,response);
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
 		    Map<String, Object> m=RequestUtils.getDataFromRequest(req);
@@ -1288,7 +1281,6 @@ public class WxApiController extends ControllerBaseWx {
 	public String getRecord02(HttpServletRequest req){
 		Map<String, Object> m=RequestUtils.getDataFromRequest(req);
 		responseInfo(response);
-		visiitURL(req,response);
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
 			String recordId = m.get("recordId")==null?null:m.get("recordId").toString();
@@ -1314,7 +1306,6 @@ public class WxApiController extends ControllerBaseWx {
 	public String getRecord03(HttpServletRequest req){
 		Map<String, Object> m=RequestUtils.getDataFromRequest(req);
 		responseInfo(response);
-		visiitURL(req,response);
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
 			String recordId = m.get("recordId")==null?null:m.get("recordId").toString();
@@ -1341,20 +1332,87 @@ public class WxApiController extends ControllerBaseWx {
 			@RequestParam(value="page",defaultValue="1") int nowPage,
 			@RequestParam(value="pageSize",defaultValue="10") int pageSize){
 		responseInfo(response);
-		visiitURL(req,response);
 		String openid = HashSessions.getInstance().getOpenId(request);
 		UserInfo userInfo = userInfoService.selectByOpenId(openid);
+		String userId = userInfo.getId();
 		Map<String,Object> map = new HashMap<String,Object>();
 		Map<String,Object> result = new HashMap<String,Object>();
 		try {
 			Integer page = ((nowPage - 1) * pageSize);
 			result.put("page", page);
 			result.put("pageSize", pageSize);
-			result.put("pageSize", pageSize);
-			result.put("userId", userInfo.getId());
-			List<Map<String,Object>> message = accessRecord01Service.getRecord01List(result);
-			map.put("msg", "100");
-			map.put("data", message);
+			result.put("userId", userId);
+			//权限信息
+			String roleName="";
+			Map<String,Object> userRole = sysUserRoleService.findByUserId(userId);
+			if(userRole!=null){
+				Object object = userRole.get("role_name");
+				if(object!=null)  {
+					List<Map<String,Object>> message = new ArrayList<Map<String,Object>>();
+					roleName = object.toString();
+					//用户相关项目信息
+					List<Map<String, Object>> projs = projUserRoleService.selectByUserId(userId);
+					String projid = "";
+					for(Map<String,Object> proj : projs){
+						String projId = proj.get("id").toString();
+						projid += projId+",";
+					}
+					//判断
+					if(roleName.equals("顾问")){
+						message = accessRecord01Service.getRecord01ListGuWen(result);
+					}else if(roleName.equals("项目管理人")){
+						result.put("projId", projid);
+						message = accessRecord01Service.getRecord01ListGuanLi(result);
+					}else if(roleName.equals("项目负责人")){
+						result.put("projId", projid);
+						message = accessRecord01Service.getRecord01ListFuZe(result);
+					}else if(roleName.equals("管理员")){
+						message = accessRecord01Service.getRecord01ListAdmin(result);
+					}
+					//总访问次数，和是否成交
+					for(Map<String,Object>msg : message){
+						Map<String,Object> data = new HashMap<String,Object>();
+						String custId = msg.get("custId").toString();
+						String projId = msg.get("projId").toString();
+						//记录ID
+						String msgId = msg.get("id").toString();
+						data.put("custId", custId);
+						data.put("projId", projId);
+						//首访记录数
+						Integer accessRecord01Number = accessRecord01Service.findByCustIdCount(data);
+						//复访记录数
+						Integer accessRecord02Number = accessRecord02Service.findByCustIdCount(data);
+						//成交记录数
+						Integer accessRecord03Number = accessRecord03Service.findByCustIdCount(data);
+						//客户总访问次数
+						Integer total = accessRecord01Number +accessRecord02Number+accessRecord03Number;
+						msg.put("total", total);
+						//客户是否成交
+						if(accessRecord03Number>0){
+							msg.put("isKnockdown", "1");
+						}else{
+							msg.put("isKnockdown", "0");
+						}
+						//审核意见
+						data.put("recordType", 1);
+						data.put("arId", msgId);
+						AuditRecord auditRecord = auditRecordService.findByArId(data);
+						if(auditRecord!=null){
+							String reason = auditRecord.getReason();
+							if(reason!=null) msg.put("checkReason",reason);
+							if(reason!=null) msg.put("checkReason","");
+						}else{
+							msg.put("checkReason","");
+						}
+					}
+					map.put("msg", "100");
+					map.put("data", message);
+				}else{
+					map.put("msg", "103");
+				}
+			}else{
+				map.put("msg", "103");
+			}
 		} catch (Exception e) {
 			map.put("msg", "103");
 			e.printStackTrace();
@@ -1368,7 +1426,6 @@ public class WxApiController extends ControllerBaseWx {
 			@RequestParam(value="page",defaultValue="1") int nowPage,
 			@RequestParam(value="pageSize",defaultValue="10") int pageSize){
 		responseInfo(response);
-		visiitURL(req,response);
 		String openid = HashSessions.getInstance().getOpenId(request);
 		UserInfo userInfo = userInfoService.selectByOpenId(openid);
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -1394,7 +1451,6 @@ public class WxApiController extends ControllerBaseWx {
 			@RequestParam(value="page",defaultValue="1") int nowPage,
 			@RequestParam(value="pageSize",defaultValue="10") int pageSize){
 		responseInfo(response);
-		visiitURL(req,response);
 		String openid = HashSessions.getInstance().getOpenId(request);
 		UserInfo userInfo = userInfoService.selectByOpenId(openid);
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -1423,7 +1479,6 @@ public class WxApiController extends ControllerBaseWx {
 	public String getAuditList(HttpServletRequest req){
 		Map<String, Object> m=RequestUtils.getDataFromRequest(req);
 		responseInfo(response);
-		visiitURL(req,response);
 		Map<String,Object> map = new HashMap<String,Object>();
 		Map<String,Object> result = new HashMap<String,Object>();
 		try {
@@ -1444,22 +1499,23 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
-	//获取成交记录列表
+	//录入记录审核信息
 	@RequestMapping(value = "/addAudit")
 	@ResponseBody
 	public String addAudit(HttpServletRequest req){
 		Map<String, Object> m=RequestUtils.getDataFromRequest(req);
 		responseInfo(response);
-		visiitURL(req,response);
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
 			String recordId = m.get("recordId")==null?null:m.get("recordId").toString();
 			String recordType = m.get("recordType")==null?null:m.get("recordType").toString();
 			String userId = m.get("userId")==null?null:m.get("userId").toString();
 			String auditMsg = m.get("auditMsg")==null?null:m.get("auditMsg").toString();
+			String auditType = m.get("auditType")==null?null:m.get("auditType").toString();
 			AuditRecord auditRecord = new AuditRecord();
 			auditRecord.setId(key.getUUIDKey());
 			auditRecord.setAudittype(Integer.parseInt(recordType));
+			auditRecord.setAudittype(Integer.parseInt(auditType));
 			auditRecord.setarid(recordId);
 			auditRecord.setAudittype(2);
 			auditRecordService.update(auditRecord);

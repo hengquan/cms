@@ -52,8 +52,8 @@ public class AccessRecord01 {
     private String estcustworth;
 
     private String investtype;
-
-    private String captilprepsection;
+    
+    private String capitalprepsection;
 
     private String compareprojs;
 
@@ -159,7 +159,15 @@ public class AccessRecord01 {
         return investtypedesc;
     }
 
-    public void setInvesttypedesc(String investtypedesc) {
+    public String getCapitalprepsection() {
+		return capitalprepsection;
+	}
+
+	public void setCapitalprepsection(String capitalprepsection) {
+		this.capitalprepsection = capitalprepsection;
+	}
+
+	public void setInvesttypedesc(String investtypedesc) {
         this.investtypedesc = investtypedesc == null ? null : investtypedesc.trim();
     }
 
@@ -227,7 +235,7 @@ public class AccessRecord01 {
         this.custsex = custsex == null ? null : custsex.trim();
     }
 
-    public String getAgegroup() {
+	public String getAgegroup() {
         return agegroup;
     }
 
@@ -369,14 +377,6 @@ public class AccessRecord01 {
 
     public void setInvesttype(String investtype) {
         this.investtype = investtype == null ? null : investtype.trim();
-    }
-
-    public String getCaptilprepsection() {
-        return captilprepsection;
-    }
-
-    public void setCaptilprepsection(String captilprepsection) {
-        this.captilprepsection = captilprepsection == null ? null : captilprepsection.trim();
     }
 
     public String getCompareprojs() {

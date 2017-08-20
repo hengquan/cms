@@ -77,8 +77,24 @@ public class AccessRecord01ServiceImpl implements AccessRecord01Service {
 		return dao.selectUserMsy(msg);
 	}
 	@Override
-	public List<Map<String, Object>> getRecord01List(Map<String, Object> result) {
-		return dao.getRecord01List(result);
+	public List<Map<String, Object>> getRecord01ListGuWen(Map<String, Object> result) {
+		return dao.getRecord01ListGuWen(result);
+	}
+	@Override
+	public List<Map<String, Object>> getRecord01ListGuanLi(Map<String, Object> result) {
+		return dao.getRecord01ListGuanLi(result);
+	}
+	@Override
+	public List<Map<String, Object>> getRecord01ListFuZe(Map<String, Object> result) {
+		return dao.getRecord01ListFuZe(result);
+	}
+	@Override
+	public List<Map<String, Object>> getRecord01ListAdmin(Map<String, Object> result) {
+		return dao.getRecord01ListAdmin(result);
+	}
+	@Override
+	public Integer findByCustIdCount(Map<String,Object> data) {
+		return dao.findByCustIdCount(data);
 	}
 	
 

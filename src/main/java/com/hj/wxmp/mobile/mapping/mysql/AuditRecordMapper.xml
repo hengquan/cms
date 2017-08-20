@@ -117,4 +117,8 @@
   <select id="selectByRecordIdAndType" resultType="java.util.Map" parameterType="java.util.Map">
   	select * from ql_AuditRecord where arId=#{recordId} and auditType=#{recordType}
   </select>
+  
+  <select id="findByArId" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select * from ql_AuditRecord where arId =#{arId} and recordType =#{recordType}  and auditType = 2 order by cTime desc limit 1
+  </select>
 </mapper>

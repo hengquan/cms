@@ -96,5 +96,7 @@ public interface AccessRecord02Service {
 
 	public List<Map<String, Object>> getRecord02List(Map<String, Object> result);
 
+	public Integer findByCustIdCount(Map<String,Object> data);
+
 
 }
