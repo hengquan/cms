@@ -24,5 +24,13 @@ public interface AccessRecord01Mapper {
 
 	List<Map<String, Object>> selectUserMsy(Map<String, Object> msg);
 
-	List<Map<String, Object>> getRecord01List(Map<String, Object> result);
+	List<Map<String, Object>> getRecord01ListGuWen(Map<String, Object> result);
+
+	List<Map<String, Object>> getRecord01ListGuanLi(Map<String, Object> result);
+
+	List<Map<String, Object>> getRecord01ListFuZe(Map<String, Object> result);
+
+	List<Map<String, Object>> getRecord01ListAdmin(Map<String, Object> result);
+
+	Integer findByCustIdCount(Map<String,Object> data);
 }

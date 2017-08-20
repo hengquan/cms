@@ -272,9 +272,9 @@ rgba
 								<tr>
 									<td colspan="3">年龄段：
 									<input name="agegroup" type="radio" value="003001-25岁以下-0~25" _text="25岁以下" <c:if test="${fn:contains(accessRecord01.agegroup, '25岁以下')}">checked</c:if> style="width: 1rem">25岁以下 
-									<input name="agegroup" type="radio" value="003002-26~35岁-26~35" _text="26~35岁" <c:if test="${fn:contains(accessRecord01.agegroup, '26-35岁')}">checked</c:if>  style="width: 1rem">26-35岁 
-									<input name="agegroup" type="radio" value="003003-36~45岁-36~45" _text="36~45岁" <c:if test="${fn:contains(accessRecord01.agegroup, '36-45岁')}">checked</c:if>  style="width: 1rem">36-45岁
-									<input name="agegroup" type="radio" value="003004-46~55岁-46~55" _text="46~55岁"  <c:if test="${fn:contains(accessRecord01.agegroup, '46-55岁')}">checked</c:if> style="width: 1rem">46-55岁 
+									<input name="agegroup" type="radio" value="003002-26~35岁-26~35" _text="26~35岁" <c:if test="${fn:contains(accessRecord01.agegroup, '26~35岁')}">checked</c:if>  style="width: 1rem">26-35岁 
+									<input name="agegroup" type="radio" value="003003-36~45岁-36~45" _text="36~45岁" <c:if test="${fn:contains(accessRecord01.agegroup, '36~45岁')}">checked</c:if>  style="width: 1rem">36-45岁
+									<input name="agegroup" type="radio" value="003004-46~55岁-46~55" _text="46~55岁"  <c:if test="${fn:contains(accessRecord01.agegroup, '46~55岁')}">checked</c:if> style="width: 1rem">46-55岁 
 									<input name="agegroup" type="radio" value="003005-56岁以上-56~300" _text="56岁以上" <c:if test="${fn:contains(accessRecord01.agegroup, '56岁以上')}">checked</c:if>  style="width: 1rem">56岁以上 
 									<input name="agegroup" type="radio" value="003000-无法了解" _text="无法了解" <c:if test="${fn:contains(accessRecord01.agegroup, '无法了解')}">checked</c:if>  style="width: 1rem">
 									<span style="color: red">无法了解</span>
@@ -558,14 +558,14 @@ rgba
 
 								<tr>
 									<td colspan="3">您的购房目的：
-										<input name="buypurpose" type="radio" value="012001-自住第一居所" _text="自住第一居所" <c:if test="${fn:contains(accessRecord01.buypurpose, '自住第一居所')}">checked</c:if> style="width: 1rem">自住第一居所 
-										<input name="buypurpose" type="radio" value="012002-自住第二居所" _text="自住第二居所" <c:if test="${fn:contains(accessRecord01.buypurpose, '自住第二居所')}">checked</c:if> style="width: 1rem">自住第二居所
-										<input name="buypurpose" type="radio" value="012003-为子女购房" _text="为子女购房" <c:if test="${fn:contains(accessRecord01.buypurpose, '为子女购房')}">checked</c:if> style="width: 1rem">为子女购房 
-										<input name="buypurpose" type="radio" value="012004-为父母购房" _text="为父母购房" <c:if test="${fn:contains(accessRecord01.buypurpose, '为父母购房')}">checked</c:if> style="width: 1rem">为父母购房 
-										<input name="buypurpose" type="radio" value="012005-自住兼投资" _text="自住兼投资" <c:if test="${fn:contains(accessRecord01.buypurpose, '自住兼投资')}">checked</c:if> style="width: 1rem">自住兼投资
-										<input name="buypurpose" type="radio" value="012006-仅投资" _text="仅投资" <c:if test="${fn:contains(accessRecord01.buypurpose, '仅投资')}">checked</c:if> style="width: 1rem">仅投资 
-										<input name="buypurpose" type="radio" value="012999-其他" _text="其他" <c:if test="${fn:contains(accessRecord01.buypurpose, '其它')}">checked</c:if> style="width: 1rem">其它<br>
-										<input name="buypurpose" type="radio" value="012000-无法了解" _text="无法了解"<c:if test="${fn:contains(accessRecord01.buypurpose, '无法了解')}">checked</c:if> style="width: 1rem; margin-left: 123px">
+										<input name="buypurpose" type="radio" value="012001-自住第一居所" <c:if test="${fn:contains(accessRecord01.buypurpose, '自住第一居所')}">checked</c:if> style="width: 1rem">自住第一居所 
+										<input name="buypurpose" type="radio" value="012002-自住第二居所" <c:if test="${fn:contains(accessRecord01.buypurpose, '自住第二居所')}">checked</c:if> style="width: 1rem">自住第二居所
+										<input name="buypurpose" type="radio" value="012003-为子女购房" <c:if test="${fn:contains(accessRecord01.buypurpose, '为子女购房')}">checked</c:if> style="width: 1rem">为子女购房 
+										<input name="buypurpose" type="radio" value="012004-为父母购房" <c:if test="${fn:contains(accessRecord01.buypurpose, '为父母购房')}">checked</c:if> style="width: 1rem">为父母购房 
+										<input name="buypurpose" type="radio" value="012005-自住兼投资" <c:if test="${fn:contains(accessRecord01.buypurpose, '自住兼投资')}">checked</c:if> style="width: 1rem">自住兼投资
+										<input name="buypurpose" type="radio" value="012006-仅投资" <c:if test="${fn:contains(accessRecord01.buypurpose, '仅投资')}">checked</c:if> style="width: 1rem">仅投资 
+										<input name="buypurpose" type="radio" value="012999-其他" <c:if test="${fn:contains(accessRecord01.buypurpose, '其它')}">checked</c:if> style="width: 1rem">其它<br>
+										<input name="buypurpose" type="radio" value="012000-无法了解" <c:if test="${fn:contains(accessRecord01.buypurpose, '无法了解')}">checked</c:if> style="width: 1rem; margin-left: 123px">
 										<span style="color: red">无法了解</span>
 									</td>
 								</tr>
@@ -651,12 +651,12 @@ rgba
 
 								<tr>
 									<td colspan="3">资金筹备期：
-										<input name="captilprepsection" type="radio" value="017001-1个月内-0~1"<c:if test="${fn:contains(accessRecord01.captilprepsection, '1个月内')}">checked</c:if> style="width: 1rem">1个月内 
-										<input name="captilprepsection" type="radio" value="017002-1~3月-1~3"<c:if test="${fn:contains(accessRecord01.captilprepsection, '1-3个月')}">checked</c:if> style="width: 1rem">1-3月
-										<input name="captilprepsection" type="radio" value="017003-3~6月-3~6"<c:if test="${fn:contains(accessRecord01.captilprepsection, '3-6个月')}">checked</c:if> style="width: 1rem">3-6月 
-										<input name="captilprepsection" type="radio" value="017004-6~12月-6~12"<c:if test="${fn:contains(accessRecord01.captilprepsection, '6-12个月')}">checked</c:if> style="width: 1rem">6-12月 
-										<input name="captilprepsection" type="radio" value="017005-12月以上-12~"<c:if test="${fn:contains(accessRecord01.captilprepsection, '12月以上')}">checked</c:if> style="width: 1rem">12月以上
-										<input name="captilprepsection" type="radio" value="017000-无法了解"<c:if test="${fn:contains(accessRecord01.captilprepsection, '无法了解')}">checked</c:if> style="width: 1rem;">
+										<input name="capitalprepsection" type="radio" value="017001-1个月内-0~1"<c:if test="${fn:contains(accessRecord01.capitalprepsection, '1个月内')}">checked</c:if> style="width: 1rem">1个月内 
+										<input name="capitalprepsection" type="radio" value="017002-1~3月-1~3"<c:if test="${fn:contains(accessRecord01.capitalprepsection, '1-3个月')}">checked</c:if> style="width: 1rem">1-3月
+										<input name="capitalprepsection" type="radio" value="017003-3~6月-3~6"<c:if test="${fn:contains(accessRecord01.capitalprepsection, '3-6个月')}">checked</c:if> style="width: 1rem">3-6月 
+										<input name="capitalprepsection" type="radio" value="017004-6~12月-6~12"<c:if test="${fn:contains(accessRecord01.capitalprepsection, '6-12个月')}">checked</c:if> style="width: 1rem">6-12月 
+										<input name="capitalprepsection" type="radio" value="017005-12月以上-12~"<c:if test="${fn:contains(accessRecord01.capitalprepsection, '12月以上')}">checked</c:if> style="width: 1rem">12月以上
+										<input name="capitalprepsection" type="radio" value="017000-无法了解"<c:if test="${fn:contains(accessRecord01.capitalprepsection, '无法了解')}">checked</c:if> style="width: 1rem;">
 										<span style="color: red">无法了解</span>
 									</td>
 								</tr>
@@ -671,10 +671,7 @@ rgba
 
 								<tr>
 									<td colspan="3">您本次置业比选项目： 
-										<input type="text" name="bijiao1" style="width: 160px"> 
-										<input type="text" name="bijiao2" style="width: 160px"> 
-										<input type="text" name="bijiao3" style="width: 160px"> 
-										<input type="text" name="bijiao4" style="width: 160px">
+										<input type="text" name="compareprojs" style="width: 160px" value="${accessRecord01.compareprojs }"> 
 									</td>
 								</tr>
 
@@ -801,26 +798,6 @@ rgba
 					}
 				}
 			});
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 		}
 
 	</script>

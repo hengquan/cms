@@ -21,4 +21,6 @@ public interface AuditRecordMapper {
     int updateByPrimaryKey(AuditRecord record);
 
 	List<Map<String, Object>> selectByRecordIdAndType(Map<String, Object> result);
+
+	AuditRecord findByArId(Map<String,Object> data);
 }

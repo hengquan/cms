@@ -178,8 +178,105 @@ public class AccessRecordController extends ControllerBase {
 	public String firstRecordDetails(ModelMap model){
 		String pageUrl = "accessRecord01/seeRecord01";
 		try {
+			int index=0;
 			String id = getTrimParameter("id");
 			AccessRecord01 accessRecord01 = accessRecord01Service.findById(id);
+			//出行方式
+			String traffictype = accessRecord01.getTraffictype();
+			if(traffictype!=null){
+				String traffictypeDesc = accessRecord01.getTraffictypedesc();
+				if(traffictypeDesc!=null){
+					index=traffictype.indexOf("其他");
+					if(index>=0){
+						traffictype=traffictype.replace("其他", "其他("+ traffictypeDesc +")");
+						accessRecord01.setTraffictype(traffictype);
+					}
+				}
+			}
+			 //从事行业
+			 String workindustry = accessRecord01.getWorkindustry();
+			 if(workindustry!=null){
+				 String workindustrydesc = accessRecord01.getWorkindustrydesc();
+				 if(workindustrydesc!=null){
+					 index=workindustry.indexOf("其他");
+					 if(index>=0){
+						 workindustry=workindustry.replace("其他", "其他("+ workindustrydesc +")");
+						 accessRecord01.setWorkindustry(workindustry);
+					 }
+				 }
+			 }
+			 //企业性质
+			 String enterprisetype = accessRecord01.getEnterprisetype();
+			 if(enterprisetype!=null){
+				 String enterprisetypedesc = accessRecord01.getEnterprisetypedesc();
+				 if(enterprisetypedesc!=null){
+					 index=enterprisetype.indexOf("其他");
+					 if(index>=0){
+						 enterprisetype=enterprisetype.replace("其他", "其他("+ enterprisetypedesc +")");
+						 accessRecord01.setEnterprisetype(enterprisetype);
+					 }
+				 }
+			 }
+			 //产品类型
+			 String realtyproducttype = accessRecord01.getRealtyproducttype();
+			 if(realtyproducttype!=null){
+				 String realtyproducttypedesc = accessRecord01.getRealtyproducttypedesc();
+				 if(realtyproducttypedesc!=null){
+					 index=realtyproducttype.indexOf("其他");
+					 if(index>=0){
+						 realtyproducttype=realtyproducttype.replace("其他", "其他("+ realtyproducttypedesc +")");
+						 accessRecord01.setRealtyproducttype(realtyproducttype);
+					 }
+				 }
+			 }
+			 //购房目的
+			 String buypurpose = accessRecord01.getBuypurpose();
+			 if(buypurpose!=null){
+				 String buypurposedesc = accessRecord01.getBuypurposedesc();
+				 if(buypurposedesc!=null){
+					 index=buypurpose.indexOf("其他");
+					 if(index>=0){
+						 buypurpose=buypurpose.replace("其他", "其他("+ buypurposedesc +")");
+						 accessRecord01.setBuypurpose(buypurpose);
+					 }
+				 }
+			 }
+			 //认知渠道
+			 String knowway = accessRecord01.getKnowway();
+			 if(knowway!=null){
+				 String knowwaydesc = accessRecord01.getKnowwaydesc();
+				 if(knowwaydesc!=null){
+					 index=knowway.indexOf("其他");
+					 if(index>=0){
+						 knowway=knowway.replace("其他", "其他("+ knowwaydesc +")");
+						 accessRecord01.setKnowway(knowway);
+					 }
+				 }
+			 }
+			 //本案关注点
+			 String attentionpoint = accessRecord01.getAttentionpoint();
+			 if(attentionpoint!=null){
+				 String attentionpointdesc = accessRecord01.getAttentionpointdesc();
+				 if(attentionpointdesc!=null){
+					 index=attentionpoint.indexOf("其他");
+					 if(index>=0){
+						 attentionpoint=attentionpoint.replace("其他", "其他("+ attentionpointdesc +")");
+						 accessRecord01.setAttentionpoint(attentionpoint);
+					 }
+				 }
+			 }
+			 //重点投资
+			 String investtype = accessRecord01.getInvesttype();
+			 if(investtype!=null){
+				 String investtypedesc = accessRecord01.getInvesttypedesc();
+				 if(investtypedesc!=null){
+					 index=investtype.indexOf("其他");
+					 if(index>=0){
+						 investtype=investtype.replace("其他", "其他("+ investtypedesc +")");
+						 accessRecord01.setInvesttype(investtype);
+					 }
+				 }
+			 }
 			model.addAttribute("accessRecord01", accessRecord01);
 		} catch (Exception e) {
 			e.printStackTrace();

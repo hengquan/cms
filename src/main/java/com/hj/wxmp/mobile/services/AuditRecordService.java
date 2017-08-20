@@ -100,4 +100,6 @@ public interface AuditRecordService {
 
 	public List<Map<String, Object>> selectByRecordIdAndType(Map<String, Object> result);
 
+	public AuditRecord findByArId(Map<String,Object> data);
+
 }

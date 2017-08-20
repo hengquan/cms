@@ -23,4 +23,6 @@ public interface AccessRecord03Mapper {
 	void dels(String boxeditId);
 
 	List<Map<String, Object>> getRecord03List(Map<String, Object> result);
+
+	Integer findByCustIdCount(Map<String,Object> data);
 }

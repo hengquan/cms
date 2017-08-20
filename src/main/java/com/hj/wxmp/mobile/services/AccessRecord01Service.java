@@ -96,7 +96,15 @@ public interface AccessRecord01Service {
 
 	public List<Map<String, Object>> selectUserMsy(Map<String, Object> msg);
 
-	public List<Map<String, Object>> getRecord01List(Map<String, Object> result);
+	public List<Map<String, Object>> getRecord01ListGuWen(Map<String, Object> result);
+
+	public List<Map<String, Object>> getRecord01ListGuanLi(Map<String, Object> result);
+
+	public List<Map<String, Object>> getRecord01ListFuZe(Map<String, Object> result);
+
+	public List<Map<String, Object>> getRecord01ListAdmin(Map<String, Object> result);
+
+	public Integer findByCustIdCount(Map<String,Object> data);
 
 
 }

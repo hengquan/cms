@@ -27,7 +27,7 @@
     <result column="attentionPoint" property="attentionpoint" jdbcType="VARCHAR" />
     <result column="estCustWorth" property="estcustworth" jdbcType="VARCHAR" />
     <result column="investType" property="investtype" jdbcType="VARCHAR" />
-    <result column="captilPrepSection" property="captilprepsection" jdbcType="VARCHAR" />
+    <result column="capitalPrepSection" property="capitalprepsection" jdbcType="VARCHAR" />
     <result column="compareProjs" property="compareprojs" jdbcType="VARCHAR" />
     <result column="recepTimeSection" property="receptimesection" jdbcType="VARCHAR" />
     <result column="custScore" property="custscore" jdbcType="VARCHAR" />
@@ -53,7 +53,7 @@
     id, projId, custId, custName, custPhoneNum, firstKnowTime, custSex, ageGroup, buyQualify, 
     localResidence, localWorkArea, outResidence, outWorkArea, familyStatus, trafficType, 
     workIndustry, enterpriseType, realtyProductType, attentAcreage, priceSection, buyPurpose, 
-    knowWay, attentionPoint, estCustWorth, investType, captilPrepSection, compareProjs, 
+    knowWay, attentionPoint, estCustWorth, investType, capitalPrepSection, compareProjs, 
     recepTimeSection, custScore, authorId, creatorId, status, cTime, lmTime,recepTime
   </sql>
   <sql id="Blob_Column_List" >
@@ -81,7 +81,7 @@
       workIndustry, enterpriseType, realtyProductType, 
       attentAcreage, priceSection, buyPurpose, 
       knowWay, attentionPoint, estCustWorth, 
-      investType, captilPrepSection, compareProjs, 
+      investType, capitalPrepSection, compareProjs, 
       recepTimeSection, custScore, authorId, 
       creatorId, status, cTime, 
       lmTime, trafficTypeDesc, workIndustryDesc, 
@@ -96,7 +96,7 @@
       #{workindustry,jdbcType=VARCHAR}, #{enterprisetype,jdbcType=VARCHAR}, #{realtyproducttype,jdbcType=VARCHAR}, 
       #{attentacreage,jdbcType=VARCHAR}, #{pricesection,jdbcType=VARCHAR}, #{buypurpose,jdbcType=VARCHAR}, 
       #{knowway,jdbcType=VARCHAR}, #{attentionpoint,jdbcType=VARCHAR}, #{estcustworth,jdbcType=VARCHAR}, 
-      #{investtype,jdbcType=VARCHAR}, #{captilprepsection,jdbcType=VARCHAR}, #{compareprojs,jdbcType=VARCHAR}, 
+      #{investtype,jdbcType=VARCHAR}, #{capitalprepsection,jdbcType=VARCHAR}, #{compareprojs,jdbcType=VARCHAR}, 
       #{receptimesection,jdbcType=VARCHAR}, #{custscore,jdbcType=VARCHAR}, #{authorid,jdbcType=VARCHAR}, 
       #{creatorid,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, 
       #{lmtime,jdbcType=TIMESTAMP}, #{traffictypedesc,jdbcType=LONGVARCHAR}, #{workindustrydesc,jdbcType=LONGVARCHAR}, 
@@ -182,8 +182,8 @@
       <if test="investtype != null" >
         investType,
       </if>
-      <if test="captilprepsection != null" >
-        captilPrepSection,
+      <if test="capitalprepsection != null" >
+        capitalPrepSection,
       </if>
       <if test="compareprojs != null" >
         compareProjs,
@@ -319,8 +319,8 @@
       <if test="investtype != null" >
         #{investtype,jdbcType=VARCHAR},
       </if>
-      <if test="captilprepsection != null" >
-        #{captilprepsection,jdbcType=VARCHAR},
+      <if test="capitalprepsection != null" >
+        #{capitalprepsection,jdbcType=VARCHAR},
       </if>
       <if test="compareprojs != null" >
         #{compareprojs,jdbcType=VARCHAR},
@@ -453,8 +453,8 @@
       <if test="investtype != null" >
         investType = #{investtype,jdbcType=VARCHAR},
       </if>
-      <if test="captilprepsection != null" >
-        captilPrepSection = #{captilprepsection,jdbcType=VARCHAR},
+      <if test="capitalprepsection != null" >
+        capitalPrepSection = #{capitalprepsection,jdbcType=VARCHAR},
       </if>
       <if test="compareprojs != null" >
         compareProjs = #{compareprojs,jdbcType=VARCHAR},
@@ -539,7 +539,7 @@
       attentionPoint = #{attentionpoint,jdbcType=VARCHAR},
       estCustWorth = #{estcustworth,jdbcType=VARCHAR},
       investType = #{investtype,jdbcType=VARCHAR},
-      captilPrepSection = #{captilprepsection,jdbcType=VARCHAR},
+      capitalPrepSection = #{capitalprepsection,jdbcType=VARCHAR},
       compareProjs = #{compareprojs,jdbcType=VARCHAR},
       recepTimeSection = #{receptimesection,jdbcType=VARCHAR},
       custScore = #{custscore,jdbcType=VARCHAR},
@@ -585,7 +585,7 @@
       attentionPoint = #{attentionpoint,jdbcType=VARCHAR},
       estCustWorth = #{estcustworth,jdbcType=VARCHAR},
       investType = #{investtype,jdbcType=VARCHAR},
-      captilPrepSection = #{captilprepsection,jdbcType=VARCHAR},
+      capitalPrepSection = #{capitalprepsection,jdbcType=VARCHAR},
       compareProjs = #{compareprojs,jdbcType=VARCHAR},
       recepTimeSection = #{receptimesection,jdbcType=VARCHAR},
       custScore = #{custscore,jdbcType=VARCHAR},
@@ -632,8 +632,48 @@
 	AND qlp.id = #{project}
   </select>
   
-  <select id="getRecord01List" resultType="java.util.Map" parameterType="java.util.Map">
-  	select * from ql_AccessRecord01 where authorId=#{userId} limit #{page},#{pageSize}
+
+  <!-- 顾问 -->
+  <select id="getRecord01ListGuWen" resultType="java.util.Map" parameterType="java.util.Map">
+  	select * from ql_AccessRecord01 
+  	where (status = 2 or status = 4 or status = 1) and authorId=#{userId} 
+  	order by FIELD(status,4,2,1,3),cTime desc limit #{page},#{pageSize}
   </select>
+  
+  <!-- 管理人 -->
+  <select id="getRecord01ListGuanLi" resultType="java.util.Map" parameterType="java.util.Map">
+  	select * from 
+  	ql_AccessRecord01 
+  	where 
+  	(status = 2 or status = 1)  
+  	and INSTR(#{projId},projId) 
+  	order by FIELD(status,1,2,3,4),cTime desc 
+	limit #{page},#{pageSize}
+  </select>
+  
+  <!-- 负责人 -->
+  <select id="getRecord01ListFuZe" resultType="java.util.Map" parameterType="java.util.Map">
+  	select * from 
+  	ql_AccessRecord01 
+  	where 
+  	(status = 2 or status = 1) and 
+  	INSTR(#{projId},projId) 
+  	order by FIELD(status,1,2,3,4),cTime desc 
+	limit #{page},#{pageSize}
+  </select>
+  
+  <!-- 管理员 -->
+  <select id="getRecord01ListAdmin" resultType="java.util.Map" parameterType="java.util.Map">
+  	select * from 
+  	ql_AccessRecord01 
+  	where status = 2 
+  	order by FIELD(status,2,1,3,4),cTime desc 
+	limit #{page},#{pageSize}
+  </select>
+  
+  <select id="findByCustIdCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+  	SELECT count(1) from ql_AccessRecord01 where custId = #{custId} and status = 2 and projId = #{projId}
+  </select>
+  
   
 </mapper>
