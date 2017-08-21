@@ -367,6 +367,13 @@ public class UserController extends ControllerBase {
 			List<SysRole> roles = roleService.selectAllMsg();
 			//所有项目信息
 			List<Project> projects = projectService.findAll();
+			//用户相关的项目
+			List<Map<String, Object>> projUserRoles = projUserRoleService.selectByUserId(id);
+			if(projUserRoles.size()>0){
+				data.put("projUserRoles", projUserRoles);
+			}else{
+				data.put("projUserRoles", "");
+			}
 			data.put("roles", roles);
 			data.put("projects", projects);
 			data.put("projNames", projNames);

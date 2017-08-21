@@ -85,13 +85,7 @@
 											</td>
 											<td class="hidden-phone">
 												<c:if test="${u.status == 1}">
-													<button type="button" onclick="subUserMessage('${u.id}',${u.status})" class="btn btn-send">待审核</button>
-												</c:if>
-												<c:if test="${u.status == 2}">
-													<button type="button" onclick="subUserMessage('${u.id}',${u.status})" class="btn btn-send">审核通过</button>
-												</c:if>
-												<c:if test="${u.status == 3}">
-													<button type="button" onclick="subUserMessage('${u.id}',${u.status})" class="btn btn-send">作废</button>
+													<button type="button" onclick="seeCheckMessages('${u.id}')" class="btn btn-send">审核</button>
 												</c:if>
 												<button type="button" onclick="seeAllMessages('${u.id}')" class="btn btn-send">查看详细信息</button>
 												<button type="button" onclick="updateFirstRecord('${u.id}')" class="btn btn-send">修改审核信息</button>
@@ -183,6 +177,7 @@
 					</div>
 					<div class="modal-footer">
 						<input type="hidden" id="yesSubCheckMessage" />
+						<button type="button" onclick="subUserStateMessage('4')" class="btn btn-send">不通过</button>
 						<button type="button" onclick="subUserStateMessage('2')" class="btn btn-send">审核通过</button>
 						<button type="button" onclick="subUserStateMessage('3')" class="btn btn-send">作废</button>
 						<button data-dismiss="modal" class="btn btn-default" type="button" id="quxiao">取消</button>
@@ -283,6 +278,9 @@
 		window.location.href="${appRoot}/updateFirstRecord?id="+id;
 	}
 	
+	function seeCheckMessages(id){
+		window.location.href="${appRoot}/accessRecord/checkDetails?id="+id;
+	}
 	
 	$(function(){
 		$('.input-group').hide();
