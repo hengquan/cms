@@ -123,6 +123,12 @@
   </delete>
   
   
+  <delete id="deleteByProjIdAndUserId" parameterType="java.util.Map">
+  	delete from ql_ProjUserRole
+    where projId = #{projId} and userId =#{userId}
+  </delete>
+  
+  
   
   
   

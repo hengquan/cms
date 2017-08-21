@@ -108,5 +108,7 @@ public interface AccessRecord01Service {
 
 	public Integer selectMessageCount(Map<String, Object> map);
 
+	public List<AccessRecord01> selectByUserId(Map<String,Object> datamsg);
+
 
 }

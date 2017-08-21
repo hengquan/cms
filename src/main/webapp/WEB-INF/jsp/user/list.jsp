@@ -215,6 +215,7 @@
 						<input type="hidden" name="editId" id="editId">
 						<input type="hidden" name="userSelectProjIds" id="userSelectProjIds">
 						<input type="hidden" name="yesSubCheckMessage" id="yesSubCheckMessage">
+						<input type="hidden" name="thisUserId" id="thisUserId">
 						<div class="form-group">
 							<label class="col-lg-3 control-label pd-r5">登录名<font
 								style="color: red;"></font></label>
@@ -254,7 +255,7 @@
 						<hr/>
 						<div class="form-group">
 							<div class="col-lg-offset-2 col-lg-10">
-								<button type="button" onclick="subUserStateMessage('1')" class="btn btn-send">提交</button>
+								<button type="button" onclick="subUserStateMessage()" class="btn btn-send">提交</button>
 								<button data-dismiss="modal" class="btn btn-default" type="button" id="quxiao">取消</button>
 							</div>
 						</div>
@@ -306,11 +307,6 @@
 	    <input type="hidden" name="boxeditId" id="boxeditId">
 	</form>
 	
-	<!-- 专家降级为普通用户 -->
-	<form action="${appRoot}/user/DemotionUser" method="post" id="demotionUser" name="demotionUser">
-		<input type="hidden" name="userId" id="userId">
-	    <input type="hidden" name="boxUserId" id="boxUserId">
-	</form>
 
 	<form action="${appRoot}/user/setExpert" method="post" id="checkExpert" name="checkExpert">
 		<input type="hidden" name="setExpertId" id="setExpertId">
@@ -342,11 +338,18 @@
 				if(data.msg == 100){
 					var roles = data.roles;
 					var projects = data.projects;
+					var projUserRoleIds = data.projUserRoleIds;
 					console.log(projects);
+					console.log(projUserRoleIds);
 					var projectHtml = '';
 					for(var i = 0 ;i<projects.length;i++){
-						//projectHtml += '<li><a href="#"><input type="checkbox" name="projbox" value="'+projects[i].id+'">'+ projects[i].projname +'</a></li>';
-						projectHtml += '<input type="checkbox" name="projbox" value="'+projects[i].id+'">'+ projects[i].projname +'&nbsp&nbsp;&nbsp&nbsp';
+						var projId = projects[i].id;
+						var index = projUserRoleIds.indexOf(projId);
+						if(index>=0){
+							projectHtml += '<input type="checkbox" name="projbox" checked value="'+projects[i].id+'">'+ projects[i].projname +'&nbsp&nbsp;&nbsp&nbsp';
+						}else{
+							projectHtml += '<input type="checkbox" name="projbox" value="'+projects[i].id+'">'+ projects[i].projname +'&nbsp&nbsp;&nbsp&nbsp';
+						}
 					}
 					$("#projectMsg").html(projectHtml);
 					var userRoleHtml = '';
@@ -363,6 +366,7 @@
 					$("#phone").val(data.mainphonenum);
 					$("#rename").val(data.realname);
 					$("#yesSubCheckMessage").val(id);
+					$("#thisUserId").val(id);
 					var $modal = $('#isCheckState');
 					$modal.modal();
 				}else{
@@ -371,6 +375,53 @@
 			}
 		});
 	}
+	
+	
+	
+	
+	//设置审核的状态---确认提交
+	function subUserStateMessage(){
+		//用户ID
+		var userId = $("#thisUserId").val();
+		//权限ID
+		var userRole = $("#userRole").val();
+		//用户审核所选定的项目列表
+		var str = document.getElementsByName("projbox");
+		var objarray = str.length;
+		var checkProjIds = "";
+		var jy = false;
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				checkProjIds += str[i].value + ",";
+			}
+		}
+		//需要传递的数据
+		var datas = {
+				"userId":userId,
+				"userRole":userRole,
+				"checkProjIds":checkProjIds
+		}
+		$.ajax({
+			type:'post',
+			data : datas,  
+			url:'${appRoot}/user/updateUserMsg',
+			dataType:'json',
+			success:function(data){
+				if(data.msg == 100){
+					windowShow("提交成功","");
+					seeAllMsg();
+				}else{
+					windowShow("提交失败","");
+				}
+			}
+		});
+		
+	}
+	
+	
+	
+	
 	
 	
 	

@@ -100,6 +100,10 @@ public class AccessRecord01ServiceImpl implements AccessRecord01Service {
 	public Integer selectMessageCount(Map<String, Object> map) {
 		return dao.selectMessageCount(map);
 	}
+	@Override
+	public List<AccessRecord01> selectByUserId(Map<String,Object> datamsg) {
+		return dao.selectByUserId(datamsg);
+	}
 	
 
 }

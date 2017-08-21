@@ -94,4 +94,6 @@ public interface ProjUserRoleService {
 
 	public Boolean deleteByProjIds(String projIDs);
 
+	public void deleteByProjIdAndUserId(Map<String, Object> datamsg);
+
 }

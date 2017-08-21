@@ -683,7 +683,12 @@
 	limit #{page},#{pageSize}
   </select>
   
-  <select id="findByCustIdCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+  <select id="findByCustIdCount" resultType="java.lang.Integer" parameterType="java.util.Map">
   	SELECT count(1) from ql_AccessRecord01 where custId = #{custId} and status = 2 and projId = #{projId}
+  </select>
+  
+  
+  <select id="selectByUserId" resultType="com.hj.wxmp.mobile.entity.AccessRecord01" parameterType="java.util.Map">
+  	SELECT * from ql_AccessRecord01 where custId = #{custId} and projId = #{projId}
   </select>
 </mapper>

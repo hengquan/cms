@@ -663,7 +663,12 @@
   	select * from ql_AccessRecord02 where authorId=#{userId} order by status desc,cTime desc limit #{page},#{pageSize}
   </select>
   
-  <select id="findByCustIdCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+  <select id="findByCustIdCount" resultType="java.lang.Integer" parameterType="java.util.Map">
   	SELECT count(1) from ql_AccessRecord02 where custId = #{custId} and status = 2 and projId = #{projId}
+  </select>
+  
+  
+  <select id="selectByUserId" resultType="com.hj.wxmp.mobile.entity.AccessRecord02" parameterType="java.util.Map">
+  	SELECT * from ql_AccessRecord02 where custId = #{custId} and projId = #{projId}
   </select>
 </mapper>
