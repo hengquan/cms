@@ -55,12 +55,12 @@ function fillData(data) {
   if (data.firstknowtime) {
     var fTime=new Date();
     fTime.setTime(data.firstknowtime.time);
-    $("#firstKnowTime").html(fTime.Format('yyyy年MM月dd日'));
+    $("#firstKnowTime").html(fTime.Format('yyyy-MM-dd'));
   }
   if (data.receptime) {
     var rTime=new Date();
     rTime.setTime(data.receptime.time);
-    $("#curTime").html(rTime.Format('yyyy年MM月dd日'));
+    $("#curTime").html(rTime.Format('yyyy-MM-dd'));
   }
   if (data.agegroup) $("#ageGroup").html(data.agegroup);
   if (data.localresidence) $("#localResidence").html(data.localresidence);
@@ -110,7 +110,6 @@ function fillData(data) {
         temp2+=")";
         _temp=_temp.replace(s2[0], temp2);
       }
-      
     }
     $("#knowWay").html(_temp);
   }
@@ -125,7 +124,7 @@ function fillData(data) {
     }
     $("#investType").html(_temp);
   }
-  if (data.captalprepsection) $("#captalPrepSection").html(data.captalprepsection);
+  if (data.capitalprepsection) $("#capitalPrepSection").html(data.capitalprepsection);
   if (data.investtype) {
     var _temp=data.realtyproducttype;
     if (data.realtyproducttype.indexOf('其他')!=-1) {
@@ -156,13 +155,15 @@ function fillData(data) {
         _temp=_temp.replace("其他", _temp2);
       }
     }
-    fillSelectField("attentionPoint", _temp, true);
+    $("#attentionPoint").html(_temp);
   }
   if (data.receptimesection) $("#recepTimeSection").html(data.receptimesection);
   if (data.custscore) $("#custScore").html(data.custscore);
   if (data.compareprojs) $("#compareProjs").html(data.compareprojs);
   if (data.custdescn) $("#custDescn").html(data.custdescn);
-  if (userInfo.roleName='项目负责人'&&data.status==1) needAudit=true;
+alert(userInfo.roleName);
+alert(data.status);
+  if (userInfo.roleName=='项目负责人'&&data.status==1) needAudit=true;
   if (needAudit) $("#operArea").show();
 }
 

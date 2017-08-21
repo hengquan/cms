@@ -59,7 +59,7 @@ function fillList(data) {
     var phone="<span><a href='tel:"+oneData.custPhoneNum+"'>"+oneData.custPhoneNum+"</a></span><br/>";
     var cTime=new Date();
     cTime.setTime(oneData.cTime.time);
-    var fTime="<span class='sftime'>首访时间："+cTime.Format('yyyy年MM月dd日')+"</span>";
+    var fTime="<span class='sftime'>时间："+cTime.Format('yyyy-MM-dd')+"</span>";
     //顾问
     var status="<span class='ysh'>已审核</span>";
     var _url=_viewUrl+"?recordId="+oneData.id;

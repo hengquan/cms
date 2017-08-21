@@ -56,6 +56,12 @@ import com.hj.wxmp.mobile.services.UserCustRefService;
 import com.hj.wxmp.mobile.services.UserInfoService;
 import com.hj.wxmp.mobile.services.UserRoleService;
 import com.hj.wxmp.mobile.services.WxLoginService;
+import com.spirit.core.dict.model.DictDetail;
+import com.spirit.core.dict.model.DictModel;
+import com.spirit.core.dict.service.DictService;
+import com.spiritdata.framework.core.model.tree.TreeNode;
+import com.spiritdata.framework.core.model.tree.TreeNodeBean;
+import com.spiritdata.framework.ui.tree.ZTree;
 import com.spiritdata.framework.util.RequestUtils;
 
 @RequestMapping("/wx/api")
@@ -101,9 +107,9 @@ public class WxApiController extends ControllerBaseWx {
 	TabDictRefService tabDictRefService;
 	@Autowired
 	AuditRecordService auditRecordService;
-	
-	
-	
+    @Autowired
+	DictService dictService;
+
 	public UserInfo getCurrentUser() {
 		UserInfo user = hashSession.getCurrentSessionUser(request);
 		return user;
@@ -1527,4 +1533,20 @@ public class WxApiController extends ControllerBaseWx {
 		return JsonUtils.map2json(map);
 	}
 
+    //录入记录审核信息
+    @RequestMapping(value = "/getLocalArea")
+    @ResponseBody
+    public String getLocalArea(HttpServletRequest req){
+        Map<String,Object> map = new HashMap<String,Object>();
+        try {
+            DictModel dm=dictService.getDictModelById("032");
+            TreeNode<? extends TreeNodeBean> root=dm.dictTree;
+            map.put("data", (new ZTree<DictDetail>(root)).toTreeMap());
+            map.put("msg", "100");
+        } catch (Exception e) {
+            map.put("msg", "103");
+            e.printStackTrace();
+        }
+        return JsonUtils.map2json(map);
+    }
 }

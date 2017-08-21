@@ -236,9 +236,6 @@
       <if test="custdescn != null" >
         custDescn,
       </if>
-      <if test="custdescn != null" >
-        custDescn,
-      </if>
       <if test="receptime != null" >
         recepTime,
       </if>
