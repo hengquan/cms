@@ -19,4 +19,6 @@ public interface CustomerMapper {
     int updateByPrimaryKey(Customer record);
 
 	List<Map<String, Object>> selectByUserMessge(Map<String, Object> map);
+
+	Integer selectByUserMessgeCount(Map<String, Object> map);
 }

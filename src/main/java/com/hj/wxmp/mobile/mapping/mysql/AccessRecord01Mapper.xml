@@ -608,7 +608,23 @@
 	<if test="state != -1 and state != null">
 		and ql1.status = #{state}
 	</if>
-	and instr(ql1.custName , #{userName})
+	and instr(ql1.custName , #{userName}) 
+	order by cTime desc 
+	limit #{page},#{pageSize}
+  </select>
+  <!-- 未审核的所有首访记录数量 -->
+  <select id="selectMessageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+	SELECT
+		count(1)
+	FROM
+		ql_AccessRecord01 ql1
+	JOIN ql_Project qlp ON ql1.projId = qlp.id
+	JOIN plat_User plu ON ql1.creatorId = plu.id
+	WHERE 1=1 
+	<if test="state != -1 and state != null">
+		and ql1.status = #{state}
+	</if>
+	and instr(ql1.custName , #{userName}) 
   </select>
   
   

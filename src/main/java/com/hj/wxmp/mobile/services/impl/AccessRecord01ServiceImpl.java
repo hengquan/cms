@@ -96,6 +96,10 @@ public class AccessRecord01ServiceImpl implements AccessRecord01Service {
 	public Integer findByCustIdCount(Map<String,Object> data) {
 		return dao.findByCustIdCount(data);
 	}
+	@Override
+	public Integer selectMessageCount(Map<String, Object> map) {
+		return dao.selectMessageCount(map);
+	}
 	
 
 }

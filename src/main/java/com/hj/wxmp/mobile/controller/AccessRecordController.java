@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hj.utils.JsonUtils;
@@ -72,20 +73,37 @@ public class AccessRecordController extends ControllerBase {
 
 	//首访审核列表
 	@RequestMapping(value = "/accessRecord/hisFirstRecord")
-	public String userList(ModelMap model) {
+	public String userList(@RequestParam(value="nowPage",defaultValue="1") int nowPage,
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize,ModelMap model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String pageUrl = "accessRecord01/list";
+		//纪录总数
+		Integer listMessgeCount = 0;
+		String userName = getTrimParameter("userName");
+		String state = getTrimParameter("state");
+		map.put("state", state);
+		Integer start = ((nowPage - 1) * pageSize);
+		map.put("page", start);
+		map.put("pageSize", pageSize);
 		try {
-			String userName = getTrimParameter("userName");
 			if(userName == null){
 				map.put("userName", "");
 			}else{
 				map.put("userName", userName);
 			}
-			String state = getTrimParameter("state");
-			map.put("state", state);
 			// 获取所有未审核首访记录
 			List<Map<String,Object>> hisFirstRecordMsg = accessRecord01Service.selectMessage(map);
+			//所有信息数量
+			listMessgeCount = accessRecord01Service.selectMessageCount(map);
+		 	Integer totalCount = listMessgeCount%pageSize;
+			Integer totalPageNum = 0;
+			if(totalCount==0){
+				totalPageNum = listMessgeCount/pageSize;
+			}else{
+				totalPageNum = (listMessgeCount/pageSize)+1;
+			}
+			model.put("nowPage", nowPage);
+			model.put("totalPageNum", totalPageNum);
 			model.addAttribute("hisFirstRecordMsg", hisFirstRecordMsg);
 		} catch (Exception e) {
 			e.printStackTrace();

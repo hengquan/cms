@@ -99,4 +99,6 @@ public interface ProjectService {
 
 	public Project selectByProName(String pro);
 
+	public Integer getProjectMessgeCount(Map<String, Object> map);
+
 }

@@ -1399,17 +1399,22 @@ public class WxApiController extends ControllerBaseWx {
 						}else{
 							msg.put("isKnockdown", "0");
 						}
-						//审核意见
-						data.put("recordType", 1);
-						data.put("arId", msgId);
-						AuditRecord auditRecord = auditRecordService.findByArId(data);
-						if(auditRecord!=null){
-							String reason = auditRecord.getReason();
-							if(reason!=null) msg.put("checkReason",reason);
-							if(reason!=null) msg.put("checkReason","");
-						}else{
-							msg.put("checkReason","");
-						}
+						//显示权限人姓名
+						String authorId = msg.get("authorId").toString();
+						UserInfo user = userInfoService.findById(authorId);
+						String authorName = user.getRealname();
+						msg.put("authorName", authorName);
+//						//审核意见
+//						data.put("recordType", 1);
+//						data.put("arId", msgId);
+//						AuditRecord auditRecord = auditRecordService.findByArId(data);
+//						if(auditRecord!=null){
+//							String reason = auditRecord.getReason();
+//							if(reason!=null) msg.put("checkReason",reason);
+//							if(reason!=null) msg.put("checkReason","");
+//						}else{
+//							msg.put("checkReason","");
+//						}
 					}
 					map.put("msg", "100");
 					map.put("data", message);
@@ -1478,11 +1483,35 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	
+	//获取审核内容
+	@RequestMapping(value = "/getCheckReason")
+	@ResponseBody
+	public String getCheckReason(HttpServletRequest req){
+		Map<String, Object> m=RequestUtils.getDataFromRequest(req);
+		Map<String, Object> data=new HashMap<String,Object>();
+		Map<String, Object> map=new HashMap<String,Object>();
+		String recordType = m.get("recordType")==null?null:m.get("recordType").toString();
+		String arId = m.get("arId")==null?null:m.get("arId").toString();
+		data.put("recordType", recordType);
+		data.put("arId", arId);
+		AuditRecord auditRecord = auditRecordService.findByArId(data);
+		if(auditRecord!=null){
+			String reason = auditRecord.getReason();
+			if(reason!=null) map.put("checkReason",reason);
+			if(reason!=null) map.put("checkReason","");
+		}else{
+			map.put("checkReason","");
+		}
+		return JsonUtils.map2json(map);
+	}
 	
-	//获取成交记录列表
+	
+	//获取记录审核信息列表
 	@RequestMapping(value = "/getAuditList")
 	@ResponseBody
-	public String getAuditList(HttpServletRequest req){
+	public String getAuditList(HttpServletRequest req,
+			@RequestParam(value="page",defaultValue="1") int nowPage,
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize){
 		Map<String, Object> m=RequestUtils.getDataFromRequest(req);
 		responseInfo(response);
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -1493,6 +1522,9 @@ public class WxApiController extends ControllerBaseWx {
 			String userId = m.get("userId")==null?null:m.get("userId").toString();
 			result.put("recordId", recordId);
 			result.put("recordType", recordType);
+			Integer page = ((nowPage - 1) * pageSize);
+			result.put("page", page);
+			result.put("pageSize", pageSize);
 			List<Map<String,Object>> message = auditRecordService.selectByRecordIdAndType(result);
 			map.put("msg", "100");
 			map.put("auditList", message);
@@ -1520,11 +1552,17 @@ public class WxApiController extends ControllerBaseWx {
 			String auditType = m.get("auditType")==null?null:m.get("auditType").toString();
 			AuditRecord auditRecord = new AuditRecord();
 			auditRecord.setId(key.getUUIDKey());
-			auditRecord.setAudittype(Integer.parseInt(recordType));
+			auditRecord.setRecordtype(Integer.parseInt(recordType));
 			auditRecord.setAudittype(Integer.parseInt(auditType));
+			auditRecord.setReason(auditMsg);
 			auditRecord.setarid(recordId);
 			auditRecord.setAudittype(2);
-			auditRecordService.update(auditRecord);
+			auditRecordService.insert(auditRecord);
+			//修改状态
+			AccessRecord01 accessRecord01 = accessRecord01Service.findById(recordId);
+			if(Integer.parseInt(auditType)==1) accessRecord01.setStatus(2);
+			if(Integer.parseInt(auditType)==2) accessRecord01.setStatus(4);
+			accessRecord01Service.update(accessRecord01);
 			map.put("msg", "100");
 		} catch (Exception e) {
 			map.put("msg", "103");

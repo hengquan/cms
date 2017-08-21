@@ -106,5 +106,7 @@ public interface AccessRecord01Service {
 
 	public Integer findByCustIdCount(Map<String,Object> data);
 
+	public Integer selectMessageCount(Map<String, Object> map);
+
 
 }
