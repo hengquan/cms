@@ -67,6 +67,10 @@ public class CustomerServiceImpl implements CustomerService {
 	public List<Map<String, Object>> selectByUserMessge(Map<String, Object> map) {
 		return dao.selectByUserMessge(map);
 	}
+	@Override
+	public Integer selectByUserMessgeCount(Map<String, Object> map) {
+		return dao.selectByUserMessgeCount(map);
+	}
 	
 
 

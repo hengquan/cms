@@ -77,6 +77,10 @@ public class ProjectServiceImpl implements ProjectService {
 	public Project selectByProName(String pro) {
 		return dao.selectByProName(pro);
 	}
+	@Override
+	public Integer getProjectMessgeCount(Map<String, Object> map) {
+		return dao.getProjectMessgeCount(map);
+	}
 
 
 }

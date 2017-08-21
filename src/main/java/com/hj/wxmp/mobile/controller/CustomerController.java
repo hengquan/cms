@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hj.web.core.mvc.ControllerBase;
 import com.hj.wxmp.mobile.common.HashSessions;
@@ -52,11 +53,17 @@ public class CustomerController extends ControllerBase {
 
 	// 客户列表
 	@RequestMapping(value = "/customer/customerList")
-	public String userList(ModelMap model) {
+	public String userList(@RequestParam(value="nowPage",defaultValue="1") int nowPage,
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize,ModelMap model) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		//纪录总数
+		Integer listMessgeCount = 0;
+		String name = getTrimParameter("name");
+		Integer start = ((nowPage - 1) * pageSize);
+		map.put("page", start);
+		map.put("pageSize", pageSize);
 		String pageUrl = "customer/list";
 		try {
-			String name = getTrimParameter("name");
 			if(name == null){
 				map.put("name", "");
 			}else{
@@ -64,6 +71,17 @@ public class CustomerController extends ControllerBase {
 			}
 			// 获取所有用户信息
 			List<Map<String,Object>> userMsg = customerService.selectByUserMessge(map);
+			//所有信息数量
+			listMessgeCount = customerService.selectByUserMessgeCount(map);
+		 	Integer totalCount = listMessgeCount%pageSize;
+			Integer totalPageNum = 0;
+			if(totalCount==0){
+				totalPageNum = listMessgeCount/pageSize;
+			}else{
+				totalPageNum = (listMessgeCount/pageSize)+1;
+			}
+			model.put("nowPage", nowPage);
+			model.put("totalPageNum", totalPageNum);
 			model.addAttribute("userMsg", userMsg);
 		} catch (Exception e) {
 			e.printStackTrace();

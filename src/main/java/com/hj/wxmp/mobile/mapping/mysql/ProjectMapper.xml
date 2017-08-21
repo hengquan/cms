@@ -136,8 +136,20 @@
 	FROM
 		ql_Project
 	WHERE
-		INSTR(projName, #{projectName})
+		INSTR(projName, #{projectName}) 
+	LIMIT #{page},#{pageSize}
   </select>
+  
+  <!-- 总记录数 -->
+  <select id="getProjectMessgeCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+	SELECT
+		count(1)
+	FROM
+		ql_Project
+	WHERE
+		INSTR(projName, #{projectName}) 
+  </select>
+  
   
   <!-- 删除多个 -->
   <delete id="deletes" parameterType="java.lang.String">

@@ -40,7 +40,7 @@
       <if test="recordtype != null" >
         recordType,
       </if>
-      <if test="arId != null" >
+      <if test="arid != null" >
         arId,
       </if>
       <if test="audittype != null" >
@@ -60,8 +60,8 @@
       <if test="recordtype != null" >
         #{recordtype,jdbcType=INTEGER},
       </if>
-      <if test="arId != null" >
-        #{arId,jdbcType=VARCHAR},
+      <if test="arid != null" >
+        #{arid,jdbcType=VARCHAR},
       </if>
       <if test="audittype != null" >
         #{audittype,jdbcType=INTEGER},
@@ -80,8 +80,8 @@
       <if test="recordtype != null" >
         recordType = #{recordtype,jdbcType=INTEGER},
       </if>
-      <if test="arId != null" >
-        arId = #{arId,jdbcType=VARCHAR},
+      <if test="arid != null" >
+        arId = #{arid,jdbcType=VARCHAR},
       </if>
       <if test="audittype != null" >
         auditType = #{audittype,jdbcType=INTEGER},
@@ -98,7 +98,7 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hj.wxmp.mobile.entity.AuditRecord" >
     update ql_AuditRecord
     set recordType = #{recordtype,jdbcType=INTEGER},
-      arId = #{arId,jdbcType=VARCHAR},
+      arId = #{arid,jdbcType=VARCHAR},
       auditType = #{audittype,jdbcType=INTEGER},
       cTime = #{ctime,jdbcType=TIMESTAMP},
       reason = #{reason,jdbcType=LONGVARCHAR}
@@ -107,7 +107,7 @@
   <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.AuditRecord" >
     update ql_AuditRecord
     set recordType = #{recordtype,jdbcType=INTEGER},
-      arId = #{arId,jdbcType=VARCHAR},
+      arId = #{arid,jdbcType=VARCHAR},
       auditType = #{audittype,jdbcType=INTEGER},
       cTime = #{ctime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
@@ -115,7 +115,7 @@
   
   
   <select id="selectByRecordIdAndType" resultType="java.util.Map" parameterType="java.util.Map">
-  	select * from ql_AuditRecord where arId=#{recordId} and auditType=#{recordType}
+  	select * from ql_AuditRecord where arId=#{recordId} and auditType=#{recordType} order by cTime desc limit #{page},#{pageSize}
   </select>
   
   <select id="findByArId" resultMap="BaseResultMap" parameterType="java.util.Map">

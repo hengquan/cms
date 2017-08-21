@@ -92,4 +92,6 @@ public interface CustomerService {
 
 	public List<Map<String, Object>> selectByUserMessge(Map<String, Object> map);
 
+	public Integer selectByUserMessgeCount(Map<String, Object> map);
+
 }

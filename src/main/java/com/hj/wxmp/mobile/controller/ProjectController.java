@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hj.web.core.mvc.ControllerBase;
@@ -54,11 +55,17 @@ public class ProjectController extends ControllerBase {
 
 	// 项目列表
 	@RequestMapping(value = "/pro/projectList")
-	public String userList(ModelMap model) {
+	public String userList(@RequestParam(value="nowPage",defaultValue="1") int nowPage,
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize,ModelMap model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String pageUrl = "project/list";
+		//纪录总数
+		Integer listMessgeCount = 0;
+		String projectName = getTrimParameter("projectName");
+		Integer start = ((nowPage - 1) * pageSize);
+		map.put("page", start);
+		map.put("pageSize", pageSize);
 		try {
-			String projectName = getTrimParameter("projectName");
 			if(projectName == null){
 				map.put("projectName", "");
 			}else{
@@ -69,9 +76,18 @@ public class ProjectController extends ControllerBase {
 			for(Project pro : selectList){
 				String proId = pro.getId();
 				map.put("proId", proId);
-				map.put("proId", proId);
-				map.put("proId", proId);
 			}
+			//所有信息数量
+			listMessgeCount = projectService.getProjectMessgeCount(map);
+		 	Integer totalCount = listMessgeCount%pageSize;
+			Integer totalPageNum = 0;
+			if(totalCount==0){
+				totalPageNum = listMessgeCount/pageSize;
+			}else{
+				totalPageNum = (listMessgeCount/pageSize)+1;
+			}
+			model.put("nowPage", nowPage);
+			model.put("totalPageNum", totalPageNum);
 			model.addAttribute("selectList", selectList);
 		} catch (Exception e) {
 			e.printStackTrace();

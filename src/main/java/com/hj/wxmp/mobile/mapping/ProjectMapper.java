@@ -25,4 +25,6 @@ public interface ProjectMapper {
 	Project selectByProName(String pro);
 
 	List<Project> findAll();
+
+	Integer getProjectMessgeCount(Map<String, Object> map);
 }

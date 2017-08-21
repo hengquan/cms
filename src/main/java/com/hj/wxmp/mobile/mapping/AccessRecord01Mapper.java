@@ -33,4 +33,6 @@ public interface AccessRecord01Mapper {
 	List<Map<String, Object>> getRecord01ListAdmin(Map<String, Object> result);
 
 	Integer findByCustIdCount(Map<String,Object> data);
+
+	Integer selectMessageCount(Map<String, Object> map);
 }

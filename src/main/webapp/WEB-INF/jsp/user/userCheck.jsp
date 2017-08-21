@@ -112,7 +112,7 @@
 								</tbody>
 							</table>
 						<!-- <div class="panel-footer"> -->
-							<%-- <nav class="clearfix">
+							<nav class="clearfix">
 								<ul class="pagination pull-left">
 									<li><div class="dataTables_info" id="sample_1_info">共${totalPageNum } 页,当前为第${nowPage}页</div></li>
 								</ul>
@@ -133,7 +133,7 @@
 									</li>
 									<li><a href="javascript:doPanation(${totalPageNum})">末页</a></li>
 								</ul>
-							</nav> --%>
+							</nav>
 						<!-- </div> -->
 						</section>
 					</div>
@@ -377,11 +377,12 @@
 	
 	$(function(){
 		$('.input-group').hide();
+		$('#sample_1_info').hide();
+		$('.dataTables_paginate').hide();
 		$("#sample_1_length .form-control").hide();
 		$("#sample_1_length .js-add").hide();
 		$("#sample_1_length .js-ref").hide();
 		$("#sample_1_length .js-del").hide();
-		
 	});
 	
 	//查看举报信息
