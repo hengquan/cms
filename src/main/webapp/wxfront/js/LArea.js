@@ -286,7 +286,7 @@ window.LArea = (function() {
                 var childData;
                 switch (_self.type) {
                     case 1:
-                    childData = item[gearVal].child
+                    childData = item[gearVal].children
                         break;
                     case 2:
                      var nextData= _self.data[_self.index+1] 

@@ -161,8 +161,6 @@ function fillData(data) {
   if (data.custscore) $("#custScore").html(data.custscore);
   if (data.compareprojs) $("#compareProjs").html(data.compareprojs);
   if (data.custdescn) $("#custDescn").html(data.custdescn);
-alert(userInfo.roleName);
-alert(data.status);
   if (userInfo.roleName=='项目负责人'&&data.status==1) needAudit=true;
   if (needAudit) $("#operArea").show();
 }

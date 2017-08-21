@@ -24,7 +24,7 @@ function initPage(data) {
   _uUserId=data.userid;
   var url=_URL_BASE+"/wx/api/getRecord01List";
   var _data={};
-  _data.pageSize=7;
+  _data.pageSize=30;
   _data.pag=1;
   _data.userId=_uUserId;
   $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
@@ -79,12 +79,12 @@ function fillList(data) {
     }
     var _GW="";
     if (userInfo.roleName!='顾问'&&oneData.authorName) {
-      _GW="顾问:"+oneData.authorName;
+    _GW="顾问:"+oneData.authorName;
     }
     var _total=oneData.total;
     var _CJ=(oneData.isKnockdown&&oneData.isKnockdown==1)?"成交":"未成交";
-    html+="<div class='item_sflr row' onclick=\"openNew('"+_url+"')\"><div class='col-60 item-name2'>"+name+phone+fTime+"</div>"
-      +"<div class='col-40 item-name'>"+_GW+"<br>总次："+_total+"次&nbsp;&nbsp;"+_CJ+"<br>"+status+"</div></div>";
+    html+="<div class='item_sflr row'><div class='col-40 item-name2'>"+name+phone+fTime+"</div>"
+      +"<div class='col-60'  onclick=\"openNew('"+_url+"')\"><div class='col-55 item-name' style='margin-left:40%'>"+_GW+"<br>总次："+_total+"次&nbsp;&nbsp;"+_CJ+"<br>"+status+"</div></div></div>";
   }
   if (html) $("#dataList").html(html);
   else $("#dataList").html("没有记录");
