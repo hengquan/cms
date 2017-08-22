@@ -115,7 +115,7 @@
   
   
   <select id="selectByRecordIdAndType" resultType="java.util.Map" parameterType="java.util.Map">
-  	select * from ql_AuditRecord where arId=#{recordId} and auditType=#{recordType} order by cTime desc limit #{page},#{pageSize}
+  	select * from ql_AuditRecord where arId=#{recordId} and recordType=#{recordType} order by cTime desc limit #{page},#{pageSize}
   </select>
   
   <select id="findByArId" resultMap="BaseResultMap" parameterType="java.util.Map">

@@ -1291,7 +1291,7 @@ public class WxApiController extends ControllerBaseWx {
 		try {
 			String recordId = m.get("recordId")==null?null:m.get("recordId").toString();
 			String userId = m.get("userId")==null?null:m.get("userId").toString();
-			if(recordId != null && "".equals(recordId)){
+			if(recordId != null && !"".equals(recordId)){
 				AccessRecord02 accessRecord02 = accessRecord02Service.findById(recordId);
 				map.put("msg", "100");
 				map.put("data", accessRecord02);
@@ -1316,7 +1316,7 @@ public class WxApiController extends ControllerBaseWx {
 		try {
 			String recordId = m.get("recordId")==null?null:m.get("recordId").toString();
 			String userId = m.get("userId")==null?null:m.get("userId").toString();
-			if(recordId != null && "".equals(recordId)){
+			if(recordId != null && !"".equals(recordId)){
 				AccessRecord03 accessRecord03 = accessRecord03Service.findById(recordId);
 				map.put("msg", "100");
 				map.put("data", accessRecord03);
@@ -1490,17 +1490,23 @@ public class WxApiController extends ControllerBaseWx {
 		Map<String, Object> m=RequestUtils.getDataFromRequest(req);
 		Map<String, Object> data=new HashMap<String,Object>();
 		Map<String, Object> map=new HashMap<String,Object>();
-		String recordType = m.get("recordType")==null?null:m.get("recordType").toString();
-		String arId = m.get("arId")==null?null:m.get("arId").toString();
-		data.put("recordType", recordType);
-		data.put("arId", arId);
-		AuditRecord auditRecord = auditRecordService.findByArId(data);
-		if(auditRecord!=null){
-			String reason = auditRecord.getReason();
-			if(reason!=null) map.put("checkReason",reason);
-			if(reason!=null) map.put("checkReason","");
-		}else{
-			map.put("checkReason","");
+		try {
+			String recordType = m.get("recordType")==null?null:m.get("recordType").toString();
+			String arId = m.get("arId")==null?null:m.get("arId").toString();
+			data.put("recordType", recordType);
+			data.put("arId", arId);
+			AuditRecord auditRecord = auditRecordService.findByArId(data);
+			if(auditRecord!=null){
+				String reason = auditRecord.getReason();
+				if(reason!=null) map.put("checkReason",reason);
+				if(reason==null) map.put("checkReason","");
+			}else{
+				map.put("checkReason","");
+			}
+			map.put("msg", "100");
+		} catch (Exception e) {
+			map.put("msg", "103");
+			e.printStackTrace();
 		}
 		return JsonUtils.map2json(map);
 	}
