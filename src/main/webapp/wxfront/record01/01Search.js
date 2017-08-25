@@ -1,13 +1,32 @@
 var _uUserId="";
 var userInfo={};
 
+var myScroll;
+
+/*加载时执行，引入iScroll*/
+function loaded () {
+  alert("ddd");
+	myScroll = new IScroll('#wrapper', {
+		scrollbars: true,
+		mouseWheel: true,
+		interactiveScrollbars: true,
+		shrinkScrollbars: 'scale',
+		fadeScrollbars: true
+	});
+}
+
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, isPassive() ? {
+	capture: false,
+	passive: false
+} : false);
+
 $(function() {
   var url=_URL_BASE+"/wx/api/personalCenter";
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
         initPage(json.userInfo);
-        $("#dataList").show();
+        $("#scroller").show();
       } else {
         window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息<br/>禁止录入";
       }
@@ -31,7 +50,7 @@ function initPage(data) {
     success: function(json) {
       if (json.msg=='100') {
         fillList(json.data);
-        $("#dataList").show();
+        $("#scroller").show();
       } else {
         window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息<br/>禁止录入";
       }
@@ -44,10 +63,10 @@ function initPage(data) {
 }
 
 function fillList(data) {
-  var _updateUrl=_URL_BASE+"/wxfront/input/record01.html?type=update";
-  var _viewUrl=_URL_BASE+"/wxfront/view/record01.html";
+  var _updateUrl=_URL_BASE+"/wxfront/record01/record01Input.html?type=update";
+  var _viewUrl=_URL_BASE+"/wxfront/record01/record01View.html";
   if (data==null||data.length==0||!(data instanceof Array)) {
-    $("#dataList").html("没有记录");
+    $("#scroller").html("没有记录");
     return;
   }
   var html="";
@@ -86,10 +105,11 @@ function fillList(data) {
     html+="<div class='item_sflr row'><div class='col-40 item-name2'>"+name+phone+fTime+"</div>"
       +"<div class='col-60'  onclick=\"openNew('"+_url+"')\"><div class='col-55 item-name' style='margin-left:40%'>"+_GW+"<br>总次："+_total+"次&nbsp;&nbsp;"+_CJ+"<br>"+status+"</div></div></div>";
   }
-  if (html) $("#dataList").html(html);
-  else $("#dataList").html("没有记录");
+  if (html) $("#scroller").html(html);
+  else $("#scroller").html("没有记录");
 }
 
 function openNew(url) {
+  alert(url);
   window.location.href=url;
 }

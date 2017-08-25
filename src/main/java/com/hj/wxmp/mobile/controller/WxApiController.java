@@ -1571,7 +1571,6 @@ public class WxApiController extends ControllerBaseWx {
 		return JsonUtils.map2json(map);
 	}
 
-    //录入记录审核信息
     @RequestMapping(value = "/getLocalArea")
     @ResponseBody
     public String getLocalArea(HttpServletRequest req){
@@ -1580,6 +1579,29 @@ public class WxApiController extends ControllerBaseWx {
             DictModel dm=dictService.getDictModelById("032");
             TreeNode<? extends TreeNodeBean> root=dm.dictTree;
             map.put("data", (new ZTree<DictDetail>(root)).toTreeMap());
+            map.put("msg", "100");
+        } catch (Exception e) {
+            map.put("msg", "103");
+            e.printStackTrace();
+        }
+        return JsonUtils.map2json(map);
+    }
+    @RequestMapping(value = "/getOutArea")
+    @ResponseBody
+    public String getOutArea(HttpServletRequest req){
+        Map<String,Object> map = new HashMap<String,Object>();
+        try {
+            DictModel dm=dictService.getDictModelById("001");
+            TreeNode<? extends TreeNodeBean> root=dm.dictTree;
+            Map<String, Object> tM=(new ZTree<DictDetail>(root)).toTreeMap();
+            List<Object> l=(List<Object>)tM.get("children");
+            int i=0;
+            for (; i<l.size(); i++) {
+                Map<String, Object> nM=(Map<String, Object>)l.get(i);
+                if (nM.get("name").equals("北京市")) break;
+            }
+            if (i<l.size()) l.remove(i);
+            map.put("data", tM);
             map.put("msg", "100");
         } catch (Exception e) {
             map.put("msg", "103");

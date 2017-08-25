@@ -31,6 +31,7 @@ icon-search:before{content:"\e61d"}
 .row .col-30{width:30%;}
 .row .col-70{width:70%;}
 .row .col-50{width:37.5%;}
+.row .col-55{width:55%;}
 .row .col-50-1{width:50%;}
 .row .col-40{width:40%;}
 .row .col-60{width:60%;}
@@ -142,7 +143,7 @@ icon-search:before{content:"\e61d"}
 .row-link {
 	margin-bottom: 1.5rem;
 }
-.item-name,.sftime {color:#b8b8b8;font-size:.7rem;margin-top:.6rem;margin-bottom:0.5rem;line-height:1.2rem;}
+.item-name,.sftime {color:#b8b8b8;font-size:.8rem;margin-top:.6rem;margin-bottom:0.5rem;line-height:1.2rem;}
 .item-name span {border:1px solid #19a6ee;border-radius:5px;width:5rem;heigth:2rem;line-height:2rem;padding:.2rem .5rem;color:#19a6ee;}
 .item-name .ysh {border:1px solid #b8b8b8;border-radius:5px;width:5rem;heigth:2rem;line-height:2rem;padding:.2rem .5rem;color:#b8b8b8;}
 .err {color:#a6a6a6;text-align:center;font-size:1.1rem;}
@@ -162,3 +163,4 @@ icon-search:before{content:"\e61d"}
     border: 0; /* 方法1 */
     -webkit-appearance: none; /* 方法2 */
 }
+.inputdate input { background-color:#fff;}

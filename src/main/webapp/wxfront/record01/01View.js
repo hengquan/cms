@@ -27,7 +27,6 @@ $(function() {
 
 function initPage(data) {
   userInfo=data;
-  userInfo.roleName="项目负责人";
   _uUserId=data.userid;
   var url=_URL_BASE+"/wx/api/getRecord01?recordId="+recordId;
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",

@@ -28,9 +28,9 @@ var _uCapitalPrepSection="";
 var _uRecepTimeSection="";
 var _uCustScore="";
 var _uLocalResidence="";
-var _uLocalWorkarea="";
+var _uLocalWorkArea="";
 var _uOutResidence="";
-var _uOutWorkarea="";
+var _uOutWorkArea="";
 
 //复选单选处理
 function selProj() {
@@ -978,6 +978,7 @@ function fillSelectField(id, value, isSetValue) {
       if (id=='knowWay'&&_fvOther.length>0) _fvOther=_fvOther.substr(1);
       eval("_u"+_id+"Desc=_fv");
     }
+    $("span[id='"+id+"']").html(value);
   }
 }
 //=====================================================================
@@ -987,6 +988,7 @@ function fillSelectField(id, value, isSetValue) {
 var _TYPE="add";
 var recordId="";//记录Id只有当_TYPE=update时，此变量才有值。
 var custId="";
+var userInfo={};
 
 //填充数据,并初始化
 $(function() {
@@ -1001,40 +1003,33 @@ $(function() {
   if (_TYPE.toLocaleLowerCase()=='update') _TYPE="update";
   $(document).attr("title","客户数据中心-首访信息录入");
 
-  if (_TYPE=='add') initData();
-  else if (_TYPE=='update') {
-    $("#auditArea").show();
-    $(document).attr("title","客户数据中心-首访信息修改");
-    //获得本条记录消息信息
-    var recordId=getUrlParam(window.location.href, 'recordId');
-    if (!recordId) window.location.href=_URL_BASE+"/wxfront/err.html?3000=无记录Id";
-    else {
-      var _data={};
-      _data.recordId=recordId;
-      var url=_URL_BASE+"/wx/api/getRecord01";
-      $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
-        success: function(json) {
-          if (json.msg=='100') {
-            initData();
-            fillData(json.data);
-          } else {
-            window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得首访录入信息";
-          }
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
-            +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
-        }
-      });
-    }
-  }
+  initData();
 });
 
 function fillData(data) {//填数据
   if (!data) return;
+  var projOk=false;
+  var sProjs=(userInfo.checkProj).split(",");
+  for (var i=0; i<sProjs.length; i++) {
+    var iS=sProjs[i].split("-");
+    if (iS[0]==data.projid) {
+      $("#proj").html(iS[1]);
+      _uProjId=data.projid;
+      _uProjName=iS[1];
+      projOk=true;
+      break;
+    }
+  }
+  if (data.custid) custId=data.custid;
+  if (userInfo.roleName=='管理员') projOk=true;
+  if (!projOk)  {
+    window.location.href=_URL_BASE+"/wxfront/err.html?4000=抱歉<br/>您的权限不足，无法浏览系统<br/>禁止录入";
+    return;
+  }
   if (data.custname) $("input[name='custName']").val(data.custname);
   if (data.custphonenum) $("input[name='custPhone']").val(data.custphonenum);
   if (data.custsex) fillSelectField("sex", data.custsex, true);
+
   if (data.firstknowtime.time) {
     var fTime=new Date();
     fTime.setTime(data.firstknowtime.time);
@@ -1046,10 +1041,10 @@ function fillData(data) {//填数据
     fillTime("curTime", rTime);
   }
   if (data.agegroup) fillSelectField("ageGroup", data.agegroup, true);
-  if (data.localresidence) ;
-  if (data.localworkarea) ;
-  if (data.outresidence) ;
-  if (data.outworkarea) ;
+  if (data.localresidence) $("input[name='localResidence']").val(data.localresidence);
+  if (data.localworkarea) $("input[name='localWorkArea']").val(data.localworkarea);
+  if (data.outresidence) $("input[name='outResidence']").val(data.outresidence);
+  if (data.outworkarea) $("input[name='outWorkArea']").val(data.outworkarea);
   if (data.familystatus) fillSelectField("familyStatus", data.familystatus, true);
   if (data.traffictype) {
     var _temp=data.traffictype;
@@ -1143,13 +1138,13 @@ function fillData(data) {//填数据
   }
   if (data.receptimesection) fillSelectField("recepTimeSection", data.receptimesection, true);
   if (data.custscore) fillSelectField("custScore", data.custscore, true);
-  if (data.compareprojs) $("input[name='compareProjs']").val(data.compareprojs);
-  if (data.custdescn) $("input[name='custDescn']").val(data.custdescn);
+  if (data.compareprojs) $("textarea[name='compareProjs']").val(data.compareprojs);
+  if (data.custdescn) $("textarea[name='custDescn']").val(data.custdescn);
 
   function fillTime(id, _time) {
     var str=""+_time.getFullYear()+"-";
     str+=((100+(_time.getMonth()+1))+"").substr(1)+"-";
-    str+=((100+nt.getDate())+"").substr(1);
+    str+=((100+_time.getDate())+"").substr(1);
     $("input[name='"+id+"']").val(str);
   }
 }
@@ -1160,7 +1155,7 @@ function initData() {
     success: function(json) {
       if (json.msg=='100') {
         initPage(json.userInfo);
-        $("#step1").show();
+        if (_TYPE=='add') $("#step1").show();
       } else {
         window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息<br/>禁止录入";
       }
@@ -1171,31 +1166,52 @@ function initData() {
     }
   });
   function initPage(data) {
+    userInfo=data;
     var url=_URL_BASE+"/wx/api/getLocalArea";
-    alert(url);
-    $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
-      success: function(json) {
-        if (json.msg=='100') {
-          alert("abc1233");
-          var localResidenceArea=new LArea();
-          localResidenceArea.init({
-            'trigger': '#localRedisId', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
-            'valueTo': '#localRedisVal', //选择完毕后id属性输出到该位置
-            'keys': {
-              id: 'id',
-              name: 'name'
-            }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
-            'type': 1, //数据源类型
-            'data': json.data.children//数据源
-          });
-        } else {
-          window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息<br/>禁止录入";
-        }
-      },
-      error: function(XMLHttpRequest, textStatus, errorThrown) {
-        window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
-          +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
-      }
+
+    var localResidenceArea=new LArea();
+    localResidenceArea.init({
+      'trigger': '#localRedisId', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
+      'valueTo': '#localRedisVal', //选择完毕后id属性输出到该位置
+      'keys': {
+         id: 'id',
+         name: 'name'
+      }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
+      'type': 1, //数据源类型
+      'data': localArea.data.children//数据源
+    });
+    var localWorkArea=new LArea();
+    localWorkArea.init({
+      'trigger': '#localWorkAreaId', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
+      'valueTo': '#localWorkAreaVal', //选择完毕后id属性输出到该位置
+      'keys': {
+        id: 'id',
+        name: 'name'
+      }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
+      'type': 1, //数据源类型
+      'data': localArea.data.children//数据源
+    });
+    var outResidenceArea=new LArea();
+    outResidenceArea.init({
+      'trigger': '#outRedisId', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
+      'valueTo': '#outRedisVal', //选择完毕后id属性输出到该位置
+      'keys': {
+        id: 'id',
+        name: 'name'
+      }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
+      'type': 1, //数据源类型
+      'data': allArea.data.children//数据源
+    });
+    var outWorkArea=new LArea();
+    outWorkArea.init({
+      'trigger': '#outWorkAreaId', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
+      'valueTo': '#outWorkAreaVal', //选择完毕后id属性输出到该位置
+      'keys': {
+        id: 'id',
+        name: 'name'
+      }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
+      'type': 1, //数据源类型
+      'data': allArea.data.children//数据源
     });
     $("input[name='user']").val(data.realname);
     _uUserId=data.userid;
@@ -1223,7 +1239,52 @@ function initData() {
       _uProjId=projId;
     }
     cleanData();
+    //如果是更新，则要获取更新的
+    if (_TYPE=='update') {
+      $(document).attr("title","客户数据中心-首访信息修改");
+      //获得本条记录消息信息
+      var recordId=getUrlParam(window.location.href, 'recordId');
+      if (!recordId) window.location.href=_URL_BASE+"/wxfront/err.html?3000=无记录Id";
+      else {
+        var _data={};
+        if (recordId.indexOf("#")==recordId.length-1) recordId=recordId.substr(0,32);
+        _data.recordId=recordId;
+        var url=_URL_BASE+"/wx/api/getRecord01";
+        $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
+          success: function(json) {
+            if (json.msg=='100') {
+              fillData(json.data);
+              getAudia(recordId);
+              $("#step1").show();
+            } else {
+              window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得首访录入信息";
+            }
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
+              +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
+          }
+        });
+      }
+    }
   }
+}
+function getAudia(id) {
+  var url=_URL_BASE+"/wx/api/getCheckReason?recordType=1&arId="+id;
+  $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
+    success: function(json) {
+      if (json.msg=='100') {
+        $("#auditText").html(json.checkReason);
+
+if (json.checkReason)
+        $("#auditArea").show();
+      }
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
+        +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
+    }
+  });
 }
 function cleanData() {
   var nt=new Date();
@@ -1273,13 +1334,33 @@ function cleanData() {
       $("input[name='"+otherId+"Desc']").hide();
     }catch(e){}
   }
-  function cleanArea() {
+  function cleanArea(id) {
+    $("input[name='"+id+"']").val("");
+    var _id=id.substr(0,1).toUpperCase()+id.substr(1);
+    eval("_u"+_id+"=''");
   }
 }
 
 //翻页切换
 function step1Next() {//要判断是否应该进行首访录入
- if (_TYPE=='update') {
+  var id;
+  if ($.trim($("#localRedisId").val())) {
+    id=$("#localRedisVal").val();
+    _uLocalResidence=$.trim(id.substr(id.lastIndexOf(",")+1))+"-"+($.trim($("#localRedisId").val())).replace(/,/g,"，");
+  }
+  if ($.trim($("#localWorkAreaId").val())) {
+    id=$("#localWorkAreaVal").val();
+    _uLocalWorkArea=$.trim(id.substr(id.lastIndexOf(",")+1))+"-"+($.trim($("#localWorkAreaId").val())).replace(/,/g,"，");
+  }
+  if ($.trim($("#outRedisId").val())) {
+    id=$("#outRedisVal").val();
+    _uOutResidence=$.trim(id.substr(id.lastIndexOf(",")+1))+"-"+($.trim($("#outRedisId").val())).replace(/,/g,"，");
+  }
+  if ($.trim($("#outWorkAreaId").val())) {
+    id=$("#outWorkAreaVal").val();
+    _uOutWorkArea=$.trim(id.substr(id.lastIndexOf(",")+1))+"-"+($.trim($("#outWorkAreaId").val())).replace(/,/g,"，");
+  }
+  if (_TYPE=='update') {
     $("#step1").hide(0);
     $("#step2").show(0);
     $("#step3").hide(0);
@@ -1347,21 +1428,26 @@ function commitData() {
   var commitData=getData(_TYPE);
   var msg=validate(commitData, _TYPE);
   if (msg.err) {
-    if (msg.returnTo==1) step2Prev();
+    if (msg.turnTo==1) step2Prev();
     alert(msg.err);
     return;
   }
+  //遮罩
+  $("#mask").show();
+  //按钮职位灰色
+  $("div[_type='BTN']").each(function(){
+    $(this).attr("style", "margin-top:1.5rem;background-color:#dedede;color:#c7c7c7");
+  });
   if (_TYPE=='add') {
     commitInsert(commitData);
   } else if (_TYPE='update') {
     commitUpdate(commitData);
   }
-
   function getData(type) {
     var retData={};
     var temp="";
     if (_uProjId) retData.projid=_uProjId;
-    if (custId) retData.custid=custId;
+    if (type=='update'&&custId) retData.custid=custId;
     temp=$("input[name='custName']").val();
     if (temp) retData.custname=temp;
     temp=$("input[name='custPhone']").val();
@@ -1374,9 +1460,9 @@ function commitData() {
     if (_uAgeGroup) retData.agegroup=_uAgeGroup;
     if (_uBuyQualify) retData.buyqualify=_uBuyQualify;
     if (_uLocalResidence) retData.localresidence=_uLocalResidence;
-    if (_uLocalWorkarea) retData.localworkarea=_uLocalWorkarea;
+    if (_uLocalWorkArea) retData.localworkarea=_uLocalWorkArea;
     if (_uOutResidence) retData.outresidence=_uOutResidence;
-    if (_uOutWorkarea) retData.outworkarea=_uOutWorkarea;
+    if (_uOutWorkArea) retData.outworkarea=_uOutWorkArea;
     if (_uFamilyStatus) retData.familystatus=_uFamilyStatus;
     if (_uTrafficType) retData.traffictype=_uTrafficType;
     if (_uWorkIndustry) retData.workindustry=_uWorkIndustry;
@@ -1436,6 +1522,12 @@ function commitData() {
     var url=_URL_BASE+"/wx/api/addHisFirstRecord";
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
+        //遮罩
+        $("#mask").hide();
+        //按钮职位灰色
+        $("div[_type='BTN']").each(function(){
+          $(this).attr("style", "margin-top:1.5rem;background-color:#19a6ee;color:#FFFFFF");
+        });
         if (json.msg!='100') {
           alert("录入首访记录错误！");
         } else {
@@ -1453,10 +1545,16 @@ function commitData() {
       }
     });
   }
-  function commitUpdate(data) {
+  function commitUpdate(_data) {
     var url=_URL_BASE+"/wx/api/updateRecord01";
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
+        //遮罩
+        $("#mask").hide();
+        //按钮职位灰色
+        $("div[_type='BTN']").each(function(){
+          $(this).attr("style", "margin-top:1.5rem;background-color:#19a6ee;color:#FFFFFF");
+        });
         if (json.msg!='100') {
           alert("修改首访记录错误！");
         } else {
