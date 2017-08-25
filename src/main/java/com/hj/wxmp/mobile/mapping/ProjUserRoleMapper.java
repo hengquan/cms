@@ -21,4 +21,6 @@ public interface ProjUserRoleMapper {
 	List<Map<String, Object>> selectByUserId(String userId);
 
 	Boolean deleteByProjIds(String projIDs);
+
+	void deleteByProjIdAndUserId(Map<String, Object> datamsg);
 }

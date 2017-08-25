@@ -25,4 +25,6 @@ public interface AccessRecord02Mapper {
 	List<Map<String, Object>> getRecord02List(Map<String, Object> result);
 
 	Integer findByCustIdCount(Map<String,Object> data);
+
+	List<AccessRecord02> selectByUserId(Map<String, Object> datamsg);
 }

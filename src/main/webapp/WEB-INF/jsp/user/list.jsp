@@ -95,6 +95,8 @@
 													onclick="sellAllProject('${u.id}')">查看所属项目</button>
 											<button type="button" class="btn btn-send"
 													onclick="seeAllKeHu('${u.id}')">查看所有用户</button>
+											<button type="button" class="btn btn-send"
+													onclick="updateUserMsg('${u.id}','${u.userRole.role_name}')">更改用户信息</button>
 										</td>
 						 			</tr>
 								</c:if>
@@ -197,8 +199,71 @@
 	<!-- modal -->
 	
 	
-	
-	
+	<div class="modal fade" id="isCheckState" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="modal-title">更改用户信息</h4>
+				</div>
+				<div class="modal-body">
+					<form action="${appRoot}/anwStock/edit" method="post"
+						class="form-horizontal" enctype="multipart/form-data" role="form"
+						id="updateMessage" name="itemForm">
+						<input type="hidden" name="editId" id="editId">
+						<input type="hidden" name="userSelectProjIds" id="userSelectProjIds">
+						<input type="hidden" name="yesSubCheckMessage" id="yesSubCheckMessage">
+						<input type="hidden" name="thisUserId" id="thisUserId">
+						<div class="form-group">
+							<label class="col-lg-3 control-label pd-r5">登录名<font
+								style="color: red;"></font></label>
+							<div class="col-lg-9">
+								<input type="text" class="form-control" name="loginName" id="loginName" maxlength="10">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label pd-r5">手机号<font
+								style="color: red;"></font></label>
+							<div class="col-lg-9">
+								<input type="text" class="form-control" name="phone" id="phone" maxlength="10">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label pd-r5">真实姓名<font
+								style="color: red;"></font></label>
+							<div class="col-lg-9">
+								<input type="text" class="form-control" name="rename" id="rename" maxlength="10">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label pd-r5">角色<font
+								style="color: red;"></font></label>
+							<div class="col-lg-9">
+								<select class="form-control" name="userRole" id="userRole" maxlength="10">
+								
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label pd-r5">审核确认项目<font
+								style="color: red;"></font></label>
+							<div class="col-lg-9" id="projectMsg">
+							</div>
+						</div>
+						<hr/>
+						<div class="form-group">
+							<div class="col-lg-offset-2 col-lg-10">
+								<button type="button" onclick="subUserStateMessage()" class="btn btn-send">提交</button>
+								<button data-dismiss="modal" class="btn btn-default" type="button" id="quxiao">取消</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>	
 
 	<div class="panel-body">
 		<!-- Modal -->
@@ -242,11 +307,6 @@
 	    <input type="hidden" name="boxeditId" id="boxeditId">
 	</form>
 	
-	<!-- 专家降级为普通用户 -->
-	<form action="${appRoot}/user/DemotionUser" method="post" id="demotionUser" name="demotionUser">
-		<input type="hidden" name="userId" id="userId">
-	    <input type="hidden" name="boxUserId" id="boxUserId">
-	</form>
 
 	<form action="${appRoot}/user/setExpert" method="post" id="checkExpert" name="checkExpert">
 		<input type="hidden" name="setExpertId" id="setExpertId">
@@ -264,44 +324,119 @@
 	<script type="text/javascript">
 	
 	
+	
+	//是否提交审核结果
+	function updateUserMsg(id,rolename){
+		//获取待审核人的信息，所有项目信息，所有权限信息
+		$.ajax({
+			type:'post',
+			data : {"id":id},  
+			url:'${appRoot}/user/getRoleAndProjectMsg',
+			dataType:'json',
+			success:function(data){
+				console.log(data);
+				if(data.msg == 100){
+					var roles = data.roles;
+					var projects = data.projects;
+					var projUserRoleIds = data.projUserRoleIds;
+					console.log(projects);
+					console.log(projUserRoleIds);
+					var projectHtml = '';
+					for(var i = 0 ;i<projects.length;i++){
+						var projId = projects[i].id;
+						var index = projUserRoleIds.indexOf(projId);
+						if(index>=0){
+							projectHtml += '<input type="checkbox" name="projbox" checked value="'+projects[i].id+'">'+ projects[i].projname +'&nbsp&nbsp;&nbsp&nbsp';
+						}else{
+							projectHtml += '<input type="checkbox" name="projbox" value="'+projects[i].id+'">'+ projects[i].projname +'&nbsp&nbsp;&nbsp&nbsp';
+						}
+					}
+					$("#projectMsg").html(projectHtml);
+					var userRoleHtml = '';
+					for(var i = 0 ;i<roles.length;i++){
+						if(rolename == roles[i].roleName){
+							userRoleHtml += '<option value="'+ roles[i].id +'" selected>'+ roles[i].roleName +'</option>';
+						}else{
+							userRoleHtml += '<option value="'+ roles[i].id +'">'+ roles[i].roleName +'</option>';
+						}
+					}
+					$("#userRole").html(userRoleHtml);
+					//赋值
+					$("#loginName").val(data.loginname);
+					$("#phone").val(data.mainphonenum);
+					$("#rename").val(data.realname);
+					$("#yesSubCheckMessage").val(id);
+					$("#thisUserId").val(id);
+					var $modal = $('#isCheckState');
+					$modal.modal();
+				}else{
+					windowShow("提交失败","");
+				}
+			}
+		});
+	}
+	
+	
+	
+	
+	//设置审核的状态---确认提交
+	function subUserStateMessage(){
+		//用户ID
+		var userId = $("#thisUserId").val();
+		//权限ID
+		var userRole = $("#userRole").val();
+		//用户审核所选定的项目列表
+		var str = document.getElementsByName("projbox");
+		var objarray = str.length;
+		var checkProjIds = "";
+		var jy = false;
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				checkProjIds += str[i].value + ",";
+			}
+		}
+		//需要传递的数据
+		var datas = {
+				"userId":userId,
+				"userRole":userRole,
+				"checkProjIds":checkProjIds
+		}
+		$.ajax({
+			type:'post',
+			data : datas,  
+			url:'${appRoot}/user/updateUserMsg',
+			dataType:'json',
+			success:function(data){
+				if(data.msg == 100){
+					windowShow("提交成功","");
+					seeAllMsg();
+				}else{
+					windowShow("提交失败","");
+				}
+			}
+		});
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//查看该用户所有对应的项目
 	function sellAllProject(userId){
 		window.location.href="${appRoot}/user/belongToProj?userId="+userId;
 	}
-/* 	//查看该用户所有对应的项目
-	function sellAllProject(userId){
-		$.ajax({
-			type:'post',
-			data : {"userId":userId},  
-			url:'${appRoot}/user/proJect',
-			dataType:'json',
-			success:function(data){
-				var htmlmsg ='';
-				console.log(data);
-				if(data.msg==100){
-					var pro = data.projectMessage;
-					console.log(pro);
-					if(pro.length>0){
-						for(var i=0;i<pro.length;i++){
-							htmlmsg+='<label class="col-lg-4 control-label pd-r5">'
-							+'<button data-dismiss="modal" class="btn btn-send" type="button" '
-							+'id="userProjectMsg" style="width:150px;">'+ pro[i].projName +'</button>'
-							+'</label>';
-						}
-						$("#userProjectMsg").html(htmlmsg);
-						var $modal = $('#myModal');
-						$modal.modal();
-					}else{
-						windowShow("该用户暂无项目","");
-					}
-				}else{
-					windowShow("操作失败","");
-				}
-			}
-		});
-	} */
-	
-	
 	
 	
 	//查看所有客户

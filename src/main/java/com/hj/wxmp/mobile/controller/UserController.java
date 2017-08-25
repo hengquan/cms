@@ -18,12 +18,18 @@ import com.hj.utils.MD5Utils;
 import com.hj.web.core.mvc.ControllerBase;
 import com.hj.wxmp.mobile.common.HashSessions;
 import com.hj.wxmp.mobile.dao.SysItemRoleDao;
+import com.hj.wxmp.mobile.entity.AccessRecord01;
+import com.hj.wxmp.mobile.entity.AccessRecord02;
+import com.hj.wxmp.mobile.entity.AccessRecord03;
 import com.hj.wxmp.mobile.entity.ProjUserRole;
 import com.hj.wxmp.mobile.entity.Project;
 import com.hj.wxmp.mobile.entity.SysItemRole;
 import com.hj.wxmp.mobile.entity.SysRole;
 import com.hj.wxmp.mobile.entity.UserInfo;
 import com.hj.wxmp.mobile.entity.UserRole;
+import com.hj.wxmp.mobile.services.AccessRecord01Service;
+import com.hj.wxmp.mobile.services.AccessRecord02Service;
+import com.hj.wxmp.mobile.services.AccessRecord03Service;
 import com.hj.wxmp.mobile.services.IKeyGen;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
 import com.hj.wxmp.mobile.services.ProjectService;
@@ -72,6 +78,12 @@ public class UserController extends ControllerBase {
 	UserRoleService userRoleService;
 	@Autowired
 	SysRoleService roleService;
+	@Autowired
+	AccessRecord01Service accessRecord01Service;
+	@Autowired
+	AccessRecord02Service accessRecord02Service;
+	@Autowired
+	AccessRecord03Service accessRecord03Service;
 	
 //	@Autowired
 //	
@@ -367,6 +379,16 @@ public class UserController extends ControllerBase {
 			List<SysRole> roles = roleService.selectAllMsg();
 			//所有项目信息
 			List<Project> projects = projectService.findAll();
+			//用户相关的项目
+			String projUserRoleIds = "";
+			List<Map<String, Object>> projUserRoles = projUserRoleService.selectByUserId(id);
+			if(projUserRoles.size()>0){
+				for(Map<String,Object>projUserRole : projUserRoles){
+					String projUserRoleId = projUserRole.get("id").toString();
+					projUserRoleIds+=projUserRoleId+",";
+				}
+			}
+			data.put("projUserRoleIds", projUserRoleIds);
 			data.put("roles", roles);
 			data.put("projects", projects);
 			data.put("projNames", projNames);
@@ -424,4 +446,85 @@ public class UserController extends ControllerBase {
 	
 	
 	
+	//更新用户信息
+	@ResponseBody
+	@RequestMapping(value="/user/updateUserMsg")
+	public JSON updateUserMsg() throws Exception{
+		Map<String, Object> data = new HashMap<String,Object>();
+		try {
+			//其他数据
+			String userId = getTrimParameter("userId");
+			String roleId = getTrimParameter("userRole");
+			String checkProjIds = getTrimParameter("checkProjIds");
+			//更新用户权限
+			UserRole userRole = userRoleService.selectByuserId(userId);
+			userRole.setRoleid(roleId);
+			userRoleService.update(userRole);
+			//用户相关的项目
+			String projIds = "";
+			List<Map<String, Object>> projUserRoles = projUserRoleService.selectByUserId(userId);
+			if(projUserRoles.size()>0){
+				for(Map<String,Object>projUserRole : projUserRoles){
+					String projId = projUserRole.get("id").toString();
+					projIds+=projId+",";
+				}
+			}
+			//是否更新用户所对应的项目
+			if(checkProjIds != null && !"".equals(checkProjIds)){
+				//添加项目
+				String[] projids = checkProjIds.split(",");
+				for(String projid : projids){
+					if(projIds.indexOf(projid)>=0){
+						continue;
+					}
+					ProjUserRole projUserRole = new ProjUserRole();
+					projUserRole.setId(keyGen.getUUIDKey());
+					projUserRole.setProjid(projid);
+					projUserRole.setRoleid(roleId);
+					projUserRole.setUserid(userId);
+					projUserRoleService.insert(projUserRole);
+				}
+				//如果没有了以前的项目
+				if(projUserRoles.size()>0){
+					for(Map<String,Object>projUserRole : projUserRoles){
+						String projId = projUserRole.get("id").toString();
+						int indexOf = checkProjIds.indexOf(projId);
+						if(indexOf<0){
+							//根据项目ID和用户ID删除，用户项目关系表
+							Map<String,Object> datamsg = new HashMap<String,Object>();
+							datamsg.put("projId", projId);
+							datamsg.put("userId", userId);
+							projUserRoleService.deleteByProjIdAndUserId(datamsg);
+							//查该用户首复成交表所有的记录并更新
+							List<AccessRecord01> accessRecord01s = accessRecord01Service.selectByUserId(datamsg);
+							for(AccessRecord01 accessRecord01 : accessRecord01s){
+								String authorid = accessRecord01.getAuthorid();
+								accessRecord01.setAuthorid(":"+authorid);
+								accessRecord01Service.update(accessRecord01);
+							}
+							//复
+							List<AccessRecord02> accessRecord02s = accessRecord02Service.selectByUserId(datamsg);
+							for(AccessRecord02 accessRecord02 : accessRecord02s){
+								String authorid = accessRecord02.getAuthorid();
+								accessRecord02.setAuthorid(":"+authorid);
+								accessRecord02Service.update(accessRecord02);
+							}
+							//成交
+							List<AccessRecord03> accessRecord03s = accessRecord03Service.selectByUserId(datamsg);
+							for(AccessRecord03 accessRecord03 : accessRecord03s){
+								String authorid = accessRecord03.getAuthorid();
+								accessRecord03.setAuthorid(":"+authorid);
+								accessRecord03Service.update(accessRecord03);
+							}
+						}
+					}
+				}
+			}
+			data.put("msg", "100");
+		} catch (Exception e) {
+			data.put("msg", "103");
+			e.printStackTrace();
+		}
+		return JSONObject.fromObject(data);
+	}
 }

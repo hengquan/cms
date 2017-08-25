@@ -98,5 +98,7 @@ public interface AccessRecord03Service {
 
 	public Integer findByCustIdCount(Map<String,Object> data);
 
+	public List<AccessRecord03> selectByUserId(Map<String, Object> datamsg);
+
 
 }

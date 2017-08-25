@@ -70,6 +70,10 @@ public class ProjUserRoleServiceImpl implements ProjUserRoleService {
 	public Boolean deleteByProjIds(String projIDs) {
 		return dao.deleteByProjIds(projIDs);
 	}
+	@Override
+	public void deleteByProjIdAndUserId(Map<String, Object> datamsg) {
+		dao.deleteByProjIdAndUserId(datamsg);
+	}
 
 
 }

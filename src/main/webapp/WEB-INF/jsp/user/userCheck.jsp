@@ -240,8 +240,8 @@
 						<div class="form-group">
 							<label class="col-lg-3 control-label pd-r5">审核确认项目<font
 								style="color: red;"></font></label>
-							<div class="col-lg-9">
-								<div class="dropdown">
+							<div class="col-lg-9" id="projectMsg">
+								<!-- <div class="dropdown">
 								  <button class="btn btn-send dropdown-toggle" type="button" maxlength="10" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 								    请选择项目...
 								    <span class="caret"></span>
@@ -249,7 +249,7 @@
 								  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="projectMsg">
 								  	
 								  </ul>
-								</div>
+								</div> -->
 							</div>
 						</div>
 						<hr/>
@@ -432,7 +432,8 @@
 					console.log(projects);
 					var projectHtml = '';
 					for(var i = 0 ;i<projects.length;i++){
-						projectHtml += '<li><a href="#"><input type="checkbox" name="projbox" value="'+projects[i].id+'">'+ projects[i].projname +'</a></li>';
+						//projectHtml += '<li><a href="#"><input type="checkbox" name="projbox" value="'+projects[i].id+'">'+ projects[i].projname +'</a></li>';
+						projectHtml += '<input type="checkbox" name="projbox" value="'+projects[i].id+'">'+ projects[i].projname +'&nbsp&nbsp;&nbsp&nbsp';
 					}
 					$("#projectMsg").html(projectHtml);
 					var userRoleHtml = '';
