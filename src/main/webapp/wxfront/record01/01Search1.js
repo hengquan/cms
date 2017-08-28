@@ -1,29 +1,32 @@
 var _uUserId="";
 var userInfo={};
 
-var myScroll;
-
+var scrollMain;
 /*加载时执行，引入iScroll*/
 function loaded () {
-  alert("ddd");
-	myScroll = new IScroll('#wrapper', {
-		scrollbars: true,
-		mouseWheel: true,
-		interactiveScrollbars: true,
-		shrinkScrollbars: 'scale',
-		fadeScrollbars: true
-	});
+  scrollMain=new IScroll('#wrapper', {
+    scrollbars: true,
+    mouseWheel: true
+  });
+  console.dir(scrollMain.options);
 }
 
-<div id="wrapper">
-	<div id="scroller">
+//var scrollMain;
 
-<div id="wrapper">
-<div id="scroller"></div>
+/*加载时执行，引入iScroll*/
+//function loaded () {
+//  scrollMain = new IScroll('#wrapper', {
+//    scrollbars: true,
+//    mouseWheel: true,
+//    interactiveScrollbars: true,
+//    shrinkScrollbars: 'scale',
+//    fadeScrollbars: true
+//  });
+//}
 
 document.addEventListener('touchmove', function (e) { e.preventDefault(); }, isPassive() ? {
-	capture: false,
-	passive: false
+  capture: false,
+  passive: false
 } : false);
 
 $(function() {
@@ -47,16 +50,22 @@ $(function() {
 function initPage(data) {
   userInfo=data;
   _uUserId=data.userid;
-  var url=_URL_BASE+"/wx/api/getRecord01List";
+  //var url=_URL_BASE+"/wx/api/getRecord01List";
+  var url=_URL_BASE+"/wx/api/testGet01List";
   var _data={};
-  _data.pageSize=30;
+  _data.pageSize=10;
   _data.pag=1;
   _data.userId=_uUserId;
   $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
         fillList(json.data);
+        $("#searchStr").css("font-weight", "400");
+        $("#searchStr").css("height", "54px");
+        $("#searchStr").css("line-height", "54px");
         $("#scroller").show();
+        $('body').show();
+        
       } else {
         window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息<br/>禁止录入";
       }
@@ -83,7 +92,7 @@ function fillList(data) {
     name=name+"<br/>";
     var phone="<span><a href='tel:"+oneData.custPhoneNum+"'>"+oneData.custPhoneNum+"</a></span><br/>";
     var cTime=new Date();
-    cTime.setTime(oneData.cTime.time);
+    cTime.setTime(oneData.recepTime.time);
     var fTime="<span class='sftime'>首访："+cTime.Format('yyyy-MM-dd')+"</span>";
     //顾问
     var status="<span class='ysh'>已审核</span>";
@@ -108,7 +117,7 @@ function fillList(data) {
     }
     var _total=oneData.total;
     var _CJ=(oneData.isKnockdown&&oneData.isKnockdown==1)?"成交":"未成交";
-    html+="<div class='item_sflr row'><div class='col-40 item-name2'>"+name+phone+fTime+"</div>"
+    html+="<div class='scrollItem row'><div class='col-40 item-name2'>"+name+phone+fTime+"</div>"
       +"<div class='col-60'  onclick=\"openNew('"+_url+"')\"><div class='col-55 item-name' style='margin-left:40%'>"+_GW+"<br>总次："+_total+"次&nbsp;&nbsp;"+_CJ+"<br>"+status+"</div></div></div>";
   }
   if (html) $("#scroller").html(html);
@@ -116,6 +125,5 @@ function fillList(data) {
 }
 
 function openNew(url) {
-  alert(url);
-  window.location.href=url;
+  //window.location.href=url;
 }
