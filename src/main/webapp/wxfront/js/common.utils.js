@@ -22,15 +22,15 @@ function allFields(obj) {
   var props = "";
   if (obj==null) props="[allPrposCount=0]\nnull";
   else {
-    for(var p in obj) {
-      i=i+1;
-      if (typeof(p)!="function") {
-        if ((obj[p]+"").indexOf("[")!==0) {
-          props += i+":"+p+"="+obj[p]+";\n";
-        }
+   for(var p in obj) {
+    i=i+1;
+    if (typeof(p)!="function") {
+      if ((obj[p]+"").indexOf("[")!==0) {
+       props += i+":"+p+"="+obj[p]+";\n";
       }
     }
-    props = "[allPrposCount="+i+"]\n"+props;
+   }
+   props = "[allPrposCount="+i+"]\n"+props;
   }
   return props;
 }
@@ -90,11 +90,11 @@ function getBrowserVersion() {
   (s = userAgent.match(/version\/([\d.]+).*safari/)) ? browser.safari = s[1] : 0;
 
   var version = browser.ie? 'msie '+browser.ie:
-    browser.firefox?'firefox ' + browser.firefox:
-    browser.chrome?'chrome ' + browser.chrome:
-    browser.opera? 'opera ' + browser.opera:
-    browser.safari?'safari ' + browser.safari:
-    '未知';
+   browser.firefox?'firefox ' + browser.firefox:
+   browser.chrome?'chrome ' + browser.chrome:
+   browser.opera? 'opera ' + browser.opera:
+   browser.safari?'safari ' + browser.safari:
+   '未知';
 
   return version;
 }
@@ -107,17 +107,17 @@ function getUUID(len,radix) {
   var chars = CHARS, uuid = [];
   radix = radix||chars.length;
   if (len) {
-    for (var i=0; i<len; i++) uuid[i] = chars[0 | Math.random()*radix];  
+   for (var i=0; i<len; i++) uuid[i] = chars[0 | Math.random()*radix];  
   } else {
-    var r;
-    uuid[8] = uuid[13] = uuid[18] = uuid[23] = "-";
-    uuid[14] = "4";
-    for (var i=0; i<36; i++) {
-      if (!uuid[i]) {
-        r = 0 | Math.random()*16;
-        uuid[i] = chars[(i == 19)?(r&0x3)|0x8:r];
-      }
+   var r;
+   uuid[8] = uuid[13] = uuid[18] = uuid[23] = "-";
+   uuid[14] = "4";
+   for (var i=0; i<36; i++) {
+    if (!uuid[i]) {
+      r = 0 | Math.random()*16;
+      uuid[i] = chars[(i == 19)?(r&0x3)|0x8:r];
     }
+   }
   }
   return uuid.join("");
 }
@@ -142,13 +142,13 @@ function formField2Object(formId) {
   var _form = $("#"+formId).form();
 
   if (_form) {
-    $.each(_form.serializeArray(),function(){
-      if(o[this['name']]){
-        o[this['name']]=o[this['name']]+","+this['value'];
-      }else{
-        o[this['name']]=this['value'];
-      }
-    });
+   $.each(_form.serializeArray(),function(){
+    if(o[this['name']]){
+      o[this['name']]=o[this['name']]+","+this['value'];
+    }else{
+      o[this['name']]=this['value'];
+    }
+   });
   }
   return o;
 }
@@ -160,7 +160,7 @@ function jqueryColor2HexColor(jqueryColor) {
   rgb= "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
   return rgb;
   function hex(x) {
-    return ("0" + parseInt(x).toString(16)).slice(-2);
+   return ("0" + parseInt(x).toString(16)).slice(-2);
   };
 }
 
@@ -170,30 +170,30 @@ function jqueryColor2HexColor(jqueryColor) {
  * 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
  * 例子： 
  * (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
- * (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
+ * (new Date()).Format("yyyy-M-d h:m:s.S")    ==> 2006-7-2 8:9:4.18 
  * @param date.Format
  * @returns 时间的字符串类型
  * @author: meizz
  */
 Date.prototype.Format = function(fmt) {
   var o = {
-   "M+" : this.getMonth()+1,                 //月份
-   "d+" : this.getDate(),                    //日
-   "h+" : this.getHours(),                   //小时
-   "m+" : this.getMinutes(),                 //分
-   "s+" : this.getSeconds(),                 //秒
-   "q+" : Math.floor((this.getMonth()+3)/3), //季度
-   "S"  : this.getMilliseconds()             //毫秒
+  "M+" : this.getMonth()+1,            //月份
+  "d+" : this.getDate(),              //日
+  "h+" : this.getHours(),             //小时
+  "m+" : this.getMinutes(),            //分
+  "s+" : this.getSeconds(),            //秒
+  "q+" : Math.floor((this.getMonth()+3)/3), //季度
+  "S"  : this.getMilliseconds()         //毫秒
   };
   if (/(y+)/.test(fmt)) fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
   for(var k in o) {
-    if(new RegExp("("+ k +")").test(fmt)) {
-      if (k=="S") {
-      	fmt = fmt.replace("S", ("00"+o["S"]).substr(("00"+o["S"]).length-3));
-      } else {
-        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length))); 
-      }
+   if(new RegExp("("+ k +")").test(fmt)) {
+    if (k=="S") {
+    	fmt = fmt.replace("S", ("00"+o["S"]).substr(("00"+o["S"]).length-3));
+    } else {
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length))); 
     }
+   }
   }
   return fmt;
 }
@@ -221,3 +221,16 @@ Array.prototype.removeByIndex = function (i){
 Array.prototype.insertAt = function (index, item) {
   this.splice(index, 0, item);
 };
+
+//ref https://github.com/WICG/EventListenerOptions/pull/30
+function isPassive() {
+  var supportsPassiveOption = false;
+  try {
+    addEventListener("test", null, Object.defineProperty({}, 'passive', {
+      get: function () {
+         supportsPassiveOption = true;
+      }
+    }));
+  } catch(e) {}
+  return supportsPassiveOption;
+}

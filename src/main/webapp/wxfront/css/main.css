@@ -43,55 +43,55 @@ icon-search:before{content:"\e61d"}
 .item-title {margin:0.5rem 0;}
 .content { background-color:#FFFFFF;}
 .item_inner {
-	width:85%;
-	margin-left:7.5%;
-	margin-right:7.5%;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #ebebeb;
+  width:85%;
+  margin-left:7.5%;
+  margin-right:7.5%;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #ebebeb;
 }
 .item_inner input,.item_sflr input {width:100%;margin:0.7rem 0; border:1px solid #FFFFFF;padding:0;font-size:1rem;}
 .item_inner-2 {
-	width:100%;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #ebebeb;
+  width:100%;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #ebebeb;
 }
 .item_inner-2 input{margin:0.9rem 1.2rem; border:1px solid #FFFFFF;padding:0;font-size:1rem;}
 
 .item-zhc {
     border-radius:4px;
-	width:85%;
-	margin-left:7.5%;
-	margin-right:7.5%;
-	background-color:#19a6ee;
-	text-align:center;
-	font-size:1.1rem;
-	color:#FFFFFF;
-	height:2.5rem;
-	line-height:2.5rem;
-	margin-top:3rem;
+  width:85%;
+  margin-left:7.5%;
+  margin-right:7.5%;
+  background-color:#19a6ee;
+  text-align:center;
+  font-size:1.1rem;
+  color:#FFFFFF;
+  height:2.5rem;
+  line-height:2.5rem;
+  margin-top:3rem;
 }
 .col-50 {
     border-radius:4px;
-	margin-left:7.5%;
-	margin-right:4%;
-	background-color:#19a6ee;
-	text-align:center;
-	font-size:1.1rem;
-	color:#FFFFFF;
-	height:2.5rem;
-	line-height:2.5rem;
-	margin-top:3rem;
+  margin-left:7.5%;
+  margin-right:4%;
+  background-color:#19a6ee;
+  text-align:center;
+  font-size:1.1rem;
+  color:#FFFFFF;
+  height:2.5rem;
+  line-height:2.5rem;
+  margin-top:3rem;
 }
 
 .col-item-pic img {width:3rem;height:3rem;border-radius:3rem}
 .item-my {width:90%;margin-left:5%;margin-right:5%;font-size:1.1rem;}
 .item-yhm{
-	width:100%;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #ececec;
+  width:100%;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #ececec;
 }
 .row .col-item-pic {width:3rem;margin-top:0.6rem;margin-bottom:0.4rem;font-size:1rem;}
 .row .col-item-pic-2 {margin-left:1rem;margin-top:0.7rem;color:#393939;font-size:1rem;}
@@ -102,12 +102,12 @@ icon-search:before{content:"\e61d"}
 .row .col-xm-2 {color:#838383;text-align:right;margin-top:.7rem;margin-bottom:.6rem;width:45%;font-size:1rem;} 
 .fa-angle-right {color:#adadad;padding-top:.75rem;}
 .item_sflr {
-	margin-left:5%;
-	width:95%;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #ebebeb;
-	
+  margin-left:5%;
+  width:95%;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #ebebeb;
+  
 }
 .col-title {line-height:2.5rem;color:#393939;padding-top:.3rem;padding-bottom:.3rem;}
 .col-title-2 {width:3rem;}
@@ -141,7 +141,7 @@ icon-search:before{content:"\e61d"}
 .item_sflr textarea { border:1px solid #fff;width:92%;}
 .row-link a{color:#FFFFFF; display:block;width:100%;}
 .row-link {
-	margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 .item-name,.sftime {color:#b8b8b8;font-size:.8rem;margin-top:.6rem;margin-bottom:0.5rem;line-height:1.2rem;}
 .item-name span {border:1px solid #19a6ee;border-radius:5px;width:5rem;heigth:2rem;line-height:2rem;padding:.2rem .5rem;color:#19a6ee;}
@@ -164,3 +164,11 @@ icon-search:before{content:"\e61d"}
     -webkit-appearance: none; /* 方法2 */
 }
 .inputdate input { background-color:#fff;}
+
+.scrollItem {
+  z-index:100;
+  background: #fff;
+  width:100%;
+  padding-left:5%;
+  border-bottom: solid 0.8px #f8f8f8;
+}
