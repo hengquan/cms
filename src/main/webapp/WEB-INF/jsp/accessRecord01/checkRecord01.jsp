@@ -229,7 +229,7 @@ rgba
 									<td style="width: 320px;">性别：<input name="sex"
 										type="text" value="${accessRecord01.custsex }" style="width: 10rem" >
 									</td>
-									<td style="width: 270px">置业顾问：贺渝测试</td>
+									<td style="width: 270px">置业顾问：${name }</td>
 								</tr>
 
 								<tr>
@@ -404,9 +404,10 @@ rgba
 							<input type="button" onclick="tuihui('4')" value="退回"
 								class="btn-4"
 								style="width: 100px; height: 30px; font-weight: bold; font-family: &amp; #39; 微软雅黑 &amp;#39;; margin-left: 10px">
-							<input type="button" onclick="subCheckStateMessage('3')" value="作废"
+							<!-- <input type="button" onclick="subCheckStateMessage('3')" value="作废"
 								class="btn-4"
 								style="width: 100px; height: 30px; font-weight: bold; font-family: &amp; #39; 微软雅黑 &amp;#39;; margin-left: 10px">
+						 -->
 						</span>
 
 

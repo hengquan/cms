@@ -33,10 +33,10 @@ function getMsg(url) {
   if (_url.indexOf("?")==-1) return null;
   _url=_url.substring(_url.indexOf("?")+1);
   if (_url.indexOf("=")!=-1) {
-	  _url=_url.substring(_url.indexOf("=")+1);
-	  if (_url.indexOf("&")!=-1) _url=_url.substr(0,_url.indexOf("&"));
-	  _url=decodeURIComponent(_url);
-	  return _url;
+    _url=_url.substring(_url.indexOf("=")+1);
+    if (_url.indexOf("&")!=-1) _url=_url.substr(0,_url.indexOf("&"));
+    _url=decodeURIComponent(_url);
+    return _url;
   }
   if (_url=='0001') return "您的账号已作废";
   if (_url=='0002') return "您的账号正在审核中<br/>请耐心等待";

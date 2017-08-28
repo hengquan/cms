@@ -74,6 +74,14 @@ public class ProjUserRoleServiceImpl implements ProjUserRoleService {
 	public void deleteByProjIdAndUserId(Map<String, Object> datamsg) {
 		dao.deleteByProjIdAndUserId(datamsg);
 	}
+	@Override
+	public List<Map<String, Object>> selectByProjId(String projId) {
+		return dao.selectByProjId(projId);
+	}
+	@Override
+	public List<Map<String, Object>> selectByProjIdAndUserId(Map<String, Object> result) {
+		return dao.selectByProjIdAndUserId(result);
+	}
 
 
 }

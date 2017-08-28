@@ -96,4 +96,8 @@ public interface ProjUserRoleService {
 
 	public void deleteByProjIdAndUserId(Map<String, Object> datamsg);
 
+	public List<Map<String, Object>> selectByProjId(String projId);
+
+	public List<Map<String, Object>> selectByProjIdAndUserId(Map<String, Object> result);
+
 }

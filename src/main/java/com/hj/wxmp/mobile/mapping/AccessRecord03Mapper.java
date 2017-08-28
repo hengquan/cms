@@ -27,4 +27,6 @@ public interface AccessRecord03Mapper {
 	Integer findByCustIdCount(Map<String,Object> data);
 
 	List<AccessRecord03> selectByUserId(Map<String, Object> datamsg);
+
+	Integer selectMessageCount(Map<String, Object> map);
 }

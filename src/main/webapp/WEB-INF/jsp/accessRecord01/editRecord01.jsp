@@ -254,7 +254,7 @@ rgba
 										<input name="custsex" type="radio" value="002001-男" _text="男" style="width: 1rem" <c:if test="${accessRecord01.custsex == '男' }">checked</c:if>>男 
 										<input name="custsex" type="radio" value="002001-女" _text="女" style="width: 1rem" <c:if test="${accessRecord01.custsex == '女' }">checked</c:if>>女
 									</td>
-									<td style="width: 270px">置业顾问：贺渝测试</td>
+									<td style="width: 270px">置业顾问：${name }</td>
 								</tr>
 
 								<tr>
@@ -338,15 +338,15 @@ rgba
 										style="cursor: pointer; margin-left: 10px; color: #0000FF; text-decoration: none">清空</a>
 									</td>
 
-									<td>有无购房资格：<select name="zige">
+									<td>有无购房资格：<select name="buyqualify">
 											<option value="0">请选择</option>
-											<option value="有">有</option>
-											<option value="无（换产权名解决）">无（换产权名解决）</option>
-											<option value="无（房产过户解决）">无（房产过户解决）</option>
-											<option value="无（离婚解决）">无（离婚解决）</option>
-											<option value="无（公司产权解决）">无（公司产权解决）</option>
-											<option value="无（公司产权解决）">无（其它解决）</option>
-											<option value="无法了解" style="color: red">无法了解</option>
+											<option <c:if test="${accessRecord01.buyqualify == '有'}">selected</c:if> value="004001-有">有</option>
+											<option <c:if test="${accessRecord01.buyqualify == '无(换产权名解决)'}">selected</c:if> value="004002-无(换产权名解决)">无（换产权名解决）</option>
+											<option <c:if test="${accessRecord01.buyqualify == '无(房产过户解决)'}">selected</c:if> value="004003-无(房产过户解决)">无（房产过户解决）</option>
+											<option <c:if test="${accessRecord01.buyqualify == '无(离婚解决)'}">selected</c:if> value="004004-无(离婚解决)">无（离婚解决）</option>
+											<option <c:if test="${accessRecord01.buyqualify == '无(公司产权解决)'}">selected</c:if> value="004005-无(公司产权解决)">无（公司产权解决）</option>
+											<option <c:if test="${accessRecord01.buyqualify == '无(其它解决)'}">selected</c:if> value="004006-无(其它解决)">无（其它解决）</option>
+											<option <c:if test="${accessRecord01.buyqualify == '无法了解'}">selected</c:if> value="004000-无法了解" style="color: red">无法了解</option>
 									</select>
 									</td>
 								</tr>

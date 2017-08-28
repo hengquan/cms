@@ -1243,7 +1243,7 @@ function initData() {
     if (_TYPE=='update') {
       $(document).attr("title","客户数据中心-首访信息修改");
       //获得本条记录消息信息
-      var recordId=getUrlParam(window.location.href, 'recordId');
+      recordId=getUrlParam(window.location.href, 'recordId');
       if (!recordId) window.location.href=_URL_BASE+"/wxfront/err.html?3000=无记录Id";
       else {
         var _data={};
@@ -1254,7 +1254,7 @@ function initData() {
           success: function(json) {
             if (json.msg=='100') {
               fillData(json.data);
-              getAudia(recordId);
+              getAudit(recordId);
               $("#step1").show();
             } else {
               window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得首访录入信息";
@@ -1269,8 +1269,8 @@ function initData() {
     }
   }
 }
-function getAudia(id) {
-  var url=_URL_BASE+"/wx/api/getCheckReason?recordType=1&arId="+id;
+function getAudit(id) {
+  var url=_URL_BASE+"/wx/api/getCheckReason?recordType=1&recordId="+id;
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
@@ -1292,10 +1292,10 @@ function cleanData() {
   str+=((100+(nt.getMonth()+1))+"").substr(1)+"-";
   str+=((100+nt.getDate())+"").substr(1);
   $("input[name='curTime']").val(str);
+$("input[name='firstTime']").val(str);
   //清除所有数据
   $("input[name='custName']").val("");
   $("input[name='custPhone']").val("");
-  $("input[name='firstTime']").val("");
   clean('sex');
   clean('ageGroup');
   cleanArea('localResidence');
@@ -1343,6 +1343,10 @@ function cleanData() {
 
 //翻页切换
 function step1Next() {//要判断是否应该进行首访录入
+  if (userInfo.roleName=='项目管理人') {
+    window.location.href=_URL_BASE+"/wxfront/err.html?7000=作为项目管理人<br/>您无需录入首访记录！";
+    return;
+  }
   var id;
   if ($.trim($("#localRedisId").val())) {
     id=$("#localRedisVal").val();
@@ -1388,7 +1392,7 @@ function step1Next() {//要判断是否应该进行首访录入
         } else if (json.msg=='100') { //有就已存在
           if (json.authorId==_uUserId) {//转复方
             alert("此用户已经到访过，将转入复访录入");
-            window.location.href=_URL_BASE+"/wxfront/input/record02.html?type=add&custName="+encodeURIComponent(_data.custName)+"&custPhone="+encodeURIComponent(_data.custPhone)+"&projId="+encodeURIComponent(_data.projId);
+            window.location.href=_URL_BASE+"/wxfront/record02/record02Input.html?type=add&custName="+encodeURIComponent(_data.custName)+"&custPhone="+encodeURIComponent(_data.custPhone)+"&projId="+encodeURIComponent(_data.projId);
           } else {
             window.location.href=_URL_BASE+"/wxfront/err.html?4000=此客户已由【"+json.authorName+"】进行接待<br/>您无权录入！";
             return;
@@ -1535,7 +1539,7 @@ function commitData() {
             cleanData();
             step2Prev();
           } else {
-            window.location.href=_URL_BASE+"/wxfront/search/record01.html";
+            window.location.href=_URL_BASE+"/wxfront/record01/record01Search.html";
           }
         }
       },
@@ -1546,6 +1550,7 @@ function commitData() {
     });
   }
   function commitUpdate(_data) {
+    _data.id=recordId;
     var url=_URL_BASE+"/wx/api/updateRecord01";
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
@@ -1559,7 +1564,7 @@ function commitData() {
           alert("修改首访记录错误！");
         } else {
           alert("修改首访记录成功!");
-          window.location.href=_URL_BASE+"/wxfront/search/record01.html";
+          window.location.href=_URL_BASE+"/wxfront/record01/record01Search.html";
         }
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {

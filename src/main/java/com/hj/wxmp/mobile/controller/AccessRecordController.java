@@ -134,6 +134,9 @@ public class AccessRecordController extends ControllerBase {
 			}
 			String id = getTrimParameter("id");
 			AccessRecord01 accessRecord01 = accessRecord01Service.findById(id);
+			String authorid = accessRecord01.getAuthorid();
+			UserInfo userInfo = userInfoService.findById(authorid);
+			model.addAttribute("name", userInfo.getRealname());
 			model.addAttribute("accessRecord01", accessRecord01);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -302,6 +305,9 @@ public class AccessRecordController extends ControllerBase {
 			String id = getTrimParameter("id");
 			AccessRecord01 accessRecord01 = accessRecord01Service.findById(id);
 			setAccessRecord01Data(accessRecord01);
+			String authorid = accessRecord01.getAuthorid();
+			UserInfo userInfo = userInfoService.findById(authorid);
+			model.addAttribute("name", userInfo.getRealname());
 			model.addAttribute("accessRecord01", accessRecord01);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -327,6 +333,9 @@ public class AccessRecordController extends ControllerBase {
 		try {
 			String id = getTrimParameter("id");
 			AccessRecord01 accessRecord01 = accessRecord01Service.findById(id);
+			String authorid = accessRecord01.getAuthorid();
+			UserInfo userInfo = userInfoService.findById(authorid);
+			model.addAttribute("name", userInfo.getRealname());
 			setAccessRecord01Data(accessRecord01);
 			model.addAttribute("accessRecord01", accessRecord01);
 		} catch (Exception e) {
@@ -372,21 +381,38 @@ public class AccessRecordController extends ControllerBase {
 	
 	//复访审核列表
 	@RequestMapping(value = "/accessRecord/recheckRecord")
-	public String recheckRecord(ModelMap model) {
+	public String recheckRecord(@RequestParam(value="nowPage",defaultValue="1") int nowPage,
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize,ModelMap model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String pageUrl = "accessRecord02/list";
+		//纪录总数
+		Integer listMessgeCount = 0;
+		String userName = getTrimParameter("userName");
+		String state = getTrimParameter("state");
+		map.put("state", state);
+		Integer start = ((nowPage - 1) * pageSize);
+		map.put("page", start);
+		map.put("pageSize", pageSize);
 		try {
-			String userName = getTrimParameter("userName");
 			if(userName == null){
 				map.put("userName", "");
 			}else{
 				map.put("userName", userName);
 			}
-			String state = getTrimParameter("state");
-			map.put("state", state);
 			// 获取所有未审核首访记录
-			List<Map<String,Object>> hisFirstRecordMsg = accessRecord02Service.selectMessage(map);
-			model.addAttribute("hisFirstRecordMsg", hisFirstRecordMsg);
+			List<Map<String,Object>> accessRecord02s = accessRecord02Service.selectMessage(map);
+			//所有信息数量
+			listMessgeCount = accessRecord02Service.selectMessageCount(map);
+		 	Integer totalCount = listMessgeCount%pageSize;
+			Integer totalPageNum = 0;
+			if(totalCount==0){
+				totalPageNum = listMessgeCount/pageSize;
+			}else{
+				totalPageNum = (listMessgeCount/pageSize)+1;
+			}
+			model.put("nowPage", nowPage);
+			model.put("totalPageNum", totalPageNum);
+			model.addAttribute("accessRecord02s", accessRecord02s);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -443,7 +469,7 @@ public class AccessRecordController extends ControllerBase {
 	//复访页面详情
 	@RequestMapping(value = "/accessRecord/recheckRecordDetails")
 	public String recheckRecordDetails(ModelMap model){
-		String pageUrl = "accessRecord02/msg";
+		String pageUrl = "accessRecord02/editRecord02";
 		try {
 			String id = getTrimParameter("id");
 			AccessRecord02 accessRecord02 = accessRecord02Service.findById(id);
@@ -490,20 +516,37 @@ public class AccessRecordController extends ControllerBase {
 	
 	//成交审核列表
 	@RequestMapping(value = "/accessRecord/knockdownRecord")
-	public String knockdownRecord(ModelMap model) {
+	public String knockdownRecord(@RequestParam(value="nowPage",defaultValue="1") int nowPage,
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize,ModelMap model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String pageUrl = "accessRecord03/list";
+		//纪录总数
+		Integer listMessgeCount = 0;
+		String userName = getTrimParameter("userName");
+		String state = getTrimParameter("state");
+		map.put("state", state);
+		Integer start = ((nowPage - 1) * pageSize);
+		map.put("page", start);
+		map.put("pageSize", pageSize);
 		try {
-			String userName = getTrimParameter("userName");
 			if(userName == null){
 				map.put("userName", "");
 			}else{
 				map.put("userName", userName);
 			}
-			String state = getTrimParameter("state");
-			map.put("state", state);
 			// 获取所有未审核首访记录
 			List<Map<String,Object>> hisFirstRecordMsg = accessRecord03Service.selectMessage(map);
+			//总记录数
+			listMessgeCount = accessRecord03Service.selectMessageCount(map);
+		 	Integer totalCount = listMessgeCount%pageSize;
+			Integer totalPageNum = 0;
+			if(totalCount==0){
+				totalPageNum = listMessgeCount/pageSize;
+			}else{
+				totalPageNum = (listMessgeCount/pageSize)+1;
+			}
+			model.put("nowPage", nowPage);
+			model.put("totalPageNum", totalPageNum);
 			model.addAttribute("hisFirstRecordMsg", hisFirstRecordMsg);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -561,7 +604,7 @@ public class AccessRecordController extends ControllerBase {
 	//成交页面详情
 	@RequestMapping(value = "/accessRecord/knockdownRecordDetails")
 	public String knockdownRecordDetails(ModelMap model){
-		String pageUrl = "accessRecord03/msg";
+		String pageUrl = "accessRecord03/editRecord03";
 		try {
 			String id = getTrimParameter("id");
 			AccessRecord03 accessRecord03 = accessRecord03Service.findById(id);

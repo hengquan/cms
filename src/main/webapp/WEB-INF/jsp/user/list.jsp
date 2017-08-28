@@ -93,8 +93,8 @@
 										<td class="hidden-phone">${u.mainphonenum}</td>
 										<td><button type="button" class="btn btn-send"
 													onclick="sellAllProject('${u.id}')">查看所属项目</button>
-											<button type="button" class="btn btn-send"
-													onclick="seeAllKeHu('${u.id}')">查看所有用户</button>
+											<%-- <button type="button" class="btn btn-send"
+													onclick="seeAllKeHu('${u.id}')">查看所有用户</button> --%>
 											<button type="button" class="btn btn-send"
 													onclick="updateUserMsg('${u.id}','${u.userRole.role_name}')">更改用户信息</button>
 										</td>

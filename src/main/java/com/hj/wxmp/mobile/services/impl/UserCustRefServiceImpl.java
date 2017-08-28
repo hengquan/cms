@@ -21,13 +21,11 @@ public class UserCustRefServiceImpl implements UserCustRefService {
 	private UserCustRefMapper dao;
 	@Override
 	public boolean insert(UserCustRef entity) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		return dao.insertSelective(entity)>0?true:false;
 	}
 	@Override
 	public boolean update(UserCustRef entity) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		return dao.updateByPrimaryKey(entity)>0?true:false;
 	}
 	@Override
 	public List<UserCustRef> listEntity(Map<String, Object> map) throws Exception {
@@ -36,8 +34,7 @@ public class UserCustRefServiceImpl implements UserCustRefService {
 	}
 	@Override
 	public void delete(UserCustRef entity) throws Exception {
-		// TODO Auto-generated method stub
-		
+		dao.deleteByPrimaryKey(entity.getId());
 	}
 	@Override
 	public UserCustRef saveEntity(UserCustRef entity) throws Exception {

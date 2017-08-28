@@ -25,6 +25,8 @@
     <result column="captilPrepSection" property="captilprepsection" jdbcType="VARCHAR" />
     <result column="childrenNum" property="childrennum" jdbcType="INTEGER" />
     <result column="childAgeGroup" property="childagegroup" jdbcType="VARCHAR" />
+    <result column="childAvocations" property="childavocations" jdbcType="VARCHAR" />
+    <result column="childAvocationsDesc" property="childavocationsdesc" jdbcType="VARCHAR" />
     <result column="schoolType" property="schooltype" jdbcType="VARCHAR" />
     <result column="schoolName" property="schoolname" jdbcType="VARCHAR" />
     <result column="livingRadius" property="livingradius" jdbcType="VARCHAR" />
@@ -51,6 +53,7 @@
     <result column="addressMail" property="addressmail" jdbcType="VARCHAR" />
     <result column="houseRegiType" property="houseregitype" jdbcType="VARCHAR" />
     <result column="custScore" property="custscore" jdbcType="VARCHAR" />
+    <result column="livingStatus" property="livingstatus" jdbcType="VARCHAR" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -69,11 +72,12 @@
     id, custName, phoneNum, custSex, ageGroup, buyQualify, localResidence, localWorkArea, 
     outResidence, outWorkArea, familyStatus, trafficType, workIndustry, enterpriseType, 
     realtyProductType, attentAcreage, priceSection, buyPurpose, estCustWorth, investType, 
-    captilPrepSection, childrenNum, childAgeGroup, schoolType, schoolName, livingRadius, 
-    communityName, liveAcreage, loanStatus, fulltimeWifeFlag, outEduWill, nannyFlag, 
-    outExperFlag, outExperCity, childOutExperFlag, childOutExperCity, petFlag, houseCount, 
-    carFamilyCount, carBrand, carTotalPricce, attentWX, appNames, avocations, loveActivation, 
-    freeTimeSection, addressMail, houseRegiType, custScore, cTime, lmTime
+    captilPrepSection, childrenNum, childAgeGroup, childAvocations, childAvocationsDesc, 
+    schoolType, schoolName, livingRadius, communityName, liveAcreage, loanStatus, fulltimeWifeFlag, 
+    outEduWill, nannyFlag, outExperFlag, outExperCity, childOutExperFlag, childOutExperCity, 
+    petFlag, houseCount, carFamilyCount, carBrand, carTotalPricce, attentWX, appNames, 
+    avocations, loveActivation, freeTimeSection, addressMail, houseRegiType, custScore, 
+    livingStatus, cTime, lmTime
   </sql>
   <sql id="Blob_Column_List" >
     trafficTypeDesc, workIndustryDesc, enterpriseTypeDesc, realtyProductTypeDesc, buyPurposeDesc, 
@@ -99,16 +103,17 @@
       workIndustry, enterpriseType, realtyProductType, 
       attentAcreage, priceSection, buyPurpose, 
       estCustWorth, investType, captilPrepSection, 
-      childrenNum, childAgeGroup, schoolType, 
-      schoolName, livingRadius, communityName, 
-      liveAcreage, loanStatus, fulltimeWifeFlag, 
-      outEduWill, nannyFlag, outExperFlag, 
-      outExperCity, childOutExperFlag, childOutExperCity, 
-      petFlag, houseCount, carFamilyCount, 
-      carBrand, carTotalPricce, attentWX, 
-      appNames, avocations, loveActivation, 
-      freeTimeSection, addressMail, houseRegiType, 
-      custScore, cTime, lmTime, 
+      childrenNum, childAgeGroup, childAvocations, 
+      childAvocationsDesc, schoolType, schoolName, 
+      livingRadius, communityName, liveAcreage, 
+      loanStatus, fulltimeWifeFlag, outEduWill, 
+      nannyFlag, outExperFlag, outExperCity, 
+      childOutExperFlag, childOutExperCity, petFlag, 
+      houseCount, carFamilyCount, carBrand, 
+      carTotalPricce, attentWX, appNames, 
+      avocations, loveActivation, freeTimeSection, 
+      addressMail, houseRegiType, custScore, 
+      livingStatus, cTime, lmTime, 
       trafficTypeDesc, workIndustryDesc, 
       enterpriseTypeDesc, realtyProductTypeDesc, 
       buyPurposeDesc, investTypeDesc, 
@@ -121,16 +126,17 @@
       #{workindustry,jdbcType=VARCHAR}, #{enterprisetype,jdbcType=VARCHAR}, #{realtyproducttype,jdbcType=VARCHAR}, 
       #{attentacreage,jdbcType=VARCHAR}, #{pricesection,jdbcType=VARCHAR}, #{buypurpose,jdbcType=VARCHAR}, 
       #{estcustworth,jdbcType=VARCHAR}, #{investtype,jdbcType=VARCHAR}, #{captilprepsection,jdbcType=VARCHAR}, 
-      #{childrennum,jdbcType=INTEGER}, #{childagegroup,jdbcType=VARCHAR}, #{schooltype,jdbcType=VARCHAR}, 
-      #{schoolname,jdbcType=VARCHAR}, #{livingradius,jdbcType=VARCHAR}, #{communityname,jdbcType=VARCHAR}, 
-      #{liveacreage,jdbcType=VARCHAR}, #{loanstatus,jdbcType=VARCHAR}, #{fulltimewifeflag,jdbcType=INTEGER}, 
-      #{outeduwill,jdbcType=INTEGER}, #{nannyflag,jdbcType=INTEGER}, #{outexperflag,jdbcType=INTEGER}, 
-      #{outexpercity,jdbcType=VARCHAR}, #{childoutexperflag,jdbcType=INTEGER}, #{childoutexpercity,jdbcType=VARCHAR}, 
-      #{petflag,jdbcType=INTEGER}, #{housecount,jdbcType=INTEGER}, #{carfamilycount,jdbcType=INTEGER}, 
-      #{carbrand,jdbcType=VARCHAR}, #{cartotalpricce,jdbcType=VARCHAR}, #{attentwx,jdbcType=VARCHAR}, 
-      #{appnames,jdbcType=VARCHAR}, #{avocations,jdbcType=VARCHAR}, #{loveactivation,jdbcType=VARCHAR}, 
-      #{freetimesection,jdbcType=VARCHAR}, #{addressmail,jdbcType=VARCHAR}, #{houseregitype,jdbcType=VARCHAR}, 
-      #{custscore,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, #{lmtime,jdbcType=TIMESTAMP}, 
+      #{childrennum,jdbcType=INTEGER}, #{childagegroup,jdbcType=VARCHAR}, #{childavocations,jdbcType=VARCHAR}, 
+      #{childavocationsdesc,jdbcType=VARCHAR}, #{schooltype,jdbcType=VARCHAR}, #{schoolname,jdbcType=VARCHAR}, 
+      #{livingradius,jdbcType=VARCHAR}, #{communityname,jdbcType=VARCHAR}, #{liveacreage,jdbcType=VARCHAR}, 
+      #{loanstatus,jdbcType=VARCHAR}, #{fulltimewifeflag,jdbcType=INTEGER}, #{outeduwill,jdbcType=INTEGER}, 
+      #{nannyflag,jdbcType=INTEGER}, #{outexperflag,jdbcType=INTEGER}, #{outexpercity,jdbcType=VARCHAR}, 
+      #{childoutexperflag,jdbcType=INTEGER}, #{childoutexpercity,jdbcType=VARCHAR}, #{petflag,jdbcType=INTEGER}, 
+      #{housecount,jdbcType=INTEGER}, #{carfamilycount,jdbcType=INTEGER}, #{carbrand,jdbcType=VARCHAR}, 
+      #{cartotalpricce,jdbcType=VARCHAR}, #{attentwx,jdbcType=VARCHAR}, #{appnames,jdbcType=VARCHAR}, 
+      #{avocations,jdbcType=VARCHAR}, #{loveactivation,jdbcType=VARCHAR}, #{freetimesection,jdbcType=VARCHAR}, 
+      #{addressmail,jdbcType=VARCHAR}, #{houseregitype,jdbcType=VARCHAR}, #{custscore,jdbcType=VARCHAR}, 
+      #{livingstatus,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, #{lmtime,jdbcType=TIMESTAMP}, 
       #{traffictypedesc,jdbcType=LONGVARCHAR}, #{workindustrydesc,jdbcType=LONGVARCHAR}, 
       #{enterprisetypedesc,jdbcType=LONGVARCHAR}, #{realtyproducttypedesc,jdbcType=LONGVARCHAR}, 
       #{buypurposedesc,jdbcType=LONGVARCHAR}, #{investtypedesc,jdbcType=LONGVARCHAR}, 
@@ -209,6 +215,12 @@
       <if test="childagegroup != null" >
         childAgeGroup,
       </if>
+      <if test="childavocations != null" >
+        childAvocations,
+      </if>
+      <if test="childavocationsdesc != null" >
+        childAvocationsDesc,
+      </if>
       <if test="schooltype != null" >
         schoolType,
       </if>
@@ -286,6 +298,9 @@
       </if>
       <if test="custscore != null" >
         custScore,
+      </if>
+      <if test="livingstatus != null" >
+        livingStatus,
       </if>
       <if test="ctime != null" >
         cTime,
@@ -391,6 +406,12 @@
       <if test="childagegroup != null" >
         #{childagegroup,jdbcType=VARCHAR},
       </if>
+      <if test="childavocations != null" >
+        #{childavocations,jdbcType=VARCHAR},
+      </if>
+      <if test="childavocationsdesc != null" >
+        #{childavocationsdesc,jdbcType=VARCHAR},
+      </if>
       <if test="schooltype != null" >
         #{schooltype,jdbcType=VARCHAR},
       </if>
@@ -468,6 +489,9 @@
       </if>
       <if test="custscore != null" >
         #{custscore,jdbcType=VARCHAR},
+      </if>
+      <if test="livingstatus != null" >
+        #{livingstatus,jdbcType=VARCHAR},
       </if>
       <if test="ctime != null" >
         #{ctime,jdbcType=TIMESTAMP},
@@ -573,6 +597,12 @@
       <if test="childagegroup != null" >
         childAgeGroup = #{childagegroup,jdbcType=VARCHAR},
       </if>
+      <if test="childavocations != null" >
+        childAvocations = #{childavocations,jdbcType=VARCHAR},
+      </if>
+      <if test="childavocationsdesc != null" >
+        childAvocationsDesc = #{childavocationsdesc,jdbcType=VARCHAR},
+      </if>
       <if test="schooltype != null" >
         schoolType = #{schooltype,jdbcType=VARCHAR},
       </if>
@@ -651,6 +681,9 @@
       <if test="custscore != null" >
         custScore = #{custscore,jdbcType=VARCHAR},
       </if>
+      <if test="livingstatus != null" >
+        livingStatus = #{livingstatus,jdbcType=VARCHAR},
+      </if>
       <if test="ctime != null" >
         cTime = #{ctime,jdbcType=TIMESTAMP},
       </if>
@@ -711,6 +744,8 @@
       captilPrepSection = #{captilprepsection,jdbcType=VARCHAR},
       childrenNum = #{childrennum,jdbcType=INTEGER},
       childAgeGroup = #{childagegroup,jdbcType=VARCHAR},
+      childAvocations = #{childavocations,jdbcType=VARCHAR},
+      childAvocationsDesc = #{childavocationsdesc,jdbcType=VARCHAR},
       schoolType = #{schooltype,jdbcType=VARCHAR},
       schoolName = #{schoolname,jdbcType=VARCHAR},
       livingRadius = #{livingradius,jdbcType=VARCHAR},
@@ -737,6 +772,7 @@
       addressMail = #{addressmail,jdbcType=VARCHAR},
       houseRegiType = #{houseregitype,jdbcType=VARCHAR},
       custScore = #{custscore,jdbcType=VARCHAR},
+      livingStatus = #{livingstatus,jdbcType=VARCHAR},
       cTime = #{ctime,jdbcType=TIMESTAMP},
       lmTime = #{lmtime,jdbcType=TIMESTAMP},
       trafficTypeDesc = #{traffictypedesc,jdbcType=LONGVARCHAR},
@@ -774,6 +810,8 @@
       captilPrepSection = #{captilprepsection,jdbcType=VARCHAR},
       childrenNum = #{childrennum,jdbcType=INTEGER},
       childAgeGroup = #{childagegroup,jdbcType=VARCHAR},
+      childAvocations = #{childavocations,jdbcType=VARCHAR},
+      childAvocationsDesc = #{childavocationsdesc,jdbcType=VARCHAR},
       schoolType = #{schooltype,jdbcType=VARCHAR},
       schoolName = #{schoolname,jdbcType=VARCHAR},
       livingRadius = #{livingradius,jdbcType=VARCHAR},
@@ -800,6 +838,7 @@
       addressMail = #{addressmail,jdbcType=VARCHAR},
       houseRegiType = #{houseregitype,jdbcType=VARCHAR},
       custScore = #{custscore,jdbcType=VARCHAR},
+      livingStatus = #{livingstatus,jdbcType=VARCHAR},
       cTime = #{ctime,jdbcType=TIMESTAMP},
       lmTime = #{lmtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
