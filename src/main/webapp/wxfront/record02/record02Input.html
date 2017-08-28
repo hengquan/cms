@@ -24,8 +24,35 @@
 <div class="container" id="step1" style="display:none">
   <div class="item_sflr row">
     <div class="col-title col-title-4">置业顾问</div>
-    <div class="col-input-4">
-      <input type="text" placeholder="" name="user" value="" readonly/>
+    <a href="" data-toggle="modal" data-target="#userModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="user">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="userModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">置业顾问</h4>
+        </div>
+        <div class="user-scroll modal-body">
+          <label><input type="radio" name="user" value="002001-2" _text="2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
+          <label><input type="radio" name="user" value="002001-2" _text="池如霞2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
+          <label><input type="radio" name="user" value="002001-2" _text="池如霞2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
+          <label><input type="radio" name="user" value="002001-2" _text="2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
+          <label><input type="radio" name="user" value="002001-2" _text="2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
+          <label><input type="radio" name="user" value="002001-2" _text="2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
+          <label><input type="radio" name="user" value="002001-2" _text="2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
+          <label><input type="radio" name="user" value="002001-2" _text="2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
+          <label><input type="radio" name="user" value="002001-2" _text="2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
+</div>
+        <div class="modal-footer" style="margin-top:1.2rem">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanUser()" id="cleanUserBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
     </div>
   </div>
   <div class="item_sflr row">
@@ -58,7 +85,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span>&times</span></button>
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
           <h4 class="modal-title">项目选择</h4>
         </div>
         <div class="modal-body" id="projData">
@@ -287,7 +314,7 @@
 </div>
 <div class="item_sflr row">
   <div class="col-title col-title-6">在读学校名称</div>
-    <div class="col-input-6"><input type="text" placeholder="" name="schoolName"/></div>
+    <div class="col-input-6"><input type="text" placeholder="" name="custName"/></div>
   </div>
 <div class="item_sflr row">
     <div class="col-title col-title-7">孩子的课余爱好</div>
@@ -318,10 +345,6 @@
   </div>
 </div>
 </div>
-<div class="item_sflr row">
-  <div class="col-title col-title-6">在读学校名称</div>
-    <div class="col-input-6"><input type="text" placeholder="" name="custName"/></div>
-  </div>
 <div class="item_sflr row">
     <div class="col-title col-title-6">国际教育意愿</div>
   <a href="" data-toggle="modal" data-target="#outEduWillModal">
@@ -432,7 +455,7 @@
    <div class="modal-body">
      <label><input type="checkbox" name="livingRadius" value="022001-二环以内" _text="二环以内" @click="clickLivingRadiusCheck(1)"/> 二环以内 </label>
      <label><input type="checkbox" name="livingRadius" value="022002-二环-三环" _text="二环-三环" @click="clickLivingRadiusCheck(1)"/> 二环-三环 </label>
-     <label><input type="checkbox" name="livingRadius" value="022003-三环-四环 " _text="三环-四环 " @click="clickLivingRadiusCheck(1)"/> 三环-四环  </label>
+     <label><input type="checkbox" name="livingRadius" value="022003-三环-四环 " _text="三环-四环 " @click="clickLivingRadiusCheck(1)"/> 三环-四环 </label>
      <label><input type="checkbox" name="livingRadius" value="022004-四环-五环" _text="四环-五环" @click="clickLivingRadiusCheck(1)"/> 四环-五环 </label>
      <label><input type="checkbox" name="livingRadius" value="022005-五环以外" _text="五环以外" @click="clickLivingRadiusCheck(1)"/> 五环以外 </label>
      <label class="wflj"><input type="checkbox" name="livingRadius" value="022000-无法了解" _text="无法了解" @click="clickLivingRadiusCheck(2)"/> 无法了解 </label>
@@ -448,7 +471,7 @@
   <div class="item_sflr row">
     <div class="col-title col-title-7">现居住社区名称</div>
     <div class="col-input-7">
-      <input type="text" placeholder="" name="communityName"/>
+      <input type="text" placeholder="" name="custName"/>
     </div>
   </div>
   <div class="item_sflr row">

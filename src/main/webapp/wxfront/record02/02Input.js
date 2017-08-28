@@ -2,6 +2,7 @@ var _uUserId="";
 var _uProjId="";
 var _uProjName="";
 var _uSex="";
+var _uUser="";
 var _uVisitorCount="";
 var _uVisitorCount="";
 var _uDecisionerIn="";
@@ -82,6 +83,23 @@ var vueStep1=new Vue({
       _uSex="";
       $("#cleanSexBtn").hide();
       fillSelectField('sex', "", false);
+    },
+    selUser: function() {
+      var choose=document.getElementsByName('user');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          $("#user").html(choose[i].getAttribute("_text"));
+          _uUser=choose[i].value;
+        }
+      }
+      $("#userModal").modal('hide');
+      if (_uUser!="") $("#cleanUserBtn").show();
+    },
+    cleanUser: function() {
+      $("#user").html("&nbsp;");
+      _uUser="";
+      $("#cleanUserBtn").hide();
+      fillSelectField('user', "", false);
     },
     selVisitorCount: function() {
       var choose=document.getElementsByName('visitorCount');
@@ -652,7 +670,94 @@ var vueStep3=new Vue({
       $("#cleanCarTotalPriceBtn").hide();
       fillSelectField('carTotalPrice', "", false);
     },
-  }
+
+    selAvocationsDesc: function() {
+      _uAvocationsDesc="";
+      _uAvocationsDescDesc="";
+      var choose=document.getElementsByName('avocationsDesc');
+      var ttArray="";
+      var selOther=false;
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          var oneText=choose[i].getAttribute("_text");
+          if (choose[i].getAttribute("_text")=='其他') {
+            selOther=true;
+            if ($.trim($("input[name='avocationsDescDesc']").val())!="") {
+              oneText=oneText+"("+$.trim($("input[name='avocationsDescDesc']").val())+")";
+              _uAvocationsDescDesc=$.trim($("input[name='avocationsDescDesc']").val());
+            }
+          }
+          ttArray+=","+oneText;
+          _uAvocationsDesc+=","+choose[i].value;
+        } else {
+          if (choose[i].getAttribute("_text")=='其他') $("input[name='avocationsDescDesc']").val("");
+        }
+      }
+//      if (selOther&&_uAvocationsDescDesc=="") alert("请录入“其他”交通出行方式");
+//      else {
+        if (_uAvocationsDesc.length>0) {
+          _uAvocationsDesc=_uAvocationsDesc.substr(1);
+          ttArray=ttArray.substr(1);
+        }
+        $("#avocationsDesc").html(ttArray==""?"&nbsp;":ttArray);
+        $("#avocationsDescModal").modal('hide');
+        if (_uAvocationsDesc!="") $("#cleanAvocationsDescBtn").show();
+//      }
+    },
+    cleanAvocationsDesc: function(type) {
+      if (type==2) {
+        _uAvocationsDesc="";
+        _uAvocationsDescDesc="";
+        $("#avocationsDesc").html("&nbsp;");
+        $("#cleanAvocationsDescBtn").hide();
+      }
+      fillSelectField('avocationsDesc', $("#avocationsDesc").html(), false);
+    },
+    clickAvocationsDescCheck: function(flag) {
+      var choose=document.getElementsByName('avocationsDesc');
+      var n=0;
+      for (var i=0; i<choose.length; i++) if (choose[i].checked) n++;
+      if (flag==1) {
+        if (n>1) {
+          for (var i=0; i<choose.length; i++) {
+            if (choose[i].checked&&choose[i].getAttribute("_text")=='无法了解') {
+              choose[i].checked=false;
+              break;
+            }
+          }
+        }
+      }
+      if (flag==2) {
+        if (n>1) {
+          for (var i=0; i<choose.length; i++) {
+            if (choose[i].checked&&choose[i].getAttribute("_text")!='无法了解') choose[i].checked=false;
+          }
+          $("input[name='avocationsDescDesc']").hide();
+        }
+      }
+      if (flag==3) {
+        var otherCheck=false;
+        for (var i=0; i<choose.length; i++) {
+          if (choose[i].checked&&choose[i].getAttribute("_text")=='其他') otherCheck=true;
+        }
+        if (otherCheck) $("input[name='avocationsDescDesc']").show(); else $("input[name='avocationsDescDesc']").hide();
+        if (n>1) {
+          for (var i=0; i<choose.length; i++) {
+            if (choose[i].checked&&choose[i].getAttribute("_text")=='无法了解') {
+              choose[i].checked=false;
+              break;
+            }
+          }
+        }
+      }
+    }
+}
+});
+$('#livingRadiusModal').on('hide.bs.modal', function () {
+  vueStep3.cleanLivingRadius(1);
+});
+$('#avocationsDescModal').on('hide.bs.modal', function () {
+  vueStep3.cleanAvocationsDesc(1);
 });
 
 var vueStep4=new Vue({
@@ -852,8 +957,88 @@ var vueStep4=new Vue({
           }
         }
       }
+    },
+    selFreeTimeSection: function() {
+      _uFreeTimeSection="";
+      _uFreeTimeSectionDesc="";
+      var choose=document.getElementsByName('freeTimeSection');
+      var ttArray="";
+      var selOther=false;
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          var oneText=choose[i].getAttribute("_text");
+          if (choose[i].getAttribute("_text")=='其他') {
+            selOther=true;
+            if ($.trim($("input[name='freeTimeSectionDesc']").val())!="") {
+              oneText=oneText+"("+$.trim($("input[name='freeTimeSectionDesc']").val())+")";
+              _uFreeTimeSectionDesc=$.trim($("input[name='freeTimeSectionDesc']").val());
+            }
+          }
+          ttArray+=","+oneText;
+          _uFreeTimeSection+=","+choose[i].value;
+        } else {
+          if (choose[i].getAttribute("_text")=='其他') $("input[name='freeTimeSectionDesc']").val("");
+        }
+      }
+//      if (selOther&&_uFreeTimeSectionDesc=="") alert("请录入“其他”交通出行方式");
+//      else {
+        if (_uFreeTimeSection.length>0) {
+          _uFreeTimeSection=_uFreeTimeSection.substr(1);
+          ttArray=ttArray.substr(1);
+        }
+        $("#freeTimeSection").html(ttArray==""?"&nbsp;":ttArray);
+        $("#freeTimeSectionModal").modal('hide');
+        if (_uFreeTimeSection!="") $("#cleanFreeTimeSectionBtn").show();
+//      }
+    },
+    cleanFreeTimeSection: function(type) {
+      if (type==2) {
+        _uFreeTimeSection="";
+        _uFreeTimeSectionDesc="";
+        $("#freeTimeSection").html("&nbsp;");
+        $("#cleanFreeTimeSectionBtn").hide();
+      }
+      fillSelectField('freeTimeSection', $("#freeTimeSection").html(), false);
+    },
+    clickFreeTimeSectionCheck: function(flag) {
+      var choose=document.getElementsByName('freeTimeSection');
+      var n=0;
+      for (var i=0; i<choose.length; i++) if (choose[i].checked) n++;
+      if (flag==1) {
+        if (n>1) {
+          for (var i=0; i<choose.length; i++) {
+            if (choose[i].checked&&choose[i].getAttribute("_text")=='无法了解') {
+              choose[i].checked=false;
+              break;
+            }
+          }
+        }
+      }
+      if (flag==2) {
+        if (n>1) {
+          for (var i=0; i<choose.length; i++) {
+            if (choose[i].checked&&choose[i].getAttribute("_text")!='无法了解') choose[i].checked=false;
+          }
+          $("input[name='freeTimeSectionDesc']").hide();
+        }
+      }
+      if (flag==3) {
+        var otherCheck=false;
+        for (var i=0; i<choose.length; i++) {
+          if (choose[i].checked&&choose[i].getAttribute("_text")=='其他') otherCheck=true;
+        }
+        if (otherCheck) $("input[name='freeTimeSectionDesc']").show(); else $("input[name='freeTimeSectionDesc']").hide();
+        if (n>1) {
+          for (var i=0; i<choose.length; i++) {
+            if (choose[i].checked&&choose[i].getAttribute("_text")=='无法了解') {
+              choose[i].checked=false;
+              break;
+            }
+          }
+        }
+      }
     }
-  }
+}
 });
 $('#resistPointModal').on('hide.bs.modal', function () {
   vueStep4.cleanResistPoint(1);
@@ -861,6 +1046,10 @@ $('#resistPointModal').on('hide.bs.modal', function () {
 $('#loveActivationModal').on('hide.bs.modal', function () {
   vueStep4.cleanLoveActivation(1);
 });
+$('#freeTimeSectionModal').on('hide.bs.modal', function () {
+  vueStep4.cleanFreeTimeSection(1);
+});
+
 var vueStep5=new Vue({
   el: "#step5",
   methods: {

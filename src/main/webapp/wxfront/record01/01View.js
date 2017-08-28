@@ -13,7 +13,6 @@ $(function() {
     success: function(json) {
       if (json.msg=='100') {
         initPage(json.userInfo);
-        $("#dataList").show();
       } else {
         window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息<br/>禁止录入";
       }
@@ -33,7 +32,7 @@ function initPage(data) {
     success: function(json) {
       if (json.msg=='100') {
         fillData(json.data);
-        $("#oneData").show();
+        $('body').css("display", "block");
       } else {
         window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息<br/>禁止录入";
       }
@@ -167,7 +166,6 @@ function fillData(data) {
   if (data.custdescn) $("#custDescn").html(data.custdescn);
   if (userInfo.roleName=='项目负责人'&&data.status==1) needAudit=true;
   if (needAudit) $("#operArea").show();
-  $('body').css("display", "block");
 }
 
 function auditOk() {
