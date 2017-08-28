@@ -31,6 +31,7 @@ icon-search:before{content:"\e61d"}
 .row .col-30{width:30%;}
 .row .col-70{width:70%;}
 .row .col-50{width:37.5%;}
+.row .col-55{width:55%;}
 .row .col-50-1{width:50%;}
 .row .col-40{width:40%;}
 .row .col-60{width:60%;}
@@ -49,7 +50,10 @@ icon-search:before{content:"\e61d"}
 	border-bottom-style: solid;
 	border-bottom-color: #ebebeb;
 }
-.item_inner input,.item_sflr input {width:100%;margin:0.7rem 0; border:1px solid #FFFFFF;padding:0;font-size:1rem;}
+.item_inner input,.item_sflr input {width:100%;margin:0.7rem 0; border:1px solid #FFFFFF;padding:0;font-size:1rem;
+ border: 0; /* 方法1 */
+ -webkit-appearance: none; /* 方法2 */
+}
 .item_inner-2 {
 	width:100%;
 	border-bottom-width: 1px;
@@ -71,6 +75,20 @@ icon-search:before{content:"\e61d"}
 	line-height:2.5rem;
 	margin-top:3rem;
 }
+.item-zhc-2 {
+    border-radius:4px;
+	width:85%;
+	margin-left:7.5%;
+	margin-right:7.5%;
+	background-color:#dedede;
+	text-align:center;
+	font-size:1.1rem;
+	color:#c7c7c7;
+	height:2.5rem;
+	line-height:2.5rem;
+	margin-top:3rem;
+}
+
 .col-50 {
     border-radius:4px;
 	margin-left:7.5%;
@@ -94,11 +112,11 @@ icon-search:before{content:"\e61d"}
 }
 .row .col-item-pic {width:3rem;margin-top:0.6rem;margin-bottom:0.4rem;font-size:1rem;}
 .row .col-item-pic-2 {margin-left:1rem;margin-top:0.7rem;color:#393939;font-size:1rem;}
-.row .col-item-pic-2 span {font-size:.9rem;}
+.row .col-item-pic-2 span {font-size:1rem;}
 .line {width:100%;height:0.5rem; background-color:#f8f8f8;}
 .row .col-pic img{width:1rem;height:1rem;margin-top:.9rem;margin-bottom:.6rem;}
 .row .col-xm {margin-left:.5rem;color:#393939;margin-top:.7rem;margin-bottom:.6rem;width:40%;font-size:1rem;} 
-.row .col-xm-2 {color:#838383;text-align:right;margin-top:.7rem;margin-bottom:.6rem;width:45%;font-size:1rem;} 
+.row .col-xm-2 {color:#838383;text-align:right;margin-top:.7rem;margin-bottom:.6rem;width:50%;font-size:1rem;} 
 .fa-angle-right {color:#adadad;padding-top:.75rem;}
 .item_sflr {
 	margin-left:5%;
@@ -142,7 +160,7 @@ icon-search:before{content:"\e61d"}
 .row-link {
 	margin-bottom: 1.5rem;
 }
-.item-name,.sftime {color:#b8b8b8;font-size:.7rem;margin-top:.6rem;margin-bottom:0.5rem;line-height:1.2rem;}
+.item-name,.sftime {color:#b8b8b8;font-size:.8rem;margin-top:.6rem;margin-bottom:0.5rem;line-height:1.2rem;}
 .item-name span {border:1px solid #19a6ee;border-radius:5px;width:5rem;heigth:2rem;line-height:2rem;padding:.2rem .5rem;color:#19a6ee;}
 .item-name .ysh {border:1px solid #b8b8b8;border-radius:5px;width:5rem;heigth:2rem;line-height:2rem;padding:.2rem .5rem;color:#b8b8b8;}
 .err {color:#a6a6a6;text-align:center;font-size:1.1rem;}
@@ -162,3 +180,43 @@ icon-search:before{content:"\e61d"}
     border: 0; /* 方法1 */
     -webkit-appearance: none; /* 方法2 */
 }
+.inputdate input { background-color:#fff;}
+#mask {position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 9999;
+	overflow: hidden;
+    outline: 0;
+    -webkit-overflow-scrolling: touch;}
+.mask02 {width:100%;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #000;
+    opacity:0.5;}
+.loding {width:70%;height:8rem; background-color:#FFFFFF;border-radius:10px;margin-left:15%;font-size:1rem;filter:alpha(Opacity=100);-moz-opacity:1.0;opacity:1.0;margin-top:20%;text-align:center;position: fixed;z-index: 99999;}
+.loding img {width:3rem;height:3rem;margin-top:1.5rem;}
+
+/*审核意见*/
+.subNav{
+	border-bottom:solid 1px #e5e3da;
+	cursor:pointer;
+	font-size:1rem;
+	color:#393939;
+	line-height:3rem;
+	background:url(../images/jiantou.jpg) no-repeat;
+	background-position:95% 50%;
+	margin-left:1rem;
+	font-weight: bold;
+}
+.subNav:hover{color:#393939;}
+.currentDd{color:#393939}
+.currentDt{background-image:url(../images/jiantou1.jpg);}
+.navContent{display: none;border-bottom:solid 4px #b20000;}
+.navContent li {text-align:left;font-size:1rem;line-height:1.5rem;padding:.5rem 0;color:#999;padding-left:1rem;padding-right:1rem;}
+.customertype {height:2.8rem;line-height:2.8rem;font-size:1rem;}
+.xxws {font-size:1.1rem;padding-left:1rem;padding-bottom:.5rem;height:3rem;line-height:3rem;font-weight:bold;border-bottom:5px solid #f5f5f5}

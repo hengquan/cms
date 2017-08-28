@@ -18,7 +18,7 @@
   <script src="../js/bootstrap.min.js"></script>
   <script src="../js/vue.js"></script>
 </head>
-<body>
+<body style="display:none;">
   <header class="head-crm">
     <h1>客户数据中心用户注册</h1>
   </header>
@@ -39,9 +39,11 @@
     <div class="item_inner">
       <input type="text"  name="realName" placeholder="姓名">
     </div>
-     <div class="item_inner">
-      <input class="input_style form-group" readonly="true" id="role" name="userRole" placeholder="用户类型" v-model="u_role" data-toggle="modal" data-target="#userRoleModal"/>
+    <a href="#" data-toggle="modal" data-target="#userRoleModal">
+    <div class="item_inner customertype">
+      <span class="input_style form-group" id="role" name="userRole" style="color:#a9a9a9;">用户类型</span>
     </div>
+    </a>
     <div class="modal fade" id="userRoleModal" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -51,8 +53,7 @@
           </div>
           <div class="modal-body" id="userRoleData"></div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary" @click="selRole()">确定</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanRole()" id="cleanRoleBtn" style="display:none;">清除并关闭</button>
           </div>
         </div>
@@ -81,6 +82,18 @@ $(function() {
     registerUser();
   });
 });
+function selRole() {
+  var choose=document.getElementsByName('userRole');
+  for (var i=0; i<choose.length; i++) {
+    if (choose[i].checked==true) {
+      $("#role").html(choose[i].getAttribute("_text"));
+      $("#role").css("color", "#3d4145");
+      _uRole=choose[i].value;
+    }
+  }
+  $("#userRoleModal").modal('hide');
+  if (_uRole!="") $("#cleanRoleBtn").show();
+}
 
 //复选单选处理
 new Vue({
@@ -93,7 +106,8 @@ new Vue({
       var choose=document.getElementsByName('userRole');
       for (var i=0; i<choose.length; i++) {
         if (choose[i].checked==true) {
-          this.u_role=choose[i].getAttribute("_text");
+          $("#role").html(choose[i].getAttribute("_text"));
+          $("#role").css("color", "#3d4145");
           _uRole=choose[i].value;
         }
       }
@@ -101,8 +115,9 @@ new Vue({
       if (_uRole!="") $("#cleanRoleBtn").show();
     },
     cleanRole: function() {
-      this.u_role="";
-   	  _uRole="";
+      $("#role").html("用户类型");
+      $("#role").css("color", "#a9a9a9");
+      _uRole="";
       $("#cleanRoleBtn").hide();
       var choose=document.getElementsByName('userRole');
       for (var i=0; i<choose.length; i++) if (choose[i].checked==true) choose[i].checked=false;
@@ -120,9 +135,10 @@ function initRols(roleList) {
   for (var i=0; i<roleList.length; i++) {
     if (roleList[i].roleName=='管理员') continue;
     if (roleList[i].roleName=='超级管理员') continue;
-    userRoleHtml+='<label><input type="radio" name="userRole" value="'+roleList[i].id+'" _text="'+roleList[i].roleName+'"/> '+roleList[i].roleName+' </label>';
+    userRoleHtml+='<label><input type="radio" name="userRole" value="'+roleList[i].id+'" _text="'+roleList[i].roleName+'" onclick="selRole()"/> '+roleList[i].roleName+' </label>';
   }
   $("#userRoleData").html(userRoleHtml);
+  $('body').css("display", "block");
 }
 
 /**

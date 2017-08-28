@@ -130,17 +130,31 @@
   
   
   <select id="selectByProjId" resultType="java.util.Map" parameterType="java.lang.String">
-  	select `user`.id,`user`.realName,`user`.mainPhoneNum 
-  	from 
-  	ql_ProjUserRole proj join plat_User user on proj.userId = `user`.id 
+  	SELECT
+	`user1`.id,
+	`user1`.realName,
+	`user1`.mainPhoneNum,
+	user1.sex,
+	pro.projName
+	FROM
+		ql_ProjUserRole proj
+	JOIN plat_User user1 ON proj.userId = `user1`.id
+	JOIN ql_Project pro ON proj.projId = pro.id
   	where 
   	proj.projId = #{projId}
   </select>
   
   <select id="selectByProjIdAndUserId" resultType="java.util.Map" parameterType="java.util.Map">
-  	select cus.id,cus.custName,cus.phoneNum 
-  	from  
-  	ql_UserCust_Ref userCust join ql_Customer cus on userCust.custId = cus.id 
+	  	SELECT
+		cus.id,
+		cus.custName,
+		cus.phoneNum,
+		cus.custSex,
+		pro.projName
+	FROM
+		ql_UserCust_Ref userCust
+	JOIN ql_Customer cus ON userCust.custId = cus.id
+	JOIN ql_Project pro ON userCust.projId = pro.id
   	where 
   	userCust.projId = #{projId} and userCust.userId=#{userId}
   </select>

@@ -27,7 +27,6 @@ $(function() {
 
 function initPage(data) {
   userInfo=data;
-  userInfo.roleName="项目负责人";
   _uUserId=data.userid;
   var url=_URL_BASE+"/wx/api/getRecord01?recordId="+recordId;
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
@@ -48,6 +47,11 @@ function initPage(data) {
 
 function fillData(data) {
   if (!data) return;
+  var gwmc=decodeURIComponent(getUrlParam(window.location.href, 'GWMC'));
+  if (gwmc&&gwmc!='null') {
+    $("#authorName").html(gwmc);
+    $("#GW").show();
+  } else $("#GW").hide();
   var needAudit=false;//是否需要审核
   if (data.custname) $("#custName").html(data.custname);
   if (data.custphonenum) $("#custPhone").html("<a href='tel:"+data.custphonenum+"'>"+data.custphonenum+"</a>");
@@ -163,6 +167,7 @@ function fillData(data) {
   if (data.custdescn) $("#custDescn").html(data.custdescn);
   if (userInfo.roleName=='项目负责人'&&data.status==1) needAudit=true;
   if (needAudit) $("#operArea").show();
+  $('body').css("display", "block");
 }
 
 function auditOk() {
@@ -175,7 +180,7 @@ function auditOk() {
     success: function(json) {
       if (json.msg=='100') {
         alert("审核通过");
-        window.location.href=_URL_BASE+"/wxfront/search/record01.html";
+        window.location.href=_URL_BASE+"/wxfront/record01/record01Search.html";
       } else {
         alert("审核通过提交失败");
       }
@@ -197,8 +202,8 @@ function auditNo() {
   $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
-        alert("未通过信息已退回顾问");
-        window.location.href=_URL_BASE+"/wxfront/search/record01.html";
+        alert("未通过审核，信息已退回顾问");
+        window.location.href=_URL_BASE+"/wxfront/record01/record01Search.html";
       } else {
         alert("审核未通过提交失败");
       }

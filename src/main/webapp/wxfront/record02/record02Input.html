@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title>客户数据中心-复访信息录入</title>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="../css/index.css"/>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/zepto.mdater.css">
+  <script src="../../static/js/jquery.min.js" type="text/javascript"></script>
+  <script src="../js/CONSTANT.js" type="text/javascript"></script>
+  <script src="../js/common.utils.js" type="text/javascript"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/vue.js"></script>
+  <script src="../js/zepto.js"></script>
+  <script src="../js/zepto.mdater.js"></script>
+</head>
+<body>
+<!-- 第1页 -->
+<div class="container" id="step1" style="display:none">
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">置业顾问</div>
+    <div class="col-input-4">
+      <input type="text" placeholder="" name="user" value="" readonly/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-6">本次到访时间</div>
+    <div class="col-input-6 inputdate">
+      <input type="date" placeholder="" name="curTime"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-6">首次到访时间</div>
+    <div class="col-input-6 inputdate">
+      <input type="date" placeholder="" name="curTime" readonly//>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">来访次数</div>
+    <div class="col-input-4">
+      <input type="text" placeholder="" name="visited" value="" >
+    </div>
+  </div>
+  <div class="item_sflr row" id="projArea" style="display:none;">
+    <div class="col-title col-title-4">项目选择</div>
+  <a href="record02Input.html" data-toggle="modal" data-target="#projModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="proj">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+  <div class="modal fade" id="projModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times</span></button>
+          <h4 class="modal-title">项目选择</h4>
+        </div>
+        <div class="modal-body" id="projData">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanProj()" id="cleanProjBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="line"></div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-2">姓名</div>
+    <div class="col-input">
+      <input type="text" placeholder="" name="custName"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-2">电话</div>
+    <div class="col-input">
+      <input type="text" placeholder="" name="custPhone"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-2">性别</div>
+    <a href="" data-toggle="modal" data-target="#sexModal">
+    <div class="col-input-1">
+      <span class="input_style form-group" id="sex">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="sexModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">性别</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="sex" value="002001-男" _text="男" @click="selSex()"/> 男 </label>
+          <label><input type="radio" name="sex" value="002001-女" _text="女" @click="selSex()"/> 女 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanSex()" id="cleanSexBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="item_sflr row">
+    <div class="col-title col-title-4">来访人数</div>
+  <a href="" data-toggle="modal" data-target="#visitorCountModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="visitorCount">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="visitorCountModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">来访人数</h4></div>
+   <div class="modal-body">
+      <label><input type="radio" name="visitorCount" value="1" _text="一人" @click="selVisitorCount()"/> 一人 </label>
+      <label><input type="radio" name="visitorCount" value="2" _text="两人" @click="selVisitorCount()"/> 两人 </label>
+      <label><input type="radio" name="visitorCount" value="3" _text="三人" @click="selVisitorCount()"/> 三人 </label>
+      <label><input type="radio" name="visitorCount" value="4" _text="四人" @click="selVisitorCount()"/> 四人 </label>
+      <label><input type="radio" name="visitorCount" value="5" _text="五人及以上" @click="selVisitorCount()"/> 五人及以上 </label>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanVisitorCount()" id="cleanVisitorCountBtn" style="display:none;">清除并关闭</button>
+  </div>
+  </div>
+</div>
+</div>
+<div class="item_sflr row">
+    <div class="col-title col-title-7">决策人是否到场</div>
+  <a href="" data-toggle="modal" data-target="#decisionerInModal">
+    <div class="col-input-7-1">
+      <span class="input_style form-group" id="decisionerIn">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="decisionerInModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">决策人是否到场</h4></div>
+   <div class="modal-body">
+     <label><input type="radio" name="decisionerIn" value="1-是" _text="是" @click="selDecisionerIn()"/> 是 </label>
+     <label><input type="radio" name="decisionerIn" value="0-否" _text="否" @click="selDecisionerIn()"/> 否 </label></div>
+     <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanDecisionerIn()" id="cleanDecisionerInBtn" style="display:none;">清除并关闭</button>
+   </div>
+  </div>
+</div>
+</div>
+<div class="item_sflr row">
+    <div class="col-title col-title-7">来访人之间关系</div>
+  <a href="" data-toggle="modal" data-target="#visitorRefsModal">
+    <div class="col-input-7-1">
+      <span class="input_style form-group" id="visitorRefs">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="visitorRefsModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">来访人之间关系</h4></div>
+   <div class="modal-body">
+     <label><input type="checkbox" name="visitorRefs" value="028001-夫妻" _text="夫妻" @click="clickVisitorRefsCheck(1)"/> 夫妻 </label>
+     <label><input type="checkbox" name="visitorRefs" value="028002-与父母同行" _text="与父母同行" @click="clickVisitorRefsCheck(1)"/> 与父母同行 </label>
+     <label><input type="checkbox" name="visitorRefs" value="028003-与子女同行" _text="与子女同行" @click="clickVisitorRefsCheck(1)"/> 与子女同行 </label>
+     <label><input type="checkbox" name="visitorRefs" value="028004-朋友" _text="朋友" @click="clickVisitorRefsCheck(1)"/> 朋友 </label>
+     <label><input type="checkbox" name="visitorRefs" value="028005-同事" _text="同事" @click="clickVisitorRefsCheck(1)"/> 同事 </label>
+     <label class="wflj"><input type="checkbox" name="visitorRefs" value="028000-无法了解" _text="无法了解" @click="clickVisitorRefsCheck(2)"/> 无法了解 </label><br/>
+     <label><input type="checkbox" name="visitorRefs" value="028999-其他" _text="其他" @click="clickVisitorRefsCheck(3)"/> 其他 </label>
+     <input type="text" placeholder="" name="visitorRefsDesc" style="display:none;"/>
+   </div>
+   <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanVisitorRefs(1)">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanVisitorRefs(2)" id="cleanVisitorRefsBtn" style="display:none;">清除并关闭</button>
+          <button type="button" class="btn btn-primary" @click="selVisitorRefs()">确定</button>
+   </div>
+  </div>
+</div>
+</div>
+<div class="item-zhc row-link" style="margin-top:1.5rem;" onClick="step1Next()"><a href="#">下一步</a></div>
+</div>
+<!-- 第2页 -->
+<div class="container" id="step2" style="display:none">
+<div class="item_sflr row">
+    <div class="col-title col-title-7">未成年子女数量</div>
+  <a href="" data-toggle="modal" data-target="#childrenNumModal">
+    <div class="col-input-7-1">
+      <span class="input_style form-group" id="childrenNum">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="childrenNumModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">未成年子女数量</h4></div>
+   <div class="modal-body">
+     <label><input type="radio" name="childrenNum" value="0" _text="0位" @click="selChildrenNum()"/> 0位 </label>
+     <label><input type="radio" name="childrenNum" value="1" _text="1位" @click="selChildrenNum()"/> 1位 </label>
+     <label><input type="radio" name="childrenNum" value="2" _text="2位" @click="selChildrenNum()"/> 2位 </label>
+     <label><input type="radio" name="childrenNum" value="3" _text="3位" @click="selChildrenNum()"/> 3位 </label>
+	 <label class="wflj"><input type="radio" name="childrenNum" value="-1" _text="无法了解" @click="selChildrenNum()"/> 无法了解 </label>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanChildrenNum()" id="cleanChildrenNumBtn" style="display:none;">清除并关闭</button>
+   </div>
+  </div>
+</div>
+</div>
+<div class="item_sflr row">
+    <div class="col-title col-title-5">孩子年龄段</div>
+  <a href="" data-toggle="modal" data-target="#childAgeGroupModal">
+    <div class="col-input-5-1">
+      <span class="input_style form-group" id="childAgeGroup">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="childAgeGroupModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">孩子年龄段</h4></div>
+   <div class="modal-body">
+     <label><input type="checkbox" name="childAgeGroup" value="020001-0-3岁" _text="0-3岁" @click="clickChildAgeGroupCheck(1)"/> 0-3岁 </label>
+     <label><input type="checkbox" name="childAgeGroup" value="020002-4-6岁" _text="4-6岁" @click="clickChildAgeGroupCheck(1)"/> 4-6岁 </label>
+     <label><input type="checkbox" name="childAgeGroup" value="020003-7-12岁" _text="7-12岁" @click="clickChildAgeGroupCheck(1)"/> 7-12岁 </label>
+     <label><input type="checkbox" name="childAgeGroup" value="020004-13-15岁" _text="13-15岁" @click="clickChildAgeGroupCheck(1)"/> 13-15岁 </label>
+     <label><input type="checkbox" name="childAgeGroup" value="020005-16-18岁" _text="16-18岁" @click="clickChildAgeGroupCheck(1)"/> 16-18岁 </label>
+     <label><input type="checkbox" name="childAgeGroup" value="020006-18岁以上" _text="18岁以上" @click="clickChildAgeGroupCheck(1)"/> 18岁以上 </label>
+     <label class="wflj"><input type="checkbox" name="childAgeGroup" value="020000-无法了解" _text="无法了解" @click="clickChildAgeGroupCheck(2)"/> 无法了解 </label>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanChildAgeGroup(1)">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanChildAgeGroup(2)" id="cleanChildAgeGroupBtn" style="display:none;">清除并关闭</button>
+     <button type="button" class="btn btn-primary" @click="selChildAgeGroup()">确定</button>
+   </div>
+  </div>
+</div>
+</div>
+<div class="item_sflr row">
+    <div class="col-title col-title-8">孩子在读学校类型</div>
+  <a href="" data-toggle="modal" data-target="#schoolTypeModal">
+    <div class="col-input-8-1">
+      <span class="input_style form-group" id="schoolType">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="schoolTypeModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">孩子在读学校类型</h4></div>
+   <div class="modal-body">
+     <lbael><input type="checkbox" name="schoolType" value="020001-公立" _text="公立" @click="clickSchoolTypeCheck(1)"/> 公立 </label>
+     <label><input type="checkbox" name="schoolType" value="020002-私立" _text="私立" @click="clickSchoolTypeCheck(1)"/> 私立 </label>
+     <label><input type="checkbox" name="schoolType" value="020003-国际学校" _text="国际学校" @click="clickSchoolTypeCheck(1)"/> 国际学校 </label>
+     <label><input type="checkbox" name="schoolType" value="020004-国外学习" _text="国外学习" @click="clickSchoolTypeCheck(1)"/> 国外学习 </label>
+     <label class="wflj"><input type="checkbox" name="schoolType" value="020000-无法了解" _text="无法了解" @click="clickSchoolTypeCheck(2)"/> 无法了解 </label>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanSchoolType(1)">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanSchoolType(2)" id="cleanSchoolTypeBtn" style="display:none;">清除并关闭</button>
+     <button type="button" class="btn btn-primary" @click="selSchoolType()">确定</button>
+   </div>
+  </div>
+</div>
+</div>
+<div class="item_sflr row">
+  <div class="col-title col-title-6">在读学校名称</div>
+    <div class="col-input-6"><input type="text" placeholder="" name="custName"/></div>
+  </div>
+<div class="item_sflr row">
+    <div class="col-title col-title-7">孩子的课余爱好</div>
+  <a href="" data-toggle="modal" data-target="#avocationsModal">
+    <div class="col-input-7-1">
+      <span class="input_style form-group" id="avocations">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="avocationsModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">孩子的课余爱好</h4></div>
+   <div class="modal-body">
+     <label><input type="checkbox" name="avocations" value="020001-音乐类" _text="音乐类" @click="clickAvocationsCheck(1)"/> 音乐类 </label>
+     <label><input type="checkbox" name="avocations" value="020002-体育类" _text="体育类" @click="clickAvocationsCheck(1)"/> 体育类 </label>
+     <label><input type="checkbox" name="avocations" value="020003-文学类" _text="文学类" @click="clickAvocationsCheck(1)"/> 文学类 </label>
+     <label><input type="checkbox" name="avocations" value="020004-专业类" _text="专业类" @click="clickAvocationsCheck(1)"/> 专业类 </label>
+     <label class="wflj"><input type="checkbox" name="avocations" value="020000-无法了解" _text="无法了解" @click="clickAvocationsCheck(2)"/> 无法了解 </label>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanAvocations()" id="cleanAvocationsBtn" style="display:none;">清除并关闭</button>
+     <button type="button" class="btn btn-primary" @click="selAvocations()">确定</button>
+   </div>
+  </div>
+</div>
+</div>
+<div class="item_sflr row">
+  <div class="col-title col-title-6">在读学校名称</div>
+    <div class="col-input-6"><input type="text" placeholder="" name="custName"/></div>
+  </div>
+<div class="item_sflr row">
+    <div class="col-title col-title-6">国际教育意愿</div>
+  <a href="" data-toggle="modal" data-target="#outEduWillModal">
+    <div class="col-input-6-1">
+      <span class="input_style form-group" id="outEduWill">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="outEduWillModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">国际教育意愿</h4></div>
+   <div class="modal-body">
+     <label><input type="radio" name="outEduWill" value="0" _text="是" @click="selOutEduWill()"/> 是 </label>
+     <label><input type="radio" name="outEduWill" value="1" _text="否" @click="selOutEduWill()"/> 否 </label>
+     <label class="wflj"><input type="radio" name="outEduWill" value="009000-无法了解" _text="无法了解" @click="selOutEduWill()"/> 无法了解 </label>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanOutEduWill()" id="cleanOutEduWillBtn" style="display:none;">清除并关闭</button>
+   </div>
+  </div>
+</div>
+</div>
+<div class="item_sflr row">
+    <div class="col-title col-title-9">业主是否有海外经历</div>
+  <a href="" data-toggle="modal" data-target="#outExperFlagModal">
+    <div class="col-input-9-1">
+      <span class="input_style form-group" id="outExperFlag">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="outExperFlagModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">业主是否有海外经历</h4></div>
+   <div class="modal-body">
+      <label><input type="radio" name="outExperFlag" value="0" _text="是" @click="selOutExperFlag()"/> 是 </label>
+     <label><input type="radio" name="outExperFlag" value="1" _text="否" @click="selOutExperFlag()"/> 否 </label>
+     <label class="wflj"><input type="radio" name="outExperFlag" value="009000-无法了解" _text="无法了解" @click="selOutExperFlag()"/> 无法了解 </label>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanOutExperFlag()" id="cleanOutExperFlagBtn" style="display:none;">清除并关闭</button>
+   </div>
+  </div>
+</div>
+</div>
+<div class="item_sflr row">
+ <div class="col-title col-title-8">请填写是哪个城市</div>
+  <div class="col-input-8"><input type="text" placeholder="" name="custName"/></div>
+</div>
+<div class="item_sflr row">
+    <div class="col-title col-title-9">子女是否有海外经历</div>
+  <a href="" data-toggle="modal" data-target="#childOutExperFlagModal">
+    <div class="col-input-9-1">
+      <span class="input_style form-group" id="childOutExperFlag">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="childOutExperFlagModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">子女是否有海外经历</h4></div>
+   <div class="modal-body">
+     <label><input type="radio" name="childOutExperFlag" value="0" _text="是" @click="selChildOutExperFlag()"/> 是 </label>
+     <label><input type="radio" name="childOutExperFlag" value="1" _text="否" @click="selChildOutExperFlag()"/> 否 </label>
+     <label class="wflj"><input type="radio" name="childOutExperFlag" value="009000-无法了解" _text="无法了解" @click="selChildOutExperFlag()"/> 无法了解 </label><br/>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanChildOutExperFlag()" id="cleanChildOutExperFlagBtn" style="display:none;">清除并关闭</button>
+   </div>
+  </div>
+</div>
+</div>
+<div class="item_sflr row">
+ <div class="col-title col-title-8">请填写是哪个城市</div>
+  <div class="col-input-8"><input type="text" placeholder="" name="custName"/></div>
+</div>
+  <div class="row row-link">
+    <div class="col-50" style="margin-top:1.5rem;" onClick="step2Prev()"><a href="#">上一步</a></div>
+    <div class="col-50" style="margin-top:1.5rem;" onClick="step2Next()"><a href="#">下一步</a></div>
+  </div>
+</div>
+<!-- 第3页 -->
+<div class="container" id="step3" style="display:none">
+<div class="item_sflr row">
+    <div class="col-title col-title-4">生活半径</div>
+  <a href="" data-toggle="modal" data-target="#livingRadiusModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="livingRadius">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="livingRadiusModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">生活半径</h4></div>
+   <div class="modal-body">
+     <label><input type="checkbox" name="livingRadius" value="022001-二环以内" _text="二环以内" @click="clickLivingRadiusCheck(1)"/> 二环以内 </label>
+     <label><input type="checkbox" name="livingRadius" value="022002-二环-三环" _text="二环-三环" @click="clickLivingRadiusCheck(1)"/> 二环-三环 </label>
+     <label><input type="checkbox" name="livingRadius" value="022003-三环-四环 " _text="三环-四环 " @click="clickLivingRadiusCheck(1)"/> 三环-四环  </label>
+     <label><input type="checkbox" name="livingRadius" value="022004-四环-五环" _text="四环-五环" @click="clickLivingRadiusCheck(1)"/> 四环-五环 </label>
+     <label><input type="checkbox" name="livingRadius" value="022005-五环以外" _text="五环以外" @click="clickLivingRadiusCheck(1)"/> 五环以外 </label>
+     <label class="wflj"><input type="checkbox" name="livingRadius" value="022000-无法了解" _text="无法了解" @click="clickLivingRadiusCheck(2)"/> 无法了解 </label>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanLivingRadius(1)">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanLivingRadius(2)" id="cleanLivingRadiusBtn" style="display:none;">清除并关闭</button>
+     <button type="button" class="btn btn-primary" @click="selLivingRadius()">确定</button>
+   </div>
+  </div>
+</div>
+</div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-7">现居住社区名称</div>
+    <div class="col-input-7">
+      <input type="text" placeholder="" name="custName"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">住房性质</div>
+    <div class="col-input-4">
+      <input type="text" placeholder="" name="custName"/>
+    </div>
+  </div>
+<div class="item_sflr row">
+    <div class="col-title col-title-7">目前的居住面积</div>
+  <a href="" data-toggle="modal" data-target="#liveAcreageModal">
+    <div class="col-input-7-1">
+      <span class="input_style form-group" id="liveAcreage">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="liveAcreageModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">目前的居住面积</h4></div>
+   <div class="modal-body">
+     <label><input type="radio" name="liveAcreage" value="023001-100㎡以下" _text="100㎡以下" @click="selLiveAcreage()"/> 100㎡以下 </label>
+     <label><input type="radio" name="liveAcreage" value="023002-100-200㎡" _text="100-200㎡" @click="selLiveAcreage()"/> 100-200㎡ </label>
+     <label><input type="radio" name="liveAcreage" value="023003-200-300㎡ " _text="200-300㎡ " @click="selLiveAcreage()"/> 200-300㎡  </label>
+     <label><input type="radio" name="liveAcreage" value="023004-300-400㎡" _text="300-400㎡" @click="selLiveAcreage()"/> 300-400㎡ </label>
+     <label><input type="radio" name="liveAcreage" value="023005-100-200㎡" _text="400-500㎡" @click="selLiveAcreage()"/> 400-500㎡ </label>
+     <label><input type="radio" name="liveAcreage" value="023008-500㎡以上" _text="500㎡以上" @click="selLiveAcreage()"/> 500㎡以上 </label>
+     <label class="wflj"><input type="radio" name="liveAcreage" value="023000-无法了解" _text="无法了解" @click="selLiveAcreage()"/> 无法了解 </label>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanLiveAcreage()" id="cleanLiveAcreageBtn" style="display:none;">清除并关闭</button>
+   </div>
+  </div>
+</div>
+</div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">公司名称</div>
+    <div class="col-input-4">
+      <input type="text" placeholder="" name="custName"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">公司地址</div>
+    <div class="col-input-4">
+      <input type="text" placeholder="" name="custName"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">公司职务</div>
+    <div class="col-input-4">
+      <input type="text" placeholder="" name="custName"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-8">家庭已购房产（套）</div>
+    <div class="col-input-8">
+      <input type="text" placeholder="" name="custName"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-8">家庭汽车数量（辆）</div>
+    <div class="col-input-8">
+      <input type="text" placeholder="" name="custName"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">汽车品牌</div>
+    <div class="col-input-4">
+      <input type="text" placeholder="" name="custName"/>
+    </div>
+  </div>
+<div class="item_sflr row">
+    <div class="col-title col-title-4">驾车总价</div>
+  <a href="" data-toggle="modal" data-target="#carTotalPriceModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="carTotalPrice">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="carTotalPriceModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">驾车总价</h4></div>
+   <div class="modal-body">
+     <label><input type="radio" name="carTotalPrice" value="025001-30万以下" _text="30万以下" @click="selCarTotalPrice()"/> 30万以下 </label>
+     <label><input type="radio" name="carTotalPrice" value="025002-30-50万" _text="30-50万" @click="selCarTotalPrice()"/> 30-50万 </label>
+     <label><input type="radio" name="carTotalPrice" value="025003-50-100万 " _text="50-100万" @click="selCarTotalPrice()"/> 50-100万  </label>
+     <label><input type="radio" name="carTotalPrice" value="025004-100-200万" _text="100-200万" @click="selCarTotalPrice()"/> 100-200万 </label>
+     <label><input type="radio" name="carTotalPrice" value="025005-200-300万" _text="200-300万" @click="selCarTotalPrice()"/> 200-300万 </label>
+     <label><input type="radio" name="carTotalPrice" value="025006-300-500万" _text="300-500万" @click="selCarTotalPrice()"/> 300-500万 </label>
+     <label><input type="radio" name="carTotalPrice" value="025007-500万以上" _text="500万以上" @click="selCarTotalPrice()"/> 500万以上 </label>
+     <label class="wflj"><input type="radio" name="carTotalPrice" value="025000-无法了解" _text="无法了解" @click="selCarTotalPrice()"/> 无法了解 </label>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanCarTotalPrice()" id="cleanCarTotalPriceBtn" style="display:none;">清除并关闭</button>
+   </div>
+  </div>
+</div>
+</div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-8">关注的公众微信号</div>
+    <div class="col-input-8">
+      <input type="text" placeholder="" name="custName"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4"> 常用APP</div>
+    <div class="col-input-4">
+      <input type="text" placeholder="除微信外三个" name="custName"/>
+    </div>
+  </div>
+<div class="item_sflr row">
+    <div class="col-title col-title-6">您的业余爱好</div>
+  <a href="" data-toggle="modal" data-target="#avocationsDescModal">
+    <div class="col-input-6-1">
+      <span class="input_style form-group" id="avocationsDesc">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="avocationsDescModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">您的业余爱好</h4></div>
+   <div class="modal-body">
+     <label><input type="checkbox" name="avocationsDesc" value="026001-运动" _text="运动" @click="clickAvocationsDescCheck(1)"/> 运动 </label>
+     <label><input type="checkbox" name="avocationsDesc" value="026002-养生" _text="养生" @click="clickAvocationsDescCheck(1)"/> 养生 </label>
+     <label><input type="checkbox" name="avocationsDesc" value="026003-美容" _text="美容" @click="clickAvocationsDescCheck(1)"/> 美容  </label>
+     <label><input type="checkbox" name="avocationsDesc" value="026004-阅读" _text="阅读" @click="clickAvocationsDescCheck(1)"/> 阅读 </label>
+     <label><input type="checkbox" name="avocationsDesc" value="026005-理财" _text="理财" @click="clickAvocationsDescCheck(1)"/> 理财 </label>
+     <label><input type="checkbox" name="avocationsDesc" value="026006-艺术" _text="艺术" @click="clickAvocationsDescCheck(1)"/> 艺术 </label>
+     <label><input type="checkbox" name="avocationsDesc" value="026007-茶道" _text="茶道" @click="clickAvocationsDescCheck(1)"/> 茶道 </label>
+     <label><input type="checkbox" name="avocationsDesc" value="026008-收藏" _text="收藏" @click="clickAvocationsDescCheck(1)"/> 收藏 </label>
+     <label><input type="checkbox" name="avocationsDesc" value="026009-购物" _text="购物" @click="clickAvocationsDescCheck(1)"/> 购物 </label>
+     <label><input type="checkbox" name="avocationsDesc" value="026010-美食" _text="美食" @click="clickAvocationsDescCheck(1)"/> 美食 </label>
+     <label><input type="checkbox" name="avocationsDesc" value="026011-园艺" _text="园艺" @click="clickAvocationsDescCheck(1)"/> 园艺 </label>
+     <label><input type="checkbox" name="avocationsDesc" value="026012-社交" _text="社交" @click="clickAvocationsDescCheck(1)"/> 社交 </label>
+     <label><input type="checkbox" name="avocationsDesc" value="026013-时尚" _text="时尚" @click="clickAvocationsDescCheck(1)"/> 时尚 </label>
+     <label><input type="checkbox" name="avocationsDesc" value="026014-旅行" _text="旅行" @click="clickAvocationsDescCheck(1)"/> 旅行 </label>
+     <label><input type="checkbox" name="avocationsDesc" value="026015-教育" _text="教育" @click="clickAvocationsDescCheck(1)"/> 教育 </label>
+     <label><input type="checkbox" name="avocationsDesc" value="026016-慈善" _text="慈善" @click="clickAvocationsDescCheck(1)"/> 慈善 </label>
+     <label class="wflj"><input type="checkbox" name="avocationsDesc" value="026000-无法了解" _text="无法了解" @click="clickAvocationsDescCheck(2)"/> 无法了解 </label>
+     <label><input type="checkbox" name="avocationsDesc" value="026999-其他" _text="其他" @click="clickAvocationsDescCheck(3)"/> 其他 </label>
+     <input type="text" placeholder="" name="avocationsDesc" style="display:none;"/>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanAvocationsDesc(1)">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanAvocationsDesc(2)" id="cleanAvocationsDescBtn" style="display:none;">清除并关闭</button>
+     <button type="button" class="btn btn-primary" @click="selAvocationsDesc()">确定</button>
+   </div>
+  </div>
+</div>
+</div>
+  <div class="row row-link">
+    <div class="col-50" style="margin-top:1.5rem;" onClick="step3Prev()">上一步</div>
+	<div class="col-50" style="margin-top:1.5rem;" onClick="step3Next()">下一步</div>
+  </div>
+</div>
+<!-- 第4页 -->
+<div class="container" id="step4" style="display:none">
+<div class="item_sflr row">
+    <div class="col-title col-title-7">对本案的抗拒点</div>
+  <a href="" data-toggle="modal" data-target="#resistPointModal">
+    <div class="col-input-7-1">
+      <span class="input_style form-group" id="resistPoint">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="resistPointModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">对本案的抗拒点</h4></div>
+   <div class="modal-body">
+     <label><input type="checkbox" name="resistPoint" value="014001-位置" _text="位置" @click="clickResistPointCheck(1)"/> 位置 </label>
+     <label><input type="checkbox" name="resistPoint" value="014002-产品类型" _text="产品类型" @click="clickResistPointCheck(1)"/> 产品类型 </label>
+     <label><input type="checkbox" name="resistPoint" value="014003-交通" _text="交通" @click="clickResistPointCheck(1)"/> 交通 </label>
+     <label><input type="checkbox" name="resistPoint" value="014004-区域环境" _text="区域环境" @click="clickResistPointCheck(1)"/> 区域环境 </label>
+     <label><input type="checkbox" name="resistPoint" value="014005-价格" _text="价格" @click="clickResistPointCheck(1)"/> 价格 </label>
+     <label><input type="checkbox" name="resistPoint" value="014006-户型" _text="户型" @click="clickResistPointCheck(1)"/> 户型 </label>
+     <label><input type="checkbox" name="resistPoint" value="014007-花园面积" _text="花园面积" @click="clickResistPointCheck(1)"/> 花园面积 </label>
+     <label><input type="checkbox" name="resistPoint" value="014008-园林环境" _text="园林环境" @click="clickResistPointCheck(1)"/> 园林环境 </label>
+     <label><input type="checkbox" name="resistPoint" value="014009-科技设备" _text="科技设备" @click="clickResistPointCheck(1)"/> 科技设备 </label>
+     <label><input type="checkbox" name="resistPoint" value="014010-交房时间" _text="交房时间" @click="clickResistPointCheck(1)"/> 交房时间 </label>
+     <label><input type="checkbox" name="resistPoint" value="014011-社区配套" _text="社区配套" @click="clickResistPointCheck(1)"/> 社区配套 </label>
+     <label><input type="checkbox" name="resistPoint" value="014012-物业服务" _text="物业服务" @click="clickResistPointCheck(1)"/> 物业服务 </label>
+     <label><input type="checkbox" name="resistPoint" value="014013-开发品牌" _text="开发品牌" @click="clickResistPointCheck(1)"/> 开发品牌 </label>
+     <label><input type="checkbox" name="resistPoint" value="014014-增值潜力" _text="增值潜力" @click="clickResistPointCheck(1)"/> 增值潜力 </label>
+     <label class="wflj"><input type="checkbox" name="resistPoint" value="014000-无法了解" _text="无法了解" @click="clickResistPointCheck(2)"/> 无法了解 </label>
+     <label><input type="checkbox" name="resistPoint" value="014999-其他" _text="其他" @click="clickResistPointCheck(3)"/> 其他 </label>
+     <input type="text" placeholder="" name="resistPointDesc" style="display:none;"/>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanResistPoint(1)">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanResistPoint(2)" id="cleanResistPointBtn" style="display:none;">清除并关闭</button>
+     <button type="button" class="btn btn-primary" @click="selResistPoint()">确定</button>
+   </div>
+  </div>
+</div>
+</div>
+<div class="item_sflr row">
+    <div class="col-title col-title-7">喜欢参加的活动</div>
+  <a href="" data-toggle="modal" data-target="#loveActivationModal">
+    <div class="col-input-7-1">
+      <span class="input_style form-group" id="loveActivation">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="loveActivationModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">喜欢参加的活动</h4></div>
+   <div class="modal-body">
+      <label><input type="checkbox" name="loveActivation" value="022001-家庭教育" _text="家庭教育" @click="clickLoveActivationCheck(1)"/> 家庭教育 </label>
+      <label><input type="checkbox" name="loveActivation" value="022002-国际学校教育" _text="国际学校教育" @click="clickLoveActivationCheck(1)"/> 国际学校教育 </label>
+     <label><input type="checkbox" name="loveActivation" value="022003-亲子活动" _text="亲子活动" @click="clickLoveActivationCheck(1)"/> 亲子活动 </label>
+     <label><input type="checkbox" name="loveActivation" value="022004-文化艺术" _text="文化艺术" @click="clickLoveActivationCheck(1)"/> 文化艺术 </label>
+     <label><input type="checkbox" name="loveActivation" value="022005-美食品鉴" _text="美食品鉴" @click="clickLoveActivationCheck(1)"/> 美食品鉴 </label>
+     <label><input type="checkbox" name="loveActivation" value="022005-户外运动" _text="户外运动" @click="clickLoveActivationCheck(1)"/> 户外运动 </label>
+     <label><input type="checkbox" name="loveActivation" value="022005-养生保健" _text="养生保健" @click="clickLoveActivationCheck(1)"/> 养生保健 </label>
+     <label><input type="checkbox" name="loveActivation" value="022005-理财规划" _text="理财规划" @click="clickLoveActivationCheck(1)"/> 理财规划 </label>
+     <label><input type="checkbox" name="loveActivation" value="022005-书刊杂志" _text="书刊杂志" @click="clickLoveActivationCheck(1)"/> 书刊杂志 </label>
+     <label><input type="checkbox" name="loveActivation" value="022005-琴棋书画" _text="琴棋书画" @click="clickLoveActivationCheck(1)"/> 琴棋书画 </label>
+     <label class="wflj"><input type="checkbox" name="loveActivation" value="022000-无法了解" _text="无法了解" @click="clickLoveActivationCheck(2)"/> 无法了解 </label>
+     <label><input type="checkbox" name="loveActivation" value="028999-其他" _text="其他" @click="clickLoveActivationCheck(3)"/> 其他 </label>
+     <input type="text" placeholder="" name="loveActivationDesc" style="display:none;"/>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanLoveActivation(1)">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanLoveActivation(2)" id="cleanLoveActivationBtn" style="display:none;">清除并关闭</button>
+     <button type="button" class="btn btn-primary" @click="selLoveActivation()">确定</button>
+   </div>
+  </div>
+</div>
+</div>
+<div class="item_sflr row">
+    <div class="col-title col-title-9">可参加业主活动时间</div>
+  <a href="" data-toggle="modal" data-target="#freeTimeSectionModal">
+    <div class="col-input-9-1">
+      <span class="input_style form-group" id="freeTimeSection">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="freeTimeSectionModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">可参加业主活动时间</h4></div>
+   <div class="modal-body">
+     <label>周一到周五&nbsp;(
+     <input type="checkbox" name="freeTimeSection" value="009001001-上午9-11点" _text="周一到周五-上午9-11点" @click="clickFreeTimeSectionCheck(1)"/> 上午9-11点 </label>
+     <label><input type="checkbox" name="freeTimeSection" value="009001002-下午2-5点" _text="周一到周五-下午2-5点" @click="clickFreeTimeSectionCheck(1)"/> 下午2-5点 </label>
+     <label><input type="checkbox" name="freeTimeSection" value="009001003-晚上6-9点" _text="周一到周五-晚上6-9点" @click="clickFreeTimeSectionCheck(1)"/> 晚上6-9点)</label>
+<br/>
+     <label>周六到周日&nbsp;(
+     <input type="checkbox" name="freeTimeSection" value="009002001-上午9-11点" _text="周六到周日-上午9-11点" @click="clickFreeTimeSectionCheck(1)"/> 上午9-11点 </label>
+     <label><input type="checkbox" name="freeTimeSection" value="009002002-下午2-5点" _text="周六到周日-下午2-5点" @click="clickFreeTimeSectionCheck(1)"/> 下午2-5点 </label>
+     <label><input type="checkbox" name="freeTimeSection" value="009002004-晚上6-9点" _text="周六到周日-晚上6-9点" @click="clickFreeTimeSectionCheck(1)"/> 晚上6-9点)</label>
+     <label class="wflj"><input type="checkbox" name="freeTimeSection" value="009000-无法了解" _text="无法了解" @click="clickFreeTimeSectionCheck(2)"/> 无法了解 </label>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanFreeTimeSection(1)">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanFreeTimeSection(2)" id="cleanFreeTimeSectionBtn" style="display:none;">清除并关闭</button>
+     <button type="button" class="btn btn-primary" @click="selFreeTimeSection()">确定</button>
+   </div>
+  </div>
+</div>
+</div>
+<div class="item_sflr row">
+    <div class="col-title col-title-6">参观接待时间</div>
+  <a href="" data-toggle="modal" data-target="#recepTimeSectionModal">
+    <div class="col-input-6-1">
+      <span class="input_style form-group" id="recepTimeSection">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="recepTimeSectionModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">参观接待时间</h4></div>
+   <div class="modal-body">
+      <label><input type="radio" name="recepTimeSection" value="018001-15分钟以内-0~15" _text="15分钟以内" @click="selRecepTimeSection()"/> 15分钟以内 </label>
+      <label><input type="radio" name="recepTimeSection" value="018002-15~30分钟-15~30" _text="15~30分钟" @click="selRecepTimeSection()"/> 15~30分钟 </label>
+      <label><input type="radio" name="recepTimeSection" value="018003-30^60分钟-30~60" _text="30~60分钟" @click="selRecepTimeSection()"/> 30~60分钟 </label>
+      <label><input type="radio" name="recepTimeSection" value="018004-60~120分钟-60~120" _text="60~120分钟" @click="selRecepTimeSection()"/> 60~120分钟 </label>
+      <label><input type="radio" name="recepTimeSection" value="018005-120分钟以上-120~" _text="120分钟以上" @click="selRecepTimeSection()"/> 120分钟以上 </label>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanRecepTimeSection()" id="cleanRecepTimeSectionBtn" style="display:none;">清除并关闭</button>
+   </div>
+  </div>
+</div>
+</div>
+<div class="item_sflr row">
+    <div class="col-title col-title-4">客户评级</div>
+  <a href="" data-toggle="modal" data-target="#custScoreModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="custScore">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+ <div class="modal fade" id="custScoreModal" role="dialog">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+  <h4 class="modal-title">客户评级</h4></div>
+   <div class="modal-body">
+     <label><input type="radio" name="custScore" value="019001-A" _text="A" @click="selCustScore()"/> A </label>
+     <label><input type="radio" name="custScore" value="019002-B" _text="B" @click="selCustScore()"/> B </label>
+     <label><input type="radio" name="custScore" value="019003-C" _text="C" @click="selCustScore()"/> C </label>
+     <label><input type="radio" name="custScore" value="019004-D" _text="D" @click="selCustScore()"/> D </label>
+   </div>
+   <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+     <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanCustScore()" id="cleanCustScoreBtn" style="display:none;">清除并关闭</button>
+   </div>
+  </div>
+</div>
+</div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-9">目前进行比选项目有</div>
+    <div class="col-input">
+      <textarea rows="3" placeholder="" name="compareProjs"></textarea>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-6">复访接待描述</div>
+    <div class="col-input">
+    <textarea rows="3" placeholder="" name="custDescn"></textarea>
+    </div>
+  </div>
+  <div class="row row-link">
+  <div class="row row-link">
+    <div class="col-50" style="margin-top:1.5rem;" onClick="step4Prev()">上一步</div>
+	<div class="col-50" style="margin-top:1.5rem;" onClick="step4Next()">下一步</div>
+  </div>
+  </div>
+</div>
+<!-- 第4页 -->
+<div class="container" id="step5" style="display:none">
+<div class="xxws">信息完善</div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">家庭状况</div>
+    <a href="" data-toggle="modal" data-target="#familyStatusModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="familyStatus">&nbsp;</span>
+    </div>
+  </a>
+  </div>
+  <div class="modal fade" id="familyStatusModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">家庭状况</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="familyStatus" value="005001-单身" _text="单身" @click="selFamilyStatus()"/> 单身 </label>
+          <label><input type="radio" name="familyStatus" value="005002-夫妻" _text="夫妻" @click="selFamilyStatus()"/> 夫妻 </label>
+          <label><input type="radio" name="familyStatus" value="005003-一孩家庭" _text="一孩家庭" @click="selFamilyStatus()"/> 一孩家庭 </label>
+          <label><input type="radio" name="familyStatus" value="005004-俩孩家庭" _text="俩孩家庭" @click="selFamilyStatus()"/> 俩孩家庭 </label>
+          <label><input type="radio" name="familyStatus" value="005005-三孩及以上家庭" _text="三孩及以上家庭" @click="selFamilyStatus()"/> 三孩及以上家庭 </label>
+          <label><input type="radio" name="familyStatus" value="005006-三代同堂" _text="三代同堂" @click="selFamilyStatus()"/> 三代同堂 </label>
+          <label class="wflj"><input type="radio" name="familyStatus" value="005000-无法了解" _text="无法了解" @click="selFamilyStatus()"/> 无法了解 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanFamilyStatus()" id="cleanFamilyStatusBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">出行方式</div>
+    <a href="" data-toggle="modal" data-target="#trafficTypeModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="trafficType">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="trafficTypeModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">出行方式</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="checkbox" name="trafficType" value="006001-自驾车" _text="自驾车" @click="clickTrafficCheck(1)"/> 自驾车 </label>
+          <label><input type="checkbox" name="trafficType" value="006002-公交" _text="公交" @click="clickTrafficCheck(1)"/> 公交 </label>
+          <label><input type="checkbox" name="trafficType" value="006003-地铁" _text="地铁" @click="clickTrafficCheck(1)"/> 地铁 </label>
+          <label><input type="checkbox" name="trafficType" value="006004-步行" _text="步行" @click="clickTrafficCheck(1)"/> 步行 </label>
+          <label><input type="checkbox" name="trafficType" value="006005-打车" _text="打车" @click="clickTrafficCheck(1)"/> 打车 </label>
+          <label class="wflj"><input type="checkbox" name="trafficType" value="006000-无法了解" _text="无法了解" @click="clickTrafficCheck(2)"/> 无法了解 </label><br/>
+          <label><input type="checkbox" name="trafficType" value="006999-其他" _text="其他" @click="clickTrafficCheck(3)"/> 其他 </label>
+          <input type="text" placeholder="" name="trafficTypeDesc" style="display:none;"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanTrafficType(1)">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanTrafficType(2)" id="cleanTrafficTypeBtn" style="display:none;">清除并关闭</button>
+          <button type="button" class="btn btn-primary" @click="selTrafficType()">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">购房资格</div>
+    <a href="" data-toggle="modal" data-target="#buyQualifyModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="buyQualify">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="buyQualifyModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">购房资格</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="buyQualify" value="004001-有" _text="有" @click="selBuyQualify()"/> 有 </label>
+          <label><input type="radio" name="buyQualify" value="004002-无(换产权名解决)" _text="无(换产权名解决)" @click="selBuyQualify()"/> 无(换产权名解决) </label>
+          <label><input type="radio" name="buyQualify" value="004003-无(房产过户解决)" _text="无(房产过户解决)" @click="selBuyQualify()"/> 无(房产过户解决) </label>
+          <label><input type="radio" name="buyQualify" value="004004-无(离婚解决)" _text="无(离婚解决)" @click="selBuyQualify()"/> 无(离婚解决) </label>
+          <label><input type="radio" name="buyQualify" value="004005-无(公司产权解决)" _text="无(公司产权解决)" @click="selBuyQualify()"/> 无(公司产权解决) </label>
+          <label><input type="radio" name="buyQualify" value="004006-无(其它解决)" _text="无(其它解决)" @click="selBuyQualify()"/> 无(其它解决) </label>
+          <label class="wflj"><input type="radio" name="buyQualify" value="004000-无法了解" _text="无法了解" @click="selBuyQualify()"/> 无法了解 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanBuyQualify()" id="cleanBuyQualifyBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">从事行业</div>
+    <a href="" data-toggle="modal" data-target="#workIndustryModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="workIndustry">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="workIndustryModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">从事行业</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="workIndustry" value="007001-建筑房地产/装修" _text="建筑房地产/装修" @click="selWorkIndustry()"/> 建筑房地产/装修 </label>
+          <label><input type="radio" name="workIndustry" value="007002-旅游/文化/媒体" _text="旅游/文化/媒体" @click="selWorkIndustry()"/> 旅游/文化/媒体 </label>
+          <label><input type="radio" name="workIndustry" value="007003-能源" _text="能源" @click="selWorkIndustry()"/> 能源 </label>
+          <label><input type="radio" name="workIndustry" value="007004-IT" _text="IT" @click="selWorkIndustry()"/> IT </label>
+          <label><input type="radio" name="workIndustry" value="007005-金融投资" _text="金融投资" @click="selWorkIndustry()"/> 金融投资 </label>
+          <label><input type="radio" name="workIndustry" value="007006-外贸" _text="外贸" @click="selWorkIndustry()"/> 外贸 </label>
+          <label><input type="radio" name="workIndustry" value="007007-交通/物流/零售" _text="交通/物流/零售" @click="selWorkIndustry()"/> 交通/物流/零售 </label>
+          <label><input type="radio" name="workIndustry" value="007008-餐饮" _text="餐饮" @click="selWorkIndustry()"/> 餐饮 </label>
+          <label><input type="radio" name="workIndustry" value="007009-医疗" _text="医疗" @click="selWorkIndustry()"/> 医疗 </label>
+          <label><input type="radio" name="workIndustry" value="007010-教育" _text="教育" @click="selWorkIndustry()"/> 教育 </label>
+          <label><input type="radio" name="workIndustry" value="007011-通讯" _text="通讯" @click="selWorkIndustry()"/> 通讯 </label>
+          <label><input type="radio" name="workIndustry" value="007012-律师/法务" _text="律师/法务" @click="selWorkIndustry()"/> 律师/法务 </label>
+          <label><input type="radio" name="workIndustry" value="007013-退休" _text="退休" @click="selWorkIndustry()"/> 自驾车 </label>
+          <label class="wflj"><input type="radio" name="workIndustry" value="007000-无法了解" _text="无法了解" @click="selWorkIndustry()"/> 无法了解 </label><br/>
+          <label><input type="radio" name="workIndustry" value="007999-其他" _text="其他" @click="clickWorkIndustry()"/> 其他 </label>
+          <input type="text" placeholder="" name="workIndustryDesc" style="display:none;"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanWorkIndustry()" id="cleanWorkIndustryBtn" style="display:none;">清除并关闭</button>
+          <button type="button" class="btn btn-primary" @click="selWorkIndustry()">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">企业性质</div>
+    <a href="" data-toggle="modal" data-target="#enterpriseTypeModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="enterpriseType">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="enterpriseTypeModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">企业性质</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="enterpriseType" value="008001-国家行政机关及国企" _text="国家行政机关及国企" @click="selEnterpriseType()"/> 国家行政机关及国企 </label>
+          <label><input type="radio" name="enterpriseType" value="008002-民营企业" _text="民营企业" @click="selEnterpriseType()"/> 民营企业 </label>
+          <label><input type="radio" name="enterpriseType" value="008003-外资企业" _text="外资企业" @click="selEnterpriseType()"/> 外资企业 </label>
+          <label><input type="radio" name="enterpriseType" value="008004-合资企业" _text="合资企业" @click="selEnterpriseType()"/> 合资企业 </label>
+          <label><input type="radio" name="enterpriseType" value="008005-私营" _text="私营" @click="selEnterpriseType()"/> 私营 </label>
+          <label class="wflj"><input type="radio" name="enterpriseType" value="008000-无法了解" _text="无法了解" @click="selEnterpriseType()" color="red"/> 无法了解 </label>
+          <label><input type="radio" name="enterpriseType" value="008999-其他" _text="其他" @click="clickEnterpriseType()"/> 其他 </label>
+          <input type="text" placeholder="" name="enterpriseTypeDesc" style="display:none;"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanEnterpriseType()" id="cleanEnterpriseTypeBtn" style="display:none;">清除并关闭</button>
+          <button type="button" class="btn btn-primary" @click="selEnterpriseType()">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">认知渠道</div>
+    <a href="" data-toggle="modal" data-target="#knowWayModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="knowWay">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="knowWayModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">认知渠道</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="checkbox" name="knowWay" value="013001-户外广告牌" _text="户外广告牌" @click="clickKnowWayGGP()"/> 户外广告牌 </label>
+          <input type="text" placeholder="" name="knowWayGGP" style="display;" readonly/><br/>
+          <label><input type="checkbox" name="knowWay" value="013002-网络" _text="网络" @click="clickKnowWayCheck(1)"/> 网络 </label>
+          <label><input type="checkbox" name="knowWay" value="013003-短信" _text="短信" @click="clickKnowWayCheck(1)"/> 短信 </label>
+          <label><input type="checkbox" name="knowWay" value="013004-纸媒" _text="纸媒" @click="clickKnowWayCheck(1)"/> 纸媒 </label>
+          <label><input type="checkbox" name="knowWay" value="013005-路过" _text="路过" @click="clickKnowWayCheck(1)"/> 路过 </label>
+          <label><input type="checkbox" name="knowWay" value="013006-朋友介绍" _text="朋友介绍" @click="clickKnowWayCheck(1)"/> 朋友介绍 </label><br/>
+          <label><input type="checkbox" name="knowWay" value="013007-渠道介绍" _text="渠道介绍" @click="clickKnowWayJS()"/> 渠道介绍 </label>
+          <input type="text" placeholder="" name="knowWayJS" style="display;" readonly/>公司<br/>
+          <label><input type="checkbox" name="knowWay" value="013008-巡展" _text="巡展" @click="clickKnowWayCheck(1)"/> 巡展 </label>
+          <label><input type="checkbox" name="knowWay" value="013009-广播" _text="广播" @click="clickKnowWayCheck(1)"/> 广播 </label>
+          <label><input type="checkbox" name="knowWay" value="013010-电CALL" _text="电CALL" @click="clickKnowWayCheck(1)"/> 电CALL </label><br/>
+          <label><input type="checkbox" name="knowWay" value="013011-直投" _text="直投" @click="clickKnowWayCheck(1)"/> 直投 </label>
+          <label><input type="checkbox" name="knowWay" value="013012-活动" _text="活动" @click="clickKnowWayCheck(1)"/> 活动 </label>
+          <label><input type="checkbox" name="knowWay" value="013013-DM单" _text="DM单" @click="clickKnowWayCheck(1)"/> DM单 </label>
+          <label><input type="checkbox" name="knowWay" value="013014-外联" _text="外联" @click="clickKnowWayCheck(1)"/> 外联 </label>
+          <label><input type="checkbox" name="knowWay" value="013015-老带新" _text="老带新" @click="clickKnowWayCheck(3)"/> 老带新 </label>
+          <label class="wflj"><input type="checkbox" name="knowWay" value="013000-无法了解" _text="无法了解" @click="clickKnowWayCheck(2)"/> 无法了解 </label><br/>
+          <label><input type="checkbox" name="knowWay" value="013999-其他" _text="其他" @click="clickKnowWayCheck(3)"/> 其他 </label>
+          <input type="text" placeholder="" name="knowWayDesc" style="display:none;"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanKnowWay(1)">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanKnowWay(2)" id="cleanKnowWayBtn" style="display:none;">清除并关闭</button>
+          <button type="button" class="btn btn-primary" @click="selKnowWay()">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">预估身价</div>
+    <a href="" data-toggle="modal" data-target="#estCustWorthModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="estCustWorth">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="estCustWorthModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">预估身价</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="estCustWorth" value="015001-1千万以下-0~1000" _text="1千万以下" @click="selEstCustWorth()"/> 1千万以下 </label>
+          <label><input type="radio" name="estCustWorth" value="015002-1千~5千万-1000~5000" _text="1千~5千万" @click="selEstCustWorth()"/> 1千~5千万 </label>
+          <label><input type="radio" name="estCustWorth" value="015003-5千万~1亿-5000~10000" _text="5千万~1亿" @click="selEstCustWorth()"/> 5千万~1亿 </label>
+          <label><input type="radio" name="estCustWorth" value="015004-1~3亿-10000~30000" _text="1~3亿" @click="selEstCustWorth()"/> 1~3亿 </label>
+          <label><input type="radio" name="estCustWorth" value="015005-3亿以上-30000~" _text="3亿以上" @click="selEstCustWorth()"/> 3亿以上 </label>
+          <label class="wflj"><input type="radio" name="estCustWorth" value="015000-无法了解" _text="无法了解" @click="selEstCustWorth()"/> 无法了解 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanEstCustWorth()" id="cleanEstCustWorthBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">重点投资</div>
+    <a href="" data-toggle="modal" data-target="#investTypeModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="investType">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="investTypeModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">重点投资</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="checkbox" name="investType" value="016001-股票" _text="股票" @click="clickInvestTypeCheck(1)"/> 股票 </label>
+          <label><input type="checkbox" name="investType" value="016002-基金" _text="基金" @click="clickInvestTypeCheck(1)"/> 基金 </label>
+          <label><input type="checkbox" name="investType" value="016003-黄金" _text="黄金" @click="clickInvestTypeCheck(1)"/> 黄金 </label>
+          <label><input type="checkbox" name="investType" value="016004-股指期货" _text="股指期货" @click="clickInvestTypeCheck(1)"/> 股指期货 </label>
+          <label><input type="checkbox" name="investType" value="016005-外汇" _text="外汇" @click="clickInvestTypeCheck(1)"/> 外汇 </label>
+          <label><input type="checkbox" name="investType" value="016006-艺术品" _text="艺术品" @click="clickInvestTypeCheck(1)"/> 艺术品 </label>
+          <label><input type="checkbox" name="investType" value="016007-保险" _text="保险" @click="clickInvestTypeCheck(1)"/> 保险 </label>
+          <label><input type="checkbox" name="investType" value="016008-民间投资" _text="民间投资" @click="clickInvestTypeCheck(1)"/> 民间投资 </label>
+          <label class="wflj"><input type="checkbox" name="investType" value="016000-无法了解" _text="无法了解" @click="clickInvestTypeCheck(2)"/> 无法了解 </label><br/>
+          <label><input type="checkbox" name="investType" value="016999-其他" _text="其他" @click="clickInvestTypeCheck(3)"/> 其他 </label>
+          <input type="text" placeholder="" name="investTypeDesc" style="display:none;"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanInvestType(1)">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanInvestType(2)" id="cleanInvestTypeBtn" style="display:none;">清除并关闭</button>
+          <button type="button" class="btn btn-primary" @click="selInvestType()">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-5">资金筹备期</div>
+    <a href="" data-toggle="modal" data-target="#capitalPrepSectionModal">
+    <div class="col-input-5-1">
+      <span class="input_style form-group" id="capitalPrepSection">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="capitalPrepSectionModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">资金筹备期</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="capitalPrepSection" value="017001-1个月内-0~1" _text="1个月内" @click="selCapitalPrepSection()"/> 1个月内 </label>
+          <label><input type="radio" name="capitalPrepSection" value="017002-1~3月-1~3" _text="1~3月" @click="selCapitalPrepSection()"/> 1~3月 </label>
+          <label><input type="radio" name="capitalPrepSection" value="017003-3~6月-3~6" _text="3~6月" @click="selCapitalPrepSection()"/> 3~6月 </label>
+          <label><input type="radio" name="capitalPrepSection" value="017004-6~12月-6~12" _text="6~12月" @click="selCapitalPrepSection()"/> 6~12月 </label>
+          <label><input type="radio" name="capitalPrepSection" value="017005-12月以上-12~" _text="12月以上" @click="selCapitalPrepSection()"/> 12月以上 </label>
+          <label class="wflj"><input type="radio" name="capitalPrepSection" value="017000-无法了解" _text="无法了解" @click="selCapitalPrepSection()"/> 无法了解 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanCapitalPrepSection()" id="cleanCapitalPrepSectionBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-6">关注产品类型</div>
+    <a href="" data-toggle="modal" data-target="#realtyProductTypeModal">
+    <div class="col-input-6-1">
+      <span class="input_style form-group" id="realtyProductType">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="realtyProductTypeModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">关注产品类型</h4>
+        </div>
+        <div class="modal-body">
+          <label>别墅&nbsp;(
+          <input type="checkbox" name="realtyProductType" value="009001001-独栋" _text="别墅-独栋" @click="clickRealtyProductTypeCheck(1)"/> 独栋 </label>
+          <label><input type="checkbox" name="realtyProductType" value="009001002-类独栋" _text="别墅-类独栋" @click="clickRealtyProductTypeCheck(1)"/> 类独栋 </label>
+          <label><input type="checkbox" name="realtyProductType" value="009001003-双拼" _text="别墅-双拼" @click="clickRealtyProductTypeCheck(1)"/> 双拼 </label>
+          <label><input type="checkbox" name="realtyProductType" value="009001004-联排" _text="别墅-联排" @click="clickRealtyProductTypeCheck(1)"/> 联排 </label>
+          <label><input type="checkbox" name="realtyProductType" value="009001005-上叠" _text="别墅-上叠" @click="clickRealtyProductTypeCheck(1)"/> 上叠 </label>
+          <label><input type="checkbox" name="realtyProductType" value="009001006-下叠" _text="别墅-下叠" @click="clickRealtyProductTypeCheck(1)"/> 下叠 )</label><br/>
+          <label>平层&nbsp;(
+          <input type="checkbox" name="realtyProductType" value="009002001-两居及以下" _text="平层-两居及以下" @click="clickRealtyProductTypeCheck(1)"/> 两居及以下 </label>
+          <label><input type="checkbox" name="realtyProductType" value="009002002-三居" _text="平层-三居" @click="clickRealtyProductTypeCheck(1)"/> 三居 </label>
+          <label><input type="checkbox" name="realtyProductType" value="009002003-四居" _text="平层-四居" @click="clickRealtyProductTypeCheck(1)"/> 四居 </label>
+          <label><input type="checkbox" name="realtyProductType" value="009002004-五居及以上" _text="平层-五居及以上" @click="clickRealtyProductTypeCheck(1)"/> 五居及以上 )</label><br/>
+          <label><input type="checkbox" name="realtyProductType" value="009003-商业" _text="商业" @click="clickRealtyProductTypeCheck(1)"> 商业 </label>
+          <label><input type="checkbox" name="realtyProductType" value="00904-商业办公" _text="商业办公" @click="clickRealtyProductTypeCheck(1)"/> 商业办公 </label>
+          <label class="wflj"><input type="checkbox" name="realtyProductType" value="009000-无法了解" _text="无法了解" @click="clickRealtyProductTypeCheck(2)"/> 无法了解 </label><br/>
+          <label><input type="checkbox" name="realtyProductType" value="009999-其他" _text="其他" @click="clickRealtyProductTypeCheck(3)"/> 其他 </label>
+          <input type="text" placeholder="" name="realtyProductTypeDesc" style="display:none;"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanRealtyProductType(1)">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanRealtyProductType(2)" id="cleanRealtyProductTypeBtn" style="display:none;">清除并关闭</button>
+          <button type="button" class="btn btn-primary" @click="selRealtyProductType()">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-6">关注区间面积</div>
+    <a href="" data-toggle="modal" data-target="#attentAcreageModal">
+    <div class="col-input-6-1">
+      <span class="input_style form-group" id="attentAcreage">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="attentAcreageModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">关注区间面积</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="attentAcreage" value="010001-200㎡以下-0~200" _text="200㎡以下" @click="selAttentAcreage()"/> 200㎡以下 </label>
+          <label><input type="radio" name="attentAcreage" value="010002-200~300㎡-200~300" _text="200~300㎡" @click="selAttentAcreage()"/> 200~300㎡ </label>
+          <label><input type="radio" name="attentAcreage" value="010003-300~400㎡-300~400" _text="300~400㎡" @click="selAttentAcreage()"/> 300~400㎡ </label>
+          <label><input type="radio" name="attentAcreage" value="010004-400~500㎡-400~500" _text="400~500㎡" @click="selAttentAcreage()"/> 400~500㎡ </label>
+          <label><input type="radio" name="attentAcreage" value="010005-500~600㎡-500~600" _text="500~600㎡" @click="selAttentAcreage()"/> 500~600㎡ </label>
+          <label><input type="radio" name="attentAcreage" value="010006-600~700㎡-600~700" _text="600~700㎡" @click="selAttentAcreage()"/> 600~700㎡ </label>
+          <label><input type="radio" name="attentAcreage" value="010007-700~800㎡-700~800" _text="700~800㎡" @click="selAttentAcreage()"/> 700~800㎡ </label>
+          <label><input type="radio" name="attentAcreage" value="010008-800㎡以上-800~" _text="800㎡以上" @click="selAttentAcreage()"/> 800㎡以上 </label><br/>
+          <label class="wflj"><input type="radio" name="attentAcreage" value="010000-无法了解" _text="无法了解" @click="selAttentAcreage()"/> 无法了解 </label><br/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanAttentAcreage()" id="cleanAttentAcreageBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-5">接受总房款</div>
+    <a href="" data-toggle="modal" data-target="#priceSectionModal">
+    <div class="col-input-5-1">
+      <span class="input_style form-group" id="priceSection">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="priceSectionModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">接受总房款</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="priceSection" value="011001-500万以下-0~500" _text="500万以下" @click="selPriceSection()"/> 500万以下 </label>
+          <label><input type="radio" name="priceSection" value="011002-500~1000万-500~1000" _text="500~1000万" @click="selPriceSection()"/> 500-1000万 </label>
+          <label><input type="radio" name="priceSection" value="011003-1000~1500万-1000~1500" _text="1000~1500万" @click="selPriceSection()"/> 1000~1500万 </label>
+          <label><input type="radio" name="priceSection" value="011004-1500~2000万-1500~2000" _text="1500~2000万" @click="selPriceSection()"/> 1500~2000万 </label>
+          <label><input type="radio" name="priceSection" value="011005-2000~3000万-2000~3000" _text="2000~3000万" @click="selPriceSection()"/> 2000~3000万 </label>
+          <label><input type="radio" name="priceSection" value="011006-3000~4000万-3000~4000" _text="3000~4000万" @click="selPriceSection()"/> 3000~4000万 </label>
+          <label><input type="radio" name="priceSection" value="011007-4000~5000万-4000~5000" _text="4000~5000万" @click="selPriceSection()"/> 4000~5000万 </label>
+          <label><input type="radio" name="priceSection" value="011008-5000~6000万-5000~6000" _text="5000~6000万" @click="selPriceSection()"/> 5000~6000万 </label>
+          <label><input type="radio" name="priceSection" value="011009-6000~8000万-6000~8000" _text="6000~8000万" @click="selPriceSection()"/> 6000~8000万 </label>
+          <label><input type="radio" name="priceSection" value="011010-8000万以上-8000~" _text="8000万以上" @click="selPriceSection()"/> 8000万以上 </label>
+          <label class="wflj"><input type="radio" name="priceSection" value="011000-无法了解" _text="无法了解" @click="selPriceSection()"/> 无法了解 </label><br/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanPriceSection()" id="cleanPriceSectionBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">购房目的</div>
+    <a href="" data-toggle="modal" data-target="#buyPurposeModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="buyPurpose">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="buyPurposeModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">购房目的</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="buyPurpose" value="012001-自住第一居所" _text="自住第一居所" @click="selBuyPurpose()"/> 自住第一居所 </label>
+          <label><input type="radio" name="buyPurpose" value="012002-自住第二居所" _text="自住第二居所" @click="selBuyPurpose()"/> 自住第二居所 </label>
+          <label><input type="radio" name="buyPurpose" value="012003-为子女购房" _text="为子女购房" @click="selBuyPurpose()"/> 为子女购房 </label>
+          <label><input type="radio" name="buyPurpose" value="012004-为父母购房" _text="为父母购房" @click="selBuyPurpose()"/> 为父母购房 </label>
+          <label><input type="radio" name="buyPurpose" value="012005-自住兼投资" _text="自住兼投资" @click="selBuyPurpose()"/> 自住兼投资 </label>
+          <label><input type="radio" name="buyPurpose" value="012006-仅投资" _text="仅投资" @click="selBuyPurpose()"/> 仅投资 </label>
+          <label class="wflj"><input type="radio" name="buyPurpose" value="012000-无法了解" _text="无法了解" @click="selBuyPurpose()"/> 无法了解 </label><br/>
+          <label><input type="radio" name="buyPurpose" value="012999-其他" _text="其他" @click="clickBuyPurpose()"/> 其他 </label>
+          <input type="text" placeholder="" name="buyPurposeDesc" style="display:none;"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanBuyPurpose()" id="cleanBuyPurposeBtn" style="display:none;">清除并关闭</button>
+          <button type="button" class="btn btn-primary" @click="selBuyPurpose()">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-6">对本案关注点</div>
+    <a href="" data-toggle="modal" data-target="#attentionPointModal">
+    <div class="col-input-6-1">
+      <span class="input_style form-group" id="attentionPoint">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="attentionPointModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">对本案关注点</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="checkbox" name="attentionPoint" value="014001-位置" _text="位置" @click="clickAttentionPointCheck(1)"/> 位置 </label>
+          <label><input type="checkbox" name="attentionPoint" value="014002-产品类型" _text="产品类型" @click="clickAttentionPointCheck(1)"/> 产品类型 </label>
+          <label><input type="checkbox" name="attentionPoint" value="014003-交通" _text="交通" @click="clickAttentionPointCheck(1)"/> 交通 </label>
+          <label><input type="checkbox" name="attentionPoint" value="014004-区域环境" _text="区域环境" @click="clickAttentionPointCheck(1)"/> 区域环境 </label>
+          <label><input type="checkbox" name="attentionPoint" value="014005-价格" _text="价格" @click="clickAttentionPointCheck(1)"/> 价格 </label>
+          <label><input type="checkbox" name="attentionPoint" value="014006-户型" _text="户型" @click="clickAttentionPointCheck(1)"/> 户型 </label>
+          <label><input type="checkbox" name="attentionPoint" value="014007-花园面积" _text="花园面积" @click="clickAttentionPointCheck(1)"/> 花园面积 </label>
+          <label><input type="checkbox" name="attentionPoint" value="014008-园林环境" _text="园林环境" @click="clickAttentionPointCheck(1)"/> 园林环境 </label>
+          <label><input type="checkbox" name="attentionPoint" value="014009-科技设备" _text="科技设备" @click="clickAttentionPointCheck(1)"/> 科技设备 </label>
+          <label><input type="checkbox" name="attentionPoint" value="014010-交房时间" _text="交房时间" @click="clickAttentionPointCheck(1)"/> 交房时间 </label>
+          <label><input type="checkbox" name="attentionPoint" value="014011-社区配套" _text="社区配套" @click="clickAttentionPointCheck(1)"/> 社区配套 </label>
+          <label><input type="checkbox" name="attentionPoint" value="014012-物业服务" _text="物业服务" @click="clickAttentionPointCheck(1)"/> 物业服务 </label>
+          <label><input type="checkbox" name="attentionPoint" value="014013-教育环境" _text="教育环境" @click="clickAttentionPointCheck(1)"/> 教育环境 </label>
+          <label><input type="checkbox" name="attentionPoint" value="014014-开发品牌" _text="开发品牌" @click="clickAttentionPointCheck(1)"/> 开发品牌 </label>
+          <label><input type="checkbox" name="attentionPoint" value="014015-增值潜力" _text="增值潜力" @click="clickAttentionPointCheck(1)"/> 增值潜力 </label>
+          <label><input type="checkbox" name="attentionPoint" value="014016-交房时间" _text="交房时间" @click="clickAttentionPointCheck(1)"/> 交房时间 </label>
+          <label class="wflj"><input type="checkbox" name="attentionPoint" value="012000-无法了解" _text="无法了解" @click="clickAttentionPointCheck(2)"/> 无法了解 </label>
+          <label><input type="checkbox" name="attentionPoint" value="012999-其他" _text="其他" @click="clickAttentionPointCheck(3)"/> 其他 </label>
+          <input type="text" placeholder="" name="attentionPointDesc" style="display:none;"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanAttentionPoint(1)">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanAttentionPoint(2)" id="cleanAttentionPointBtn" style="display:none;">清除并关闭</button>
+          <button type="button" class="btn btn-primary" @click="selAttentionPoint()">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row row-link">
+    <div class="col-50" style="margin-top:1.5rem;" onClick="step5Prev()"><a href="#">上一步</a></div>
+    <div class="col-50" style="margin-top:1.5rem;" onClick="commitData()"><a href="#">提交</a></div>
+  </div>
+</div>
+<script src="./02Input.js"></script>
+</body>
+</html>

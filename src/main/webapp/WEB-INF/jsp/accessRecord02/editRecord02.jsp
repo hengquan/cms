@@ -344,74 +344,52 @@ px
 									</tr>
 
 									<tr>
-										<td colspan="3">未成年子女数量（小于18岁）：<input name="child_num"
-											type="radio" value="0位" style="width: 1rem"
-											onclick="lingwei()">0位 <input name="child_num"
-											type="radio" value="1位" style="width: 1rem"
-											onclick="lingweixianshi()">1位 <input name="child_num"
-											type="radio" value="2位" style="width: 1rem"
-											onclick="lingweixianshi()">2位 <input name="child_num"
-											type="radio" value="3位" style="width: 1rem"
-											onclick="lingweixianshi()">3位 <input name="child_num"
-											type="radio" value="无法了解" style="width: 1rem"
-											onclick="lingwei()"><span style="color: red">无法了解</span>
+										<td colspan="3">未成年子女数量（小于18岁）：
+										<input name="child_num" type="radio" value="0位" style="width: 1rem" onclick="lingwei()">0位 
+										<input name="child_num" type="radio" value="1位" style="width: 1rem" onclick="lingweixianshi()">1位 
+										<input name="child_num" type="radio" value="2位" style="width: 1rem" onclick="lingweixianshi()">2位 
+										<input name="child_num" type="radio" value="3位" style="width: 1rem" onclick="lingweixianshi()">3位 
+										<input name="child_num" type="radio" value="无法了解" style="width: 1rem" onclick="lingwei()">
+										<span style="color: red">无法了解</span>
 										</td>
 									</tr>
 
 									<tr>
-										<td colspan="3" id="td1"><span id="box1"
-											style="display: block;">孩子年龄段：<input
-												name="child_age[]" type="checkbox" value="0-3岁"
-												style="width: 1rem" onclick="child_age1(event,this)">0-3岁
-												<input name="child_age[]" type="checkbox" value="4-6岁"
-												style="width: 1rem" onclick="child_age1(event,this)">4-6岁
-												<input name="child_age[]" type="checkbox" value="7-12岁"
-												style="width: 1rem" onclick="child_age1(event,this)">7-12岁
-												<input name="child_age[]" type="checkbox" value="13-15岁"
-												style="width: 1rem" onclick="child_age1(event,this)">13-15岁
-												<input name="child_age[]" type="checkbox" value="16-18岁"
-												style="width: 1rem" onclick="child_age1(event,this)">16-18岁
-												<input name="child_age[]" type="checkbox" value="18岁以上"
-												style="width: 1rem" onclick="child_age1(event,this)">18岁以上
-												<input name="child_age[]" type="checkbox" value="无法了解"
-												style="width: 1rem; color: red"
-												onclick="child_age(event,this)"><span
-												style="color: red">无法了解</span></span></td>
-
+										<td colspan="3" id="td1"><span id="box1" style="display: block;">孩子年龄段：
+											<input name="child_age[]" type="checkbox" value="0-3岁" style="width: 1rem" onclick="child_age1(event,this)">0-3岁
+											<input name="child_age[]" type="checkbox" value="4-6岁" style="width: 1rem" onclick="child_age1(event,this)">4-6岁
+											<input name="child_age[]" type="checkbox" value="7-12岁" style="width: 1rem" onclick="child_age1(event,this)">7-12岁
+											<input name="child_age[]" type="checkbox" value="13-15岁" style="width: 1rem" onclick="child_age1(event,this)">13-15岁
+											<input name="child_age[]" type="checkbox" value="16-18岁" style="width: 1rem" onclick="child_age1(event,this)">16-18岁
+											<input name="child_age[]" type="checkbox" value="18岁以上" style="width: 1rem" onclick="child_age1(event,this)">18岁以上
+											<input name="child_age[]" type="checkbox" value="无法了解" style="width: 1rem; color: red" onclick="child_age(event,this)">
+											<span style="color: red">无法了解</span></span>
+										</td>
 									</tr>
 
 									<tr>
-										<td colspan="2" id="td2"><span id="box2"
-											style="display: block;">孩子在读学校类型：<input
-												name="school_type[]" type="checkbox" value="公立"
-												style="width: 1rem" onclick="school_type1(event,this)">公立
-												<input name="school_type[]" type="checkbox" value="私立"
-												style="width: 1rem" onclick="school_type1(event,this)">私立
-												<input name="school_type[]" type="checkbox" value="国际学校"
-												style="width: 1rem" onclick="school_type1(event,this)">国际学校
-												<input name="school_type[]" type="checkbox" value="国外学习"
-												style="width: 1rem" onclick="school_type1(event,this)">国外学习
-												<input name="school_type[]" type="checkbox" value="无法了解"
-												style="width: 1rem; color: red"
-												onclick="school_type(event,this)"><span
-												style="color: red">无法了解</span></span></td>
-
+										<td colspan="2" id="td2"><span id="box2" style="display: block;">孩子在读学校类型：
+										<input name="school_type[]" type="checkbox" value="公立" style="width: 1rem" onclick="school_type1(event,this)">公立
+										<input name="school_type[]" type="checkbox" value="私立" style="width: 1rem" onclick="school_type1(event,this)">私立
+										<input name="school_type[]" type="checkbox" value="国际学校" style="width: 1rem" onclick="school_type1(event,this)">国际学校
+										<input name="school_type[]" type="checkbox" value="国外学习" style="width: 1rem" onclick="school_type1(event,this)">国外学习
+										<input name="school_type[]" type="checkbox" value="无法了解" style="width: 1rem; color: red" onclick="school_type(event,this)">
+										<span style="color: red">无法了解</span></span>
+										</td>
 										<td id="td3"><span id="box3" style="display: block;">在读学校名称：<input
 												type="text" style="width: 9rem" name="school_name"></span>
 										</td>
 									</tr>
 
 									<tr>
-										<td colspan="3">您的生活半径：<input name="banjing[]"
-											type="checkbox" value="二环以内" style="width: 1rem">二环以内
-											<input name="banjing[]" type="checkbox" value="二环-三环"
-											style="width: 1rem">二环-三环 <input name="banjing[]"
-											type="checkbox" value="三环-四环" style="width: 1rem">三环-四环
-											<input name="banjing[]" type="checkbox" value="四环-五环"
-											style="width: 1rem">四环-五环 <input name="banjing[]"
-											type="checkbox" value="五环以外" style="width: 1rem">五环以外
-											<input name="banjing[]" type="checkbox" value="无法了解"
-											style="width: 1rem"><span style="color: red">无法了解</span>
+										<td colspan="3">您的生活半径：
+										<input name="banjing[]" type="checkbox" value="二环以内" style="width: 1rem">二环以内
+										<input name="banjing[]" type="checkbox" value="二环-三环" style="width: 1rem">二环-三环 
+										<input name="banjing[]" type="checkbox" value="三环-四环" style="width: 1rem">三环-四环
+										<input name="banjing[]" type="checkbox" value="四环-五环" style="width: 1rem">四环-五环 
+										<input name="banjing[]" type="checkbox" value="五环以外" style="width: 1rem">五环以外
+										<input name="banjing[]" type="checkbox" value="无法了解" style="width: 1rem">
+										<span style="color: red">无法了解</span>
 										</td>
 									</tr>
 
@@ -422,16 +400,21 @@ px
 									</tr>
 
 									<tr>
-										<td colspan="3">目前的居住面积：<input name="mianji" type="radio"
-											value="100㎡以下" style="width: 1rem">100㎡以下 <input
+										<td colspan="3">目前的居住面积：
+										<input name="mianji" type="radio"
+											value="100㎡以下" style="width: 1rem">100㎡以下 
+											<input
 											name="mianji" type="radio" value="200-300㎡"
-											style="width: 1rem">100-200㎡ <input name="mianji"
+											style="width: 1rem">100-200㎡ 
+											<input name="mianji"
 											type="radio" value="300-400㎡" style="width: 1rem">200-300㎡
 											<input name="mianji" type="radio" value="400-500㎡"
-											style="width: 1rem">300-400㎡ <input name="mianji"
+											style="width: 1rem">300-400㎡ 
+											<input name="mianji"
 											type="radio" value="500-600㎡" style="width: 1rem">400-500㎡
 											<input name="mianji" type="radio" value="700-800㎡"
-											style="width: 1rem">500㎡以上 <input name="mianji"
+											style="width: 1rem">500㎡以上 
+											<input name="mianji"
 											type="radio" value="无法了解" style="width: 1rem"><span
 											style="color: red">无法了解</span>
 
