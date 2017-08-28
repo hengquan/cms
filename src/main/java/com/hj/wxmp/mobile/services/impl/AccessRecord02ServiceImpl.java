@@ -84,5 +84,9 @@ public class AccessRecord02ServiceImpl implements AccessRecord02Service {
 	public List<AccessRecord02> selectByUserId(Map<String, Object> datamsg) {
 		return dao.selectByUserId(datamsg);
 	}
+	@Override
+	public Integer selectMessageCount(Map<String, Object> map) {
+		return dao.selectMessageCount(map);
+	}
 
 }

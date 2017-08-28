@@ -3,7 +3,7 @@ package com.hj.wxmp.mobile.entity;
 import java.util.Date;
 
 public class ProjCustRef {
-    private String id;
+	private String id;
 
     private String projid;
 
@@ -19,6 +19,8 @@ public class ProjCustRef {
 
     private String resistpoint;
 
+    private String capitalprepsection;
+
     private Integer isvalidate;
 
     private Date ctime;
@@ -29,107 +31,116 @@ public class ProjCustRef {
 
     private String resistpointdesc;
 
-    public String getKnowwaydesc() {
-        return knowwaydesc;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setKnowwaydesc(String knowwaydesc) {
-        this.knowwaydesc = knowwaydesc == null ? null : knowwaydesc.trim();
-    }
+	public String getProjid() {
+		return projid;
+	}
 
-    public String getAttentionpointdesc() {
-        return attentionpointdesc;
-    }
+	public String getCustid() {
+		return custid;
+	}
 
-    public void setAttentionpointdesc(String attentionpointdesc) {
-        this.attentionpointdesc = attentionpointdesc == null ? null : attentionpointdesc.trim();
-    }
+	public Date getFirstknowtime() {
+		return firstknowtime;
+	}
 
-    public String getResistpointdesc() {
-        return resistpointdesc;
-    }
+	public String getKnowway() {
+		return knowway;
+	}
 
-    public void setResistpointdesc(String resistpointdesc) {
-        this.resistpointdesc = resistpointdesc == null ? null : resistpointdesc.trim();
-    }
+	public String getAttentionpoint() {
+		return attentionpoint;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public String getCompareprojs() {
+		return compareprojs;
+	}
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	public String getResistpoint() {
+		return resistpoint;
+	}
 
-    public String getProjid() {
-        return projid;
-    }
+	public String getCapitalprepsection() {
+		return capitalprepsection;
+	}
 
-    public void setProjid(String projid) {
-        this.projid = projid == null ? null : projid.trim();
-    }
+	public Integer getIsvalidate() {
+		return isvalidate;
+	}
 
-    public String getCustid() {
-        return custid;
-    }
+	public Date getCtime() {
+		return ctime;
+	}
 
-    public void setCustid(String custid) {
-        this.custid = custid == null ? null : custid.trim();
-    }
+	public String getKnowwaydesc() {
+		return knowwaydesc;
+	}
 
-    public Date getFirstknowtime() {
-        return firstknowtime;
-    }
+	public String getAttentionpointdesc() {
+		return attentionpointdesc;
+	}
 
-    public void setFirstknowtime(Date firstknowtime) {
-        this.firstknowtime = firstknowtime;
-    }
+	public String getResistpointdesc() {
+		return resistpointdesc;
+	}
 
-    public String getKnowway() {
-        return knowway;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setKnowway(String knowway) {
-        this.knowway = knowway == null ? null : knowway.trim();
-    }
+	public void setProjid(String projid) {
+		this.projid = projid;
+	}
 
-    public String getAttentionpoint() {
-        return attentionpoint;
-    }
+	public void setCustid(String custid) {
+		this.custid = custid;
+	}
 
-    public void setAttentionpoint(String attentionpoint) {
-        this.attentionpoint = attentionpoint == null ? null : attentionpoint.trim();
-    }
+	public void setFirstknowtime(Date firstknowtime) {
+		this.firstknowtime = firstknowtime;
+	}
 
-    public String getCompareprojs() {
-        return compareprojs;
-    }
+	public void setKnowway(String knowway) {
+		this.knowway = knowway;
+	}
 
-    public void setCompareprojs(String compareprojs) {
-        this.compareprojs = compareprojs == null ? null : compareprojs.trim();
-    }
+	public void setAttentionpoint(String attentionpoint) {
+		this.attentionpoint = attentionpoint;
+	}
 
-    public String getResistpoint() {
-        return resistpoint;
-    }
+	public void setCompareprojs(String compareprojs) {
+		this.compareprojs = compareprojs;
+	}
 
-    public void setResistpoint(String resistpoint) {
-        this.resistpoint = resistpoint == null ? null : resistpoint.trim();
-    }
+	public void setResistpoint(String resistpoint) {
+		this.resistpoint = resistpoint;
+	}
 
-    public Integer getIsvalidate() {
-        return isvalidate;
-    }
+	public void setCapitalprepsection(String capitalprepsection) {
+		this.capitalprepsection = capitalprepsection;
+	}
 
-    public void setIsvalidate(Integer isvalidate) {
-        this.isvalidate = isvalidate;
-    }
+	public void setIsvalidate(Integer isvalidate) {
+		this.isvalidate = isvalidate;
+	}
 
-    public Date getCtime() {
-        return ctime;
-    }
+	public void setCtime(Date ctime) {
+		this.ctime = ctime;
+	}
 
-    public void setCtime(Date ctime) {
-        this.ctime = ctime;
-    }
+	public void setKnowwaydesc(String knowwaydesc) {
+		this.knowwaydesc = knowwaydesc;
+	}
+
+	public void setAttentionpointdesc(String attentionpointdesc) {
+		this.attentionpointdesc = attentionpointdesc;
+	}
+
+	public void setResistpointdesc(String resistpointdesc) {
+		this.resistpointdesc = resistpointdesc;
+	}
+    
 }

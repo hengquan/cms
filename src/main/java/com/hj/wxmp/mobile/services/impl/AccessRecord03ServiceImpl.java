@@ -85,5 +85,9 @@ public class AccessRecord03ServiceImpl implements AccessRecord03Service {
 	public List<AccessRecord03> selectByUserId(Map<String, Object> datamsg) {
 		return dao.selectByUserId(datamsg);
 	}
+	@Override
+	public Integer selectMessageCount(Map<String, Object> map) {
+		return dao.selectMessageCount(map);
+	}
 
 }

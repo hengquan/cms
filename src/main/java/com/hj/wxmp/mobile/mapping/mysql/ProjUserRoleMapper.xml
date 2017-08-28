@@ -129,7 +129,21 @@
   </delete>
   
   
+  <select id="selectByProjId" resultType="java.util.Map" parameterType="java.lang.String">
+  	select `user`.id,`user`.realName,`user`.mainPhoneNum 
+  	from 
+  	ql_ProjUserRole proj join plat_User user on proj.userId = `user`.id 
+  	where 
+  	proj.projId = #{projId}
+  </select>
   
+  <select id="selectByProjIdAndUserId" resultType="java.util.Map" parameterType="java.util.Map">
+  	select cus.id,cus.custName,cus.phoneNum 
+  	from  
+  	ql_UserCust_Ref userCust join ql_Customer cus on userCust.custId = cus.id 
+  	where 
+  	userCust.projId = #{projId} and userCust.userId=#{userId}
+  </select>
   
   
 </mapper>

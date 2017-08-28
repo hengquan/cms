@@ -229,7 +229,7 @@ rgba
 									<td style="width: 320px;">性别：<input name="sex"
 										type="text" value="${accessRecord01.custsex }" style="width: 10rem" >
 									</td>
-									<td style="width: 270px">置业顾问：贺渝测试</td>
+									<td style="width: 270px">置业顾问：${name }</td>
 								</tr>
 
 								<tr>
@@ -252,11 +252,11 @@ rgba
 
 								<tr>
 									<td>本地居住： 
-										<input type="text" value="${accessRecord01.localresidence }" style="width: 10rem">
+										<input type="text" value="${accessRecord01.localresidence }" style="width: 20rem">
 									</td>
 
 									<td>本地工作：
-										<input type="text" value="${accessRecord01.localworkarea }" style="width: 10rem">
+										<input type="text" value="${accessRecord01.localworkarea }" style="width: 20rem">
 									</td>
 
 									<td>有无购房资格：
@@ -266,11 +266,11 @@ rgba
 
 								<tr>
 									<td>外埠居住：
-										<input type="text" value="${accessRecord01.outresidence }" style="width: 10rem">
+										<input type="text" value="${accessRecord01.outresidence }" style="width: 20rem">
 									</td>
 
 									<td>外埠工作： 
-										<input type="text" value="${accessRecord01.outworkarea }" style="width: 10rem">
+										<input type="text" value="${accessRecord01.outworkarea }" style="width: 20rem">
 									</td>
 
 									<td></td>

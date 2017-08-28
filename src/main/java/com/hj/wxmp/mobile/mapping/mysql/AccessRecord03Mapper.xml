@@ -466,7 +466,22 @@
 	FROM
 		ql_AccessRecord03 ql3
 	JOIN ql_Project qlp ON ql3.projId = qlp.id
-	JOIN plat_User plu ON ql3.creatorId = plu.id 
+	JOIN plat_User plu ON ql3.authorId = plu.id 
+	WHERE 1=1 
+	<if test="state != -1 and state != null">
+		and ql3.status = #{state}
+	</if>
+	and instr(ql3.custName , #{userName})
+	limit #{page},#{pageSize}
+  </select>
+  <!-- 未审核的所有首访记录数量 -->
+  <select id="selectMessageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+	SELECT
+		count(1)
+	FROM
+		ql_AccessRecord03 ql3
+	JOIN ql_Project qlp ON ql3.projId = qlp.id
+	JOIN plat_User plu ON ql3.authorId = plu.id 
 	WHERE 1=1 
 	<if test="state != -1 and state != null">
 		and ql3.status = #{state}

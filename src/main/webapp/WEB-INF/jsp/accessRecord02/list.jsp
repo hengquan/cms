@@ -74,7 +74,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${hisFirstRecordMsg}" var="u" varStatus="s">
+									<c:forEach items="${accessRecord02s}" var="u" varStatus="s">
 										<tr class="odd gradeX">
 											<td><input type="checkbox" name="box" class="checkboxes" value="${u.id}" /></td>
 											<td class="hidden-phone">${u.projName}</td>
@@ -85,15 +85,6 @@
 												<fmt:formatDate value="${u.cTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 											</td>
 											<td class="hidden-phone">
-												<c:if test="${u.status == 1}">
-													<button type="button" onclick="subUserMessage('${u.id}',${u.status})" class="btn btn-send">待审核</button>
-												</c:if>
-												<c:if test="${u.status == 2}">
-													<button type="button" onclick="subUserMessage('${u.id}',${u.status})" class="btn btn-send">审核通过</button>
-												</c:if>
-												<c:if test="${u.status == 3}">
-													<button type="button" onclick="subUserMessage('${u.id}',${u.status})" class="btn btn-send">作废</button>
-												</c:if>
 												<button type="button" onclick="seeAllMessages('${u.id}')" class="btn btn-send">查看详细信息</button>
 											</td>
 										</tr>

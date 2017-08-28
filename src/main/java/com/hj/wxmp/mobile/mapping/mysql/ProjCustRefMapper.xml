@@ -10,6 +10,7 @@
     <result column="attentionPoint" property="attentionpoint" jdbcType="VARCHAR" />
     <result column="compareProjs" property="compareprojs" jdbcType="VARCHAR" />
     <result column="resistPoint" property="resistpoint" jdbcType="VARCHAR" />
+    <result column="capitalPrepSection" property="capitalprepsection" jdbcType="VARCHAR" />
     <result column="isValidate" property="isvalidate" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -20,7 +21,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, projId, custId, firstKnowTime, knowWay, attentionPoint, compareProjs, resistPoint, 
-    isValidate, cTime
+    capitalPrepSection, isValidate, cTime
   </sql>
   <sql id="Blob_Column_List" >
     knowWayDesc, attentionPointDesc, resistPointDesc
@@ -40,14 +41,16 @@
   <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.ProjCustRef" >
     insert into ql_ProjCust_Ref (id, projId, custId, 
       firstKnowTime, knowWay, attentionPoint, 
-      compareProjs, resistPoint, isValidate, 
-      cTime, knowWayDesc, attentionPointDesc, 
-      resistPointDesc)
+      compareProjs, resistPoint, capitalPrepSection, 
+      isValidate, cTime, knowWayDesc, 
+      attentionPointDesc, resistPointDesc
+      )
     values (#{id,jdbcType=VARCHAR}, #{projid,jdbcType=VARCHAR}, #{custid,jdbcType=VARCHAR}, 
       #{firstknowtime,jdbcType=TIMESTAMP}, #{knowway,jdbcType=VARCHAR}, #{attentionpoint,jdbcType=VARCHAR}, 
-      #{compareprojs,jdbcType=VARCHAR}, #{resistpoint,jdbcType=VARCHAR}, #{isvalidate,jdbcType=INTEGER}, 
-      #{ctime,jdbcType=TIMESTAMP}, #{knowwaydesc,jdbcType=LONGVARCHAR}, #{attentionpointdesc,jdbcType=LONGVARCHAR}, 
-      #{resistpointdesc,jdbcType=LONGVARCHAR})
+      #{compareprojs,jdbcType=VARCHAR}, #{resistpoint,jdbcType=VARCHAR}, #{capitalprepsection,jdbcType=VARCHAR}, 
+      #{isvalidate,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{knowwaydesc,jdbcType=LONGVARCHAR}, 
+      #{attentionpointdesc,jdbcType=LONGVARCHAR}, #{resistpointdesc,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.ProjCustRef" >
     insert into ql_ProjCust_Ref
@@ -75,6 +78,9 @@
       </if>
       <if test="resistpoint != null" >
         resistPoint,
+      </if>
+      <if test="capitalprepsection != null" >
+        capitalPrepSection,
       </if>
       <if test="isvalidate != null" >
         isValidate,
@@ -117,6 +123,9 @@
       <if test="resistpoint != null" >
         #{resistpoint,jdbcType=VARCHAR},
       </if>
+      <if test="capitalprepsection != null" >
+        #{capitalprepsection,jdbcType=VARCHAR},
+      </if>
       <if test="isvalidate != null" >
         #{isvalidate,jdbcType=INTEGER},
       </if>
@@ -158,6 +167,9 @@
       <if test="resistpoint != null" >
         resistPoint = #{resistpoint,jdbcType=VARCHAR},
       </if>
+      <if test="capitalprepsection != null" >
+        capitalPrepSection = #{capitalprepsection,jdbcType=VARCHAR},
+      </if>
       <if test="isvalidate != null" >
         isValidate = #{isvalidate,jdbcType=INTEGER},
       </if>
@@ -185,6 +197,7 @@
       attentionPoint = #{attentionpoint,jdbcType=VARCHAR},
       compareProjs = #{compareprojs,jdbcType=VARCHAR},
       resistPoint = #{resistpoint,jdbcType=VARCHAR},
+      capitalPrepSection = #{capitalprepsection,jdbcType=VARCHAR},
       isValidate = #{isvalidate,jdbcType=INTEGER},
       cTime = #{ctime,jdbcType=TIMESTAMP},
       knowWayDesc = #{knowwaydesc,jdbcType=LONGVARCHAR},
@@ -201,6 +214,7 @@
       attentionPoint = #{attentionpoint,jdbcType=VARCHAR},
       compareProjs = #{compareprojs,jdbcType=VARCHAR},
       resistPoint = #{resistpoint,jdbcType=VARCHAR},
+      capitalPrepSection = #{capitalprepsection,jdbcType=VARCHAR},
       isValidate = #{isvalidate,jdbcType=INTEGER},
       cTime = #{ctime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
