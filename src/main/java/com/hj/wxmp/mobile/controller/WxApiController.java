@@ -1798,8 +1798,8 @@ public class WxApiController extends ControllerBaseWx {
     public String testGet01List(HttpServletRequest req,
     		@RequestParam(value="page",defaultValue="1") int page,
 			@RequestParam(value="pageSize",defaultValue="10") int pageSize) {
-    	int begin=(page-1)*pageSize;
-    	int end=page*pageSize;
+    	int begin=((page<1?1:page)-1)*pageSize;
+    	int end=begin+pageSize;
         Map<String,Object> map = new HashMap<String,Object>();
     	if (end-begin==0) map.put("msg", "103");
     	else {

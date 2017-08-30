@@ -44,18 +44,6 @@
 
 <!-- 第1页 -->
 <div class="container" id="step1" style="display:none">
-  <div class="item_sflr row">
-    <div class="col-title col-title-4">置业顾问</div>
-    <div class="col-input-4">
-      <input type="text" placeholder="" name="user" value="" readonly/>
-    </div>
-  </div>
-  <div class="item_sflr row">
-    <div class="col-title col-title-6">本次到访时间</div>
-    <div class="col-input-6 inputdate">
-      <input type="date" placeholder="" name="curTime"/>
-    </div>
-  </div>
   <div class="item_sflr row" id="projArea" style="display:none;">
     <div class="col-title col-title-4">项目选择</div>
     <a href="" data-toggle="modal" data-target="#projModal">
@@ -78,6 +66,39 @@
           <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanProj()" id="cleanProjBtn" style="display:none;">清除并关闭</button>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">置业顾问</div>
+    <a href="" data-toggle="modal" data-target="#userModal" id="_SELUSER">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="user">&nbsp;</span>
+    </div>
+    </a>
+    <div class="col-input-4-1" id="_SHOWUSER">
+      <span class="input_style form-group" id="user">&nbsp;</span>
+    </div>
+  </div>
+  <div class="modal fade" id="userModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">顾问选择</h4>
+        </div>
+        <div class="modal-body" id="projData">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanProj()" id="cleanProjBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-6">本次到访时间</div>
+    <div class="col-input-6 inputdate">
+      <input type="date" placeholder="" name="curTime"/>
     </div>
   </div>
   <div class="line"></div>
