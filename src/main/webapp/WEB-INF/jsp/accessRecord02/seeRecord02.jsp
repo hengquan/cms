@@ -336,46 +336,29 @@ px
 
 									<tr>
 										<td>本次到访时间：
-											<input type="date" name="receptime1" value="<fmt:formatDate value="${accessRecord02.receptime }" pattern="yyyy-MM-dd"/>">
+											<input type="text" style="width: 10rem" name="receptime1" value="<fmt:formatDate value="${accessRecord02.receptime }" pattern="yyyy-MM-dd"/>">
 										</td>
 										<td>首次到访时间：
-											<input type = "date" name="firstknowtime1" value="<fmt:formatDate value="${accessRecord02.receptime }" pattern="yyyy-MM-dd"/>">
+											<input type = "text" style="width: 10rem" name="firstknowtime1" value="<fmt:formatDate value="${accessRecord02.receptime }" pattern="yyyy-MM-dd"/>">
 										</td>
 										<td colspan="3">来访次数：第2次</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">未成年子女数量（小于18岁）：
-										<input name="childrennum" type="radio" value="0" <c:if test="${fn:contains(accessRecord02.childrennum, '0')}">checked</c:if> style="width: 1rem" >0位 
-										<input name="childrennum" type="radio" value="1" <c:if test="${fn:contains(accessRecord02.childrennum, '1')}">checked</c:if> style="width: 1rem" >1位 
-										<input name="childrennum" type="radio" value="2" <c:if test="${fn:contains(accessRecord02.childrennum, '2')}">checked</c:if> style="width: 1rem" >2位 
-										<input name="childrennum" type="radio" value="3" <c:if test="${fn:contains(accessRecord02.childrennum, '3')}">checked</c:if> style="width: 1rem" >3位 
-										<input name="childrennum" type="radio" value="-1" <c:if test="${fn:contains(accessRecord02.childrennum, '-1')}">checked</c:if> style="width: 1rem" >
-										<span style="color: red">无法了解</span>
+										<input name="childrennum" type="text" value="${accessRecord02.childrennum }" style="width: 10rem" >
 										</td>
 									</tr>
 
 									<tr>
-										<td colspan="3" id="td1"><span id="box1" style="display: block;">孩子年龄段：
-											<input name="childagegroup" type="checkbox" value="020001-0-3岁" <c:if test="${fn:contains(accessRecord02.childagegroup, '0-3岁')}">checked</c:if> style="width: 1rem">0-3岁
-											<input name="childagegroup" type="checkbox" value="020002-4-6岁" <c:if test="${fn:contains(accessRecord02.childagegroup, '4-6岁')}">checked</c:if> style="width: 1rem">4-6岁
-											<input name="childagegroup" type="checkbox" value="020003-7-12岁" <c:if test="${fn:contains(accessRecord02.childagegroup, '7-12岁')}">checked</c:if> style="width: 1rem">7-12岁
-											<input name="childagegroup" type="checkbox" value="020004-13-15岁" <c:if test="${fn:contains(accessRecord02.childagegroup, '13-15岁')}">checked</c:if> style="width: 1rem">13-15岁
-											<input name="childagegroup" type="checkbox" value="020005-16-18岁" <c:if test="${fn:contains(accessRecord02.childagegroup, '16-18岁')}">checked</c:if> style="width: 1rem">16-18岁
-											<input name="childagegroup" type="checkbox" value="020006-18岁以上" <c:if test="${fn:contains(accessRecord02.childagegroup, '18岁以上')}">checked</c:if> style="width: 1rem">18岁以上
-											<input name="childagegroup" type="checkbox" value="020000-无法了解" <c:if test="${fn:contains(accessRecord02.childagegroup, '无法了解')}">checked</c:if> style="width: 1rem; color: red">
-											<span style="color: red">无法了解</span></span>
+										<td colspan="3" id="td1">孩子年龄段：
+											<input name="childagegroup" type="text" value="${accessRecord02.childagegroup }"  style="width: 10rem">
 										</td>
 									</tr>
 
 									<tr>
-										<td colspan="2" id="td2"><span id="box2" style="display: block;">孩子在读学校类型：
-											<input name="schooltype" type="checkbox" value="公立" <c:if test="${fn:contains(accessRecord02.schooltype, '公立')}">checked</c:if> style="width: 1rem" >公立
-											<input name="schooltype" type="checkbox" value="私立" <c:if test="${fn:contains(accessRecord02.schooltype, '私立')}">checked</c:if> style="width: 1rem" >私立
-											<input name="schooltype" type="checkbox" value="国际学校" <c:if test="${fn:contains(accessRecord02.schooltype, '国际学校')}">checked</c:if> style="width: 1rem" >国际学校
-											<input name="schooltype" type="checkbox" value="国外学习" <c:if test="${fn:contains(accessRecord02.schooltype, '国外学习')}">checked</c:if> style="width: 1rem" >国外学习
-											<input name="schooltype" type="checkbox" value="无法了解" <c:if test="${fn:contains(accessRecord02.schooltype, '无法了解')}">checked</c:if> style="width: 1rem; color: red" >
-											<span style="color: red">无法了解</span></span>
+										<td colspan="2" id="td2">孩子在读学校类型：
+											<input name="schooltype" type="text" value="${accessRecord02.schooltype }" style="width: 10rem" >
 										</td>
 										<td id="td3"><span id="box3" style="display: block;">在读学校名称：
 											<input type="text" style="width: 9rem" name="schoolname" value="${accessRecord02.schoolname }"></span>
@@ -384,13 +367,7 @@ px
 
 									<tr>
 										<td colspan="3">您的生活半径：
-											<input name="livingradius" type="checkbox" value="022001-二环以内" <c:if test="${fn:contains(accessRecord02.livingradius, '二环以内')}">checked</c:if> style="width: 1rem">二环以内
-											<input name="livingradius" type="checkbox" value="022002-二环-三环" <c:if test="${fn:contains(accessRecord02.livingradius, '二环-三环')}">checked</c:if> style="width: 1rem">二环-三环 
-											<input name="livingradius" type="checkbox" value="022003-三环-四环 " <c:if test="${fn:contains(accessRecord02.livingradius, '三环-四环')}">checked</c:if> style="width: 1rem">三环-四环
-											<input name="livingradius" type="checkbox" value="022004-四环-五环" <c:if test="${fn:contains(accessRecord02.livingradius, '四环-五环')}">checked</c:if> style="width: 1rem">四环-五环 
-											<input name="livingradius" type="checkbox" value="022005-五环以外" <c:if test="${fn:contains(accessRecord02.livingradius, '五环以外')}">checked</c:if> style="width: 1rem">五环以外
-											<input name="livingradius" type="checkbox" value="022000-无法了解" <c:if test="${fn:contains(accessRecord02.livingradius, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
+											<input name="livingradius" type="text" value="${accessRecord02.livingradius }"  style="width: 30rem">
 										</td>
 									</tr>
 
@@ -789,8 +766,7 @@ px
 			$.ajax({
 				type:'post',
 				data: datamsg, 
-				//url:'${appRoot}/wx/api/updateRecord02',
-				url:'${appRoot}/wx/api/addAfterVisit',
+				url:'${appRoot}/wx/api/updateRecord02',
 				dataType:'json',
 				success:function(data){
 					if(data.msg==100){
