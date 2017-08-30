@@ -87,7 +87,7 @@ public class Customer {
 
     private String carbrand;
 
-    private String cartotalpricce;
+    private String cartotalprice;
 
     private String attentwx;
 
@@ -297,8 +297,8 @@ public class Customer {
 		return carbrand;
 	}
 
-	public String getCartotalpricce() {
-		return cartotalpricce;
+	public String getCartotalprice() {
+		return cartotalprice;
 	}
 
 	public String getAttentwx() {
@@ -549,8 +549,8 @@ public class Customer {
 		this.carbrand = carbrand;
 	}
 
-	public void setCartotalpricce(String cartotalpricce) {
-		this.cartotalpricce = cartotalpricce;
+	public void setCartotalprice(String cartotalprice) {
+		this.cartotalprice = cartotalprice;
 	}
 
 	public void setAttentwx(String attentwx) {

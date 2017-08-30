@@ -102,5 +102,13 @@ public interface AccessRecord02Service {
 
 	public Integer selectMessageCount(Map<String, Object> map);
 
+	public List<Map<String, Object>> getRecord02ListGuWen(Map<String, Object> result);
+
+	public List<Map<String, Object>> getRecord02ListGuanLi(Map<String, Object> result);
+
+	public List<Map<String, Object>> getRecord02ListFuZe(Map<String, Object> result);
+
+	public List<Map<String, Object>> getRecord02ListAdmin(Map<String, Object> result);
+
 
 }

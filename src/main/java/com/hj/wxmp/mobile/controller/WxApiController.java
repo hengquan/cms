@@ -934,8 +934,8 @@ public class WxApiController extends ControllerBaseWx {
 			if(cartotalpricce != null){
 				String data = addAccessRecord(cartotalpricce,"025",2,"汽车总价款",record02Id);
 				addAccessRecord(cartotalpricce,"025",4,"汽车总价款",customer.getId());
-				record02.setCartotalpricce(data);
-				customer.setCartotalpricce(data);
+				record02.setCartotalprice(data);
+				customer.setCartotalprice(data);
 			}
 			//业余爱好
 			String avocations = record02.getAvocations();
@@ -1510,47 +1510,6 @@ public class WxApiController extends ControllerBaseWx {
 					}else if(roleName.equals("管理员")){
 						message = accessRecord01Service.getRecord01ListAdmin(result);
 					}
-//					//总访问次数，和是否成交
-//					for(Map<String,Object>msg : message){
-//						Map<String,Object> data = new HashMap<String,Object>();
-//						String custId = msg.get("custId").toString();
-//						String projId = msg.get("projId").toString();
-//						//记录ID
-//						String msgId = msg.get("id").toString();
-//						data.put("custId", custId);
-//						data.put("projId", projId);
-//						//首访记录数
-//						Integer accessRecord01Number = accessRecord01Service.findByCustIdCount(data);
-//						//复访记录数
-//						Integer accessRecord02Number = accessRecord02Service.findByCustIdCount(data);
-//						//成交记录数
-//						Integer accessRecord03Number = accessRecord03Service.findByCustIdCount(data);
-//						//客户总访问次数
-//						Integer total = accessRecord01Number +accessRecord02Number+accessRecord03Number;
-//						msg.put("total", total);
-//						//客户是否成交
-//						if(accessRecord03Number>0){
-//							msg.put("isKnockdown", "1");
-//						}else{
-//							msg.put("isKnockdown", "0");
-//						}
-//						//显示权限人姓名
-//						String authorId = msg.get("authorId").toString();
-//						UserInfo user = userInfoService.findById(authorId);
-//						String authorName = user.getRealname();
-//						msg.put("authorName", authorName);
-////						//审核意见
-////						data.put("recordType", 1);
-////						data.put("arId", msgId);
-////						AuditRecord auditRecord = auditRecordService.findByArId(data);
-////						if(auditRecord!=null){
-////							String reason = auditRecord.getReason();
-////							if(reason!=null) msg.put("checkReason",reason);
-////							if(reason!=null) msg.put("checkReason","");
-////						}else{
-////							msg.put("checkReason","");
-////						}
-//					}
 					map.put("msg", "100");
 					map.put("data", message);
 				}else{
@@ -1574,16 +1533,49 @@ public class WxApiController extends ControllerBaseWx {
 		responseInfo(response);
 		String openid = HashSessions.getInstance().getOpenId(request);
 		UserInfo userInfo = userInfoService.selectByOpenId(openid);
+		String userId = userInfo.getId();
 		Map<String,Object> map = new HashMap<String,Object>();
 		Map<String,Object> result = new HashMap<String,Object>();
 		try {
 			Integer page = ((nowPage - 1) * pageSize);
 			result.put("page", page);
 			result.put("pageSize", pageSize);
-			result.put("userId", userInfo.getId());
-			List<Map<String,Object>> message = accessRecord02Service.getRecord02List(result);
-			map.put("msg", "100");
-			map.put("data", message);
+			result.put("userId", userId);
+			//权限信息
+			String roleName="";
+			Map<String,Object> userRole = sysUserRoleService.findByUserId(userId);
+			if(userRole!=null){
+				Object object = userRole.get("role_name");
+				if(object!=null)  {
+					List<Map<String,Object>> message = new ArrayList<Map<String,Object>>();
+					roleName = object.toString();
+					//用户相关项目信息
+					List<Map<String, Object>> projs = projUserRoleService.selectByUserId(userId);
+					String projid = "";
+					for(Map<String,Object> proj : projs){
+						String projId = proj.get("id").toString();
+						projid += projId+",";
+					}
+					//判断
+					if(roleName.equals("顾问")){
+						message = accessRecord02Service.getRecord02ListGuWen(result);
+					}else if(roleName.equals("项目管理人")){
+						result.put("projId", projid);
+						message = accessRecord02Service.getRecord02ListGuanLi(result);
+					}else if(roleName.equals("项目负责人")){
+						result.put("projId", projid);
+						message = accessRecord02Service.getRecord02ListFuZe(result);
+					}else if(roleName.equals("管理员")){
+						message = accessRecord02Service.getRecord02ListAdmin(result);
+					}
+					map.put("msg", "100");
+					map.put("data", message);
+				}else{
+					map.put("msg", "103");
+				}
+			}else{
+				map.put("msg", "103");
+			}
 		} catch (Exception e) {
 			map.put("msg", "103");
 			e.printStackTrace();

@@ -399,14 +399,7 @@ px
 
 									<tr>
 										<td colspan="3">目前的居住面积：
-											<input name="liveacreage" type="radio" value="023001-100㎡以下" <c:if test="${fn:contains(accessRecord02.liveacreage, '100㎡以下')}">checked</c:if> style="width: 1rem">100㎡以下 
-											<input name="liveacreage" type="radio" value="023002-100-200㎡" <c:if test="${fn:contains(accessRecord02.liveacreage, '100-200㎡')}">checked</c:if> style="width: 1rem">100-200㎡ 
-											<input name="liveacreage" type="radio" value="023003-200-300㎡ " <c:if test="${fn:contains(accessRecord02.liveacreage, '200-300㎡')}">checked</c:if> style="width: 1rem">200-300㎡
-											<input name="liveacreage" type="radio" value="023004-300-400㎡" <c:if test="${fn:contains(accessRecord02.liveacreage, '300-400㎡ ')}">checked</c:if> style="width: 1rem">300-400㎡ 
-											<input name="liveacreage" type="radio" value="023005-400-500㎡" <c:if test="${fn:contains(accessRecord02.liveacreage, '400-500㎡')}">checked</c:if> style="width: 1rem">400-500㎡
-											<input name="liveacreage" type="radio" value="023008-500㎡以上" <c:if test="${fn:contains(accessRecord02.liveacreage, '500㎡以上')}">checked</c:if> style="width: 1rem">500㎡以上 
-											<input name="liveacreage" type="radio" value="023000-无法了解" <c:if test="${fn:contains(accessRecord02.liveacreage, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
+											<input name="liveacreage" type="text" value="${accessRecord02.liveacreage }" style="width: 30rem"> 
 										</td>
 									</tr>
 
@@ -429,42 +422,74 @@ px
 
 									<tr>
 										<td>全职太太：
-											<input name="fulltimewifeflag" type="radio" value="1" <c:if test="${accessRecord02.fulltimewifeflag == 1 }">checked</c:if> style="width: 1rem">是 
-											<input name="fulltimewifeflag" type="radio" value="2" <c:if test="${accessRecord02.fulltimewifeflag == 2 }">checked</c:if> style="width: 1rem">否 
-											<input name="fulltimewifeflag" type="radio" value="-1" <c:if test="${accessRecord02.fulltimewifeflag == -1 }">checked</c:if> style="width: 1rem">
-											<span style="color: red">无解</span>
+											<c:if test="${accessRecord02.fulltimewifeflag == 1 }">
+												<input name="fulltimewifeflag" type="text" value="是" style="width: 5rem">
+											</c:if>
+											<c:if test="${accessRecord02.fulltimewifeflag == 2 }">
+												<input name="fulltimewifeflag" type="text" value="否" style="width: 5rem">
+											</c:if>
+											<c:if test="${accessRecord02.fulltimewifeflag == -1 }">
+												<input name="fulltimewifeflag" type="text" value="无法了解" style="width: 5rem">
+											</c:if>
 										</td>
-										<td>有保姆：<input name="nannyflag" type="radio" value="1" <c:if test="${accessRecord02.nannyflag == 1 }">checked</c:if> style="width: 1rem">是 
-											<input name="nannyflag" type="radio" value="2" <c:if test="${accessRecord02.nannyflag == 2 }">checked</c:if> style="width: 1rem">否
-											<input name="nannyflag" type="radio" value="-1" <c:if test="${accessRecord02.nannyflag == -1 }">checked</c:if> style="width: 1rem">
-											<span style="color: red">无解</span>
+										<td>有保姆：
+											<c:if test="${accessRecord02.nannyflag == 1 }">
+												<input name="nannyflag" type="text" value="是" style="width: 5rem">
+											</c:if>
+											<c:if test="${accessRecord02.nannyflag == 2 }">
+												<input name="nannyflag" type="text" value="否" style="width: 5rem">
+											</c:if>
+											<c:if test="${accessRecord02.nannyflag == -1 }">
+												<input name="nannyflag" type="text" value="无法了解" style="width: 5rem">
+											</c:if>
+										
 										</td>
 										<td>有宠物：
-											<input name="petflag" type="radio" value="1" <c:if test="${accessRecord02.petflag == 1 }">checked</c:if> style="width: 1rem">是 
-											<input name="petflag" type="radio" value="2" <c:if test="${accessRecord02.petflag == 2 }">checked</c:if> style="width: 1rem">否 
-					 						<input name="petflag" type="radio" value="-1" <c:if test="${accessRecord02.petflag == -1 }">checked</c:if> style="width: 1rem">
-											<span style="color: red">无解</span>
+											<c:if test="${accessRecord02.petflag == 1 }">
+												<input name="nannyflag" type="text" value="是" style="width: 5rem">
+											</c:if>
+											<c:if test="${accessRecord02.petflag == 2 }">
+												<input name="nannyflag" type="text" value="否" style="width: 5rem">
+											</c:if>
+											<c:if test="${accessRecord02.petflag == -1 }">
+												<input name="nannyflag" type="text" value="无法了解" style="width: 5rem">
+											</c:if>
 										</td>
 									</tr>
 
 									<tr>
 										<td>国际教育意愿：
-											<input name="outeduwill" type="radio" value="1" <c:if test="${accessRecord02.outeduwill == 1 }">checked</c:if> style="width: 1rem">是 
-											<input name="outeduwill" type="radio" value="2" <c:if test="${accessRecord02.outeduwill == 2 }">checked</c:if> style="width: 1rem">否
-											<input name="outeduwill" type="radio" value="-1" <c:if test="${accessRecord02.outeduwill == -1 }">checked</c:if> style="width: 1rem">
-											<span style="color: red">无解</span>
+											<c:if test="${accessRecord02.outeduwill == 1 }">
+												<input name="nannyflag" type="text" value="是" style="width: 5rem">
+											</c:if>
+											<c:if test="${accessRecord02.outeduwill == 2 }">
+												<input name="nannyflag" type="text" value="否" style="width: 5rem">
+											</c:if>
+											<c:if test="${accessRecord02.outeduwill == -1 }">
+												<input name="nannyflag" type="text" value="无法了解" style="width: 5rem">
+											</c:if>
 										</td>
 										<td>子女海外经历：
-											<input name="childoutexperflag" type="radio" value="1" <c:if test="${accessRecord02.childoutexperflag == 1 }">checked</c:if> style="width: 1rem">是 
-											<input name="childoutexperflag" type="radio" value="2" <c:if test="${accessRecord02.childoutexperflag == 2 }">checked</c:if> style="width: 1rem">否
-											<input name="childoutexperflag" type="radio" value="-1" <c:if test="${accessRecord02.childoutexperflag == -1 }">checked</c:if> style="width: 1rem">
-											<span style="color: red">无解</span>
+											<c:if test="${accessRecord02.childoutexperflag == 1 }">
+												<input name="nannyflag" type="text" value="是" style="width: 5rem">
+											</c:if>
+											<c:if test="${accessRecord02.childoutexperflag == 2 }">
+												<input name="nannyflag" type="text" value="否" style="width: 5rem">
+											</c:if>
+											<c:if test="${accessRecord02.childoutexperflag == -1 }">
+												<input name="nannyflag" type="text" value="无法了解" style="width: 5rem">
+											</c:if>
 										</td>
 										<td>业主海外经历：
-											<input name="outexperflag" type="radio" value="1" <c:if test="${accessRecord02.outexperflag == 1 }">checked</c:if> style="width: 1rem">是 
-											<input name="outexperflag" type="radio" value="2" <c:if test="${accessRecord02.outexperflag == 2 }">checked</c:if> style="width: 1rem">否
-											<input name="outexperflag" type="radio" value="-1" <c:if test="${accessRecord02.outexperflag == -1 }">checked</c:if> style="width: 1rem">
-											<span style="color: red">无解</span>
+											<c:if test="${accessRecord02.outexperflag == 1 }">
+												<input name="nannyflag" type="text" value="是" style="width: 5rem">
+											</c:if>
+											<c:if test="${accessRecord02.outexperflag == 2 }">
+												<input name="nannyflag" type="text" value="否" style="width: 5rem">
+											</c:if>
+											<c:if test="${accessRecord02.outexperflag == -1 }">
+												<input name="nannyflag" type="text" value="无法了解" style="width: 5rem">
+											</c:if>
 										</td>
 									</tr>
 									<tr>
@@ -499,16 +524,7 @@ px
 
 									<tr>
 										<td colspan="3">驾车总价：
-											<input name="cartotalprice" type="radio" value="30万以下" <c:if test="${fn:contains(accessRecord02.cartotalprice, '30万以下')}">checked</c:if> style="width: 1rem">30万以下 
-											<input name="cartotalprice" type="radio" value="30-50万" <c:if test="${fn:contains(accessRecord02.cartotalprice, '30-50万')}">checked</c:if> style="width: 1rem">30-50万
-											<input name="cartotalprice" type="radio" value="50-100万" <c:if test="${fn:contains(accessRecord02.cartotalprice, '50-100万')}">checked</c:if> style="width: 1rem">50-100万 
-											<input name="cartotalprice" type="radio" value="100-200万" <c:if test="${fn:contains(accessRecord02.cartotalprice, '100-200万')}">checked</c:if> style="width: 1rem">100-200万
-											<input name="cartotalprice" type="radio" value="200万以上" <c:if test="${fn:contains(accessRecord02.cartotalprice, '200万以上')}">checked</c:if> style="width: 1rem">200万以上 
-											<input name="cartotalprice" type="radio" value="200-300万" <c:if test="${fn:contains(accessRecord02.cartotalprice, '200-300万')}">checked</c:if> style="width: 1rem">200-300万<br> 
-											<input name="cartotalprice" type="radio" value="300-500万" <c:if test="${fn:contains(accessRecord02.cartotalprice, '300-500万')}">checked</c:if> style="width: 1rem; margin-left: 95px">300-500万 
-											<input name="cartotalprice" type="radio" value="500万以上" <c:if test="${fn:contains(accessRecord02.cartotalprice, '500万以上')}">checked</c:if> style="width: 1rem">500万以上
-											<input name="cartotalprice" type="radio" value="无法了解" <c:if test="${fn:contains(accessRecord02.cartotalprice, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
+											<input name="cartotalprice" type="text" value="${accessRecord02.cartotalprice }"  style="width: 30rem">
 										</td>
 									</tr>
 
@@ -524,121 +540,50 @@ px
 
 									<tr>
 										<td colspan="3">您的业余爱好：
-											<input name="avocations" type="checkbox" value="026001-运动" <c:if test="${fn:contains(accessRecord02.avocations, '运动')}">checked</c:if> style="width: 1rem">运动 
-											<input name="avocations" type="checkbox" value="026002-养生" <c:if test="${fn:contains(accessRecord02.avocations, '养生')}">checked</c:if> style="width: 1rem">养生
-											<input name="avocations" type="checkbox" value="026003-美容" <c:if test="${fn:contains(accessRecord02.avocations, '步行')}">checked</c:if> style="width: 1rem">美容 
-											<input name="avocations" type="checkbox" value="026004-阅读" <c:if test="${fn:contains(accessRecord02.avocations, '阅读')}">checked</c:if> style="width: 1rem">阅读 
-											<input name="avocations" type="checkbox" value="026005-理财" <c:if test="${fn:contains(accessRecord02.avocations, '理财')}">checked</c:if> style="width: 1rem">理财
-											<input name="avocations" type="checkbox" value="026006-艺术" <c:if test="${fn:contains(accessRecord02.avocations, '艺术')}">checked</c:if> style="width: 1rem">艺术 
-											<input name="avocations" type="checkbox" value="026007-茶道" <c:if test="${fn:contains(accessRecord02.avocations, '茶道')}">checked</c:if> style="width: 1rem">茶道 
-											<input name="avocations" type="checkbox" value="026008-收藏" <c:if test="${fn:contains(accessRecord02.avocations, '收藏')}">checked</c:if> style="width: 1rem">收藏
-											<input name="avocations" type="checkbox" value="026009-购物" <c:if test="${fn:contains(accessRecord02.avocations, '购物')}">checked</c:if> style="width: 1rem">购物<br> 
-											<input name="avocations" type="checkbox" value="026010-美食" <c:if test="${fn:contains(accessRecord02.avocations, '美食')}">checked</c:if> style="width: 1rem; margin-left: 123px">美食 
-											<input name="avocations" type="checkbox" value="026011-园艺"  <c:if test="${fn:contains(accessRecord02.avocations, '园艺')}">checked</c:if>style="width: 1rem">园艺
-											<input name="avocations" type="checkbox" value="026012-社交" <c:if test="${fn:contains(accessRecord02.avocations, '社交')}">checked</c:if>style="width: 1rem">社交 
-											<input name="avocations" type="checkbox" value="026013-时尚" <c:if test="${fn:contains(accessRecord02.avocations, '时尚')}">checked</c:if>style="width: 1rem">时尚 
-											<input name="avocations" type="checkbox" value="026014-旅行" <c:if test="${fn:contains(accessRecord02.avocations, '旅行')}">checked</c:if>style="width: 1rem">旅行
-											<input name="avocations" type="checkbox" value="026015-教育" <c:if test="${fn:contains(accessRecord02.avocations, '教育')}">checked</c:if>style="width: 1rem">教育 
-											<input name="avocations" type="checkbox" value="026016-慈善" <c:if test="${fn:contains(accessRecord02.avocations, '慈善')}">checked</c:if>style="width: 1rem">慈善 
-											<input name="avocations" type="checkbox" value="026000-无法了解" <c:if test="${fn:contains(accessRecord02.avocations, '无法了解')}">checked</c:if>style="width: 1rem">
-											<span style="color: red">无法了解</span>
-											<input name="avocations" type="checkbox" value="026999-其他" <c:if test="${fn:contains(accessRecord02.avocationsdesc, '其他')}">checked</c:if>style="width: 1rem">其他
-											<input type="text" placeholder="" name="avocationsDesc" style="display:none;"/> 
+											<input name="avocations" type="text" value="${accessRecord02.avocations }" style="width: 30rem">
 										</td>
 									</tr>
 									<tr>
 										<td colspan="3">孩子的课余爱好：
-											<input name="childavocations" type="checkbox" value="020001-音乐类" <c:if test="${fn:contains(accessRecord02.childavocations, '音乐类')}">checked</c:if> style="width: 1rem">音乐类 
-											<input name="childavocations" type="checkbox" value="020002-体育类" <c:if test="${fn:contains(accessRecord02.childavocations, '体育类')}">checked</c:if> style="width: 1rem">体育类
-											<input name="childavocations" type="checkbox" value="020003-文学类" <c:if test="${fn:contains(accessRecord02.childavocations, '文学类')}">checked</c:if> style="width: 1rem">文学类
-											<input name="childavocations" type="checkbox" value="020004-专业类" <c:if test="${fn:contains(accessRecord02.childavocations, '专业类')}">checked</c:if> style="width: 1rem">专业类
-											<input name="childavocations" type="checkbox" value="020000-无法了解" <c:if test="${fn:contains(accessRecord02.childavocations, '无法了解')}">checked</c:if>style="width: 1rem">
-											<span style="color: red">无法了解</span>
+											<input name="childavocations" type="text" value="${accessRecord02.childavocations }"  style="width: 30rem">
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">您对本案的抗拒点：
-											<input name="resistpoint" type="checkbox" value="014001-位置" <c:if test="${fn:contains(accessRecord02.resistpoint, '位置')}">checked</c:if> style="width: 1rem">位置 
-											<input name="resistpoint" type="checkbox" value="014002-产品类型" <c:if test="${fn:contains(accessRecord02.resistpoint, '产品类型')}">checked</c:if> style="width: 1rem">产品类型 
-											<input name="resistpoint" type="checkbox" value="014003-交通" <c:if test="${fn:contains(accessRecord02.resistpoint, '交通')}">checked</c:if> style="width: 1rem">交通 
-											<input name="resistpoint" type="checkbox" value="014004-区域环境" <c:if test="${fn:contains(accessRecord02.resistpoint, '区域环境')}">checked</c:if> style="width: 1rem">区域环境 
-											<input name="resistpoint" type="checkbox" value="014005-价格" <c:if test="${fn:contains(accessRecord02.resistpoint, '价格')}">checked</c:if> style="width: 1rem">价格 
-											<input name="resistpoint" type="checkbox" value="014006-户型" <c:if test="${fn:contains(accessRecord02.resistpoint, '户型')}">checked</c:if> style="width: 1rem">户型 
-											<input name="resistpoint" type="checkbox" value="014007-花园面积" <c:if test="${fn:contains(accessRecord02.resistpoint, '花园面积')}">checked</c:if> style="width: 1rem">花园面积<br>
-											<input name="resistpoint" type="checkbox" value="014008-园林环境" <c:if test="${fn:contains(accessRecord02.resistpoint, '园林环境')}">checked</c:if> style="width: 1rem; margin-left: 151px">园林环境 
-											<input name="resistpoint" type="checkbox" value="014009-科技设备" <c:if test="${fn:contains(accessRecord02.resistpoint, '科技设备')}">checked</c:if> style="width: 1rem">科技设备 
-											<input name="resistpoint" type="checkbox" value="014010-交房时间" <c:if test="${fn:contains(accessRecord02.resistpoint, '交房时间')}">checked</c:if> style="width: 1rem">交房时间
-											<input name="resistpoint" type="checkbox" value="014011-社区配套" <c:if test="${fn:contains(accessRecord02.resistpoint, '社区配套')}">checked</c:if> style="width: 1rem">社区配套 
-											<input name="resistpoint" type="checkbox" value="014012-物业服务" <c:if test="${fn:contains(accessRecord02.resistpoint, '物业服务')}">checked</c:if> style="width: 1rem">物业服务 
-											<input name="resistpoint" type="checkbox" value="014013-开发品牌" <c:if test="${fn:contains(accessRecord02.resistpoint, '开发品牌')}">checked</c:if> style="width: 1rem; margin-left: 151px">开发品牌 
-											<input name="resistpoint" type="checkbox" value="014014-增值潜力" <c:if test="${fn:contains(accessRecord02.resistpoint, '增值潜力')}">checked</c:if> style="width: 1rem">增值潜力 
-											<input name="resistpoint" type="checkbox" value="014000-无法了解" <c:if test="${fn:contains(accessRecord02.resistpoint, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
+											<input name="resistpoint" type="text" value="${accessRecord02.resistpoint }" style="width: 30rem"> 
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">您喜欢参加的活动：
-											<input name="loveactivation" type="checkbox" value="022001-家庭教育" <c:if test="${fn:contains(accessRecord02.loveactivation, '家庭教育')}">checked</c:if> style="width: 1rem">家庭教育
-											<input name="loveactivation" type="checkbox" value="022002-国际学校教育" <c:if test="${fn:contains(accessRecord02.loveactivation, '国际学校教育')}">checked</c:if> style="width: 1rem">国际学校教育 
-											<input name="loveactivation" type="checkbox" value="022003-亲子活动" <c:if test="${fn:contains(accessRecord02.loveactivation, '亲子活动')}">checked</c:if> style="width: 1rem">亲子活动
-											<input name="loveactivation" type="checkbox" value="022004-文化艺术" <c:if test="${fn:contains(accessRecord02.loveactivation, '文化艺术')}">checked</c:if> style="width: 1rem">文化艺术 
-											<input name="loveactivation" type="checkbox" value="022005-美食品鉴" <c:if test="${fn:contains(accessRecord02.loveactivation, '美食品鉴')}">checked</c:if> style="width: 1rem">美食品鉴<br>
-											<input name="loveactivation" type="checkbox" value="022005-户外运动" <c:if test="${fn:contains(accessRecord02.loveactivation, '户外运动')}">checked</c:if> style="width: 1rem; margin-left: 151px">户外运动 
-											<input name="loveactivation" type="checkbox" value="022005-养生保健" <c:if test="${fn:contains(accessRecord02.loveactivation, '养生保健')}">checked</c:if> style="width: 1rem">养生保健 
-											<input name="loveactivation" type="checkbox" value="022005-理财规划" <c:if test="${fn:contains(accessRecord02.loveactivation, '理财规划')}">checked</c:if> style="width: 1rem">理财规划
-											<input name="loveactivation" type="checkbox" value="022005-书刊杂志" <c:if test="${fn:contains(accessRecord02.loveactivation, '书刊杂志')}">checked</c:if> style="width: 1rem">书刊杂志 
-											<input name="loveactivation" type="checkbox" value="022005-琴棋书画" <c:if test="${fn:contains(accessRecord02.loveactivation, '琴棋书画')}">checked</c:if> style="width: 1rem">琴棋书画
-											<input name="loveactivation" type="checkbox" value="022000-无法了解" <c:if test="${fn:contains(accessRecord02.loveactivation, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
+											<input name="loveactivation" type="text" value="${accessRecord02.loveactivation }" style="width: 30rem">
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">可参加业主活动时间：
-											<span style="margin-left: 20px">周一到周五（</span>
-											<input name="freetimesection" type="checkbox" value="009001001-上午9-11点" <c:if test="${fn:contains(accessRecord02.freetimesection, '上午9-11点')}">checked</c:if> style="width: 1rem; margin-left: 5px">上午9-11点
-											<input name="freetimesection" type="checkbox" value="009001002-下午2-5点" <c:if test="${fn:contains(accessRecord02.freetimesection, '下午2-5点')}">checked</c:if> style="width: 1rem">下午2-5点 
-											<input name="freetimesection" type="checkbox" value="009001003-晚上6-9点" <c:if test="${fn:contains(accessRecord02.freetimesection, '晚上6-9点')}">checked</c:if> style="width: 1rem">晚上6-9点 ）<br> 
-											<span style="margin-left: 160px"> 周六到周日（</span> 
-											<input name="freetimesection" type="checkbox" value="009002001-上午9-11点" <c:if test="${fn:contains(accessRecord02.freetimesection, '上午9-11点')}">checked</c:if> style="width: 1rem; margin-left: 5px">上午9-11点 
-											<input name="freetimesection" type="checkbox" value="009002002-下午2-5点" <c:if test="${fn:contains(accessRecord02.freetimesection, '下午2-5点')}">checked</c:if> style="width: 1rem">下午2-5点 
-											<input name="freetimesection" type="checkbox" value="009002004-晚上6-9点" <c:if test="${fn:contains(accessRecord02.freetimesection, '晚上6-9点')}">checked</c:if> style="width: 1rem">晚上6-9点 ） 
-											<input name="freetimesection" type="checkbox" value="009000-无法了解" <c:if test="${fn:contains(accessRecord02.freetimesection, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
+											<input name="freetimesection" type="text" value="${accessRecord02.freetimesection }" style="width: 55rem; margin-left: 5px">
 										</td>
 									</tr>
 
 
 									<tr>
 										<td colspan="3">来访人数：
-											<input name="visitorcount" type="radio" value="1" <c:if test="${fn:contains(accessRecord02.visitorcount, '1')}">checked</c:if> style="width: 1rem" >一人 
-											<input name="visitorcount" type="radio" value="2" <c:if test="${fn:contains(accessRecord02.visitorcount, '2')}">checked</c:if> style="width: 1rem" >两人 
-											<input name="visitorcount" type="radio" value="3" <c:if test="${fn:contains(accessRecord02.visitorcount, '3')}">checked</c:if> style="width: 1rem" >三人 
-											<input name="visitorcount" type="radio" value="4" <c:if test="${fn:contains(accessRecord02.visitorcount, '4')}">checked</c:if> style="width: 1rem" >四人 
-											<input name="visitorcount" type="radio" value="5" <c:if test="${fn:contains(accessRecord02.visitorcount, '5')}">checked</c:if> style="width: 1rem" >五人及以上
+											<input name="visitorcount" type="text" value="${accessRecord02.visitorcount }" style="width: 10rem" >
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">
 											<span id="box4" style="display: block;">来访人之间关系：
-											<input name="visitorrefs" type="checkbox" value="028001-夫妻" <c:if test="${fn:contains(accessRecord02.visitorrefs, '夫妻')}">checked</c:if> style="width: 1rem">夫妻 
-											<input name="visitorrefs" type="checkbox" value="028002-与父母同行" <c:if test="${fn:contains(accessRecord02.visitorrefs, '与父母同行')}">checked</c:if> style="width: 1rem">与父母同行
-											<input name="visitorrefs" type="checkbox" value="028003-与子女同行" <c:if test="${fn:contains(accessRecord02.visitorrefs, '与子女同行')}">checked</c:if> style="width: 1rem">与子女同行 
-											<input name="visitorrefs" type="checkbox" value="028004-朋友" <c:if test="${fn:contains(accessRecord02.visitorrefs, '朋友')}">checked</c:if> style="width: 1rem">朋友 
-											<input name="visitorrefs" type="checkbox" value="028005-同事" <c:if test="${fn:contains(accessRecord02.visitorrefs, '同事')}">checked</c:if> style="width: 1rem">同事
+											<input name="visitorrefs" type="text" value="${accessRecord02.visitorrefs }" style="width: 20rem"> 
 										</span></td>
 									</tr>
 
 									<tr>
 										<td colspan="3">本次参观接待时间：
-											<input name="receptimesection" type="radio" value="018001-15分钟以内-0~15" <c:if test="${fn:contains(accessRecord02.receptimesection, '15分钟以内')}">checked</c:if> style="width: 1rem">15分钟以内
-											<input name="receptimesection" type="radio" value="018002-15~30分钟-15~30" <c:if test="${fn:contains(accessRecord02.receptimesection, '15-30分钟')}">checked</c:if> style="width: 1rem">15-30分钟 
-											<input name="receptimesection" type="radio" value="018003-30^60分钟-30~60" <c:if test="${fn:contains(accessRecord02.receptimesection, '30-60分钟')}">checked</c:if> style="width: 1rem">30-60分钟
-											<input name="receptimesection" type="radio" value="018004-60~120分钟-60~120" <c:if test="${fn:contains(accessRecord02.receptimesection, '60-120分钟')}">checked</c:if> style="width: 1rem">60-120分钟 
-											<input name="receptimesection" type="radio" value="018005-120分钟以上-120~" <c:if test="${fn:contains(accessRecord02.receptimesection, '120分钟以上')}">checked</c:if> style="width: 1rem">120分钟以上
+											<input name="receptimesection" type="text" value="${accessRecord02.receptimesection }" style="width: 10rem">
 										</td>
 									</tr>
 
@@ -665,10 +610,7 @@ px
 
 									<tr>
 										<td colspan="3">客户评级：
-											<input name="custscore" type="radio" value="019001-A" <c:if test="${accessRecord02.custscore == 'A' }">checked</c:if> style="width: 1rem">A 
-											<input name="custscore" type="radio" value="019002-B" <c:if test="${accessRecord02.custscore == 'B' }">checked</c:if> style="width: 1rem">B 
-											<input name="custscore" type="radio" value="019003-C" <c:if test="${accessRecord02.custscore == 'C' }">checked</c:if> style="width: 1rem">C
-											<input name="custscore" type="radio" value="019004-D" <c:if test="${accessRecord02.custscore == 'D' }">checked</c:if> style="width: 1rem">D
+											<input name="custscore" type="text" value="${accessRecord02.custscore }" style="width: 1rem"> 
 										</td>
 									</tr>
 								</tbody>
