@@ -8,6 +8,7 @@ function loaded () {
     scrollbars: true,
     mouseWheel: true
   });
+  console.dir(scrollMain.options);
 }
 
 //var scrollMain;
@@ -49,8 +50,8 @@ $(function() {
 function initPage(data) {
   userInfo=data;
   _uUserId=data.userid;
-  var url=_URL_BASE+"/wx/api/getRecord01List";
-  //  var url=_URL_BASE+"/wx/api/testGet01List";
+  //var url=_URL_BASE+"/wx/api/getRecord01List";
+  var url=_URL_BASE+"/wx/api/testGet01List";
   var _data={};
   _data.pageSize=10;
   _data.pag=1;
@@ -59,7 +60,12 @@ function initPage(data) {
     success: function(json) {
       if (json.msg=='100') {
         fillList(json.data);
+        $("#searchStr").css("font-weight", "400");
+        $("#searchStr").css("height", "54px");
+        $("#searchStr").css("line-height", "54px");
         $("#scroller").show();
+        $('body').show();
+        
       } else {
         window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息<br/>禁止录入";
       }
@@ -111,7 +117,7 @@ function fillList(data) {
     }
     var _total=oneData.total;
     var _CJ=(oneData.isKnockdown&&oneData.isKnockdown==1)?"成交":"未成交";
-    html+="<div class='item_sflr scrollItem row'><div class='col-40 item-name2'>"+name+phone+fTime+"</div>"
+    html+="<div class='scrollItem row'><div class='col-40 item-name2'>"+name+phone+fTime+"</div>"
       +"<div class='col-60'  onclick=\"openNew('"+_url+"')\"><div class='col-55 item-name' style='margin-left:40%'>"+_GW+"<br>总次："+_total+"次&nbsp;&nbsp;"+_CJ+"<br>"+status+"</div></div></div>";
   }
   if (html) $("#scroller").html(html);
@@ -119,6 +125,5 @@ function fillList(data) {
 }
 
 function openNew(url) {
-  alert(url);
-  window.location.href=url;
+  //window.location.href=url;
 }

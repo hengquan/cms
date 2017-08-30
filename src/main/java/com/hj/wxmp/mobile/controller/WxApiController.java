@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -1799,4 +1800,38 @@ public class WxApiController extends ControllerBaseWx {
         }
         return JsonUtils.map2json(map);
     }
+
+    @RequestMapping(value = "/testGet01List")
+    @ResponseBody
+    public String testGet01List(HttpServletRequest req,
+    		@RequestParam(value="page",defaultValue="1") int page,
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize) {
+    	int begin=(page-1)*pageSize;
+    	int end=page*pageSize;
+        Map<String,Object> map = new HashMap<String,Object>();
+    	if (end-begin==0) map.put("msg", "103");
+    	else {
+    		List<Map<String, Object>> listData=new ArrayList<Map<String, Object>>();
+        	for (int i=begin; i<end; i++) {
+        		Map<String, Object> oneData=new HashMap<String, Object>();
+
+        		oneData.put("id", i);
+        		oneData.put("custName", "测试客户"+i);
+        		oneData.put("custSex", Math.random()-0.5>0?"男":"女");
+        		Random r=new Random(); 
+        		oneData.put("custPhoneNum", "139876543"+r.nextInt(100));
+        		Map<String, Object> recepTime=new HashMap<String, Object>();
+        		recepTime.put("time", System.currentTimeMillis());
+        		oneData.put("recepTime", recepTime);
+        		oneData.put("status", r.nextInt(3)+1);
+        		oneData.put("authorName", "顾问"+r.nextInt(100));
+        		oneData.put("isKnockdown", Math.random()-0.5>0?"1":"2");
+        		listData.add(oneData);
+        	}
+			map.put("msg", "100");
+			map.put("data", listData);
+    	}
+        return JsonUtils.map2json(map);
+    }
+
 }
