@@ -930,7 +930,7 @@ public class WxApiController extends ControllerBaseWx {
 				customer.setLoanstatus(data);
 			}
 			//汽车总价款
-			String cartotalpricce = record02.getCartotalpricce();
+			String cartotalpricce = record02.getCartotalprice();
 			if(cartotalpricce != null){
 				String data = addAccessRecord(cartotalpricce,"025",2,"汽车总价款",record02Id);
 				addAccessRecord(cartotalpricce,"025",4,"汽车总价款",customer.getId());
@@ -1054,11 +1054,11 @@ public class WxApiController extends ControllerBaseWx {
 				customer.setEstcustworth(data);
 			}
 			//重点投资
-			String investType = record02.getInvestType();
+			String investType = record02.getInvesttype();
 			if(investType != null){
 				String data = addAccessRecord(investType,"016",2,"重点投资",record02Id);
 				addAccessRecord(investType,"016",4,"重点投资",customer.getId());
-				record02.setInvestType(data);
+				record02.setInvesttype(data);
 				customer.setInvesttype(data);
 			}
 			//关注产品类型

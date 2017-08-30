@@ -28,7 +28,7 @@
     <result column="houseCount" property="housecount" jdbcType="INTEGER" />
     <result column="carFamilyCount" property="carfamilycount" jdbcType="INTEGER" />
     <result column="carBrand" property="carbrand" jdbcType="VARCHAR" />
-    <result column="carTotalPricce" property="cartotalpricce" jdbcType="VARCHAR" />
+    <result column="carTotalPrice" property="cartotalprice" jdbcType="VARCHAR" />
     <result column="attentWX" property="attentwx" jdbcType="VARCHAR" />
     <result column="appNames" property="appnames" jdbcType="VARCHAR" />
     <result column="avocations" property="avocations" jdbcType="VARCHAR" />
@@ -82,7 +82,7 @@
     childAvocationsDesc, schoolType, schoolName, livingRadius, communityName, liveAcreage, 
     loanStatus, fulltimeWifeFlag, outEduWill, nannyFlag, outExperFlag, outExperCity, 
     childOutExperFlag, childOutExperCity, petFlag, houseCount, carFamilyCount, carBrand, 
-    carTotalPricce, attentWX, appNames, avocations, resistPoint, attentionPoint, loveActivation, 
+    carTotalPrice, attentWX, appNames, avocations, resistPoint, attentionPoint, loveActivation, 
     freeTimeSection, visitorCount, visitorRefs, recepTime, recepTimeSection, custScore, 
     authorId, creatorId, decisionerIn, status, cTime, lmTime, ageGroup, familyStatus, 
     trafficType, buyQualify, workIndustry, enterpriseType, knowWay, estCustWorth, capitalPrepSection, 
@@ -114,7 +114,7 @@
       fulltimeWifeFlag, outEduWill, nannyFlag, 
       outExperFlag, outExperCity, childOutExperFlag, 
       childOutExperCity, petFlag, houseCount, 
-      carFamilyCount, carBrand, carTotalPricce, 
+      carFamilyCount, carBrand, carTotalPrice, 
       attentWX, appNames, avocations, 
       resistPoint, attentionPoint, loveActivation, 
       freeTimeSection, visitorCount, visitorRefs, 
@@ -140,7 +140,7 @@
       #{fulltimewifeflag,jdbcType=INTEGER}, #{outeduwill,jdbcType=INTEGER}, #{nannyflag,jdbcType=INTEGER}, 
       #{outexperflag,jdbcType=INTEGER}, #{outexpercity,jdbcType=VARCHAR}, #{childoutexperflag,jdbcType=INTEGER}, 
       #{childoutexpercity,jdbcType=VARCHAR}, #{petflag,jdbcType=INTEGER}, #{housecount,jdbcType=INTEGER}, 
-      #{carfamilycount,jdbcType=INTEGER}, #{carbrand,jdbcType=VARCHAR}, #{cartotalpricce,jdbcType=VARCHAR}, 
+      #{carfamilycount,jdbcType=INTEGER}, #{carbrand,jdbcType=VARCHAR}, #{cartotalprice,jdbcType=VARCHAR}, 
       #{attentwx,jdbcType=VARCHAR}, #{appnames,jdbcType=VARCHAR}, #{avocations,jdbcType=VARCHAR}, 
       #{resistpoint,jdbcType=VARCHAR}, #{attentionpoint,jdbcType=VARCHAR}, #{loveactivation,jdbcType=VARCHAR}, 
       #{freetimesection,jdbcType=VARCHAR}, #{visitorcount,jdbcType=INTEGER}, #{visitorrefs,jdbcType=VARCHAR}, 
@@ -240,8 +240,8 @@
       <if test="carbrand != null" >
         carBrand,
       </if>
-      <if test="cartotalpricce != null" >
-        carTotalPricce,
+      <if test="cartotalprice != null" >
+        carTotalPrice,
       </if>
       <if test="attentwx != null" >
         attentWX,
@@ -458,8 +458,8 @@
       <if test="carbrand != null" >
         #{carbrand,jdbcType=VARCHAR},
       </if>
-      <if test="cartotalpricce != null" >
-        #{cartotalpricce,jdbcType=VARCHAR},
+      <if test="cartotalprice != null" >
+        #{cartotalprice,jdbcType=VARCHAR},
       </if>
       <if test="attentwx != null" >
         #{attentwx,jdbcType=VARCHAR},
@@ -676,8 +676,8 @@
       <if test="carbrand != null" >
         carBrand = #{carbrand,jdbcType=VARCHAR},
       </if>
-      <if test="cartotalpricce != null" >
-        carTotalPricce = #{cartotalpricce,jdbcType=VARCHAR},
+      <if test="cartotalprice != null" >
+        carTotalPrice = #{cartotalprice,jdbcType=VARCHAR},
       </if>
       <if test="attentwx != null" >
         attentWX = #{attentwx,jdbcType=VARCHAR},
@@ -844,7 +844,7 @@
       houseCount = #{housecount,jdbcType=INTEGER},
       carFamilyCount = #{carfamilycount,jdbcType=INTEGER},
       carBrand = #{carbrand,jdbcType=VARCHAR},
-      carTotalPricce = #{cartotalpricce,jdbcType=VARCHAR},
+      carTotalPrice = #{cartotalprice,jdbcType=VARCHAR},
       attentWX = #{attentwx,jdbcType=VARCHAR},
       appNames = #{appnames,jdbcType=VARCHAR},
       avocations = #{avocations,jdbcType=VARCHAR},
@@ -918,7 +918,7 @@
       houseCount = #{housecount,jdbcType=INTEGER},
       carFamilyCount = #{carfamilycount,jdbcType=INTEGER},
       carBrand = #{carbrand,jdbcType=VARCHAR},
-      carTotalPricce = #{cartotalpricce,jdbcType=VARCHAR},
+      carTotalPrice = #{cartotalprice,jdbcType=VARCHAR},
       attentWX = #{attentwx,jdbcType=VARCHAR},
       appNames = #{appnames,jdbcType=VARCHAR},
       avocations = #{avocations,jdbcType=VARCHAR},

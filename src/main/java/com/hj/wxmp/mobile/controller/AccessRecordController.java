@@ -467,9 +467,9 @@ public class AccessRecordController extends ControllerBase {
 	
 	
 	//复访页面详情
-	@RequestMapping(value = "/accessRecord/recheckRecordDetails")
+	@RequestMapping(value = "/accessRecord/record02Details")
 	public String recheckRecordDetails(ModelMap model){
-		String pageUrl = "accessRecord02/editRecord02";
+		String pageUrl = "accessRecord02/seeRecord02";
 		try {
 			String id = getTrimParameter("id");
 			AccessRecord02 accessRecord02 = accessRecord02Service.findById(id);
@@ -491,7 +491,40 @@ public class AccessRecordController extends ControllerBase {
 	}
 	
 	
-	
+	//修改首访信息
+	@RequestMapping(value = "/accessRecord/updateAccessRecord02")
+	public String updateAccessRecord02(ModelMap model,HttpServletRequest req){
+		String pageUrl = "accessRecord02/editRecord02";
+		String userId = "";
+		try {
+			Object obj = req.getSession().getAttribute("adminSession");
+			if (null != obj)  {
+				UserInfo userInfo = (UserInfo) obj;
+				userId = userInfo.getId();
+				System.out.println(userId);
+			}
+			String id = getTrimParameter("id");
+			AccessRecord02 accessRecord02 = accessRecord02Service.findById(id);
+			String authorid = accessRecord02.getAuthorid();
+			UserInfo userInfo = userInfoService.findById(authorid);
+			model.addAttribute("name", userInfo.getRealname());
+			model.addAttribute("accessRecord02", accessRecord02);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//菜单
+		UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+		List<SysItemRole> lst = sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+		List<SysItemRole> item = sysItemRoleDao.selectItemByPId(userRole.getRoleid());
+		model.addAttribute("itemNamesss", item);
+		String itemId = super.getTrimParameter("itemId");
+		String id = super.getTrimParameter("id");
+		model.addAttribute("itemId", itemId);
+		model.addAttribute("lst", lst);
+		model.addAttribute("id", id);
+		model.addAttribute("userId", userId);
+		return pageUrl;
+	}
 	
 	//删除复访审核
 	@ResponseBody
@@ -510,6 +543,18 @@ public class AccessRecordController extends ControllerBase {
 		}
 		return JsonUtils.map2json(map);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

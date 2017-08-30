@@ -55,7 +55,7 @@ public class AccessRecord02 {
 
 	    private String carbrand;
 
-	    private String cartotalpricce;
+	    private String cartotalprice;
 
 	    private String attentwx;
 
@@ -145,14 +145,14 @@ public class AccessRecord02 {
 
 	    private String buypurposedesc;
 	    
-	    private String investType;
+	    private String investtype;
 
-		public String getInvestType() {
-			return investType;
+		public String getInvesttype() {
+			return investtype;
 		}
 
-		public void setInvestType(String investType) {
-			this.investType = investType;
+		public void setInvesttype(String investtype) {
+			this.investtype = investtype;
 		}
 
 		public String getId() {
@@ -259,8 +259,8 @@ public class AccessRecord02 {
 			return carbrand;
 		}
 
-		public String getCartotalpricce() {
-			return cartotalpricce;
+		public String getCartotalprice() {
+			return cartotalprice;
 		}
 
 		public String getAttentwx() {
@@ -543,8 +543,8 @@ public class AccessRecord02 {
 			this.carbrand = carbrand;
 		}
 
-		public void setCartotalpricce(String cartotalpricce) {
-			this.cartotalpricce = cartotalpricce;
+		public void setCartotalpricce(String cartotalprice) {
+			this.cartotalprice = cartotalprice;
 		}
 
 		public void setAttentwx(String attentwx) {
