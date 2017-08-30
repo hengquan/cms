@@ -654,7 +654,7 @@
 	  case when r01.count03 is null then 0 else 1 end isKnockdown,
 		(case r01.status when 2 then 1 else 0 end)+(case when r01.count02 is null then 0 else r01.count02 end)+(case when r01.count03 is null then 0 else r01.count03 end) total 
 	from (
-		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime cTime, a.custSex, b.count02, c.count03 from (
+		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime, a.custSex, b.count02, c.count03 from (
 	    select m.*, n.realName from ql_AccessRecord01 m, plat_User n
 	  	where (m.status = 2 or m.status = 4) and m.authorId=n.id and authorId=#{userId}
 		) a 
@@ -674,7 +674,7 @@
 	  case when r01.count03 is null then 0 else 1 end isKnockdown,
 		(case r01.status when 2 then 1 else 0 end)+(case when r01.count02 is null then 0 else r01.count02 end)+(case when r01.count03 is null then 0 else r01.count03 end) total 
 	from (
-		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime cTime, a.custSex, b.count02, c.count03 from (
+		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime, a.custSex, b.count02, c.count03 from (
 	    select m.*, n.realName from ql_AccessRecord01 m, plat_User n
 	  	where (m.status = 2) and m.authorId=n.id and INSTR(#{projId},projId) 
 		) a 
@@ -694,7 +694,7 @@
 	  case when r01.count03 is null then 0 else 1 end isKnockdown,
 		(case r01.status when 2 then 1 else 0 end)+(case when r01.count02 is null then 0 else r01.count02 end)+(case when r01.count03 is null then 0 else r01.count03 end) total 
 	from (
-		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime cTime, a.custSex, b.count02, c.count03 from (
+		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime, a.custSex, b.count02, c.count03 from (
 	    select m.*, n.realName from ql_AccessRecord01 m, plat_User n
 	  	where (m.status = 2 or m.status = 1) and m.authorId=n.id and INSTR(#{projId},projId) 
 		) a 
@@ -714,7 +714,7 @@
 	  case when r01.count03 is null then 0 else 1 end isKnockdown,
 		(case r01.status when 2 then 1 else 0 end)+(case when r01.count02 is null then 0 else r01.count02 end)+(case when r01.count03 is null then 0 else r01.count03 end) total 
 	from (
-		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime cTime, a.custSex, b.count02, c.count03 from (
+		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime, a.custSex, b.count02, c.count03 from (
 	    select m.*, n.realName from ql_AccessRecord01 m, plat_User n
 	  	where (m.status = 2) and m.authorId=n.id  
 		) a 

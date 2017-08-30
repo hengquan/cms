@@ -16,239 +16,28 @@
   <script src="../js/CONSTANT.js" type="text/javascript"></script>
   <script src="../js/iscroll-probe.js" type="text/javascript"></script>
 
-  <title>TEST-iScroll</title>
-
-<script type="text/javascript">
-var scrollMain;
-var page=0;
-var pageSize=10;
-var userInfo={};
-
-function loaded () {
-  pullDownFlag = 0;
-  pullUpFlag = 0;
-  pullDown = document.getElementById("pullDown");
-  pullUp = document.getElementById("pullUp");
-  spinner = document.getElementById("spinner");
-
-  scrollMain=new IScroll('#wrapper', {
-    probeType: 3,
-    mouseWheel: true
-  });
-  scrollMain.on('scroll',positionJudge);
-  scrollMain.on("scrollEnd",action)
-  console.dir(scrollMain);
-  
-  var url=_URL_BASE+"/wx/api/personalCenter";
-  $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
-    success: function(json) {
-      if (json.msg=='100') {
-        initPage(json.userInfo);
-        $("#scroller").show();
-      } else {
-        window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息<br/>禁止录入";
-      }
-    },
-    error: function(XMLHttpRequest, textStatus, errorThrown) {
-      window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
-        +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
-    }
-  });
-}
-function initPage(data) {
-  userInfo=data;
-  loadPage();
-  $("#searchStr").css("font-weight", "400");
-  $("#searchStr").css("height", "54px");
-  $("#searchStr").css("line-height", "54px");
-  $("#scroller").show();
-  $('body').show();
-}
-function loadPage() {
-  //var url=_URL_BASE+"/wx/api/getRecord01List";
-  var url=_URL_BASE+"/wx/api/testGet01List";
-  var _data={};
-  _data.pageSize=pageSize;
-  _data.page=page;
-  _data.userId=userInfo.userId;
-  $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
-    success: function(json) {
-      if (json.msg=='100') {
-        if (json.data.length&&json.data.length>0) {
-          fillList(json.data);
-          page++;
-        }
-      } else {
-        window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息<br/>禁止录入";
-      }
-    },
-    error: function(XMLHttpRequest, textStatus, errorThrown) {
-      window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
-        +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
-    }
-  });
-  function fillList() {
-    var _updateUrl=_URL_BASE+"/wxfront/record01/record01Input.html?type=update";
-    var _viewUrl=_URL_BASE+"/wxfront/record01/record01View.html";
-    if (data==null||data.length==0||!(data instanceof Array)) {
-      $("#scroller").html("没有记录");
-      return;
-    }
-    var html="";
-    for (var i=0; i<data.length; i++) {
-      var oneData=data[i];
-      var name=oneData.custName;
-      if (oneData.custSex) name=name+"("+oneData.custSex+")";
-      name=name+"<br/>";
-      var phone="<span><a href='tel:"+oneData.custPhoneNum+"'>"+oneData.custPhoneNum+"</a></span><br/>";
-      var cTime=new Date();
-      cTime.setTime(oneData.recepTime.time);
-      var fTime="<span class='sftime'>首访："+cTime.Format('yyyy-MM-dd')+"</span>";
-      //顾问
-      var status="<span class='ysh'>已审核</span>";
-      var _url=_viewUrl+"?recordId="+oneData.id;
-      if (oneData.status==1) status="<span class='ysh'>审核中</span>";
-      if (oneData.status==2) status="<span class='ysh'>已通过</span>";
-      if (oneData.status==3) status="<span class='ysh'>已作废</span>";
-      if (oneData.status==4) {//退回
-        status="<span>未通过</span>";
-        _url=_updateUrl+"&recordId="+oneData.id;
-      }
-      if (userInfo.roleName!='顾问') {
-          status="<span class='ysh'>已审核</span>";
-          if (oneData.status==1) status="<span>待审核</span>";
-          if (oneData.status==2) status="<span class='ysh'>已通过</span>";
-          if (oneData.status==3) status="<span class='ysh'>未通过</span>";
-          if (oneData.status==4) status="<span class='ysh'>未通过</span>";
-      }
-      var _GW="";
-      if (userInfo.roleName!='顾问'&&oneData.authorName) {
-      _GW="顾问:"+oneData.authorName;
-      }
-      var _total=oneData.total;
-      var _CJ=(oneData.isKnockdown&&oneData.isKnockdown==1)?"成交":"未成交";
-      html+="<div class='scrollItem row'><div class='col-40 item-name2'>"+name+phone+fTime+"</div>"
-        +"<div class='col-60'  onclick=\"openNew('"+_url+"')\"><div class='col-55 item-name' style='margin-left:40%'>"+_GW+"<br>总次："+_total+"次&nbsp;&nbsp;"+_CJ+"<br>"+status+"</div></div></div>";
-    }
-    if (html) $("#scroller").html(html);
-    else $("#scroller").html("没有记录");
-  }
-}
-document.addEventListener('touchmove', function (e) { e.preventDefault(); }, isPassive() ? {
-  capture: false,
-  passive: false
-} : false);
-
-var /*pullDownFlag=0,*/pullUpFlag=0;
-var /*pullDown,*/pullUp;
-var spinner;
-
-function positionJudge(){
-//  if(this.y>40){    //判断下拉
-//    pullDown.innerHTML = "放开刷新页面";
-//    pullDownFlag = 1;
-//  }else 
-  if (this.y<(this.maxScrollY-40)){   //判断上拉
-    pullUp.innerHTML = "放开刷新页面";
-    pullUpFlag = 1;
-  }
-}
-function action(){
-//  if(pullDownFlag==1){
-//    pullDown.innerHTML = "下拉刷新…";
-//    pullDownFlag = 0;
-//    pullDownAction();
-//  }
-  if(pullUpFlag==1){
-    pullUp.innerHTML = "上拉刷新…";
-    pullUpFlag = 0;
-    pullUpAction();
-  }
-}
-//function pullDownAction(){
-//  spinner.style.display = "block";
-//  setTimeout(function(){
-//    var ul = document.getElementById("list");
-//    var lis = ul.getElementsByTagName("li");
-//    for(var i=0;i<lis.length;i++){
-//      lis[i].innerHTML = "下拉刷新";
-//    }
-//    spinner.style.display = "none";
-//    scrollMain.refresh();
-//  },1000);
-//}
-
-function pullUpAction(){
-  spinner.style.display = "block";
-  setTimeout(function(){
-    var ul = document.getElementById("list");
-    var lis = ul.getElementsByTagName("li");
-    for(var i=0;i<lis.length;i++){
-      lis[i].innerHTML = "上拉刷新";
-    }
-    $(ul).append("<li>Pretty row 21</li>");
-    $(ul).append("<li>Pretty row 22</li>");
-    $(ul).append("<li>Pretty row 23</li>");
-    $(ul).append("<li>Pretty row 24</li>");
-    $(ul).append("<li>Pretty row 25</li>");
-    $(ul).append("<li>Pretty row 26</li>");
-    $(ul).append("<li>Pretty row 27</li>");
-    $(ul).append("<li>Pretty row 28</li>");
-    $(ul).append("<li>Pretty row 29</li>");
-    spinner.style.display = "none";
-    scrollMain.refresh();
-  },1000);
-}
-
-function updatePosition(){
-  pullDown.innerHTML = this.y>>0;
-}
-document.addEventListener('touchmove', function (e) {
-  e.preventDefault();
-}, false);
-</script>
+  <title>客户数据中心-首访信息列表</title>
 </head>
 <body onload="loaded()" style="display:none;">
-<div id="header">
-<input id="searchStr" type="text" placeholder="请输入客户姓名、电话" class="form-control input-lg">
-</div>
+  <div id="header">
+    <input id="searchStr" type="text" placeholder="请输入客户姓名、电话" class="form-control input-lg"/>
+    <span id="searchCommit" class="input-group-addon btn btn-primary">搜索</span>
+  </div>
 
-<div id="wrapper">
+  <div id="wrapper">
   <div id="scroller">
     <ul id="list">
-      <li>Pretty row 1</li>
-      <li>Pretty row 2</li>
-      <li>Pretty row 3</li>
-      <li>Pretty row 4</li>
-      <li>Pretty row 5</li>
-      <li>Pretty row 6</li>
-      <li>Pretty row 7</li>
-      <li>Pretty row 8</li>
-      <li>Pretty row 9</li>
-      <li>Pretty row 10</li>
-      <li>Pretty row 11</li>
-      <li>Pretty row 12</li>
-      <li>Pretty row 13</li>
-      <li>Pretty row 14</li>
-      <li>Pretty row 15</li>
-      <li>Pretty row 16</li>
-      <li>Pretty row 17</li>
-      <li>Pretty row 18</li>
-      <li>Pretty row 19</li>
-      <li>Pretty row 20</li>
     </ul>
     <div id="pullUp">
       <span>上拉加载更多…</span>
     </div>
   </div>
-</div>
+  </div>
 
-<div id="spinner">
-  <div></div>
-  <div></div>
-</div>
-
+  <div id="spinner"><div></div><div></div></div>
 </body>
 
 <script src="../js/less.min.js" type="text/javascript"></script>
+<script src="./01Search.js"></script>
+
 </html>

@@ -1166,9 +1166,11 @@ function initData() {
     }
   });
   function initPage(data) {
+    if (data.roleName!='项目负责人'&&data.roleName!='顾问') {//获取顾问
+      window.location.href=_URL_BASE+"/wxfront/err.html?9000=您不必亲自录入首访记录<br/>此工作由“负责人”或“顾问”完成";
+      return;
+    }
     userInfo=data;
-    var url=_URL_BASE+"/wx/api/getLocalArea";
-
     var localResidenceArea=new LArea();
     localResidenceArea.init({
       'trigger': '#localRedisId', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
@@ -1213,8 +1215,6 @@ function initData() {
       'type': 1, //数据源类型
       'data': allArea.data.children//数据源
     });
-    $("input[name='user']").val(data.realname);
-    _uUserId=data.userid;
     var canShowProj=false;
     var prjNames=""+data.checkProj;
     var lPrj=prjNames.split(',');
@@ -1231,12 +1231,26 @@ function initData() {
         }
       }
     }
+    alert("001::"+allFields(data));
     if (canShowProj&&lPrj.length>1) {
       $("#projData").html(projHtml);
       $("#projArea").show(); 
     } else {
       _uProjName=projName;
       _uProjId=projId;
+    }
+    //处理顾问
+    if (data.roleName=='顾问') {//顾问
+      $("#_SELUSER").hide();
+      $("#_SHOWUSER").show();
+      $("span[name='user']").html(data.realname);
+      _uUserId=data.userid;
+    } else if (data.roleName=='项目负责人') {//负责人
+      $("#_SELUSER").show();
+      $("#_SHOWUSER").hide();
+      if (_uProjId) {
+        loadProjUser(_uProjId);
+      }
     }
     cleanData();
     //如果是更新，则要获取更新的
@@ -1269,15 +1283,29 @@ function initData() {
     }
   }
 }
+function loadProjUser(projId) {//加载顾问
+  $("#user").html("加载顾问...");
+  var url=_URL_BASE+"/wx/api/getCheckReason?recordType=1&recordId="+id;
+  $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
+    success: function(json) {
+      if (json.msg=='100') {
+        $("#auditText").html(json.checkReason);
+        if (json.checkReason) $("#auditArea").show();
+      }
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
+        +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
+    }
+  });
+}
 function getAudit(id) {
   var url=_URL_BASE+"/wx/api/getCheckReason?recordType=1&recordId="+id;
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
         $("#auditText").html(json.checkReason);
-
-if (json.checkReason)
-        $("#auditArea").show();
+        if (json.checkReason) $("#auditArea").show();
       }
     },
     error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1292,7 +1320,7 @@ function cleanData() {
   str+=((100+(nt.getMonth()+1))+"").substr(1)+"-";
   str+=((100+nt.getDate())+"").substr(1);
   $("input[name='curTime']").val(str);
-$("input[name='firstTime']").val(str);
+  $("input[name='firstTime']").val(str);
   //清除所有数据
   $("input[name='custName']").val("");
   $("input[name='custPhone']").val("");
