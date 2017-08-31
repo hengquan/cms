@@ -233,7 +233,7 @@ rgba
 								</tr>
 
 								<tr>
-									<td>联系方式：<input type="text" name="lianxi"  value="${accessRecord01.custphonenum }"
+									<td>联系方式：<input type="text" name="custphonenum"  value="${accessRecord01.custphonenum }"
 										onblur="check_lianxi_ajax()" style="width: 100px">&nbsp;<span
 										id="txt1" style="color: red"></span></td>
 									<td>第一次获知本案时间： 

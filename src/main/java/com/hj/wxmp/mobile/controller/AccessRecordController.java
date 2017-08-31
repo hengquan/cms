@@ -673,9 +673,9 @@ public class AccessRecordController extends ControllerBase {
 	
 	
 	//成交页面详情
-	@RequestMapping(value = "/accessRecord/knockdownRecordDetails")
-	public String knockdownRecordDetails(ModelMap model){
-		String pageUrl = "accessRecord03/editRecord03";
+	@RequestMapping(value = "/accessRecord/seeRecord03")
+	public String seeRecord03(ModelMap model){
+		String pageUrl = "accessRecord03/seeRecord03";
 		try {
 			String id = getTrimParameter("id");
 			AccessRecord03 accessRecord03 = accessRecord03Service.findById(id);
@@ -698,6 +698,40 @@ public class AccessRecordController extends ControllerBase {
 	
 	
 	
+	//修改首访信息
+	@RequestMapping(value = "/accessRecord/updateRecord03")
+	public String updateRecord03(ModelMap model,HttpServletRequest req){
+		String pageUrl = "accessRecord03/editRecord03";
+		String userId = "";
+		try {
+			Object obj = req.getSession().getAttribute("adminSession");
+			if (null != obj)  {
+				UserInfo userInfo = (UserInfo) obj;
+				userId = userInfo.getId();
+				System.out.println(userId);
+			}
+			String id = getTrimParameter("id");
+			AccessRecord03 accessRecord03 = accessRecord03Service.findById(id);
+			String authorid = accessRecord03.getAuthorid();
+			UserInfo userInfo = userInfoService.findById(authorid);
+			model.addAttribute("name", userInfo.getRealname());
+			model.addAttribute("accessRecord03", accessRecord03);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//菜单
+		UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+		List<SysItemRole> lst = sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+		List<SysItemRole> item = sysItemRoleDao.selectItemByPId(userRole.getRoleid());
+		model.addAttribute("itemNamesss", item);
+		String itemId = super.getTrimParameter("itemId");
+		String id = super.getTrimParameter("id");
+		model.addAttribute("itemId", itemId);
+		model.addAttribute("lst", lst);
+		model.addAttribute("id", id);
+		model.addAttribute("userId", userId);
+		return pageUrl;
+	}
 	
 	
 	//删除复访审核
