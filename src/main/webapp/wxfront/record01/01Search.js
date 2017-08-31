@@ -45,9 +45,6 @@ function loaded () {
 function initPage(data) {
   userInfo=data;
   loadPage();
-//  $("#searchStr").css("font-weight", "400");
-//  $("#searchStr").css("height", "54px");
-//  $("#searchStr").css("line-height", "54px");
   $('body').show();
 }
 function loadPage() {
@@ -100,11 +97,11 @@ function loadPage() {
         _url=_updateUrl+"&recordId="+oneData.id;
       }
       if (userInfo.roleName!='顾问') {
-          status="<span class='ysh'>已审核</span>";
-          if (oneData.status==1) status="<span>待审核</span>";
-          if (oneData.status==2) status="<span class='ysh'>已通过</span>";
-          if (oneData.status==3) status="<span class='ysh'>未通过</span>";
-          if (oneData.status==4) status="<span class='ysh'>未通过</span>";
+        status="<span class='ysh'>已审核</span>";
+        if (oneData.status==1) status="<span>待审核</span>";
+        if (oneData.status==2) status="<span class='ysh'>已通过</span>";
+        if (oneData.status==3) status="<span class='ysh'>未通过</span>";
+        if (oneData.status==4) status="<span class='ysh'>未通过</span>";
       }
       var _GW="";
       if (userInfo.roleName!='顾问'&&oneData.authorName) {
@@ -116,6 +113,8 @@ function loadPage() {
         +"<div class='col-60'  onclick=\"openNew('"+_url+"')\"><div class='col-55 item-name' style='margin-left:40%'>"+_GW+"<br>总次："+_total+"次&nbsp;&nbsp;"+_CJ+"<br>"+status+"</div></div></div>";
       $("#list").append(html);
     }
+    if (pullUp.offsetTop>document.documentElement.clientHeight)  pullUp.style.color="black";
+       else pullUp.style.color="white";
   }
 }
 document.addEventListener('touchmove', function (e) { e.preventDefault(); }, isPassive() ? {
@@ -127,10 +126,11 @@ var /*pullDownFlag=0,*/pullUpFlag=0;
 var /*pullDown,*/pullUp;
 var spinner;
 
-function positionJudge(){
+function positionJudge() {
 //  if(this.y>40){    //判断下拉
-//    pullDown.innerHTML = "放开刷新页面";
-//    pullDownFlag = 1;
+//    this.y=0;
+    //pullDown.innerHTML = "放开刷新页面";
+    //pullDownFlag = 1;
 //  }else 
   if (this.y<(this.maxScrollY-40)){   //判断上拉
     pullUp.innerHTML = "放开刷新页面";
@@ -168,12 +168,12 @@ function pullUpAction(){
     loadPage();
     spinner.style.display = "none";
     scrollMain.refresh();
-  },500);
+  },5);
 }
 document.addEventListener('touchmove', function (e) {
   e.preventDefault();
 }, false);
 
-function openNew(url) {
+function openNew(url) {alert(url);
   window.location.href=url;
 }

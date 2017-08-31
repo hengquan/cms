@@ -70,13 +70,13 @@
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-4">置业顾问</div>
-    <a href="" data-toggle="modal" data-target="#userModal" id="_SELUSER">
+    <a href="" data-toggle="modal" data-target="#userModal" id="_SELUSER" style="display:none;">
     <div class="col-input-4-1">
-      <span class="input_style form-group" id="user">&nbsp;</span>
+      <span class="input_style form-group" id="user" name="userInput">&nbsp;</span>
     </div>
     </a>
-    <div class="col-input-4-1" id="_SHOWUSER">
-      <span class="input_style form-group" id="user">&nbsp;</span>
+    <div class="col-input-4-1" id="_SHOWUSER" style="display:none;">
+      <span class="input_style form-group" id="user" name="userInput">&nbsp;</span>
     </div>
   </div>
   <div class="modal fade" id="userModal" role="dialog">
@@ -86,11 +86,11 @@
           <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
           <h4 class="modal-title">顾问选择</h4>
         </div>
-        <div class="modal-body" id="projData">
+        <div class="user-scroll modal-body" id="userData">
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanProj()" id="cleanProjBtn" style="display:none;">清除并关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanUser()" id="cleanUserBtn" style="display:none;">清除并关闭</button>
         </div>
       </div>
     </div>

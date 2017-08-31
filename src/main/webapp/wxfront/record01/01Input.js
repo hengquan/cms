@@ -39,21 +39,41 @@ function selProj() {
     if (choose[i].checked) {
       $("#proj").html(choose[i].getAttribute("_text"));
       _uProjName=choose[i].getAttribute("_text");
+      var oldProjId=_uProjId;
       _uProjId=choose[i].value.substring(0, choose[i].value.indexOf('-'));
+      if (_uProjId!=oldProjId) loadProjUser(_uProjId);
     }
   }
   $("#projModal").modal('hide');
   if (_uProjId!="") $("#cleanProjBtn").show();
 }
+function selUser() {
+  var choose=document.getElementsByName('user');
+  for (var i=0; i<choose.length; i++) {
+    if (choose[i].checked) {
+      $("span[name='userInput']").html(choose[i].getAttribute("_text"));
+      _uUserId=choose[i].value.substring(0, choose[i].value.indexOf('-'));
+    }
+  }
+  $("#userModal").modal('hide');
+  if (_uUserId!="") $("#cleanUserBtn").show();
+}
 var vueStep1=new Vue({
   el: "#step1",
   methods: {
+    cleanUser: function() {
+      $("span[name='userInput']").html("&nbsp;");
+      _uUserId="";
+      $("#cleanUserBtn").hide();
+      fillSelectField('user', "", false);
+    },
     cleanProj: function() {
       $("#proj").html("&nbsp;");
       _uProjId="";
       _uProjName="";
       $("#cleanProjBtn").hide();
       fillSelectField('proj', "", false);
+      this.cleanUser();
     },
     selSex: function() {
       _uSex="";
@@ -1166,11 +1186,9 @@ function initData() {
     }
   });
   function initPage(data) {
-    if (data.roleName!='项目负责人'&&data.roleName!='顾问') {//获取顾问
-      window.location.href=_URL_BASE+"/wxfront/err.html?9000=您不必亲自录入首访记录<br/>此工作由“负责人”或“顾问”完成";
-      return;
-    }
     userInfo=data;
+    var url=_URL_BASE+"/wx/api/getLocalArea";
+
     var localResidenceArea=new LArea();
     localResidenceArea.init({
       'trigger': '#localRedisId', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
@@ -1231,7 +1249,6 @@ function initData() {
         }
       }
     }
-    alert("001::"+allFields(data));
     if (canShowProj&&lPrj.length>1) {
       $("#projData").html(projHtml);
       $("#projArea").show(); 
@@ -1239,21 +1256,22 @@ function initData() {
       _uProjName=projName;
       _uProjId=projId;
     }
+    cleanData();
     //处理顾问
     if (data.roleName=='顾问') {//顾问
       $("#_SELUSER").hide();
       $("#_SHOWUSER").show();
-      $("span[name='user']").html(data.realname);
+      $("span[name='userInput']").html(data.realname);
       _uUserId=data.userid;
     } else if (data.roleName=='项目负责人') {//负责人
-      $("#_SELUSER").show();
-      $("#_SHOWUSER").hide();
-      if (_uProjId) {
-        loadProjUser(_uProjId);
+      if (_uProjId) loadProjUser(_uProjId);
+      else {
+        $("#_SELUSER").hide();
+        $("#_SHOWUSER").show();
+        $("span[name='userInput']").html("先选项目");
       }
     }
-    cleanData();
-    //如果是更新，则要获取更新的
+    //如果是更新，则要获取记录内容
     if (_TYPE=='update') {
       $(document).attr("title","客户数据中心-首访信息修改");
       //获得本条记录消息信息
@@ -1284,14 +1302,27 @@ function initData() {
   }
 }
 function loadProjUser(projId) {//加载顾问
-  $("#user").html("加载顾问...");
-  var url=_URL_BASE+"/wx/api/getCheckReason?recordType=1&recordId="+id;
+  $("#userData").html("");
+  $("span[name='userInput']").html("加载顾问...");
+  var url=_URL_BASE+"/wx/api/getUserList?projId="+projId;
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
-        $("#auditText").html(json.checkReason);
-        if (json.checkReason) $("#auditArea").show();
+        if (json.users&&json.users.length>0) {
+          $("#_SELUSER").show();
+          $("#_SHOWUSER").hide();
+          for (var i=0; i<json.users.length; i++) {
+            var oneUser=json.users[i];
+            var _innerHtml=oneUser.realName+"<span>（"+(oneUser.sex==1?"男":"女")+"）</span><span>"+oneUser.mainPhoneNum+"</span><span>"+oneUser.projName+"</span>";
+            var userHtml="<label><input type='radio' name='user' value='"+oneUser.id+"-"+oneUser.realName+"' _text='"+oneUser.realName+"' onclick='selUser()'/>"+_innerHtml+"</label>";
+            if (i<(json.users.length-1)) userHtml+="<br>";
+            $("#userData").append(userHtml);
+          }
+        } else {
+          alert('无法获得项目顾问列表');
+        }
       }
+      $("span[name='userInput']").html("&nbsp;");
     },
     error: function(XMLHttpRequest, textStatus, errorThrown) {
       window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="

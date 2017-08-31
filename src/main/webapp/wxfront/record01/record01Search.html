@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 
   <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="scroll.less" type="text/less">
   <link rel="stylesheet" href="../css/index.css"/>
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/bootstrap.min.css">
-  <link rel="stylesheet" href="scroll.less" type="text/less">
 
   <script src="../../static/js/jquery.min.js" type="text/javascript"></script>
   <script src="../js/common.utils.js" type="text/javascript"></script>
@@ -18,22 +17,22 @@
 
   <title>客户数据中心-首访信息列表</title>
 </head>
-<body onload="loaded()" style="display:none;">
-<div id="header">
-  <input id="searchStr" type="text" placeholder="请输入客户姓名、电话" class="form-control input-lg"/>
-</div>
+<body onLoad="loaded()" style="display:none; background-color:#FFFFFF">
+  <div id="header" class="input-group">
+    <input id="searchStr" type="text" placeholder="请输入客户姓名、电话" class="form-control input-lg"/>
+    <span id="searchCommit" class="input-group-addon btn btn-primary">搜索</span>  </div>
 
-<div id="wrapper">
+  <div id="wrapper">
   <div id="scroller">
     <ul id="list">
     </ul>
-    <div id="pullUp">
+    <div id="pullUp" style="color:white">
       <span>上拉加载更多…</span>
     </div>
   </div>
-</div>
+  </div>
 
-<div id="spinner"><div></div><div></div></div>
+  <div id="spinner"><div></div><div></div></div>
 </body>
 
 <script src="../js/less.min.js" type="text/javascript"></script>
