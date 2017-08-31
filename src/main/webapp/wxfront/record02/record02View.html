@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title>客户数据中心-复访信息列表</title>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="../css/index.css"/>
+  <link rel="stylesheet" href="../css/main.css">
+  <script src="../../static/js/jquery.min.js" type="text/javascript"></script>
+  <script src="../js/CONSTANT.js" type="text/javascript"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/common.utils.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="oneData">
+
+<div class="line"></div>
+<div class="item_sflr row" id="GW" style="display:none">
+<div class="col-50-1 item-nr">顾问</div>
+<div class="col-50-1 item-nr2" id="authorName"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-50-1 item-nr">姓名</div>
+<div class="col-50-1 item-nr2" id="custName"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-50-1 item-nr">电话</div>
+<div class="col-50-1 item-nr2" id="custPhone"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-50-1 item-nr">性别</div>
+<div class="col-50-1 item-nr2" id="custSex"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">本次到访时间</div>
+<div class="col-40 item-nr2" id="recpTime"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">首次到访时间</div>
+<div class="col-40 item-nr2" id="curTime"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">来访次数</div>
+<div class="col-40 item-nr2" id='ageGroup'></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">来访人数</div>
+<div class="col-40 item-nr2" id="visitorCount"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">决策人是否到场</div>
+<div class="col-40 item-nr2" id="decisionerIn"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">来访人之间关系</div>
+<div class="col-40 item-nr2" id="visitorRefs"></div>
+</div>
+<div class="line"></div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">未成年子女数量</div>
+<div class="col-40 item-nr2" id="childrenNum"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">孩子年龄段</div>
+<div class="col-40 item-nr2" id="childAgeGroup"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">孩子在读学校类型</div>
+<div class="col-40 item-nr2" id="schoolType"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">在读学校名称</div>
+<div class="col-40 item-nr2" id="schoolName"></div>
+</div>
+
+<div class="line"></div>
+<div class="item_sflr row">
+<div class="col-60 item-nr">孩子的课余爱好</div>
+<div class="col-40 item-nr2" id="avocations"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">国际教育意愿</div>
+<div class="col-40 item-nr2" id="outEduWill"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">业主是否有海外经历</div>
+<div class="col-40 item-nr2" id="outExperFlag"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">请填写是哪个城市</div>
+<div class="col-40 item-nr2" id="outExperCity"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">子女是否有海外经历</div>
+<div class="col-40 item-nr2" id="childOutExperFlag"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">请填写是哪个城市</div>
+<div class="col-40 item-nr2" id="childOutExperCity"></div>
+</div>
+<div class="line"></div>
+
+<div class="item_sflr row">
+<div class="col-40 item-nr">生活半径</div>
+<div class="col-60 item-nr2" id="livingRadius"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">现居住社区名称</div>
+<div class="col-40 item-nr2" id=""></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">住房性质</div>
+<div class="col-40 item-nr2" id=""></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">目前的居住面积</div>
+<div class="col-40 item-nr2" id="liveAcreage"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-40 item-nr">公司名称</div>
+<div class="col-60 item-nr2" id=""></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">公司地址</div>
+<div class="col-40 item-nr2" id=""></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">公司职务</div>
+<div class="col-40 item-nr2" id=""></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">家庭已购房产（套）</div>
+<div class="col-40 item-nr2" id="houseCount"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">家庭汽车数量（辆）</div>
+<div class="col-40 item-nr2" id="carFamilyCount"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">汽车品牌</div>
+<div class="col-40 item-nr2" id="carBrand"></div>
+</div>
+<div class="item_sflr row">
+<div class="col-60 item-nr">驾车总价</div>
+<div class="col-40 item-nr2" id="carTotalPrice"></div>
+</div>
+<div class="item_sflr row">
+<div class="col-60 item-nr">关注的公众微信号</div>
+<div class="col-40 item-nr2" id="attentWX"></div>
+</div>
+<div class="item_sflr row">
+<div class="col-60 item-nr">常用APP</div>
+<div class="col-40 item-nr2" id="appNames"></div>
+</div>
+<div class="item_sflr row">
+<div class="col-60 item-nr">您的业余爱好</div>
+<div class="col-40 item-nr2" id="avocationsDesc"></div>
+</div>
+<div class="line"></div>
+
+<div class="item_sflr row">
+<div class="col-40 item-nr">对本案的抗拒点</div>
+<div class="col-60 item-nr2" id="resistPoint"></div>
+</div>
+<div class="item_sflr row">
+<div class="col-40 item-nr">喜欢参加的活动</div>
+<div class="col-60 item-nr2" id="loveActivation"></div>
+</div>
+<div class="item_sflr row">
+<div class="col-50-1 item-nr">可参加业主活动时间</div>
+<div class="col-50-1 item-nr2" id="freeTimeSection"></div>
+</div>
+<div class="item_sflr row">
+<div class="col-60 item-nr">参观接待时间</div>
+<div class="col-40 item-nr2" id="recepTimeSection"></div>
+</div>
+<div class="item_sflr row">
+<div class="col-60 item-nr">客户评级</div>
+<div class="col-40 item-nr2" id="custScore"></div>
+</div>
+<div class="item_sflr row">
+<div class="item-nr">目前进行比选项目有</div>
+<div class="item-nr3" id="compareProjs"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="item-nr">复访接待描述</div>
+<div class="item-nr3" id="custDescn"></div>
+</div>
+
+<div class="row row-link" id="operArea" style="display:none;">
+<div class="col-50" style="margin-top:1.5rem;" data-toggle="modal" data-target="#auditMsgModal"><a href="#">审核不通过</a></div>
+<div class="col-50" style="margin-top:1.5rem;" onClick="auditOk()"><a href="#">审核通过</a></div>
+</div>
+<div style="margin-bottom:.5rem;">&nbsp;</div>
+<div class="modal fade" id="auditMsgModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title">审核-未通过</h4>
+      </div>
+      <div class="modal-body">
+        <textarea id="auditMsg" rows="4" placeholder="请您填写审核不通过的理由" style="border:1 solid #CCCCCC;width:100%"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onClick="auditNo()">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script src="./02View.js"></script>
+
+</body>
+</html>
