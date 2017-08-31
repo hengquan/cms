@@ -3,723 +3,774 @@ package com.hj.wxmp.mobile.entity;
 import java.util.Date;
 
 public class AccessRecord02 {
-	 	private String id;
+    private String id;
 
-	    private String projid;
+    private String projid;
 
-	    private String custid;
+    private String custid;
 
-	    private String custname;
+    private String custname;
 
-	    private String custphonenum;
+    private String custphonenum;
 
-	    private Integer childrennum;
+    private Integer childrennum;
 
-	    private String childagegroup;
+    private String childagegroup;
 
-	    private String childavocations;
+    private String childavocations;
 
-	    private String childavocationsdesc;
+    private String childavocationsdesc;
 
-	    private String schooltype;
+    private String schooltype;
 
-	    private String schoolname;
+    private String schoolname;
 
-	    private String livingradius;
+    private String livingradius;
 
-	    private String communityname;
+    private String communityname;
 
-	    private String liveacreage;
+    private String housetype;
 
-	    private String loanstatus;
+    private String liveacreage;
 
-	    private Integer fulltimewifeflag;
+    private String enterprisename;
 
-	    private Integer outeduwill;
+    private String enterpriseaddress;
 
-	    private Integer nannyflag;
+    private String enterprisepost;
 
-	    private Integer outexperflag;
+    private String loanstatus;
 
-	    private String outexpercity;
+    private Integer fulltimewifeflag;
 
-	    private Integer childoutexperflag;
+    private Integer outeduwill;
 
-	    private String childoutexpercity;
+    private Integer nannyflag;
 
-	    private Integer petflag;
+    private Integer outexperflag;
 
-	    private Integer housecount;
+    private String outexpercity;
 
-	    private Integer carfamilycount;
+    private Integer childoutexperflag;
 
-	    private String carbrand;
+    private String childoutexpercity;
 
-	    private String cartotalprice;
+    private Integer petflag;
 
-	    private String attentwx;
+    private Integer housecount;
 
-	    private String appnames;
+    private Integer carfamilycount;
 
-	    private String avocations;
+    private String carbrand;
 
-	    private String resistpoint;
+    private String cartotalprice;
 
-	    private String attentionpoint;
+    private String attentwx;
 
-	    private String loveactivation;
+    private String appnames;
 
-	    private String freetimesection;
+    private String avocations;
 
-	    private Integer visitorcount;
+    private String resistpoint;
 
-	    private String visitorrefs;
+    private String attentionpoint;
 
-	    private Date receptime;
+    private String loveactivation;
 
-	    private String receptimesection;
+    private String freetimesection;
 
-	    private String custscore;
+    private Integer visitorcount;
 
-	    private String authorid;
+    private String visitorrefs;
 
-	    private String creatorid;
+    private Date receptime;
 
-	    private Integer decisionerin;
+    private String receptimesection;
 
-	    private Integer status;
+    private String custscore;
 
-	    private Date ctime;
+    private String authorid;
 
-	    private Date lmtime;
+    private String creatorid;
 
-	    private String agegroup;
+    private Integer decisionerin;
 
-	    private String familystatus;
+    private Integer status;
 
-	    private String traffictype;
+    private Date ctime;
 
-	    private String buyqualify;
+    private Date lmtime;
 
-	    private String workindustry;
+    private String agegroup;
 
-	    private String enterprisetype;
+    private String familystatus;
 
-	    private String knowway;
+    private String traffictype;
 
-	    private String estcustworth;
+    private String buyqualify;
 
-	    private String capitalprepsection;
+    private String workindustry;
 
-	    private String realtyproducttype;
+    private String enterprisetype;
 
-	    private String attentacreage;
+    private String knowway;
 
-	    private String pricesection;
+    private String estcustworth;
 
-	    private String buypurpose;
-	    
-	    private String avocationsdesc;
+    private String investtype;
 
-	    private String resistpointdesc;
+    private String capitalprepsection;
 
-	    private String attentionpointdesc;
+    private String realtyproducttype;
 
-	    private String loveactdesc;
+    private String attentacreage;
 
-	    private String visitorrefsdesc;
+    private String pricesection;
 
-	    private String descn;
+    private String buypurpose;
 
-	    private String faultdescn;
+    private String avocationsdesc;
 
-	    private String traffictypedesc;
+    private String resistpointdesc;
 
-	    private String workindustrydesc;
+    private String attentionpointdesc;
 
-	    private String enterprisetypedesc;
+    private String loveactdesc;
 
-	    private String knowwaydesc;
+    private String visitorrefsdesc;
 
-	    private String realtyproducttypedesc;
+    private String descn;
 
-	    private String buypurposedesc;
-	    
-	    private String investtype;
+    private String faultdescn;
 
-		public String getInvesttype() {
-			return investtype;
-		}
+    private String traffictypedesc;
 
-		public void setInvesttype(String investtype) {
-			this.investtype = investtype;
-		}
+    private String workindustrydesc;
 
-		public String getId() {
-			return id;
-		}
+    private String enterprisetypedesc;
 
-		public String getProjid() {
-			return projid;
-		}
+    private String knowwaydesc;
 
-		public String getCustid() {
-			return custid;
-		}
+    private String investtypedesc;
 
-		public String getCustname() {
-			return custname;
-		}
+    private String realtyproducttypedesc;
 
-		public String getCustphonenum() {
-			return custphonenum;
-		}
+    private String buypurposedesc;
 
-		public Integer getChildrennum() {
-			return childrennum;
-		}
+	public String getId() {
+		return id;
+	}
 
-		public String getChildagegroup() {
-			return childagegroup;
-		}
+	public String getProjid() {
+		return projid;
+	}
 
-		public String getChildavocations() {
-			return childavocations;
-		}
+	public String getCustid() {
+		return custid;
+	}
 
-		public String getChildavocationsdesc() {
-			return childavocationsdesc;
-		}
+	public String getCustname() {
+		return custname;
+	}
 
-		public String getSchooltype() {
-			return schooltype;
-		}
+	public String getCustphonenum() {
+		return custphonenum;
+	}
 
-		public String getSchoolname() {
-			return schoolname;
-		}
+	public Integer getChildrennum() {
+		return childrennum;
+	}
 
-		public String getLivingradius() {
-			return livingradius;
-		}
+	public String getChildagegroup() {
+		return childagegroup;
+	}
 
-		public String getCommunityname() {
-			return communityname;
-		}
+	public String getChildavocations() {
+		return childavocations;
+	}
 
-		public String getLiveacreage() {
-			return liveacreage;
-		}
+	public String getChildavocationsdesc() {
+		return childavocationsdesc;
+	}
 
-		public String getLoanstatus() {
-			return loanstatus;
-		}
+	public String getSchooltype() {
+		return schooltype;
+	}
 
-		public Integer getFulltimewifeflag() {
-			return fulltimewifeflag;
-		}
+	public String getSchoolname() {
+		return schoolname;
+	}
 
-		public Integer getOuteduwill() {
-			return outeduwill;
-		}
+	public String getLivingradius() {
+		return livingradius;
+	}
 
-		public Integer getNannyflag() {
-			return nannyflag;
-		}
+	public String getCommunityname() {
+		return communityname;
+	}
 
-		public Integer getOutexperflag() {
-			return outexperflag;
-		}
+	public String getHousetype() {
+		return housetype;
+	}
 
-		public String getOutexpercity() {
-			return outexpercity;
-		}
+	public String getLiveacreage() {
+		return liveacreage;
+	}
 
-		public Integer getChildoutexperflag() {
-			return childoutexperflag;
-		}
+	public String getEnterprisename() {
+		return enterprisename;
+	}
 
-		public String getChildoutexpercity() {
-			return childoutexpercity;
-		}
+	public String getEnterpriseaddress() {
+		return enterpriseaddress;
+	}
 
-		public Integer getPetflag() {
-			return petflag;
-		}
+	public String getEnterprisepost() {
+		return enterprisepost;
+	}
 
-		public Integer getHousecount() {
-			return housecount;
-		}
+	public String getLoanstatus() {
+		return loanstatus;
+	}
 
-		public Integer getCarfamilycount() {
-			return carfamilycount;
-		}
+	public Integer getFulltimewifeflag() {
+		return fulltimewifeflag;
+	}
 
-		public String getCarbrand() {
-			return carbrand;
-		}
+	public Integer getOuteduwill() {
+		return outeduwill;
+	}
 
-		public String getCartotalprice() {
-			return cartotalprice;
-		}
+	public Integer getNannyflag() {
+		return nannyflag;
+	}
 
-		public String getAttentwx() {
-			return attentwx;
-		}
+	public Integer getOutexperflag() {
+		return outexperflag;
+	}
 
-		public String getAppnames() {
-			return appnames;
-		}
+	public String getOutexpercity() {
+		return outexpercity;
+	}
 
-		public String getAvocations() {
-			return avocations;
-		}
+	public Integer getChildoutexperflag() {
+		return childoutexperflag;
+	}
 
-		public String getResistpoint() {
-			return resistpoint;
-		}
+	public String getChildoutexpercity() {
+		return childoutexpercity;
+	}
 
-		public String getAttentionpoint() {
-			return attentionpoint;
-		}
+	public Integer getPetflag() {
+		return petflag;
+	}
 
-		public String getLoveactivation() {
-			return loveactivation;
-		}
+	public Integer getHousecount() {
+		return housecount;
+	}
 
-		public String getFreetimesection() {
-			return freetimesection;
-		}
+	public Integer getCarfamilycount() {
+		return carfamilycount;
+	}
 
-		public Integer getVisitorcount() {
-			return visitorcount;
-		}
+	public String getCarbrand() {
+		return carbrand;
+	}
 
-		public String getVisitorrefs() {
-			return visitorrefs;
-		}
+	public String getCartotalprice() {
+		return cartotalprice;
+	}
 
-		public Date getReceptime() {
-			return receptime;
-		}
+	public String getAttentwx() {
+		return attentwx;
+	}
 
-		public String getReceptimesection() {
-			return receptimesection;
-		}
+	public String getAppnames() {
+		return appnames;
+	}
 
-		public String getCustscore() {
-			return custscore;
-		}
+	public String getAvocations() {
+		return avocations;
+	}
 
-		public String getAuthorid() {
-			return authorid;
-		}
+	public String getResistpoint() {
+		return resistpoint;
+	}
 
-		public String getCreatorid() {
-			return creatorid;
-		}
+	public String getAttentionpoint() {
+		return attentionpoint;
+	}
 
-		public Integer getDecisionerin() {
-			return decisionerin;
-		}
+	public String getLoveactivation() {
+		return loveactivation;
+	}
 
-		public Integer getStatus() {
-			return status;
-		}
+	public String getFreetimesection() {
+		return freetimesection;
+	}
 
-		public Date getCtime() {
-			return ctime;
-		}
+	public Integer getVisitorcount() {
+		return visitorcount;
+	}
 
-		public Date getLmtime() {
-			return lmtime;
-		}
+	public String getVisitorrefs() {
+		return visitorrefs;
+	}
 
-		public String getAgegroup() {
-			return agegroup;
-		}
+	public Date getReceptime() {
+		return receptime;
+	}
 
-		public String getFamilystatus() {
-			return familystatus;
-		}
+	public String getReceptimesection() {
+		return receptimesection;
+	}
 
-		public String getTraffictype() {
-			return traffictype;
-		}
+	public String getCustscore() {
+		return custscore;
+	}
 
-		public String getBuyqualify() {
-			return buyqualify;
-		}
+	public String getAuthorid() {
+		return authorid;
+	}
 
-		public String getWorkindustry() {
-			return workindustry;
-		}
+	public String getCreatorid() {
+		return creatorid;
+	}
 
-		public String getEnterprisetype() {
-			return enterprisetype;
-		}
+	public Integer getDecisionerin() {
+		return decisionerin;
+	}
 
-		public String getKnowway() {
-			return knowway;
-		}
+	public Integer getStatus() {
+		return status;
+	}
 
-		public String getEstcustworth() {
-			return estcustworth;
-		}
+	public Date getCtime() {
+		return ctime;
+	}
 
-		public String getCapitalprepsection() {
-			return capitalprepsection;
-		}
+	public Date getLmtime() {
+		return lmtime;
+	}
 
-		public String getRealtyproducttype() {
-			return realtyproducttype;
-		}
+	public String getAgegroup() {
+		return agegroup;
+	}
 
-		public String getAttentacreage() {
-			return attentacreage;
-		}
+	public String getFamilystatus() {
+		return familystatus;
+	}
 
-		public String getPricesection() {
-			return pricesection;
-		}
+	public String getTraffictype() {
+		return traffictype;
+	}
 
-		public String getBuypurpose() {
-			return buypurpose;
-		}
+	public String getBuyqualify() {
+		return buyqualify;
+	}
 
-		public String getAvocationsdesc() {
-			return avocationsdesc;
-		}
+	public String getWorkindustry() {
+		return workindustry;
+	}
 
-		public String getResistpointdesc() {
-			return resistpointdesc;
-		}
+	public String getEnterprisetype() {
+		return enterprisetype;
+	}
 
-		public String getAttentionpointdesc() {
-			return attentionpointdesc;
-		}
+	public String getKnowway() {
+		return knowway;
+	}
 
-		public String getLoveactdesc() {
-			return loveactdesc;
-		}
+	public String getEstcustworth() {
+		return estcustworth;
+	}
 
-		public String getVisitorrefsdesc() {
-			return visitorrefsdesc;
-		}
+	public String getInvesttype() {
+		return investtype;
+	}
 
-		public String getDescn() {
-			return descn;
-		}
+	public String getCapitalprepsection() {
+		return capitalprepsection;
+	}
 
-		public String getFaultdescn() {
-			return faultdescn;
-		}
+	public String getRealtyproducttype() {
+		return realtyproducttype;
+	}
 
-		public String getTraffictypedesc() {
-			return traffictypedesc;
-		}
+	public String getAttentacreage() {
+		return attentacreage;
+	}
 
-		public String getWorkindustrydesc() {
-			return workindustrydesc;
-		}
+	public String getPricesection() {
+		return pricesection;
+	}
 
-		public String getEnterprisetypedesc() {
-			return enterprisetypedesc;
-		}
+	public String getBuypurpose() {
+		return buypurpose;
+	}
 
-		public String getKnowwaydesc() {
-			return knowwaydesc;
-		}
+	public String getAvocationsdesc() {
+		return avocationsdesc;
+	}
 
-		public String getRealtyproducttypedesc() {
-			return realtyproducttypedesc;
-		}
+	public String getResistpointdesc() {
+		return resistpointdesc;
+	}
 
-		public String getBuypurposedesc() {
-			return buypurposedesc;
-		}
+	public String getAttentionpointdesc() {
+		return attentionpointdesc;
+	}
 
-		public void setId(String id) {
-			this.id = id;
-		}
+	public String getLoveactdesc() {
+		return loveactdesc;
+	}
 
-		public void setProjid(String projid) {
-			this.projid = projid;
-		}
+	public String getVisitorrefsdesc() {
+		return visitorrefsdesc;
+	}
 
-		public void setCustid(String custid) {
-			this.custid = custid;
-		}
+	public String getDescn() {
+		return descn;
+	}
 
-		public void setCustname(String custname) {
-			this.custname = custname;
-		}
+	public String getFaultdescn() {
+		return faultdescn;
+	}
 
-		public void setCustphonenum(String custphonenum) {
-			this.custphonenum = custphonenum;
-		}
+	public String getTraffictypedesc() {
+		return traffictypedesc;
+	}
 
-		public void setChildrennum(Integer childrennum) {
-			this.childrennum = childrennum;
-		}
+	public String getWorkindustrydesc() {
+		return workindustrydesc;
+	}
 
-		public void setChildagegroup(String childagegroup) {
-			this.childagegroup = childagegroup;
-		}
+	public String getEnterprisetypedesc() {
+		return enterprisetypedesc;
+	}
 
-		public void setChildavocations(String childavocations) {
-			this.childavocations = childavocations;
-		}
+	public String getKnowwaydesc() {
+		return knowwaydesc;
+	}
 
-		public void setChildavocationsdesc(String childavocationsdesc) {
-			this.childavocationsdesc = childavocationsdesc;
-		}
+	public String getInvesttypedesc() {
+		return investtypedesc;
+	}
 
-		public void setSchooltype(String schooltype) {
-			this.schooltype = schooltype;
-		}
+	public String getRealtyproducttypedesc() {
+		return realtyproducttypedesc;
+	}
 
-		public void setSchoolname(String schoolname) {
-			this.schoolname = schoolname;
-		}
+	public String getBuypurposedesc() {
+		return buypurposedesc;
+	}
 
-		public void setLivingradius(String livingradius) {
-			this.livingradius = livingradius;
-		}
+	public void setId(String id) {
+		this.id = id;
+	}
 
-		public void setCommunityname(String communityname) {
-			this.communityname = communityname;
-		}
+	public void setProjid(String projid) {
+		this.projid = projid;
+	}
 
-		public void setLiveacreage(String liveacreage) {
-			this.liveacreage = liveacreage;
-		}
+	public void setCustid(String custid) {
+		this.custid = custid;
+	}
 
-		public void setLoanstatus(String loanstatus) {
-			this.loanstatus = loanstatus;
-		}
+	public void setCustname(String custname) {
+		this.custname = custname;
+	}
 
-		public void setFulltimewifeflag(Integer fulltimewifeflag) {
-			this.fulltimewifeflag = fulltimewifeflag;
-		}
+	public void setCustphonenum(String custphonenum) {
+		this.custphonenum = custphonenum;
+	}
 
-		public void setOuteduwill(Integer outeduwill) {
-			this.outeduwill = outeduwill;
-		}
+	public void setChildrennum(Integer childrennum) {
+		this.childrennum = childrennum;
+	}
 
-		public void setNannyflag(Integer nannyflag) {
-			this.nannyflag = nannyflag;
-		}
+	public void setChildagegroup(String childagegroup) {
+		this.childagegroup = childagegroup;
+	}
 
-		public void setOutexperflag(Integer outexperflag) {
-			this.outexperflag = outexperflag;
-		}
+	public void setChildavocations(String childavocations) {
+		this.childavocations = childavocations;
+	}
 
-		public void setOutexpercity(String outexpercity) {
-			this.outexpercity = outexpercity;
-		}
+	public void setChildavocationsdesc(String childavocationsdesc) {
+		this.childavocationsdesc = childavocationsdesc;
+	}
 
-		public void setChildoutexperflag(Integer childoutexperflag) {
-			this.childoutexperflag = childoutexperflag;
-		}
+	public void setSchooltype(String schooltype) {
+		this.schooltype = schooltype;
+	}
 
-		public void setChildoutexpercity(String childoutexpercity) {
-			this.childoutexpercity = childoutexpercity;
-		}
+	public void setSchoolname(String schoolname) {
+		this.schoolname = schoolname;
+	}
 
-		public void setPetflag(Integer petflag) {
-			this.petflag = petflag;
-		}
+	public void setLivingradius(String livingradius) {
+		this.livingradius = livingradius;
+	}
 
-		public void setHousecount(Integer housecount) {
-			this.housecount = housecount;
-		}
+	public void setCommunityname(String communityname) {
+		this.communityname = communityname;
+	}
 
-		public void setCarfamilycount(Integer carfamilycount) {
-			this.carfamilycount = carfamilycount;
-		}
+	public void setHousetype(String housetype) {
+		this.housetype = housetype;
+	}
 
-		public void setCarbrand(String carbrand) {
-			this.carbrand = carbrand;
-		}
+	public void setLiveacreage(String liveacreage) {
+		this.liveacreage = liveacreage;
+	}
 
-		public void setCartotalpricce(String cartotalprice) {
-			this.cartotalprice = cartotalprice;
-		}
+	public void setEnterprisename(String enterprisename) {
+		this.enterprisename = enterprisename;
+	}
 
-		public void setAttentwx(String attentwx) {
-			this.attentwx = attentwx;
-		}
+	public void setEnterpriseaddress(String enterpriseaddress) {
+		this.enterpriseaddress = enterpriseaddress;
+	}
 
-		public void setAppnames(String appnames) {
-			this.appnames = appnames;
-		}
+	public void setEnterprisepost(String enterprisepost) {
+		this.enterprisepost = enterprisepost;
+	}
 
-		public void setAvocations(String avocations) {
-			this.avocations = avocations;
-		}
+	public void setLoanstatus(String loanstatus) {
+		this.loanstatus = loanstatus;
+	}
 
-		public void setResistpoint(String resistpoint) {
-			this.resistpoint = resistpoint;
-		}
+	public void setFulltimewifeflag(Integer fulltimewifeflag) {
+		this.fulltimewifeflag = fulltimewifeflag;
+	}
 
-		public void setAttentionpoint(String attentionpoint) {
-			this.attentionpoint = attentionpoint;
-		}
+	public void setOuteduwill(Integer outeduwill) {
+		this.outeduwill = outeduwill;
+	}
 
-		public void setLoveactivation(String loveactivation) {
-			this.loveactivation = loveactivation;
-		}
+	public void setNannyflag(Integer nannyflag) {
+		this.nannyflag = nannyflag;
+	}
 
-		public void setFreetimesection(String freetimesection) {
-			this.freetimesection = freetimesection;
-		}
+	public void setOutexperflag(Integer outexperflag) {
+		this.outexperflag = outexperflag;
+	}
 
-		public void setVisitorcount(Integer visitorcount) {
-			this.visitorcount = visitorcount;
-		}
+	public void setOutexpercity(String outexpercity) {
+		this.outexpercity = outexpercity;
+	}
 
-		public void setVisitorrefs(String visitorrefs) {
-			this.visitorrefs = visitorrefs;
-		}
+	public void setChildoutexperflag(Integer childoutexperflag) {
+		this.childoutexperflag = childoutexperflag;
+	}
 
-		public void setReceptime(Date receptime) {
-			this.receptime = receptime;
-		}
+	public void setChildoutexpercity(String childoutexpercity) {
+		this.childoutexpercity = childoutexpercity;
+	}
 
-		public void setReceptimesection(String receptimesection) {
-			this.receptimesection = receptimesection;
-		}
+	public void setPetflag(Integer petflag) {
+		this.petflag = petflag;
+	}
 
-		public void setCustscore(String custscore) {
-			this.custscore = custscore;
-		}
+	public void setHousecount(Integer housecount) {
+		this.housecount = housecount;
+	}
 
-		public void setAuthorid(String authorid) {
-			this.authorid = authorid;
-		}
+	public void setCarfamilycount(Integer carfamilycount) {
+		this.carfamilycount = carfamilycount;
+	}
 
-		public void setCreatorid(String creatorid) {
-			this.creatorid = creatorid;
-		}
+	public void setCarbrand(String carbrand) {
+		this.carbrand = carbrand;
+	}
 
-		public void setDecisionerin(Integer decisionerin) {
-			this.decisionerin = decisionerin;
-		}
+	public void setCartotalprice(String cartotalprice) {
+		this.cartotalprice = cartotalprice;
+	}
 
-		public void setStatus(Integer status) {
-			this.status = status;
-		}
+	public void setAttentwx(String attentwx) {
+		this.attentwx = attentwx;
+	}
 
-		public void setCtime(Date ctime) {
-			this.ctime = ctime;
-		}
+	public void setAppnames(String appnames) {
+		this.appnames = appnames;
+	}
 
-		public void setLmtime(Date lmtime) {
-			this.lmtime = lmtime;
-		}
+	public void setAvocations(String avocations) {
+		this.avocations = avocations;
+	}
 
-		public void setAgegroup(String agegroup) {
-			this.agegroup = agegroup;
-		}
+	public void setResistpoint(String resistpoint) {
+		this.resistpoint = resistpoint;
+	}
 
-		public void setFamilystatus(String familystatus) {
-			this.familystatus = familystatus;
-		}
+	public void setAttentionpoint(String attentionpoint) {
+		this.attentionpoint = attentionpoint;
+	}
 
-		public void setTraffictype(String traffictype) {
-			this.traffictype = traffictype;
-		}
+	public void setLoveactivation(String loveactivation) {
+		this.loveactivation = loveactivation;
+	}
 
-		public void setBuyqualify(String buyqualify) {
-			this.buyqualify = buyqualify;
-		}
+	public void setFreetimesection(String freetimesection) {
+		this.freetimesection = freetimesection;
+	}
 
-		public void setWorkindustry(String workindustry) {
-			this.workindustry = workindustry;
-		}
+	public void setVisitorcount(Integer visitorcount) {
+		this.visitorcount = visitorcount;
+	}
 
-		public void setEnterprisetype(String enterprisetype) {
-			this.enterprisetype = enterprisetype;
-		}
+	public void setVisitorrefs(String visitorrefs) {
+		this.visitorrefs = visitorrefs;
+	}
 
-		public void setKnowway(String knowway) {
-			this.knowway = knowway;
-		}
+	public void setReceptime(Date receptime) {
+		this.receptime = receptime;
+	}
 
-		public void setEstcustworth(String estcustworth) {
-			this.estcustworth = estcustworth;
-		}
+	public void setReceptimesection(String receptimesection) {
+		this.receptimesection = receptimesection;
+	}
 
-		public void setCapitalprepsection(String capitalprepsection) {
-			this.capitalprepsection = capitalprepsection;
-		}
+	public void setCustscore(String custscore) {
+		this.custscore = custscore;
+	}
 
-		public void setRealtyproducttype(String realtyproducttype) {
-			this.realtyproducttype = realtyproducttype;
-		}
+	public void setAuthorid(String authorid) {
+		this.authorid = authorid;
+	}
 
-		public void setAttentacreage(String attentacreage) {
-			this.attentacreage = attentacreage;
-		}
+	public void setCreatorid(String creatorid) {
+		this.creatorid = creatorid;
+	}
 
-		public void setPricesection(String pricesection) {
-			this.pricesection = pricesection;
-		}
+	public void setDecisionerin(Integer decisionerin) {
+		this.decisionerin = decisionerin;
+	}
 
-		public void setBuypurpose(String buypurpose) {
-			this.buypurpose = buypurpose;
-		}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
-		public void setAvocationsdesc(String avocationsdesc) {
-			this.avocationsdesc = avocationsdesc;
-		}
+	public void setCtime(Date ctime) {
+		this.ctime = ctime;
+	}
 
-		public void setResistpointdesc(String resistpointdesc) {
-			this.resistpointdesc = resistpointdesc;
-		}
+	public void setLmtime(Date lmtime) {
+		this.lmtime = lmtime;
+	}
 
-		public void setAttentionpointdesc(String attentionpointdesc) {
-			this.attentionpointdesc = attentionpointdesc;
-		}
+	public void setAgegroup(String agegroup) {
+		this.agegroup = agegroup;
+	}
 
-		public void setLoveactdesc(String loveactdesc) {
-			this.loveactdesc = loveactdesc;
-		}
+	public void setFamilystatus(String familystatus) {
+		this.familystatus = familystatus;
+	}
 
-		public void setVisitorrefsdesc(String visitorrefsdesc) {
-			this.visitorrefsdesc = visitorrefsdesc;
-		}
+	public void setTraffictype(String traffictype) {
+		this.traffictype = traffictype;
+	}
 
-		public void setDescn(String descn) {
-			this.descn = descn;
-		}
+	public void setBuyqualify(String buyqualify) {
+		this.buyqualify = buyqualify;
+	}
 
-		public void setFaultdescn(String faultdescn) {
-			this.faultdescn = faultdescn;
-		}
+	public void setWorkindustry(String workindustry) {
+		this.workindustry = workindustry;
+	}
 
-		public void setTraffictypedesc(String traffictypedesc) {
-			this.traffictypedesc = traffictypedesc;
-		}
+	public void setEnterprisetype(String enterprisetype) {
+		this.enterprisetype = enterprisetype;
+	}
 
-		public void setWorkindustrydesc(String workindustrydesc) {
-			this.workindustrydesc = workindustrydesc;
-		}
+	public void setKnowway(String knowway) {
+		this.knowway = knowway;
+	}
 
-		public void setEnterprisetypedesc(String enterprisetypedesc) {
-			this.enterprisetypedesc = enterprisetypedesc;
-		}
+	public void setEstcustworth(String estcustworth) {
+		this.estcustworth = estcustworth;
+	}
 
-		public void setKnowwaydesc(String knowwaydesc) {
-			this.knowwaydesc = knowwaydesc;
-		}
+	public void setInvesttype(String investtype) {
+		this.investtype = investtype;
+	}
 
-		public void setRealtyproducttypedesc(String realtyproducttypedesc) {
-			this.realtyproducttypedesc = realtyproducttypedesc;
-		}
+	public void setCapitalprepsection(String capitalprepsection) {
+		this.capitalprepsection = capitalprepsection;
+	}
 
-		public void setBuypurposedesc(String buypurposedesc) {
-			this.buypurposedesc = buypurposedesc;
-		}
+	public void setRealtyproducttype(String realtyproducttype) {
+		this.realtyproducttype = realtyproducttype;
+	}
+
+	public void setAttentacreage(String attentacreage) {
+		this.attentacreage = attentacreage;
+	}
+
+	public void setPricesection(String pricesection) {
+		this.pricesection = pricesection;
+	}
+
+	public void setBuypurpose(String buypurpose) {
+		this.buypurpose = buypurpose;
+	}
+
+	public void setAvocationsdesc(String avocationsdesc) {
+		this.avocationsdesc = avocationsdesc;
+	}
+
+	public void setResistpointdesc(String resistpointdesc) {
+		this.resistpointdesc = resistpointdesc;
+	}
+
+	public void setAttentionpointdesc(String attentionpointdesc) {
+		this.attentionpointdesc = attentionpointdesc;
+	}
+
+	public void setLoveactdesc(String loveactdesc) {
+		this.loveactdesc = loveactdesc;
+	}
+
+	public void setVisitorrefsdesc(String visitorrefsdesc) {
+		this.visitorrefsdesc = visitorrefsdesc;
+	}
+
+	public void setDescn(String descn) {
+		this.descn = descn;
+	}
+
+	public void setFaultdescn(String faultdescn) {
+		this.faultdescn = faultdescn;
+	}
+
+	public void setTraffictypedesc(String traffictypedesc) {
+		this.traffictypedesc = traffictypedesc;
+	}
+
+	public void setWorkindustrydesc(String workindustrydesc) {
+		this.workindustrydesc = workindustrydesc;
+	}
+
+	public void setEnterprisetypedesc(String enterprisetypedesc) {
+		this.enterprisetypedesc = enterprisetypedesc;
+	}
+
+	public void setKnowwaydesc(String knowwaydesc) {
+		this.knowwaydesc = knowwaydesc;
+	}
+
+	public void setInvesttypedesc(String investtypedesc) {
+		this.investtypedesc = investtypedesc;
+	}
+
+	public void setRealtyproducttypedesc(String realtyproducttypedesc) {
+		this.realtyproducttypedesc = realtyproducttypedesc;
+	}
+
+	public void setBuypurposedesc(String buypurposedesc) {
+		this.buypurposedesc = buypurposedesc;
+	}
+    
 }

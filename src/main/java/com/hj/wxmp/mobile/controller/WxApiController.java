@@ -851,6 +851,15 @@ public class WxApiController extends ControllerBaseWx {
 		try {
 			String openid = HashSessions.getInstance().getOpenId(request);
 			openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
+			//客户表
+			String customerId = key.getUUIDKey();
+			String customerid = "";
+			if(customer!=null){
+				customerid = record02.getCustid();
+				if(customerid != null){
+					customerId = customerid;
+				}
+			}
 			UserInfo userInfo = userInfoService.findByOpenid(openid);
 			//获取用户ID
 			String userId = userInfo.getId();
@@ -893,7 +902,7 @@ public class WxApiController extends ControllerBaseWx {
 			String childagegroup = record02.getChildagegroup();
 			if(childagegroup != null){
 				String data = addAccessRecord(childagegroup,"020",2,"小孩年龄段",record02Id);
-				addAccessRecord(childagegroup,"020",4,"小孩年龄段",customer.getId());
+				addAccessRecord(childagegroup,"020",4,"小孩年龄段",customerId);
 				record02.setChildagegroup(data);
 				customer.setChildagegroup(data);
 			}
@@ -901,7 +910,7 @@ public class WxApiController extends ControllerBaseWx {
 			String schooltype = record02.getSchooltype();
 			if(schooltype != null){
 				String data = addAccessRecord(schooltype,"021",2,"孩子学校类型",record02Id);
-				addAccessRecord(childagegroup,"020",4,"孩子学校类型",customer.getId());
+				addAccessRecord(childagegroup,"020",4,"孩子学校类型",customerId);
 				record02.setSchooltype(data);
 				customer.setSchooltype(data);
 			}
@@ -909,7 +918,7 @@ public class WxApiController extends ControllerBaseWx {
 			String livingradius = record02.getLivingradius();
 			if(livingradius != null){
 				String data = addAccessRecord(livingradius,"022",2,"生活半径",record02Id);
-				addAccessRecord(livingradius,"022",4,"生活半径",customer.getId());
+				addAccessRecord(livingradius,"022",4,"生活半径",customerId);
 				record02.setLivingradius(data);
 				customer.setLivingradius(data);
 			}
@@ -917,31 +926,47 @@ public class WxApiController extends ControllerBaseWx {
 			String liveacreage = record02.getLiveacreage();
 			if(liveacreage != null){
 				String data = addAccessRecord(liveacreage,"023",2,"居住面积",record02Id);
-				addAccessRecord(liveacreage,"023",4,"居住面积",customer.getId());
+				addAccessRecord(liveacreage,"023",4,"居住面积",customerId);
 				record02.setLiveacreage(data);
 				customer.setLiveacreage(data);
+			}
+			//小孩业余爱好
+			String childavocations = record02.getChildavocations();
+			if(childavocations != null){
+				String data = addAccessRecord(childavocations,"033",2,"小孩业余爱好",record02Id);
+				addAccessRecord(childavocations,"033",4,"小孩业余爱好",customerId);
+				record02.setChildavocations(data);
+				customer.setChildavocations(data);
 			}
 			//贷款记录
 			String loanstatus = record02.getLoanstatus();
 			if(loanstatus != null){
 				String data = addAccessRecord(loanstatus,"024",2,"贷款记录",record02Id);
-				addAccessRecord(loanstatus,"024",4,"贷款记录",customer.getId());
+				addAccessRecord(loanstatus,"024",4,"贷款记录",customerId);
 				record02.setLoanstatus(data);
 				customer.setLoanstatus(data);
+			}
+			//可参加业主活动时间
+			String freetimesection = record02.getFreetimesection();
+			if(freetimesection != null){
+				String data = addAccessRecord(freetimesection,"109",2,"可参加业主活动时间",record02Id);
+				addAccessRecord(freetimesection,"109",4,"可参加业主活动时间",customerId);
+				record02.setFreetimesection(data);
+				customer.setFreetimesection(data);
 			}
 			//汽车总价款
 			String cartotalpricce = record02.getCartotalprice();
 			if(cartotalpricce != null){
 				String data = addAccessRecord(cartotalpricce,"025",2,"汽车总价款",record02Id);
-				addAccessRecord(cartotalpricce,"025",4,"汽车总价款",customer.getId());
-				record02.setCartotalpricce(data);
-				customer.setCartotalpricce(data);
+				addAccessRecord(cartotalpricce,"025",4,"汽车总价款",customerId);
+				record02.setCartotalprice(data);
+				customer.setCartotalprice(data);
 			}
 			//业余爱好
 			String avocations = record02.getAvocations();
 			if(avocations != null){
 				String data = addAccessRecord(avocations,"026",2,"业余爱好",record02Id);
-				addAccessRecord(avocations,"026",4,"业余爱好",customer.getId());
+				addAccessRecord(avocations,"026",4,"业余爱好",customerId);
 				record02.setAvocations(data);
 				customer.setAvocations(data);
 			}
@@ -957,7 +982,7 @@ public class WxApiController extends ControllerBaseWx {
 			String loveactivation = record02.getLoveactivation();
 			if(loveactivation != null){
 				String data = addAccessRecord(loveactivation,"027",2,"喜欢活动",record02Id);
-				addAccessRecord(loveactivation,"027",4,"喜欢活动",customer.getId());
+				addAccessRecord(loveactivation,"027",4,"喜欢活动",customerId);
 				record02.setLoveactivation(data);
 				customer.setLoveactivation(data);
 			}
@@ -977,7 +1002,7 @@ public class WxApiController extends ControllerBaseWx {
 			String custscore = record02.getCustscore();
 			if(custscore != null){
 				String data = addAccessRecord(custscore,"019",2,"客户评级",record02Id);
-				addAccessRecord(custscore,"019",4,"客户评级",customer.getId());
+				addAccessRecord(custscore,"019",4,"客户评级",customerId);
 				record02.setCustscore(data);
 				customer.setCustscore(data);
 			}
@@ -985,7 +1010,7 @@ public class WxApiController extends ControllerBaseWx {
 			String agegroup = record02.getAgegroup();
 			if(agegroup != null){
 				String data = addAccessRecord(agegroup,"003",2,"年龄段",record02Id);
-				addAccessRecord(agegroup,"003",4,"年龄段",customer.getId());
+				addAccessRecord(agegroup,"003",4,"年龄段",customerId);
 				record02.setAgegroup(data);
 				customer.setAgegroup(data);
 			}
@@ -993,7 +1018,7 @@ public class WxApiController extends ControllerBaseWx {
 			String familystatus = record02.getFamilystatus();
 			if(familystatus != null){
 				String data = addAccessRecord(familystatus,"005",2,"家庭状况",record02Id);
-				addAccessRecord(familystatus,"005",4,"家庭状况",customer.getId());
+				addAccessRecord(familystatus,"005",4,"家庭状况",customerId);
 				record02.setFamilystatus(data);
 				customer.setFamilystatus(data);
 			}
@@ -1001,7 +1026,7 @@ public class WxApiController extends ControllerBaseWx {
 			String traffictype = record02.getTraffictype();
 			if(traffictype != null){
 				String data = addAccessRecord(traffictype,"006",2,"出行方式",record02Id);
-				addAccessRecord(traffictype,"006",4,"出行方式",customer.getId());
+				addAccessRecord(traffictype,"006",4,"出行方式",customerId);
 				record02.setTraffictype(data);
 				customer.setTraffictype(data);
 			}
@@ -1009,7 +1034,7 @@ public class WxApiController extends ControllerBaseWx {
 			String buyqualify = record02.getBuyqualify();
 			if(buyqualify != null){
 				String data = addAccessRecord(buyqualify,"004",2,"购房资格",record02Id);
-				addAccessRecord(buyqualify,"004",4,"购房资格",customer.getId());
+				addAccessRecord(buyqualify,"004",4,"购房资格",customerId);
 				record02.setBuyqualify(data);
 				customer.setBuyqualify(data);
 			}
@@ -1017,7 +1042,7 @@ public class WxApiController extends ControllerBaseWx {
 			String workindustry = record02.getWorkindustry();
 			if(workindustry != null){
 				String data = addAccessRecord(workindustry,"007",2,"从事行业",record02Id);
-				addAccessRecord(workindustry,"007",4,"从事行业",customer.getId());
+				addAccessRecord(workindustry,"007",4,"从事行业",customerId);
 				record02.setWorkindustry(data);
 				customer.setWorkindustry(data);
 			}
@@ -1025,7 +1050,7 @@ public class WxApiController extends ControllerBaseWx {
 			String enterprisetype = record02.getEnterprisetype();
 			if(enterprisetype != null){
 				String data = addAccessRecord(enterprisetype,"008",2,"企业性质",record02Id);
-				addAccessRecord(enterprisetype,"008",4,"企业性质",customer.getId());
+				addAccessRecord(enterprisetype,"008",4,"企业性质",customerId);
 				record02.setEnterprisetype(data);
 				customer.setEnterprisetype(data);
 			}
@@ -1045,11 +1070,19 @@ public class WxApiController extends ControllerBaseWx {
 				record02.setCapitalprepsection(data);
 				projCustRef.setCapitalprepsection(data);
 			}
+			//本案关注点
+			String attentionpoint = record02.getAttentionpoint();
+			if(attentionpoint != null){
+				String data = addAccessRecord(attentionpoint,"014",1,"本案关注点",record02Id);
+				addAccessRecord(attentionpoint,"014",5,"本案关注点",projCustRef.getId());
+				record02.setAttentionpoint(data);
+				projCustRef.setAttentionpoint(data);
+			}
 			//预估身价
 			String estcustworth = record02.getEstcustworth();
 			if(estcustworth != null){
 				String data = addAccessRecord(estcustworth,"015",2,"预估身价",record02Id);
-				addAccessRecord(estcustworth,"015",4,"预估身价",customer.getId());
+				addAccessRecord(estcustworth,"015",4,"预估身价",customerId);
 				record02.setEstcustworth(data);
 				customer.setEstcustworth(data);
 			}
@@ -1057,7 +1090,7 @@ public class WxApiController extends ControllerBaseWx {
 			String investType = record02.getInvesttype();
 			if(investType != null){
 				String data = addAccessRecord(investType,"016",2,"重点投资",record02Id);
-				addAccessRecord(investType,"016",4,"重点投资",customer.getId());
+				addAccessRecord(investType,"016",4,"重点投资",customerId);
 				record02.setInvesttype(data);
 				customer.setInvesttype(data);
 			}
@@ -1065,7 +1098,7 @@ public class WxApiController extends ControllerBaseWx {
 			String realtyproducttype = record02.getRealtyproducttype();
 			if(realtyproducttype != null){
 				String data = addAccessRecord(realtyproducttype,"009",2,"关注产品类型",record02Id);
-				addAccessRecord(realtyproducttype,"009",4,"关注产品类型",customer.getId());
+				addAccessRecord(realtyproducttype,"009",4,"关注产品类型",customerId);
 				record02.setRealtyproducttype(data);
 				customer.setRealtyproducttype(data);
 			}
@@ -1073,7 +1106,7 @@ public class WxApiController extends ControllerBaseWx {
 			String attentacreage = record02.getAttentacreage();
 			if(attentacreage != null){
 				String data = addAccessRecord(attentacreage,"010",1,"关注面积",record02Id);
-				addAccessRecord(attentacreage,"010",4,"关注面积",customer.getId());
+				addAccessRecord(attentacreage,"010",4,"关注面积",customerId);
 				record02.setAttentacreage(data);
 				customer.setAttentacreage(data);
 			}
@@ -1081,7 +1114,7 @@ public class WxApiController extends ControllerBaseWx {
 			String pricesection = record02.getPricesection();
 			if(pricesection != null){
 				String data = addAccessRecord(pricesection,"011",1,"接受价格区段",record02Id);
-				addAccessRecord(pricesection,"011",4,"接受价格区段",customer.getId());
+				addAccessRecord(pricesection,"011",4,"接受价格区段",customerId);
 				record02.setPricesection(data);
 				customer.setPricesection(data);
 			}
@@ -1089,19 +1122,24 @@ public class WxApiController extends ControllerBaseWx {
 			String buypurpose = record02.getBuypurpose();
 			if(buypurpose != null){
 				String data = addAccessRecord(buypurpose,"012",1,"购房目的",record02Id);
-				addAccessRecord(buypurpose,"012",4,"购房目的",customer.getId());
+				addAccessRecord(buypurpose,"012",4,"购房目的",customerId);
 				record02.setBuypurpose(data);
 				customer.setBuypurpose(data);
 			}
-			record02.setCustid(customer.getId());
+			record02.setCustid(customerId);
 			record02.setAuthorid(userId);
 			record02.setCreatorid(userId);
 			record02.setStatus(1);
-			//更新客户信息
-			customerService.update(customer);
+			//添加客户
+			if(customerid != null && !customerid.equals("")){
+				customerService.update(customer);
+			}else{
+				customer.setId(customerId);
+				customerService.insert(customer);
+			}
 			//添加项目客户关系表
 			projCustRef.setProjid(record02.getProjid());
-			projCustRef.setCustid(customer.getId());
+			projCustRef.setCustid(customerId);
 			projCustRefService.insert(projCustRef);
 			isok = true;
 		}catch(Exception e){
@@ -1510,47 +1548,6 @@ public class WxApiController extends ControllerBaseWx {
 					}else if(roleName.equals("管理员")){
 						message = accessRecord01Service.getRecord01ListAdmin(result);
 					}
-//					//总访问次数，和是否成交
-//					for(Map<String,Object>msg : message){
-//						Map<String,Object> data = new HashMap<String,Object>();
-//						String custId = msg.get("custId").toString();
-//						String projId = msg.get("projId").toString();
-//						//记录ID
-//						String msgId = msg.get("id").toString();
-//						data.put("custId", custId);
-//						data.put("projId", projId);
-//						//首访记录数
-//						Integer accessRecord01Number = accessRecord01Service.findByCustIdCount(data);
-//						//复访记录数
-//						Integer accessRecord02Number = accessRecord02Service.findByCustIdCount(data);
-//						//成交记录数
-//						Integer accessRecord03Number = accessRecord03Service.findByCustIdCount(data);
-//						//客户总访问次数
-//						Integer total = accessRecord01Number +accessRecord02Number+accessRecord03Number;
-//						msg.put("total", total);
-//						//客户是否成交
-//						if(accessRecord03Number>0){
-//							msg.put("isKnockdown", "1");
-//						}else{
-//							msg.put("isKnockdown", "0");
-//						}
-//						//显示权限人姓名
-//						String authorId = msg.get("authorId").toString();
-//						UserInfo user = userInfoService.findById(authorId);
-//						String authorName = user.getRealname();
-//						msg.put("authorName", authorName);
-////						//审核意见
-////						data.put("recordType", 1);
-////						data.put("arId", msgId);
-////						AuditRecord auditRecord = auditRecordService.findByArId(data);
-////						if(auditRecord!=null){
-////							String reason = auditRecord.getReason();
-////							if(reason!=null) msg.put("checkReason",reason);
-////							if(reason!=null) msg.put("checkReason","");
-////						}else{
-////							msg.put("checkReason","");
-////						}
-//					}
 					map.put("msg", "100");
 					map.put("data", message);
 				}else{
@@ -1574,16 +1571,49 @@ public class WxApiController extends ControllerBaseWx {
 		responseInfo(response);
 		String openid = HashSessions.getInstance().getOpenId(request);
 		UserInfo userInfo = userInfoService.selectByOpenId(openid);
+		String userId = userInfo.getId();
 		Map<String,Object> map = new HashMap<String,Object>();
 		Map<String,Object> result = new HashMap<String,Object>();
 		try {
 			Integer page = ((nowPage - 1) * pageSize);
 			result.put("page", page);
 			result.put("pageSize", pageSize);
-			result.put("userId", userInfo.getId());
-			List<Map<String,Object>> message = accessRecord02Service.getRecord02List(result);
-			map.put("msg", "100");
-			map.put("data", message);
+			result.put("userId", userId);
+			//权限信息
+			String roleName="";
+			Map<String,Object> userRole = sysUserRoleService.findByUserId(userId);
+			if(userRole!=null){
+				Object object = userRole.get("role_name");
+				if(object!=null)  {
+					List<Map<String,Object>> message = new ArrayList<Map<String,Object>>();
+					roleName = object.toString();
+					//用户相关项目信息
+					List<Map<String, Object>> projs = projUserRoleService.selectByUserId(userId);
+					String projid = "";
+					for(Map<String,Object> proj : projs){
+						String projId = proj.get("id").toString();
+						projid += projId+",";
+					}
+					//判断
+					if(roleName.equals("顾问")){
+						message = accessRecord02Service.getRecord02ListGuWen(result);
+					}else if(roleName.equals("项目管理人")){
+						result.put("projId", projid);
+						message = accessRecord02Service.getRecord02ListGuanLi(result);
+					}else if(roleName.equals("项目负责人")){
+						result.put("projId", projid);
+						message = accessRecord02Service.getRecord02ListFuZe(result);
+					}else if(roleName.equals("管理员")){
+						message = accessRecord02Service.getRecord02ListAdmin(result);
+					}
+					map.put("msg", "100");
+					map.put("data", message);
+				}else{
+					map.put("msg", "103");
+				}
+			}else{
+				map.put("msg", "103");
+			}
 		} catch (Exception e) {
 			map.put("msg", "103");
 			e.printStackTrace();
@@ -1599,16 +1629,49 @@ public class WxApiController extends ControllerBaseWx {
 		responseInfo(response);
 		String openid = HashSessions.getInstance().getOpenId(request);
 		UserInfo userInfo = userInfoService.selectByOpenId(openid);
+		String userId = userInfo.getId();
 		Map<String,Object> map = new HashMap<String,Object>();
 		Map<String,Object> result = new HashMap<String,Object>();
 		try {
 			Integer page = ((nowPage - 1) * pageSize);
 			result.put("page", page);
 			result.put("pageSize", pageSize);
-			result.put("userId", userInfo.getId());
-			List<Map<String,Object>> message = accessRecord03Service.getRecord03List(result);
-			map.put("msg", "100");
-			map.put("data", message);
+			result.put("userId", userId);
+			//权限信息
+			String roleName="";
+			Map<String,Object> userRole = sysUserRoleService.findByUserId(userId);
+			if(userRole!=null){
+				Object object = userRole.get("role_name");
+				if(object!=null)  {
+					List<Map<String,Object>> message = new ArrayList<Map<String,Object>>();
+					roleName = object.toString();
+					//用户相关项目信息
+					List<Map<String, Object>> projs = projUserRoleService.selectByUserId(userId);
+					String projid = "";
+					for(Map<String,Object> proj : projs){
+						String projId = proj.get("id").toString();
+						projid += projId+",";
+					}
+					//判断
+					if(roleName.equals("顾问")){
+						message = accessRecord03Service.getRecord03ListGuWen(result);
+					}else if(roleName.equals("项目管理人")){
+						result.put("projId", projid);
+						message = accessRecord03Service.getRecord03ListGuanLi(result);
+					}else if(roleName.equals("项目负责人")){
+						result.put("projId", projid);
+						message = accessRecord03Service.getRecord03ListFuZe(result);
+					}else if(roleName.equals("管理员")){
+						message = accessRecord03Service.getRecord03ListAdmin(result);
+					}
+					map.put("msg", "100");
+					map.put("data", message);
+				}else{
+					map.put("msg", "103");
+				}
+			}else{
+				map.put("msg", "103");
+			}
 		} catch (Exception e) {
 			map.put("msg", "103");
 			e.printStackTrace();
@@ -1700,10 +1763,22 @@ public class WxApiController extends ControllerBaseWx {
 			auditRecord.setAudittype(2);
 			auditRecordService.insert(auditRecord);
 			//修改状态
-			AccessRecord01 accessRecord01 = accessRecord01Service.findById(recordId);
-			if(Integer.parseInt(auditType)==1) accessRecord01.setStatus(2);
-			if(Integer.parseInt(auditType)==2) accessRecord01.setStatus(4);
-			accessRecord01Service.update(accessRecord01);
+			if(recordType.equals("1")){
+				AccessRecord01 accessRecord01 = accessRecord01Service.findById(recordId);
+				if(Integer.parseInt(auditType)==1) accessRecord01.setStatus(2);
+				if(Integer.parseInt(auditType)==2) accessRecord01.setStatus(4);
+				accessRecord01Service.update(accessRecord01);
+			}else if(recordType.equals("2")){
+				AccessRecord02 accessRecord02 = accessRecord02Service.findById(recordId);
+				if(Integer.parseInt(auditType)==1) accessRecord02.setStatus(2);
+				if(Integer.parseInt(auditType)==2) accessRecord02.setStatus(4);
+				accessRecord02Service.update(accessRecord02);
+			}else if(recordType.equals("3")){
+				AccessRecord03 accessRecord03 = accessRecord03Service.findById(recordId);
+				if(Integer.parseInt(auditType)==1) accessRecord03.setStatus(2);
+				if(Integer.parseInt(auditType)==2) accessRecord03.setStatus(4);
+				accessRecord03Service.update(accessRecord03);
+			}
 			map.put("msg", "100");
 		} catch (Exception e) {
 			map.put("msg", "103");
@@ -1833,5 +1908,52 @@ public class WxApiController extends ControllerBaseWx {
     	}
         return JsonUtils.map2json(map);
     }
+    
+    
+    
+    //获取客户详细信息
+	@RequestMapping(value = "/getCusMsg")
+	@ResponseBody
+	public String getCusMsg(HttpServletRequest req){
+		Map<String, Object> m=RequestUtils.getDataFromRequest(req);
+		responseInfo(response);
+		Map<String,Object> map = new HashMap<String,Object>();
+		try {
+			String cusId = m.get("cusId")==null?null:m.get("cusId").toString();
+			//获取客户详细信息
+			Customer customer = customerService.findById(cusId);
+			map.put("customer", customer);
+			map.put("msg", "100");
+		} catch (Exception e) {
+			map.put("msg", "103");
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+	}
+	
+	
+	//获取客户项目关系表信息
+	@RequestMapping(value = "/getProjCusList")
+	@ResponseBody
+	public String getProjCusList(HttpServletRequest req){
+		Map<String, Object> m=RequestUtils.getDataFromRequest(req);
+		responseInfo(response);
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> result = new HashMap<String,Object>();
+		try {
+			String projId = m.get("projId")==null?null:m.get("projId").toString();
+			String cusId = m.get("cusId")==null?null:m.get("cusId").toString();
+			//获取用户列表
+			result.put("projId", projId);
+			result.put("cusId", cusId);
+			List<Map<String,Object>> projCustRefList = projCustRefService.selectByProjIdAndCusId(result);
+			map.put("projCustRefList", projCustRefList);
+			map.put("msg", "100");
+		} catch (Exception e) {
+			map.put("msg", "103");
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+	}
 
 }

@@ -29,4 +29,12 @@ public interface AccessRecord03Mapper {
 	List<AccessRecord03> selectByUserId(Map<String, Object> datamsg);
 
 	Integer selectMessageCount(Map<String, Object> map);
+
+	List<Map<String, Object>> getRecord03ListGuWen(Map<String, Object> result);
+
+	List<Map<String, Object>> getRecord03ListGuanLi(Map<String, Object> result);
+
+	List<Map<String, Object>> getRecord03ListFuZe(Map<String, Object> result);
+
+	List<Map<String, Object>> getRecord03ListAdmin(Map<String, Object> result);
 }

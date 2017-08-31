@@ -511,4 +511,86 @@
   <select id="selectByUserId" resultType="com.hj.wxmp.mobile.entity.AccessRecord03" parameterType="java.util.Map">
   	SELECT * from ql_AccessRecord03 where custId = #{custId} and projId = #{projId}
   </select>
+  
+  <!-- 顾问 -->
+  <select id="getRecord03ListGuWen" resultType="java.util.Map" parameterType="java.util.Map">
+	select r01.*, 
+	  case r01.status when 2 then 1 else 0 end c01,
+	  case when r01.count02 is null then 0 else r01.count02 end c02,
+	  case when r01.count03 is null then 0 else r01.count03 end c03,
+	  case when r01.count03 is null then 0 else 1 end isKnockdown,
+		(case r01.status when 2 then 1 else 0 end)+(case when r01.count02 is null then 0 else r01.count02 end)+(case when r01.count03 is null then 0 else r01.count03 end) total 
+	from (
+		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime, a.custSex, b.count02, c.count03 from (
+	    select m.*, n.realName from ql_AccessRecord03 m, plat_User n
+	  	where (m.status = 2 or m.status = 4 or m.status = 1) and m.authorId=n.id and authorId=#{userId}
+		) a 
+		left join (select custId, count(*) count02 from ql_AccessRecord02 where status=2 and authorId=#{userId}) b on b.custId=a.custId
+		left join (select custId, count(*) count03 from ql_AccessRecord01 where status=2 and authorId=#{userId}) c on c.custId=a.custId 
+		order by FIELD(a.status,4,2,1,3),a.cTime desc 
+		limit #{page},#{pageSize}
+	) as r01
+  </select>
+  
+  <!-- 管理人 -->
+  <select id="getRecord03ListGuanLi" resultType="java.util.Map" parameterType="java.util.Map">
+	select r01.*, 
+	  case r01.status when 2 then 1 else 0 end c01,
+	  case when r01.count02 is null then 0 else r01.count02 end c02,
+	  case when r01.count03 is null then 0 else r01.count03 end c03,
+	  case when r01.count03 is null then 0 else 1 end isKnockdown,
+		(case r01.status when 2 then 1 else 0 end)+(case when r01.count02 is null then 0 else r01.count02 end)+(case when r01.count03 is null then 0 else r01.count03 end) total 
+	from (
+		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime, a.custSex, b.count02, c.count03 from (
+	    select m.*, n.realName from ql_AccessRecord03 m, plat_User n
+	  	where (m.status = 2) and m.authorId=n.id and INSTR(#{projId},projId) 
+		) a 
+		left join (select custId, count(*) count02 from ql_AccessRecord02 where status=2 and INSTR(#{projId},projId)) b on b.custId=a.custId
+		left join (select custId, count(*) count03 from ql_AccessRecord01 where status=2 and INSTR(#{projId},projId)) c on c.custId=a.custId 
+		order by FIELD(a.status,1,2,3,4),a.cTime desc 
+	) as r01 
+	limit #{page},#{pageSize}
+  </select>
+  
+  <!-- 负责人 -->
+  <select id="getRecord03ListFuZe" resultType="java.util.Map" parameterType="java.util.Map">
+	select r01.*, 
+	  case r01.status when 2 then 1 else 0 end c01,
+	  case when r01.count02 is null then 0 else r01.count02 end c02,
+	  case when r01.count03 is null then 0 else r01.count03 end c03,
+	  case when r01.count03 is null then 0 else 1 end isKnockdown,
+		(case r01.status when 2 then 1 else 0 end)+(case when r01.count02 is null then 0 else r01.count02 end)+(case when r01.count03 is null then 0 else r01.count03 end) total 
+	from (
+		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime, a.custSex, b.count02, c.count03 from (
+	    select m.*, n.realName from ql_AccessRecord03 m, plat_User n
+	  	where (m.status = 2 or m.status = 1) and m.authorId=n.id and INSTR(#{projId},projId) 
+		) a 
+		left join (select custId, count(*) count02 from ql_AccessRecord02 where status=2 and INSTR(#{projId},projId)) b on b.custId=a.custId
+		left join (select custId, count(*) count03 from ql_AccessRecord01 where status=2 and INSTR(#{projId},projId)) c on c.custId=a.custId 
+		order by FIELD(a.status,1,2,3,4),a.cTime desc 
+	) as r01 
+	limit #{page},#{pageSize}
+  </select>
+  
+  <!-- 管理员 -->
+  <select id="getRecord03ListAdmin" resultType="java.util.Map" parameterType="java.util.Map">
+	select r01.*, 
+	  case r01.status when 2 then 1 else 0 end c01,
+	  case when r01.count02 is null then 0 else r01.count02 end c02,
+	  case when r01.count03 is null then 0 else r01.count03 end c03,
+	  case when r01.count03 is null then 0 else 1 end isKnockdown,
+		(case r01.status when 2 then 1 else 0 end)+(case when r01.count02 is null then 0 else r01.count02 end)+(case when r01.count03 is null then 0 else r01.count03 end) total 
+	from (
+		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime, a.custSex, b.count02, c.count03 from (
+	    select m.*, n.realName from ql_AccessRecord03 m, plat_User n
+	  	where (m.status = 2) and m.authorId=n.id  
+		) a 
+		left join (select custId, count(*) count02 from ql_AccessRecord02 where status=2) b on b.custId=a.custId
+		left join (select custId, count(*) count03 from ql_AccessRecord01 where status=2) c on c.custId=a.custId 
+		order by FIELD(a.status,2,1,3,4),a.cTime desc 
+	) as r01 
+	limit #{page},#{pageSize}
+  </select>
+  
+  
 </mapper>

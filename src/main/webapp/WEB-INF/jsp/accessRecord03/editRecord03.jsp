@@ -404,48 +404,45 @@ px
 								bgcolor="#dddddd" border="1" style="margin-top:40px;">
 								<tbody>
 									<tr style="">
-										<td style="width:290px">房屋买受人姓名：<input type="text"
-											name="maishouren" style="width: 10rem"></td>
-										<td style="width:290px">性别：<input name="maishouren_sex"
-											type="radio" value="男" style="width: 1rem">男 <input
-											name="maishouren_sex" type="radio" value="女"
-											style="width: 1rem">女
+										<td style="width:290px">房屋买受人姓名：
+											<input type="text" name="maishouren" style="width: 10rem"></td>
+										<td style="width:290px">性别：
+											<input name="maishouren_sex" type="radio" value="男" style="width: 1rem">男 
+											<input name="maishouren_sex" type="radio" value="女" style="width: 1rem">女
 										</td>
 										<td style="width:340px">置业顾问：贺渝测试</td>
 									</tr>
 
 									<tr>
-										<td>联系方式：<input type="text"
-											name="maishouren_lianxi" style="width: 10rem"></td>
-										<td>认购日期：<input type="text"
-											name="rengou_time" value="2017-07-15" style="width: 10rem"></td>
-										<td>签约日期：<input type="text"
-											name="qianyue_time" value="2017-07-15" style="width: 10rem"></td>
+										<td>联系方式：
+											<input type="text" name="maishouren_lianxi" style="width: 10rem"></td>
+										<td>认购日期：
+											<input type="text" name="rengou_time" value="2017-07-15" style="width: 10rem"></td>
+										<td>签约日期：
+											<input type="text" name="qianyue_time" value="2017-07-15" style="width: 10rem"></td>
 									</tr>
 
 									<tr>
 										<td colspan="1">购买房号：<input type="text" name="fanghao"
 											value="" style="width: 7rem">
 										</td>
-										<td colspan="2">户籍：<input name="huji" type="radio"
-											value="京籍" style="width: 1rem">京籍 <input name="huji"
-											type="radio" value="外地" style="width: 1rem">外地 <input
-											name="huji" type="radio" value="外国籍" style="width: 1rem">外国籍
+										<td colspan="2">户籍：
+											<input name="huji" type="radio" value="京籍" style="width: 1rem">京籍 
+											<input name="huji" type="radio" value="外地" style="width: 1rem">外地 
+											<input name="huji" type="radio" value="外国籍" style="width: 1rem">外国籍
 										</td>
 									</tr>
 
 									<tr>
-										<td colspan="2">成交面积：<input type="text" name="mianji"
-											style="width: 4rem"
-											onkeyup="value=value.replace(/[^\d.]/g,&#39;&#39;)"><span
-											style="margin-right: 2rem">平米</span> 成交单价：<input type="text"
-											name="danjia" style="width: 4rem;"
-											onkeyup="value=value.replace(/[^\d.]/g,&#39;&#39;)"><span
-											style="margin-right: 2rem">万</span> 成交总价：<input type="text"
-											name="zongjia" style="width: 4rem;"
-											onkeyup="value=value.replace(/[^\d.]/g,&#39;&#39;)">万
+										<td colspan="2">成交面积：
+											<input type="text" name="mianji" style="width: 4rem">
+											<span style="margin-right: 2rem">平米</span> 成交单价：
+											<input type="text" name="danjia" style="width: 4rem;">
+											<span style="margin-right: 2rem">万</span> 成交总价：
+											<input type="text" name="zongjia" style="width: 4rem;">万
 										</td>
-										<td>付款方式：<select name="fukuan">
+										<td>付款方式：
+											<select name="fukuan">
 												<option value="0">请选择</option>
 												<option value="银行贷款（首套按揭）">银行贷款（首套按揭）</option>
 												<option value="银行贷款（二套按揭）">银行贷款（二套按揭）</option>
@@ -453,118 +450,95 @@ px
 												<option value="一次性">一次性</option>
 												<option value="公积金贷款">公积金贷款</option>
 												<option value="无法了解" style="color: red">无法了解</option>
-										</select>
-
-
+											</select>
 										</td>
 									</tr>
 
 									<tr>
-										<td colspan="3">您购买的产品类型：<span style="margin-left: 20px">别墅</span>（<input
-											name="leixing" type="radio" value="别墅独栋" style="width: 1rem">独栋
-											<input name="leixing" type="radio" value="别墅类独栋"
-											style="width: 1rem">类独栋 <input name="leixing"
-											type="radio" value="别墅双拼" style="width: 1rem">双拼 <input
-											name="leixing" type="radio" value="别墅联排" style="width: 1rem">联排
-											<input name="leixing" type="radio" value="别墅上叠"
-											style="width: 1rem">上叠 <input name="leixing"
-											type="radio" value="别墅下叠" style="width: 1rem">下叠&nbsp;&nbsp;&nbsp;&nbsp;）<br>
-
-											<span style="margin-left: 145px">平层（</span><input
-											name="leixing" type="radio" value="平层两居及以下"
-											style="width: 1rem;">两居及以下 <input name="leixing"
-											type="radio" value="平层三居" style="width: 1rem">三居 <input
-											name="leixing" type="radio" value="平层四居" style="width: 1rem">四居
-											<input name="leixing" type="radio" value="平层五居及以上"
-											style="width: 1rem">五居及以上叠&nbsp;&nbsp;&nbsp;&nbsp;）<br>
-											<input name="leixing" type="radio" value="商业"
-											style="width: 1rem; margin-left: 145px">商业 <input
-											name="leixing" type="radio" value="商务办公"
-											style="width: 1rem; margin-left: 16px">商务办公
-
+										<td colspan="3">您购买的产品类型：
+											<span style="margin-left: 20px">别墅</span>
+											（<input name="leixing" type="radio" value="别墅独栋" style="width: 1rem">独栋
+											<input name="leixing" type="radio" value="别墅类独栋" style="width: 1rem">类独栋 
+											<input name="leixing" type="radio" value="别墅双拼" style="width: 1rem">双拼 
+											<input name="leixing" type="radio" value="别墅联排" style="width: 1rem">联排
+											<input name="leixing" type="radio" value="别墅上叠" style="width: 1rem">上叠 
+											<input name="leixing" type="radio" value="别墅下叠" style="width: 1rem">下叠&nbsp;&nbsp;&nbsp;&nbsp;）<br>
+											<span style="margin-left: 145px">平层
+											（</span><input name="leixing" type="radio" value="平层两居及以下" style="width: 1rem;">两居及以下 
+											<input name="leixing" type="radio" value="平层三居" style="width: 1rem">三居 
+											<input name="leixing" type="radio" value="平层四居" style="width: 1rem">四居
+											<input name="leixing" type="radio" value="平层五居及以上" style="width: 1rem">五居及以上叠&nbsp;&nbsp;&nbsp;&nbsp;）<br>
+											<input name="leixing" type="radio" value="商业" style="width: 1rem; margin-left: 145px">商业 
+											<input name="leixing" type="radio" value="商务办公" style="width: 1rem; margin-left: 16px">商务办公
 										</td>
 
 									</tr>
 
 									<tr>
-										<td colspan="3">通邮地址：<input type="text" name="address"
-											style="width: 11rem">
+										<td colspan="3">通邮地址：
+											<input type="text" name="address" style="width: 11rem">
 										</td>
 									</tr>
 
 									<tr>
-										<td colspan="3">实际居住情况：<input name="juzhu" type="radio"
-											value="单身" style="width: 1rem">单身 <input name="juzhu"
-											type="radio" value="夫妻" style="width: 1rem">夫妻 <input
-											name="juzhu" type="radio" value="一孩家庭" style="width: 1rem">一孩家庭
-											<input name="juzhu" type="radio" value="俩孩家庭"
-											style="width: 1rem">俩孩家庭 <input name="juzhu"
-											type="radio" value="三孩及以上家庭" style="width: 1rem">三孩及以上家庭
-											<input name="juzhu" type="radio" value="三代同堂"
-											style="width: 1rem">三代同堂 <input name="juzhu"
-											type="radio" value="无法了解" style="width: 1rem"><span
-											style="color: red">无法了解</span>
+										<td colspan="3">实际居住情况：
+											<input name="juzhu" type="radio" value="单身" style="width: 1rem">单身 
+											<input name="juzhu" type="radio" value="夫妻" style="width: 1rem">夫妻 
+											<input name="juzhu" type="radio" value="一孩家庭" style="width: 1rem">一孩家庭
+											<input name="juzhu" type="radio" value="俩孩家庭" style="width: 1rem">俩孩家庭 
+											<input name="juzhu" type="radio" value="三孩及以上家庭" style="width: 1rem">三孩及以上家庭
+											<input name="juzhu" type="radio" value="三代同堂" style="width: 1rem">三代同堂 
+											<input name="juzhu" type="radio" value="无法了解" style="width: 1rem">
+											<span style="color: red">无法了解</span>
 										</td>
 									</tr>
 
 									<tr>
-										<td colspan="3">房屋使用人是谁：<input name="shiyongren[]"
-											type="checkbox" value="本人" style="width: 1rem"
-											onclick="shiyongren1(event,this)">本人 <input
-											name="shiyongren[]" type="checkbox" value="配偶"
-											style="width: 1rem" onclick="shiyongren1(event,this)">配偶
-											<input name="shiyongren[]" type="checkbox" value="您的父母"
-											style="width: 1rem" onclick="shiyongren1(event,this)">您的父母
-											<input name="shiyongren[]" type="checkbox" value="您的子女"
-											style="width: 1rem" onclick="shiyongren1(event,this)">您的子女
-											<input name="shiyongren[]" type="checkbox" value="无法了解"
-											style="width: 1rem; color: red"
-											onclick="shiyongren(event,this)"><span
-											style="color: red">无法了解</span>
+										<td colspan="3">房屋使用人是谁：
+											<input name="shiyongren[]" type="checkbox" value="本人" style="width: 1rem" >本人 
+											<input name="shiyongren[]" type="checkbox" value="配偶" style="width: 1rem" >配偶
+											<input name="shiyongren[]" type="checkbox" value="您的父母" style="width: 1rem" >您的父母
+											<input name="shiyongren[]" type="checkbox" value="您的子女" style="width: 1rem" >您的子女
+											<input name="shiyongren[]" type="checkbox" value="无法了解" style="width: 1rem; color: red" >
+											<span style="color: red">无法了解</span>
 										</td>
 									</tr>
 
 									<tr>
-										<td colspan="3">房屋出资人是谁：<input name="chuziren[]"
-											type="checkbox" value="本人" style="width: 1rem"
-											onclick="chuziren1(event,this)">本人 <input
-											name="chuziren[]" type="checkbox" value="配偶"
-											style="width: 1rem" onclick="chuziren1(event,this)">配偶
-											<input name="chuziren[]" type="checkbox" value="您的父母"
-											style="width: 1rem" onclick="chuziren1(event,this)">您的父母
-											<input name="chuziren[]" type="checkbox" value="您的子女"
-											style="width: 1rem" onclick="chuziren1(event,this)">您的子女
-											<input name="chuziren[]" type="checkbox" value="无法了解"
-											style="width: 1rem; color: red"
-											onclick="chuziren(event,this)"><span
-											style="color: red">无法了解</span>
+										<td colspan="3">房屋出资人是谁：
+											<input name="chuziren[]" type="checkbox" value="本人" style="width: 1rem">本人
+											<input name="chuziren[]" type="checkbox" value="配偶" style="width: 1rem"  >配偶
+											<input name="chuziren[]" type="checkbox" value="您的父母" style="width: 1rem"  >您的父母
+											<input name="chuziren[]" type="checkbox" value="您的子女" style="width: 1rem"  >您的子女
+											<input name="chuziren[]" type="checkbox" value="无法了解" style="width: 1rem; color: red">
+											<span style="color: red">无法了解</span>
 										</td>
 									</tr>
 
 									<tr>
-										<td colspan="3">客户对项目的意见及建议：<br> <textarea
-												style="width: 800px; height: 100px; margin-left: 0.1rem"
+										<td colspan="3">客户对项目的意见及建议：<br> 
+										<textarea style="width: 800px; height: 100px; margin-left: 0.1rem"
 												name="kehujianyi"></textarea>
 										</td>
 									</tr>
 
 									<tr>
-										<td colspan="3">客户谈判过程中遇到的问题及解决方案：<br> <textarea
-												style="width: 800px; height: 100px; margin-left: 0.1rem"
+										<td colspan="3">客户谈判过程中遇到的问题及解决方案：<br> 
+											<textarea style="width: 800px; height: 100px; margin-left: 0.1rem"
 												name="kehutanpan"></textarea>
 										</td>
 									</tr>
 
 									<tr>
-										<td colspan="3">客户签约过程中遇到的问题及解决方案：<br> <textarea
-												style="width: 800px; height: 100px; margin-left: 0.1rem"
+										<td colspan="3">客户签约过程中遇到的问题及解决方案：<br> 
+											<textarea style="width: 800px; height: 100px; margin-left: 0.1rem"
 												name="kehuqianyue"></textarea>
 										</td>
 									</tr>
 
 									<tr>
-										<td colspan="3">对客户的综合描述：<br> <textarea
-												style="width: 800px; height: 100px; margin-left: 0.1rem"
+										<td colspan="3">对客户的综合描述：<br> 
+											<textarea style="width: 800px; height: 100px; margin-left: 0.1rem"
 												name="miaoshu"></textarea>
 										</td>
 									</tr>

@@ -235,4 +235,16 @@
   <select id="selectByCusIdAndProjId" parameterType="java.util.Map" resultType="com.hj.wxmp.mobile.entity.ProjCustRef">
   	select * from ql_ProjCust_Ref where custId=#{cusId} and projId = #{projId}
   </select>
+  
+  <select id="selectByProjIdAndCusId" resultType="java.util.Map" parameterType="java.util.Map">
+	SELECT
+		*
+	FROM
+		ql_ProjCust_Ref projcus
+	JOIN ql_Customer cus ON projcus.custId = cus.id
+	JOIN ql_Project proj ON proj.id = projcus.projId
+	WHERE
+		proj.id = #{projId}
+	AND cus.id = #{cusId}
+  </select>
 </mapper>

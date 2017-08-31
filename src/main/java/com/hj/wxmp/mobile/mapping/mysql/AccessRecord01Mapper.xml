@@ -656,7 +656,7 @@
 	from (
 		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime, a.custSex, b.count02, c.count03 from (
 	    select m.*, n.realName from ql_AccessRecord01 m, plat_User n
-	  	where (m.status = 2 or m.status = 4) and m.authorId=n.id and authorId=#{userId}
+	  	where (m.status = 2 or m.status = 4 or m.status = 1) and m.authorId=n.id and authorId=#{userId}
 		) a 
 		left join (select custId, count(*) count02 from ql_AccessRecord02 where status=2 and authorId=#{userId}) b on b.custId=a.custId
 		left join (select custId, count(*) count03 from ql_AccessRecord03 where status=2 and authorId=#{userId}) c on c.custId=a.custId 

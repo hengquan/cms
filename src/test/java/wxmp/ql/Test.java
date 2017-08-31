@@ -2,61 +2,29 @@ package wxmp.ql;
 
 import java.io.UnsupportedEncodingException;
 
-public class Test {
+public class Test extends Thread{
 
-	public static String bytesToHexString(byte[] src){
-        StringBuilder stringBuilder = new StringBuilder("");
-        if (src == null || src.length <= 0) {
-            return null;
-        }
-        for (int i = 0; i < src.length; i++) {
-            int v = src[i] & 0xFF;
-            String hv = Integer.toHexString(v);
-            if (hv.length() < 2) {
-                stringBuilder.append(0);
-            }
-            stringBuilder.append(hv);
-        }
-        return stringBuilder.toString();
+private int count = 5;
+    
+    // synchronized加锁
+    public synchronized void run() {
+        count--;
+        System.out.println(this.currentThread().getName() + " count = " + count);
     }
-	
-	public static byte[] hexStringToBytes(String hexString) {
-        if (hexString == null || hexString.equals("")) {
-            return null;
-        }
-        hexString = hexString.toUpperCase();
-        int length = hexString.length() / 2;
-        char[] hexChars = hexString.toCharArray();
-        byte[] d = new byte[length];
-        for (int i = 0; i < length; i++) {
-            int pos = i * 2;
-            d[i] = (byte) (charToByte(hexChars[pos]) << 4 | charToByte(hexChars[pos + 1]));
-        }
-        return d;
+    
+    public static void main(String[] args) {
+        
+    	Test test = new Test();
+        Thread t1 = new Thread(test, "t1");
+        Thread t2 = new Thread(test, "t2");
+        Thread t3 = new Thread(test, "t3");
+        Thread t4 = new Thread(test, "t4");
+        Thread t5 = new Thread(test, "t5");
+        
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+        t5.start();
     }
-	
-	private static byte charToByte(char c) {
-        return (byte) "0123456789ABCDEF".indexOf(c);
-    }
-	
-	public static void main(String[] args) {
-		String hexString = "8a87";
-		
-		byte[] bb = hexStringToBytes(hexString);
-		
-		try {
-			String ss = "\"{M";
-			System.out.println(bytesToHexString(ss.getBytes("UTF-8")));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		
-//		byte a=0x4a;
-//		
-//		byte[] bb = new byte[]{};
-//		bb[2] = a;
-//		bb[1] = (byte)0x87;
-//		
-//		System.out.println(bb);
-	}
 }
