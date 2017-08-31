@@ -74,7 +74,6 @@ public class WxApiController extends ControllerBaseWx {
 			.getLogger(WxApiController.class);
 
 	private HashSessions hashSession = HashSessions.getInstance();
-	private Weixin weixin = Weixin.getInstance();
 	@Autowired
 	IKeyGen key;
 	@Autowired
@@ -774,35 +773,49 @@ public class WxApiController extends ControllerBaseWx {
 	}
 
 	//添加首访记录
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/addHisFirstRecord")
 	@ResponseBody
 	public String addHisFirstRecord(HttpServletRequest requet,HttpServletResponse response,
-			AccessRecord01 record01,Customer customer,String userId,
+			AccessRecord01 record01,String userId,
 			String firstknowtime1,String receptime1) {
 		responseInfo(response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			//首访记录表ID
-			String record01Id = key.getUUIDKey();
+			String openid = HashSessions.getInstance().getOpenId(request);
+			UserInfo userInfo=null;
+			if (StringUtils.isNotEmpty(openid)) userInfo=userInfoService.findByOpenid(openid);
+			else if (StringUtils.isNotEmpty(userId)) userInfo=userInfoService.findById(userId);
+
+			if (userInfo==null) throw new Exception("未获得用户，无法处理");
+
+			String _userId=userInfo.getId();
+
+			userId=userInfo.getId();
 			//补全首访信息-并更新
-			record01.setId(record01Id);
-			customer.setCustname(record01.getCustname());
-			customer.setPhonenum(record01.getCustphonenum());
-			//调用公共方法
-			Boolean isok = addRecord01(record01,customer,record01Id,userId,firstknowtime1,receptime1);
-			if(isok){
-				//添加首访记录
-				accessRecord01Service.insert(record01);
-				//添加用户客户关系表
-				UserCustRef userCustRef = new UserCustRef();
-				userCustRef.setId(key.getUUIDKey());
-				userCustRef.setProjid(record01.getProjid());
-				userCustRef.setUserid(record01.getAuthorid());
-				userCustRef.setCustid(customer.getId());
-				userCustRefService.insert(userCustRef);
+			record01.setId(key.getUUIDKey());
+			//第一次获知本案的时间
+			if(firstknowtime1!=null){
+				firstknowtime1+=" 00:00:00";
+				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date parse = formata.parse(firstknowtime1);				
+				record01.setFirstknowtime(parse);
+			}
+			//本次到访时间
+			if(receptime1!=null){
+				receptime1+=" 00:00:00";
+				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date parse = formata.parse(receptime1);				
+				record01.setReceptime(parse);
+			}
+			//扫描一次，处理本表，处理客户表，处理客户项目关系表，处理字典表；
+			Object[] resultObjs=scan(record01);
+			if (accessRecord01Service.insert((AccessRecord01)resultObjs[0])) {
+				Deal01OtherTable d01=new Deal01OtherTable((Customer)resultObjs[1], (ProjCustRef)resultObjs[2], (UserCustRef)resultObjs[3], (List<TabDictRef>)resultObjs[4], 0);
+				d01.start();
 				map.put("msg", "100");
-			}else{
-				map.put("msg", "103");
+			} else {
+				map.put("msg", "104");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -810,14 +823,30 @@ public class WxApiController extends ControllerBaseWx {
 		}
 		System.out.println(JsonUtils.map2json(map));
 		return JsonUtils.map2json(map);
-	}	
-	
+	}
+
+	private Object[] scan(AccessRecord01 record01) {
+		Object[] ret=new Object[5];
+		AccessRecord01 retR01=new AccessRecord01();//可以直接插入数据库的01数据
+		Customer cust=new Customer(); //从01中汇出的客户信息，可直接参与数据库操作
+		ProjCustRef projCustRef=new ProjCustRef(); //从01中汇出的客户项目关系，可直接参与数据库操作
+		UserCustRef userCustRef=new UserCustRef(); //
+		List<TabDictRef> dictRefList=new ArrayList<TabDictRef>(); //可以直接参与处理字典项与表关系处理的对象列表
+		
+		ret[0]=retR01;
+		ret[1]=cust;
+		ret[2]=projCustRef;
+		ret[3]=userCustRef;
+		ret[4]=dictRefList;
+		return ret;
+	}
+
 	//修改首访记录
 	@RequestMapping(value = "/updateRecord01")
 	@ResponseBody
 	public String updateRecord01(HttpServletRequest requet,HttpServletResponse response
-			,AccessRecord01 record01,Customer customer,String userId,
-			String firstknowtime1,String receptime1) {
+			,AccessRecord01 record01,Customer customer,String userId
+			,String firstknowtime1,String receptime1) {
 		responseInfo(response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -1463,7 +1492,6 @@ public class WxApiController extends ControllerBaseWx {
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
 			String recordId = m.get("recordId")==null?null:m.get("recordId").toString();
-			String userId = m.get("userId")==null?null:m.get("userId").toString();
 			if(recordId != null && !"".equals(recordId)){
 				AccessRecord02 accessRecord02 = accessRecord02Service.findById(recordId);
 				map.put("msg", "100");
@@ -1488,7 +1516,6 @@ public class WxApiController extends ControllerBaseWx {
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
 			String recordId = m.get("recordId")==null?null:m.get("recordId").toString();
-			String userId = m.get("userId")==null?null:m.get("userId").toString();
 			if(recordId != null && !"".equals(recordId)){
 				AccessRecord03 accessRecord03 = accessRecord03Service.findById(recordId);
 				map.put("msg", "100");
@@ -1509,25 +1536,26 @@ public class WxApiController extends ControllerBaseWx {
 	@ResponseBody
 	public String getRecord01List(HttpServletRequest req,
 			@RequestParam(value="page",defaultValue="1") int nowPage,
-			@RequestParam(value="pageSize",defaultValue="10") int pageSize){
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize,
+			@RequestParam(value="searchStr") String searchStr){
 		responseInfo(response);
 		String openid = HashSessions.getInstance().getOpenId(request);
 		UserInfo userInfo = userInfoService.selectByOpenId(openid);
 		String userId = userInfo.getId();
-		Map<String,Object> map = new HashMap<String,Object>();
-		Map<String,Object> result = new HashMap<String,Object>();
+		Map<String,Object> retMap = new HashMap<String,Object>();
+		Map<String,Object> param = new HashMap<String,Object>();
 		try {
-			Integer page = ((nowPage - 1) * pageSize);
-			result.put("page", page);
-			result.put("pageSize", pageSize);
-			result.put("userId", userId);
+			int page=((nowPage - 1) * pageSize);
+			param.put("page", page);
+			param.put("pageSize", pageSize);
+			param.put("userId", userId);
 			//权限信息
 			String roleName="";
 			Map<String,Object> userRole = sysUserRoleService.findByUserId(userId);
 			if(userRole!=null){
 				Object object = userRole.get("role_name");
 				if(object!=null)  {
-					List<Map<String,Object>> message = new ArrayList<Map<String,Object>>();
+					List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();
 					roleName = object.toString();
 					//用户相关项目信息
 					List<Map<String, Object>> projs = projUserRoleService.selectByUserId(userId);
@@ -1536,31 +1564,43 @@ public class WxApiController extends ControllerBaseWx {
 						String projId = proj.get("id").toString();
 						projid += projId+",";
 					}
+					//处理查询字符串
+					if (StringUtils.isNotEmpty(searchStr)) {
+						String searchSql="";
+						String[] l=searchStr.split(",");
+						for (int i=0; i<l.length; i++) {
+							if (StringUtils.isNotEmpty(l[i])) {
+								searchSql+=" or (instr(m.custName, '"+l[i].trim()+"') or (instr(m.custPhone, '"+l[i]+"')";
+							}
+						}
+						searchSql=searchSql.substring(4);
+						param.put("searchSql", searchSql);
+					}
 					//判断
 					if(roleName.equals("顾问")){
-						message = accessRecord01Service.getRecord01ListGuWen(result);
+						resultList = accessRecord01Service.getRecord01ListGuWen(param);
 					}else if(roleName.equals("项目管理人")){
-						result.put("projId", projid);
-						message = accessRecord01Service.getRecord01ListGuanLi(result);
+						param.put("projId", projid);
+						resultList = accessRecord01Service.getRecord01ListGuanLi(param);
 					}else if(roleName.equals("项目负责人")){
-						result.put("projId", projid);
-						message = accessRecord01Service.getRecord01ListFuZe(result);
+						param.put("projId", projid);
+						resultList = accessRecord01Service.getRecord01ListFuZe(param);
 					}else if(roleName.equals("管理员")){
-						message = accessRecord01Service.getRecord01ListAdmin(result);
+						resultList = accessRecord01Service.getRecord01ListAdmin(param);
 					}
-					map.put("msg", "100");
-					map.put("data", message);
+					retMap.put("msg", "100");
+					retMap.put("data", resultList);
 				}else{
-					map.put("msg", "103");
+					retMap.put("msg", "103");
 				}
 			}else{
-				map.put("msg", "103");
+				retMap.put("msg", "103");
 			}
 		} catch (Exception e) {
-			map.put("msg", "103");
+			retMap.put("msg", "103");
 			e.printStackTrace();
 		}
-		return JsonUtils.map2json(map);
+		return JsonUtils.map2json(retMap);
 	}
 	//获取复访记录列表
 	@RequestMapping(value = "/getRecord02List")
@@ -1723,7 +1763,7 @@ public class WxApiController extends ControllerBaseWx {
 		try {
 			String recordId = m.get("recordId")==null?null:m.get("recordId").toString();
 			String recordType = m.get("recordType")==null?null:m.get("recordType").toString();
-			String userId = m.get("userId")==null?null:m.get("userId").toString();
+//			String userId = m.get("userId")==null?null:m.get("userId").toString();
 			result.put("recordId", recordId);
 			result.put("recordType", recordType);
 			Integer page = ((nowPage - 1) * pageSize);
@@ -1751,7 +1791,6 @@ public class WxApiController extends ControllerBaseWx {
 		try {
 			String recordId = m.get("recordId")==null?null:m.get("recordId").toString();
 			String recordType = m.get("recordType")==null?null:m.get("recordType").toString();
-			String userId = m.get("userId")==null?null:m.get("userId").toString();
 			String auditMsg = m.get("auditMsg")==null?null:m.get("auditMsg").toString();
 			String auditType = m.get("auditType")==null?null:m.get("auditType").toString();
 			AuditRecord auditRecord = new AuditRecord();
@@ -1850,8 +1889,7 @@ public class WxApiController extends ControllerBaseWx {
 		return JsonUtils.map2json(map);
 	}
 	
-	
-	
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/getOutArea")
     @ResponseBody
     public String getOutArea(HttpServletRequest req){
@@ -1860,7 +1898,8 @@ public class WxApiController extends ControllerBaseWx {
             DictModel dm=dictService.getDictModelById("001");
             TreeNode<? extends TreeNodeBean> root=dm.dictTree;
             Map<String, Object> tM=(new ZTree<DictDetail>(root)).toTreeMap();
-            List<Object> l=(List<Object>)tM.get("children");
+
+			List<Object> l=(List<Object>)tM.get("children");
             int i=0;
             for (; i<l.size(); i++) {
                 Map<String, Object> nM=(Map<String, Object>)l.get(i);
@@ -1956,4 +1995,48 @@ public class WxApiController extends ControllerBaseWx {
 		return JsonUtils.map2json(map);
 	}
 
+	class Deal01OtherTable extends Thread {
+		int type=0;//0=insert;1=update
+		Customer cust=null;
+		ProjCustRef projCustRef=null;
+		UserCustRef userCustRef=null;
+		List<TabDictRef> tabDictRefList=null;
+		public Deal01OtherTable(Customer cust,ProjCustRef projCustRef, UserCustRef userCustRef, List<TabDictRef> tabDictRefList, int type) {
+			this.cust=cust;
+			this.projCustRef=projCustRef;
+			this.tabDictRefList=tabDictRefList;
+			this.userCustRef=userCustRef;
+			this.type=type;
+		}
+		@Override
+        public void run() {
+			try {
+				//处理客户
+			    if (type==0) customerService.insert(cust);
+			    else customerService.update(cust);
+			    //处理用户客户
+			    if (type==0) userCustRefService.insert(userCustRef);
+			    else userCustRefService.update(userCustRef);
+			    //处理用户项目
+			    if (type==0) projCustRefService.insert(projCustRef);
+			    else projCustRefService.update(projCustRef);
+			    //处理字典
+			    String _tabName=null, _tabId=null, _refName=null;
+			    if (tabDictRefList!=null) {
+			    	for (TabDictRef tdr: tabDictRefList) {
+			    		if (type!=0) {
+				    		if (!(tdr.getTabname().equals(_tabName)&&tdr.getTabid().equals(_tabId)&&tdr.getRefname().equals(_refName))) {
+				    			tabDictRefService.delete4TabColum(tdr);
+				    			_tabName=tdr.getTabname();
+				    			_tabId=tdr.getTabid();
+				    			_refName=tdr.getRefname();
+				    		}
+			    		}
+			    		tabDictRefService.insert(tdr);
+			    	}
+			    }
+			} catch(Exception e) {
+			}
+        }
+	}
 }

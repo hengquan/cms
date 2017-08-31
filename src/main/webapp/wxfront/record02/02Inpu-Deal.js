@@ -60,12 +60,17 @@ function fillData(data) {//填数据，包括所有页面
     }
   }
 }
-function initData() {
+/**
+ * 初始化数据
+ * @param data 若是修改，此data是单条数据；若新增，则data为空。
+ */
+function initData(data) {
+  //获取人员信息
   var url=_URL_BASE+"/wx/api/personalCenter";
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
-        initPage(json.userInfo);
+        initPage(json.userInfo, data);
         $("#step1").show();
       } else {
         window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息<br/>禁止录入";
@@ -76,8 +81,16 @@ function initData() {
         +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
     }
   });
-  function initPage(data) {
-    $("input[name='user']").val(data.realname);
+  function initPage(userInfo, data) {
+    cleanData();
+    //设置日期默认值
+    var nt=new Date();
+    var str=""+nt.getFullYear()+"-";
+    str+=((100+(nt.getMonth()+1))+"").substr(1)+"-";
+    str+=((100+nt.getDate())+"").substr(1);
+    $("input[name='curTime']").val(str);
+    //如果是
+    $("input[name='user']").val(userInfo.realname);
     _uUserId=data.userid;
     var canShowProj=false;
     var prjNames=""+data.checkProj;
@@ -102,60 +115,60 @@ function initData() {
       _uProjName=projName;
       _uProjId=projId;
     }
-    cleanData();
   }
 }
-function cleanData() {
-  var nt=new Date();
-  var str=""+nt.getFullYear()+"-";
-  str+=((100+(nt.getMonth()+1))+"").substr(1)+"-";
-  str+=((100+nt.getDate())+"").substr(1);
-  $("input[name='curTime']").val(str);
+
+function cleanData() {//清除数据
   //清除所有数据
-  $("input[name='custName']").val("");
-  $("input[name='custPhone']").val("");
-  $("input[name='firstTime']").val("");
-  clean('sex');
-  clean('visitorCount');
-  clean('ageGroup');
-  cleanArea('localResidence');
-  cleanArea('localWorkArea');
-  cleanArea('outResidence');
-  cleanArea('outWorkArea');
-  clean('familyStatus');
-  clean('trafficType');
-  clean('buyQualify');
-  clean('workIndustry');
-  clean('enterpriseType');
-  clean('knowWay');
-  $("input[name='knowWayGGP']").val("");
-  $("input[name='knowWayGGP']").attr("readonly",true);
-  $("input[name='knowWayJS']").val("");
-  $("input[name='knowWayJS']").attr("readonly",true);
-  clean('estCustWorth');
-  clean('investType');
-  clean('captalPrepSection');
-  clean('realtyProductType');
-  clean('attentAcreage');
-  clean('priceSection');
-  clean('buyPurpose');
-  clean('attentionPoint');
-  clean('recepTimeSection');
-
-  clean('custCore');
-  $("input[name='compareProjs']").val("");
-  $("input[name='custDescn']").val("");
-
-  function clean(otherId) {
-    var choose=document.getElementsByName(''+otherId);
-    for (var i=0; i<choose.length; i++) if (choose[i].checked) choose[i].checked=false;
-    try {
-      $("input[name='"+otherId+"Desc']").val("");
-      $("input[name='"+otherId+"Desc']").hide();
-    }catch(e){}
-  }
-  function cleanArea() {
-  }
+  //所有的Input
+  $("input").val("");
+  $("input[type='radio']").checked=false;
+  $("input[type='checkbox']").checked=false;
+  var _uUserId="";
+  var _uProjId="";
+  var _uProjName="";
+  var _uSex="";
+  var _uUser="";
+  var _uVisitorCount="";
+  var _uVisitorCount="";
+  var _uDecisionerIn="";
+  var _uChildrenNum="";
+  var _uOutEduWill="";
+  var _uOutExperFlag="";
+  var _uChildOutExperFlag="";
+  var _uLiveAcreage="";
+  var _uCarTotalPrice="";
+  var _uCustScore="";
+  var _uVisitorRefs="";
+  var _uChildAgeGroup="";
+  var _uSchoolType="";
+  var _uAvocations="";
+  var _uLivingRadius="";
+  var _uLiveAcreage="";
+  var _uAvocationsDesc="";
+  var _uResistPoint="";
+  var _uLoveActivation="";
+  var _uFamilyStatus="";
+  var _uTrafficType="";
+  var _uTrafficTypeDesc="";
+  var _uBuyQualify="";
+  var _uWorkIndustry="";
+  var _uWorkIndustryDesc="";
+  var _uEnterpriseType="";
+  var _uEnterpriseTypeDesc="";
+  var _uKnowWay="";
+  var _uKnowWayDesc="";
+  var _uEstCustWorth="";
+  var _uInvestType="";
+  var _uInvestTypeDesc="";
+  var _uCapitalPrepSection="";
+  var _uRealtyProductType="";
+  var _uRealtyProductTypeDesc="";
+  var _uAttentAcreage="";
+  var _uPriceSection="";
+  var _uBuyPurpose="";
+  var _uAttentionPoint="";
+  var _uAttentionPointDesc="";
 }
 
 //翻页切换
@@ -170,8 +183,8 @@ function step1Next() {//要判断是否应该进行首访录入
     $("#step1").hide(0);
     $("#step2").show(0);
     $("#step3").hide(0);
-  $("#step4").hide(0);
-  $("#step5").hide(0);
+    $("#step4").hide(0);
+    $("#step5").hide(0);
   } else if (_TYPE=='add') {//要判断是否应该进行首访录入
     //获得参数
     var _data={};
@@ -279,11 +292,9 @@ function commitData() {
     return;
   }
 
-  if (_TYPE=='add') {
-    commitInsert(commitData);
-  } else if (_TYPE='update') {
-    commitUpdate(commitData);
-  }
+  if (_TYPE=='add') commitInsert(commitData);
+  else
+  if (_TYPE='update') commitUpdate(commitData);
 
   function getData(type) {
     var retData={};

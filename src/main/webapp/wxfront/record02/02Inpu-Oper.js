@@ -2,7 +2,6 @@
  * 复访记录录入|修改
  * 页面输入元素操作部分
  */
-
 var _uUserId="";
 var _uProjId="";
 var _uProjName="";
@@ -48,7 +47,6 @@ var _uPriceSection="";
 var _uBuyPurpose="";
 var _uAttentionPoint="";
 var _uAttentionPointDesc="";
-
 
 function selProj() {
   var choose=document.getElementsByName('proj');
