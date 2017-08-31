@@ -277,7 +277,7 @@
 	}
 	//审核
 	function checkMessages(id){
-		window.location.href="${appRoot}/accessRecord/recheckRecordCheck?id="+id;
+		window.location.href="${appRoot}/accessRecord/record02CheckDetails?id="+id;
 	}
 	
 	

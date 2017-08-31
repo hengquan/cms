@@ -89,5 +89,21 @@ public class AccessRecord03ServiceImpl implements AccessRecord03Service {
 	public Integer selectMessageCount(Map<String, Object> map) {
 		return dao.selectMessageCount(map);
 	}
+	@Override
+	public List<Map<String, Object>> getRecord03ListGuWen(Map<String, Object> result) {
+		return dao.getRecord03ListGuWen(result);
+	}
+	@Override
+	public List<Map<String, Object>> getRecord03ListGuanLi(Map<String, Object> result) {
+		return dao.getRecord03ListGuanLi(result);
+	}
+	@Override
+	public List<Map<String, Object>> getRecord03ListFuZe(Map<String, Object> result) {
+		return dao.getRecord03ListFuZe(result);
+	}
+	@Override
+	public List<Map<String, Object>> getRecord03ListAdmin(Map<String, Object> result) {
+		return dao.getRecord03ListAdmin(result);
+	}
 
 }

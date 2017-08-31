@@ -21,4 +21,6 @@ public interface ProjCustRefMapper {
 	List<Map<String, Object>> selectByUserId(String userId);
 
 	ProjCustRef selectByCusIdAndProjId(Map<String, Object> result);
+
+	List<Map<String, Object>> selectByProjIdAndCusId(Map<String, Object> result);
 }

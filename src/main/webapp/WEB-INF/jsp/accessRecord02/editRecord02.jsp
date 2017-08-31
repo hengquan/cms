@@ -580,27 +580,6 @@ px
 									</tr>
 
 									<tr>
-										<td colspan="3">您对本案的抗拒点：
-											<input name="resistpoint" type="checkbox" value="014001-位置" <c:if test="${fn:contains(accessRecord02.resistpoint, '位置')}">checked</c:if> style="width: 1rem">位置 
-											<input name="resistpoint" type="checkbox" value="014002-产品类型" <c:if test="${fn:contains(accessRecord02.resistpoint, '产品类型')}">checked</c:if> style="width: 1rem">产品类型 
-											<input name="resistpoint" type="checkbox" value="014003-交通" <c:if test="${fn:contains(accessRecord02.resistpoint, '交通')}">checked</c:if> style="width: 1rem">交通 
-											<input name="resistpoint" type="checkbox" value="014004-区域环境" <c:if test="${fn:contains(accessRecord02.resistpoint, '区域环境')}">checked</c:if> style="width: 1rem">区域环境 
-											<input name="resistpoint" type="checkbox" value="014005-价格" <c:if test="${fn:contains(accessRecord02.resistpoint, '价格')}">checked</c:if> style="width: 1rem">价格 
-											<input name="resistpoint" type="checkbox" value="014006-户型" <c:if test="${fn:contains(accessRecord02.resistpoint, '户型')}">checked</c:if> style="width: 1rem">户型 
-											<input name="resistpoint" type="checkbox" value="014007-花园面积" <c:if test="${fn:contains(accessRecord02.resistpoint, '花园面积')}">checked</c:if> style="width: 1rem">花园面积<br>
-											<input name="resistpoint" type="checkbox" value="014008-园林环境" <c:if test="${fn:contains(accessRecord02.resistpoint, '园林环境')}">checked</c:if> style="width: 1rem; margin-left: 151px">园林环境 
-											<input name="resistpoint" type="checkbox" value="014009-科技设备" <c:if test="${fn:contains(accessRecord02.resistpoint, '科技设备')}">checked</c:if> style="width: 1rem">科技设备 
-											<input name="resistpoint" type="checkbox" value="014010-交房时间" <c:if test="${fn:contains(accessRecord02.resistpoint, '交房时间')}">checked</c:if> style="width: 1rem">交房时间
-											<input name="resistpoint" type="checkbox" value="014011-社区配套" <c:if test="${fn:contains(accessRecord02.resistpoint, '社区配套')}">checked</c:if> style="width: 1rem">社区配套 
-											<input name="resistpoint" type="checkbox" value="014012-物业服务" <c:if test="${fn:contains(accessRecord02.resistpoint, '物业服务')}">checked</c:if> style="width: 1rem">物业服务 
-											<input name="resistpoint" type="checkbox" value="014013-开发品牌" <c:if test="${fn:contains(accessRecord02.resistpoint, '开发品牌')}">checked</c:if> style="width: 1rem; margin-left: 151px">开发品牌 
-											<input name="resistpoint" type="checkbox" value="014014-增值潜力" <c:if test="${fn:contains(accessRecord02.resistpoint, '增值潜力')}">checked</c:if> style="width: 1rem">增值潜力 
-											<input name="resistpoint" type="checkbox" value="014000-无法了解" <c:if test="${fn:contains(accessRecord02.resistpoint, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
-										</td>
-									</tr>
-
-									<tr>
 										<td colspan="3">您喜欢参加的活动：
 											<input name="loveactivation" type="checkbox" value="022001-家庭教育" <c:if test="${fn:contains(accessRecord02.loveactivation, '家庭教育')}">checked</c:if> style="width: 1rem">家庭教育
 											<input name="loveactivation" type="checkbox" value="022002-国际学校教育" <c:if test="${fn:contains(accessRecord02.loveactivation, '国际学校教育')}">checked</c:if> style="width: 1rem">国际学校教育 
@@ -620,14 +599,14 @@ px
 									<tr>
 										<td colspan="3">可参加业主活动时间：
 											<span style="margin-left: 20px">周一到周五（</span>
-											<input name="freetimesection" type="checkbox" value="009001001-上午9~11点" <c:if test="${fn:contains(accessRecord02.freetimesection, '上午9~11点')}">checked</c:if> style="width: 1rem; margin-left: 5px">上午9-11点
-											<input name="freetimesection" type="checkbox" value="009001002-下午2~5点" <c:if test="${fn:contains(accessRecord02.freetimesection, '下午2~5点')}">checked</c:if> style="width: 1rem">下午2-5点 
-											<input name="freetimesection" type="checkbox" value="009001003-晚上6~9点" <c:if test="${fn:contains(accessRecord02.freetimesection, '晚上6~9点')}">checked</c:if> style="width: 1rem">晚上6-9点 ）<br> 
+											<input name="freetimesection" type="checkbox" value="109001001-上午9~11点" <c:if test="${fn:contains(accessRecord02.freetimesection, '上午9~11点')}">checked</c:if> style="width: 1rem; margin-left: 5px">上午9-11点
+											<input name="freetimesection" type="checkbox" value="109001002-下午2~5点" <c:if test="${fn:contains(accessRecord02.freetimesection, '下午2~5点')}">checked</c:if> style="width: 1rem">下午2-5点 
+											<input name="freetimesection" type="checkbox" value="109001003-晚上6~9点" <c:if test="${fn:contains(accessRecord02.freetimesection, '晚上6~9点')}">checked</c:if> style="width: 1rem">晚上6-9点 ）<br> 
 											<span style="margin-left: 160px"> 周六到周日（</span> 
-											<input name="freetimesection" type="checkbox" value="009002001-上午9~11点" <c:if test="${fn:contains(accessRecord02.freetimesection, '上午9~11点')}">checked</c:if> style="width: 1rem; margin-left: 5px">上午9-11点 
-											<input name="freetimesection" type="checkbox" value="009002002-下午2~5点" <c:if test="${fn:contains(accessRecord02.freetimesection, '下午2~5点')}">checked</c:if> style="width: 1rem">下午2-5点 
-											<input name="freetimesection" type="checkbox" value="009002004-晚上6~9点" <c:if test="${fn:contains(accessRecord02.freetimesection, '晚上6~9点')}">checked</c:if> style="width: 1rem">晚上6-9点 ） 
-											<input name="freetimesection" type="checkbox" value="009000-无法了解" <c:if test="${fn:contains(accessRecord02.freetimesection, '无法了解')}">checked</c:if> style="width: 1rem">
+											<input name="freetimesection" type="checkbox" value="109002001-上午9~11点" <c:if test="${fn:contains(accessRecord02.freetimesection, '上午9~11点')}">checked</c:if> style="width: 1rem; margin-left: 5px">上午9-11点 
+											<input name="freetimesection" type="checkbox" value="109002002-下午2~5点" <c:if test="${fn:contains(accessRecord02.freetimesection, '下午2~5点')}">checked</c:if> style="width: 1rem">下午2-5点 
+											<input name="freetimesection" type="checkbox" value="109002004-晚上6~9点" <c:if test="${fn:contains(accessRecord02.freetimesection, '晚上6~9点')}">checked</c:if> style="width: 1rem">晚上6-9点 ） 
+											<input name="freetimesection" type="checkbox" value="109000-无法了解" <c:if test="${fn:contains(accessRecord02.freetimesection, '无法了解')}">checked</c:if> style="width: 1rem">
 											<span style="color: red">无法了解</span>
 										</td>
 									</tr>
@@ -679,12 +658,12 @@ px
 	
 									<tr>
 										<td colspan="3">您的出行方式：
-											<input name="traffictypedesc"type="checkbox" value="006001-自驾车" _text="自驾车" <c:if test="${fn:contains(accessRecord02.traffictypedesc, '自驾车')}">checked</c:if> style="width: 1rem">自驾车 
-											<input name="traffictypedesc" type="checkbox" value="006002-公交" _text="公交" <c:if test="${fn:contains(accessRecord02.traffictypedesc, '公交')}">checked</c:if> style="width: 1rem">公交 
-											<input name="traffictypedesc" type="checkbox" value="006003-地铁" _text="地铁" <c:if test="${fn:contains(accessRecord02.traffictypedesc, '地铁')}">checked</c:if> style="width: 1rem">地铁 
-											<input name="traffictypedesc" type="checkbox" value="006004-步行" _text="步行" <c:if test="${fn:contains(accessRecord02.traffictypedesc, '步行')}">checked</c:if> style="width: 1rem">步行 
-											<input name="traffictypedesc" type="checkbox" value="006005-打车" _text="打车" <c:if test="${fn:contains(accessRecord02.traffictypedesc, '打车')}">checked</c:if> style="width: 1rem">打车 
-											<input name="traffictypedesc" type="checkbox" value="006000-无法了解" _text="无法了解" <c:if test="${fn:contains(accessRecord02.traffictypedesc, '无法了解')}">checked</c:if> style="width: 1rem">
+											<input name="traffictype"type="checkbox" value="006001-自驾车" _text="自驾车" <c:if test="${fn:contains(accessRecord02.traffictype, '自驾车')}">checked</c:if> style="width: 1rem">自驾车 
+											<input name="traffictype" type="checkbox" value="006002-公交" _text="公交" <c:if test="${fn:contains(accessRecord02.traffictype, '公交')}">checked</c:if> style="width: 1rem">公交 
+											<input name="traffictype" type="checkbox" value="006003-地铁" _text="地铁" <c:if test="${fn:contains(accessRecord02.traffictype, '地铁')}">checked</c:if> style="width: 1rem">地铁 
+											<input name="traffictype" type="checkbox" value="006004-步行" _text="步行" <c:if test="${fn:contains(accessRecord02.traffictype, '步行')}">checked</c:if> style="width: 1rem">步行 
+											<input name="traffictype" type="checkbox" value="006005-打车" _text="打车" <c:if test="${fn:contains(accessRecord02.traffictype, '打车')}">checked</c:if> style="width: 1rem">打车 
+											<input name="traffictype" type="checkbox" value="006000-无法了解" _text="无法了解" <c:if test="${fn:contains(accessRecord02.traffictype, '无法了解')}">checked</c:if> style="width: 1rem">
 											<span style="color: red">无法了解</span>
 										</td>
 									</tr>
@@ -1006,8 +985,8 @@ px
 			$.ajax({
 				type:'post',
 				data: datamsg, 
-				//url:'${appRoot}/wx/api/updateRecord02',
-				url:'${appRoot}/wx/api/addAfterVisit',
+				url:'${appRoot}/wx/api/updateRecord02',
+				//url:'${appRoot}/wx/api/addAfterVisit',
 				dataType:'json',
 				success:function(data){
 					if(data.msg==100){

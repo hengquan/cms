@@ -686,6 +686,22 @@ px
 								</tbody>
 							</table>
 
+							<hr/>
+							<input type="hidden" id="accessRecord01Id" value="${accessRecord01.id }">
+							<div style="width: 100px; height: 30px; font-weight: bold; font-family: &amp; #39; 微软雅黑 &amp;#39;; margin-left: 30px">审核操作：</div>
+							<span class="tijiao" id="tijiao"
+								style="height: 1.5rem; padding: 20px 0px; position: relative; top: 0px; background: white;margin-bottom: 40px;">
+								<input type="reset" onclick="subCheckStateMessage('2')" value="通过"
+									class="btn-4"
+									style="width: 100px; height: 30px; font-weight: bold; font-family: &amp; #39; 微软雅黑 &amp;#39;; margin-left: 20px">
+								<input type="button" onclick="tuihui('4')" value="退回"
+									class="btn-4"
+									style="width: 100px; height: 30px; font-weight: bold; font-family: &amp; #39; 微软雅黑 &amp;#39;; margin-left: 10px">
+								<!-- <input type="button" onclick="subCheckStateMessage('3')" value="作废"
+									class="btn-4"
+									style="width: 100px; height: 30px; font-weight: bold; font-family: &amp; #39; 微软雅黑 &amp;#39;; margin-left: 10px">
+							 -->
+							</span>
 
 						</form>
 					</div>

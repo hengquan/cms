@@ -428,6 +428,32 @@ public class AccessRecordController extends ControllerBase {
 		return pageUrl;
 	}
 	
+	//复访审核页面详情
+	@RequestMapping(value = "/accessRecord/record02CheckDetails")
+	public String record02CheckDetails(ModelMap model){
+		String pageUrl = "accessRecord02/checkRecord02";
+		try {
+			String id = getTrimParameter("id");
+			AccessRecord02 accessRecord02 = accessRecord02Service.findById(id);
+			String authorid = accessRecord02.getAuthorid();
+			UserInfo userInfo = userInfoService.findById(authorid);
+			model.addAttribute("name", userInfo.getRealname());
+			model.addAttribute("accessRecord02", accessRecord02);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//菜单
+		UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+		List<SysItemRole> lst = sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+		List<SysItemRole> item = sysItemRoleDao.selectItemByPId(userRole.getRoleid());
+		model.addAttribute("itemNamesss", item);
+		String itemId = super.getTrimParameter("itemId");
+		String id = super.getTrimParameter("id");
+		model.addAttribute("itemId", itemId);
+		model.addAttribute("lst", lst);
+		model.addAttribute("id", id);
+		return pageUrl;
+	}
 	
 	
 	//复访审核
