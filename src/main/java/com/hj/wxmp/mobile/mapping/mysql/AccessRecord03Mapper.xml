@@ -524,6 +524,7 @@
 		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime, a.custSex, b.count02, c.count03 from (
 	    select m.*, n.realName from ql_AccessRecord03 m, plat_User n
 	  	where (m.status = 2 or m.status = 4 or m.status = 1) and m.authorId=n.id and authorId=#{userId}
+		<if test="searchSql!=null"> and (${searchSql})</if>
 		) a 
 		left join (select custId, count(*) count02 from ql_AccessRecord02 where status=2 and authorId=#{userId}) b on b.custId=a.custId
 		left join (select custId, count(*) count03 from ql_AccessRecord01 where status=2 and authorId=#{userId}) c on c.custId=a.custId 
@@ -544,6 +545,7 @@
 		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime, a.custSex, b.count02, c.count03 from (
 	    select m.*, n.realName from ql_AccessRecord03 m, plat_User n
 	  	where (m.status = 2) and m.authorId=n.id and INSTR(#{projId},projId) 
+		<if test="searchSql!=null"> and (${searchSql})</if>
 		) a 
 		left join (select custId, count(*) count02 from ql_AccessRecord02 where status=2 and INSTR(#{projId},projId)) b on b.custId=a.custId
 		left join (select custId, count(*) count03 from ql_AccessRecord01 where status=2 and INSTR(#{projId},projId)) c on c.custId=a.custId 
@@ -564,6 +566,7 @@
 		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime, a.custSex, b.count02, c.count03 from (
 	    select m.*, n.realName from ql_AccessRecord03 m, plat_User n
 	  	where (m.status = 2 or m.status = 1) and m.authorId=n.id and INSTR(#{projId},projId) 
+		<if test="searchSql!=null"> and (${searchSql})</if>
 		) a 
 		left join (select custId, count(*) count02 from ql_AccessRecord02 where status=2 and INSTR(#{projId},projId)) b on b.custId=a.custId
 		left join (select custId, count(*) count03 from ql_AccessRecord01 where status=2 and INSTR(#{projId},projId)) c on c.custId=a.custId 
@@ -584,6 +587,7 @@
 		select a.id, a.realName authorName, a.custName, a.custPhoneNum, a.status, a.recepTime, a.custSex, b.count02, c.count03 from (
 	    select m.*, n.realName from ql_AccessRecord03 m, plat_User n
 	  	where (m.status = 2) and m.authorId=n.id  
+		<if test="searchSql!=null"> and (${searchSql})</if>
 		) a 
 		left join (select custId, count(*) count02 from ql_AccessRecord02 where status=2) b on b.custId=a.custId
 		left join (select custId, count(*) count03 from ql_AccessRecord01 where status=2) c on c.custId=a.custId 

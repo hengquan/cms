@@ -92,4 +92,6 @@ public interface TabDictRefService {
 
 	public TabDictRef selectCusIdAndTableName(Map<String, Object> map);
 
+	public void delete4TabColum(TabDictRef tdr);
+
 }

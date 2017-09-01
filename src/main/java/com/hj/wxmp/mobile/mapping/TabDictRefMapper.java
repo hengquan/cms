@@ -18,4 +18,6 @@ public interface TabDictRefMapper {
     int updateByPrimaryKey(TabDictRef record);
 
 	TabDictRef selectCusIdAndTableName(Map<String, Object> map);
+
+	void delete4TabColum(TabDictRef tdr);
 }
