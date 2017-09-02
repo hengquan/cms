@@ -69,6 +69,10 @@ public class TabDictRefServiceImpl implements TabDictRefService {
 	public TabDictRef selectCusIdAndTableName(Map<String, Object> map) {
 		return dao.selectCusIdAndTableName(map);
 	}
+	@Override
+	public void delete4TabColum(TabDictRef tdr) {
+		dao.delete4TabColum(tdr);
+	}
 	
 
 }

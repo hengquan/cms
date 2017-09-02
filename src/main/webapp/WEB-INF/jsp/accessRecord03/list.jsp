@@ -85,7 +85,9 @@
 												<fmt:formatDate value="${u.cTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 											</td>
 											<td class="hidden-phone">
+												<button type="button" onclick="checkMessages('${u.id}')" class="btn btn-send">审核</button>
 												<button type="button" onclick="seeAllMessages('${u.id}')" class="btn btn-send">查看详细信息</button>
+												<button type="button" onclick="updateMessages('${u.id}')" class="btn btn-send">修改成交信息</button>
 											</td>
 										</tr>
 									</c:forEach>
@@ -244,9 +246,19 @@
     <script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
 	
-	
+	//查看
 	function seeAllMessages(id){
-		window.location.href="${appRoot}/accessRecord/knockdownRecordDetails";
+		window.location.href="${appRoot}/accessRecord/seeRecord03?id="+id;
+	}
+	//审核
+	function checkMessages(id){
+		window.location.href="${appRoot}/accessRecord/checkRecord03?id="+id;
+	}
+	//修改
+	function updateMessages(id){
+		
+		
+		window.location.href="${appRoot}/accessRecord/updateRecord03?id="+id;
 	}
 	
 	$(function(){
