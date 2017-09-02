@@ -2,8 +2,6 @@
  * 复访记录录入|修改
  * 页面业务处理部分
  */
-
-//=以下为提交，包括修改和删除====================================
 var _TYPE="add";
 var recordId="";//记录Id只有当_TYPE=update时，此变量才有值。
 var custId="";
@@ -31,7 +29,7 @@ $(function() {
       $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
         success: function(json) {
           if (json.msg=='100') initData(json.data);
-          else window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得首访录入信息";
+          else window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得复访录入信息";
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
           window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
@@ -42,24 +40,6 @@ $(function() {
   }
 });
 
-function fillData(data) {//填数据，包括所有页面
-  if (!data) return;
-  if (data.custname) $("input[name='custName']").val(data.custname);
-  if (data.custphonenum) $("input[name='custPhone']").val(data.custphonenum);
-  if (data.custsex) fillSelectField("sex", data.custsex, true);
-  if (data.firstTime.time) fillTime("firstTime", data.firstTime.time);
-  if (data.visitorCount) fillSelectField("visitorCount", data.visitorCount, true);
-
-  function fillTime(id, value) {
-    var choose=document.getElementsByName(''+id);
-    for (var i=0; i<choose.length; i++) {
-      if (choose[i].getAttribute("_text")==value) {
-        choose[i].checked=true;
-        $("#"+id).val(value);
-      }
-    }
-  }
-}
 /**
  * 初始化数据
  * @param data 若是修改，此data是单条数据；若新增，则data为空。
@@ -83,17 +63,10 @@ function initData(data) {
   });
   function initPage(userInfo, data) {
     cleanData();
-    //设置日期默认值
-    var nt=new Date();
-    var str=""+nt.getFullYear()+"-";
-    str+=((100+(nt.getMonth()+1))+"").substr(1)+"-";
-    str+=((100+nt.getDate())+"").substr(1);
-    $("input[name='curTime']").val(str);
-    //如果是
-    $("input[name='user']").val(userInfo.realname);
-    _uUserId=data.userid;
+    //根据用户信息处理相关的内容
+    //初始化项目选择
     var canShowProj=false;
-    var prjNames=""+data.checkProj;
+    var prjNames=""+userInfo.checkProj;
     var lPrj=prjNames.split(',');
     var projHtml="";
     var projId,projName;
@@ -115,64 +88,110 @@ function initData(data) {
       _uProjName=projName;
       _uProjId=projId;
     }
+    //处理顾问
+    _uUserRole=userInfo.roleName;
+    if (userInfo.roleName=='顾问') {//顾问
+      $("#_SELUSER").hide();
+      $("#_SHOWUSER").show();
+      $("span[name='userInput']").html(userInfo.realname);
+      _uUserId=userInfo.userid;
+    } else if (_uUserRole=='项目负责人') {//负责人
+      if (_uProjId) loadProjUser(_uProjId);
+      else {
+        $("#_SELUSER").hide();
+        $("#_SHOWUSER").show();
+        $("span[name='userInput']").html("先选项目");
+      }
+    }
+    if (_TYPE=='add') {
+    }
+    else if (data) {
+      fillData(data);
+    }
   }
+}
+
+/**
+ * 加载顾问
+ */
+function loadProjUser(projId) {
+  $("#userData").html("");
+  $("span[name='userInput']").html("加载顾问...");
+  var url=_URL_BASE+"/wx/api/getUserList?projId="+projId;
+  $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
+    success: function(json) {
+      if (json.msg=='100') {
+        if (json.users&&json.users.length>0) {
+          $("#_SELUSER").show();
+          $("#_SHOWUSER").hide();
+          for (var i=0; i<json.users.length; i++) {
+            var oneUser=json.users[i];
+            var _innerHtml=oneUser.realName+"<span>（"+(oneUser.sex==1?"男":"女")+"）</span><span>"+oneUser.mainPhoneNum+"</span><span>"+oneUser.projName+"</span>";
+            var userHtml="<label><input type='radio' name='user' value='"+oneUser.id+"-"+oneUser.realName+"' _text='"+oneUser.realName+"' onclick='selUser()'/>"+_innerHtml+"</label>";
+            if (i<(json.users.length-1)) userHtml+="<br>";
+            $("#userData").append(userHtml);
+          }
+        } else {
+          alert('无法获得项目顾问列表');
+        }
+      }
+      $("span[name='userInput']").html("&nbsp;");
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
+        +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
+    }
+  });
 }
 
 function cleanData() {//清除数据
   //清除所有数据
-  //所有的Input
-  $("input").val("");
-  $("input[type='radio']").checked=false;
-  $("input[type='checkbox']").checked=false;
-  var _uUserId="";
-  var _uProjId="";
-  var _uProjName="";
-  var _uSex="";
-  var _uUser="";
-  var _uVisitorCount="";
-  var _uVisitorCount="";
-  var _uDecisionerIn="";
-  var _uChildrenNum="";
-  var _uOutEduWill="";
-  var _uOutExperFlag="";
-  var _uChildOutExperFlag="";
-  var _uLiveAcreage="";
-  var _uCarTotalPrice="";
-  var _uCustScore="";
-  var _uVisitorRefs="";
-  var _uChildAgeGroup="";
-  var _uSchoolType="";
-  var _uAvocations="";
-  var _uLivingRadius="";
-  var _uLiveAcreage="";
-  var _uAvocationsDesc="";
-  var _uResistPoint="";
-  var _uLoveActivation="";
-  var _uFamilyStatus="";
-  var _uTrafficType="";
-  var _uTrafficTypeDesc="";
-  var _uBuyQualify="";
-  var _uWorkIndustry="";
-  var _uWorkIndustryDesc="";
-  var _uEnterpriseType="";
-  var _uEnterpriseTypeDesc="";
-  var _uKnowWay="";
-  var _uKnowWayDesc="";
-  var _uEstCustWorth="";
-  var _uInvestType="";
-  var _uInvestTypeDesc="";
-  var _uCapitalPrepSection="";
-  var _uRealtyProductType="";
-  var _uRealtyProductTypeDesc="";
-  var _uAttentAcreage="";
-  var _uPriceSection="";
-  var _uBuyPurpose="";
-  var _uAttentionPoint="";
-  var _uAttentionPointDesc="";
+  $("input[type='text']").val("");
+  $("input[type='radio']").attr("checked", false);
+  $("input[type='checkbox']").attr("checked", false);
+  $("textareaa").html("");
+  $(".item_sflr.row").find("span").each(function(){$(this).html("&nbsp;");});
+  $(".modal-footer").find("button").each(function(){
+  	if (($(this).attr("id")).indexOf('Btn')>0) $(this).hide();
+  });
+  _uProjId="";
+  _uProjName="";
+  _uUserId="";
+  _uUserRole="";
+  _uSex="";
+  _uVisitorCount="";
+  _uDecisionerIn="";
+  _uVisitorRefs="";
+  _uChildrenNum="";
+}
+
+function fillData(data) {//填数据，包括所有页面
+  if (!data) return;
+  if (data.custid) custId=data.custid;
+  if (data.custname) $("input[name='custName']").val(data.custname);
+  if (data.custphonenum) $("input[name='custPhone']").val(data.custphonenum);
+  if (data.custsex) fillSelectField("sex", data.custsex, true);
+  if (data.receptime.time) fillTime("recpTime", data.receptime.time);
+  if (data.visitorcount) fillSelectField("visitorCount", data.visitorcount, true);
+  if (data.decisionerin) fillSelectField("decisionerIn", data.decisionerin, true);
+  if (data.visitorrefs) fillSelectField("visitorRefs", data.visitorrefs, true);
+  if (data.childrennum) fillSelectField("childrenNum", data.childrennum, true);
+
+  if (data.firstTime.time) fillTime("firstTime", data.firstTime.time);
+  if (data.visitorCount) fillSelectField("visitorCount", data.visitorCount, true);
+
+  function fillTime(id, value) {
+    var str=""+_time.getFullYear()+"-";
+    str+=((100+(_time.getMonth()+1))+"").substr(1)+"-";
+    str+=((100+_time.getDate())+"").substr(1);
+    $("input[name='"+id+"']").val(str);
+  }
 }
 
 //翻页切换
 function step1Next() {//要判断是否应该进行首访录入
+	cleanData();
+	return;
   $("#step1").hide(0);
   $("#step2").show(0);
   $("#step3").hide(0);
@@ -283,7 +302,6 @@ function step5Prev() {
 
 //=以下为提交，包括修改和删除====================================
 function commitData() {
-  alert(_TYPE);
   var commitData=getData(_TYPE);
   var msg=validate(comitData, _TYPE);
   if (msg.err) {
@@ -291,7 +309,6 @@ function commitData() {
     alert(err);
     return;
   }
-
   if (_TYPE=='add') commitInsert(commitData);
   else
   if (_TYPE='update') commitUpdate(commitData);
@@ -300,16 +317,26 @@ function commitData() {
     var retData={};
     var temp="";
     if (_uProjId) retData.projid=_uProjId;
+    if (type=='add') {
+      if (_uUserId) retData.authorid=_uUserId;
+      if (_uUserId) retData.creatorid=_uUserId;
+    }
     if (custId) retData.custid=custId;
     temp=$("input[name='custName']").val();
     if (temp) retData.custname=temp;
     temp=$("input[name='custPhone']").val();
     if (temp) retData.custphonenum=temp;
+    if (_uSex) retData.custsex=_uSex;
+    if (_uVisitorCount) retData.visitorcount=_uVisitorCount;
+    if (_uDecisionerIn) retData.decisionerin=_uDecisionerIn;
+    if (_uVisitorRefs) retData.visitorrefs=_uVisitorRefs;
+    if (_uChildrenNum) retData.childrennum=_uChildrenNum;
+
+
     temp=$("input[name='curTime']").val();
     if (temp) retData.receptime=temp;
     temp=$("input[name='firstTime']").val();
     if (temp) retData.firstknowtime=temp;
-    if (_uSex) retData.custsex=_uSex;
     if (_uAgeGroup) retData.agegroup=_uAgeGroup;
     if (_uBuyQualify) retData.buyqualify=_uBuyQualify;
     if (_uLocalResidence) retData.localresidence=_uLocalResidence;
@@ -333,10 +360,6 @@ function commitData() {
     if (temp) retData.compareprojs=temp;
     if (_uRecepTimeSection) retData.receptimesection=_uRecepTimeSection;
     if (_uCustCore) retData.custscore=_uCustCore;
-    if (type=='add') {
-      if (_uUserId) retData.authorid=_uUserId;
-      if (_uUserId) retData.creatorid=_uUserId;
-    }
     if (_uTrafficTypeDesc) retData.traffictypedesc=_uTrafficTypeDesc;
     if (_uWorkIndustryDesc) retData.workindustrydesc=_uWorkIndustryDesc;
     if (_uEnterpriseTypeDesc) retData.enterprisetypedesc=_uEnterpriseTypeDesc;

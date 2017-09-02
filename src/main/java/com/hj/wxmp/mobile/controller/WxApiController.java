@@ -1570,7 +1570,7 @@ public class WxApiController extends ControllerBaseWx {
 						String[] l=searchStr.split(",");
 						for (int i=0; i<l.length; i++) {
 							if (StringUtils.isNotEmpty(l[i])) {
-								searchSql+=" or (instr(m.custName, '"+l[i].trim()+"') or (instr(m.custPhone, '"+l[i]+"')";
+								searchSql+=" or instr(m.custName, '"+l[i].trim()+"') or instr(m.custPhoneNum, '"+l[i]+"')";
 							}
 						}
 						searchSql=searchSql.substring(4);

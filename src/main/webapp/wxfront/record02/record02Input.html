@@ -20,59 +20,8 @@
 <body>
 <!-- 第1页 -->
 <div class="container" id="step1" style="display:none">
-  <div class="item_sflr row">
-    <div class="col-title col-title-4">置业顾问</div>
-    <a href="" data-toggle="modal" data-target="#userModal">
-    <div class="col-input-4-1">
-      <span class="input_style form-group" id="user">&nbsp;</span>
-    </div>
-    </a>
-  </div>
-  <div class="modal fade" id="userModal" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-          <h4 class="modal-title">置业顾问</h4>
-        </div>
-        <div class="user-scroll modal-body">
-          <label><input type="radio" name="user" value="002001-2" _text="2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
-          <label><input type="radio" name="user" value="002001-2" _text="池如霞2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
-          <label><input type="radio" name="user" value="002001-2" _text="池如霞2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
-          <label><input type="radio" name="user" value="002001-2" _text="2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
-          <label><input type="radio" name="user" value="002001-2" _text="2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
-          <label><input type="radio" name="user" value="002001-2" _text="2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
-          <label><input type="radio" name="user" value="002001-2" _text="2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
-          <label><input type="radio" name="user" value="002001-2" _text="2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
-          <label><input type="radio" name="user" value="002001-2" _text="2" @click="selUser()"/> 池如霞<span>（女）</span><span>13810862904</span><span>香颂</span></label><br>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanUser()" id="cleanUserBtn" style="display:none;">清除并关闭</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="item_sflr row">
-    <div class="col-title col-title-6">本次到访时间</div>
-    <div class="col-input-6 inputdate">
-      <input type="date" placeholder="" name="recpTime"/>
-    </div>
-  </div>
-  <div class="item_sflr row">
-    <div class="col-title col-title-6">首次到访时间</div>
-    <div class="col-input-6 inputdate">
-      <input type="date" placeholder="" name="curTime" readonly//>
-    </div>
-  </div>
-  <div class="item_sflr row">
-    <div class="col-title col-title-4">来访次数</div>
-    <div class="col-input-4">
-      <input type="text" placeholder="" name="visited" value="" >
-    </div>
-  </div>
   <div class="item_sflr row" id="projArea" style="display:none;">
-    <div class="col-title col-title-4">项目选择</div>
+    <div class="col-title col-title-4">项目</div>
     <a href="record02Input.html" data-toggle="modal" data-target="#projModal">
     <div class="col-input-4-1">
       <span class="input_style form-group" id="proj">&nbsp;</span>
@@ -95,7 +44,33 @@
       </div>
     </div>
   </div>
-  <div class="line"></div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">置业顾问</div>
+    <a href="" data-toggle="modal" data-target="#userModal" id="_SELUSER" style="display:none;">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="user" name="userInput">&nbsp;</span>
+    </div>
+    </a>
+    <div class="col-input-4" id="_SHOWUSER" style="display:none;padding-top:.8rem;line-height:1.5rem;">
+      <span class="input_style form-group" id="user" name="userInput" style="color:#999999;">&nbsp;</span>
+    </div>
+  </div>
+  <div class="modal fade" id="userModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">顾问选择</h4>
+        </div>
+        <div class="user-scroll modal-body" id="userData">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanUser()" id="cleanUserBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="item_sflr row">
     <div class="col-title col-title-2">姓名</div>
     <div class="col-input">
@@ -132,6 +107,25 @@
           <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanSex()" id="cleanSexBtn" style="display:none;">清除并关闭</button>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="line"></div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-6">首次到访时间</div>
+    <div class="col-input-6 inputdate">
+      <input type="date" placeholder="" name="firstVisitTime" readonly//>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-6">本次到访时间</div>
+    <div class="col-input-6 inputdate">
+      <input type="date" placeholder="" name="recpTime"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">来访次数</div>
+    <div class="col-input-4">
+      <input type="text" placeholder="" name="visited" value="" >
     </div>
   </div>
   <div class="item_sflr row">
@@ -1349,7 +1343,7 @@
 </div>
 
 <script src="./02Input-Oper.js"></script>
-<script src="./02Input-Dealjs"></script>
+<script src="./02Input-Deal.js"></script>
 
 </body>
 </html>

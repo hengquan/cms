@@ -2,22 +2,24 @@
  * 复访记录录入|修改
  * 页面输入元素操作部分
  */
-var _uUserId="";
 var _uProjId="";
 var _uProjName="";
+var _uUserId="";
+var _uUserRole="";
 var _uSex="";
-var _uUser="";
-var _uVisitorCount="";
 var _uVisitorCount="";
 var _uDecisionerIn="";
+var _uVisitorRefs="";
 var _uChildrenNum="";
+
 var _uOutEduWill="";
 var _uOutExperFlag="";
 var _uChildOutExperFlag="";
 var _uLiveAcreage="";
 var _uCarTotalPrice="";
 var _uCustScore="";
-var _uVisitorRefs="";
+
+
 var _uChildAgeGroup="";
 var _uSchoolType="";
 var _uAvocations="";
@@ -54,7 +56,9 @@ function selProj() {
     if (choose[i].checked) {
       $("#proj").html(choose[i].getAttribute("_text"));
       _uProjName=choose[i].getAttribute("_text");
+      var oldProjId=_uProjId;
       _uProjId=choose[i].value.substring(0, choose[i].value.indexOf('-'));
+      if (_uUserRole!='顾问'&&_uProjId!=oldProjId) loadProjUser(_uProjId);
     }
   }
   $("#projModal").modal('hide');
@@ -88,19 +92,19 @@ var vueStep1=new Vue({
       fillSelectField('sex', "", false);
     },
     selUser: function() {
-      var choose=document.getElementsByName('user');
+      var choose=document.getElementsByName('userData');
       for (var i=0; i<choose.length; i++) {
         if (choose[i].checked) {
           $("#user").html(choose[i].getAttribute("_text"));
-          _uUser=choose[i].value;
+          _uUserId=choose[i].value.substring(0, choose[i].value.indexOf('-'));
         }
       }
       $("#userModal").modal('hide');
-      if (_uUser!="") $("#cleanUserBtn").show();
+      if (_uUserId!="") $("#cleanUserBtn").show();
     },
     cleanUser: function() {
       $("#user").html("&nbsp;");
-      _uUser="";
+      _uUserId="";
       $("#cleanUserBtn").hide();
       fillSelectField('user', "", false);
     },

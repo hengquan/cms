@@ -2,6 +2,7 @@ var scrollMain;
 var page=1;
 var pageSize=8;
 var userInfo={};
+var searchStr="";
 
 function loaded () {
   pullDownFlag = 0;
@@ -9,6 +10,8 @@ function loaded () {
   pullDown = document.getElementById("pullDown");
   pullUp = document.getElementById("pullUp");
   spinner = document.getElementById("spinner");
+  searchStr=getUrlParam(window.location.href, 'searchStr');
+  if (searchStr) searchStr=decodeURIComponent(searchStr);
 
   scrollMain=new IScroll('#wrapper', {
     probeType: 3,
@@ -21,11 +24,11 @@ function loaded () {
     bounce: true,//反弹
     freeScroll: false,//只能在一个方向上滑动
     startX: 0,
-    startY: 0
+    startY: 0,
+    click: true
   });
   scrollMain.on('scroll',positionJudge);
   scrollMain.on("scrollEnd",action)
-  console.dir(scrollMain);
 
   var url=_URL_BASE+"/wx/api/personalCenter";
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
@@ -37,7 +40,7 @@ function loaded () {
       }
     },
     error: function(XMLHttpRequest, textStatus, errorThrown) {
-      window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
+      window.location.href=_URL_BASE+"/wxfront/err.html?2000=获得人员信息时，出现系统错误<br/>status="
         +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
     }
   });
@@ -49,22 +52,22 @@ function initPage(data) {
 }
 function loadPage() {
   var url=_URL_BASE+"/wx/api/getRecord01List";
-  //var url=_URL_BASE+"/wx/api/testGet01List";
   var _data={};
   _data.pageSize=pageSize;
   _data.page=page;
-  _data.userId=userInfo.userId;
+  _data.userId=(userInfo?(userInfo.userId?userInfo.userId:""):"");
+  _data.searchStr=(searchStr?searchStr:"");
   $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
         fillList(json.data);
         scrollMain.refresh();
       } else {
-        window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息<br/>禁止录入";
+        window.location.href=_URL_BASE+"/wxfront/err.html?1000=查询失败";
       }
     },
     error: function(XMLHttpRequest, textStatus, errorThrown) {
-      window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
+      window.location.href=_URL_BASE+"/wxfront/err.html?2000=获得数据列表时，出现系统错误<br/>status="
         +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
     }
   });
@@ -85,7 +88,7 @@ function loadPage() {
       var phone="<span><a href='tel:"+oneData.custPhoneNum+"'>"+oneData.custPhoneNum+"</a></span><br/>";
       var cTime=new Date();
       cTime.setTime(oneData.recepTime.time);
-      var fTime="<span class='sftime'>首访："+cTime.Format('yyyy-MM-dd')+"</span>";
+      var fTime="<span class='sftime'>复访："+cTime.Format('yyyy-MM-dd')+"</span>";
       //顾问
       var status="<span class='ysh'>已审核</span>";
       var _url=_viewUrl+"?recordId="+oneData.id;
@@ -97,11 +100,11 @@ function loadPage() {
         _url=_updateUrl+"&recordId="+oneData.id;
       }
       if (userInfo.roleName!='顾问') {
-        status="<span class='ysh'>已审核</span>";
-        if (oneData.status==1) status="<span>待审核</span>";
-        if (oneData.status==2) status="<span class='ysh'>已通过</span>";
-        if (oneData.status==3) status="<span class='ysh'>未通过</span>";
-        if (oneData.status==4) status="<span class='ysh'>未通过</span>";
+          status="<span class='ysh'>已审核</span>";
+          if (oneData.status==1) status="<span>待审核</span>";
+          if (oneData.status==2) status="<span class='ysh'>已通过</span>";
+          if (oneData.status==3) status="<span class='ysh'>未通过</span>";
+          if (oneData.status==4) status="<span class='ysh'>未通过</span>";
       }
       var _GW="";
       if (userInfo.roleName!='顾问'&&oneData.authorName) {
@@ -174,6 +177,10 @@ document.addEventListener('touchmove', function (e) {
   e.preventDefault();
 }, false);
 
-function openNew(url) {alert(url);
+function openNew(url) {
   window.location.href=url;
+}
+function search() {
+  var _searchStr=$("#searchStr").val();
+  window.location.href=_URL_BASE+"/wxfront/record01/record01Search.html?searchStr="+encodeURIComponent(_searchStr);
 }
