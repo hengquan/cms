@@ -847,7 +847,7 @@ var vueStep3=new Vue({
         $("input[name='attentionPointDesc']").val("");
         $("input[name='attentionPointDesc']").hide();
       }
-      fillSelectField('attentionPoint', $("#trafficType").html(), false);
+      fillSelectField('attentionPoint', $("#attentionPoint").html(), false);
     },
     clickAttentionPointCheck: function(flag) {
       var choose=document.getElementsByName('attentionPoint');
@@ -1078,7 +1078,7 @@ function fillData(data) {//填数据
     fillSelectField("trafficType", _temp, true);
   }
   if (data.buyqualify) fillSelectField("buyQualify", data.buyqualify, true);
-  if (data.traffictype) {
+  if (data.workindustry) {
     var _temp=data.workindustry;
     if (data.workindustry.indexOf('其他')!=-1) {
       if (data.workindustrydesc) {
@@ -1125,7 +1125,7 @@ function fillData(data) {//填数据
     fillSelectField("investType", _temp, true);
   }
   if (data.capitalprepsection) fillSelectField("capitalPrepSection", data.capitalprepsection, true);
-  if (data.investtype) {
+  if (data.realtyproducttype) {
     var _temp=data.realtyproducttype;
     if (data.realtyproducttype.indexOf('其他')!=-1) {
       if (data.realtyproducttypedesc) {

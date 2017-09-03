@@ -1,0 +1,22 @@
+﻿    private String id;
+
+    private Date receptime;
+
+
+===================================================
+    private Integer fulltimewifeflag;
+
+    private Integer nannyflag;
+
+    private Integer petflag;
+
+    private String faultdescn;
+
+    private String loanstatus;
+
+===================================================
+    private Date ctime;
+
+    private Date lmtime;
+
+

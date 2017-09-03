@@ -152,7 +152,7 @@ function cleanData() {//清除数据
   $("textareaa").html("");
   $(".item_sflr.row").find("span").each(function(){$(this).html("&nbsp;");});
   $(".modal-footer").find("button").each(function(){
-  	if (($(this).attr("id")).indexOf('Btn')>0) $(this).hide();
+  	if ((($(this).attr("id"))+"").indexOf('Btn')>0) $(this).hide();
   });
   _uProjId="";
   _uProjName="";
@@ -162,7 +162,48 @@ function cleanData() {//清除数据
   _uVisitorCount="";
   _uDecisionerIn="";
   _uVisitorRefs="";
+  _uVisitorRefsDesc="";
   _uChildrenNum="";
+  _uSchoolType="";
+  _uChildAvocations="";
+  _uChildAvocationsDesc="";
+  _uOutEduWill="";
+  _uOutExperFlag="";
+  _uChildOutExperFlag="";
+  _uLivingRadius="";
+  _uLiveAcreage="";
+  _uCarTotalPrice="";
+  _uAvocations="";
+  _uAvocationsDesc="";
+  _uResistPoint="";
+  _uResistPointDesc="";
+  _uLoveActivation="";
+  _uLoveActivationDesc="";
+  _uFreeTimeSection="";
+  _uRecepTimeSection="";
+  _uCustScore="";
+
+  _uFamilyStatus="";
+  _uTrafficType="";
+  _uTrafficTypeDesc="";
+  _uBuyQualify="";
+  _uWorkIndustry="";
+  _uWorkIndustryDesc="";
+  _uEnterpriseType="";
+  _uEnterpriseTypeDesc="";
+  _uKnowWay="";
+  _uKnowWayDesc="";
+  _uEstCustWorth="";
+  _uInvestType="";
+  _uInvestTypeDesc="";
+  _uCapitalPrepSection="";
+  _uRealtyProductType="";
+  _uRealtyProductTypeDesc="";
+  _uAttentAcreage="";
+  _uPriceSection="";
+  _uBuyPurposeDesc="";
+  _uAttentionPoint="";
+  _uAttentionPointDesc="";
 }
 
 function fillData(data) {//填数据，包括所有页面
@@ -174,11 +215,185 @@ function fillData(data) {//填数据，包括所有页面
   if (data.receptime.time) fillTime("recpTime", data.receptime.time);
   if (data.visitorcount) fillSelectField("visitorCount", data.visitorcount, true);
   if (data.decisionerin) fillSelectField("decisionerIn", data.decisionerin, true);
-  if (data.visitorrefs) fillSelectField("visitorRefs", data.visitorrefs, true);
+  if (data.visitorrefs) {
+    var _temp=data.visitorrefs;
+    if (data.visitorrefs.indexOf('其他')!=-1) {
+      if (data.visitorrefsdesc) {
+        var _temp2="其他("+data.visitorrefsdesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("visitorRefs", _temp, true);
+  }
   if (data.childrennum) fillSelectField("childrenNum", data.childrennum, true);
+  if (data.childagegroup) fillSelectField("childAgeGroup", data.childagegroup, true);
+  if (data.schooltype) fillSelectField("schoolType", data.schooltype, true);
+  if (data.schoolname) $("input[name='schoolName']").val(data.schoolname);
+  if (data.childavocations) {
+    var _temp=data.childavocations;
+    if (data.childavocations.indexOf('其他')!=-1) {
+      if (data.childavocationsdesc) {
+        var _temp2="其他("+data.childavocationsdesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("childAvocations", _temp, true);
+  }
+  if (data.outeduwill) fillSelectField("outEduWill", data.outeduwill, true);
+  if (data.outexperflag) fillSelectField("outExperFlag", data.outexperflag, true);
+  if (data.outexpercity) $("input[name='outExperCity']").val(data.outexpercity);
+  if (data.childoutexperflag) fillSelectField("childOutExperFlag", data.childoutexperflag, true);
+  if (data.childoutexpercity) $("input[name='childOutExperCity']").val(data.childoutexpercity);
+  if (data.livingradius) $("input[name='livingRadius']").val(data.livingradius);
+  if (data.communityname) $("input[name='communityName']").val(data.communityname);
+  if (data.housetype) $("input[name='houseType']").val(data.housetype);
+  if (data.liveacreage) fillSelectField("liveAcreage", data.liveacreage, true);
+  if (data.enterprisename) $("input[name='enterpriseName']").val(data.enterprisename);
+  if (data.enterpriseaddress) $("input[name='enterpriseAddress']").val(data.enterpriseaddress);
+  if (data.enterprisepost) $("input[name='enterprisePost']").val(data.enterprisepost);
+  if (data.housecount) $("input[name='houseCount']").val(data.housecount);
+  if (data.carfamilycount) $("input[name='carFamilyCount']").val(data.carfamilycount);
+  if (data.carbrand) $("input[name='carBrand']").val(data.carbrand);
+  if (data.cartotalprice) fillSelectField("carTotalPrice", data.cartotalprice, true);
+  if (data.attentwx) $("input[name='attentWX']").val(data.attentwx);
+  if (data.appnames) $("input[name='appNames']").val(data.appnames);
+  if (data.avocations) {
+    var _temp=data.avocations;
+    if (data.avocations.indexOf('其他')!=-1) {
+      if (data.avocationsdesc) {
+        var _temp2="其他("+data.avocationsdesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("avocations", _temp, true);
+  }
+  if (data.resistpoint) {
+    var _temp=data.resistpoint;
+    if (data.resistpoint.indexOf('其他')!=-1) {
+      if (data.resistpointdesc) {
+        var _temp2="其他("+data.resistpointdesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("resistPoint", _temp, true);
+  }
+  if (data.resistpoint) {
+    var _temp=data.resistpoint;
+    if (data.resistpoint.indexOf('其他')!=-1) {
+      if (data.resistpointdesc) {
+        var _temp2="其他("+data.resistpointdesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("resistPoint", _temp, true);
+  }
+  if (data.loveactivation) {
+    var _temp=data.loveactivation;
+    if (data.loveactivation.indexOf('其他')!=-1) {
+      if (data.loveactdesc) {
+        var _temp2="其他("+data.loveactdesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("loveActivation", _temp, true);
+  }
+  if (data.freetimesection) fillSelectField("freeTimeSection", data.freetimesection, true);
+  if (data.receptimesection) fillSelectField("recepTimeSection", data.receptimesection, true);
+  if (data.custscore) fillSelectField("custScore", data.custscore, true);
+  if (data.compareprojs) $("textarea[name='compareProjs']").val(data.compareprojs);
+  if (data.custdescn) $("textarea[name='custDescn']").val(data.custdescn);
 
-  if (data.firstTime.time) fillTime("firstTime", data.firstTime.time);
-  if (data.visitorCount) fillSelectField("visitorCount", data.visitorCount, true);
+  if (data.familystatus) fillSelectField("familyStatus", data.familystatus, true);
+  if (data.traffictype) {
+    var _temp=data.traffictype;
+    if (data.traffictype.indexOf('其他')!=-1) {
+      if (data.traffictypedesc) {
+        var _temp2="其他("+data.traffictypedesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("trafficType", _temp, true);
+  }
+  if (data.buyqualify) fillSelectField("buyQualify", data.buyqualify, true);
+  if (data.workindustry) {
+    var _temp=data.workindustry;
+    if (data.workindustry.indexOf('其他')!=-1) {
+      if (data.workindustrydesc) {
+        var _temp2="其他("+data.workindustrydesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("workIndustry", _temp, true);
+  }
+  if (data.enterprisetype) {
+    var _temp=data.enterprisetype;
+    if (data.enterprisetype.indexOf('其他')!=-1) {
+      if (data.enterprisetypedesc) {
+        var _temp2="其他("+data.enterprisetypedesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("enterpriseType", _temp, true);
+  }
+  if (data.knowway) {
+    var _temp=data.knowway;
+    if (data.knowwaydesc) {
+      var s=(data.knowwaydesc).split(",");
+      for (var j=0;j<s.length;j++) {
+         var temp2=s[j];
+         var s2=temp2.split("=");
+         temp2=temp2.replace("=", "(");
+         temp2+=")";
+         _temp=_temp.replace(s2[0], temp2);
+      }
+      
+    }
+    fillSelectField("knowWay", _temp, true);
+  }
+  if (data.estcustworth) fillSelectField("estCustWorth", data.estcustworth, true);
+  if (data.investtype) {
+    var _temp=data.investtype;
+    if (data.investtype.indexOf('其他')!=-1) {
+      if (data.investtypedesc) {
+        var _temp2="其他("+data.investtypedesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("investType", _temp, true);
+  }
+  if (data.capitalprepsection) fillSelectField("capitalPrepSection", data.capitalprepsection, true);
+  if (data.realtyproducttype) {
+    var _temp=data.realtyproducttype;
+    if (data.realtyproducttype.indexOf('其他')!=-1) {
+      if (data.realtyproducttypedesc) {
+        var _temp2="其他("+data.realtyproducttypedesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("realtyProductType", _temp, true);
+  }
+  if (data.attentacreage) fillSelectField("attentAcreage", data.attentacreage, true);
+  if (data.pricesection) fillSelectField("priceSection", data.pricesection, true);
+  if (data.buypurpose) {
+    var _temp=data.buypurpose;
+    if (data.buypurpose.indexOf('其他')!=-1) {
+      if (data.buypurposedesc) {
+        var _temp2="其他("+data.buypurposedesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("buyPurpose", _temp, true);
+  }
+  if (data.attentionpoint) {
+    var _temp=data.attentionpoint;
+    if (data.attentionpoint.indexOf('其他')!=-1) {
+      if (data.attentionpointdesc) {
+        var _temp2="其他("+data.attentionpointdesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("attentionPoint", _temp, true);
+  }
 
   function fillTime(id, value) {
     var str=""+_time.getFullYear()+"-";
@@ -190,8 +405,6 @@ function fillData(data) {//填数据，包括所有页面
 
 //翻页切换
 function step1Next() {//要判断是否应该进行首访录入
-	cleanData();
-	return;
   $("#step1").hide(0);
   $("#step2").show(0);
   $("#step3").hide(0);
@@ -330,46 +543,79 @@ function commitData() {
     if (_uVisitorCount) retData.visitorcount=_uVisitorCount;
     if (_uDecisionerIn) retData.decisionerin=_uDecisionerIn;
     if (_uVisitorRefs) retData.visitorrefs=_uVisitorRefs;
+    if (_uVisitorRefsDesc) retData.visitorrefsdesc=_uVisitorRefsDesc;
     if (_uChildrenNum) retData.childrennum=_uChildrenNum;
+    if (_uChildAgeGroup) retData.childagegroup=_uChildAgeGroup;
+    if (_uSchoolType) retData.schooltype=_uSchoolType;
+    if (_uChildAvocations) retData.childavocations=_uChildAvocations;
+    if (_uChildAvocationsDesc) retData.childavocationsdesc=_uChildAvocationsDesc;
+    if (_uOutEduWill) retData.outeduwill=_uOutEduWill;
+    if (_uOutExperFlag) retData.outexperflag=_uOutExperFlag;
+    temp=$("input[name='outExperCity']").val();
+    if (temp) retData.outexpercity=temp;
+    if (_uChildOutExperFlag) retData.childoutexperflag=_uChildOutExperFlag;
+    temp=$("input[name='childOutExperCity']").val();
+    if (temp) retData.childoutexpercity=temp;
+    if (_uLivingRadius) retData.livingradius=_uLivingRadius;
+    temp=$("input[name='communityName']").val();
+    if (temp) retData.communityname=temp;
+    temp=$("input[name='houseType']").val();
+    if (temp) retData.housetype=temp;
+    if (_uLiveAcreage) retData.liveacreage=_uLiveAcreage;
+    temp=$("input[name='enterpriseName']").val();
+    if (temp) retData.enterprisename=temp;
+    temp=$("input[name='enterpriseAddress']").val();
+    if (temp) retData.enterpriseaddress=temp;
+    temp=$("input[name='enterprisePost']").val();
+    if (temp) retData.enterprisepost=temp;
+    temp=$("input[name='houseCount']").val();
+    if (temp) retData.housecount=temp;
+    temp=$("input[name='carFamilyCount']").val();
+    if (temp) retData.carfamilycount=temp;
+    temp=$("input[name='carBrand']").val();
+    if (temp) retData.carbrand=temp;
+    if (_uCarTotalPrice) retData.cartotalprice=_uCarTotalPrice;
+    temp=$("input[name='attentWX']").val();
+    if (temp) retData.attentwx=temp;
+    temp=$("input[name='appNames']").val();
+    if (temp) retData.appnames=temp;
+    if (_uAvocations) retData.avocations=_uAvocations;
+    if (_uAvocationsDesc) retData.avocationsdesc=_uAvocationsDesc;
+    if (_uResistPoint) retData.resistpoint=_uResistPoint;
+    if (_uResistPointDesc) retData.resistpointdesc=_uResistPointDesc;
+    if (_uLoveActivation) retData.loveactivation=_uLoveActivation;
+    if (_uLoveActivationDesc) retData.loveactdesc=_uLoveActivationDesc;
+    if (_uFreeTimeSection) retData.freetimesection=_uFreeTimeSection;
+    if (_uRecepTimeSection) retData.receptimesection=_uRecepTimeSection;
+    if (_uCustScore) retData.custscore=_uCustScore;
+    temp=$("textarea[name='compareProjs']").val();
+    if (temp) retData.compareprojs=temp;
+    temp=$("textarea[name='custDescn']").val();
+    if (temp) retData.custdescn=temp;
 
-
-    temp=$("input[name='curTime']").val();
-    if (temp) retData.receptime=temp;
-    temp=$("input[name='firstTime']").val();
-    if (temp) retData.firstknowtime=temp;
-    if (_uAgeGroup) retData.agegroup=_uAgeGroup;
-    if (_uBuyQualify) retData.buyqualify=_uBuyQualify;
-    if (_uLocalResidence) retData.localresidence=_uLocalResidence;
-    if (_uLocalWorkarea) retData.localworkarea=_uLocalWorkarea;
-    if (_uOutResidence) retData.outresidence=_uOutResidence;
-    if (_uOutWorkarea) retData.outworkarea=_uOutWorkarea;
     if (_uFamilyStatus) retData.familystatus=_uFamilyStatus;
     if (_uTrafficType) retData.traffictype=_uTrafficType;
+    if (_uTrafficTypeDesc) retData.traffictypedesc=_uTrafficTypeDesc;
+    if (_uBuyQualify) retData.buyqualify=_uBuyQualify;
     if (_uWorkIndustry) retData.workindustry=_uWorkIndustry;
+    if (_uWorkIndustryDesc) retData.workindustrydesc=_uWorkIndustryDesc;
     if (_uEnterpriseType) retData.enterprisetype=_uEnterpriseType;
+    if (_uEnterpriseTypeDesc) retData.enterprisetypedesc=_uEnterpriseTypeDesc;
+    if (_uKnowWay) retData.knowway=_uKnowWay;
+    if (_uKnowWayDesc) retData.knowwaydesc=_uKnowWayDesc;
+    if (_uEstCustWorth) retData.estcustworth=_uEstCustWorth;
+    if (_uInvestType) retData.investtype=_uInvestType;
+    if (_uInvestTypeDesc) retData.investtypedesc=_uInvestTypeDesc;
+    if (_uCapitalPrepSection) retData.capitalprepsection=_uCapitalPrepSection;
     if (_uRealtyProductType) retData.realtyproducttype=_uRealtyProductType;
+    if (_uRealtyProductTypeDesc) retData.realtyproducttypedesc=_uRealtyProductTypeDesc;
     if (_uAttentAcreage) retData.attentacreage=_uAttentAcreage;
     if (_uPriceSection) retData.pricesection=_uPriceSection;
     if (_uBuyPurpose) retData.buypurpose=_uBuyPurpose;
-    if (_uKnowWay) retData.knowway=_uKnowWay;
-    if (_uAttentionPoint) retData.attentionpoint=_uAttentionPoint;
-    if (_uEstCustWorth) retData.estcustworth=_uEstCustWorth;
-    if (_uInvestType) retData.investtype=_uInvestType;
-    if (_uCaptalPrepSection) retData.captalprepsection=_uCaptalPrepSection;
-    temp=$("textarea[name='compareProjs']").html();
-    if (temp) retData.compareprojs=temp;
-    if (_uRecepTimeSection) retData.receptimesection=_uRecepTimeSection;
-    if (_uCustCore) retData.custscore=_uCustCore;
-    if (_uTrafficTypeDesc) retData.traffictypedesc=_uTrafficTypeDesc;
-    if (_uWorkIndustryDesc) retData.workindustrydesc=_uWorkIndustryDesc;
-    if (_uEnterpriseTypeDesc) retData.enterprisetypedesc=_uEnterpriseTypeDesc;
-    if (_uRealtyProductTypeDesc) retData.realtyproducttypedesc=_uRealtyProductTypeDesc;
     if (_uBuyPurposeDesc) retData.buypurposedesc=_uBuyPurposeDesc;
-    if (_uKnowWayDesc) retData.knowwaydesc=_uKnowWayDesc;
+    if (_uAttentionPoint) retData.attentionpoint=_uAttentionPoint;
     if (_uAttentionPointDesc) retData.attentionpointdesc=_uAttentionPointDesc;
-    if (_uInvestTypeDesc) retData.investtypedesc=_uInvestTypeDesc;
-    temp=$("textarea[name='custDescn']").html();
-    if (temp) retData.custdescn=temp;
+
     return retData;
   }
   function validate(data, type) {

@@ -312,18 +312,18 @@
   <div class="item_sflr row">
     <div class="col-title col-title-6">在读学校名称</div>
     <div class="col-input-6">
-      <input type="text" placeholder="" name="custName"/>
+      <input type="text" placeholder="" name="schoolName"/>
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-7">孩子的课余爱好</div>
-    <a href="" data-toggle="modal" data-target="#avocationsModal">
+    <a href="" data-toggle="modal" data-target="#childAvocationsModal">
     <div class="col-input-7-1">
-      <span class="input_style form-group" id="avocations">&nbsp;</span>
+      <span class="input_style form-group" id="childAvocations">&nbsp;</span>
     </div>
     </a>
   </div>
-  <div class="modal fade" id="avocationsModal" role="dialog">
+  <div class="modal fade" id="childAvocationsModal" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -331,15 +331,17 @@
           <h4 class="modal-title">孩子的课余爱好</h4>
         </div>
         <div class="modal-body">
-          <label><input type="checkbox" name="avocations" value="020001-音乐类" _text="音乐类" @click="clickAvocationsCheck(1)"/> 音乐类 </label>
-          <label><input type="checkbox" name="avocations" value="020002-体育类" _text="体育类" @click="clickAvocationsCheck(1)"/> 体育类 </label>
-          <label><input type="checkbox" name="avocations" value="020003-文学类" _text="文学类" @click="clickAvocationsCheck(1)"/> 文学类 </label>
-          <label><input type="checkbox" name="avocations" value="020004-专业类" _text="专业类" @click="clickAvocationsCheck(1)"/> 专业类 </label>
-          <label class="wflj"><input type="checkbox" name="avocations" value="020000-无法了解" _text="无法了解" @click="clickAvocationsCheck(2)"/> 无法了解 </label>
+          <label><input type="checkbox" name="childAvocations" value="033001-音乐类" _text="音乐类" @click="clickChildAvocationsCheck(1)"/> 音乐类 </label>
+          <label><input type="checkbox" name="childAvocations" value="033002-体育类" _text="体育类" @click="clickChildAvocationsCheck(1)"/> 体育类 </label>
+          <label><input type="checkbox" name="childAvocations" value="033003-文学类" _text="文学类" @click="clickChildAvocationsCheck(1)"/> 文学类 </label>
+          <label><input type="checkbox" name="childAvocations" value="033004-专业类" _text="专业类" @click="clickChildAvocationsCheck(1)"/> 专业类 </label>
+          <label class="wflj"><input type="checkbox" name="childAvocations" value="020000-无法了解" _text="无法了解" @click="clickChildAvocationsCheck(2)"/> 无法了解 </label>
+          <label><input type="checkbox" name="childAvocations" value="033999-其他" _text="其他" @click="clickChildAvocationsCheck(3)"/> 其他 </label>
+          <input type="text" placeholder="" name="childAvocationsDesc" style="display:none;"/>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanAvocations()" id="cleanAvocationsBtn" style="display:none;">清除并关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanChildAvocations()" id="cleanChildAvocationsBtn" style="display:none;">清除并关闭</button>
           <button type="button" class="btn btn-primary" @click="selAvocations()">确定</button>
         </div>
       </div>
@@ -401,7 +403,7 @@
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-8">请填写是哪个城市</div>
-    <div class="col-input-8"><input type="text" placeholder="" name="custName"/></div>
+    <div class="col-input-8"><input type="text" placeholder="" name="outExperCity"/></div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-9">子女是否有海外经历</div>
@@ -432,7 +434,7 @@
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-8">请填写是哪个城市</div>
-    <div class="col-input-8"><input type="text" placeholder="" name="custName"/></div>
+    <div class="col-input-8"><input type="text" placeholder="" name="childOutExperCity"/></div>
   </div>
   <div class="row row-link">
     <div class="col-50" style="margin-top:1.5rem;" onClick="step2Prev()"><a href="#">上一步</a></div>
@@ -475,13 +477,13 @@
   <div class="item_sflr row">
     <div class="col-title col-title-7">现居住社区名称</div>
     <div class="col-input-7">
-      <input type="text" placeholder="" name="custName"/>
+      <input type="text" placeholder="" name="communityName"/>
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-4">住房性质</div>
     <div class="col-input-4">
-      <input type="text" placeholder="" name="custName"/>
+      <input type="text" placeholder="" name="houseType"/>
     </div>
   </div>
   <div class="item_sflr row">
@@ -518,37 +520,37 @@
   <div class="item_sflr row">
     <div class="col-title col-title-4">公司名称</div>
     <div class="col-input-4">
-      <input type="text" placeholder="" name="custName"/>
+      <input type="text" placeholder="" name="enterpriseName"/>
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-4">公司地址</div>
     <div class="col-input-4">
-      <input type="text" placeholder="" name="custName"/>
+      <input type="text" placeholder="" name="enterpriseAddress"/>
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-4">公司职务</div>
     <div class="col-input-4">
-      <input type="text" placeholder="" name="custName"/>
+      <input type="text" placeholder="" name="enterprisePost"/>
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-8">家庭已购房产（套）</div>
     <div class="col-input-8">
-      <input type="text" placeholder="" name="custName"/>
+      <input type="text" placeholder="" name="houseCount"/>
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-8">家庭汽车数量（辆）</div>
     <div class="col-input-8">
-      <input type="text" placeholder="" name="custName"/>
+      <input type="text" placeholder="" name="carFamilyCount"/>
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-4">汽车品牌</div>
     <div class="col-input-4">
-      <input type="text" placeholder="" name="custName"/>
+      <input type="text" placeholder="" name="carBrand"/>
     </div>
   </div>
   <div class="item_sflr row">
@@ -592,18 +594,18 @@
   <div class="item_sflr row">
     <div class="col-title col-title-4"> 常用APP</div>
     <div class="col-input-4">
-      <input type="text" placeholder="除微信外三个" name="custName"/>
+      <input type="text" placeholder="除微信外三个" name="appNames"/>
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-6">您的业余爱好</div>
-    <a href="" data-toggle="modal" data-target="#avocationsDescModal">
+    <a href="" data-toggle="modal" data-target="#avocationsModal">
     <div class="col-input-6-1">
-      <span class="input_style form-group" id="avocationsDesc">&nbsp;</span>
+      <span class="input_style form-group" id="avocations">&nbsp;</span>
     </div>
     </a>
   </div>
-  <div class="modal fade" id="avocationsDescModal" role="dialog">
+  <div class="modal fade" id="avocationsModal" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -611,30 +613,30 @@
           <h4 class="modal-title">您的业余爱好</h4>
         </div>
         <div class="modal-body">
-          <label><input type="checkbox" name="avocationsDesc" value="026001-运动" _text="运动" @click="clickAvocationsDescCheck(1)"/> 运动 </label>
-          <label><input type="checkbox" name="avocationsDesc" value="026002-养生" _text="养生" @click="clickAvocationsDescCheck(1)"/> 养生 </label>
-          <label><input type="checkbox" name="avocationsDesc" value="026003-美容" _text="美容" @click="clickAvocationsDescCheck(1)"/> 美容  </label>
-          <label><input type="checkbox" name="avocationsDesc" value="026004-阅读" _text="阅读" @click="clickAvocationsDescCheck(1)"/> 阅读 </label>
-          <label><input type="checkbox" name="avocationsDesc" value="026005-理财" _text="理财" @click="clickAvocationsDescCheck(1)"/> 理财 </label>
-          <label><input type="checkbox" name="avocationsDesc" value="026006-艺术" _text="艺术" @click="clickAvocationsDescCheck(1)"/> 艺术 </label>
-          <label><input type="checkbox" name="avocationsDesc" value="026007-茶道" _text="茶道" @click="clickAvocationsDescCheck(1)"/> 茶道 </label>
-          <label><input type="checkbox" name="avocationsDesc" value="026008-收藏" _text="收藏" @click="clickAvocationsDescCheck(1)"/> 收藏 </label>
-          <label><input type="checkbox" name="avocationsDesc" value="026009-购物" _text="购物" @click="clickAvocationsDescCheck(1)"/> 购物 </label>
-          <label><input type="checkbox" name="avocationsDesc" value="026010-美食" _text="美食" @click="clickAvocationsDescCheck(1)"/> 美食 </label>
-          <label><input type="checkbox" name="avocationsDesc" value="026011-园艺" _text="园艺" @click="clickAvocationsDescCheck(1)"/> 园艺 </label>
-          <label><input type="checkbox" name="avocationsDesc" value="026012-社交" _text="社交" @click="clickAvocationsDescCheck(1)"/> 社交 </label>
-          <label><input type="checkbox" name="avocationsDesc" value="026013-时尚" _text="时尚" @click="clickAvocationsDescCheck(1)"/> 时尚 </label>
-          <label><input type="checkbox" name="avocationsDesc" value="026014-旅行" _text="旅行" @click="clickAvocationsDescCheck(1)"/> 旅行 </label>
-          <label><input type="checkbox" name="avocationsDesc" value="026015-教育" _text="教育" @click="clickAvocationsDescCheck(1)"/> 教育 </label>
-          <label><input type="checkbox" name="avocationsDesc" value="026016-慈善" _text="慈善" @click="clickAvocationsDescCheck(1)"/> 慈善 </label>
-          <label class="wflj"><input type="checkbox" name="avocationsDesc" value="026000-无法了解" _text="无法了解" @click="clickAvocationsDescCheck(2)"/> 无法了解 </label>
-          <label><input type="checkbox" name="avocationsDesc" value="026999-其他" _text="其他" @click="clickAvocationsDescCheck(3)"/> 其他 </label>
-          <input type="text" placeholder="" name="avocationsDescDesc" style="display:none;"/>
+          <label><input type="checkbox" name="avocations" value="026001-运动" _text="运动" @click="clickAvocationsCheck(1)"/> 运动 </label>
+          <label><input type="checkbox" name="avocations" value="026002-养生" _text="养生" @click="clickAvocationsCheck(1)"/> 养生 </label>
+          <label><input type="checkbox" name="avocations" value="026003-美容" _text="美容" @click="clickAvocationsCheck(1)"/> 美容  </label>
+          <label><input type="checkbox" name="avocations" value="026004-阅读" _text="阅读" @click="clickAvocationsCheck(1)"/> 阅读 </label>
+          <label><input type="checkbox" name="avocations" value="026005-理财" _text="理财" @click="clickAvocationsCheck(1)"/> 理财 </label>
+          <label><input type="checkbox" name="avocations" value="026006-艺术" _text="艺术" @click="clickAvocationsCheck(1)"/> 艺术 </label>
+          <label><input type="checkbox" name="avocations" value="026007-茶道" _text="茶道" @click="clickAvocationsCheck(1)"/> 茶道 </label>
+          <label><input type="checkbox" name="avocations" value="026008-收藏" _text="收藏" @click="clickAvocationsCheck(1)"/> 收藏 </label>
+          <label><input type="checkbox" name="avocations" value="026009-购物" _text="购物" @click="clickAvocationsCheck(1)"/> 购物 </label>
+          <label><input type="checkbox" name="avocations" value="026010-美食" _text="美食" @click="clickAvocationsCheck(1)"/> 美食 </label>
+          <label><input type="checkbox" name="avocations" value="026011-园艺" _text="园艺" @click="clickAvocationsCheck(1)"/> 园艺 </label>
+          <label><input type="checkbox" name="avocations" value="026012-社交" _text="社交" @click="clickAvocationsCheck(1)"/> 社交 </label>
+          <label><input type="checkbox" name="avocations" value="026013-时尚" _text="时尚" @click="clickAvocationsCheck(1)"/> 时尚 </label>
+          <label><input type="checkbox" name="avocations" value="026014-旅行" _text="旅行" @click="clickAvocationsCheck(1)"/> 旅行 </label>
+          <label><input type="checkbox" name="avocations" value="026015-教育" _text="教育" @click="clickAvocationsCheck(1)"/> 教育 </label>
+          <label><input type="checkbox" name="avocations" value="026016-慈善" _text="慈善" @click="clickAvocationsCheck(1)"/> 慈善 </label>
+          <label class="wflj"><input type="checkbox" name="avocations" value="026000-无法了解" _text="无法了解" @click="clickAvocationsCheck(2)"/> 无法了解 </label>
+          <label><input type="checkbox" name="avocations" value="026999-其他" _text="其他" @click="clickAvocationsCheck(3)"/> 其他 </label>
+          <input type="text" placeholder="" name="avocationsDesc" style="display:none;"/>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanAvocationsDesc(1)">关闭</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanAvocationsDesc(2)" id="cleanAvocationsDescBtn" style="display:none;">清除并关闭</button>
-          <button type="button" class="btn btn-primary" @click="selAvocationsDesc()">确定</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanAvocations(1)">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanAvocations(2)" id="cleanAvocationsBtn" style="display:none;">清除并关闭</button>
+          <button type="button" class="btn btn-primary" @click="selAvocations()">确定</button>
         </div>
       </div>
     </div>
@@ -743,15 +745,15 @@
         </div>
         <div class="modal-body">
           <label>周一到周五&nbsp;(
-          <input type="checkbox" name="freeTimeSection" value="009001001-上午9~11点" _text="周一到周五-上午9~11点" @click="clickFreeTimeSectionCheck(1)"/> 上午9~11点 </label>
-          <label><input type="checkbox" name="freeTimeSection" value="009001002-下午2~5点" _text="周一到周五~下午2-5点" @click="clickFreeTimeSectionCheck(1)"/> 下午2~5点 </label>
-          <label><input type="checkbox" name="freeTimeSection" value="009001003-晚上6~9点" _text="周一到周五~晚上6-9点" @click="clickFreeTimeSectionCheck(1)"/> 晚上6~9点)</label>
+          <input type="checkbox" name="freeTimeSection" value="109001001-上午9~11点" _text="周一到周五-上午9~11点" @click="clickFreeTimeSectionCheck(1)"/> 上午9~11点 </label>
+          <label><input type="checkbox" name="freeTimeSection" value="109001002-下午2~5点" _text="周一到周五~下午2-5点" @click="clickFreeTimeSectionCheck(1)"/> 下午2~5点 </label>
+          <label><input type="checkbox" name="freeTimeSection" value="109001003-晚上6~9点" _text="周一到周五~晚上6-9点" @click="clickFreeTimeSectionCheck(1)"/> 晚上6~9点)</label>
           <br/>
           <label>周六到周日&nbsp;(
-          <input type="checkbox" name="freeTimeSection" value="009002001-上午9~11点" _text="周六到周日-上午9~11点" @click="clickFreeTimeSectionCheck(1)"/> 上午9~11点 </label>
-          <label><input type="checkbox" name="freeTimeSection" value="009002002-下午2~5点" _text="周六到周日-下午2~5点" @click="clickFreeTimeSectionCheck(1)"/> 下午2~5点 </label>
-          <label><input type="checkbox" name="freeTimeSection" value="009002004-晚上6~9点" _text="周六到周日-晚上6~9点" @click="clickFreeTimeSectionCheck(1)"/> 晚上6~9点)</label>
-          <label class="wflj"><input type="checkbox" name="freeTimeSection" value="009000-无法了解" _text="无法了解" @click="clickFreeTimeSectionCheck(2)"/> 无法了解 </label>
+          <input type="checkbox" name="freeTimeSection" value="109002001-上午9~11点" _text="周六到周日-上午9~11点" @click="clickFreeTimeSectionCheck(1)"/> 上午9~11点 </label>
+          <label><input type="checkbox" name="freeTimeSection" value="109002002-下午2~5点" _text="周六到周日-下午2~5点" @click="clickFreeTimeSectionCheck(1)"/> 下午2~5点 </label>
+          <label><input type="checkbox" name="freeTimeSection" value="109002004-晚上6~9点" _text="周六到周日-晚上6~9点" @click="clickFreeTimeSectionCheck(1)"/> 晚上6~9点)</label>
+          <label class="wflj"><input type="checkbox" name="freeTimeSection" value="109000-无法了解" _text="无法了解" @click="clickFreeTimeSectionCheck(2)"/> 无法了解 </label>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanFreeTimeSection(1)">关闭</button>

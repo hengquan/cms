@@ -10,24 +10,27 @@ var _uSex="";
 var _uVisitorCount="";
 var _uDecisionerIn="";
 var _uVisitorRefs="";
+var _uVisitorRefsDesc="";
 var _uChildrenNum="";
-
+var _uChildAgeGroup="";
+var _uSchoolType="";
+var _uChildAvocations="";
+var _uChildAvocationsDesc="";
 var _uOutEduWill="";
 var _uOutExperFlag="";
 var _uChildOutExperFlag="";
-var _uLiveAcreage="";
-var _uCarTotalPrice="";
-var _uCustScore="";
-
-
-var _uChildAgeGroup="";
-var _uSchoolType="";
-var _uAvocations="";
 var _uLivingRadius="";
 var _uLiveAcreage="";
+var _uCarTotalPrice="";
+var _uAvocations="";
 var _uAvocationsDesc="";
 var _uResistPoint="";
+var _uResistPointDesc="";
 var _uLoveActivation="";
+var _uLoveActivationDesc="";
+var _uFreeTimeSection="";
+var _uRecepTimeSection="";
+var _uCustScore="";
 var _uFamilyStatus="";
 var _uTrafficType="";
 var _uTrafficTypeDesc="";
@@ -47,6 +50,7 @@ var _uRealtyProductTypeDesc="";
 var _uAttentAcreage="";
 var _uPriceSection="";
 var _uBuyPurpose="";
+var _uBuyPurposeDesc="";
 var _uAttentionPoint="";
 var _uAttentionPointDesc="";
 
@@ -466,6 +470,202 @@ var vueStep2=new Vue({
         }
       }
     },
+    selChildAvocations: function() {
+      _uChildAvocations="";
+      _uChildAvocationsDesc="";
+      var choose=document.getElementsByName('childAvocations');
+      var ttArray="";
+      var selOther=false;
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          var oneText=choose[i].getAttribute("_text");
+          if (choose[i].getAttribute("_text")=='其他') {
+            selOther=true;
+            if ($.trim($("input[name='childAvocationsDesc']").val())!="") {
+              oneText=oneText+"("+$.trim($("input[name='childAvocationsDesc']").val())+")";
+              _uChildAvocationsDesc=$.trim($("input[name='childAvocationsDesc']").val());
+            }
+          }
+          ttArray+=","+oneText;
+          _uChildAvocations+=","+choose[i].value;
+        } else {
+          if (choose[i].getAttribute("_text")=='其他') $("input[name='childAvocationsDesc']").val("");
+        }
+      }
+//      if (selOther&&_uChildAvocationsDesc=="") alert("请录入“其他”交通出行方式");
+//      else {
+        if (_uChildAvocations.length>0) {
+          _uChildAvocations=_uChildAvocations.substr(1);
+          ttArray=ttArray.substr(1);
+        }
+        $("#childAvocations").html(ttArray==""?"&nbsp;":ttArray);
+        $("#childAvocationsModal").modal('hide');
+        if (_uChildAvocationsDesc!="") $("#cleanAvocationsBtn").show();
+//      }
+    },
+    cleanChildAvocations: function(type) {
+      if (type==2) {
+        _uChildAvocations="";
+        _uChildAvocationsDesc="";
+        $("#childAvocations").html("&nbsp;");
+        $("#cleanChildAvocationsBtn").hide();
+      }
+      fillSelectField('childAvocations', $("#childAvocations").html(), false);
+    },
+    clickChildAvocationsCheck: function(flag) {
+      var choose=document.getElementsByName('childAvocations');
+      var n=0;
+      for (var i=0; i<choose.length; i++) if (choose[i].checked) n++;
+      if (flag==1) {
+        if (n>1) {
+          for (var i=0; i<choose.length; i++) {
+            if (choose[i].checked&&choose[i].getAttribute("_text")=='无法了解') {
+              choose[i].checked=false;
+              break;
+            }
+          }
+        }
+      }
+      if (flag==2) {
+        if (n>1) {
+          for (var i=0; i<choose.length; i++) {
+            if (choose[i].checked&&choose[i].getAttribute("_text")!='无法了解') choose[i].checked=false;
+          }
+          $("input[name='childAvocationsDesc']").hide();
+        }
+      }
+      if (flag==3) {
+        var otherCheck=false;
+        for (var i=0; i<choose.length; i++) {
+          if (choose[i].checked&&choose[i].getAttribute("_text")=='其他') otherCheck=true;
+        }
+        if (otherCheck) $("input[name='childAvocationsDesc']").show(); else $("input[name='childAvocationsDesc']").hide();
+        if (n>1) {
+          for (var i=0; i<choose.length; i++) {
+            if (choose[i].checked&&choose[i].getAttribute("_text")=='无法了解') {
+              choose[i].checked=false;
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+});
+$('#childAgeGroupModal').on('hide.bs.modal', function () {
+  vueStep2.cleanChildAgeGroup(1);
+});
+$('#schoolTypeModal').on('hide.bs.modal', function () {
+  vueStep2.cleanSchoolType(1);
+});
+$('#childAvocationsModal').on('hide.bs.modal', function () {
+  vueStep2.cleanChildAvocations(1);
+});
+var vueStep3=new Vue({
+  el: "#step3",
+  methods: {
+    selLivingRadius: function() {
+      _uLivingRadius="";
+      var choose=document.getElementsByName('livingRadius');
+      var ttArray="";
+      var selOther=false;
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          ttArray+=","+choose[i].getAttribute("_text");
+          _uLivingRadius+=","+choose[i].value;
+        } else {
+          if (choose[i].getAttribute("_text")=='其他') $("input[name='livingRadiusDesc']").val("");
+        }
+      }
+//      if (selOther&&_uLivingRadiusDesc=="") alert("请录入“其他”交通出行方式");
+//      else {
+      if (_uLivingRadius.length>0) {
+        _uLivingRadius=_uLivingRadius.substr(1);
+        ttArray=ttArray.substr(1);
+      }
+      $("#livingRadius").html(ttArray==""?"&nbsp;":ttArray);
+      $("#livingRadiusModal").modal('hide');
+      if (_uLivingRadius!="") $("#cleanLivingRadiusBtn").show();
+//      }
+    },
+    cleanLivingRadius: function(type) {
+      if (type==2) {
+        _uLivingRadius="";
+        $("#livingRadius").html("&nbsp;");
+        $("#cleanLivingRadiusBtn").hide();
+      }
+      fillSelectField('livingRadius', $("#livingRadius").html(), false);
+    },
+    clickLivingRadiusCheck: function(flag) {
+      var choose=document.getElementsByName('livingRadius');
+      var n=0;
+      for (var i=0; i<choose.length; i++) if (choose[i].checked) n++;
+      if (flag==1) {
+        if (n>1) {
+          for (var i=0; i<choose.length; i++) {
+            if (choose[i].checked&&choose[i].getAttribute("_text")=='无法了解') {
+              choose[i].checked=false;
+              break;
+            }
+          }
+        }
+      }
+      if (flag==2) {
+        if (n>1) {
+          for (var i=0; i<choose.length; i++) {
+            if (choose[i].checked&&choose[i].getAttribute("_text")!='无法了解') choose[i].checked=false;
+          }
+          $("input[name='livingRadiusDesc']").hide();
+        }
+      }
+      if (flag==3) {
+        if (n>1) {
+          for (var i=0; i<choose.length; i++) {
+            if (choose[i].checked&&choose[i].getAttribute("_text")=='无法了解') {
+              choose[i].checked=false;
+              break;
+            }
+          }
+        }
+      }
+    },
+    selLiveAcreage: function() {
+      _uLiveAcreage="";
+      var choose=document.getElementsByName('liveAcreage');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          $("#liveAcreage").html(choose[i].getAttribute("_text"));
+          _uLiveAcreage=choose[i].value;
+        }
+      }
+      $("#liveAcreageModal").modal('hide');
+      if (_uLiveAcreage!="") $("#cleanLiveAcreageBtn").show();
+    },
+    cleanLiveAcreage: function() {
+      $("#liveAcreage").html("&nbsp;");
+      _uLiveAcreage="";
+      $("#cleanLiveAcreageBtn").hide();
+      fillSelectField('liveAcreage', "", false);
+    },
+    selCarTotalPrice: function() {
+      _uCarTotalPrice="";
+      var choose=document.getElementsByName('carTotalPrice');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          $("#carTotalPrice").html(choose[i].getAttribute("_text"));
+          _uCarTotalPrice=choose[i].value;
+        }
+      }
+      $("#carTotalPriceModal").modal('hide');
+      if (_uCarTotalPrice!="") $("#cleanCarTotalPriceBtn").show();
+    },
+    cleanCarTotalPrice: function() {
+      $("#carTotalPrice").html("&nbsp;");
+      _uCarTotalPrice="";
+      $("#cleanCarTotalPriceBtn").hide();
+      fillSelectField('carTotalPrice', "", false);
+    },
+
     selAvocations: function() {
       _uAvocations="";
       _uAvocationsDesc="";
@@ -485,17 +685,17 @@ var vueStep2=new Vue({
           ttArray+=","+oneText;
           _uAvocations+=","+choose[i].value;
         } else {
-          if (choose[i].getAttribute("_text")=='其他') $("input[name='avocationsDesc']").val("");
+          if (choose[i].getAttribute("_text")=='其他') $("input[name='avocationsDescDesc']").val("");
         }
       }
 //      if (selOther&&_uAvocationsDesc=="") alert("请录入“其他”交通出行方式");
 //      else {
         if (_uAvocations.length>0) {
-          _uAvocations=_uAvocations.substr(1);
+          _uAvocationsDesc=_uAvocations.substr(1);
           ttArray=ttArray.substr(1);
         }
-        $("#avocations").html(ttArray==""?"&nbsp;":ttArray);
-        $("#avocationsModal").modal('hide');
+        $("#avocationsDesc").html(ttArray==""?"&nbsp;":ttArray);
+        $("#avocationsDescModal").modal('hide');
         if (_uAvocations!="") $("#cleanAvocationsBtn").show();
 //      }
     },
@@ -546,225 +746,13 @@ var vueStep2=new Vue({
         }
       }
     }
-  }
-});
-$('#childAgeGroupModal').on('hide.bs.modal', function () {
-  vueStep2.cleanChildAgeGroup(1);
-});
-$('#schoolTypeModal').on('hide.bs.modal', function () {
-  vueStep2.cleanSchoolType(1);
-});
-$('#avocationsModal').on('hide.bs.modal', function () {
-  vueStep2.cleanAvocations(1);
-});
-
-var vueStep3=new Vue({
-  el: "#step3",
-  methods: {
-    selLivingRadius: function() {
-      _uLivingRadius="";
-      _uLivingRadiusDesc="";
-      var choose=document.getElementsByName('livingRadius');
-      var ttArray="";
-      var selOther=false;
-      for (var i=0; i<choose.length; i++) {
-        if (choose[i].checked) {
-          var oneText=choose[i].getAttribute("_text");
-          if (choose[i].getAttribute("_text")=='其他') {
-            selOther=true;
-            if ($.trim($("input[name='livingRadiusDesc']").val())!="") {
-              oneText=oneText+"("+$.trim($("input[name='livingRadiusDesc']").val())+")";
-              _uLivingRadiusDesc=$.trim($("input[name='livingRadiusDesc']").val());
-            }
-          }
-          ttArray+=","+oneText;
-          _uLivingRadius+=","+choose[i].value;
-        } else {
-          if (choose[i].getAttribute("_text")=='其他') $("input[name='livingRadiusDesc']").val("");
-        }
-      }
-//      if (selOther&&_uLivingRadiusDesc=="") alert("请录入“其他”交通出行方式");
-//      else {
-        if (_uLivingRadius.length>0) {
-          _uLivingRadius=_uLivingRadius.substr(1);
-          ttArray=ttArray.substr(1);
-        }
-        $("#livingRadius").html(ttArray==""?"&nbsp;":ttArray);
-        $("#livingRadiusModal").modal('hide');
-        if (_uLivingRadius!="") $("#cleanLivingRadiusBtn").show();
-//      }
-    },
-    cleanLivingRadius: function(type) {
-      if (type==2) {
-        _uLivingRadius="";
-        _uLivingRadiusDesc="";
-        $("#livingRadius").html("&nbsp;");
-        $("#cleanLivingRadiusBtn").hide();
-      }
-      fillSelectField('livingRadius', $("#livingRadius").html(), false);
-    },
-    clickLivingRadiusCheck: function(flag) {
-      var choose=document.getElementsByName('livingRadius');
-      var n=0;
-      for (var i=0; i<choose.length; i++) if (choose[i].checked) n++;
-      if (flag==1) {
-        if (n>1) {
-          for (var i=0; i<choose.length; i++) {
-            if (choose[i].checked&&choose[i].getAttribute("_text")=='无法了解') {
-              choose[i].checked=false;
-              break;
-            }
-          }
-        }
-      }
-      if (flag==2) {
-        if (n>1) {
-          for (var i=0; i<choose.length; i++) {
-            if (choose[i].checked&&choose[i].getAttribute("_text")!='无法了解') choose[i].checked=false;
-          }
-          $("input[name='livingRadiusDesc']").hide();
-        }
-      }
-      if (flag==3) {
-        var otherCheck=false;
-        for (var i=0; i<choose.length; i++) {
-          if (choose[i].checked&&choose[i].getAttribute("_text")=='其他') otherCheck=true;
-        }
-        if (otherCheck) $("input[name='livingRadiusDesc']").show(); else $("input[name='livingRadiusDesc']").hide();
-        if (n>1) {
-          for (var i=0; i<choose.length; i++) {
-            if (choose[i].checked&&choose[i].getAttribute("_text")=='无法了解') {
-              choose[i].checked=false;
-              break;
-            }
-          }
-        }
-      }
-    },
-    selLiveAcreage: function() {
-      _uLiveAcreage="";
-      var choose=document.getElementsByName('liveAcreage');
-      for (var i=0; i<choose.length; i++) {
-        if (choose[i].checked) {
-          $("#liveAcreage").html(choose[i].getAttribute("_text"));
-          _uLiveAcreage=choose[i].value;
-        }
-      }
-      $("#liveAcreageModal").modal('hide');
-      if (_uLiveAcreage!="") $("#cleanLiveAcreageBtn").show();
-    },
-    cleanLiveAcreage: function() {
-      $("#liveAcreage").html("&nbsp;");
-      _uLiveAcreage="";
-      $("#cleanLiveAcreageBtn").hide();
-      fillSelectField('liveAcreage', "", false);
-    },
-  selCarTotalPrice: function() {
-      _uCarTotalPrice="";
-      var choose=document.getElementsByName('carTotalPrice');
-      for (var i=0; i<choose.length; i++) {
-        if (choose[i].checked) {
-          $("#carTotalPrice").html(choose[i].getAttribute("_text"));
-          _uCarTotalPrice=choose[i].value;
-        }
-      }
-      $("#carTotalPriceModal").modal('hide');
-      if (_uCarTotalPrice!="") $("#cleanCarTotalPriceBtn").show();
-    },
-    cleanCarTotalPrice: function() {
-      $("#carTotalPrice").html("&nbsp;");
-      _uCarTotalPrice="";
-      $("#cleanCarTotalPriceBtn").hide();
-      fillSelectField('carTotalPrice', "", false);
-    },
-
-    selAvocationsDesc: function() {
-      _uAvocationsDesc="";
-      _uAvocationsDescDesc="";
-      var choose=document.getElementsByName('avocationsDesc');
-      var ttArray="";
-      var selOther=false;
-      for (var i=0; i<choose.length; i++) {
-        if (choose[i].checked) {
-          var oneText=choose[i].getAttribute("_text");
-          if (choose[i].getAttribute("_text")=='其他') {
-            selOther=true;
-            if ($.trim($("input[name='avocationsDescDesc']").val())!="") {
-              oneText=oneText+"("+$.trim($("input[name='avocationsDescDesc']").val())+")";
-              _uAvocationsDescDesc=$.trim($("input[name='avocationsDescDesc']").val());
-            }
-          }
-          ttArray+=","+oneText;
-          _uAvocationsDesc+=","+choose[i].value;
-        } else {
-          if (choose[i].getAttribute("_text")=='其他') $("input[name='avocationsDescDesc']").val("");
-        }
-      }
-//      if (selOther&&_uAvocationsDescDesc=="") alert("请录入“其他”交通出行方式");
-//      else {
-        if (_uAvocationsDesc.length>0) {
-          _uAvocationsDesc=_uAvocationsDesc.substr(1);
-          ttArray=ttArray.substr(1);
-        }
-        $("#avocationsDesc").html(ttArray==""?"&nbsp;":ttArray);
-        $("#avocationsDescModal").modal('hide');
-        if (_uAvocationsDesc!="") $("#cleanAvocationsDescBtn").show();
-//      }
-    },
-    cleanAvocationsDesc: function(type) {
-      if (type==2) {
-        _uAvocationsDesc="";
-        _uAvocationsDescDesc="";
-        $("#avocationsDesc").html("&nbsp;");
-        $("#cleanAvocationsDescBtn").hide();
-      }
-      fillSelectField('avocationsDesc', $("#avocationsDesc").html(), false);
-    },
-    clickAvocationsDescCheck: function(flag) {
-      var choose=document.getElementsByName('avocationsDesc');
-      var n=0;
-      for (var i=0; i<choose.length; i++) if (choose[i].checked) n++;
-      if (flag==1) {
-        if (n>1) {
-          for (var i=0; i<choose.length; i++) {
-            if (choose[i].checked&&choose[i].getAttribute("_text")=='无法了解') {
-              choose[i].checked=false;
-              break;
-            }
-          }
-        }
-      }
-      if (flag==2) {
-        if (n>1) {
-          for (var i=0; i<choose.length; i++) {
-            if (choose[i].checked&&choose[i].getAttribute("_text")!='无法了解') choose[i].checked=false;
-          }
-          $("input[name='avocationsDescDesc']").hide();
-        }
-      }
-      if (flag==3) {
-        var otherCheck=false;
-        for (var i=0; i<choose.length; i++) {
-          if (choose[i].checked&&choose[i].getAttribute("_text")=='其他') otherCheck=true;
-        }
-        if (otherCheck) $("input[name='avocationsDescDesc']").show(); else $("input[name='avocationsDescDesc']").hide();
-        if (n>1) {
-          for (var i=0; i<choose.length; i++) {
-            if (choose[i].checked&&choose[i].getAttribute("_text")=='无法了解') {
-              choose[i].checked=false;
-              break;
-            }
-          }
-        }
-      }
-    }
 }
 });
 $('#livingRadiusModal').on('hide.bs.modal', function () {
   vueStep3.cleanLivingRadius(1);
 });
-$('#avocationsDescModal').on('hide.bs.modal', function () {
-  vueStep3.cleanAvocationsDesc(1);
+$('#avocationsModal').on('hide.bs.modal', function () {
+  vueStep3.cleanAvocations(1);
 });
 var vueStep4=new Vue({
   el: "#step4",
@@ -966,21 +954,12 @@ var vueStep4=new Vue({
     },
     selFreeTimeSection: function() {
       _uFreeTimeSection="";
-      _uFreeTimeSectionDesc="";
       var choose=document.getElementsByName('freeTimeSection');
       var ttArray="";
       var selOther=false;
       for (var i=0; i<choose.length; i++) {
         if (choose[i].checked) {
-          var oneText=choose[i].getAttribute("_text");
-          if (choose[i].getAttribute("_text")=='其他') {
-            selOther=true;
-            if ($.trim($("input[name='freeTimeSectionDesc']").val())!="") {
-              oneText=oneText+"("+$.trim($("input[name='freeTimeSectionDesc']").val())+")";
-              _uFreeTimeSectionDesc=$.trim($("input[name='freeTimeSectionDesc']").val());
-            }
-          }
-          ttArray+=","+oneText;
+          ttArray+=","+choose[i].getAttribute("_text");
           _uFreeTimeSection+=","+choose[i].value;
         } else {
           if (choose[i].getAttribute("_text")=='其他') $("input[name='freeTimeSectionDesc']").val("");
@@ -1000,7 +979,6 @@ var vueStep4=new Vue({
     cleanFreeTimeSection: function(type) {
       if (type==2) {
         _uFreeTimeSection="";
-        _uFreeTimeSectionDesc="";
         $("#freeTimeSection").html("&nbsp;");
         $("#cleanFreeTimeSectionBtn").hide();
       }
@@ -1836,8 +1814,17 @@ function fillSelectField(id, value, isSetValue) {
   for (var i=0; i<choose.length; i++) {
     var _t=choose[i].getAttribute("_text");
     var j=0;
-    for (; j<_checkeds.length; j++) if (_checkeds[j].indexOf(_t)==0) break;
+    for (; j<_checkeds.length; j++) {
+      if (_checkeds[j].indexOf(_t)==0) break;
+    }
     choose[i].checked=j<_checkeds.length;
+//    if (id=='freeTimeSection') {
+//      j=0;
+//      for (; j<_checkeds.length; j++) {
+//        if (_t.indexOf(_checkeds[j])>0) break;
+//      }
+//      choose[i].checked=j<_checkeds.length;
+//    }
     if (choose[i].checked) {
       if (isSetValue) _fv+=","+choose[i].value;
       if (choose[i].getAttribute("_text")=='其他'&&$("input[name='"+id+"Desc']")) {

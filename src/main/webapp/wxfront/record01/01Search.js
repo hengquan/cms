@@ -88,7 +88,7 @@ function loadPage() {
       var phone="<span><a href='tel:"+oneData.custPhoneNum+"'>"+oneData.custPhoneNum+"</a></span><br/>";
       var cTime=new Date();
       cTime.setTime(oneData.recepTime.time);
-      var fTime="<span class='sftime'>复访："+cTime.Format('yyyy-MM-dd')+"</span>";
+      var fTime="<span class='sftime'>首访："+cTime.Format('yyyy-MM-dd')+"</span>";
       //顾问
       var status="<span class='ysh'>已审核</span>";
       var _url=_viewUrl+"?recordId="+oneData.id;
