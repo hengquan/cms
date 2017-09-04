@@ -212,7 +212,11 @@ function fillData(data) {//填数据，包括所有页面
   if (data.custname) $("input[name='custName']").val(data.custname);
   if (data.custphonenum) $("input[name='custPhone']").val(data.custphonenum);
   if (data.custsex) fillSelectField("sex", data.custsex, true);
-  if (data.receptime.time) fillTime("recpTime", data.receptime.time);
+  if (data.receptime.time) {
+    var rTime=new Date();
+    rTime.setTime(data.receptime.time);
+    fillTime("curTime", rTime);
+  }
   if (data.visitorcount) fillSelectField("visitorCount", data.visitorcount, true);
   if (data.decisionerin) fillSelectField("decisionerIn", data.decisionerin, true);
   if (data.visitorrefs) {
@@ -534,6 +538,8 @@ function commitData() {
       if (_uUserId) retData.authorid=_uUserId;
       if (_uUserId) retData.creatorid=_uUserId;
     }
+    temp=$("input[name='recpTime']").val();
+    if (temp) retData.receptime1=temp;
     if (custId) retData.custid=custId;
     temp=$("input[name='custName']").val();
     if (temp) retData.custname=temp;
