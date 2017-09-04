@@ -1,4 +1,5 @@
 var _uUserId="";
+var _uUserRole="";
 var _uProjId="";
 var _uProjName="";
 var _uSex="";
@@ -41,7 +42,7 @@ function selProj() {
       _uProjName=choose[i].getAttribute("_text");
       var oldProjId=_uProjId;
       _uProjId=choose[i].value.substring(0, choose[i].value.indexOf('-'));
-      if (_uProjId!=oldProjId) loadProjUser(_uProjId);
+      if (_uUserRole!='顾问'&&_uProjId!=oldProjId) loadProjUser(_uProjId);
     }
   }
   $("#projModal").modal('hide');
@@ -846,7 +847,7 @@ var vueStep3=new Vue({
         $("input[name='attentionPointDesc']").val("");
         $("input[name='attentionPointDesc']").hide();
       }
-      fillSelectField('attentionPoint', $("#trafficType").html(), false);
+      fillSelectField('attentionPoint', $("#attentionPoint").html(), false);
     },
     clickAttentionPointCheck: function(flag) {
       var choose=document.getElementsByName('attentionPoint');
@@ -1077,7 +1078,7 @@ function fillData(data) {//填数据
     fillSelectField("trafficType", _temp, true);
   }
   if (data.buyqualify) fillSelectField("buyQualify", data.buyqualify, true);
-  if (data.traffictype) {
+  if (data.workindustry) {
     var _temp=data.workindustry;
     if (data.workindustry.indexOf('其他')!=-1) {
       if (data.workindustrydesc) {
@@ -1124,7 +1125,7 @@ function fillData(data) {//填数据
     fillSelectField("investType", _temp, true);
   }
   if (data.capitalprepsection) fillSelectField("capitalPrepSection", data.capitalprepsection, true);
-  if (data.investtype) {
+  if (data.realtyproducttype) {
     var _temp=data.realtyproducttype;
     if (data.realtyproducttype.indexOf('其他')!=-1) {
       if (data.realtyproducttypedesc) {
@@ -1258,6 +1259,7 @@ function initData() {
     }
     cleanData();
     //处理顾问
+    _uUserRole=data.roleName;
     if (data.roleName=='顾问') {//顾问
       $("#_SELUSER").hide();
       $("#_SHOWUSER").show();
@@ -1586,7 +1588,8 @@ function commitData() {
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         //遮罩
-        $("#mask").hide();
+        $("#mask").css("display", "none");
+alert("遮罩隐藏");
         //按钮职位灰色
         $("div[_type='BTN']").each(function(){
           $(this).attr("style", "margin-top:1.5rem;background-color:#19a6ee;color:#FFFFFF");
@@ -1614,7 +1617,7 @@ function commitData() {
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         //遮罩
-        $("#mask").hide();
+        $("#mask").css("display", "none");
         //按钮职位灰色
         $("div[_type='BTN']").each(function(){
           $(this).attr("style", "margin-top:1.5rem;background-color:#19a6ee;color:#FFFFFF");

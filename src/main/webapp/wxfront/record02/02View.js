@@ -129,7 +129,7 @@ function auditOk() {
   var url=_URL_BASE+"/wx/api/addAudit";
   var _data={};
   _data.recordId=recordId;
-  _data.recordType=1;
+  _data.recordType=2;
   _data.auditType=1;//通过
   $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
     success: function(json) {
@@ -151,7 +151,7 @@ function auditNo() {
   var url=_URL_BASE+"/wx/api/addAudit";
   var _data={};
   _data.recordId=recordId;
-  _data.recordType=1;
+  _data.recordType=2;
   _data.auditType=2;//通过
   _data.auditMsg=$("#auditMsg").val();
   $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
