@@ -152,7 +152,7 @@ function cleanData() {//清除数据
   $("textareaa").html("");
   $(".item_sflr.row").find("span").each(function(){$(this).html("&nbsp;");});
   $(".modal-footer").find("button").each(function(){
-  	if ((($(this).attr("id"))+"").indexOf('Btn')>0) $(this).hide();
+    if ((($(this).attr("id"))+"").indexOf('Btn')>0) $(this).hide();
   });
   _uProjId="";
   _uProjName="";
@@ -409,12 +409,12 @@ function fillData(data) {//填数据，包括所有页面
 
 //翻页切换
 function step1Next() {//要判断是否应该进行首访录入
-  $("#step1").hide(0);
-  $("#step2").show(0);
-  $("#step3").hide(0);
-  $("#step4").hide(0);
-  $("#step5").hide(0);
-  return ;
+//  $("#step1").hide(0);
+//  $("#step2").show(0);
+//  $("#step3").hide(0);
+//  $("#step4").hide(0);
+//  $("#step5").hide(0);
+//  return ;
   if (_TYPE=='update') {
     $("#step1").hide(0);
     $("#step2").show(0);
@@ -438,20 +438,18 @@ function step1Next() {//要判断是否应该进行首访录入
     }
     var canNext=false;
     var url=_URL_BASE+"wx/api/existRecord01";
-    alert(url);
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
-        if (json.msg=='103') {
-          window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>系统出现未知问题，不能录入";
-        } else if (json.msg=='100') { //有就已存在
-          if (json.authorId==_uUserId) {//转复方
-            alert(_URL_BASE+"/wxfront/input/record02.html?type=add&custName="+encodeURIComponent(_data.custName)+"&custPhone="+encodeURIComponent(_data.custPhone)+"&projId="+encodeURIComponent(_data.projId));
-            window.location.href=_URL_BASE+"/wxfront/input/record02.html?type=add&custName="+encodeURIComponent(_data.custName)+"&custPhone="+encodeURIComponent(_data.custPhone)+"&projId="+encodeURIComponent(_data.projId);
+        if (json.msg=='100') {//有就已存在，可正常录入复访
+          if (json.authorId==_uUserId) {
+            canNext=true;
           } else {
-            window.location.href=_URL_BASE+"/wxfront/err.html?4000=此客户已由【"+json.authorName+"】进行接待<br/>您无权录入！";
-            return;
+            alert("此客户已由其他顾问处理，您无法录入其复访信息");
           }
-        } else canNext=true;
+        } else {//转首访
+          alert("不存在该用户，将转到首访");
+          window.location.href=_URL_BASE+"/wxfront/record01/record01Input.html?type=add&custName="+encodeURIComponent(_data.custName)+"&custPhone="+encodeURIComponent(_data.custPhone)+"&projId="+encodeURIComponent(_data.projId);
+        }
         if (canNext) {
           $("#step1").hide(0);
           $("#step2").show(0);
