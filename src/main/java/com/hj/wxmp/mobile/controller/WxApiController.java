@@ -778,16 +778,412 @@ public class WxApiController extends ControllerBaseWx {
 		return JsonUtils.map2json(map);
 	}
 	//首访处理表字段信息
+	/**
+	 * 
+	 * @param record01
+	 * @param type =0是添加
+	 * @return
+	 */
 	private Object[] scan(AccessRecord01 record01,int type) {
 		Object[] ret=new Object[5];
-		//AccessRecord01 retR01=new AccessRecord01();//可以直接插入数据库的01数据
+		AccessRecord01 _retR01=new AccessRecord01();//可以直接插入数据库的01数据
 		Customer cust=new Customer(); //从01中汇出的客户信息，可直接参与数据库操作
 		ProjCustRef projCustRef=new ProjCustRef(); //从01中汇出的客户项目关系，可直接参与数据库操作
 		UserCustRef userCustRef=new UserCustRef(); //
 		List<TabDictRef> dictRefList=new ArrayList<TabDictRef>(); //可以直接参与处理字典项与表关系处理的对象列表
+
 		//获取所有对象的属性
-		addRecord01(type,record01, cust,projCustRef,userCustRef,dictRefList);
-		ret[0]=record01;
+		//本表Id
+		String id = "";
+		//项目Id
+		String projId = "";
+		//客户表ID
+		String customerId = "";
+		//临时字符串
+		String tempStr = "";
+		//返回结果
+		Map<String, Object> parseResult = null;
+
+		//若是新增，设置关联对象胡Id
+		if (type==0) {
+			projCustRef.setId(key.getUUIDKey());
+			userCustRef.setId(key.getUUIDKey());
+		}
+		//首访Id
+		if (type==0) id=key.getUUIDKey();
+		else id=record01.getId();
+		_retR01.setId(id);
+		//项目Id
+		if (type==0) projId=key.getUUIDKey();
+		else projId=record01.getProjid();
+		_retR01.setProjid(projId);
+		projCustRef.setProjid(projId);
+		userCustRef.setProjid(projId);
+		//用户Id
+		if (type==0) customerId=key.getUUIDKey();
+		else customerId=record01.getCustid();
+		_retR01.setCustid(customerId);
+		cust.setId(customerId);
+		projCustRef.setCustid(customerId);
+		userCustRef.setCustid(customerId);
+		//客户名称
+		_retR01.setCustname(record01.getCustname());
+		cust.setCustname(record01.getCustname());
+		//客户手机
+		_retR01.setCustphonenum(record01.getCustphonenum());
+		cust.setPhonenum(record01.getCustphonenum());
+		//获知时间
+		_retR01.setFirstknowtime(record01.getFirstknowtime());
+		projCustRef.setFirstknowtime(record01.getFirstknowtime());
+		//客户性别
+		tempStr=record01.getCustsex();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setCustsex(tempStr);
+			cust.setCustsex(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "002", "客户性别", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "002", "客户性别", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//年龄段
+		tempStr=record01.getAgegroup();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setAgegroup(tempStr);
+			cust.setAgegroup(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "003", "年龄段", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "003", "年龄段", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//购房资格
+		tempStr=record01.getBuyqualify();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setBuyqualify(tempStr);
+			cust.setBuyqualify(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "004", "购房资格", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "004", "购房资格", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//本地居住地
+		tempStr=record01.getLocalresidence();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setLocalresidence(tempStr);
+			cust.setLocalresidence(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "032", "本地居住地", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "032", "本地居住地", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//本地工作区
+		tempStr=record01.getLocalworkarea();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setLocalworkarea(tempStr);
+			cust.setLocalworkarea(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "032", "本地工作地", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "032", "本地工作地", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//外阜居住地
+		tempStr=record01.getOutresidence();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setOutresidence(tempStr);
+			cust.setOutresidence(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "001", "外阜居住地", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "001", "外阜居住地", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//外阜工作地
+		tempStr=record01.getOutworkarea();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setOutworkarea(tempStr);
+			cust.setOutworkarea(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "001", "外阜工作地", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "001", "外阜工作地", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//家庭状况
+		tempStr=record01.getFamilystatus();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setFamilystatus(tempStr);
+			cust.setFamilystatus(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "005", "家庭状况", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "005", "家庭状况", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//出行方式
+		tempStr=record01.getTraffictype();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setTraffictype(tempStr);
+			cust.setTraffictype(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "006", "出行方式", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "006", "出行方式", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//出行方式描述
+		tempStr=record01.getTraffictypedesc();
+		if(StringUtils.isNotEmpty(tempStr)){
+			_retR01.setTraffictypedesc(tempStr);
+			cust.setTraffictypedesc(tempStr);
+		}
+		//从事行业
+		tempStr=record01.getWorkindustry();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setWorkindustry(tempStr);
+			cust.setWorkindustry(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "007", "从事行业", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "007", "从事行业", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//从事行业描述
+		tempStr=record01.getWorkindustrydesc();
+		if(StringUtils.isNotEmpty(tempStr)){
+			_retR01.setWorkindustrydesc(tempStr);
+			cust.setWorkindustrydesc(tempStr);
+		}
+		//企业性质
+		tempStr=record01.getEnterprisetype();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setEnterprisetype(tempStr);
+			cust.setEnterprisetype(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "008", "企业性质", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "008", "企业性质", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//企业性质描述
+		tempStr=record01.getEnterprisetypedesc();
+		if(StringUtils.isNotEmpty(tempStr)){
+			_retR01.setEnterprisetypedesc(tempStr);
+			cust.setEnterprisetypedesc(tempStr);
+		}
+		//关注产品类型
+		tempStr=record01.getRealtyproducttype();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setRealtyproducttype(tempStr);
+			cust.setRealtyproducttype(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "009", "关注产品类型", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "009", "关注产品类型", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//关注产品类型描述
+		tempStr=record01.getRealtyproducttypedesc();
+		if(StringUtils.isNotEmpty(tempStr)){
+			_retR01.setRealtyproducttypedesc(tempStr);
+			cust.setRealtyproducttypedesc(tempStr);
+		}
+		//关注面积
+		tempStr=record01.getAttentacreage();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setAttentacreage(tempStr);
+			cust.setAttentacreage(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "010", "关注面积", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "010", "关注面积", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//接受价格区段
+		tempStr=record01.getPricesection();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setPricesection(tempStr);
+			cust.setPricesection(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "011", "接受价格区段", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "011", "接受价格区段", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//购房目的
+		tempStr=record01.getBuypurpose();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setBuypurpose(tempStr);
+			cust.setBuypurpose(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "012", "购房目的", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "012", "购房目的", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//购房目的描述
+		tempStr=record01.getBuypurposedesc();
+		if(StringUtils.isNotEmpty(tempStr)){
+			_retR01.setBuypurposedesc(tempStr);
+			cust.setBuypurposedesc(tempStr);
+		}
+		//认知本案渠道
+		tempStr=record01.getKnowway();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setKnowway(tempStr);
+			projCustRef.setKnowway(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "013", "认知本案渠道", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "013", "认知本案渠道", "ql_ProjCust_Ref", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//认知本案渠道描述
+		tempStr=record01.getKnowwaydesc();
+		if(StringUtils.isNotEmpty(tempStr)){
+			_retR01.setKnowwaydesc(tempStr);
+			projCustRef.setKnowwaydesc(tempStr);
+		}
+		//本案关注点
+		tempStr=record01.getAttentionpoint();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setAttentionpoint(tempStr);
+			projCustRef.setAttentionpoint(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "014", "本案关注点", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "014", "本案关注点", "ql_ProjCust_Ref", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//本案关注点描述
+		tempStr=record01.getAttentionpointdesc();
+		if(StringUtils.isNotEmpty(tempStr)){
+			_retR01.setAttentionpointdesc(tempStr);
+			projCustRef.setAttentionpointdesc(tempStr);
+		}
+		//预估身价
+		tempStr=record01.getEstcustworth();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setEstcustworth(tempStr);
+			cust.setEstcustworth(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "015", "预估身价", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "015", "预估身价", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//重点投资
+		tempStr=record01.getInvesttype();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setInvesttype(tempStr);
+			cust.setInvesttype(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "016", "重点投资", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "016", "重点投资", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//重点投资描述
+		tempStr=record01.getInvesttypedesc();
+		if(StringUtils.isNotEmpty(tempStr)){
+			_retR01.setInvesttypedesc(tempStr);
+			cust.setInvesttypedesc(tempStr);
+		}
+		//资金筹备期
+		tempStr=record01.getCapitalprepsection();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setCapitalprepsection(tempStr);
+			projCustRef.setCapitalprepsection(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "017", "资金筹备期", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "017", "资金筹备期", "ql_ProjCust_Ref", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//比较项目
+		tempStr=record01.getCompareprojs();
+		if (parseResult!=null) {
+			_retR01.setCompareprojs(tempStr);
+			projCustRef.setCompareprojs(tempStr);
+		}
+		//本次接待时间
+		tempStr=record01.getReceptimesection();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setReceptimesection(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "018", "本次接待时间", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+		}
+		//本次接待时间
+		_retR01.setReceptime(record01.getReceptime());
+		//客户评级
+		tempStr=record01.getCustscore();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR01.setCustscore(tempStr);
+			cust.setCustscore(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "019", "客户评级", "ql_AccessRecord01", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "019", "客户评级", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
+		//客户描述
+		_retR01.setCustdescn(record01.getCustdescn());
+		//权限用户ID
+		_retR01.setAuthorid(record01.getAuthorid());
+		//记录状态
+		_retR01.setStatus(1);
+		//记录状态
+		_retR01.setCreatorid(record01.getCreatorid());
+		
+		ret[0]=_retR01;
 		ret[1]=cust;
 		ret[2]=projCustRef;
 		ret[3]=userCustRef;
@@ -795,6 +1191,69 @@ public class WxApiController extends ControllerBaseWx {
 		
 		logger.debug("项目客户关系表数据2：{}",JsonUtils.object2json(projCustRef));
 		
+		return ret;
+	}
+	/**
+	 * 解析字典值内容
+	 * @param dictsStr 被解析的字符串
+	 * @return Map，key="storeStr",value=存储的字符串,key="dictList",vlue=字典值的列表，没个元素为一个Map
+	 */
+	private Map<String, Object> parseDictsStr(String dictsStr) {
+		if(StringUtils.isNotEmpty(dictsStr)) return null;
+		String[] oneDictStrList=dictsStr.split(",");
+
+		Map<String, Object> ret=new HashMap<String, Object>();
+		String storeStr="";
+		List<Map<String, Object>> dictList=new ArrayList<Map<String, Object>>();
+		for(int i=0;i<oneDictStrList.length;i++){
+			String oneDictStr=oneDictStrList[i].trim();
+			String[] scopeArray=oneDictStr.split("-");
+			if (scopeArray.length<2||scopeArray.length>3) continue;
+
+			Map<String, Object> oneDictInfo=new HashMap<String, Object>();
+			if (scopeArray.length==2) oneDictInfo.put("type", 1);
+			else if (scopeArray.length==3) oneDictInfo.put("type", 2);
+			oneDictInfo.put("dictdid", scopeArray[0]);
+			storeStr+=","+scopeArray[1];
+			if (scopeArray.length==3) {
+				int pos=scopeArray[2].indexOf("~");
+				if (pos!=-1) {
+					oneDictInfo.put("begin", scopeArray[2].substring(0, pos));
+					oneDictInfo.put("end", scopeArray[2].substring(pos+1));
+				} else continue;
+			}
+			dictList.add(oneDictInfo);
+		}
+		ret.put("storeStr", storeStr.substring(1));
+		ret.put("dictList", dictList);
+		return ret;
+	}
+	/*
+	 * 
+	 * @param dictList
+	 * @param dictMid
+	 * @param refName
+	 * @param tabName
+	 * @param tabId
+	 * @return
+	 */
+	private List<TabDictRef> transToDictRefList(List<Map<String, Object>> dictList, String dictMid, String refName, String tabName, String tabId) {
+		if (dictList.size()==0||dictList==null) return null;
+		List<TabDictRef> ret=new ArrayList<TabDictRef>();
+		for (Map<String, Object> oneDict: dictList) {
+			TabDictRef tdr=new TabDictRef();
+			tdr.setId(key.getUUIDKey());
+			tdr.setDdid(dictMid);
+			tdr.setDdid(oneDict.get("dictdid")+"");
+			tdr.setTabname(tabName);
+			tdr.setTabid(tabId);
+			tdr.setRefname(refName);
+			if (((Integer)oneDict.get("type"))==2) {
+				tdr.setSectionbegin(Float.parseFloat(oneDict.get("begin")+""));
+				tdr.setSectionend(Float.parseFloat(oneDict.get("end")+""));
+			}
+			ret.add(tdr);
+		}
 		return ret;
 	}
 
@@ -1240,47 +1699,53 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	//成交添加修改通用属性
-	public Boolean addRecord03(AccessRecord03 record03,Customer customer,String record03Id,HttpServletRequest req,List<TabDictRef> dictRefList){
+	public Boolean addRecord03(int type,AccessRecord03 record03,Customer customer,ProjCustRef projCustRef,UserCustRef userCustRef,List<TabDictRef> dictRefList){
 		Boolean isok = false;
-		Map<String, Object> m=RequestUtils.getDataFromRequest(req);
 		try {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			String openid = HashSessions.getInstance().getOpenId(request);
-			openid = "oaBNt0xKNjXvStRlbKqMnk7QQ2Pw";
-			UserInfo userInfo = userInfoService.findByOpenid(openid);
-			//获取用户ID
-			String userId = userInfo.getId();
-			//客户信息ID
-			String customerId = key.getUUIDKey();
-			String customerid = "";
-			if(customer != null){
-				customerid = customer.getId();
-				if(customerid != null && !"".equals(customerid)){
-					customerId = customerid;
-				}
+			//客户表ID
+			String customerId = "";
+			//客户项目关系表
+			String proJcustId = "";
+			//项目客户关系表
+			String userCustRefId = "";
+			if(type == 0){
+				//客户ID
+				customerId = key.getUUIDKey();
+				customer.setId(customerId);
+				//客户项目关系表ID
+				proJcustId = key.getUUIDKey();
+				projCustRef.setId(proJcustId);
+				//项目客户关系表ID
+				userCustRefId = key.getUUIDKey();
+				userCustRef.setId(userCustRefId);
+				userCustRef.setProjid(record03.getProjid());
+		        userCustRef.setUserid(record03.getAuthorid());
+		        userCustRef.setCustid(customer.getId());
+			}else{
+				//客户ID
+				customerId = record03.getCustid();
+				customer.setId(customerId);
+				//客户项目关系表
+				Map<String,Object>result=new HashMap<String,Object>();
+				result.put("cusId", customerId);
+				result.put("projId", record03.getProjid());
+				projCustRef = projCustRefService.selectByCusIdAndProjId(result);
+				proJcustId = projCustRef.getId();
 			}
 			//客户性别
 			String custsex = record03.getCustsex();
 			//客户表
 			customer.setAddressmail(record03.getAddressmail());
 			if(custsex != null){
-				String data = addAccessRecord(custsex,"002",3,"客户性别",record03Id,dictRefList);
+				String data = addAccessRecord(custsex,"002",3,"客户性别",record03.getId(),dictRefList);
 				addAccessRecord(custsex,"002",4,"客户性别",customerId,dictRefList);
 				record03.setCustsex(data);
 				customer.setCustsex(data);
 			}
-			//补全首访信息-并更新
-			record03.setId(record03Id);
-			String purchasedate1 = m.get("purchasedate1")==null?null:m.get("purchasedate1").toString();
-			//String purchasedate1 = "2017-02-01";
-			String signdate1 = m.get("signdate1")==null?null:m.get("signdate1").toString();
-			//String signdate1 = "2017-02-01";
-			record03.setPurchasedate(format.parse(purchasedate1));
-			record03.setSigndate(format.parse(signdate1));
 			//户籍类型
 			String houseregitype = record03.getHouseregitype();
 			if(houseregitype != null){
-				String data = addAccessRecord(houseregitype,"029",3,"户籍类型",record03Id,dictRefList);
+				String data = addAccessRecord(houseregitype,"029",3,"户籍类型",record03.getId(),dictRefList);
 				addAccessRecord(houseregitype,"029",4,"户籍类型",customerId,dictRefList);
 				record03.setHouseregitype(data);
 				customer.setHouseregitype(data);
@@ -1288,49 +1753,37 @@ public class WxApiController extends ControllerBaseWx {
 			//付款方式
 			String paymenttype = record03.getPaymenttype();
 			if(paymenttype != null){
-				String data = addAccessRecord(paymenttype,"030",3,"付款方式",record03Id,dictRefList);
+				String data = addAccessRecord(paymenttype,"030",3,"付款方式",record03.getId(),dictRefList);
 				record03.setPaymenttype(data);
 			}
 			//购买产品类型
 			String realtyproducttype = record03.getRealtyproducttype();
 			if(realtyproducttype != null){
-				String data = addAccessRecord(realtyproducttype,"009",3,"购买产品类型",record03Id,dictRefList);
+				String data = addAccessRecord(realtyproducttype,"009",3,"购买产品类型",record03.getId(),dictRefList);
 				record03.setRealtyproducttype(data);
 			}
 			//实际居住环境
 			String livingstatus = record03.getLivingstatus();
 			if(livingstatus != null){
-				String data = addAccessRecord(livingstatus,"030",3,"实际居住环境",record03Id,dictRefList);
-				addAccessRecord(livingstatus,"030",4,"实际居住环境",customerid,dictRefList);
+				String data = addAccessRecord(livingstatus,"030",3,"实际居住环境",record03.getId(),dictRefList);
+				addAccessRecord(livingstatus,"030",4,"实际居住环境",customer.getId(),dictRefList);
 				record03.setLivingstatus(data);
 				customer.setFamilystatus(data);
 			}
 			//实际使用人
 			String realusemen = record03.getRealusemen();
 			if(realusemen != null){
-				String data = addAccessRecord(realusemen,"031",3,"实际使用人",record03Id,dictRefList);
+				String data = addAccessRecord(realusemen,"031",3,"实际使用人",record03.getId(),dictRefList);
 				record03.setRealusemen(data);
 			}
 			//实际出资人
 			String realpaymen = record03.getRealpaymen();
 			if(realpaymen != null){
-				String data = addAccessRecord(realpaymen,"031",3,"实际出资人",record03Id,dictRefList);
+				String data = addAccessRecord(realpaymen,"031",3,"实际出资人",record03.getId(),dictRefList);
 				record03.setRealpaymen(data);
 			}
 			record03.setCustid(customer.getId());
-			record03.setAuthorid(userId);
-			record03.setCreatorid(userId);
 			record03.setStatus(1);
-			//添加/更新用户表
-			if("".equals(customerid)){
-				customer.setId(customerId);
-				customerService.insert(customer);
-			}else{
-				customerService.update(customer);
-			}
-			//添加成交记录
-			accessRecord03Service.insert(record03);
-			
 			isok = true;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -1344,16 +1797,53 @@ public class WxApiController extends ControllerBaseWx {
 	@RequestMapping(value = "/addTradeVisit")
 	@ResponseBody
 	public String addTradeVisit(HttpServletRequest requet,HttpServletResponse response,
-			AccessRecord03 record03,Customer customer) {
+			AccessRecord03 record03,Customer customer,
+			String receptime1,String userId,String signdate1,String purchasedate1) {
 		responseInfo(response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			String record03Id = key.getUUIDKey();
-			customer.setCustname(record03.getCustname());
-			customer.setPhonenum(record03.getCustphonenum());
-			//Boolean isok = addRecord03(record03,customer,record03Id,requet);
-			accessRecord03Service.insert(record03);
-			map.put("msg", "100");
+			String openid = HashSessions.getInstance().getOpenId(request);
+			UserInfo userInfo=null;
+			if (StringUtils.isNotEmpty(openid)) userInfo=userInfoService.findByOpenid(openid);
+			else if (StringUtils.isNotEmpty(userId)) userInfo=userInfoService.findById(userId);
+			if (userInfo==null) throw new Exception("未获得用户，无法处理");
+			String _userId=userInfo.getId();
+			userId=userInfo.getId();
+			//补全首访信息-并更新
+			record03.setId(key.getUUIDKey());
+			//本次到访时间
+			if(receptime1!=null){
+				receptime1+=" 00:00:00";
+				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date parse = formata.parse(receptime1);				
+				record03.setReceptime(parse);
+			}
+			//购买日期
+			if(purchasedate1!=null){
+				purchasedate1+=" 00:00:00";
+				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date parse = formata.parse(purchasedate1);				
+				record03.setPurchasedate(parse);
+			}
+			//签约日期
+			if(signdate1!=null){
+				signdate1+=" 00:00:00";
+				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date parse = formata.parse(signdate1);				
+				record03.setSigndate(parse);
+			}
+			//录入人权限人
+			record03.setAuthorid(userId);
+			record03.setCreatorid(userId);
+			//扫描一次，处理本表，处理客户表，处理客户项目关系表，处理字典表；
+			Object[] resultObjs=scan3(record03,0);
+			if (accessRecord03Service.insert((AccessRecord03)resultObjs[0])) {
+				Deal01OtherTable d01=new Deal01OtherTable((Customer)resultObjs[1], (ProjCustRef)resultObjs[2], (UserCustRef)resultObjs[3], (List<TabDictRef>)resultObjs[4], 0);
+				d01.start();
+				map.put("msg", "100");
+			} else {
+				map.put("msg", "104");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("msg", "103");
@@ -1361,6 +1851,25 @@ public class WxApiController extends ControllerBaseWx {
 		System.out.println(JsonUtils.map2json(map));
 		return JsonUtils.map2json(map);
 	}	
+	//成交处理表字段信息
+	private Object[] scan3(AccessRecord03 record03,int type) {
+		Object[] ret=new Object[5];
+		Customer cust=new Customer(); //从01中汇出的客户信息，可直接参与数据库操作
+		ProjCustRef projCustRef=new ProjCustRef(); //从01中汇出的客户项目关系，可直接参与数据库操作
+		UserCustRef userCustRef=new UserCustRef(); //
+		List<TabDictRef> dictRefList=new ArrayList<TabDictRef>(); //可以直接参与处理字典项与表关系处理的对象列表
+		//获取所有对象的属性
+		addRecord03(type,record03, cust,projCustRef,userCustRef,dictRefList);
+		ret[0]=record03;
+		ret[1]=cust;
+		ret[2]=projCustRef;
+		ret[3]=userCustRef;
+		ret[4]=dictRefList;
+		return ret;
+	}
+	
+	
+	
 	//修改成交记录
 	@RequestMapping(value = "/updateRecord03")
 	@ResponseBody

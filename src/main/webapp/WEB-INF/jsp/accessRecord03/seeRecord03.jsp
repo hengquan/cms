@@ -388,20 +388,10 @@ px
 						<form action="http://kylindpc.cn/zz_user.php" method="post"
 							name="theForm" id="theform" onsubmit="return checkinput()">
 
-							<div class="tijiao" id="tijiao"
-								style="height: 1.5rem; padding: 20px 0px; position: relative; top: 0px; background: white;">
-
-								<input type="button" onclick="chongzhi()" value="重置表单"
-									class="btn-4"
-									style="width: 100px; height: 30px; font-weight: bold; font-family: &amp; #39; 微软雅黑 &amp;#39;; margin-left: 20px">
-								<input type="button" onclick="checkinput()" value="提交表单"
-									class="btn-4"
-									style="width: 100px; height: 30px; font-weight: bold; font-family: &amp; #39; 微软雅黑 &amp;#39;; margin-left: 10px">
-							</div>
 
 
 							<table id="orderinfo" cellpadding="0" cellspacing="0"
-								bgcolor="#dddddd" border="1" style="margin-top:40px;">
+								bgcolor="#dddddd" border="1" style="margin-top:0px;">
 								<tbody>
 									<tr style="">
 										<td style="width: 330px;">房屋买卖人姓名：<input type="text"
@@ -426,9 +416,7 @@ px
 											<input type="text" name="housenum" value="${accessRecord03.housenum }" style="width: 7rem">
 										</td>
 										<td colspan="2">户籍：
-											<input name="houseregitype" type="radio" value="京籍" <c:if test="${accessRecord03.houseregitype == '京籍'}">selected</c:if> style="width: 1rem">京籍 
-											<input name="houseregitype" type="radio" value="外地" <c:if test="${accessRecord03.houseregitype == '外地'}">checked</c:if> style="width: 1rem">外地 
-											<input name="houseregitype" type="radio" value="外国籍" <c:if test="${accessRecord03.houseregitype == '外国籍'}">selected</c:if> style="width: 1rem">外国籍
+											<input name="houseregitype" type="text" value="${accessRecord03.houseregitype}" style="width: 10rem">
 										</td>
 									</tr>
 
@@ -455,23 +443,7 @@ px
 
 									<tr>
 										<td colspan="3">您关注的产品类型：
-											<span style="margin-left: 20px">别墅</span>
-											（<input name="realtyproducttype" type="checkbox" value="009001001-独栋" _text="独栋" <c:if test="${fn:contains(accessRecord03.realtyproducttype, '独栋')}">checked</c:if> style="width: 1rem">独栋
-											<input name="realtyproducttype" type="checkbox" value="009001002-类独栋" _text="类独栋" <c:if test="${fn:contains(accessRecord03.realtyproducttype, '类独栋')}">checked</c:if> style="width: 1rem">类独栋 
-											<input name="realtyproducttype" type="checkbox" value="009001003-双拼" _text="双拼" <c:if test="${fn:contains(accessRecord03.realtyproducttype, '双拼')}">checked</c:if> style="width: 1rem">双拼 
-											<input name="realtyproducttype" type="checkbox" value="009001004-联排" _text="联排" <c:if test="${fn:contains(accessRecord03.realtyproducttype, '联排')}">checked</c:if> style="width: 1rem">联排
-											<input name="realtyproducttype" type="checkbox" value="009001005-上叠" _text="上叠" <c:if test="${fn:contains(accessRecord03.realtyproducttype, '上叠')}">checked</c:if> style="width: 1rem">上叠 
-											<input name="realtyproducttype" type="checkbox" value="009001006-下叠" _text="下叠" <c:if test="${fn:contains(accessRecord03.realtyproducttype, '下叠')}">checked</c:if> style="width: 1rem">下叠&nbsp;&nbsp;&nbsp;&nbsp;）<br>
-											<span style="margin-left: 145px">平层（</span>
-											<input name="realtyproducttype" type="checkbox" value="009002001-两居及以下" _text="两居及以下"<c:if test="${fn:contains(accessRecord03.realtyproducttype, '两居及以下')}">checked</c:if> style="width: 1rem;">两居及以下 
-											<input name="realtyproducttype" type="checkbox" value="009002002-三居" _text="三居" <c:if test="${fn:contains(accessRecord03.realtyproducttype, '三居')}">checked</c:if> style="width: 1rem">三居 
-											<input name="realtyproducttype" type="checkbox" value="009002003-四居" _text="四居" <c:if test="${fn:contains(accessRecord03.realtyproducttype, '四居')}">checked</c:if> style="width: 1rem">四居
-											<input name="realtyproducttype" type="checkbox" value="009002004-五居及以上叠" _text="五居及以上叠" <c:if test="${fn:contains(accessRecord03.realtyproducttype, '五居及以上叠')}">checked</c:if> style="width: 1rem">五居及以上叠&nbsp;&nbsp;&nbsp;&nbsp;）<br>
-											<input name="realtyproducttype" type="checkbox" value="009003-商业" _text="商业" <c:if test="${fn:contains(accessRecord03.realtyproducttype, '商业')}">checked</c:if> style="width: 1rem; margin-left: 145px">商业 
-											<input name="realtyproducttype" type="checkbox" value="00904-商业办公" _text="商业办公" <c:if test="${fn:contains(accessRecord03.realtyproducttype, '商务办公')}">checked</c:if> style="width: 1rem; margin-left: 16px">商务办公 
-											<input name="realtyproducttype" type="checkbox" value="009999-其他" _text="其他" <c:if test="${fn:contains(accessRecord03.realtyproducttype, '其他')}">checked</c:if> style="width: 1rem">其他
-											<input name="realtyproducttype" type="checkbox" value="009000-无法了解" _text="无法了解" <c:if test="${fn:contains(accessRecord03.realtyproducttype, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
+											<input name="realtyproducttype" type="text" value="${accessRecord03.realtyproducttype}" style="width: 10rem"> 
 										</td>
 									</tr>
 
@@ -483,36 +455,19 @@ px
 
 									<tr>
 										<td colspan="3">实际居住情况：
-											<input name="livingstatus" type="radio" value="单身" <c:if test="${fn:contains(accessRecord03.livingstatus, '单身')}">checked</c:if> style="width: 1rem">单身 
-											<input name="livingstatus" type="radio" value="夫妻" <c:if test="${fn:contains(accessRecord03.livingstatus, '夫妻')}">checked</c:if> style="width: 1rem">夫妻 
-											<input name="livingstatus" type="radio" value="一孩家庭" <c:if test="${fn:contains(accessRecord03.livingstatus, '一孩家庭')}">checked</c:if> style="width: 1rem">一孩家庭
-											<input name="livingstatus" type="radio" value="俩孩家庭" <c:if test="${fn:contains(accessRecord03.livingstatus, '俩孩家庭')}">checked</c:if> style="width: 1rem">俩孩家庭 
-											<input name="livingstatus" type="radio" value="三孩及以上家庭" <c:if test="${fn:contains(accessRecord03.livingstatus, '三孩及以上家庭')}">checked</c:if> style="width: 1rem">三孩及以上家庭
-											<input name="livingstatus" type="radio" value="三代同堂" <c:if test="${fn:contains(accessRecord03.livingstatus, '三代同堂')}">checked</c:if> style="width: 1rem">三代同堂 
-											<input name="livingstatus" type="radio" value="无法了解" <c:if test="${fn:contains(accessRecord03.livingstatus, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
+											<input name="livingstatus" type="text" value="${accessRecord03.livingstatus}" style="width: 10rem">
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">房屋使用人是谁：
-											<input name="realusemen" type="checkbox" value="本人" <c:if test="${fn:contains(accessRecord03.realusemen, '本人')}">checked</c:if> style="width: 1rem" >本人 
-											<input name="realusemen" type="checkbox" value="配偶" <c:if test="${fn:contains(accessRecord03.realusemen, '配偶')}">checked</c:if> style="width: 1rem" >配偶
-											<input name="realusemen" type="checkbox" value="您的父母" <c:if test="${fn:contains(accessRecord03.realusemen, '您的父母')}">checked</c:if> style="width: 1rem" >您的父母
-											<input name="realusemen" type="checkbox" value="您的子女" <c:if test="${fn:contains(accessRecord03.realusemen, '您的子女')}">checked</c:if> style="width: 1rem" >您的子女
-											<input name="realusemen" type="checkbox" value="无法了解" <c:if test="${fn:contains(accessRecord03.realusemen, '无法了解')}">checked</c:if> style="width: 1rem; color: red" >
-											<span style="color: red">无法了解</span>
+											<input name="realusemen" type="text" value="${accessRecord03.realusemen}" style="width: 10rem" > 
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">房屋出资人是谁：
-											<input name="realpaymen" type="checkbox" value="本人" <c:if test="${fn:contains(accessRecord03.realpaymen, '本人')}">checked</c:if> style="width: 1rem">本人
-											<input name="realpaymen" type="checkbox" value="配偶" <c:if test="${fn:contains(accessRecord03.realpaymen, '配偶')}">checked</c:if> style="width: 1rem"  >配偶
-											<input name="realpaymen" type="checkbox" value="您的父母" <c:if test="${fn:contains(accessRecord03.realpaymen, '您的父母')}">checked</c:if> style="width: 1rem"  >您的父母
-											<input name="realpaymen" type="checkbox" value="您的子女" <c:if test="${fn:contains(accessRecord03.realpaymen, '您的子女')}">checked</c:if> style="width: 1rem"  >您的子女
-											<input name="realpaymen" type="checkbox" value="无法了解" <c:if test="${fn:contains(accessRecord03.realpaymen, '无法了解')}">checked</c:if> style="width: 1rem; color: red">
-											<span style="color: red">无法了解</span>
+											<input name="realpaymen" type="text" value="${accessRecord03.realpaymen}" style="width: 10rem">
 										</td>
 									</tr>
 
