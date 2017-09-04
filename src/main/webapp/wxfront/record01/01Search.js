@@ -85,35 +85,35 @@ function loadPage() {
       var name=oneData.custName;
       if (oneData.custSex) name=name+"("+oneData.custSex+")";
       name=name+"<br/>";
-      var phone="<span><a href='tel:"+oneData.custPhoneNum+"'>"+oneData.custPhoneNum+"</a></span><br/>";
+      var phone="<span><a href='tel:"+oneData.custPhoneNum+"'>"+oneData.custPhoneNum+"</a></span>";
       var cTime=new Date();
       cTime.setTime(oneData.recepTime.time);
       var fTime="<span class='sftime'>首访："+cTime.Format('yyyy-MM-dd')+"</span>";
       //顾问
-      var status="<span class='ysh'>已审核</span>";
       var _url=_viewUrl+"?recordId="+oneData.id;
-      if (oneData.status==1) status="<span class='ysh'>审核中</span>";
-      if (oneData.status==2) status="<span class='ysh'>已通过</span>";
-      if (oneData.status==3) status="<span class='ysh'>已作废</span>";
+      if (oneData.status==1) status=" class='ysh'>审核中</span>";
+      if (oneData.status==2) status=" class='ysh'>已通过</span>";
+      if (oneData.status==3) status=" class='ysh'>已作废</span>";
       if (oneData.status==4) {//退回
-        status="<span>未通过</span>";
+        status=">未通过</span>";
         _url=_updateUrl+"&recordId="+oneData.id;
       }
       if (userInfo.roleName!='顾问') {
-          status="<span class='ysh'>已审核</span>";
-          if (oneData.status==1) status="<span>待审核</span>";
-          if (oneData.status==2) status="<span class='ysh'>已通过</span>";
-          if (oneData.status==3) status="<span class='ysh'>未通过</span>";
-          if (oneData.status==4) status="<span class='ysh'>未通过</span>";
+          status=" class='ysh'>已审核</span>";
+          if (oneData.status==1) status=">待审核</span>";
+          if (oneData.status==2) status=" class='ysh'>已通过</span>";
+          if (oneData.status==3) status=" class='ysh'>未通过</span>";
+          if (oneData.status==4) status=" class='ysh'>未通过</span>";
       }
+      status="<span onclick=\"openNew('"+_url+"')\""+status;
       var _GW="";
-      if (userInfo.roleName!='顾问'&&oneData.authorName) {
-      _GW="顾问:"+oneData.authorName;
-      }
+      if (userInfo.roleName!='顾问'&&oneData.authorName) _GW="顾问:"+oneData.authorName;
       var _total=oneData.total;
       var _CJ=(oneData.isKnockdown&&oneData.isKnockdown==1)?"成交":"未成交";
-      html="<div class='scrollItem row'><div class='col-40 item-name2'>"+name+phone+fTime+"</div>"
-        +"<div class='col-60'  onclick=\"openNew('"+_url+"')\"><div class='col-55 item-name' style='margin-left:40%'>"+_GW+"<br>总次："+_total+"次&nbsp;&nbsp;"+_CJ+"<br>"+status+"</div></div></div>";
+      var _to02Url=_URL_BASE+"/wxfront/record02/record02Input.html?type=add&fromCustId="+oneData.custId;
+      var to02="<span style='margin-left:.5rem;' onclick=\"openNew('"+_to02Url+"')\">添加复访</span>"
+      html="<div class='scrollItem row'><div class='col-40 item-name2'><div onclick=\"openNew('"+_url+"')\">"+name+fTime+"</div>"+phone+"</div>"
+        +"<div class='col-60'><div class='col-70 item-name' style='margin-left:30%'>"+_GW+"<br>总次："+_total+"次&nbsp;&nbsp;"+_CJ+"<br>"+status+to02+"</div></div></div>";
       $("#list").append(html);
     }
     if (pullUp.offsetTop>document.documentElement.clientHeight)  pullUp.style.color="black";

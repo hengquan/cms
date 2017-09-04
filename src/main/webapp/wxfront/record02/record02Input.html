@@ -22,7 +22,7 @@
 <div class="container" id="step1" style="display:none">
   <div class="item_sflr row" id="projArea" style="display:none;">
     <div class="col-title col-title-4">项目</div>
-    <a href="record02Input.html" data-toggle="modal" data-target="#projModal">
+    <a href="#" data-toggle="modal" data-target="#projModal">
     <div class="col-input-4-1">
       <span class="input_style form-group" id="proj">&nbsp;</span>
     </div>
@@ -71,7 +71,7 @@
       </div>
     </div>
   </div>
- <div class="select"> 
+  <div class="select"> 
   <div class="item_sflr row">
     <div class="col-title col-title-2">姓名</div>
     <div class="col-input">
@@ -84,7 +84,8 @@
       <input type="text" placeholder="" name="custPhone"/>
     </div>
   </div>
-<a href="" data-toggle="modal" data-target="#selectCustomersModal"><div class="customers">选择<br>客户</div></a> 
+  </div>
+  <a href="" data-toggle="modal" onclick="selCust()"><div class="customers">选择<br>客户</div></a> 
   <div class="modal fade" id="selectCustomersModal" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -108,8 +109,7 @@
         </div>
       </div>
     </div>
-
-</div>  
+  </div>  
   <div class="item_sflr row">
     <div class="col-title col-title-2">性别</div>
     <a href="" data-toggle="modal" data-target="#sexModal">
@@ -140,7 +140,7 @@
   <div class="item_sflr row">
     <div class="col-title col-title-6">首次到访时间</div>
     <div class="col-input-6 inputdate">
-      <input type="date" placeholder="" name="firstVisitTime" readonly//>
+      <input type="date" placeholder="" name="firstVisitTime" readonly/>
     </div>
   </div>
   <div class="item_sflr row">

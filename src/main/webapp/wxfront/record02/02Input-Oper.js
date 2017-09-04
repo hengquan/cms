@@ -1971,3 +1971,9 @@ function fillSelectField(id, value, isSetValue) {
     }
   }
 }
+alert("11223344");
+function selCust() {
+  alert(_uUserId);
+  alert(_uProjId);
+  $('#selectCustomersModal').modal('show');
+}
