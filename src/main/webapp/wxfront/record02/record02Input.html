@@ -71,6 +71,7 @@
       </div>
     </div>
   </div>
+ <div class="select"> 
   <div class="item_sflr row">
     <div class="col-title col-title-2">姓名</div>
     <div class="col-input">
@@ -83,6 +84,32 @@
       <input type="text" placeholder="" name="custPhone"/>
     </div>
   </div>
+<a href="" data-toggle="modal" data-target="#selectCustomersModal"><div class="customers">选择<br>客户</div></a> 
+  <div class="modal fade" id="selectCustomersModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">选择客户</h4>
+        </div>
+        <div class="user-scroll modal-body">
+          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" @click="selselectCustomers()"/> 池如霞（女） 13810862904 </label><br>
+          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" @click="selselectCustomers()"/> 池如霞（女） 13810862904 </label><br>
+          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" @click="selselectCustomers()"/> 池如霞（女） 13810862904 </label><br>
+          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" @click="selselectCustomers()"/> 池如霞（女） 13810862904 </label><br>
+          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" @click="selselectCustomers()"/> 池如霞（女） 13810862904 </label><br>
+          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" @click="selselectCustomers()"/> 池如霞（女） 13810862904 </label><br>
+          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" @click="selselectCustomers()"/> 池如霞（女） 13810862904 </label><br>
+          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" @click="selselectCustomers()"/> 池如霞（女） 13810862904 </label><br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanselectCustomers()" id="cleanselectCustomersBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+
+</div>  
   <div class="item_sflr row">
     <div class="col-title col-title-2">性别</div>
     <a href="" data-toggle="modal" data-target="#sexModal">
@@ -348,6 +375,87 @@
     </div>
   </div>
   <div class="item_sflr row">
+    <div class="col-title col-title-4">全职太太</div>
+    <a href="" data-toggle="modal" data-target="#fulltimeWifeFlagModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="fulltimeWifeFlag">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="fulltimeWifeFlagModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">全职太太</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="fulltimeWifeFlag" value="0" _text="是" @click="selFulltimeWifeFlag()"/> 是 </label>
+          <label><input type="radio" name="fulltimeWifeFlag" value="1" _text="否" @click="selFulltimeWifeFlag()"/> 否 </label>
+          <label class="wflj"><input type="radio" name="fulltimeWifeFlag" value="-1" _text="无法了解" @click="selFulltimeWifeFlag()"/> 无法了解 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanFulltimeWifeFlag()" id="cleanFulltimeWifeFlagBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-3">有保姆</div>
+    <a href="" data-toggle="modal" data-target="#nannyFlagModal">
+    <div class="col-input-3-1">
+      <span class="input_style form-group" id="nannyFlag">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="nannyFlagModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">有保姆</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="nannyFlag" value="0" _text="是" @click="selNannyFlag()"/> 是 </label>
+          <label><input type="radio" name="nannyFlag" value="1" _text="否" @click="selNannyFlag()"/> 否 </label>
+          <label class="wflj"><input type="radio" name="nannyFlag" value="-1" _text="无法了解" @click="selNannyFlag()"/> 无法了解 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleaNnannyFlag()" id="cleanNannyFlagBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-3">有宠物</div>
+    <a href="" data-toggle="modal" data-target="#petFlagModal">
+    <div class="col-input-3-1">
+      <span class="input_style form-group" id="petFlag">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="petFlagModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">有宠物</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="petFlag" value="0" _text="是" @click="selPetFlag()"/> 是 </label>
+          <label><input type="radio" name="petFlag" value="1" _text="否" @click="selPetFlag()"/> 否 </label>
+          <label class="wflj"><input type="radio" name="petFlag" value="-1" _text="无法了解" @click="selPetFlag()"/> 无法了解 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanPetFlag()" id="cleanPetFlagBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
     <div class="col-title col-title-6">国际教育意愿</div>
     <a href="" data-toggle="modal" data-target="#outEduWillModal">
     <div class="col-input-6-1">
@@ -513,6 +621,35 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
           <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanLiveAcreage()" id="cleanLiveAcreageBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">贷款记录</div>
+    <a href="" data-toggle="modal" data-target="#loanStatusModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="loanStatus">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="loanStatusModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">贷款记录</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="loanStatus" value="024001-有贷款（住宅）" _text="有贷款（住宅）" @click="selLoanStatus()"/> 有贷款（住宅） </label>
+          <label><input type="radio" name="loanStatus" value="024002-有贷款（商业）" _text="否" @click="selLoanStatus()"/> 有贷款（商业） </label>
+          <label><input type="radio" name="loanStatus" value="024003-有贷款（住宅和商业）" _text="否" @click="selLoanStatus()"/> 有贷款（住宅和商业） </label>
+          <label><input type="radio" name="loanStatus" value="024004-无贷款" _text="否" @click="selLoanStatus()"/> 无贷款 </label>
+          <label class="wflj"><input type="radio" name="loanStatus" value="024000-无法了解" _text="无法了解" @click="selLoanStatus()"/> 无法了解 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanLoanStatus()" id="cleanLoanStatusBtn" style="display:none;">清除并关闭</button>
         </div>
       </div>
     </div>
@@ -832,6 +969,12 @@
       <textarea rows="3" placeholder="" name="custDescn"></textarea>
     </div>
   </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-9">复访未成交原因分析</div>
+    <div class="col-input">
+      <textarea rows="3" placeholder="" name="faultDescn"></textarea>
+    </div>
+  </div>
   <div class="row row-link">
     <div class="col-50" style="margin-top:1.5rem;" onClick="step4Prev()">上一步</div>
     <div class="col-50" style="margin-top:1.5rem;" onClick="step4Next()">下一步</div>
@@ -867,6 +1010,36 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
           <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanFamilyStatus()" id="cleanFamilyStatusBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-3">年龄段</div>
+    <a href="" data-toggle="modal" data-target="#ageGroupModal">
+    <div class="col-input-3-1">
+      <span class="input_style form-group" id="ageGroup">&nbsp;</span>
+    </div>
+    </a>
+ </div>
+  <div class="modal fade" id="ageGroupModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">年龄段</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="ageGroup" value="003001-25岁以下-0~25" _text="25岁以下" @click="selAgeGroup()"/> 25岁以下 </label>
+          <label><input type="radio" name="ageGroup" value="003002-26~35岁-26~35" _text="26~35岁" @click="selAgeGroup()"/> 26~35岁 </label>
+          <label><input type="radio" name="ageGroup" value="003003-36~45岁-36~45" _text="36~45岁" @click="selAgeGroup()"/> 36~45岁 </label>
+          <label><input type="radio" name="ageGroup" value="003004-46~55岁-46~55" _text="46~55岁" @click="selAgeGroup()"/> 46~55岁 </label>
+          <label><input type="radio" name="ageGroup" value="003005-56岁以上-56~" _text="56岁以上" @click="selAgeGroup()"/> 56岁以上 </label>
+          <label class="wflj"><input type="radio" name="ageGroup" value="003000-无法了解" _text="无法了解" @click="selAgeGroup()"/> 无法了解 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanAgeGroup()" id="cleanAgeGroupBtn" style="display:none;">清除并关闭</button>
         </div>
       </div>
     </div>

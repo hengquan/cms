@@ -53,6 +53,11 @@ var _uBuyPurpose="";
 var _uBuyPurposeDesc="";
 var _uAttentionPoint="";
 var _uAttentionPointDesc="";
+var _uAgeGroup="";
+var _uNannyFlag="";
+var _uPetFlag="";
+var _uLoanStatus="";
+var _uFulltimeWifeFlag="";
 
 function selProj() {
   var choose=document.getElementsByName('proj');
@@ -255,6 +260,60 @@ var vueStep2=new Vue({
       _uChildrenNum="";
       $("#cleanChildrenNumBtn").hide();
       fillSelectField('childrenNum', "", false);
+    },
+    selFulltimeWifeFlag: function() {
+      _uFulltimeWifeFlag="";
+      var choose=document.getElementsByName('fulltimeWifeFlag');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          $("#fulltimeWifeFlag").html(choose[i].getAttribute("_text"));
+          _uFulltimeWifeFlag=choose[i].value;
+        }
+      }
+      $("#fulltimeWifeFlagModal").modal('hide');
+      if (_uFulltimeWifeFlag!="") $("#cleanFulltimeWifeFlagBtn").show();
+    },
+    cleanFulltimeWifeFlag: function() {
+      $("#fulltimeWifeFlag").html("&nbsp;");
+      _uFulltimeWifeFlag="";
+      $("#cleanFulltimeWifeFlagBtn").hide();
+      fillSelectField('fulltimeWifeFlag', "", false);
+    },
+    selNannyFlag: function() {
+      _uNannyFlag="";
+      var choose=document.getElementsByName('nannyFlag');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          $("#nannyFlag").html(choose[i].getAttribute("_text"));
+          _uNannyFlag=choose[i].value;
+        }
+      }
+      $("#nannyFlagModal").modal('hide');
+      if (_uNannyFlag!="") $("#cleanNannyFlagBtn").show();
+    },
+    cleanNannyFlag: function() {
+      $("#nannyFlag").html("&nbsp;");
+      _uNannyFlag="";
+      $("#cleanNannyFlagBtn").hide();
+      fillSelectField('nannyFlag', "", false);
+    },
+    selPetFlag: function() {
+      _uPetFlag="";
+      var choose=document.getElementsByName('petFlag');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          $("#petFlag").html(choose[i].getAttribute("_text"));
+          _uPetFlag=choose[i].value;
+        }
+      }
+      $("#petFlagModal").modal('hide');
+      if (_uPetFlag!="") $("#cleanPetFlagBtn").show();
+    },
+    cleanPetFlag: function() {
+      $("#petFlag").html("&nbsp;");
+      _uPetFlag="";
+      $("#cleanPetFlagBtn").hide();
+      fillSelectField('petFlag', "", false);
     },
     selOutEduWill: function() {
       _uOutEduWill="";
@@ -646,6 +705,24 @@ var vueStep3=new Vue({
       _uLiveAcreage="";
       $("#cleanLiveAcreageBtn").hide();
       fillSelectField('liveAcreage', "", false);
+    },
+    selLoanStatus: function() {
+      _uLoanStatus="";
+      var choose=document.getElementsByName('loanStatus');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          $("#loanStatus").html(choose[i].getAttribute("_text"));
+          _uLoanStatus=choose[i].value;
+        }
+      }
+      $("#loanStatusModal").modal('hide');
+      if (_uLoanStatus!="") $("#cleanLoanStatusBtn").show();
+    },
+    cleanLoanStatus: function() {
+      $("#loanStatus").html("&nbsp;");
+      _uLoanStatus="";
+      $("#cleanLoanStatusBtn").hide();
+      fillSelectField('loanStatus', "", false);
     },
     selCarTotalPrice: function() {
       _uCarTotalPrice="";
@@ -1052,6 +1129,24 @@ var vueStep5=new Vue({
       _uGgeGroup="";
       $("#cleanFamilyStatusBtn").hide();
       fillSelectField('familyStatus', "", false);
+    },
+    selAgeGroup: function() {
+      _uAgeGroup="";
+      var choose=document.getElementsByName('ageGroup');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          $("#ageGroup").html(choose[i].getAttribute("_text"));
+          _uAgeGroup=choose[i].value;
+        }
+      }
+      $("#ageGroupModal").modal('hide');
+      if (_uAgeGroup!="") $("#cleanAgeGroupBtn").show();
+    },
+    cleanAgeGroup: function() {
+      $("#ageGroup").html("&nbsp;");
+      _uAgeGroup="";
+      $("#cleanAgeGroupBtn").hide();
+      fillSelectField('ageGroup', "", false);
     },
     selBuyQualify: function() {
       _uBuyQualify="";
