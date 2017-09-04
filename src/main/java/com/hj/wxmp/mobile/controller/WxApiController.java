@@ -1178,6 +1178,7 @@ public class WxApiController extends ControllerBaseWx {
 		_retR01.setCustdescn(record01.getCustdescn());
 		//权限用户ID
 		_retR01.setAuthorid(record01.getAuthorid());
+		userCustRef.setUserid(record01.getAuthorid());
 		//记录状态
 		_retR01.setStatus(1);
 		//记录状态
@@ -1199,7 +1200,8 @@ public class WxApiController extends ControllerBaseWx {
 	 * @return Map，key="storeStr",value=存储的字符串,key="dictList",vlue=字典值的列表，没个元素为一个Map
 	 */
 	private Map<String, Object> parseDictsStr(String dictsStr) {
-		if(StringUtils.isNotEmpty(dictsStr)) return null;
+		if(StringUtils.isEmpty(dictsStr)) return null;
+		if(StringUtils.isEmpty(dictsStr)) return null;
 		String[] oneDictStrList=dictsStr.split(",");
 
 		Map<String, Object> ret=new HashMap<String, Object>();
@@ -1243,7 +1245,7 @@ public class WxApiController extends ControllerBaseWx {
 		for (Map<String, Object> oneDict: dictList) {
 			TabDictRef tdr=new TabDictRef();
 			tdr.setId(key.getUUIDKey());
-			tdr.setDdid(dictMid);
+			tdr.setDmid(dictMid);
 			tdr.setDdid(oneDict.get("dictdid")+"");
 			tdr.setTabname(tabName);
 			tdr.setTabid(tabId);
