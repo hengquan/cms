@@ -155,8 +155,8 @@
   
   <delete id="delete4TabColum" parameterType="com.hj.wxmp.mobile.entity.TabDictRef">
   	delete from plat_TabDict_Ref
-    where  tabName = #{tabname,jdbcType=VARCHAR},
-      tabId = #{tabid,jdbcType=VARCHAR},
+    where  tabName = #{tabname,jdbcType=VARCHAR} and
+      tabId = #{tabid,jdbcType=VARCHAR} and
       refName = #{refname,jdbcType=VARCHAR}
   </delete>
 </mapper>
