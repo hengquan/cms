@@ -21,4 +21,6 @@ public interface CustomerMapper {
 	List<Map<String, Object>> selectByUserMessge(Map<String, Object> map);
 
 	Integer selectByUserMessgeCount(Map<String, Object> map);
+
+	Customer findByPhone(String phone);
 }

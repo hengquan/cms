@@ -71,6 +71,10 @@ public class CustomerServiceImpl implements CustomerService {
 	public Integer selectByUserMessgeCount(Map<String, Object> map) {
 		return dao.selectByUserMessgeCount(map);
 	}
+	@Override
+	public Customer findByPhone(String phone) {
+		return dao.findByPhone(phone);
+	}
 	
 
 

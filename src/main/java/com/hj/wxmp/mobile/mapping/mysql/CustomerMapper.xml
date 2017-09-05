@@ -912,5 +912,14 @@
   </select>
   
   
+  <!-- 根据电话号码查客户信息 -->
+  <select id="findByPhone" resultType="com.hj.wxmp.mobile.entity.Customer" parameterType="java.lang.String">
+  	SELECT 
+  	*  
+	FROM
+	ql_Customer where phoneNum = #{phone}
+  </select>
+  
+  
   
 </mapper>

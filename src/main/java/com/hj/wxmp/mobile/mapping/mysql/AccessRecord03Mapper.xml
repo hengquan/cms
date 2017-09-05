@@ -26,6 +26,7 @@
     <result column="realPayMen" property="realpaymen" jdbcType="VARCHAR" />
     <result column="authorId" property="authorid" jdbcType="VARCHAR" />
     <result column="creatorId" property="creatorid" jdbcType="VARCHAR" />
+    <result column="loanBank" property="loanbank" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
@@ -42,7 +43,7 @@
     id, projId, custId, custName, custPhoneNum, custSex, visitCycle, purchaseCycle, signCycle, 
     purchaseDate, signDate, houseNum, houseRegiType, houseAcreage, unitPrice, totalPrice, 
     paymentType, realtyProductType, addressMail, livingStatus, realUseMen, realPayMen, 
-    authorId, creatorId, status, cTime, lmTime,recepTime
+    authorId, creatorId, status, cTime, lmTime,recepTime,loanBank
   </sql>
   <sql id="Blob_Column_List" >
     realtyProductTypeDesc, suggestion, talkQandS, signQandS, sumDescn
@@ -187,6 +188,9 @@
       <if test="receptime != null" >
         recepTime,
       </if>
+      <if test="loanbank != null" >
+        loanBank,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -288,6 +292,9 @@
       <if test="receptime != null" >
         #{receptime,jdbcType=TIMESTAMP},
       </if>
+      <if test="loanbank != null" >
+        #{loanbank,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.AccessRecord03" >
@@ -388,6 +395,9 @@
       </if>
       <if test="receptime != null" >
         recepTime = #{receptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanbank != null" >
+        loanBank = #{loanbank,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
