@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,13 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hj.utils.JsonUtils;
 import com.hj.web.core.mvc.ControllerBase;
 import com.hj.wxmp.mobile.common.HashSessions;
 import com.hj.wxmp.mobile.dao.SysItemRoleDao;
 import com.hj.wxmp.mobile.entity.SysItemRole;
 import com.hj.wxmp.mobile.entity.SysRole;
+import com.hj.wxmp.mobile.entity.UserCustRef;
 import com.hj.wxmp.mobile.entity.UserInfo;
 import com.hj.wxmp.mobile.entity.UserRole;
+import com.hj.wxmp.mobile.services.AccessRecord01Service;
+import com.hj.wxmp.mobile.services.AccessRecord02Service;
+import com.hj.wxmp.mobile.services.AccessRecord03Service;
 import com.hj.wxmp.mobile.services.CustomerService;
 import com.hj.wxmp.mobile.services.IKeyGen;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
@@ -57,6 +61,12 @@ public class CustomerController extends ControllerBase {
 	ProjectService projectService;
 	@Autowired
 	CustomerService customerService;
+	@Autowired
+	AccessRecord01Service accessRecord01Service;
+	@Autowired
+	AccessRecord02Service accessRecord02Service;
+	@Autowired
+	AccessRecord03Service accessRecord03Service;
 
 	// 客户列表
 	@RequestMapping(value = "/customer/customerList")
@@ -118,44 +128,107 @@ public class CustomerController extends ControllerBase {
 	@ResponseBody
 	@RequestMapping(value = "/customer/getUserList")
 	public String getUserList(ModelMap model) {
+		Map<String,Object>map=new HashMap<String,Object>();
 		String projId = getTrimParameter("projId");
 		try {
 			//用户角色权限信息
 			UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
 			String roleId = userRole.getRoleid();
 			SysRole role = sysRoleService.findById(roleId);
-			UserInfo userData = null;
+			List<UserInfo> userData = null;
 			if(role.getRoleName().equals("管理员")) userData = projUserRoleService.selectProjUserDataByProjIdGLY(projId);
 			if(role.getRoleName().equals("项目负责人")) userData = projUserRoleService.selectProjUserDataByProjIdFZR(projId);
-			
-			
-			
+			map.put("msg", "100");
+			map.put("userData", userData);
+			map.put("projId", projId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("msg", "103");
+		}
+		System.out.println(JsonUtils.map2json(map));
+		return JsonUtils.map2json(map);
+	}
+	
+	
+	//转移客户信息
+	@RequestMapping(value = "/customer/transferCustMsg")
+	public String transferCustMsg(ModelMap model) {
+		try {
+			Map<String,Object>parmeterMap=new HashMap<String,Object>();
+			String projId = getTrimParameter("projId");
+			String custId = getTrimParameter("custId");
+			//转移到该用户名下
+			String userId = getTrimParameter("userId");
+			parmeterMap.put("projId", projId);
+			parmeterMap.put("custId", custId);
+			parmeterMap.put("userId", userId);
+			//用户客户表
+			userCustRefService.updateByProjIdAndCustId(parmeterMap);
+			//首访
+			accessRecord01Service.updateByProjIdAndCustId(parmeterMap);
+			//复访
+			accessRecord02Service.updateByProjIdAndCustId(parmeterMap);
+			//成交
+			accessRecord03Service.updateByProjIdAndCustId(parmeterMap);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:projectList";
+		return "redirect:customerList";
 	}
-//	
-//	
-//	// 删除项目
-//	@RequestMapping(value = "/pro/del")
-//	public String deletePro(ModelMap model,Project project) {
-//		try {
-//			String byid = getTrimParameter("byid");
-//			Project proj = projectService.findById(byid);
-//			String boxeditId = getTrimParameter("boxeditId");
-//			if(byid != null && !byid.equals("")){
-//				projectService.delete(proj);
-//			}else{
-//				projectService.deletes(boxeditId);
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return "redirect:projectList";
-//	}
-//	
-//	
+
+
+
+
+	//查询该项目里面的所有用户信息(多选)
+	@ResponseBody
+	@RequestMapping(value = "/customer/getUserLists")
+	public String getUserLists(ModelMap model) {
+		Map<String,Object>map=new HashMap<String,Object>();
+		String userCustIds = getTrimParameter("userCustIds");
+		try {
+			if(userCustIds!=null){
+				//项目id
+				String projId = null;
+				//原权限人id
+				String custId = null;
+				String[] userCustIdList = userCustIds.split(",");
+				for(String userCustId : userCustIdList){
+					UserCustRef userCustRef = userCustRefService.findById(userCustId);
+					String projid = userCustRef.getProjid();
+					custId += userCustRef.getCustid()+",";
+					//对比是否为同一个项目
+					if(projId==null){
+						projId = projid;
+					}else{
+						if(!projId.equals(projid)){
+							map.put("msg", "105");
+							return JsonUtils.map2json(map);
+						}
+					}
+				}
+				//用户角色权限信息
+				UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+				String roleId = userRole.getRoleid();
+				SysRole role = sysRoleService.findById(roleId);
+				List<UserInfo> userData = null;
+				if(role.getRoleName().equals("管理员")) userData = projUserRoleService.selectProjUserDataByProjIdGLY(projId);
+				if(role.getRoleName().equals("项目负责人")) userData = projUserRoleService.selectProjUserDataByProjIdFZR(projId);
+				map.put("msg", "100");
+				map.put("userData", userData);
+				map.put("projId", projId);
+				map.put("custId", custId);
+			}else{
+				map.put("msg", "200");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("msg", "103");
+		}
+		System.out.println(JsonUtils.map2json(map));
+		return JsonUtils.map2json(map);
+	}
+	
+	
 	
 	
 

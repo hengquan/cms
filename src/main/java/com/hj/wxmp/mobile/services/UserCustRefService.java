@@ -100,4 +100,6 @@ public interface UserCustRefService {
 
 	public Integer selectByUserMessgeCount(Map<String, Object> map);
 
+	public void updateByProjIdAndCustId(Map<String, Object> parmeterMap);
+
 }

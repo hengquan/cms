@@ -3230,19 +3230,34 @@ public class WxApiController extends ControllerBaseWx {
     
     
     //获取客户详细信息
-	@RequestMapping(value = "/getCusMsg")
+	@RequestMapping(value = "/getCustMsg")
 	@ResponseBody
 	public String getCusMsg(HttpServletRequest req){
 		Map<String, Object> m=RequestUtils.getDataFromRequest(req);
 		responseInfo(response);
 		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> parmeterMap = new HashMap<String,Object>();
 		try {
 			String custId = m.get("custId")==null?null:m.get("custId").toString();
+			String projId = m.get("projId")==null?null:m.get("projId").toString();
 			if(custId != null){
-				//获取客户详细信息
-				Customer customer = customerService.findById(custId);
-				map.put("customer", customer);
-				map.put("msg", "100");
+				if(projId!=null){
+					parmeterMap.put("custId", custId);
+					parmeterMap.put("custId", custId);
+					//获取客户详细信息
+					Customer customer = customerService.findById(custId);
+					//首次获取时间
+					List<AccessRecord01> accessRecord01s = accessRecord01Service.selectByUserId(parmeterMap);
+					Date firstknowtime = accessRecord01s.get(0).getFirstknowtime();
+					//复访总次数
+					Integer totalRecord02 = accessRecord01Service.selectByCustIdAndProjId(parmeterMap);
+					customer.setFirstvisittime(firstknowtime);
+					customer.setVisitcount(totalRecord02);
+					map.put("customer", customer);
+					map.put("msg", "100");
+				}else{
+					map.put("msg", "201");
+				}
 			}else{
 				map.put("msg", "200");
 			}
@@ -3255,7 +3270,7 @@ public class WxApiController extends ControllerBaseWx {
 	
 	
 	//获取客户项目关系表信息
-	@RequestMapping(value = "/getProjCusList")
+	@RequestMapping(value = "/getProjCustList")
 	@ResponseBody
 	public String getProjCusList(HttpServletRequest req){
 		Map<String, Object> m=RequestUtils.getDataFromRequest(req);

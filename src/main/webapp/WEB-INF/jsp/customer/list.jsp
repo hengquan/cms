@@ -120,7 +120,7 @@
 								</div>
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
-									<a href="javascript:doDelete();" class="btn mini btn-white">切换权限用户</a>
+									<a href="javascript:selectUsers();" class="btn mini btn-white">切换权限用户</a>
 								</div>
 
 
@@ -138,9 +138,11 @@
 										<th style="width: 8px;"><input type="checkbox" name="box"
 											class="group-checkable" data-set="#sample_1 .checkboxes"
 											value="" /></th>
+										<th class="hidden-phone">顾问姓名</th>
 										<th class="hidden-phone">客户姓名</th>
 										<th class="hidden-phone">客户电话</th>
 										<th class="hidden-phone">性别</th>
+										<th class="hidden-phone">项目名称</th>
 										<th class="hidden-phone">关注时间</th>
 										<th class="hidden-phone">操作</th>
 										
@@ -151,14 +153,16 @@
 										<tr class="odd gradeX theTr">
 											<td><input type="checkbox" name="box" class="checkboxes"
 												value="${u.id}" /></td>
+											<td class="hidden-phone">${u.realName}</td>
 											<td class="hidden-phone">${u.custName}</td>
 											<td class="hidden-phone">${u.phoneNum}</td>
 											<td class="hidden-phone">${u.custSex}</td>
+											<td class="hidden-phone">${u.projName}</td>
 											<td class="hidden-phone">
 												<fmt:formatDate value="${u.cTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 											</td>
 											<td class="hidden-phone">
-												<button type="button" onclick="editJurisdiction('${u.projId}')" 
+												<button type="button" onclick="editJurisdiction('${u.projId}','${u.custId }')" 
 												class="btn btn-send">切换权限用户</button>
 											</td>
 										</tr>
@@ -211,73 +215,23 @@
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"
 							aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="modal-title">添加商品</h4>
+						<h4 class="modal-title" id="modal-title">转移客户信息</h4>
 					</div>
 					<div class="modal-body">
-						<form action="${appRoot}/anwProduct/add" method="post" class="form-horizontal"  enctype="multipart/form-data"  role="form" id="addMessage" name="itemForm" >
-							<input type="hidden" name="editId123" id="editId123">
+						<form action="${appRoot}/customer/transferCustMsg" method="post" class="form-horizontal"  enctype="multipart/form-data"  role="form" id="addMessage" name="itemForm" >
+							<input type="hidden" name="projId" id="projId">
+							<input type="hidden" name="custId" id="custId">
 							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">商品名称<font style="color:red;"></font></label>
+								<label class="col-lg-2 control-label pd-r5">请选择用户<font style="color:red;"></font></label>
 								<div class="col-lg-10">
-									<input type="text" class="form-control" id="productName"
-										name="productName" maxlength="4" >
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">商品价格<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<input type="text" class="form-control" id="price"
-										name="price" maxlength="4" >
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">销量<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<input type="text" class="form-control" id="salesVolume"
-										name="salesVolume" maxlength="4" >
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">运费<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<input type="text" class="form-control" id="freight"
-										name="freight" maxlength="4" >
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">商品类型<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<select class="form-control" name="categoryId">
-										<c:forEach items="${categorys}" var="u" varStatus="s">
-											<option value="${u.id }">${u.name }</option>
-										</c:forEach>
+									<select class="form-control" name="userId" id="userData">
+										
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">商品详情<font
-									style="color: red;"></font></label>
-								<div class="col-lg-10">
-									<textarea rows="5" cols="60" class="form-control"
-										id="productDetails" name="productDetails">
-										
-										</textarea>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">商品图片<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<div class="form-group pic_upload clearfix">
-										<ul id="hiddenImgUrl">
-											<li><img src="${appRoot}/static/img/zanwu1.png" style="height: 70px;" id="imgURL1" /></li>
-											<li><input type="file" name="imgfile1" onchange="addImg(this)" /> <i class="glyphicon glyphicon-plus"></i></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
 								<div class="col-lg-offset-2 col-lg-10">
-									<button type="button" onclick="submitData();" class="btn btn-send">提交</button>
+									<button type="submit" class="btn btn-send">确定</button>
 								</div>
 							</div>
 						</form>
@@ -488,23 +442,87 @@
 	<script type="text/javascript">
 	
 	//修改客户的操作权限用户单个
-	function editJurisdiction(projId){
+	function editJurisdiction(projId,custId){
 		$.ajax({
 			type:'post',
 			data : {"projId":projId},  
-			url:'${appRoot}/accessRecord/firstRecord',
+			url:'${appRoot}/customer/getUserList',
 			dataType:'json',
 			success:function(data){
+				console.log(data);
 				if(data.msg == 100){
-					windowShow("提交成功","");
-					seeAllMsg();
+					var htmldata = "";
+					var usermsg = data.userData;
+					for(var i=0;i<usermsg.length;i++){
+						htmldata += '<option value="'+ usermsg[i].id +'">'+ usermsg[i].realname +'</option>';
+					}
+					$("#userData").html(htmldata);
+					//项目id
+					var projId = data.projId;
+					$("#projId").val(projId);
+					//原权限人
+					$("#custId").val(custId);
+					var $modal = $('#addProblemType');
+					$modal.modal();
 				}else{
-					windowShow("提交失败","");
+					windowShow("获取用户列表失败","");
 				}
 			}
 		});
 		
 	}
+	
+	
+	//多选客户信息转移用户
+	function selectUsers(){
+		var str = document.getElementsByName("box");
+		var objarray = str.length;
+		var chestr = "";
+		var jy = false;
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				chestr += str[i].value + ",";
+			}
+		}
+		if (!jy) {
+			windowShow("请选择要转移的客户！")
+			$('#quxiao').click();
+			return false;
+		} 
+		//调用接口
+		$.ajax({
+			type:'post',
+			data : {"userCustIds":chestr},  
+			url:'${appRoot}/customer/getUserLists',
+			dataType:'json',
+			success:function(data){
+				console.log(data);
+				if(data.msg == 100){
+					var htmldata = "";
+					var usermsg = data.userData;
+					for(var i=0;i<usermsg.length;i++){
+						htmldata += '<option value="'+ usermsg[i].id +'">'+ usermsg[i].realname +'</option>';
+					}
+					$("#userData").html(htmldata);
+					//项目id
+					var projId = data.projId;
+					$("#projId").val(projId);
+					//原权限人
+					var custId = data.custId;
+					$("#custId").val(custId);
+					var $modal = $('#addProblemType');
+					$modal.modal();
+				}else if(data.msg == 105){
+					windowShow("您所选择的用户没有在同一个项目","");
+				}else{
+					windowShow("获取用户列表失败","");
+				}
+			}
+		});
+	}
+	
+	
 	
 	
 	

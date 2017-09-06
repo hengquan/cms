@@ -37,4 +37,6 @@ public interface AccessRecord03Mapper {
 	List<Map<String, Object>> getRecord03ListFuZe(Map<String, Object> result);
 
 	List<Map<String, Object>> getRecord03ListAdmin(Map<String, Object> result);
+
+	void updateByProjIdAndCustId(Map<String, Object> parmeterMap);
 }

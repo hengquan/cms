@@ -37,4 +37,8 @@ public interface AccessRecord01Mapper {
 	Integer selectMessageCount(Map<String, Object> map);
 
 	List<AccessRecord01> selectByUserId(Map<String,Object> datamsg);
+
+	void updateByProjIdAndCustId(Map<String, Object> parmeterMap);
+
+	Integer selectByCustIdAndProjId(Map<String, Object> parmeterMap);
 }

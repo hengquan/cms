@@ -27,4 +27,6 @@ public interface UserCustRefMapper {
 	List<Map<String, Object>> selectByUserMessge(Map<String, Object> map);
 
 	Integer selectByUserMessgeCount(Map<String, Object> map);
+
+	void updateByProjIdAndCustId(Map<String, Object> parmeterMap);
 }

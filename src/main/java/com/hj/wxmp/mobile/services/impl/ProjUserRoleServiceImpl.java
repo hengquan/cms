@@ -84,19 +84,19 @@ public class ProjUserRoleServiceImpl implements ProjUserRoleService {
 		return dao.selectByProjIdAndUserId(result);
 	}
 	@Override
-	public UserInfo selectProjUserDataByUserIdFZR(String userid) {
+	public List<UserInfo> selectProjUserDataByUserIdFZR(String userid) {
 		return dao.selectProjUserDataByUserIdFZR(userid);
 	}
 	@Override
-	public UserInfo selectProjUserDataByUserIdGLY(String userid) {
+	public List<UserInfo> selectProjUserDataByUserIdGLY(String userid) {
 		return dao.selectProjUserDataByUserIdGLY(userid);
 	}
 	@Override
-	public UserInfo selectProjUserDataByProjIdGLY(String projId) {
+	public List<UserInfo> selectProjUserDataByProjIdGLY(String projId) {
 		return dao.selectProjUserDataByProjIdGLY(projId);
 	}
 	@Override
-	public UserInfo selectProjUserDataByProjIdFZR(String projId) {
+	public List<UserInfo> selectProjUserDataByProjIdFZR(String projId) {
 		return dao.selectProjUserDataByProjIdFZR(projId);
 	}
 

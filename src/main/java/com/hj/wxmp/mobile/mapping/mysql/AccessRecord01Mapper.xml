@@ -737,4 +737,15 @@
   <select id="selectByUserId" resultType="com.hj.wxmp.mobile.entity.AccessRecord01" parameterType="java.util.Map">
   	SELECT * from ql_AccessRecord01 where custId = #{custId} and projId = #{projId}
   </select>
+  
+  <update id="updateByProjIdAndCustId" parameterType="java.util.Map">
+  	update ql_AccessRecord01 set authorId = #{userId} where projId=#{projId} and instr(#{custId},custId)
+  </update>
+  
+  <select id="selectByCustIdAndProjId" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	SELECt count(1) 
+	FROM
+	ql_AccessRecord02 record01 where projId=#{projId} and custId=#{custId} and `status`=2
+  </select>
+  
 </mapper>

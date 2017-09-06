@@ -146,10 +146,13 @@
   <!-- 根据条件查询用户客记信息 -->
   <select id="selectByUserMessge" resultType="java.util.Map" parameterType="java.util.Map">
 	SELECT
-		qur.*,qc.*,pu.realName,pu.isValidate
+		qur.*, qc.*, pu.realName,
+		pu.isValidate,proj.projName
 	FROM
-	ql_UserCust_Ref qur
-	JOIN ql_Customer qc ON qur.custId = qc.id join plat_User pu on qur.userId = pu.id
+		ql_UserCust_Ref qur
+	JOIN ql_Customer qc ON qur.custId = qc.id
+	JOIN plat_User pu ON qur.userId = pu.id
+	join ql_Project proj on qur.projId = proj.id
 	WHERE
 		instr(qc.custName,#{name}) 
 	limit #{page},#{pageSize}
@@ -167,5 +170,9 @@
 		instr(qc.custName,#{name}) 
   </select>
   
+  
+  <update id="updateByProjIdAndCustId" parameterType="java.util.Map">
+  	update ql_UserCust_Ref set userId=#{userId} where projId=#{projId} and instr(#{custId},custId)
+  </update>
   
 </mapper>

@@ -1155,4 +1155,9 @@
 	) as r01 
 	limit #{page},#{pageSize}
   </select>
+  
+  
+  <update id="updateByProjIdAndCustId" parameterType="java.util.Map">
+  	update ql_AccessRecord02 set authorId = #{userId} where projId=#{projId} and instr(#{custId},custId)
+  </update>
 </mapper>

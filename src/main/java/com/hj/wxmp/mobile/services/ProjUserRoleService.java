@@ -101,12 +101,12 @@ public interface ProjUserRoleService {
 
 	public List<Map<String, Object>> selectByProjIdAndUserId(Map<String, Object> result);
 
-	public UserInfo selectProjUserDataByUserIdFZR(String userid);
+	public List<UserInfo> selectProjUserDataByUserIdFZR(String userid);
 
-	public UserInfo selectProjUserDataByUserIdGLY(String userid);
+	public List<UserInfo> selectProjUserDataByUserIdGLY(String userid);
 
-	public UserInfo selectProjUserDataByProjIdGLY(String projId);
+	public List<UserInfo> selectProjUserDataByProjIdGLY(String projId);
 
-	public UserInfo selectProjUserDataByProjIdFZR(String projId);
+	public List<UserInfo> selectProjUserDataByProjIdFZR(String projId);
 
 }

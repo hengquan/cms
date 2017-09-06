@@ -136,8 +136,28 @@ public class Customer {
     private String loveactdesc;
 
     private String custdescn;
+    
+    private Date firstvisittime;
+    
+    private Integer visitcount;
 
-    public String getTraffictypedesc() {
+    public Date getFirstvisittime() {
+		return firstvisittime;
+	}
+
+	public Integer getVisitcount() {
+		return visitcount;
+	}
+
+	public void setFirstvisittime(Date firstvisittime) {
+		this.firstvisittime = firstvisittime;
+	}
+
+	public void setVisitcount(Integer visitcount) {
+		this.visitcount = visitcount;
+	}
+
+	public String getTraffictypedesc() {
         return traffictypedesc;
     }
 
@@ -672,4 +692,5 @@ public class Customer {
     public void setLmtime(Date lmtime) {
         this.lmtime = lmtime;
     }
+    
 }

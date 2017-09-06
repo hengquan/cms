@@ -104,5 +104,9 @@ public class AccessRecord02ServiceImpl implements AccessRecord02Service {
 	public List<Map<String, Object>> getRecord02ListAdmin(Map<String, Object> result) {
 		return dao.getRecord02ListAdmin(result);
 	}
+	@Override
+	public void updateByProjIdAndCustId(Map<String, Object> parmeterMap) {
+		dao.updateByProjIdAndCustId(parmeterMap);
+	}
 
 }

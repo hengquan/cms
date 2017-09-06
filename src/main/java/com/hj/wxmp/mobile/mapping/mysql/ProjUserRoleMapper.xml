@@ -162,35 +162,31 @@
 
 
   <select id="selectProjUserDataByProjIdGLY" resultType="com.hj.wxmp.mobile.entity.UserInfo" parameterType="java.lang.String">
-	  	SELECT
-		cus.id,
-		cus.custName,
-		cus.phoneNum,
-		cus.custSex,
-		pro.projName
+	SELECT DISTINCT
+		pu.*
 	FROM
-		ql_UserCust_Ref userCust
-	JOIN ql_Customer cus ON userCust.custId = cus.id
-	JOIN ql_Project pro ON userCust.projId = pro.id
-  	where 
-  	userCust.projId = #{projId} and userCust.userId=#{userId}
+		ql_ProjUserRole projCust
+	JOIN plat_User pu ON projCust.userId = pu.id
+	JOIN ql_Project pro ON projCust.projId = pro.id
+	JOIN ql_UserRole qur ON projCust.userId = qur.userId
+	JOIN sys_role role ON qur.roleId = role.id
+	WHERE
+		role.role_name = '项目负责人'
+	AND projCust.projId = #{projId}
   </select>
   
-  
-  <select id="selectProjUserDataByProjIdGLY" resultType="com.hj.wxmp.mobile.entity.UserInfo" parameterType="java.lang.String">
-	  	SELECT
-		cus.id,
-		cus.custName,
-		cus.phoneNum,
-		cus.custSex,
-		pro.projName
+  <select id="selectProjUserDataByProjIdFZR" resultType="com.hj.wxmp.mobile.entity.UserInfo" parameterType="java.lang.String">
+	SELECT DISTINCT
+		pu.*
 	FROM
-		ql_UserCust_Ref userCust
-	JOIN ql_Customer cus ON userCust.custId = cus.id
-	JOIN ql_Project pro ON userCust.projId = pro.id
-  	where 
-  	userCust.projId = #{projId} and userCust.userId=#{userId}
-  </select>
-  
+		ql_ProjUserRole projCust
+	JOIN plat_User pu ON projCust.userId = pu.id
+	JOIN ql_Project pro ON projCust.projId = pro.id
+	JOIN ql_UserRole qur ON projCust.userId = qur.userId
+	JOIN sys_role role ON qur.roleId = role.id
+	WHERE
+		role.role_name = '顾问'
+	AND projCust.projId = #{projId}
+  </select>  
   
 </mapper>

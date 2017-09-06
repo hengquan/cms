@@ -96,4 +96,6 @@ public interface CustomerService {
 
 	public Customer findByPhone(String phone);
 
+	public Customer selectByCustIdAndProjId(Map<String, Object> parmeter);
+
 }

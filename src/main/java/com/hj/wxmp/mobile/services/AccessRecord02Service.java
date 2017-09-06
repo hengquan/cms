@@ -110,5 +110,7 @@ public interface AccessRecord02Service {
 
 	public List<Map<String, Object>> getRecord02ListAdmin(Map<String, Object> result);
 
+	public void updateByProjIdAndCustId(Map<String, Object> parmeterMap);
+
 
 }

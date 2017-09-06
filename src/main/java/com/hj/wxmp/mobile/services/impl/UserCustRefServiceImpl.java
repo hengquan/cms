@@ -43,8 +43,7 @@ public class UserCustRefServiceImpl implements UserCustRefService {
 	}
 	@Override
 	public UserCustRef findById(String sys_uuid) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.selectByPrimaryKey(sys_uuid);
 	}
 	@Override
 	public UserCustRef findByOpenid(String openid) throws Exception {
@@ -85,6 +84,10 @@ public class UserCustRefServiceImpl implements UserCustRefService {
 	@Override
 	public Integer selectByUserMessgeCount(Map<String, Object> map) {
 		return dao.selectByUserMessgeCount(map);
+	}
+	@Override
+	public void updateByProjIdAndCustId(Map<String, Object> parmeterMap) {
+		dao.updateByProjIdAndCustId(parmeterMap);
 	}
 
 	

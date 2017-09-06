@@ -23,4 +23,6 @@ public interface CustomerMapper {
 	Integer selectByUserMessgeCount(Map<String, Object> map);
 
 	Customer findByPhone(String phone);
+
+	Customer selectByCustIdAndProjId(Map<String, Object> parmeter);
 }

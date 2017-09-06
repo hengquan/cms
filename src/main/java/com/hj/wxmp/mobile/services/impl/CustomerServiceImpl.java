@@ -75,6 +75,10 @@ public class CustomerServiceImpl implements CustomerService {
 	public Customer findByPhone(String phone) {
 		return dao.findByPhone(phone);
 	}
+	@Override
+	public Customer selectByCustIdAndProjId(Map<String, Object> parmeter) {
+		return dao.selectByCustIdAndProjId(parmeter);
+	}
 	
 
 

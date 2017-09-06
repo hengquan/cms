@@ -104,6 +104,14 @@ public class AccessRecord01ServiceImpl implements AccessRecord01Service {
 	public List<AccessRecord01> selectByUserId(Map<String,Object> datamsg) {
 		return dao.selectByUserId(datamsg);
 	}
+	@Override
+	public void updateByProjIdAndCustId(Map<String, Object> parmeterMap) {
+		dao.updateByProjIdAndCustId(parmeterMap);
+	}
+	@Override
+	public Integer selectByCustIdAndProjId(Map<String, Object> parmeterMap) {
+		return dao.selectByCustIdAndProjId(parmeterMap);
+	}
 	
 
 }

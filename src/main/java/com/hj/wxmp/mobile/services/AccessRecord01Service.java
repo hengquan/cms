@@ -110,5 +110,9 @@ public interface AccessRecord01Service {
 
 	public List<AccessRecord01> selectByUserId(Map<String,Object> datamsg);
 
+	public void updateByProjIdAndCustId(Map<String, Object> parmeterMap);
+
+	public Integer selectByCustIdAndProjId(Map<String, Object> parmeterMap);
+
 
 }

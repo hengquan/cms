@@ -29,11 +29,11 @@ public interface ProjUserRoleMapper {
 
 	List<Map<String, Object>> selectByProjIdAndUserId(Map<String, Object> result);
 
-	UserInfo selectProjUserDataByUserIdFZR(String userid);
+	List<UserInfo> selectProjUserDataByUserIdFZR(String userid);
 
-	UserInfo selectProjUserDataByUserIdGLY(String userid);
+	List<UserInfo> selectProjUserDataByUserIdGLY(String userid);
 
-	UserInfo selectProjUserDataByProjIdGLY(String projId);
+	List<UserInfo> selectProjUserDataByProjIdGLY(String projId);
 
-	UserInfo selectProjUserDataByProjIdFZR(String projId);
+	List<UserInfo> selectProjUserDataByProjIdFZR(String projId);
 }
