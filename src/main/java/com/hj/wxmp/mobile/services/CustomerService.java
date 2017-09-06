@@ -94,4 +94,6 @@ public interface CustomerService {
 
 	public Integer selectByUserMessgeCount(Map<String, Object> map);
 
+	public Customer findByPhone(String phone);
+
 }

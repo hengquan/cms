@@ -68,6 +68,16 @@ public class AccessRecord03 {
     private String sumdescn;
     
     private Date receptime;
+    
+    private String loanbank;
+    
+	public String getLoanbank() {
+		return loanbank;
+	}
+
+	public void setLoanbank(String loanbank) {
+		this.loanbank = loanbank;
+	}
 
 	public Date getReceptime() {
 		return receptime;
