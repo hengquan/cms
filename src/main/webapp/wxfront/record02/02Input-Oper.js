@@ -61,17 +61,20 @@ var _uFulltimeWifeFlag="";
 
 function selProj() {
   var choose=document.getElementsByName('proj');
+  var changePrj=false;
   for (var i=0; i<choose.length; i++) {
     if (choose[i].checked) {
       $("#proj").html(choose[i].getAttribute("_text"));
       _uProjName=choose[i].getAttribute("_text");
       var oldProjId=_uProjId;
       _uProjId=choose[i].value.substring(0, choose[i].value.indexOf('-'));
-      if (_uUserRole!='顾问'&&_uProjId!=oldProjId) loadProjUser(_uProjId);
+      changePrj=(_uProjId!=oldProjId);
     }
   }
   $("#projModal").modal('hide');
   if (_uProjId!="") $("#cleanProjBtn").show();
+  if (_uUserRole!='顾问'&&changePrj) loadProjUser(_uProjId);
+  if (changePrj) cleanCust();
 }
 var vueStep1=new Vue({
   el: "#step1",
@@ -1971,65 +1974,3 @@ function fillSelectField(id, value, isSetValue) {
     }
   }
 }
-
-var _thisProjId="";
-var _thisUserId="";
-function openSelCust() {
-  if (!_uUserId) {
-    alert("未确定置业顾问，无法选择客户");
-    return ;
-  }
-  if (!_uProjId) {
-    alert("未确定具体项目，无法选择客户");
-    return ;
-  }
-  if (_thisProjId!=_uProjId||_thisUserId!=_uUserId) {
-    var url=_URL_BASE+"wx/api/getCusList";
-    var _data={};
-    _data.projId=_uProjId;
-    _data.userId=_uUserId;
-    $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
-      success: function(json) {
-        if (json.msg!='100') {
-          alert("未获得任何客户信息");
-        } else {
-          for (var i=0; i<json.customers.length; i++) {
-          	var oneCust=json.customers[i];
-            var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+oneCust.phoneNum+"</span><span>"+oneCust.projName+"</span>";
-            var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.id+"-"+oneCust.custName+"' _text='"+oneCust.custName+"' onclick='selCust()'/>"+_innerHtml+"</label>";
-            if (i<(json.users.length-1)) userHtml+="<br>";
-            $("#userData").append(userHtml);
-          }
-          $('#selectCustomersModal').modal('show');
-        }
-      },
-      error: function(XMLHttpRequest, textStatus, errorThrown) {
-        alert("获得客户信息时出现系统错误：\nstatu="+XMLHttpRequest.status+"\nreadyState="+XMLHttpRequest.readyState+"\ntext="+textStatu+"\nerrThrown="+errorThrown);
-      }
-    });
-    _thisProjId=_uProjId;
-    _thisUserId=_uUserId;
-  } else {
-    $('#selectCustomersModal').modal('show');
-  }
-}
-function cleanCust() {
-  
-}
-function selCust() {
-  var choose=document.getElementsByName('proj');
-  for (var i=0; i<choose.length; i++) {
-    if (choose[i].checked) {
-      $("#proj").html(choose[i].getAttribute("_text"));
-      _uProjName=choose[i].getAttribute("_text");
-      var oldProjId=_uProjId;
-      _uProjId=choose[i].value.substring(0, choose[i].value.indexOf('-'));
-      if (_uUserRole!='顾问'&&_uProjId!=oldProjId) loadProjUser(_uProjId);
-    }
-  }
-  $("#projModal").modal('hide');
-  if (_uProjId!="") $("#cleanProjBtn").show();
-}
-$('#selectCustomersModal').on('hide.bs.modal', function () {
-  cleanCust(1);
-});
