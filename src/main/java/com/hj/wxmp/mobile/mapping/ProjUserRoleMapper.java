@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hj.wxmp.mobile.entity.ProjUserRole;
+import com.hj.wxmp.mobile.entity.UserInfo;
 
 public interface ProjUserRoleMapper {
     int deleteByPrimaryKey(String id);
@@ -27,4 +28,12 @@ public interface ProjUserRoleMapper {
 	List<Map<String, Object>> selectByProjId(String projId);
 
 	List<Map<String, Object>> selectByProjIdAndUserId(Map<String, Object> result);
+
+	UserInfo selectProjUserDataByUserIdFZR(String userid);
+
+	UserInfo selectProjUserDataByUserIdGLY(String userid);
+
+	UserInfo selectProjUserDataByProjIdGLY(String projId);
+
+	UserInfo selectProjUserDataByProjIdFZR(String projId);
 }

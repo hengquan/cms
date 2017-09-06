@@ -23,4 +23,8 @@ public interface UserCustRefMapper {
 	List<Map<String, Object>> selectByProjectId(String proId);
 
 	List<Map<String, Object>> findByProjectId(String proId);
+
+	List<Map<String, Object>> selectByUserMessge(Map<String, Object> map);
+
+	Integer selectByUserMessgeCount(Map<String, Object> map);
 }

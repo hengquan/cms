@@ -3237,11 +3237,15 @@ public class WxApiController extends ControllerBaseWx {
 		responseInfo(response);
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
-			String cusId = m.get("cusId")==null?null:m.get("cusId").toString();
-			//获取客户详细信息
-			Customer customer = customerService.findById(cusId);
-			map.put("customer", customer);
-			map.put("msg", "100");
+			String custId = m.get("custId")==null?null:m.get("custId").toString();
+			if(custId != null){
+				//获取客户详细信息
+				Customer customer = customerService.findById(custId);
+				map.put("customer", customer);
+				map.put("msg", "100");
+			}else{
+				map.put("msg", "200");
+			}
 		} catch (Exception e) {
 			map.put("msg", "103");
 			e.printStackTrace();
@@ -3260,13 +3264,21 @@ public class WxApiController extends ControllerBaseWx {
 		Map<String,Object> result = new HashMap<String,Object>();
 		try {
 			String projId = m.get("projId")==null?null:m.get("projId").toString();
-			String cusId = m.get("cusId")==null?null:m.get("cusId").toString();
-			//获取用户列表
-			result.put("projId", projId);
-			result.put("cusId", cusId);
-			List<Map<String,Object>> projCustRefList = projCustRefService.selectByProjIdAndCusId(result);
-			map.put("projCustRefList", projCustRefList);
-			map.put("msg", "100");
+			String custId = m.get("custId")==null?null:m.get("custId").toString();
+			if(projId !=null){
+				if(custId!=null){
+					//获取用户列表
+					result.put("projId", projId);
+					result.put("cusId", custId);
+					List<Map<String,Object>> projCustRefList = projCustRefService.selectByProjIdAndCusId(result);
+					map.put("projCustRefList", projCustRefList);
+					map.put("msg", "100");
+				}else{
+					map.put("msg", "201");
+				}
+			}else{
+				map.put("msg", "200");
+			}
 		} catch (Exception e) {
 			map.put("msg", "103");
 			e.printStackTrace();

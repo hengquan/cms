@@ -141,4 +141,31 @@
   </select>
   
   
+  
+  
+  <!-- 根据条件查询用户客记信息 -->
+  <select id="selectByUserMessge" resultType="java.util.Map" parameterType="java.util.Map">
+	SELECT
+		qur.*,qc.*,pu.realName,pu.isValidate
+	FROM
+	ql_UserCust_Ref qur
+	JOIN ql_Customer qc ON qur.custId = qc.id join plat_User pu on qur.userId = pu.id
+	WHERE
+		instr(qc.custName,#{name}) 
+	limit #{page},#{pageSize}
+  </select>
+  
+  
+  <!-- 根据条件查询用户客记信息数量 -->
+  <select id="selectByUserMessgeCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+	SELECT
+		count(1)
+	FROM
+	ql_UserCust_Ref qur
+	JOIN ql_Customer qc ON qur.custId = qc.id join plat_User pu on qur.userId = pu.id
+	WHERE
+		instr(qc.custName,#{name}) 
+  </select>
+  
+  
 </mapper>

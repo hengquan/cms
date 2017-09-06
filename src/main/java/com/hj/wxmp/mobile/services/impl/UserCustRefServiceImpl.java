@@ -78,6 +78,14 @@ public class UserCustRefServiceImpl implements UserCustRefService {
 	public List<Map<String, Object>> findByProjectId(String proId) {
 		return dao.findByProjectId(proId);
 	}
+	@Override
+	public List<Map<String, Object>> selectByUserMessge(Map<String, Object> map) {
+		return dao.selectByUserMessge(map);
+	}
+	@Override
+	public Integer selectByUserMessgeCount(Map<String, Object> map) {
+		return dao.selectByUserMessgeCount(map);
+	}
 
 	
 

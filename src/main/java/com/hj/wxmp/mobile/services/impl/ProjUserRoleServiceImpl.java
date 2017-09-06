@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 import com.hj.wxmp.mobile.entity.ProjUserRole;
+import com.hj.wxmp.mobile.entity.UserInfo;
 import com.hj.wxmp.mobile.mapping.ProjUserRoleMapper;
 import com.hj.wxmp.mobile.services.IKeyGen;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
@@ -81,6 +82,22 @@ public class ProjUserRoleServiceImpl implements ProjUserRoleService {
 	@Override
 	public List<Map<String, Object>> selectByProjIdAndUserId(Map<String, Object> result) {
 		return dao.selectByProjIdAndUserId(result);
+	}
+	@Override
+	public UserInfo selectProjUserDataByUserIdFZR(String userid) {
+		return dao.selectProjUserDataByUserIdFZR(userid);
+	}
+	@Override
+	public UserInfo selectProjUserDataByUserIdGLY(String userid) {
+		return dao.selectProjUserDataByUserIdGLY(userid);
+	}
+	@Override
+	public UserInfo selectProjUserDataByProjIdGLY(String projId) {
+		return dao.selectProjUserDataByProjIdGLY(projId);
+	}
+	@Override
+	public UserInfo selectProjUserDataByProjIdFZR(String projId) {
+		return dao.selectProjUserDataByProjIdFZR(projId);
 	}
 
 

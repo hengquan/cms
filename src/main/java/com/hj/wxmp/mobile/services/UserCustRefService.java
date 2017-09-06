@@ -96,4 +96,8 @@ public interface UserCustRefService {
 
 	public List<Map<String, Object>> findByProjectId(String proId);
 
+	public List<Map<String, Object>> selectByUserMessge(Map<String, Object> map);
+
+	public Integer selectByUserMessgeCount(Map<String, Object> map);
+
 }
