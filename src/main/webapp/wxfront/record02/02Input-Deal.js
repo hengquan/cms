@@ -413,23 +413,23 @@ function fillTime(id, value) {
 function step1Next() {//要判断是否应该进行首访录入
   var _data={};
   if (!_uProjId) {
-  	alert("请选择具体项目！");
-  	return;
+    alert("请选择具体项目！");
+    return;
   }
   _data.projId=_uProjId;
   if (!_uUserId) {
-  	alert("请选择一位顾问！");
-  	return;
+    alert("请选择一位顾问！");
+    return;
   }
   _data.custName=$("input[name='custName']").val();
   if (!_data.custName) {
-  	alert("请选择客户！");
-  	return;
+    alert("请选择客户！");
+    return;
   }
   _data.phoneNum=$("input[name='custPhone']").val();
   if (!_data.phoneNum) {
-  	alert("请选择客户！");
-  	return;
+    alert("请选择客户！");
+    return;
   }
   if (_TYPE=='add') {
     var url=_URL_BASE+"/wx/api/existRecord01";
@@ -446,9 +446,9 @@ function step1Next() {//要判断是否应该进行首访录入
           window.location.href=_URL_BASE+"/wxfront/record01/record01Input.html?type=add&custName="+encodeURIComponent(_data.custName)+"&custPhone="+encodeURIComponent(_data.custPhone)+"&projId="+encodeURIComponent(_data.projId);
         }
         if (canNext) {
-        	var err=checkStep1();
-        	if (err) alert(err);
-        	else {
+          var err=checkStep1();
+          if (err) alert(err);
+          else {
             $("#step1").hide(0);
             $("#step2").show(0);
             $("#step3").hide(0);
@@ -463,9 +463,9 @@ function step1Next() {//要判断是否应该进行首访录入
       }
     });
   } else {
-  	var err=checkStep1();
-  	if (err) alert(err);
-  	else {
+    var err=checkStep1();
+    if (err) alert(err);
+    else {
       $("#step1").hide(0);
       $("#step2").show(0);
       $("#step3").hide(0);
@@ -474,13 +474,13 @@ function step1Next() {//要判断是否应该进行首访录入
     }
   }
   function checkStep1() {
-  	if (!_uSex) return "请选择客户性别！";
-  	if (!$("#firstVisitTime").val()) return "请选择客户！";
-  	if (!$("#recpTime").val()) return "请输入到访时间！";
-  	if (!$("#visitCount").val()) return "请选择客户！";
-  	if (!_uDecisionerIn) return "请选择决策人是否到场！";
-  	if (!_uVisitorRefs) return "请选择来访人之间关系！";
-  	return "";
+    if (!_uSex) return "请选择客户性别！";
+    if (!$("#firstVisitTime").val()) return "请选择客户！";
+    if (!$("#recpTime").val()) return "请输入到访时间！";
+    if (!$("#visitCount").val()) return "请选择客户！";
+    if (!_uDecisionerIn) return "请选择决策人是否到场！";
+    if (!_uVisitorRefs) return "请选择来访人之间关系！";
+    return "";
   }
 }
 function step2Prev() {
@@ -493,17 +493,14 @@ function step2Prev() {
 function step2Next() {
   var err=checkStep2();
   if (err) {
-  	alert(err);
-  	return;
+    alert(err);
+    return;
   }
   $("#step1").hide(0);
   $("#step2").hide(0);
   $("#step3").show(0);
   $("#step4").hide(0);
   $("#step5").hide(0);
-  function checkStep2() {
-  	return "";
-  }
 }
 function step3Prev() {
   $("#step1").hide(0);
@@ -513,6 +510,11 @@ function step3Prev() {
   $("#step5").hide(0);
 }
 function step3Next() {
+  var err=checkStep3();
+  if (err) {
+    alert(err);
+    return;
+  }
   $("#step1").hide(0);
   $("#step2").hide(0);
   $("#step3").hide(0);
@@ -527,6 +529,11 @@ function step4Prev() {
   $("#step5").hide(0);
 }
 function step4Next() {
+  var err=checkStep4();
+  if (err) {
+    alert(err);
+    return;
+  }
   $("#step1").hide(0);
   $("#step2").hide(0);
   $("#step3").hide(0);
@@ -540,9 +547,45 @@ function step5Prev() {
   $("#step4").show(0);
   $("#step5").hide(0);
 }
+function checkStep2() {
+  if (!_uChildrenNum) return "请选择未成年子女数量！";
+  if (!_uChildAgeGroup) return "请选择孩子年龄段！";
+  
+  return "";
+  if (!_uSex) return "请选择客户性别！";
+  if (!$("#firstVisitTime").val()) return "请选择客户！";
+  if (!$("#recpTime").val()) return "请输入到访时间！";
+  if (!$("#visitCount").val()) return "请选择客户！";
+  if (!_uDecisionerIn) return "请选择决策人是否到场！";
+  if (!_uVisitorRefs) return "请选择来访人之间关系！";
+}
+function checkStep3() {
+  return "";
+}
+function checkStep4() {
+  return "";
+}
+function checkStep5() {
+  return "";
+}
 
 //=以下为提交，包括修改和删除====================================
 function commitData() {
+  var err="";
+  if (!($("#step4").is(":hidden"))) {
+    err=checkStep4();
+    if (err) {
+      alert(err);
+      return;
+    }
+  }
+  if (!($("#step5").is(":hidden"))) {
+    err=checkStep5();
+    if (err) {
+      alert(err);
+      return;
+    }
+  }
   var commitData=getData(_TYPE);
   var msg=validate(comitData, _TYPE);
   if (msg.err) {
@@ -729,7 +772,7 @@ function openSelCust() {
     return ;
   }
   if (_thisProjId!=_uProjId||_thisUserId!=_uUserId) {
-    var url=_URL_BASE+"/wx/api/getCusList";
+    var url=_URL_BASE+"/wx/api/getCustList";
     var _data={};
     _data.projId=_uProjId;
     _data.userId=_uUserId;
@@ -830,7 +873,7 @@ function selCust() {
     }
   }
   function _dealOne(ident, customer) {
-  	if (!eval("customer."+ident)||(eval("customer."+ident)=='无法了解')) {
+    if (!eval("customer."+ident)||(eval("customer."+ident)=='无法了解')) {
       $("#i_"+ident).show();
     } else {
       $("#i_"+ident).hide();

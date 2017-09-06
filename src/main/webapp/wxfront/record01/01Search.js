@@ -109,7 +109,7 @@ function loadPage() {
       if (userInfo.roleName!='顾问'&&oneData.authorName) _GW="顾问:"+oneData.authorName;
       var _total=oneData.total;
       var _CJ=(oneData.isKnockdown&&oneData.isKnockdown==1)?"成交":"未成交";
-      var _to02Url=_URL_BASE+"/wxfront/record02/record02Input.html?type=add&fromCustId="+oneData.custId;
+      var _to02Url=_URL_BASE+"/wxfront/record02/record02Input.html?type=add&custId="+oneData.custId+"&custName="+encodeURIComponent(oneData.custName)+"&projId="+oneData.projId;
       html="<div class='scrollItem row examine'>"
     	  +  "<div class='col-40 item-name2'><a href='tel:"+oneData.custPhoneNum+"'>"+name+"<span>"+oneData.custPhoneNum+"</span><br/>"+fTime+"</a></div>"
           +  "<div class='col-60'><div class='col-70 item-name' style='margin-left:30%'>"+_GW+"<br>总次："+_total+"次&nbsp;&nbsp;"+_CJ+"<br>"+status+"<span style='margin-left:.5rem;'>添加复访</span></div>"
@@ -181,6 +181,7 @@ document.addEventListener('touchmove', function (e) {
 }, false);
 
 function openNew(url) {
+	alert(url);
   window.location.href=url;
 }
 function search() {
