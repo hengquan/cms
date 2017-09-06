@@ -3237,9 +3237,9 @@ public class WxApiController extends ControllerBaseWx {
 		responseInfo(response);
 		Map<String,Object> map = new HashMap<String,Object>();
 		try {
-			String cusId = m.get("cusId")==null?null:m.get("cusId").toString();
+			String custId = m.get("custId")==null?null:m.get("custId").toString();
 			//获取客户详细信息
-			Customer customer = customerService.findById(cusId);
+			Customer customer = customerService.findById(custId);
 			map.put("customer", customer);
 			map.put("msg", "100");
 		} catch (Exception e) {
@@ -3260,10 +3260,10 @@ public class WxApiController extends ControllerBaseWx {
 		Map<String,Object> result = new HashMap<String,Object>();
 		try {
 			String projId = m.get("projId")==null?null:m.get("projId").toString();
-			String cusId = m.get("cusId")==null?null:m.get("cusId").toString();
+			String custId = m.get("custId")==null?null:m.get("custId").toString();
 			//获取用户列表
 			result.put("projId", projId);
-			result.put("cusId", cusId);
+			result.put("cusId", custId);
 			List<Map<String,Object>> projCustRefList = projCustRefService.selectByProjIdAndCusId(result);
 			map.put("projCustRefList", projCustRefList);
 			map.put("msg", "100");

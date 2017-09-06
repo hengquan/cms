@@ -158,6 +158,39 @@
   	where 
   	userCust.projId = #{projId} and userCust.userId=#{userId}
   </select>
+
+
+
+  <select id="selectProjUserDataByProjIdGLY" resultType="com.hj.wxmp.mobile.entity.UserInfo" parameterType="java.lang.String">
+	  	SELECT
+		cus.id,
+		cus.custName,
+		cus.phoneNum,
+		cus.custSex,
+		pro.projName
+	FROM
+		ql_UserCust_Ref userCust
+	JOIN ql_Customer cus ON userCust.custId = cus.id
+	JOIN ql_Project pro ON userCust.projId = pro.id
+  	where 
+  	userCust.projId = #{projId} and userCust.userId=#{userId}
+  </select>
+  
+  
+  <select id="selectProjUserDataByProjIdGLY" resultType="com.hj.wxmp.mobile.entity.UserInfo" parameterType="java.lang.String">
+	  	SELECT
+		cus.id,
+		cus.custName,
+		cus.phoneNum,
+		cus.custSex,
+		pro.projName
+	FROM
+		ql_UserCust_Ref userCust
+	JOIN ql_Customer cus ON userCust.custId = cus.id
+	JOIN ql_Project pro ON userCust.projId = pro.id
+  	where 
+  	userCust.projId = #{projId} and userCust.userId=#{userId}
+  </select>
   
   
 </mapper>

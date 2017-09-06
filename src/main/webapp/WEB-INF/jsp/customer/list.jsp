@@ -92,7 +92,7 @@
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<input type="text" class="btn"
 										style="width: 500px; border: 1px solid #ddd; text-align: left;"
-										placeholder="请输入商品名称" name="userName1" value="${mingzi }"><span>
+										placeholder="请输入客户姓名" name="custName" value="${name }"><span>
 										<button class="btn sr-btn-imp" style="float: right"
 											onclick="seeAllMsg()">
 											<i class="icon-search"></i>
@@ -117,6 +117,10 @@
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<a href="javascript:doDelete();" class="btn mini btn-white"><i
 										class="icon-trash"></i></a>
+								</div>
+								<div
+									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
+									<a href="javascript:doDelete();" class="btn mini btn-white">切换权限用户</a>
 								</div>
 
 
@@ -154,12 +158,8 @@
 												<fmt:formatDate value="${u.cTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 											</td>
 											<td class="hidden-phone">
-												<button type="button" onclick="editProject('${u.id}')" 
-												class="btn btn-send">首访</button>
-												<button type="button" onclick="editProject('${u.id}')" 
-												class="btn btn-send">复方</button>
-												<button type="button" onclick="editProject('${u.id}')" 
-												class="btn btn-send">成交</button>
+												<button type="button" onclick="editJurisdiction('${u.projId}')" 
+												class="btn btn-send">切换权限用户</button>
 											</td>
 										</tr>
 									</c:forEach>
@@ -487,6 +487,26 @@
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
 	
+	//修改客户的操作权限用户单个
+	function editJurisdiction(projId){
+		$.ajax({
+			type:'post',
+			data : {"projId":projId},  
+			url:'${appRoot}/accessRecord/firstRecord',
+			dataType:'json',
+			success:function(data){
+				if(data.msg == 100){
+					windowShow("提交成功","");
+					seeAllMsg();
+				}else{
+					windowShow("提交失败","");
+				}
+			}
+		});
+		
+	}
+	
+	
 	
 	//选择不同的页数
 	function doPanation(number){
@@ -494,156 +514,87 @@
 		seeAllMsg();
 	}
 	
-	
-	//更新排序值
-	function updateIndexValue(obj){
-		var msg = $(obj);
-		var id = msg.attr("id");
-		var index = msg.val();
-		window.location.href="${appRoot}/anwProduct/updateIndex?id="+id+"&index="+index;
+
+	$(function() {
+		$('.input-group').hide();
+		$('#sample_1_info').hide();
+		$('.dataTables_paginate').hide();
+		$("#sample_1_length .form-control").hide();
+		$("#sample_1_length .js-add").hide();
+		$("#sample_1_length .js-ref").hide();
+		$("#sample_1_length .js-del").hide();
+	});
+
+		
+		
+	function doRefresh() {
+		location.reload();
+	}
+
+	function checkbox() {
+		var str = document.getElementsByName("box");
+		var objarray = str.length;
+		var chestr = "";
+		var jy = false;
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				chestr += str[i].value + ",";
+			}
+		}
+		if (!jy) {
+			windowShow("请选择要删除的数据！")
+			$('#quxiao').click();
+			return false;
+		} else {
+			$("#boxeditId").val(chestr);
+			return true;
+		}
 	}
 	
 	
+	//根据选择查看信息
+	function seeAllMsg() {
+		$("#selectCheckMessage").submit();
+	}
 	
-		//添加提交
-		function submitData() {
-			var productName = $("#productName").val();
-			if (productName == '' || productName == undefined) {
-				windowShow("商品名称不允许为空！", "");
-				return;
-			}
-			$("#addMessage").submit();
+
+	//添加菜单
+	function doAdd() {
+		window.location.href="${appRoot}/anwProduct/addPage";
+		/* var $modal = $('#addProblemType');
+		$modal.modal(); */
+	}
+
+	//修改菜单
+	function doEdit(id) {
+		window.location.href="${appRoot}/anwProduct/editPage?id="+id;
+	}
+	
+	
+
+	function doDelete() {
+		var flag = checkbox();
+		if (flag) {
+			var $modal = $('#myModal2');
+			$modal.modal();
 		}
+	}
 
-		//更新数据
-		function submitUpdateData() {
-			var productName1 = $("#productName1").val();
-			alert(productName1);
-			if (productName1 == '' || productName1 == undefined) {
-				windowShow("类型名称不允许为空！", "");
-				return;
-			}
-			$("#updateMessage").submit();
-		}
+	function Del() {
+		$("#deleForm").submit();
+	}
 
 
-		$(function() {
-			$('.input-group').hide();
-			$('#sample_1_info').hide();
-			$('.dataTables_paginate').hide();
-			$("#sample_1_length .form-control").hide();
-			$("#sample_1_length .js-add").hide();
-			$("#sample_1_length .js-ref").hide();
-			$("#sample_1_length .js-del").hide();
-		});
 
+	function setExpert() {
+		$("#checkExpert").submit();
+	}
+
+	function Delete() {
+		$("#deleForm").submit();
+	}
 		
-		
-		function doRefresh() {
-			location.reload();
-		}
-
-		function checkbox() {
-			var str = document.getElementsByName("box");
-			var objarray = str.length;
-			var chestr = "";
-			var jy = false;
-			for (i = 0; i < objarray; i++) {
-				if (str[i].checked == true) {
-					jy = true;
-					chestr += str[i].value + ",";
-				}
-			}
-			if (!jy) {
-				windowShow("请选择要删除的数据！")
-				$('#quxiao').click();
-				return false;
-			} else {
-				$("#boxeditId").val(chestr);
-				return true;
-			}
-		}
-		
-		
-		//根据选择查看信息
-		function seeAllMsg() {
-			$("#selectCheckMessage").submit();
-		}
-		
-
-		//添加菜单
-		function doAdd() {
-			window.location.href="${appRoot}/anwProduct/addPage";
-			/* var $modal = $('#addProblemType');
-			$modal.modal(); */
-		}
-
-		//修改菜单
-		function doEdit(id) {
-			window.location.href="${appRoot}/anwProduct/editPage?id="+id;
-		}
-		
-		
-
-		function doDelete() {
-			var flag = checkbox();
-			if (flag) {
-				var $modal = $('#myModal2');
-				$modal.modal();
-			}
-		}
-
-		function Del() {
-			$("#deleForm").submit();
-		}
-
-
-
-		function setExpert() {
-			$("#checkExpert").submit();
-		}
-
-		function Delete() {
-			$("#deleForm").submit();
-		}
-		
-		//添加图片
-		function addImg(object){
-			if (object.files && object.files[0]) {
-				var reader = new FileReader();
-				reader.onload = function(evt) {
-					if(evt.target.result!=""&&evt.target.result!=null){
-						$("#imgURL1").attr("src",evt.target.result);
-					}else{
-						alert("图片上传出错!");
-					}
-				}
-				reader.readAsDataURL(object.files[0]);
-			} else {
-				//alert(file.value);
-			}
-		}
-		//修改图片
-		function editImg(object){
-			if (object.files && object.files[0]) {
-				var reader = new FileReader();
-				reader.onload = function(evt) {
-					if(evt.target.result!=""&&evt.target.result!=null){
-						$("#imgURL2").attr("src",evt.target.result);
-					}else{
-						alert("图片上传出错!");
-					}
-				}
-				reader.readAsDataURL(object.files[0]);
-			} else {
-				//alert(file.value);
-			}
-		}
-		
-		//查看商品的评论
-		function seeProduct(id){
-			window.location.href="${appRoot}/anwProduct/seeComment?id="+id;
-		}
 
 	</script>
 	<input type="hidden" value="" id="adminId" />

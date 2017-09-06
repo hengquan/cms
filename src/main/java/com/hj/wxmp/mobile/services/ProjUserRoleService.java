@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hj.wxmp.mobile.entity.ProjUserRole;
+import com.hj.wxmp.mobile.entity.UserInfo;
 
 public interface ProjUserRoleService {
 	/**
@@ -99,5 +100,13 @@ public interface ProjUserRoleService {
 	public List<Map<String, Object>> selectByProjId(String projId);
 
 	public List<Map<String, Object>> selectByProjIdAndUserId(Map<String, Object> result);
+
+	public UserInfo selectProjUserDataByUserIdFZR(String userid);
+
+	public UserInfo selectProjUserDataByUserIdGLY(String userid);
+
+	public UserInfo selectProjUserDataByProjIdGLY(String projId);
+
+	public UserInfo selectProjUserDataByProjIdFZR(String projId);
 
 }
