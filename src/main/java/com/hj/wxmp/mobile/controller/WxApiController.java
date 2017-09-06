@@ -2542,7 +2542,7 @@ public class WxApiController extends ControllerBaseWx {
     //获取客户详细信息
 	@RequestMapping(value = "/getCustMsg")
 	@ResponseBody
-	public String getCusMsg(HttpServletRequest req){
+	public String getCustMsg(HttpServletRequest req){
 		Map<String, Object> m=RequestUtils.getDataFromRequest(req);
 		responseInfo(response);
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -2550,27 +2550,29 @@ public class WxApiController extends ControllerBaseWx {
 		try {
 			String custId = m.get("custId")==null?null:m.get("custId").toString();
 			String projId = m.get("projId")==null?null:m.get("projId").toString();
-			if(custId != null){
-				if(projId!=null){
-					parmeterMap.put("custId", custId);
-					parmeterMap.put("custId", custId);
-					//获取客户详细信息
-					Customer customer = customerService.findById(custId);
-					//首次获取时间
-					List<AccessRecord01> accessRecord01s = accessRecord01Service.selectByUserId(parmeterMap);
-					Date firstknowtime = accessRecord01s.get(0).getFirstknowtime();
-					//复访总次数
-					Integer totalRecord02 = accessRecord01Service.selectByCustIdAndProjId(parmeterMap);
-					customer.setFirstvisittime(firstknowtime);
-					customer.setVisitcount(totalRecord02);
-					map.put("customer", customer);
-					map.put("msg", "100");
-				}else{
-					map.put("msg", "201");
-				}
-			}else{
+			if (custId==null) {
 				map.put("msg", "200");
+				return JsonUtils.map2json(map);
 			}
+			if (projId==null) {
+				map.put("msg", "201");
+				return JsonUtils.map2json(map);
+			}
+			parmeterMap.put("custId", custId);
+			parmeterMap.put("projId", custId);
+			//获取客户详细信息
+			Customer customer = customerService.findById(custId);
+			//首次获取时间
+			List<AccessRecord01> accessRecord01s = accessRecord01Service.selectByUserId(parmeterMap);
+			if(accessRecord01s.size()>0){
+				Date firstknowtime = accessRecord01s.get(0).getFirstknowtime();
+				customer.setFirstvisittime(firstknowtime);
+			}
+			//复访总次数
+			Integer totalRecord02 = accessRecord01Service.selectByCustIdAndProjId(parmeterMap);
+			customer.setVisitcount(totalRecord02+1);
+			map.put("customer", customer);
+			map.put("msg", "100");
 		} catch (Exception e) {
 			map.put("msg", "103");
 			e.printStackTrace();

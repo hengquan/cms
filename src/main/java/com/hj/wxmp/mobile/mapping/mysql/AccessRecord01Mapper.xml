@@ -745,7 +745,7 @@
   <select id="selectByCustIdAndProjId" parameterType="java.util.Map" resultType="java.lang.Integer">
   	SELECt count(1) 
 	FROM
-	ql_AccessRecord02 record01 where projId=#{projId} and custId=#{custId} and `status`=2
+	ql_AccessRecord02 record01 where projId=#{projId} and custId=#{custId} and `status`!=3
   </select>
   
 </mapper>
