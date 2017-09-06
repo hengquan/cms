@@ -1589,7 +1589,6 @@ function commitData() {
       success: function(json) {
         //遮罩
         $("#mask").css("display", "none");
-alert("遮罩隐藏");
         //按钮职位灰色
         $("div[_type='BTN']").each(function(){
           $(this).attr("style", "margin-top:1.5rem;background-color:#19a6ee;color:#FFFFFF");

@@ -61,17 +61,20 @@ var _uFulltimeWifeFlag="";
 
 function selProj() {
   var choose=document.getElementsByName('proj');
+  var changePrj=false;
   for (var i=0; i<choose.length; i++) {
     if (choose[i].checked) {
       $("#proj").html(choose[i].getAttribute("_text"));
       _uProjName=choose[i].getAttribute("_text");
       var oldProjId=_uProjId;
       _uProjId=choose[i].value.substring(0, choose[i].value.indexOf('-'));
-      if (_uUserRole!='顾问'&&_uProjId!=oldProjId) loadProjUser(_uProjId);
+      changePrj=(_uProjId!=oldProjId);
     }
   }
   $("#projModal").modal('hide');
   if (_uProjId!="") $("#cleanProjBtn").show();
+  if (_uUserRole!='顾问'&&changePrj) loadProjUser(_uProjId);
+  if (changePrj) cleanCust();
 }
 var vueStep1=new Vue({
   el: "#step1",
@@ -1970,10 +1973,4 @@ function fillSelectField(id, value, isSetValue) {
       eval("_u"+_id+"Desc=_fv");
     }
   }
-}
-alert("11223344");
-function selCust() {
-  alert(_uUserId);
-  alert(_uProjId);
-  $('#selectCustomersModal').modal('show');
 }

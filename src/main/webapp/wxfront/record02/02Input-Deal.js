@@ -103,9 +103,12 @@ function initData(data) {
         $("span[name='userInput']").html("先选项目");
       }
     }
-    if (_TYPE=='add') {
-    }
-    else if (data) {
+    var nt=new Date();
+    var str=""+nt.getFullYear()+"-";
+    str+=((100+(nt.getMonth()+1))+"").substr(1)+"-";
+    str+=((100+nt.getDate())+"").substr(1);
+    $("input[name='recpTime']").val(str);
+    if (_TYPE=='update'&&data) {
       fillData(data);
     }
   }
@@ -409,12 +412,12 @@ function fillData(data) {//填数据，包括所有页面
 
 //翻页切换
 function step1Next() {//要判断是否应该进行首访录入
-//  $("#step1").hide(0);
-//  $("#step2").show(0);
-//  $("#step3").hide(0);
-//  $("#step4").hide(0);
-//  $("#step5").hide(0);
-//  return ;
+  $("#step1").hide(0);
+  $("#step2").show(0);
+  $("#step3").hide(0);
+  $("#step4").hide(0);
+  $("#step5").hide(0);
+  return ;
   if (_TYPE=='update') {
     $("#step1").hide(0);
     $("#step2").show(0);
@@ -437,7 +440,7 @@ function step1Next() {//要判断是否应该进行首访录入
       return;
     }
     var canNext=false;
-    var url=_URL_BASE+"wx/api/existRecord01";
+    var url=_URL_BASE+"/wx/api/existRecord01";
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         if (json.msg=='100') {//有就已存在，可正常录入复访
@@ -649,7 +652,6 @@ function commitData() {
   }
   function commitInsert(_data) {
     var url=_URL_BASE+"wx/api/addHisFirstRecord";
-    alert(url);
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         if (json.msg!='100') {
@@ -670,8 +672,7 @@ function commitData() {
     });
   }
   function commitUpdate(data) {
-    var url=_URL_BASE+"wx/api/updateRecord01";
-    alert(url);
+    var url=_URL_BASE+"/wx/api/updateRecord01";
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         if (json.msg!='100') {
@@ -689,3 +690,119 @@ function commitData() {
   }
 }
 
+//=以下客户处理====================================
+alert("D011");
+var _thisProjId="";
+var _thisUserId="";
+var _REINPUTCOUNT=15;
+var needReInputCount=_REINPUTCOUNT;
+function openSelCust() {
+  if (!_uUserId) {
+    alert("未确定置业顾问，无法选择客户");
+    return ;
+  }
+  if (!_uProjId) {
+    alert("未确定具体项目，无法选择客户");
+    return ;
+  }
+  if (_thisProjId!=_uProjId||_thisUserId!=_uUserId) {
+    var url=_URL_BASE+"/wx/api/getCusList";
+    var _data={};
+    _data.projId=_uProjId;
+    _data.userId=_uUserId;
+    $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
+      success: function(json) {
+        if (json.msg!='100') {
+          alert("未获得任何客户信息");
+        } else {
+          $("#custData").html("");
+          for (var i=0; i<json.customers.length; i++) {
+            var oneCust=json.customers[i];
+            var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+oneCust.phoneNum+"</span><span>"+oneCust.projName+"</span>";
+            var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.id+"' _text='"+oneCust.custName+"' _phone='"+oneCust.phoneNum+"' onclick='selCust()'/>"+_innerHtml+"</label>";
+            if (i<(json.customers.length-1)) userHtml+="<br>";
+            $("#custData").append(userHtml);
+          }
+          $('#selectCustomersModal').modal('show');
+        }
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        alert("获得客户信息时出现系统错误：\nstatu="+XMLHttpRequest.status+"\nreadyState="+XMLHttpRequest.readyState+"\ntext="+textStatus+"\nerrThrown="+errorThrown);
+      }
+    });
+    _thisProjId=_uProjId;
+    _thisUserId=_uUserId;
+  } else {
+    $('#selectCustomersModal').modal('show');
+  }
+}
+function cleanCust() {
+  $("input[name='custName']").val("");
+  $("input[name='custPhone']").val("");
+  custId="";
+  var choose=document.getElementsByName('selectCustomers');
+  for (var i=0; i<choose.length; i++) choose[i].checked=false;
+}
+function selCust() {
+  var oldCustId=custId;
+  var choose=document.getElementsByName('selectCustomers');
+  for (var i=0; i<choose.length; i++) {
+    if (choose[i].checked) {
+      $("input[name='custName']").val(choose[i].getAttribute("_text"));
+      $("input[name='custPhone']").val(choose[i].getAttribute("_phone"));
+      custId=choose[i].value;
+    }
+  }
+  $("#selectCustomersModal").modal('hide');
+  if (custId!="") $("#cleanCustBtn").show();
+  if (oldCustId!=custId&&custId) {
+    var url=_URL_BASE+"/wx/api/getCustMsg";
+    var _data={};
+    _data.cusId=custId;
+    $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
+      success: function(json) {
+        if (json.msg=='100') {
+          var customer=json.customer;
+          if (customer) {
+            needReInputCount=_REINPUTCOUNT;
+            _dealCustomer(customer);
+          }
+        }
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        alert("获得客户信息时出现系统错误：\nstatu="+XMLHttpRequest.status+"\nreadyState="+XMLHttpRequest.readyState+"\ntext="+textStatus+"\nerrThrown="+errorThrown);
+      }
+    });
+  }
+  //处理客户信息，看是否需要重复录
+  function _dealCustomer(customer) {
+    _dealOne("familyStatus", customer);
+    _dealOne("agegroup", customer);
+    _dealOne("trafficType", customer);
+    _dealOne("buyQualify", customer);
+    _dealOne("workIndustr", customer);
+    _dealOne("enterpriseType", customer);
+    _dealOne("knowWay", customer);
+    _dealOne("estCustWorth", customer);
+    _dealOne("investType", customer);
+    _dealOne("capitalPrepSection", customer);
+    _dealOne("realtyProductType", customer);
+    _dealOne("attentAcreage", customer);
+    _dealOne("priceSection", customer);
+    _dealOne("buyPurpose", customer);
+    _dealOne("attentionPoint", customer);
+    if (needReInputCount==0) {
+      $("div[onclick='step4Next()']").attr("onclick", "commitData()");
+      $("div[onclick='step4Next()']").html("<a href='#'>提交</a>");
+      $("#step5").hide();
+    }
+  }
+  function _dealOne(ident, customer) {
+  	if (!eval("customer."+ident)||(eval("customer."+ident)=='无法了解')) {
+      $("#i_"+ident).show();
+    } else {
+      $("#i_"+ident).hide();
+    	needReInputCount--;
+    }
+  }
+}
