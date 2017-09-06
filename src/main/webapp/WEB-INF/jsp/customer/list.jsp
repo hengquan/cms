@@ -84,47 +84,24 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<section class="panel">
-							<header class="panel-heading">客户列表</header>
 							<form action="${appRoot}/customer/customerList" method="post"
 								id="selectCheckMessage">
-								<!-- 根据用户昵称查询 -->
-								<div
-									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
-									<input type="text" class="btn"
-										style="width: 500px; border: 1px solid #ddd; text-align: left;"
-										placeholder="请输入客户姓名" name="custName" value="${name }"><span>
-										<button class="btn sr-btn-imp" style="float: right"
-											onclick="seeAllMsg()">
-											<i class="icon-search"></i>
-										</button>
-									</span>
+								<div class="panel-heading" style="height: 50px;">
+									<div class="col-lg-2" style="line-height:37px">客户列表</div>
+									<!-- 根据用户昵称查询 -->
+									<div
+										style="float: left; position: relative;">
+										<input type="text" class="btn"
+											style="width: 500px; border: 1px solid #ddd; text-align: left;"
+											placeholder="请输入客户姓名" name="custName" value="${name }"><span>
+											<button class="btn sr-btn-imp" style="float: right"
+												onclick="seeAllMsg()">
+												<i class="icon-search"></i>
+											</button>
+										</span>
+									</div>
 								</div>
-
-
-								<div
-									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
-									<a href="javascript:doRefresh();" class="btn mini btn-white"><i
-										class="icon-refresh"></i></a>
-								</div>
-
-								<div
-									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
-									<a href="javascript:doAdd();" class="btn mini btn-white"><i
-										class="icon-plus"></i></a>
-								</div>
-
-								<div
-									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
-									<a href="javascript:doDelete();" class="btn mini btn-white"><i
-										class="icon-trash"></i></a>
-								</div>
-								<div
-									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
-									<a href="javascript:selectUsers();" class="btn mini btn-white">切换权限用户</a>
-								</div>
-
-
-
+								<!-- 分页信息 -->
 								<input type="hidden" value="${nowPage}" id="nowPageNumber"
 									name="nowPage"> <input type="hidden"
 									value="${totalPageNum }">
@@ -132,19 +109,24 @@
 
 							<div style="clear: both"></div>
 
-							<table class="table table-striped border-top" id="sample_1">
+							<table class="table table-striped border-top" >
 								<thead>
 									<tr>
-										<th style="width: 8px;"><input type="checkbox" name="box"
-											class="group-checkable" data-set="#sample_1 .checkboxes"
-											value="" /></th>
-										<th class="hidden-phone">顾问姓名</th>
-										<th class="hidden-phone">客户姓名</th>
-										<th class="hidden-phone">客户电话</th>
-										<th class="hidden-phone">性别</th>
-										<th class="hidden-phone">项目名称</th>
-										<th class="hidden-phone">关注时间</th>
-										<th class="hidden-phone">操作</th>
+										<th style="width: 8px;">
+										</th>
+										<th class="hidden-phone" style="line-height:37px">客户姓名</th>
+										<th class="hidden-phone" style="line-height:37px">客户电话</th>
+										<th class="hidden-phone" style="line-height:37px">性别</th>
+										<th class="hidden-phone" style="line-height:37px">项目名称</th>
+										<th class="hidden-phone" style="line-height:37px">关注时间</th>
+										<th class="hidden-phone" style="line-height:37px">顾问姓名</th>
+										<th class="hidden-phone">
+											<a href="javascript:selectUsers();" class="btn mini btn-white">切换权限用户</a>
+											<a href="javascript:doRefresh();" class="btn mini btn-white"><i
+												class="icon-refresh"></i></a>
+											<a href="javascript:doRefresh();" class="btn mini btn-white"><i
+												class="glyphicon glyphicon-calendar"></i></a>
+										</th>
 										
 									</tr>
 								</thead>
@@ -153,7 +135,6 @@
 										<tr class="odd gradeX theTr">
 											<td><input type="checkbox" name="box" class="checkboxes"
 												value="${u.id}" /></td>
-											<td class="hidden-phone">${u.realName}</td>
 											<td class="hidden-phone">${u.custName}</td>
 											<td class="hidden-phone">${u.phoneNum}</td>
 											<td class="hidden-phone">${u.custSex}</td>
@@ -161,6 +142,7 @@
 											<td class="hidden-phone">
 												<fmt:formatDate value="${u.cTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 											</td>
+											<td class="hidden-phone">${u.realName}</td>
 											<td class="hidden-phone">
 												<button type="button" onclick="editJurisdiction('${u.projId}','${u.custId }')" 
 												class="btn btn-send">切换权限用户</button>
