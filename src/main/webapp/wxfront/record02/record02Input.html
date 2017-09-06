@@ -35,8 +35,7 @@
           <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
           <h4 class="modal-title">项目选择</h4>
         </div>
-        <div class="modal-body" id="projData">
-        </div>
+        <div class="modal-body" id="projData"></div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
           <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanProj()" id="cleanProjBtn" style="display:none;">清除并关闭</button>
@@ -84,8 +83,8 @@
       <input type="text" placeholder="" name="custPhone"/>
     </div>
   </div>
+  <a href="" data-toggle="modal" onclick="openSelCust()"><div class="customers">选择<br>客户</div></a> 
   </div>
-  <a href="" data-toggle="modal" onclick="selCust()"><div class="customers">选择<br>客户</div></a> 
   <div class="modal fade" id="selectCustomersModal" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -93,19 +92,19 @@
           <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
           <h4 class="modal-title">选择客户</h4>
         </div>
-        <div class="user-scroll modal-body">
-          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" @click="selselectCustomers()"/> 池如霞（女） 13810862904 </label><br>
-          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" @click="selselectCustomers()"/> 池如霞（女） 13810862904 </label><br>
-          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" @click="selselectCustomers()"/> 池如霞（女） 13810862904 </label><br>
-          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" @click="selselectCustomers()"/> 池如霞（女） 13810862904 </label><br>
-          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" @click="selselectCustomers()"/> 池如霞（女） 13810862904 </label><br>
-          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" @click="selselectCustomers()"/> 池如霞（女） 13810862904 </label><br>
-          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" @click="selselectCustomers()"/> 池如霞（女） 13810862904 </label><br>
-          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" @click="selselectCustomers()"/> 池如霞（女） 13810862904 </label><br>
+        <div class="user-scroll modal-body" id="cust">
+          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" onclick="selCust()"/> 池如霞（女） 13810862904 </label><br>
+          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" onclick="selCust()"/> 池如霞（女） 13810862904 </label><br>
+          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" onclick="selCust()"/> 池如霞（女） 13810862904 </label><br>
+          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" onclick="selCust()"/> 池如霞（女） 13810862904 </label><br>
+          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" onclick="selCust()"/> 池如霞（女） 13810862904 </label><br>
+          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" onclick="selCust()"/> 池如霞（女） 13810862904 </label><br>
+          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" onclick="selCust()"/> 池如霞（女） 13810862904 </label><br>
+          <label><input type="radio" name="selectCustomers" value="002001-男" _text="男" onclick="selCust()"/> 池如霞（女） 13810862904 </label><br>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanselectCustomers()" id="cleanselectCustomersBtn" style="display:none;">清除并关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cleanCust()" id="cleanSelCust" style="display:none;">清除并关闭</button>
         </div>
       </div>
     </div>

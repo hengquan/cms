@@ -237,3 +237,6 @@ icon-search:before{content:"\e61d"}
 }
 .select {position: relative;}
 .select .customers {position: absolute;width:4.6rem;height:4.6rem;background-color:#fff;top:.8rem;right:1rem;border-radius:4px;line-height:1.5rem;color:#19a6ee;text-align:center;font-size:1.1rem;padding-top:.7rem;border:1px solid #19a6ee}
+.examine {position: relative;}
+.examine .adopt {position: absolute;width:8rem;height:5.2rem;top:0}
+.examine .to02 {position: absolute;width:5rem;height:5.2rem;top:0;left:75%;}

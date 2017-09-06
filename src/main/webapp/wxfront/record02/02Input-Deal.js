@@ -649,7 +649,6 @@ function commitData() {
   }
   function commitInsert(_data) {
     var url=_URL_BASE+"wx/api/addHisFirstRecord";
-    alert(url);
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         if (json.msg!='100') {
@@ -671,7 +670,6 @@ function commitData() {
   }
   function commitUpdate(data) {
     var url=_URL_BASE+"wx/api/updateRecord01";
-    alert(url);
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         if (json.msg!='100') {
