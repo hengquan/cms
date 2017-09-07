@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title>客户数据中心-成交信息列表</title>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="../css/index.css"/>
+  <link rel="stylesheet" href="../css/main.css">
+  <script src="../../static/js/jquery.min.js" type="text/javascript"></script>
+  <script src="../js/CONSTANT.js" type="text/javascript"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/common.utils.js" type="text/javascript"></script>
+</head>
+<body style="display:none">
+<div id="oneData">
+
+<div class="line"></div>
+<div class="item_sflr row" id="GW" style="display:none">
+<div class="col-50-1 item-nr">顾问</div>
+<div class="col-50-1 item-nr2" id="authorName"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-50-1 item-nr">买受人姓名</div>
+<div class="col-50-1 item-nr2" id="custName"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-50-1 item-nr">电话</div>
+<div class="col-50-1 item-nr2" id="custPhone"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-50-1 item-nr">性别</div>
+<div class="col-50-1 item-nr2" id="custSex"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-50-1 item-nr">认购日期</div>
+<div class="col-50-1 item-nr2" id="purchaseDate"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-50-1 item-nr">签约日期</div>
+<div class="col-50-1 item-nr2" id="signDate"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">到访总次数</div>
+<div class="col-40 item-nr2" id=''></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">购买房号</div>
+<div class="col-40 item-nr2" id="houseNum"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">户籍</div>
+<div class="col-40 item-nr2" id="houseRegiType"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">成交面积</div>
+<div class="col-40 item-nr2" id="houseAcreage"></div>
+</div>
+<div class="line"></div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">成交单价</div>
+<div class="col-40 item-nr2" id="unitPrice"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">成交总价</div>
+<div class="col-40 item-nr2" id="totalPrice"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">付款方式</div>
+<div class="col-40 item-nr2" id="paymentType"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">贷款银行</div>
+<div class="col-40 item-nr2" id="loanBank"></div>
+</div>
+
+<div class="line"></div>
+<div class="item_sflr row">
+<div class="col-60 item-nr">关注产品类型</div>
+<div class="col-40 item-nr2" id="realtyProductType"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">通邮地址</div>
+<div class="col-40 item-nr2" id="addressMail"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">实际居住情况</div>
+<div class="col-40 item-nr2" id="livingStatus"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">房屋使用人是谁</div>
+<div class="col-40 item-nr2" id="realUseMen"></div>
+</div>
+
+<div class="item_sflr row">
+<div class="col-60 item-nr">购房出资人是谁</div>
+<div class="col-40 item-nr2" id="realPayMen"></div>
+</div>
+
+<div class="line"></div>
+
+<div class="item_sflr row">
+<div class="item-nr">客户对项目的意见及建议</div>
+<div class="item-nr3" id="suggestion"></div>
+</div>
+<div class="item_sflr row">
+<div class="item-nr">客户谈判过程中遇到的问题及解决方案</div>
+<div class="item-nr3" id="talkQandS"></div>
+</div>
+<div class="item_sflr row">
+<div class="item-nr">客户签约过程中遇到的问题及解决方案</div>
+<div class="item-nr3" id="signQandS"></div>
+</div>
+<div class="item_sflr row">
+<div class="item-nr">对客户的综合描述</div>
+<div class="item-nr3" id="sumDescn"></div>
+</div>
+
+<div class="row row-link" id="operArea" style="display:none;">
+<div class="col-50" style="margin-top:1.5rem;" data-toggle="modal" data-target="#auditMsgModal"><a href="#">审核不通过</a></div>
+<div class="col-50" style="margin-top:1.5rem;" onClick="auditOk()"><a href="#">审核通过</a></div>
+</div>
+<div style="margin-bottom:.5rem;">&nbsp;</div>
+<div class="modal fade" id="auditMsgModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title">审核-未通过</h4>
+      </div>
+      <div class="modal-body">
+        <textarea id="auditMsg" rows="4" placeholder="请您填写审核不通过的理由" style="border:1 solid #CCCCCC;width:100%"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onClick="auditNo()">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script src="03View.js"></script>
+
+</body>
+</html>

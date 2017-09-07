@@ -2569,18 +2569,20 @@ public class WxApiController extends ControllerBaseWx {
 			//复访总次数
 			Integer totalRecord02 = accessRecord01Service.selectByCustIdAndProjId(parmeterMap);
 			customer.setVisitcount(totalRecord02+1);
-			//项目客户关系，获取认知类型
-			ProjCustRef pcr=projCustRefService.selectByCusIdAndProjId(parmeterMap);
 			map.put("customer", customer);
 			map.put("msg", "100");
 
 			String s=JsonUtils.map2json(map);
 			Map tempM=JsonUtils.json2Map(s);
-			((Map)tempM.get("customer")).put("knowway", pcr.getKnowway());
-			((Map)tempM.get("customer")).put("knowwaydesc", pcr.getKnowwaydesc());
-			((Map)tempM.get("customer")).put("capitalprepsection", pcr.getCapitalprepsection());
-			((Map)tempM.get("customer")).put("attentionpoint", pcr.getAttentionpoint());
-			((Map)tempM.get("customer")).put("attentionpointdesc", pcr.getAttentionpointdesc());
+			//项目客户关系，获取认知类型
+			ProjCustRef pcr=projCustRefService.selectByCusIdAndProjId(parmeterMap);
+			if (pcr!=null) {
+				((Map)tempM.get("customer")).put("knowway", pcr.getKnowway());
+				((Map)tempM.get("customer")).put("knowwaydesc", pcr.getKnowwaydesc());
+				((Map)tempM.get("customer")).put("capitalprepsection", pcr.getCapitalprepsection());
+				((Map)tempM.get("customer")).put("attentionpoint", pcr.getAttentionpoint());
+				((Map)tempM.get("customer")).put("attentionpointdesc", pcr.getAttentionpointdesc());
+			}
 			return JsonUtils.map2json(tempM);
 		} catch (Exception e) {
 			map.put("msg", "103");

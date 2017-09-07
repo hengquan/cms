@@ -741,7 +741,7 @@ function commitData() {
 }
 
 //=以下客户处理====================================
-alert("D100");
+alert("D102");
 var _thisProjId="";
 var _thisUserId="";
 var _REINPUTCOUNT=15;
@@ -850,6 +850,7 @@ function selCust() {
     _dealOne("pricesection", customer);
     _dealOne("buypurpose", customer);
     _dealOne("attentionpoint", customer);
+    alert(needReInputCount==0);
     if (needReInputCount==0) {
       $("div[onclick='step4Next()']").attr("onclick", "commitData()");
       $("div[onclick='step4Next()']").html("<a href='#'>提交</a>");
@@ -857,14 +858,11 @@ function selCust() {
     }
   }
   function _dealOne(ident, customer) {
-	  alert("E1:customer."+ident);
-	  alert("E2:"+eval("customer."+ident));
     if (!eval("customer."+ident)||(eval("customer."+ident)=='无法了解')) {
       $("#i_"+ident).show();
     } else {
       $("#i_"+ident).hide();
       needReInputCount--;
     }
-  	alert("E3:"+$("#i_"+ident).css("display"));
   }
 }
