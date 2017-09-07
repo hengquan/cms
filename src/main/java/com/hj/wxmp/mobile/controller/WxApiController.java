@@ -2546,15 +2546,26 @@ public class WxApiController extends ControllerBaseWx {
 			Customer customer = customerService.findById(custId);
 			//首次获取时间
 			List<AccessRecord01> accessRecord01s = accessRecord01Service.selectByUserId(parmeterMap);
-			if(accessRecord01s.size()>0){
-				Date firstknowtime = accessRecord01s.get(0).getFirstknowtime();
-				customer.setFirstvisittime(firstknowtime);
-			}
+			Date firstknowtime = accessRecord01s.get(0).getFirstknowtime();
+			customer.setFirstvisittime(firstknowtime);
 			//复访总次数
 			Integer totalRecord02 = accessRecord01Service.selectByCustIdAndProjId(parmeterMap);
 			customer.setVisitcount(totalRecord02+1);
 			map.put("customer", customer);
 			map.put("msg", "100");
+
+			String s=JsonUtils.map2json(map);
+			Map tempM=JsonUtils.json2Map(s);
+			//项目客户关系，获取认知类型
+			ProjCustRef pcr=projCustRefService.selectByCusIdAndProjId(parmeterMap);
+			if (pcr!=null) {
+				((Map)tempM.get("customer")).put("knowway", pcr.getKnowway());
+				((Map)tempM.get("customer")).put("knowwaydesc", pcr.getKnowwaydesc());
+				((Map)tempM.get("customer")).put("capitalprepsection", pcr.getCapitalprepsection());
+				((Map)tempM.get("customer")).put("attentionpoint", pcr.getAttentionpoint());
+				((Map)tempM.get("customer")).put("attentionpointdesc", pcr.getAttentionpointdesc());
+			}
+			return JsonUtils.map2json(tempM);
 		} catch (Exception e) {
 			map.put("msg", "103");
 			e.printStackTrace();
@@ -2695,10 +2706,11 @@ public class WxApiController extends ControllerBaseWx {
 			    	Map<String,Object>result=new HashMap<String,Object>();
 					result.put("cusId", projCustRef.getCustid());
 					result.put("projId", projCustRef.getProjid());
-					projCustRef = projCustRefService.selectByCusIdAndProjId(result);
-					if(projCustRef==null){
+					ProjCustRef projCustRef1 = projCustRefService.selectByCusIdAndProjId(result);
+					if(projCustRef1==null){
 						projCustRefService.insert(projCustRef);
 					}else{
+						projCustRef.setId(projCustRef1.getId());
 						projCustRefService.update(projCustRef);
 					}
 			    }

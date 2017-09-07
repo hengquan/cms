@@ -74,13 +74,13 @@
   <div class="item_sflr row">
     <div class="col-title col-title-2">姓名</div>
     <div class="col-input">
-      <input type="text" placeholder="" name="custName"/>
+      <input type="text" placeholder="" name="custName" readonly="true"/>
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-2">电话</div>
     <div class="col-input">
-      <input type="text" placeholder="" name="custPhone"/>
+      <input type="text" placeholder="" name="custPhone" readonly="true"/>
     </div>
   </div>
   <a href="" data-toggle="modal" onclick="openSelCust()"><div class="customers">选择<br>客户</div></a> 
@@ -130,19 +130,19 @@
   <div class="item_sflr row">
     <div class="col-title col-title-6">首次到访时间</div>
     <div class="col-input-6 inputdate">
-      <input type="date" placeholder="" name="firstVisitTime" readonly/>
+      <input type="date" placeholder="" name="firstVisitTime" readonly="true"/>
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-6">本次到访时间</div>
     <div class="col-input-6 inputdate">
-      <input type="date" placeholder="" name="recpTime"/>
+      <input type="date" placeholder="" name="recpTime" />
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-4">来访次数</div>
     <div class="col-input-4">
-      <input type="text" placeholder="" name="visited" value="" >
+      <input type="text" placeholder="" name="visitCount" readonly="true"/>
     </div>
   </div>
   <div class="item_sflr row">
@@ -188,8 +188,8 @@
           <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
           <h4 class="modal-title">决策人是否到场</h4></div>
         <div class="modal-body">
-          <label><input type="radio" name="decisionerIn" value="1-是" _text="是" @click="selDecisionerIn()"/> 是 </label>
-          <label><input type="radio" name="decisionerIn" value="0-否" _text="否" @click="selDecisionerIn()"/> 否 </label>
+          <label><input type="radio" name="decisionerIn" value="1" _text="是" @click="selDecisionerIn()"/> 是 </label>
+          <label><input type="radio" name="decisionerIn" value="2" _text="否" @click="selDecisionerIn()"/> 否 </label>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -359,7 +359,7 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
           <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanChildAvocations()" id="cleanChildAvocationsBtn" style="display:none;">清除并关闭</button>
-          <button type="button" class="btn btn-primary" @click="selAvocations()">确定</button>
+          <button type="button" class="btn btn-primary" @click="selChildAvocations()">确定</button>
         </div>
       </div>
     </div>
@@ -380,8 +380,8 @@
           <h4 class="modal-title">全职太太</h4>
         </div>
         <div class="modal-body">
-          <label><input type="radio" name="fulltimeWifeFlag" value="0" _text="是" @click="selFulltimeWifeFlag()"/> 是 </label>
-          <label><input type="radio" name="fulltimeWifeFlag" value="1" _text="否" @click="selFulltimeWifeFlag()"/> 否 </label>
+          <label><input type="radio" name="fulltimeWifeFlag" value="1" _text="是" @click="selFulltimeWifeFlag()"/> 是 </label>
+          <label><input type="radio" name="fulltimeWifeFlag" value="2" _text="否" @click="selFulltimeWifeFlag()"/> 否 </label>
           <label class="wflj"><input type="radio" name="fulltimeWifeFlag" value="-1" _text="无法了解" @click="selFulltimeWifeFlag()"/> 无法了解 </label>
         </div>
         <div class="modal-footer">
@@ -407,8 +407,8 @@
           <h4 class="modal-title">有保姆</h4>
         </div>
         <div class="modal-body">
-          <label><input type="radio" name="nannyFlag" value="0" _text="是" @click="selNannyFlag()"/> 是 </label>
-          <label><input type="radio" name="nannyFlag" value="1" _text="否" @click="selNannyFlag()"/> 否 </label>
+          <label><input type="radio" name="nannyFlag" value="1" _text="是" @click="selNannyFlag()"/> 是 </label>
+          <label><input type="radio" name="nannyFlag" value="2" _text="否" @click="selNannyFlag()"/> 否 </label>
           <label class="wflj"><input type="radio" name="nannyFlag" value="-1" _text="无法了解" @click="selNannyFlag()"/> 无法了解 </label>
         </div>
         <div class="modal-footer">
@@ -461,9 +461,9 @@
           <h4 class="modal-title">国际教育意愿</h4>
         </div>
         <div class="modal-body">
-          <label><input type="radio" name="outEduWill" value="0" _text="是" @click="selOutEduWill()"/> 是 </label>
-          <label><input type="radio" name="outEduWill" value="1" _text="否" @click="selOutEduWill()"/> 否 </label>
-          <label class="wflj"><input type="radio" name="outEduWill" value="009000-无法了解" _text="无法了解" @click="selOutEduWill()"/> 无法了解 </label>
+          <label><input type="radio" name="outEduWill" value="1" _text="有" @click="selOutEduWill()"/> 有 </label>
+          <label><input type="radio" name="outEduWill" value="2" _text="无" @click="selOutEduWill()"/> 无 </label>
+          <label class="wflj"><input type="radio" name="outEduWill" value="-1" _text="无法了解" @click="selOutEduWill()"/> 无法了解 </label>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -488,8 +488,8 @@
           <h4 class="modal-title">业主是否有海外经历</h4>
         </div>
         <div class="modal-body">
-          <label><input type="radio" name="outExperFlag" value="0" _text="是" @click="selOutExperFlag()"/> 是 </label>
-          <label><input type="radio" name="outExperFlag" value="1" _text="否" @click="selOutExperFlag()"/> 否 </label>
+          <label><input type="radio" name="outExperFlag" value="1" _text="有" @click="selOutExperFlag()"/> 有 </label>
+          <label><input type="radio" name="outExperFlag" value="2" _text="无" @click="selOutExperFlag()"/> 无 </label>
           <label class="wflj"><input type="radio" name="outExperFlag" value="009000-无法了解" _text="无法了解" @click="selOutExperFlag()"/> 无法了解 </label>
         </div>
         <div class="modal-footer">
@@ -519,9 +519,9 @@
           <h4 class="modal-title">子女是否有海外经历</h4>
         </div>
         <div class="modal-body">
-          <label><input type="radio" name="childOutExperFlag" value="0" _text="是" @click="selChildOutExperFlag()"/> 是 </label>
-          <label><input type="radio" name="childOutExperFlag" value="1" _text="否" @click="selChildOutExperFlag()"/> 否 </label>
-          <label class="wflj"><input type="radio" name="childOutExperFlag" value="009000-无法了解" _text="无法了解" @click="selChildOutExperFlag()"/> 无法了解 </label><br/>
+          <label><input type="radio" name="childOutExperFlag" value="1" _text="有" @click="selChildOutExperFlag()"/> 有 </label>
+          <label><input type="radio" name="childOutExperFlag" value="2" _text="无" @click="selChildOutExperFlag()"/> 无 </label>
+          <label class="wflj"><input type="radio" name="childOutExperFlag" value="-1" _text="无法了解" @click="selChildOutExperFlag()"/> 无法了解 </label><br/>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -973,7 +973,7 @@
 <!-- 第5页 -->
 <div class="container" id="step5" style="display:none">
   <div class="xxws">信息完善</div>
-  <div class="item_sflr row" id="i_familyStatus">
+  <div class="item_sflr row" id="i_familystatus">
     <div class="col-title col-title-4">家庭状况</div>
     <a href="" data-toggle="modal" data-target="#familyStatusModal">
     <div class="col-input-4-1">
@@ -1004,14 +1004,14 @@
       </div>
     </div>
   </div>
-  <div class="item_sflr row" id="i_ageGroup">
+  <div class="item_sflr row" id="i_agegroup" style="display:yes">
     <div class="col-title col-title-3">年龄段</div>
     <a href="" data-toggle="modal" data-target="#ageGroupModal">
     <div class="col-input-3-1">
       <span class="input_style form-group" id="ageGroup">&nbsp;</span>
     </div>
     </a>
- </div>
+  </div>
   <div class="modal fade" id="ageGroupModal" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -1034,7 +1034,7 @@
       </div>
     </div>
   </div>
-  <div class="item_sflr row" id="i_trafficType">
+  <div class="item_sflr row" id="i_traffictype">
     <div class="col-title col-title-4">出行方式</div>
     <a href="" data-toggle="modal" data-target="#trafficTypeModal">
     <div class="col-input-4-1">
@@ -1067,7 +1067,7 @@
       </div>
     </div>
   </div>
-  <div class="item_sflr row" id="i_buyQualify">
+  <div class="item_sflr row" id="i_buyqualify">
     <div class="col-title col-title-4">购房资格</div>
     <a href="" data-toggle="modal" data-target="#buyQualifyModal">
     <div class="col-input-4-1">
@@ -1098,7 +1098,7 @@
       </div>
     </div>
   </div>
-  <div class="item_sflr row" id="i_workIndustry">
+  <div class="item_sflr row" id="i_workindustry">
     <div class="col-title col-title-4">从事行业</div>
     <a href="" data-toggle="modal" data-target="#workIndustryModal">
     <div class="col-input-4-1">
@@ -1139,7 +1139,7 @@
       </div>
     </div>
   </div>
-  <div class="item_sflr row" id="i_enterpriseType">
+  <div class="item_sflr row" id="i_enterprisetype">
     <div class="col-title col-title-4">企业性质</div>
     <a href="" data-toggle="modal" data-target="#enterpriseTypeModal">
     <div class="col-input-4-1">
@@ -1172,7 +1172,7 @@
       </div>
     </div>
   </div>
-  <div class="item_sflr row" id="i_knowWay">
+  <div class="item_sflr row" id="i_knowway">
     <div class="col-title col-title-4">认知渠道</div>
     <a href="" data-toggle="modal" data-target="#knowWayModal">
     <div class="col-input-4-1">
@@ -1217,7 +1217,7 @@
       </div>
     </div>
   </div>
-  <div class="item_sflr row" id="i_estCustWorth">
+  <div class="item_sflr row" id="i_estcustworth">
     <div class="col-title col-title-4">预估身价</div>
     <a href="" data-toggle="modal" data-target="#estCustWorthModal">
     <div class="col-input-4-1">
@@ -1247,7 +1247,7 @@
       </div>
     </div>
   </div>
-  <div class="item_sflr row" id="i_investType">
+  <div class="item_sflr row" id="i_investtype">
     <div class="col-title col-title-4">重点投资</div>
     <a href="" data-toggle="modal" data-target="#investTypeModal">
     <div class="col-input-4-1">
@@ -1283,7 +1283,7 @@
       </div>
     </div>
   </div>
-  <div class="item_sflr row" id="i_capitalPrepSection">
+  <div class="item_sflr row" id="i_capitalprepsection">
     <div class="col-title col-title-5">资金筹备期</div>
     <a href="" data-toggle="modal" data-target="#capitalPrepSectionModal">
     <div class="col-input-5-1">
@@ -1313,7 +1313,7 @@
       </div>
     </div>
   </div>
-  <div class="item_sflr row" id="i_realtyProductType">
+  <div class="item_sflr row" id="i_realtyproducttype">
     <div class="col-title col-title-6">关注产品类型</div>
     <a href="" data-toggle="modal" data-target="#realtyProductTypeModal">
     <div class="col-input-6-1">
@@ -1355,7 +1355,7 @@
       </div>
     </div>
   </div>
-  <div class="item_sflr row" id="i_attentAcreage">
+  <div class="item_sflr row" id="i_attentacreage">
     <div class="col-title col-title-6">关注区间面积</div>
     <a href="" data-toggle="modal" data-target="#attentAcreageModal">
     <div class="col-input-6-1">
@@ -1388,7 +1388,7 @@
       </div>
     </div>
   </div>
-  <div class="item_sflr row" id="i_priceSection">
+  <div class="item_sflr row" id="i_pricesection">
     <div class="col-title col-title-5">接受总房款</div>
     <a href="" data-toggle="modal" data-target="#priceSectionModal">
     <div class="col-input-5-1">
@@ -1423,7 +1423,7 @@
       </div>
     </div>
   </div>
-  <div class="item_sflr row" id="i_buyPurpose">
+  <div class="item_sflr row" id="i_buypurpose">
     <div class="col-title col-title-4">购房目的</div>
     <a href="" data-toggle="modal" data-target="#buyPurposeModal">
     <div class="col-input-4-1">
@@ -1457,7 +1457,7 @@
       </div>
     </div>
   </div>
-  <div class="item_sflr row" id="i_attentionPoint">
+  <div class="item_sflr row" id="i_attentionpoint">
     <div class="col-title col-title-6">对本案关注点</div>
     <a href="" data-toggle="modal" data-target="#attentionPointModal">
     <div class="col-input-6-1">
