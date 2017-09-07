@@ -125,15 +125,15 @@ var vueStep1=new Vue({
       for (var i=0; i<choose.length; i++) {
         if (choose[i].checked) {
           $("#visitorCount").html(choose[i].getAttribute("_text"));
-          _uGgeGroup=choose[i].value;
+          _uVisitorCount=choose[i].value;
         }
       }
       $("#visitorCountModal").modal('hide');
-      if (_uGgeGroup!="") $("#cleanVisitorCountBtn").show();
+      if (_uVisitorCount!="") $("#cleanVisitorCountBtn").show();
     },
     cleanVisitorCount: function() {
       $("#visitorCount").html("&nbsp;");
-      _uGgeGroup="";
+      _uVisitorCount="";
       $("#cleanVisitorCountBtn").hide();
       fillSelectField('visitorCount', "", false);
     },
@@ -142,15 +142,15 @@ var vueStep1=new Vue({
       for (var i=0; i<choose.length; i++) {
         if (choose[i].checked) {
           $("#decisionerIn").html(choose[i].getAttribute("_text"));
-          _uGgeGroup=choose[i].value;
+          _uDecisionerIn=choose[i].value;
         }
       }
       $("#decisionerInModal").modal('hide');
-      if (_uGgeGroup!="") $("#cleanDecisionerInBtn").show();
+      if (_uDecisionerIn!="") $("#cleanDecisionerInBtn").show();
     },
     cleanDecisionerIn: function() {
       $("#decisionerIn").html("&nbsp;");
-      _uGgeGroup="";
+      _uDecisionerIn="";
       $("#cleanDecisionerInBtn").hide();
       fillSelectField('decisionerIn', "", false);
     },
@@ -745,7 +745,6 @@ var vueStep3=new Vue({
       $("#cleanCarTotalPriceBtn").hide();
       fillSelectField('carTotalPrice', "", false);
     },
-
     selAvocations: function() {
       _uAvocations="";
       _uAvocationsDesc="";
