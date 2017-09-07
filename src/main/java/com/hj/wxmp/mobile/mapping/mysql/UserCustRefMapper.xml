@@ -147,7 +147,7 @@
   <select id="selectByUserMessge" resultType="java.util.Map" parameterType="java.util.Map">
 	SELECT
 		qur.*, qc.*, pu.realName,
-		pu.isValidate,proj.projName
+		pu.isValidate,proj.projName,pu.isValidate
 	FROM
 		ql_UserCust_Ref qur
 	JOIN ql_Customer qc ON qur.custId = qc.id
@@ -155,6 +155,9 @@
 	join ql_Project proj on qur.projId = proj.id
 	WHERE
 		instr(qc.custName,#{name}) 
+		or (proj.projName,#{name}) 
+		or (qc.phoneNum.custName,#{name}) 
+		or (pu.realName,#{name}) 
 	limit #{page},#{pageSize}
   </select>
   
@@ -168,6 +171,9 @@
 	JOIN ql_Customer qc ON qur.custId = qc.id join plat_User pu on qur.userId = pu.id
 	WHERE
 		instr(qc.custName,#{name}) 
+		or (proj.projName,#{name}) 
+		or (qc.phoneNum.custName,#{name}) 
+		or (pu.realName,#{name})  
   </select>
   
   
