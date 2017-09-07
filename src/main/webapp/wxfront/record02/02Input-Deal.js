@@ -113,7 +113,7 @@ function initData(data) {
       else {
         $("#_SELUSER").hide();
         $("#_SHOWUSER").show();
-        $("span[name='userInput']").html("请先选则项目");
+        $("span[name='userInput']").html("请先选择项目");
       }
     }
     var nt=new Date();

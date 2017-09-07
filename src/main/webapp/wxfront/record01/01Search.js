@@ -115,6 +115,7 @@ function loadPage() {
       var _CJ=(oneData.isKnockdown&&oneData.isKnockdown==1)?"成交":"未成交";
       var _to02Url=_URL_BASE+"/wxfront/record02/record02Input.html?type=add"
           +"&custId="+oneData.custId+"&custName="+encodeURIComponent(oneData.custName)+"&custPhone="+oneData.custPhoneNum
+          +"&userId="+oneData.userId+"&userName="+encodeURIComponent(oneData.authorName)
           +"&projId="+oneData.projId;
       html="<div class='scrollItem row examine'>"
     	  +  "<div class='col-40 item-name2'><a href='tel:"+oneData.custPhoneNum+"'>"+name+"<span>"+oneData.custPhoneNum+"</span><br/>"+fTime+"</a></div>"
