@@ -113,12 +113,9 @@ function loadPage() {
       }
       var _total=oneData.total;
       var _CJ=(oneData.isKnockdown&&oneData.isKnockdown==1)?"成交":"未成交";
-      var _to02Url="";
-      if (userInfo.userid==oneData.userId) {
-    	  _to02Url=_URL_BASE+"/wxfront/record02/record02Input.html?type=add"
+      var _to02Url=_URL_BASE+"/wxfront/record02/record02Input.html?type=add"
           +"&custId="+oneData.custId+"&custName="+encodeURIComponent(oneData.custName)+"&custPhone="+oneData.custPhoneNum
           +"&projId="+oneData.projId;
-      }
       html="<div class='scrollItem row examine'>"
     	  +  "<div class='col-40 item-name2'><a href='tel:"+oneData.custPhoneNum+"'>"+name+"<span>"+oneData.custPhoneNum+"</span><br/>"+fTime+"</a></div>"
           +  "<div class='col-60'><div class='col-70 item-name' style='margin-left:30%'>"+_GW+"<br>总次："+_total+"次&nbsp;&nbsp;"+_CJ+"<br>"+status+(_to02Url?"<span style='margin-left:.5rem;'>添加复访</span>":"")+"</div>"

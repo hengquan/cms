@@ -100,6 +100,17 @@
 											</button>
 										</span>
 									</div>
+									<input type="hidden" name="isValidate" id="isValidate" value="${isValidate }">
+									<a href="javascript:seeCancellationUserMsg();" style="margin-left:20px;" class="btn mini btn-white" id="seeCancellationUserMsg">
+										<c:choose>
+										   <c:when test="${isValidate==null || isValidate==''}">  
+										         查看所有已作废顾问的客户     
+										   </c:when>
+										   <c:otherwise> 
+										         查看所有客户
+										   </c:otherwise>
+										</c:choose>
+									</a>
 								</div>
 								<!-- 分页信息 -->
 								<input type="hidden" value="${nowPage}" id="nowPageNumber"
@@ -121,7 +132,7 @@
 										<th class="hidden-phone" style="line-height:37px">关注时间</th>
 										<th class="hidden-phone" style="line-height:37px">顾问姓名</th>
 										<th class="hidden-phone">
-											<a href="javascript:selectUsers();" class="btn mini btn-white">切换权限用户</a>
+											<a href="javascript:selectUsers();" class="btn mini btn-white">批量分配</a>
 											<a href="javascript:doRefresh();" class="btn mini btn-white"><i
 												class="icon-refresh"></i></a>
 											<a href="javascript:doRefresh();" class="btn mini btn-white"><i
@@ -145,7 +156,7 @@
 											<td class="hidden-phone">${u.realName}</td>
 											<td class="hidden-phone">
 												<button type="button" onclick="editJurisdiction('${u.projId}','${u.custId }')" 
-												class="btn btn-send">切换权限用户</button>
+												class="btn btn-send">为客户分配顾问</button>
 											</td>
 										</tr>
 									</c:forEach>
@@ -422,6 +433,21 @@
 	<script src="${appRoot}/static/js/dynamic-table.js"></script>
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
+	
+	
+	//查看所有已作废顾问下的客户信息
+	function seeCancellationUserMsg(){
+		var isValidate = $("#isValidate").val();
+		if(isValidate==undefined||isValidate==null||isValidate==""){
+			$("#isValidate").val(1);
+			seeAllMsg();
+		}else{
+			$("#isValidate").val(null);
+			var b = $("#isValidate").val();
+			seeAllMsg();
+		}
+	}
+	
 	
 	//修改客户的操作权限用户单个
 	function editJurisdiction(projId,custId){

@@ -522,12 +522,6 @@ public class WxApiController extends ControllerBaseWx {
 		if (type==0) {
 			projCustRef.setId(key.getUUIDKey());
 			userCustRef.setId(key.getUUIDKey());
-		}else{
-			//客户项目关系表
-			Map<String,Object>result=new HashMap<String,Object>();
-			result.put("custId", record01.getCustid());
-			result.put("projId", record01.getProjid());
-			projCustRef = projCustRefService.selectByCusIdAndProjId(result);
 		}
 		//首访Id
 		if (type==0) id=key.getUUIDKey();
@@ -1092,11 +1086,6 @@ public class WxApiController extends ControllerBaseWx {
 		String tempStr = "";
 		//返回结果
 		Map<String, Object> parseResult = null;
-		//客户项目关系表
-		Map<String,Object>result=new HashMap<String,Object>();
-		result.put("custId", record02.getCustid());
-		result.put("projId", record02.getProjid());
-		projCustRef = projCustRefService.selectByCusIdAndProjId(result);
 		//复访Id
 		if (type==0) id=key.getUUIDKey();
 		else id=record02.getId();
@@ -1738,15 +1727,8 @@ public class WxApiController extends ControllerBaseWx {
 		Map<String, Object> parseResult = null;
 		//若是新增，设置关联对象的Id
 		if (type==0) {
-			String phone=record03.getCustphonenum();
-			String[] phones = phone.split(",");
-			if(phones.length>1) phone=phones[0];
-			//是否以有该客户信息
-			Customer customer = customerService.findByPhone(phone);
-			if(customer==null){
-				projCustRef.setId(key.getUUIDKey());
-				userCustRef.setId(key.getUUIDKey());
-			}
+			projCustRef.setId(key.getUUIDKey());
+			userCustRef.setId(key.getUUIDKey());
 		}
 		//成交Id
 		if (type==0) id=key.getUUIDKey();
@@ -2624,6 +2606,61 @@ public class WxApiController extends ControllerBaseWx {
 		return JsonUtils.map2json(map);
 	}
 
+	
+    //获取客户项目和该项目的总访问次数
+	@RequestMapping(value = "/getCustProjCount")
+	@ResponseBody
+	public String getCustProjCount(HttpServletRequest req){
+		Map<String, Object> m=RequestUtils.getDataFromRequest(req);
+		responseInfo(response);
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> parmeterMap = new HashMap<String,Object>();
+		try {
+			String phone = m.get("phone")==null?null:m.get("phone").toString();
+			String name = m.get("name")==null?null:m.get("name").toString();
+			String projId = m.get("projId")==null?null:m.get("projId").toString();
+			if (phone==null) {
+				map.put("msg", "200");
+				return JsonUtils.map2json(map);
+			}
+			if (name==null) {
+				map.put("msg", "201");
+				return JsonUtils.map2json(map);
+			}
+			if (projId==null) {
+				map.put("msg", "202");
+				return JsonUtils.map2json(map);
+			}
+			parmeterMap.put("phone", phone);
+			parmeterMap.put("name", name);
+			parmeterMap.put("projId", projId);
+			//获取客户详细信息
+			Customer customer = customerService.findByPhone(phone);
+			if(customer!=null){
+				String custId=customer.getId();
+				parmeterMap.put("custId", custId);
+				//首访总次数
+				Integer record01Count = accessRecord01Service.findByCustIdCount(parmeterMap);
+				//复访总次数
+				Integer record02Count = accessRecord02Service.findByCustIdCount(parmeterMap);
+				//成交总次数
+				Integer record03Count = accessRecord03Service.findByCustIdCount(parmeterMap);
+				//总访问次数
+				Integer totalCount = record01Count+record02Count+record03Count;
+				map.put("totalCount", totalCount);
+				map.put("msg", "100");
+			}else{
+				map.put("msg", "107");
+			}
+		} catch (Exception e) {
+			map.put("msg", "103");
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+	}
+	
+	
+	
 	class Deal01OtherTable extends Thread {
 		int type=0;//0=insert;1=update
 		Customer cust=null;
@@ -2642,12 +2679,16 @@ public class WxApiController extends ControllerBaseWx {
 			try {
 				//处理客户
 			    if (type==0) {
-			    	String id = cust.getId();
-			    	if(StringUtils.isNotEmpty(id)){
-			    		Customer custData = customerService.findById(id);
-			    		if(custData!=null) customerService.update(cust);
-			    		else customerService.insert(cust);
-			    	}
+			    	String phone=cust.getPhonenum();
+					String[] phones = phone.split(",");
+					if(phones.length>1) phone=phones[0];
+					//是否以有该客户信息
+					Customer customer = customerService.findByPhone(phone);
+					if(customer==null){
+						customerService.insert(cust);
+					}else{
+						customerService.update(cust);
+					}
 			    }
 			    else customerService.update(cust);
 			    //处理用户客户
@@ -2662,12 +2703,16 @@ public class WxApiController extends ControllerBaseWx {
 			    //else userCustRefService.update(userCustRef);
 			    //处理用户项目
 			    if (type==0) {
-			    	String id = projCustRef.getId();
-			    	if(StringUtils.isNotEmpty(id)) {
-			    		ProjCustRef projData = projCustRefService.findById(id);
-			    		if(projData!=null) projCustRefService.update(projCustRef);
-			    		else projCustRefService.insert(projCustRef);
-			    	}
+			    	Map<String,Object>result=new HashMap<String,Object>();
+					result.put("cusId", projCustRef.getCustid());
+					result.put("projId", projCustRef.getProjid());
+					ProjCustRef projCustRef1 = projCustRefService.selectByCusIdAndProjId(result);
+					if(projCustRef1==null){
+						projCustRefService.insert(projCustRef);
+					}else{
+						projCustRef.setId(projCustRef1.getId());
+						projCustRefService.update(projCustRef);
+					}
 			    }
 			    else projCustRefService.update(projCustRef);
 			    //处理字典
