@@ -2676,6 +2676,12 @@ public class WxApiController extends ControllerBaseWx {
 		}
 		@Override
         public void run() {
+			
+	    	Map<String,Object> map = new HashMap<String,Object>();
+	    	map.put("projCustRef", projCustRef);
+	    	logger.debug("projCustRef:::::::::{}",JsonUtils.map2json(map));
+
+			
 			try {
 				//处理客户
 			    if (type==0) {
