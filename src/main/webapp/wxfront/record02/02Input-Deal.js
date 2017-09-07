@@ -15,8 +15,22 @@ $(function() {
   else
   if (_TYPE=='update') $(document).attr("title","客户数据中心-复访信息修改");
 
-  if (_TYPE=='add') initData(null);
-  else if (_TYPE=='update') {
+  if (_TYPE=='add') {
+    var _custId=getUrlParam(window.location.href, 'custId');
+    var _custName=getUrlParam(window.location.href, 'custName');
+    var _projId=getUrlParam(window.location.href, 'projId');
+    var _custPhone=getUrlParam(window.location.href, 'custPhone');
+    var data=null;
+    if (_custId&&_custName&&_projId&&_custPhone) {
+      data={};
+      data.from01Flag=1;
+      data.custId=_custId;
+      data.custName=decodeURIComponent(_custName);
+      data.projId=_projId;
+      data.custPhone=_custPhone;
+    }
+    initData(data);
+  } else if (_TYPE=='update') {
     //设置不能修改的字段:项目名称，客户名称，客户电话号码
     $(document).attr("title","客户数据中心-复访信息修改");
     //获得本条记录消息信息
@@ -62,14 +76,13 @@ function initData(data) {
     }
   });
   function initPage(userInfo, data) {
-    cleanData();
-    //根据用户信息处理相关的内容
+    cleanData(2);
     //初始化项目选择
     var canShowProj=false;
     var prjNames=""+userInfo.checkProj;
     var lPrj=prjNames.split(',');
     var projHtml="";
-    var projId,projName;
+    var _uProj,projId,projName;
     for (var i=0;i<lPrj.length; i++) {
       if ($.trim(lPrj[i])!='') {
         if (lPrj[i].indexOf('-')!=-1) {
@@ -100,16 +113,53 @@ function initData(data) {
       else {
         $("#_SELUSER").hide();
         $("#_SHOWUSER").show();
-        $("span[name='userInput']").html("先选项目");
+        $("span[name='userInput']").html("请先选则项目");
       }
     }
     var nt=new Date();
-    var str=""+nt.getFullYear()+"-";
-    str+=((100+(nt.getMonth()+1))+"").substr(1)+"-";
-    str+=((100+nt.getDate())+"").substr(1);
-    $("input[name='recpTime']").val(str);
-    if (_TYPE=='update'&&data) {
-      fillData(data);
+    fillTime("recpTime", nt);
+    if (_TYPE=='update'&&data) fillData(data);
+
+    //按传入处理
+    if (_TYPE=='add'&&data&&data.from01Flag&&data.from01Flag==1) {
+      custId=data.custId;
+      $("input[name='custName']").val(data.custName);
+      $("input[name='custPhone']").val(data.custPhone);
+      _uProjId=data.projId;
+      $("#projArea").hide();
+      if (!_uProjName) {
+        for (var i=0;i<lPrj.length; i++) {
+          if ($.trim(lPrj[i])!='') {
+            if (lPrj[i].indexOf('-')!=-1) {
+              _uProj=lPrj[i];
+              projId=lPrj[i].substring(0,lPrj[i].indexOf('-'));
+              projName=lPrj[i].substring(lPrj[i].indexOf('-')+1);
+              if (projId==_uProjId) {
+                _uProjName=projName;
+                break;
+              }
+            }
+          }
+        }
+      }
+      var url=_URL_BASE+"/wx/api/getCustMsg";
+      var _data={};
+      _data.custId=custId;
+      _data.projId=_uProjId;
+      $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
+        success: function(json) {
+          if (json.msg=='100') {
+            var customer=json.customer;
+            if (customer) {
+              needReInputCount=_REINPUTCOUNT;
+              _dealCustomer(customer);
+            }
+          }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+          alert("获得客户信息时出现系统错误：\nstatu="+XMLHttpRequest.status+"\nreadyState="+XMLHttpRequest.readyState+"\ntext="+textStatus+"\nerrThrown="+errorThrown);
+        }
+      });
     }
   }
 }
@@ -147,7 +197,7 @@ function loadProjUser(projId) {
   });
 }
 
-function cleanData() {//清除数据
+function cleanData(type) {//清除数据
   //清除所有数据
   $("input[type='text']").val("");
   $("input[type='radio']").attr("checked", false);
@@ -157,10 +207,15 @@ function cleanData() {//清除数据
   $(".modal-footer").find("button").each(function(){
     if ((($(this).attr("id"))+"").indexOf('Btn')>0) $(this).hide();
   });
-  _uProjId="";
-  _uProjName="";
-  _uUserId="";
-  _uUserRole="";
+  var _type=1;
+  if (type) _type=type;
+  if (_type==1) {
+    _uProjId="";
+    _uProjName="";
+    _uUserId="";
+    _uUserName="";
+    _uUserRole="";
+  }
   _uSex="";
   _uVisitorCount="";
   _uDecisionerIn="";
@@ -207,206 +262,6 @@ function cleanData() {//清除数据
   _uBuyPurposeDesc="";
   _uAttentionPoint="";
   _uAttentionPointDesc="";
-}
-
-function fillData(data) {//填数据，包括所有页面
-  if (!data) return;
-  if (data.custid) custId=data.custid;
-  if (data.custname) $("input[name='custName']").val(data.custname);
-  if (data.custphonenum) $("input[name='custPhone']").val(data.custphonenum);
-  if (data.custsex) fillSelectField("sex", data.custsex, true);
-  if (data.receptime.time) {
-    var rTime=new Date();
-    rTime.setTime(data.receptime.time);
-    fillTime("curTime", rTime);
-  }
-  if (data.visitorcount) fillSelectField("visitorCount", data.visitorcount, true);
-  if (data.decisionerin) fillSelectField("decisionerIn", data.decisionerin, true);
-  if (data.visitorrefs) {
-    var _temp=data.visitorrefs;
-    if (data.visitorrefs.indexOf('其他')!=-1) {
-      if (data.visitorrefsdesc) {
-        var _temp2="其他("+data.visitorrefsdesc+")";
-        _temp=_temp.replace("其他", _temp2);
-      }
-    }
-    fillSelectField("visitorRefs", _temp, true);
-  }
-  if (data.childrennum) fillSelectField("childrenNum", data.childrennum, true);
-  if (data.childagegroup) fillSelectField("childAgeGroup", data.childagegroup, true);
-  if (data.schooltype) fillSelectField("schoolType", data.schooltype, true);
-  if (data.schoolname) $("input[name='schoolName']").val(data.schoolname);
-  if (data.childavocations) {
-    var _temp=data.childavocations;
-    if (data.childavocations.indexOf('其他')!=-1) {
-      if (data.childavocationsdesc) {
-        var _temp2="其他("+data.childavocationsdesc+")";
-        _temp=_temp.replace("其他", _temp2);
-      }
-    }
-    fillSelectField("childAvocations", _temp, true);
-  }
-  if (data.outeduwill) fillSelectField("outEduWill", data.outeduwill, true);
-  if (data.outexperflag) fillSelectField("outExperFlag", data.outexperflag, true);
-  if (data.outexpercity) $("input[name='outExperCity']").val(data.outexpercity);
-  if (data.childoutexperflag) fillSelectField("childOutExperFlag", data.childoutexperflag, true);
-  if (data.childoutexpercity) $("input[name='childOutExperCity']").val(data.childoutexpercity);
-  if (data.livingradius) $("input[name='livingRadius']").val(data.livingradius);
-  if (data.communityname) $("input[name='communityName']").val(data.communityname);
-  if (data.housetype) $("input[name='houseType']").val(data.housetype);
-  if (data.liveacreage) fillSelectField("liveAcreage", data.liveacreage, true);
-  if (data.enterprisename) $("input[name='enterpriseName']").val(data.enterprisename);
-  if (data.enterpriseaddress) $("input[name='enterpriseAddress']").val(data.enterpriseaddress);
-  if (data.enterprisepost) $("input[name='enterprisePost']").val(data.enterprisepost);
-  if (data.housecount) $("input[name='houseCount']").val(data.housecount);
-  if (data.carfamilycount) $("input[name='carFamilyCount']").val(data.carfamilycount);
-  if (data.carbrand) $("input[name='carBrand']").val(data.carbrand);
-  if (data.cartotalprice) fillSelectField("carTotalPrice", data.cartotalprice, true);
-  if (data.attentwx) $("input[name='attentWX']").val(data.attentwx);
-  if (data.appnames) $("input[name='appNames']").val(data.appnames);
-  if (data.avocations) {
-    var _temp=data.avocations;
-    if (data.avocations.indexOf('其他')!=-1) {
-      if (data.avocationsdesc) {
-        var _temp2="其他("+data.avocationsdesc+")";
-        _temp=_temp.replace("其他", _temp2);
-      }
-    }
-    fillSelectField("avocations", _temp, true);
-  }
-  if (data.resistpoint) {
-    var _temp=data.resistpoint;
-    if (data.resistpoint.indexOf('其他')!=-1) {
-      if (data.resistpointdesc) {
-        var _temp2="其他("+data.resistpointdesc+")";
-        _temp=_temp.replace("其他", _temp2);
-      }
-    }
-    fillSelectField("resistPoint", _temp, true);
-  }
-  if (data.resistpoint) {
-    var _temp=data.resistpoint;
-    if (data.resistpoint.indexOf('其他')!=-1) {
-      if (data.resistpointdesc) {
-        var _temp2="其他("+data.resistpointdesc+")";
-        _temp=_temp.replace("其他", _temp2);
-      }
-    }
-    fillSelectField("resistPoint", _temp, true);
-  }
-  if (data.loveactivation) {
-    var _temp=data.loveactivation;
-    if (data.loveactivation.indexOf('其他')!=-1) {
-      if (data.loveactdesc) {
-        var _temp2="其他("+data.loveactdesc+")";
-        _temp=_temp.replace("其他", _temp2);
-      }
-    }
-    fillSelectField("loveActivation", _temp, true);
-  }
-  if (data.freetimesection) fillSelectField("freeTimeSection", data.freetimesection, true);
-  if (data.receptimesection) fillSelectField("recepTimeSection", data.receptimesection, true);
-  if (data.custscore) fillSelectField("custScore", data.custscore, true);
-  if (data.compareprojs) $("textarea[name='compareProjs']").val(data.compareprojs);
-  if (data.custdescn) $("textarea[name='custDescn']").val(data.custdescn);
-
-  if (data.familystatus) fillSelectField("familyStatus", data.familystatus, true);
-  if (data.traffictype) {
-    var _temp=data.traffictype;
-    if (data.traffictype.indexOf('其他')!=-1) {
-      if (data.traffictypedesc) {
-        var _temp2="其他("+data.traffictypedesc+")";
-        _temp=_temp.replace("其他", _temp2);
-      }
-    }
-    fillSelectField("trafficType", _temp, true);
-  }
-  if (data.buyqualify) fillSelectField("buyQualify", data.buyqualify, true);
-  if (data.workindustry) {
-    var _temp=data.workindustry;
-    if (data.workindustry.indexOf('其他')!=-1) {
-      if (data.workindustrydesc) {
-        var _temp2="其他("+data.workindustrydesc+")";
-        _temp=_temp.replace("其他", _temp2);
-      }
-    }
-    fillSelectField("workIndustry", _temp, true);
-  }
-  if (data.enterprisetype) {
-    var _temp=data.enterprisetype;
-    if (data.enterprisetype.indexOf('其他')!=-1) {
-      if (data.enterprisetypedesc) {
-        var _temp2="其他("+data.enterprisetypedesc+")";
-        _temp=_temp.replace("其他", _temp2);
-      }
-    }
-    fillSelectField("enterpriseType", _temp, true);
-  }
-  if (data.knowway) {
-    var _temp=data.knowway;
-    if (data.knowwaydesc) {
-      var s=(data.knowwaydesc).split(",");
-      for (var j=0;j<s.length;j++) {
-         var temp2=s[j];
-         var s2=temp2.split("=");
-         temp2=temp2.replace("=", "(");
-         temp2+=")";
-         _temp=_temp.replace(s2[0], temp2);
-      }
-      
-    }
-    fillSelectField("knowWay", _temp, true);
-  }
-  if (data.estcustworth) fillSelectField("estCustWorth", data.estcustworth, true);
-  if (data.investtype) {
-    var _temp=data.investtype;
-    if (data.investtype.indexOf('其他')!=-1) {
-      if (data.investtypedesc) {
-        var _temp2="其他("+data.investtypedesc+")";
-        _temp=_temp.replace("其他", _temp2);
-      }
-    }
-    fillSelectField("investType", _temp, true);
-  }
-  if (data.capitalprepsection) fillSelectField("capitalPrepSection", data.capitalprepsection, true);
-  if (data.realtyproducttype) {
-    var _temp=data.realtyproducttype;
-    if (data.realtyproducttype.indexOf('其他')!=-1) {
-      if (data.realtyproducttypedesc) {
-        var _temp2="其他("+data.realtyproducttypedesc+")";
-        _temp=_temp.replace("其他", _temp2);
-      }
-    }
-    fillSelectField("realtyProductType", _temp, true);
-  }
-  if (data.attentacreage) fillSelectField("attentAcreage", data.attentacreage, true);
-  if (data.pricesection) fillSelectField("priceSection", data.pricesection, true);
-  if (data.buypurpose) {
-    var _temp=data.buypurpose;
-    if (data.buypurpose.indexOf('其他')!=-1) {
-      if (data.buypurposedesc) {
-        var _temp2="其他("+data.buypurposedesc+")";
-        _temp=_temp.replace("其他", _temp2);
-      }
-    }
-    fillSelectField("buyPurpose", _temp, true);
-  }
-  if (data.attentionpoint) {
-    var _temp=data.attentionpoint;
-    if (data.attentionpoint.indexOf('其他')!=-1) {
-      if (data.attentionpointdesc) {
-        var _temp2="其他("+data.attentionpointdesc+")";
-        _temp=_temp.replace("其他", _temp2);
-      }
-    }
-    fillSelectField("attentionPoint", _temp, true);
-  }
-}
-function fillTime(id, _time) {
-  var str=""+_time.getFullYear()+"-";
-  str+=((100+(_time.getMonth()+1))+"").substr(1)+"-";
-  str+=((100+_time.getDate())+"").substr(1);
-  $("input[name='"+id+"']").val(str);
 }
 
 //翻页切换
@@ -701,7 +556,7 @@ function commitData() {
     return retData;
   }
   function commitInsert(_data) {
-    var url=_URL_BASE+"wx/api/addHisFirstRecord";
+    var url=_URL_BASE+"/wx/api/addAfterVisit";
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         if (json.msg!='100') {
@@ -709,7 +564,8 @@ function commitData() {
         } else {
           if (confirm("录入成功，要录入下一条复访记录吗？")) {
             step2Prev();
-            cleanData();
+            cleanData(1);
+            fillDataForReInput(_data);
           } else {
             window.location.href=_URL_BASE+"/wxfront/search/record01.html";
           }
@@ -741,7 +597,6 @@ function commitData() {
 }
 
 //=以下客户处理====================================
-alert("D102");
 var _thisProjId="";
 var _thisUserId="";
 var _REINPUTCOUNT=15;
@@ -766,6 +621,10 @@ function openSelCust() {
           alert("未获得任何客户信息");
         } else {
           $("#custData").html("");
+          if (json.customers.length==0) {
+            alert("["+_uProjName+"]项目还没有接待任何客户，只能从首访录入，不能录入复访！");
+            return;
+          }
           for (var i=0; i<json.customers.length; i++) {
             var oneCust=json.customers[i];
             var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+oneCust.phoneNum+"</span><span>"+oneCust.projName+"</span>";
@@ -825,37 +684,36 @@ function selCust() {
       }
     });
   }
-  //处理客户信息，看是否需要重复录
-  function _dealCustomer(customer) {alert(allFields(customer));
-    //填充必要的信息
-    if (customer.firstvisittime.time) {
-      var rTime=new Date();
-      rTime.setTime(customer.firstvisittime.time);
-      fillTime("firstVisitTime", rTime);
-    }
-    $("input[name='visitCount']").val(customer.visitcount);
-    //判断是否需要再次填写
-    _dealOne("familystatus", customer);
-    _dealOne("agegroup", customer);
-    _dealOne("traffictype", customer);
-    _dealOne("buyqualify", customer);
-    _dealOne("workindustry", customer);
-    _dealOne("enterprisetype", customer);
-    _dealOne("knowway", customer);
-    _dealOne("estcustworth", customer);
-    _dealOne("investtype", customer);
-    _dealOne("capitalprepsection", customer);
-    _dealOne("realtyproducttype", customer);
-    _dealOne("attentacreage", customer);
-    _dealOne("pricesection", customer);
-    _dealOne("buypurpose", customer);
-    _dealOne("attentionpoint", customer);
-    alert(needReInputCount==0);
-    if (needReInputCount==0) {
-      $("div[onclick='step4Next()']").attr("onclick", "commitData()");
-      $("div[onclick='step4Next()']").html("<a href='#'>提交</a>");
-      $("#step5").hide();
-    }
+}
+//处理客户信息，看是否需要重复录
+function _dealCustomer(customer) {
+  //填充必要的信息
+  if (customer.firstvisittime.time) {
+    var rTime=new Date();
+    rTime.setTime(customer.firstvisittime.time);
+    fillTime("firstVisitTime", rTime);
+  }
+  $("input[name='visitCount']").val(customer.visitcount);
+  //判断是否需要再次填写
+  _dealOne("familystatus", customer);
+  _dealOne("agegroup", customer);
+  _dealOne("traffictype", customer);
+  _dealOne("buyqualify", customer);
+  _dealOne("workindustry", customer);
+  _dealOne("enterprisetype", customer);
+  _dealOne("knowway", customer);
+  _dealOne("estcustworth", customer);
+  _dealOne("investtype", customer);
+  _dealOne("capitalprepsection", customer);
+  _dealOne("realtyproducttype", customer);
+  _dealOne("attentacreage", customer);
+  _dealOne("pricesection", customer);
+  _dealOne("buypurpose", customer);
+  _dealOne("attentionpoint", customer);
+  if (needReInputCount==0) {
+    $("div[onclick='step4Next()']").html("<a href='#'>提交</a>");
+    $("div[onclick='step4Next()']").attr("onclick", "commitData()");
+    $("#step5").hide();
   }
   function _dealOne(ident, customer) {
     if (!eval("customer."+ident)||(eval("customer."+ident)=='无法了解')) {
@@ -864,5 +722,213 @@ function selCust() {
       $("#i_"+ident).hide();
       needReInputCount--;
     }
+  }
+}
+
+//=====================================
+//以下填充方法
+function fillTime(id, _time) {
+  var str=""+_time.getFullYear()+"-";
+  str+=((100+(_time.getMonth()+1))+"").substr(1)+"-";
+  str+=((100+_time.getDate())+"").substr(1);
+  $("input[name='"+id+"']").val(str);
+}
+function fillDataForReInput(_data) {
+  if (_uProjName) $("#proj").html(_uProjName);
+  if (_uUserName) $("#user").html(_uUserName);
+  var nt=new Date();
+  fillTime("recpTime",nt);
+}
+function fillData(data) {//填数据，包括所有页面
+  if (!data) return;
+  if (data.custid) custId=data.custid;
+  if (data.custname) $("input[name='custName']").val(data.custname);
+  if (data.custphonenum) $("input[name='custPhone']").val(data.custphonenum);
+  if (data.custsex) fillSelectField("sex", data.custsex, true);
+  if (data.receptime.time) {
+    var rTime=new Date();
+    rTime.setTime(data.receptime.time);
+    fillTime("curTime", rTime);
+  }
+  if (data.visitorcount) fillSelectField("visitorCount", data.visitorcount, true);
+  if (data.decisionerin) fillSelectField("decisionerIn", data.decisionerin, true);
+  if (data.visitorrefs) {
+    var _temp=data.visitorrefs;
+    if (data.visitorrefs.indexOf('其他')!=-1) {
+      if (data.visitorrefsdesc) {
+        var _temp2="其他("+data.visitorrefsdesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("visitorRefs", _temp, true);
+  }
+  if (data.childrennum) fillSelectField("childrenNum", data.childrennum, true);
+  if (data.childagegroup) fillSelectField("childAgeGroup", data.childagegroup, true);
+  if (data.schooltype) fillSelectField("schoolType", data.schooltype, true);
+  if (data.schoolname) $("input[name='schoolName']").val(data.schoolname);
+  if (data.childavocations) {
+    var _temp=data.childavocations;
+    if (data.childavocations.indexOf('其他')!=-1) {
+      if (data.childavocationsdesc) {
+        var _temp2="其他("+data.childavocationsdesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("childAvocations", _temp, true);
+  }
+  if (data.outeduwill) fillSelectField("outEduWill", data.outeduwill, true);
+  if (data.outexperflag) fillSelectField("outExperFlag", data.outexperflag, true);
+  if (data.outexpercity) $("input[name='outExperCity']").val(data.outexpercity);
+  if (data.childoutexperflag) fillSelectField("childOutExperFlag", data.childoutexperflag, true);
+  if (data.childoutexpercity) $("input[name='childOutExperCity']").val(data.childoutexpercity);
+  if (data.livingradius) $("input[name='livingRadius']").val(data.livingradius);
+  if (data.communityname) $("input[name='communityName']").val(data.communityname);
+  if (data.housetype) $("input[name='houseType']").val(data.housetype);
+  if (data.liveacreage) fillSelectField("liveAcreage", data.liveacreage, true);
+  if (data.enterprisename) $("input[name='enterpriseName']").val(data.enterprisename);
+  if (data.enterpriseaddress) $("input[name='enterpriseAddress']").val(data.enterpriseaddress);
+  if (data.enterprisepost) $("input[name='enterprisePost']").val(data.enterprisepost);
+  if (data.housecount) $("input[name='houseCount']").val(data.housecount);
+  if (data.carfamilycount) $("input[name='carFamilyCount']").val(data.carfamilycount);
+  if (data.carbrand) $("input[name='carBrand']").val(data.carbrand);
+  if (data.cartotalprice) fillSelectField("carTotalPrice", data.cartotalprice, true);
+  if (data.attentwx) $("input[name='attentWX']").val(data.attentwx);
+  if (data.appnames) $("input[name='appNames']").val(data.appnames);
+  if (data.avocations) {
+    var _temp=data.avocations;
+    if (data.avocations.indexOf('其他')!=-1) {
+      if (data.avocationsdesc) {
+        var _temp2="其他("+data.avocationsdesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("avocations", _temp, true);
+  }
+  if (data.resistpoint) {
+    var _temp=data.resistpoint;
+    if (data.resistpoint.indexOf('其他')!=-1) {
+      if (data.resistpointdesc) {
+        var _temp2="其他("+data.resistpointdesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("resistPoint", _temp, true);
+  }
+  if (data.resistpoint) {
+    var _temp=data.resistpoint;
+    if (data.resistpoint.indexOf('其他')!=-1) {
+      if (data.resistpointdesc) {
+        var _temp2="其他("+data.resistpointdesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("resistPoint", _temp, true);
+  }
+  if (data.loveactivation) {
+    var _temp=data.loveactivation;
+    if (data.loveactivation.indexOf('其他')!=-1) {
+      if (data.loveactdesc) {
+        var _temp2="其他("+data.loveactdesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("loveActivation", _temp, true);
+  }
+  if (data.freetimesection) fillSelectField("freeTimeSection", data.freetimesection, true);
+  if (data.receptimesection) fillSelectField("recepTimeSection", data.receptimesection, true);
+  if (data.custscore) fillSelectField("custScore", data.custscore, true);
+  if (data.compareprojs) $("textarea[name='compareProjs']").val(data.compareprojs);
+  if (data.custdescn) $("textarea[name='custDescn']").val(data.custdescn);
+
+  if (data.familystatus) fillSelectField("familyStatus", data.familystatus, true);
+  if (data.traffictype) {
+    var _temp=data.traffictype;
+    if (data.traffictype.indexOf('其他')!=-1) {
+      if (data.traffictypedesc) {
+        var _temp2="其他("+data.traffictypedesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("trafficType", _temp, true);
+  }
+  if (data.buyqualify) fillSelectField("buyQualify", data.buyqualify, true);
+  if (data.workindustry) {
+    var _temp=data.workindustry;
+    if (data.workindustry.indexOf('其他')!=-1) {
+      if (data.workindustrydesc) {
+        var _temp2="其他("+data.workindustrydesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("workIndustry", _temp, true);
+  }
+  if (data.enterprisetype) {
+    var _temp=data.enterprisetype;
+    if (data.enterprisetype.indexOf('其他')!=-1) {
+      if (data.enterprisetypedesc) {
+        var _temp2="其他("+data.enterprisetypedesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("enterpriseType", _temp, true);
+  }
+  if (data.knowway) {
+    var _temp=data.knowway;
+    if (data.knowwaydesc) {
+      var s=(data.knowwaydesc).split(",");
+      for (var j=0;j<s.length;j++) {
+         var temp2=s[j];
+         var s2=temp2.split("=");
+         temp2=temp2.replace("=", "(");
+         temp2+=")";
+         _temp=_temp.replace(s2[0], temp2);
+      }
+      
+    }
+    fillSelectField("knowWay", _temp, true);
+  }
+  if (data.estcustworth) fillSelectField("estCustWorth", data.estcustworth, true);
+  if (data.investtype) {
+    var _temp=data.investtype;
+    if (data.investtype.indexOf('其他')!=-1) {
+      if (data.investtypedesc) {
+        var _temp2="其他("+data.investtypedesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("investType", _temp, true);
+  }
+  if (data.capitalprepsection) fillSelectField("capitalPrepSection", data.capitalprepsection, true);
+  if (data.realtyproducttype) {
+    var _temp=data.realtyproducttype;
+    if (data.realtyproducttype.indexOf('其他')!=-1) {
+      if (data.realtyproducttypedesc) {
+        var _temp2="其他("+data.realtyproducttypedesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("realtyProductType", _temp, true);
+  }
+  if (data.attentacreage) fillSelectField("attentAcreage", data.attentacreage, true);
+  if (data.pricesection) fillSelectField("priceSection", data.pricesection, true);
+  if (data.buypurpose) {
+    var _temp=data.buypurpose;
+    if (data.buypurpose.indexOf('其他')!=-1) {
+      if (data.buypurposedesc) {
+        var _temp2="其他("+data.buypurposedesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("buyPurpose", _temp, true);
+  }
+  if (data.attentionpoint) {
+    var _temp=data.attentionpoint;
+    if (data.attentionpoint.indexOf('其他')!=-1) {
+      if (data.attentionpointdesc) {
+        var _temp2="其他("+data.attentionpointdesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("attentionPoint", _temp, true);
   }
 }

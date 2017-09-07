@@ -525,7 +525,7 @@ public class WxApiController extends ControllerBaseWx {
 		}else{
 			//客户项目关系表
 			Map<String,Object>result=new HashMap<String,Object>();
-			result.put("cusId", record01.getCustid());
+			result.put("custId", record01.getCustid());
 			result.put("projId", record01.getProjid());
 			projCustRef = projCustRefService.selectByCusIdAndProjId(result);
 		}
@@ -1094,7 +1094,7 @@ public class WxApiController extends ControllerBaseWx {
 		Map<String, Object> parseResult = null;
 		//客户项目关系表
 		Map<String,Object>result=new HashMap<String,Object>();
-		result.put("cusId", record02.getCustid());
+		result.put("custId", record02.getCustid());
 		result.put("projId", record02.getProjid());
 		projCustRef = projCustRefService.selectByCusIdAndProjId(result);
 		//复访Id
@@ -1104,12 +1104,12 @@ public class WxApiController extends ControllerBaseWx {
 		//项目Id
 		projId=record02.getProjid();
 		_retR02.setProjid(projId);
-		projCustRef.setProjid(projId);
+		if (projCustRef!=null) projCustRef.setProjid(projId);
 		//客户Id
 		customerId=record02.getCustid();
 		_retR02.setCustid(customerId);
 		cust.setId(customerId);
-		projCustRef.setCustid(customerId);
+		if (projCustRef!=null) projCustRef.setCustid(customerId);
 		userCustRef.setCustid(customerId);
 		//客户名称
 		_retR02.setCustname(record02.getCustname());
@@ -1302,7 +1302,7 @@ public class WxApiController extends ControllerBaseWx {
 		if (parseResult!=null) {
 			tempStr=parseResult.get("storeStr")+"";
 			_retR02.setResistpoint(tempStr);
-			projCustRef.setResistpoint(tempStr);
+			if (projCustRef!=null) projCustRef.setResistpoint(tempStr);
 			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
 			List<TabDictRef> cartotalpriceO1=transToDictRefList(dictList, "014", "本案抗拒点", "ql_AccessRecord02", id);
 			if (cartotalpriceO1!=null) dictRefList.addAll(cartotalpriceO1);
@@ -1311,14 +1311,14 @@ public class WxApiController extends ControllerBaseWx {
 		}
 		//本案抗拒点描述
 		_retR02.setResistpointdesc(record02.getResistpointdesc());
-		projCustRef.setResistpointdesc(record02.getResistpointdesc());
+		if (projCustRef!=null) projCustRef.setResistpointdesc(record02.getResistpointdesc());
 		//本案关注点
 		tempStr=record02.getAttentionpoint();
 		parseResult=parseDictsStr(tempStr);
 		if (parseResult!=null) {
 			tempStr=parseResult.get("storeStr")+"";
 			_retR02.setAttentionpoint(tempStr);
-			projCustRef.setAttentionpoint(tempStr);
+			if (projCustRef!=null) projCustRef.setAttentionpoint(tempStr);
 			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
 			List<TabDictRef> cartotalpriceO1=transToDictRefList(dictList, "014", "本案关注点", "ql_AccessRecord02", id);
 			if (cartotalpriceO1!=null) dictRefList.addAll(cartotalpriceO1);
@@ -1327,7 +1327,7 @@ public class WxApiController extends ControllerBaseWx {
 		}
 		//本案关注点描述
 		_retR02.setAttentionpointdesc(record02.getAttentionpointdesc());
-		projCustRef.setAttentionpointdesc(record02.getAttentionpointdesc());
+		if (projCustRef!=null) projCustRef.setAttentionpointdesc(record02.getAttentionpointdesc());
 		//喜欢活动
 		tempStr=record02.getLoveactivation();
 		parseResult=parseDictsStr(tempStr);
@@ -1499,7 +1499,7 @@ public class WxApiController extends ControllerBaseWx {
 		if (parseResult!=null) {
 			tempStr=parseResult.get("storeStr")+"";
 			_retR02.setKnowway(tempStr);
-			projCustRef.setKnowway(tempStr);
+			if (projCustRef!=null) projCustRef.setKnowway(tempStr);
 			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
 			List<TabDictRef> sexO1=transToDictRefList(dictList, "013", "认知本案渠道", "ql_AccessRecord02", id);
 			if (sexO1!=null) dictRefList.addAll(sexO1);
@@ -1510,7 +1510,7 @@ public class WxApiController extends ControllerBaseWx {
 		tempStr=record02.getKnowwaydesc();
 		if(StringUtils.isNotEmpty(tempStr)){
 			_retR02.setKnowwaydesc(tempStr);
-			projCustRef.setKnowwaydesc(tempStr);
+			if (projCustRef!=null) projCustRef.setKnowwaydesc(tempStr);
 		}
 		//预估身价
 		tempStr=record02.getEstcustworth();
@@ -1550,7 +1550,7 @@ public class WxApiController extends ControllerBaseWx {
 		if (parseResult!=null) {
 			tempStr=parseResult.get("storeStr")+"";
 			_retR02.setCapitalprepsection(tempStr);
-			projCustRef.setCapitalprepsection(tempStr);
+			if (projCustRef!=null) projCustRef.setCapitalprepsection(tempStr);
 			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
 			List<TabDictRef> sexO1=transToDictRefList(dictList, "017", "资金筹备期", "ql_AccessRecord02", id);
 			if (sexO1!=null) dictRefList.addAll(sexO1);

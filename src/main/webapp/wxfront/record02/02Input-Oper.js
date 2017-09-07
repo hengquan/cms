@@ -5,6 +5,7 @@
 var _uProjId="";
 var _uProjName="";
 var _uUserId="";
+var _uUserName="";
 var _uUserRole="";
 var _uSex="";
 var _uVisitorCount="";
@@ -109,6 +110,7 @@ var vueStep1=new Vue({
         if (choose[i].checked) {
           $("#user").html(choose[i].getAttribute("_text"));
           _uUserId=choose[i].value.substring(0, choose[i].value.indexOf('-'));
+          _uUserName=choose[i].getAttribute("_text");
         }
       }
       $("#userModal").modal('hide');
@@ -117,6 +119,7 @@ var vueStep1=new Vue({
     cleanUser: function() {
       $("#user").html("&nbsp;");
       _uUserId="";
+      _uUserName="";
       $("#cleanUserBtn").hide();
       fillSelectField('user', "", false);
     },
