@@ -77,6 +77,17 @@ function selProj() {
   if (_uUserRole!='顾问'&&changePrj) loadProjUser(_uProjId);
   if (changePrj) cleanCust();
 }
+function selUser() {
+  var choose=document.getElementsByName('user');
+  for (var i=0; i<choose.length; i++) {
+    if (choose[i].checked) {
+      $("span[name='userInput']").html(choose[i].getAttribute("_text"));
+      _uUserId=choose[i].value.substring(0, choose[i].value.indexOf('-'));
+    }
+  }
+  $("#userModal").modal('hide');
+  if (_uUserId!="") $("#cleanUserBtn").show();
+}
 var vueStep1=new Vue({
   el: "#step1",
   methods: {
@@ -86,6 +97,7 @@ var vueStep1=new Vue({
       _uProjName="";
       $("#cleanProjBtn").hide();
       fillSelectField('proj', "", false);
+      this.cleanUser();
     },
     selSex: function() {
       var choose=document.getElementsByName('sex');
@@ -103,18 +115,6 @@ var vueStep1=new Vue({
       _uSex="";
       $("#cleanSexBtn").hide();
       fillSelectField('sex', "", false);
-    },
-    selUser: function() {
-      var choose=document.getElementsByName('userData');
-      for (var i=0; i<choose.length; i++) {
-        if (choose[i].checked) {
-          $("#user").html(choose[i].getAttribute("_text"));
-          _uUserId=choose[i].value.substring(0, choose[i].value.indexOf('-'));
-          _uUserName=choose[i].getAttribute("_text");
-        }
-      }
-      $("#userModal").modal('hide');
-      if (_uUserId!="") $("#cleanUserBtn").show();
     },
     cleanUser: function() {
       $("#user").html("&nbsp;");
