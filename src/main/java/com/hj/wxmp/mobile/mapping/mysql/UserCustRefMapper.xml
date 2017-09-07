@@ -153,11 +153,14 @@
 	JOIN ql_Customer qc ON qur.custId = qc.id
 	JOIN plat_User pu ON qur.userId = pu.id
 	join ql_Project proj on qur.projId = proj.id
-	WHERE
-		instr(qc.custName,#{name}) 
-		or (proj.projName,#{name}) 
-		or (qc.phoneNum.custName,#{name}) 
-		or (pu.realName,#{name}) 
+	WHERE 1=1 and 
+	(instr(qc.custName,#{name})
+	OR instr(proj.projName, #{name})
+	OR instr(qc.phoneNum, #{name})
+	OR instr(pu.realName, #{name}))
+	<if test="isValidate != '' and isValidate != null">
+		and pu.isValidate = 3
+	</if>  
 	limit #{page},#{pageSize}
   </select>
   
@@ -167,13 +170,18 @@
 	SELECT
 		count(1)
 	FROM
-	ql_UserCust_Ref qur
-	JOIN ql_Customer qc ON qur.custId = qc.id join plat_User pu on qur.userId = pu.id
-	WHERE
-		instr(qc.custName,#{name}) 
-		or (proj.projName,#{name}) 
-		or (qc.phoneNum.custName,#{name}) 
-		or (pu.realName,#{name})  
+		ql_UserCust_Ref qur
+	JOIN ql_Customer qc ON qur.custId = qc.id
+	JOIN plat_User pu ON qur.userId = pu.id
+	join ql_Project proj on qur.projId = proj.id
+	WHERE 1=1 and 
+	(instr(qc.custName,#{name})
+	OR instr(proj.projName, #{name})
+	OR instr(qc.phoneNum, #{name})
+	OR instr(pu.realName, #{name}))
+	<if test="isValidate != '' and isValidate != null">
+		and pu.isValidate = 3
+	</if>  
   </select>
   
   

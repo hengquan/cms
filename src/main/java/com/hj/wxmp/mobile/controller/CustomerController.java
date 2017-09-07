@@ -71,7 +71,8 @@ public class CustomerController extends ControllerBase {
 	// 客户列表
 	@RequestMapping(value = "/customer/customerList")
 	public String userList(@RequestParam(value="nowPage",defaultValue="1") int nowPage,
-			@RequestParam(value="pageSize",defaultValue="10") int pageSize,ModelMap model) {
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize,
+			@RequestParam(value="isValidate",defaultValue="") String isValidate,ModelMap model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		//纪录总数
 		Integer listMessgeCount = 0;
@@ -79,6 +80,7 @@ public class CustomerController extends ControllerBase {
 		Integer start = ((nowPage - 1) * pageSize);
 		map.put("page", start);
 		map.put("pageSize", pageSize);
+		map.put("isValidate", isValidate);
 		String pageUrl = "customer/list";
 		try {
 			//用户角色权限信息
@@ -118,6 +120,7 @@ public class CustomerController extends ControllerBase {
 		model.addAttribute("itemId", itemId);
 		model.addAttribute("id", id);
 		model.addAttribute("name", name);
+		model.addAttribute("isValidate", isValidate);
 		return pageUrl;
 	}
 
