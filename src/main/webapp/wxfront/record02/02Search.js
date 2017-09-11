@@ -60,7 +60,7 @@ function loadPage() {
   $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
-        fillList(json.data);
+        //fillList(json.data);
         scrollMain.refresh();
       } else {
         window.location.href=_URL_BASE+"/wxfront/err.html?1000=查询失败";

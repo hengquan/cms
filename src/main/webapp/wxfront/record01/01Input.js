@@ -1500,8 +1500,8 @@ function checkPhone(docId) {
     if (_check1==0||_check2==0) continue;
     if (_check1==1&&_check2==1) _okPhones+=","+onePhone;
     else {
-    	_errPhone=onePhone;
-    	break;
+      if (!_errPhone) _errPhone=onePhone;
+      _okPhones+=","+_errPhone;
     }
   }
   if (_errPhone) return "客户电话号码["+_errPhone+"]不合法";
