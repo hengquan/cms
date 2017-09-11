@@ -189,4 +189,25 @@
   	update ql_UserCust_Ref set userId=#{userId} where projId=#{projId} and instr(#{custId},custId)
   </update>
   
+  
+  
+  <!-- 导出excel用户信息 -->
+  <select id="downloadExcel" resultType="java.util.Map" parameterType="java.util.Map">
+	SELECT
+		qur.*, qc.*, pu.realName,
+		pu.isValidate,proj.projName,pu.isValidate
+	FROM
+		ql_UserCust_Ref qur
+	JOIN ql_Customer qc ON qur.custId = qc.id
+	JOIN plat_User pu ON qur.userId = pu.id
+	join ql_Project proj on qur.projId = proj.id
+	WHERE 1=1 and 
+	(instr(qc.custName,#{name})
+	OR instr(proj.projName, #{name})
+	OR instr(qc.phoneNum, #{name})
+	OR instr(pu.realName, #{name}))
+	<if test="isValidate != '' and isValidate != null">
+		and pu.isValidate = 3
+	</if>  
+  </select>
 </mapper>

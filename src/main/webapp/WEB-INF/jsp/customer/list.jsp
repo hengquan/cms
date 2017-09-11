@@ -85,7 +85,7 @@
 					<div class="col-lg-12">
 						<section class="panel">
 							<form action="${appRoot}/customer/customerList" method="post"
-								id="selectCheckMessage">
+								id="selectCheckMessage" >
 								<div class="panel-heading" style="height: 50px;">
 									<div class="col-lg-2" style="line-height:37px">客户列表</div>
 									<!-- 根据用户昵称查询 -->
@@ -135,7 +135,7 @@
 											<a href="javascript:selectUsers();" class="btn mini btn-white">批量分配</a>
 											<a href="javascript:doRefresh();" class="btn mini btn-white"><i
 												class="icon-refresh"></i></a>
-											<a href="javascript:doRefresh();" class="btn mini btn-white"><i
+											<a href="javascript:downloadExcel();" class="btn mini btn-white"><i
 												class="glyphicon glyphicon-calendar"></i></a>
 										</th>
 										
@@ -433,7 +433,23 @@
 	<script src="${appRoot}/static/js/dynamic-table.js"></script>
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
-	
+	//下载EXCEL
+	function downloadExcel(){
+		var datamsg = $("#selectCheckMessage").serialize();
+		$.ajax({
+			type:'post',
+			data: datamsg, 
+			url:'${appRoot}/customer/customerMsgExcel',
+			dataType:'json',
+			success:function(data){
+				if(data.msg==100){
+					windowShow("导出成功","");
+				}else{
+					windowShow("导出失败","");
+				}
+			}
+		});
+	}
 	
 	//查看所有已作废顾问下的客户信息
 	function seeCancellationUserMsg(){

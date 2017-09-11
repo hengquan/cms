@@ -102,4 +102,6 @@ public interface UserCustRefService {
 
 	public void updateByProjIdAndCustId(Map<String, Object> parmeterMap);
 
+	public List<Map<String, Object>> downloadExcel(Map<String, Object> map);
+
 }

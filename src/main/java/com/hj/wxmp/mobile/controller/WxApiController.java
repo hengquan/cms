@@ -1053,8 +1053,35 @@ public class WxApiController extends ControllerBaseWx {
 			record02.setCreatorid(userId);
 			//扫描一次，处理本表，处理客户表，处理客户项目关系表，处理字典表；
 			Object[] resultObjs=scan2(record02,0);
-			if (accessRecord02Service.insert((AccessRecord02)resultObjs[0])) {
-				Deal01OtherTable d01=new Deal01OtherTable((Customer)resultObjs[1], (ProjCustRef)resultObjs[2], (UserCustRef)resultObjs[3], (List<TabDictRef>)resultObjs[4], 0);
+			//处理多电话号码
+			//客户
+			Customer cust = (Customer)resultObjs[1];
+			//复访
+			AccessRecord02 accessRecord02=(AccessRecord02)resultObjs[0];
+			//原客户信息中的电话
+	    	String custId=cust.getId();
+	    	if(StringUtils.isNotEmpty(custId)){
+	    		Customer customer2 = customerService.findById(custId);
+	    		if(customer2!=null){
+	    			String phonenum = customer.getPhonenum();
+	    	    	String[] phones = phonenum.split(",");
+	    			if(phones.length>1) phonenum=phones[0];
+	    			//现有客户电话
+	    			String phonenum2 = cust.getPhonenum();
+	    			//对比
+	    			if(phonenum2.indexOf(phonenum)<0){
+	    				phonenum2=phonenum+phonenum2;
+	    				cust.setPhonenum(phonenum2);
+	    			}
+	    	    	String custphonenum = accessRecord02.getCustphonenum();
+	    			if(custphonenum.indexOf(phonenum)<0){
+	    				custphonenum=phonenum+custphonenum;
+	    				accessRecord02.setCustphonenum(custphonenum);
+	    			}
+	    		}
+	    	}
+			if (accessRecord02Service.insert(accessRecord02)) {
+				Deal01OtherTable d01=new Deal01OtherTable(cust, (ProjCustRef)resultObjs[2], (UserCustRef)resultObjs[3], (List<TabDictRef>)resultObjs[4], 0);
 				d01.start();
 				map.put("msg", "100");
 			} else {
@@ -1597,7 +1624,7 @@ public class WxApiController extends ControllerBaseWx {
 			_retR02.setBuypurposedesc(tempStr);
 			cust.setBuypurposedesc(tempStr);
 		}
-		ret[0]=record02;
+		ret[0]=_retR02;
 		ret[1]=cust;
 		ret[2]=projCustRef;
 		ret[3]=userCustRef;
@@ -1631,8 +1658,35 @@ public class WxApiController extends ControllerBaseWx {
 			record02.setCreatorid(userId);
 			//扫描一次，处理本表，处理客户表，处理客户项目关系表，处理字典表；
 			Object[] resultObjs=scan2(record02,1);
-			if (accessRecord02Service.update((AccessRecord02)resultObjs[0])) {
-				Deal01OtherTable d01=new Deal01OtherTable((Customer)resultObjs[1], (ProjCustRef)resultObjs[2], (UserCustRef)resultObjs[3], (List<TabDictRef>)resultObjs[4], 1);
+			//处理多电话号码
+			//客户
+			Customer cust = (Customer)resultObjs[1];
+			//复访
+			AccessRecord02 accessRecord02=(AccessRecord02)resultObjs[0];
+			//原客户信息中的电话
+	    	String custId=cust.getId();
+	    	if(StringUtils.isNotEmpty(custId)){
+	    		Customer customer2 = customerService.findById(custId);
+	    		if(customer2!=null){
+	    			String phonenum = customer.getPhonenum();
+	    	    	String[] phones = phonenum.split(",");
+	    			if(phones.length>1) phonenum=phones[0];
+	    			//现有客户电话
+	    			String phonenum2 = cust.getPhonenum();
+	    			//对比
+	    			if(phonenum2.indexOf(phonenum)<0){
+	    				phonenum2=phonenum+phonenum2;
+	    				cust.setPhonenum(phonenum2);
+	    			}
+	    	    	String custphonenum = accessRecord02.getCustphonenum();
+	    			if(custphonenum.indexOf(phonenum)<0){
+	    				custphonenum=phonenum+custphonenum;
+	    				accessRecord02.setCustphonenum(custphonenum);
+	    			}
+	    		}
+	    	}
+			if (accessRecord02Service.update(accessRecord02)) {
+				Deal01OtherTable d01=new Deal01OtherTable(customer, (ProjCustRef)resultObjs[2], (UserCustRef)resultObjs[3], (List<TabDictRef>)resultObjs[4], 1);
 				d01.start();
 				map.put("msg", "100");
 			} else {
@@ -1692,8 +1746,35 @@ public class WxApiController extends ControllerBaseWx {
 			record03.setCreatorid(userId);
 			//扫描一次，处理本表，处理客户表，处理客户项目关系表，处理字典表；
 			Object[] resultObjs=scan3(record03,0);
-			if (accessRecord03Service.insert((AccessRecord03)resultObjs[0])) {
-				Deal01OtherTable d01=new Deal01OtherTable((Customer)resultObjs[1], (ProjCustRef)resultObjs[2], (UserCustRef)resultObjs[3], (List<TabDictRef>)resultObjs[4], 0);
+			//处理多电话号码
+			//客户
+			Customer cust = (Customer)resultObjs[1];
+			//复访
+			AccessRecord03 accessRecord03=(AccessRecord03)resultObjs[0];
+			//原客户信息中的电话
+	    	String custId=cust.getId();
+	    	if(StringUtils.isNotEmpty(custId)){
+	    		Customer customer2 = customerService.findById(custId);
+	    		if(customer2!=null){
+	    			String phonenum = customer.getPhonenum();
+	    	    	String[] phones = phonenum.split(",");
+	    			if(phones.length>1) phonenum=phones[0];
+	    			//现有客户电话
+	    			String phonenum2 = cust.getPhonenum();
+	    			//对比
+	    			if(phonenum2.indexOf(phonenum)<0){
+	    				phonenum2=phonenum+phonenum2;
+	    				cust.setPhonenum(phonenum2);
+	    			}
+	    	    	String custphonenum = accessRecord03.getCustphonenum();
+	    			if(custphonenum.indexOf(phonenum)<0){
+	    				custphonenum=phonenum+custphonenum;
+	    				accessRecord03.setCustphonenum(custphonenum);
+	    			}
+	    		}
+	    	}
+			if (accessRecord03Service.insert(accessRecord03)) {
+				Deal01OtherTable d01=new Deal01OtherTable(customer, (ProjCustRef)resultObjs[2], (UserCustRef)resultObjs[3], (List<TabDictRef>)resultObjs[4], 0);
 				d01.start();
 				map.put("msg", "100");
 			} else {
@@ -1860,7 +1941,7 @@ public class WxApiController extends ControllerBaseWx {
 		_retR03.setStatus(1);
 		//创建人ID
 		_retR03.setCreatorid(record03.getCreatorid());
-		ret[0]=record03;
+		ret[0]=_retR03;
 		ret[1]=cust;
 		ret[2]=projCustRef;
 		ret[3]=userCustRef;
@@ -1910,8 +1991,35 @@ public class WxApiController extends ControllerBaseWx {
 			record03.setCreatorid(userId);
 			//扫描一次，处理本表，处理客户表，处理客户项目关系表，处理字典表；
 			Object[] resultObjs=scan3(record03,0);
-			if (accessRecord03Service.insert((AccessRecord03)resultObjs[0])) {
-				Deal01OtherTable d01=new Deal01OtherTable((Customer)resultObjs[1], (ProjCustRef)resultObjs[2], (UserCustRef)resultObjs[3], (List<TabDictRef>)resultObjs[4], 0);
+			//处理多电话号码
+			//客户
+			Customer cust = (Customer)resultObjs[1];
+			//复访
+			AccessRecord03 accessRecord03=(AccessRecord03)resultObjs[0];
+			//原客户信息中的电话
+	    	String custId=cust.getId();
+	    	if(StringUtils.isNotEmpty(custId)){
+	    		Customer customer2 = customerService.findById(custId);
+	    		if(customer2!=null){
+	    			String phonenum = customer.getPhonenum();
+	    	    	String[] phones = phonenum.split(",");
+	    			if(phones.length>1) phonenum=phones[0];
+	    			//现有客户电话
+	    			String phonenum2 = cust.getPhonenum();
+	    			//对比
+	    			if(phonenum2.indexOf(phonenum)<0){
+	    				phonenum2=phonenum+phonenum2;
+	    				cust.setPhonenum(phonenum2);
+	    			}
+	    	    	String custphonenum = accessRecord03.getCustphonenum();
+	    			if(custphonenum.indexOf(phonenum)<0){
+	    				custphonenum=phonenum+custphonenum;
+	    				accessRecord03.setCustphonenum(custphonenum);
+	    			}
+	    		}
+	    	}
+			if (accessRecord03Service.insert(accessRecord03)) {
+				Deal01OtherTable d01=new Deal01OtherTable(customer, (ProjCustRef)resultObjs[2], (UserCustRef)resultObjs[3], (List<TabDictRef>)resultObjs[4], 0);
 				d01.start();
 				map.put("msg", "100");
 			} else {
@@ -2678,6 +2786,9 @@ public class WxApiController extends ControllerBaseWx {
 		}
 		@Override
         public void run() {
+	    	Map<String,Object> map = new HashMap<String,Object>();
+	    	map.put("projCustRef", projCustRef);
+	    	logger.debug("projCustRef:::::::::{}",JsonUtils.map2json(map));
 			try {
 				//处理客户
 			    if (type==0) {
@@ -2706,7 +2817,7 @@ public class WxApiController extends ControllerBaseWx {
 			    //处理用户项目
 			    if (type==0) {
 			    	Map<String,Object>result=new HashMap<String,Object>();
-					result.put("cusId", projCustRef.getCustid());
+					result.put("custId", projCustRef.getCustid());
 					result.put("projId", projCustRef.getProjid());
 					ProjCustRef projCustRef1 = projCustRefService.selectByCusIdAndProjId(result);
 					if(projCustRef1==null){
