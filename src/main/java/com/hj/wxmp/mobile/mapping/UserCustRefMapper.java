@@ -29,4 +29,6 @@ public interface UserCustRefMapper {
 	Integer selectByUserMessgeCount(Map<String, Object> map);
 
 	void updateByProjIdAndCustId(Map<String, Object> parmeterMap);
+
+	List<Map<String, Object>> downloadExcel(Map<String, Object> map);
 }

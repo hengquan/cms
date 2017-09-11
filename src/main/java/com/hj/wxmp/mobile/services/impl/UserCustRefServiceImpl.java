@@ -89,6 +89,10 @@ public class UserCustRefServiceImpl implements UserCustRefService {
 	public void updateByProjIdAndCustId(Map<String, Object> parmeterMap) {
 		dao.updateByProjIdAndCustId(parmeterMap);
 	}
+	@Override
+	public List<Map<String, Object>> downloadExcel(Map<String, Object> map) {
+		return dao.downloadExcel(map);
+	}
 
 	
 

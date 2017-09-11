@@ -16,17 +16,21 @@ $(function() {
   if (_TYPE=='update') $(document).attr("title","客户数据中心-复访信息修改");
 
   if (_TYPE=='add') {
+    var _projId=getUrlParam(window.location.href, 'projId');
+    var _userId=getUrlParam(window.location.href, 'userId');
+    var _userName=getUrlParam(window.location.href, 'userName');
     var _custId=getUrlParam(window.location.href, 'custId');
     var _custName=getUrlParam(window.location.href, 'custName');
-    var _projId=getUrlParam(window.location.href, 'projId');
     var _custPhone=getUrlParam(window.location.href, 'custPhone');
     var data=null;
-    if (_custId&&_custName&&_projId&&_custPhone) {
+    if (_projId&&_userId&&_userName&&_custId&&_custName&&_custPhone) {
       data={};
       data.from01Flag=1;
+      data.projId=_projId;
+      data.userId=_userId;
+      data.userName=decodeURIComponent(_userName);
       data.custId=_custId;
       data.custName=decodeURIComponent(_custName);
-      data.projId=_projId;
       data.custPhone=_custPhone;
     }
     initData(data);
@@ -122,9 +126,6 @@ function initData(data) {
 
     //按传入处理
     if (_TYPE=='add'&&data&&data.from01Flag&&data.from01Flag==1) {
-      custId=data.custId;
-      $("input[name='custName']").val(data.custName);
-      $("input[name='custPhone']").val(data.custPhone);
       _uProjId=data.projId;
       $("#projArea").hide();
       if (!_uProjName) {
@@ -142,6 +143,14 @@ function initData(data) {
           }
         }
       }
+      $("#_SELUSER").hide();
+      $("#_SHOWUSER").show();
+      _uUserId=data.userId;
+      _uUserName=data.userName;
+      $("span[name='userInput']").html(_uUserName);
+      custId=data.custId;
+      $("input[name='custName']").val(data.custName);
+      $("input[name='custPhone']").val(data.custPhone);
       var url=_URL_BASE+"/wx/api/getCustMsg";
       var _data={};
       _data.custId=custId;

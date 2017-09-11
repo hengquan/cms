@@ -55,7 +55,7 @@ function loadPage() {
   var _data={};
   _data.pageSize=pageSize;
   _data.page=page;
-  _data.userId=(userInfo?(userInfo.userid?userInfo.userid:""):"");
+  _data.userId=(userInfo?(userInfo.userId?userInfo.userId:""):"");
   _data.searchStr=(searchStr?searchStr:"");
   $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
     success: function(json) {

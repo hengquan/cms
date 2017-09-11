@@ -1597,7 +1597,7 @@ public class WxApiController extends ControllerBaseWx {
 			_retR02.setBuypurposedesc(tempStr);
 			cust.setBuypurposedesc(tempStr);
 		}
-		ret[0]=record02;
+		ret[0]=_retR02;
 		ret[1]=cust;
 		ret[2]=projCustRef;
 		ret[3]=userCustRef;
@@ -1860,7 +1860,7 @@ public class WxApiController extends ControllerBaseWx {
 		_retR03.setStatus(1);
 		//创建人ID
 		_retR03.setCreatorid(record03.getCreatorid());
-		ret[0]=record03;
+		ret[0]=_retR03;
 		ret[1]=cust;
 		ret[2]=projCustRef;
 		ret[3]=userCustRef;
@@ -2676,12 +2676,9 @@ public class WxApiController extends ControllerBaseWx {
 		}
 		@Override
         public void run() {
-			
 	    	Map<String,Object> map = new HashMap<String,Object>();
 	    	map.put("projCustRef", projCustRef);
 	    	logger.debug("projCustRef:::::::::{}",JsonUtils.map2json(map));
-
-			
 			try {
 				//处理客户
 			    if (type==0) {
@@ -2696,7 +2693,11 @@ public class WxApiController extends ControllerBaseWx {
 						customerService.update(cust);
 					}
 			    }
-			    else customerService.update(cust);
+			    else {
+			    	//原客户信息中的电话
+			    	
+			    	customerService.update(cust);
+			    }
 			    //处理用户客户
 			    if (type==0) {
 			    	String id = userCustRef.getId();
@@ -2710,7 +2711,7 @@ public class WxApiController extends ControllerBaseWx {
 			    //处理用户项目
 			    if (type==0) {
 			    	Map<String,Object>result=new HashMap<String,Object>();
-					result.put("cusId", projCustRef.getCustid());
+					result.put("custId", projCustRef.getCustid());
 					result.put("projId", projCustRef.getProjid());
 					ProjCustRef projCustRef1 = projCustRefService.selectByCusIdAndProjId(result);
 					if(projCustRef1==null){

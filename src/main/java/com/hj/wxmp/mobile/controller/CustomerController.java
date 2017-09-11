@@ -1,11 +1,18 @@
 package com.hj.wxmp.mobile.controller;
 
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -234,5 +241,78 @@ public class CustomerController extends ControllerBase {
 	
 	
 	
-
+	
+	
+	
+	
+	
+	//查询结果导出excel
+	@ResponseBody
+	@RequestMapping(value = "/customer/customerMsgExcel")
+	public String customerMsgExcel(@RequestParam(value="isValidate",defaultValue="") String isValidate,
+			ModelMap model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String name = getTrimParameter("custName");
+		map.put("isValidate", isValidate);
+		try {
+			if(name == null){
+				map.put("name", "");
+			}else{
+				map.put("name", name);
+			}
+			// 获取所有用户信息
+			List<Map<String,Object>> userMsg = userCustRefService.downloadExcel(map);
+			// 第一步，创建一个webbook，对应一个Excel文件  
+	        HSSFWorkbook wb = new HSSFWorkbook();  
+	        // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet  
+	        HSSFSheet sheet = wb.createSheet("客户信息");  
+	        // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short  
+	        HSSFRow row = sheet.createRow((int) 0);  
+	        // 第四步，创建单元格，并设置值表头 设置表头居中  
+	        HSSFCellStyle style = wb.createCellStyle();  
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式  
+	        HSSFCell cell = row.createCell((short) 0);  
+	        cell.setCellValue("客户姓名");  
+	        cell.setCellStyle(style);  
+	        cell = row.createCell((short) 1);  
+	        cell.setCellValue("客户电话");  
+	        cell.setCellStyle(style);  
+	        cell = row.createCell((short) 2);  
+	        cell.setCellValue("性别");  
+	        cell.setCellStyle(style);  
+	        cell = row.createCell((short) 3);  
+	        cell.setCellValue("项目名称");  
+	        cell.setCellStyle(style);  
+	        cell = row.createCell((short) 4);  
+	        cell.setCellValue("关注时间");  
+	        cell.setCellStyle(style);  
+	        cell = row.createCell((short) 5);  
+	        cell.setCellValue("顾问名称");  
+	        cell.setCellStyle(style);  
+	        // 第五步，写入实体数据 实际应用中这些数据从数据库得到，  
+	        //List list = CreateSimpleExcelToDisk.getStudent();  
+	        for (int i = 0; i < userMsg.size(); i++)  
+	        {  
+	            row = sheet.createRow((int) i + 1);  
+	            Map<String, Object> map2 = userMsg.get(i);  
+	            // 第四步，创建单元格，并设置值  
+	            row.createCell((short) 0).setCellValue(map2.get("custName").toString());  
+	            row.createCell((short) 1).setCellValue(map2.get("phoneNum").toString());  
+	            row.createCell((short) 2).setCellValue(map2.get("custSex").toString());  
+	            row.createCell((short) 3).setCellValue(map2.get("projName").toString());  
+	            cell = row.createCell((short) 4);  
+	            cell.setCellValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(map2.get("cTime")));  
+	            row.createCell((short) 5).setCellValue(map2.get("realName").toString());  
+	        }  
+	        // 第六步，将文件存到指定位置  
+            FileOutputStream fout = new FileOutputStream("D:/cust.xls");  
+            wb.write(fout);  
+            fout.close();  
+            map.put("msg", "100");
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("msg", "103");
+		}
+		return JsonUtils.map2json(map);
+	}
 }
