@@ -10,9 +10,12 @@ import javax.annotation.Resource;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -262,15 +265,48 @@ public class CustomerController extends ControllerBase {
 			}
 			// 获取所有用户信息
 			List<Map<String,Object>> userMsg = userCustRefService.downloadExcel(map);
+			
 			// 第一步，创建一个webbook，对应一个Excel文件  
 	        HSSFWorkbook wb = new HSSFWorkbook();  
+	        //样式
+	        //设置表格样式
+			HSSFCellStyle style = wb.createCellStyle();  
+			//生成一个字体
+			HSSFFont font=wb.createFont();
+			font.setColor(HSSFColor.BLACK.index);//HSSFColor.VIOLET.index //字体颜色
+			font.setFontHeightInPoints((short)12);
+			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);         //字体增粗
+			//把字体应用到当前的样式
+			style.setFont(font);
+			style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
 	        // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet  
-	        HSSFSheet sheet = wb.createSheet("客户信息");  
+	        HSSFSheet sheet = wb.createSheet("客户查询结果");  
 	        // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short  
-	        HSSFRow row = sheet.createRow((int) 0);  
-	        // 第四步，创建单元格，并设置值表头 设置表头居中  
-	        HSSFCellStyle style = wb.createCellStyle();  
-	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式  
+	        HSSFRow row0 = sheet.createRow((int) 0);  
+	        HSSFCell createCell2 = row0.createCell((short) 0);
+	        createCell2.setCellValue("客户查询结果");  
+	        createCell2.setCellStyle(style); 
+	        //合并单元格
+	        CellRangeAddress region = new CellRangeAddress(0, // first row
+	                0, // last row
+	                1, // first column
+	                5 // last column
+	        );
+	        sheet.addMergedRegion(region);
+	        HSSFRow row1 = sheet.createRow((int) 1);  
+	        HSSFCell createCell = row1.createCell((short) 0);
+	        createCell.setCellValue("导出人:张恒全\r\n导出时间:2017-09-11\n总条数:26条");  
+	        createCell.setCellStyle(style);  
+	        //合并单元格
+	        CellRangeAddress region1 = new CellRangeAddress(1, // first row
+	                0, // last row
+	                2, // first column
+	                5 // last column
+	        );
+	        sheet.addMergedRegion(region1);
+	        HSSFRow row = sheet.createRow((int) 2);
+			sheet.getRow(0).setHeightInPoints(50);//设置行高
+			sheet.getRow(1).setHeightInPoints(50);//设置行高
 	        HSSFCell cell = row.createCell((short) 0);  
 	        cell.setCellValue("客户姓名");  
 	        cell.setCellStyle(style);  
@@ -293,7 +329,7 @@ public class CustomerController extends ControllerBase {
 	        //List list = CreateSimpleExcelToDisk.getStudent();  
 	        for (int i = 0; i < userMsg.size(); i++)  
 	        {  
-	            row = sheet.createRow((int) i + 1);  
+	            row = sheet.createRow((int) i + 3);  
 	            Map<String, Object> map2 = userMsg.get(i);  
 	            // 第四步，创建单元格，并设置值  
 	            row.createCell((short) 0).setCellValue(map2.get("custName").toString());  

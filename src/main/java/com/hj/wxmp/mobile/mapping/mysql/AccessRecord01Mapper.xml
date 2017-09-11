@@ -641,7 +641,7 @@
 	FROM ql_AccessRecord01 ql01
 	JOIN ql_Project qlp ON ql01.projId = qlp.id
 	WHERE ql01.custName = #{name}
-	AND ql01.custPhoneNum = #{phone}
+	AND instr(ql01.custPhoneNum,#{phone}) 
 	AND qlp.id = #{project}
   </select>
 
