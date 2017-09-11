@@ -274,39 +274,32 @@ public class CustomerController extends ControllerBase {
 			//生成一个字体
 			HSSFFont font=wb.createFont();
 			font.setColor(HSSFColor.BLACK.index);//HSSFColor.VIOLET.index //字体颜色
-			font.setFontHeightInPoints((short)12);
+			font.setFontHeightInPoints((short)26);
 			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);         //字体增粗
 			//把字体应用到当前的样式
 			style.setFont(font);
 			style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
 	        // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet  
 	        HSSFSheet sheet = wb.createSheet("客户查询结果");  
+	        //自适应列宽
+	        sheet.autoSizeColumn(1,true); 
 	        // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short  
 	        HSSFRow row0 = sheet.createRow((int) 0);  
 	        HSSFCell createCell2 = row0.createCell((short) 0);
 	        createCell2.setCellValue("客户查询结果");  
 	        createCell2.setCellStyle(style); 
 	        //合并单元格
-	        CellRangeAddress region = new CellRangeAddress(0, // first row
-	                0, // last row
-	                1, // first column
-	                5 // last column
-	        );
-	        sheet.addMergedRegion(region);
+	        sheet.addMergedRegion(new CellRangeAddress(0,0,0,5));
 	        HSSFRow row1 = sheet.createRow((int) 1);  
 	        HSSFCell createCell = row1.createCell((short) 0);
-	        createCell.setCellValue("导出人:张恒全\r\n导出时间:2017-09-11\n总条数:26条");  
+	        createCell.setCellValue("导出人:张恒全\r\n导出时间:2017-09-11\n总条数:26条");
+	        font.setFontHeightInPoints((short)12);
 	        createCell.setCellStyle(style);  
 	        //合并单元格
-	        CellRangeAddress region1 = new CellRangeAddress(1, // first row
-	                0, // last row
-	                2, // first column
-	                5 // last column
-	        );
-	        sheet.addMergedRegion(region1);
+	        sheet.addMergedRegion(new CellRangeAddress(1,1,0,5));
 	        HSSFRow row = sheet.createRow((int) 2);
-			sheet.getRow(0).setHeightInPoints(50);//设置行高
-			sheet.getRow(1).setHeightInPoints(50);//设置行高
+//			sheet.getRow(0).setHeightInPoints(50);//设置行高
+//			sheet.getRow(1).setHeightInPoints(50);//设置行高
 	        HSSFCell cell = row.createCell((short) 0);  
 	        cell.setCellValue("客户姓名");  
 	        cell.setCellStyle(style);  

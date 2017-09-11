@@ -2801,22 +2801,7 @@ public class WxApiController extends ControllerBaseWx {
 						customerService.update(cust);
 					}
 			    }
-			    else {
-			    	//原客户信息中的电话
-			    	String custId=cust.getId();
-			    	Customer customer = customerService.findById(custId);
-			    	String phonenum = customer.getPhonenum();
-			    	String[] phones = phonenum.split(",");
-					if(phones.length>1) phonenum=phones[0];
-					//现有客户电话
-					String phonenum2 = cust.getPhonenum();
-					//对比
-					if(phonenum2.indexOf(phonenum)<0){
-						phonenum2=phonenum+phonenum2;
-						cust.setPhonenum(phonenum2);
-					}
-			    	customerService.update(cust);
-			    }
+			    else customerService.update(cust);
 			    //处理用户客户
 			    if (type==0) {
 			    	String id = userCustRef.getId();
