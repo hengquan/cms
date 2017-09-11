@@ -1426,6 +1426,11 @@ function step1Next() {//要判断是否应该进行首访录入
     _uOutWorkArea=$.trim(id.substr(id.lastIndexOf(",")+1))+"-"+($.trim($("#outWorkAreaId").val())).replace(/,/g,"，");
   }
   if (_TYPE=='update') {
+    var err=checkStep1();
+    if (err) {
+      alert(err);
+      return;
+    }
     $("#step1").hide(0);
     $("#step2").show(0);
     $("#step3").hide(0);
@@ -1437,7 +1442,7 @@ function step1Next() {//要判断是否应该进行首访录入
     var errMsg="";
     if (!$.trim(_data.custName)) errMsg+="\n请输入客户姓名！";
     if (!$.trim(_data.custPhone)) errMsg+="\n请输入客户电话号码！";
-    else if (checkPhone($.trim(_data.custPhone))!=1) errMsg+="\n手机号码不符合规则"; 
+    else if (checkMPhone($.trim(_data.custPhone))!=1) errMsg+="\n手机号码不符合规则"; 
     if (!$.trim(_uProjId)) errMsg+="\n请选择项目！";
     _data.projId=_uProjId;
     if (errMsg!="") {
@@ -1460,6 +1465,11 @@ function step1Next() {//要判断是否应该进行首访录入
           }
         } else canNext=true;
         if (canNext) {
+          var err=checkStep1();
+          if (err) {
+            alert(err);
+            return;
+          }
           $("#step1").hide(0);
           $("#step2").show(0);
           $("#step3").hide(0);
@@ -1472,12 +1482,78 @@ function step1Next() {//要判断是否应该进行首访录入
     });
   }
 }
+function checkPhone(docId) {
+  var temp=$("input[name='"+docId+"']").val();
+  if (!temp) return "请录入客户电话号码";
+  var phones=temp.split(",");
+  var _errPhone="";
+  var _okPhones="";
+  var _check1,_check2;
+  for (var i=0; i<phones.length; i++) {
+    var onePhone=$.trim(phones[i]);
+    _check1=checkMPhone(onePhone);
+    _check2=checkDPhone(onePhone);
+    if (_check1==0||_check2==0) continue;
+    if (_check1==1&&_check2==1) _okPhones+=onePhone;
+    else {
+    	_errPhone=onePhone;
+    	break;
+    }
+  }
+  if (_errPhone) return "客户电话号码["+_errPhone+"]不合法";
+  $("input[name='"+docId+"']").val(_okPhones.substring(1));
+  return "";
+}
+function checkStep1() {
+  if (!_uProjId) return "请选择项目！";
+  var temp=$("span[name='userInput']").html();
+  if (!temp||temp=='&nbsp;'||temp=='加载顾问...') return "请录选择置业顾问！";
+  if (!$("input[name='curTime']").val()) return "请录入本次访问时间！";
+  if (!$("input[name='custName']").val()) return "请录入客户名称！";
+  temp=checkPhone('custPhone');
+  if (temp) return temp;
+  if (!_uSex) return "请选择客户性别！";
+  if (!$("input[name='firstTime']").val()) return "请输入第一次获知时！";
+  if (!_uAgeGroup) return "请选择年龄段！";
+  if ((!$("input[name='localResidence']").val())||(!$("input[name='outResidence']").val())) return "请选择居住区域(本地或外阜)！";
+  if ((!$("input[name='localWorkArea']").val())||(!$("input[name='outWorkArea']").val())) return "请选择工作区域(本地或外阜)！";
+  if (!_uFamilyStatus) return "请选择家庭状况！";
+  if (!_uTrafficType) return "请选择出行方式！";
+  return "";
+}
+function checkStep2() {
+  if (!_uBuyQualify) return "请选择购房资格！";
+  if (!_uWorkIndustry) return "请选择从事行业！";
+  if (!_uEnterpriseType) return "请选择企业性质！";
+  if (!_uKnowWay) return "请选择认知渠道！";
+  if (!_uEstCustWorth) return "请选择预估身价！";
+  if (!_uInvestType) return "请选择重点投资！";
+  if (!_uCapitalPrepSection) return "请选择资金筹备期！";
+	return "";
+}
+function checkStep3() {
+  if (!_uRealtyProductType) return "请选择关注产品类型！";
+  if (!_uAttentAcreage) return "请选择关注区间面积！";
+  if (!_uPriceSection) return "请选择接受总房款！";
+  if (!_uBuyPurpose) return "请选择购房目的！";
+  if (!_uAttentionPoint) return "请选择对本案关注点！";
+  if (!_uRecepTimeSection) return "请选择参观接待时间";
+  if (!_uCustScore) return "请选择客户评级！";
+  if (!$("textarea[name='custDescn']").html()) return "请录入复访接待描述！";
+	return "";
+}
+
 function step2Prev() {
   $("#step1").show(0);
   $("#step2").hide(0);
   $("#step3").hide(0);
 }
 function step2Next() {
+  var err=checkStep2();
+  if (err) {
+    alert(err);
+    return;
+  }
   $("#step1").hide(0);
   $("#step2").hide(0);
   $("#step3").show(0);
@@ -1490,6 +1566,11 @@ function step3Prev() {
 
 //=以下为提交，包括修改和删除====================================
 function commitData() {
+  var err=checkStep3();
+  if (err) {
+    alert(err);
+    return;
+  }
   var commitData=getData(_TYPE);
   var msg=validate(commitData, _TYPE);
   if (msg.err) {

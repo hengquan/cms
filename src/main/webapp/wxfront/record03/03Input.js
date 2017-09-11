@@ -38,6 +38,7 @@ function selUser() {
   $("#userModal").modal('hide');
   if (_uUserId!="") $("#cleanUserBtn").show();
 }
+
 var vueStep1=new Vue({
   el: "#step1",
   methods: {
@@ -363,34 +364,34 @@ var vueStep2=new Vue({
       }
     },
   selRealPayMen: function() {
-      _uRealPayMen="";
-      _uRealPayMenDesc="";
-      var choose=document.getElementsByName('realPayMen');
-      var ttArray="";
-      var selOther=false;
-      for (var i=0; i<choose.length; i++) {
-        if (choose[i].checked) {
-          var oneText=choose[i].getAttribute("_text");
-          if (choose[i].getAttribute("_text")=='其他') {
-            selOther=true;
-            if ($.trim($("input[name='realPayMenDesc']").val())!="") {
-              oneText=oneText+"("+$.trim($("input[name='realPayMenDesc']").val())+")";
-              _uRealPayMenDesc=$.trim($("input[name='realPayMenDesc']").val());
-            }
+    _uRealPayMen="";
+    _uRealPayMenDesc="";
+    var choose=document.getElementsByName('realPayMen');
+    var ttArray="";
+    var selOther=false;
+    for (var i=0; i<choose.length; i++) {
+      if (choose[i].checked) {
+        var oneText=choose[i].getAttribute("_text");
+        if (choose[i].getAttribute("_text")=='其他') {
+          selOther=true;
+          if ($.trim($("input[name='realPayMenDesc']").val())!="") {
+            oneText=oneText+"("+$.trim($("input[name='realPayMenDesc']").val())+")";
+            _uRealPayMenDesc=$.trim($("input[name='realPayMenDesc']").val());
           }
-          ttArray+=","+oneText;
-          _uRealPayMen+=","+choose[i].value;
         }
+        ttArray+=","+oneText;
+        _uRealPayMen+=","+choose[i].value;
       }
-//      if (selOther&&_uRealPayMenDesc=="") alert("请录入“其他”关注产品类型");
-//      else {
-        if (_uRealPayMen.length>0) {
-          _uRealPayMen=_uRealPayMen.substr(1);
-          ttArray=ttArray.substr(1);
-        }
-        $("#realPayMen").html(ttArray==""?"&nbsp;":ttArray);
-        $("#realPayMenModal").modal('hide');
-        if (_uRealPayMen!="") $("#cleanRealPayMenBtn").show();
+    }
+//    if (selOther&&_uRealPayMenDesc=="") alert("请录入“其他”关注产品类型");
+//    else {
+    if (_uRealPayMen.length>0) {
+      _uRealPayMen=_uRealPayMen.substr(1);
+      ttArray=ttArray.substr(1);
+    }
+    $("#realPayMen").html(ttArray==""?"&nbsp;":ttArray);
+    $("#realPayMenModal").modal('hide');
+    if (_uRealPayMen!="") $("#cleanRealPayMenBtn").show();
 //      }
     },
     cleanRealPayMen: function(type) {
@@ -952,11 +953,11 @@ function commitData() {
   function getData(type) {
     var retData={};
     var temp="";
-	//获取项目id
+    //获取项目id
     if (_uProjId) retData.projid=_uProjId;
-	//获取用户名称
+    //获取用户名称
     if (type=='update'&&custId) retData.custid=custId;
-	//用户名称
+    //用户名称
     temp=$("input[name='custName']").val();
     if (temp) retData.custname=temp;
     temp=$("input[name='custPhone']").val();
@@ -966,37 +967,37 @@ function commitData() {
     temp=$("input[name='purchaseDate']").val();
     if (temp) retData.firstknowtime1=temp;
     if (_uSex) retData.custsex=_uSex;
-	temp=$("input[name='houseNum']").val();
+    temp=$("input[name='houseNum']").val();
     if (temp) retData.housenum=temp;
-	temp=$("input[name='visitCycle']").val();
+    temp=$("input[name='visitCycle']").val();
     if (temp) retData.visitcycle=temp;
     temp=$("input[name='purchaseCycle']").val();
     if (temp) retData.purchasecycle=temp;
     temp=$("input[name='signCycle']").val();
     if (temp) retData.signcycle=temp;
-	if (_uHouseRegiType) retData.houseRegiType=_uHouseRegiType;
-	temp=$("input[name='houseAcreage']").val();
+    if (_uHouseRegiType) retData.houseRegiType=_uHouseRegiType;
+    temp=$("input[name='houseAcreage']").val();
     if (temp) retData.houseacreage=temp;
-	temp=$("input[name='unitPrice']").val();
+    temp=$("input[name='unitPrice']").val();
     if (temp) retData.unitprice=temp;
-	temp=$("input[name='totalPrice']").val();
+    temp=$("input[name='totalPrice']").val();
     if (temp) retData.totalprice=temp;
     if (_uPaymentType) retData.paymentType=_uPaymentType;
-	temp=$("input[name='loanBank']").val();
+    temp=$("input[name='loanBank']").val();
     if (temp) retData.loanbank=temp;
     if (_uRealtyProductType) retData.realtyproducttype=_uRealtyProductType;
-	temp=$("input[name='addressMail']").val();
+    temp=$("input[name='addressMail']").val();
     if (temp) retData.addressmail=temp;
-	if (_uLivingStatus) retData.livingstatus=_uLivingStatus;
+    if (_uLivingStatus) retData.livingstatus=_uLivingStatus;
     if (_uRealUseMen) retData.realusemen=_uRealUseMen;
     if (_uRealPayMen) retData.realpaymen=_uRealPayMen;
     temp=$("textarea[name='suggestion']").val();
     if (temp) retData.suggestion=temp;
-	temp=$("textarea[name='talkQandS']").val();
+    temp=$("textarea[name='talkQandS']").val();
     if (temp) retData.talkqands=temp;
-	temp=$("textarea[name='signQandS']").val();
+    temp=$("textarea[name='signQandS']").val();
     if (temp) retData.signqands=temp;
-	temp=$("textarea[name='sumDescn']").val();
+    temp=$("textarea[name='sumDescn']").val();
     if (temp) retData.sumdescn=temp;
     if (type=='add') {
       if (_uUserId) retData.authorid=_uUserId;

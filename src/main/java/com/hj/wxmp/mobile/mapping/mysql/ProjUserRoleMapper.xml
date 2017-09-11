@@ -9,9 +9,8 @@
     <result column="isValidate" property="isvalidate" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, projId, userId, roleId, isValidate, cTime
-  </sql>
+
+  <sql id="Base_Column_List" >id, projId, userId, roleId, isValidate, cTime</sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -103,90 +102,76 @@
       cTime = #{ctime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
-  
-  
-  
+
   <!-- 查找该用户所对应项目的所有的信息 -->
   <select id="selectByUserId" resultType="java.util.Map" parameterType="java.lang.String">
-	SELECT
-		pro.*
-	FROM
-		ql_ProjUserRole qlp
-	JOIN ql_Project pro ON qlp.projId = pro.id 
-	where qlp.userId = #{userId}
+  SELECT
+    pro.*
+  FROM
+    ql_ProjUserRole qlp
+  JOIN ql_Project pro ON qlp.projId = pro.id 
+  where qlp.userId = #{userId}
   </select>
   
   <delete id="deleteByProjIds" parameterType="java.lang.String">
-  	delete from ql_ProjUserRole
+    delete from ql_ProjUserRole
     where instr(#{projIDs},projId)
   </delete>
-  
-  
+
   <delete id="deleteByProjIdAndUserId" parameterType="java.util.Map">
-  	delete from ql_ProjUserRole
+    delete from ql_ProjUserRole
     where projId = #{projId} and userId =#{userId}
   </delete>
-  
-  
+
   <select id="selectByProjId" resultType="java.util.Map" parameterType="java.lang.String">
-  	SELECT
-	`user1`.id,
-	`user1`.realName,
-	`user1`.mainPhoneNum,
-	user1.sex,
-	pro.projName
-	FROM
-		ql_ProjUserRole proj
-	JOIN plat_User user1 ON proj.userId = `user1`.id
-	JOIN ql_Project pro ON proj.projId = pro.id
-  	where 
-  	proj.projId = #{projId}
+    SELECT
+  `user1`.id,
+  `user1`.realName,
+  `user1`.mainPhoneNum,
+  user1.sex,
+  pro.projName
+  FROM
+    ql_ProjUserRole proj
+  JOIN plat_User user1 ON proj.userId = `user1`.id
+  JOIN ql_Project pro ON proj.projId = pro.id
+    where 
+    proj.projId = #{projId}
   </select>
-  
+
   <select id="selectByProjIdAndUserId" resultType="java.util.Map" parameterType="java.util.Map">
-	  	SELECT
-		cus.id,
-		cus.custName,
-		cus.phoneNum,
-		cus.custSex,
-		pro.projName
-	FROM
-		ql_UserCust_Ref userCust
-	JOIN ql_Customer cus ON userCust.custId = cus.id
-	JOIN ql_Project pro ON userCust.projId = pro.id
-  	where 
-  	userCust.projId = #{projId} and userCust.userId=#{userId}
+  SELECT uc.id, uc.projId, p.projName, uc.custId, c.custName, uc.userId, u.realName, c.custPhone
+  FROM ql_UserCust_Ref uc
+    left JOIN ql_Customer c ON uc.custId=c.id
+    left JOIN ql_Project p ON uc.projId=p.id
+    left JOIN plat_User u ON uc.userId=u.id
+  where uc.projId=#{projId} <if test="userId!=null"> and uc.userId=#{userId}</if>
   </select>
-
-
 
   <select id="selectProjUserDataByProjIdGLY" resultType="com.hj.wxmp.mobile.entity.UserInfo" parameterType="java.lang.String">
-	SELECT DISTINCT
-		pu.*
-	FROM
-		ql_ProjUserRole projCust
-	JOIN plat_User pu ON projCust.userId = pu.id
-	JOIN ql_Project pro ON projCust.projId = pro.id
-	JOIN ql_UserRole qur ON projCust.userId = qur.userId
-	JOIN sys_role role ON qur.roleId = role.id
-	WHERE
-		role.role_name = '项目负责人'
-	AND projCust.projId = #{projId}
+  SELECT DISTINCT
+    pu.*
+  FROM
+    ql_ProjUserRole projCust
+  JOIN plat_User pu ON projCust.userId = pu.id
+  JOIN ql_Project pro ON projCust.projId = pro.id
+  JOIN ql_UserRole qur ON projCust.userId = qur.userId
+  JOIN sys_role role ON qur.roleId = role.id
+  WHERE
+    role.role_name = '项目负责人'
+  AND projCust.projId = #{projId}
   </select>
   
   <select id="selectProjUserDataByProjIdFZR" resultType="com.hj.wxmp.mobile.entity.UserInfo" parameterType="java.lang.String">
-	SELECT DISTINCT
-		pu.*
-	FROM
-		ql_ProjUserRole projCust
-	JOIN plat_User pu ON projCust.userId = pu.id
-	JOIN ql_Project pro ON projCust.projId = pro.id
-	JOIN ql_UserRole qur ON projCust.userId = qur.userId
-	JOIN sys_role role ON qur.roleId = role.id
-	WHERE
-		role.role_name = '顾问'
-	AND projCust.projId = #{projId}
-  </select>  
-  
+  SELECT DISTINCT
+    pu.*
+  FROM
+    ql_ProjUserRole projCust
+  JOIN plat_User pu ON projCust.userId = pu.id
+  JOIN ql_Project pro ON projCust.projId = pro.id
+  JOIN ql_UserRole qur ON projCust.userId = qur.userId
+  JOIN sys_role role ON qur.roleId = role.id
+  WHERE
+    role.role_name = '顾问'
+  AND projCust.projId = #{projId}
+  </select>
 </mapper>
