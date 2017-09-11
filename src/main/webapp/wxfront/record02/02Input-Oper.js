@@ -82,7 +82,13 @@ function selUser() {
   for (var i=0; i<choose.length; i++) {
     if (choose[i].checked) {
       $("span[name='userInput']").html(choose[i].getAttribute("_text"));
+      var oldUserId=_uUserId;
       _uUserId=choose[i].value.substring(0, choose[i].value.indexOf('-'));
+      if (oldUserId!=_uUserId) {
+        custId="";
+        $("input[name='custName']").val("");
+        $("input[name='custPhone']").val("");
+      }
     }
   }
   $("#userModal").modal('hide');
@@ -98,6 +104,9 @@ var vueStep1=new Vue({
       $("#cleanProjBtn").hide();
       fillSelectField('proj', "", false);
       this.cleanUser();
+      $("span[name='userInput']").html("请先选择项目");
+      $("#_SELUSER").hide();
+      $("#_SHOWUSER").show();
     },
     selSex: function() {
       var choose=document.getElementsByName('sex');
@@ -117,11 +126,14 @@ var vueStep1=new Vue({
       fillSelectField('sex', "", false);
     },
     cleanUser: function() {
-      $("#user").html("&nbsp;");
+      $("span[name='userInput']").html("&nbsp;");
       _uUserId="";
       _uUserName="";
       $("#cleanUserBtn").hide();
       fillSelectField('user', "", false);
+      custId="";
+      $("input[name='custName']").val("");
+      $("input[name='custPhone']").val("");
     },
     selVisitorCount: function() {
       var choose=document.getElementsByName('visitorCount');

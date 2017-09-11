@@ -82,13 +82,31 @@ function loadPage() {
     for (var i=0; i<data.length; i++) {
       var html="";
       var oneData=data[i];
+      //名称
       var name=oneData.custName;
       if (oneData.custSex) name=name+"("+oneData.custSex+")";
-      name=name+"<br/>";
-      var phone="<span><a href='tel:"+oneData.custPhoneNum+"'>"+oneData.custPhoneNum+"</a></span>";
+      //接待时间
       var cTime=new Date();
       cTime.setTime(oneData.recepTime.time);
       var fTime="<span class='sftime'>首访："+cTime.Format('yyyy-MM-dd')+"</span>";
+      //电话号码
+      var phone="";
+      if (oneData.custPhoneNum) {
+        var phones=oneData.custPhoneNum.split(",");
+        var _check1,_check2;
+        for (var i=0; i<phones.length; i++) {
+          var onePhone=$.trim(phones[i]);
+          _check1=checkMPhone(onePhone);
+          _check2=checkDPhone(onePhone);
+          if (_check1==0||_check2==0) continue;
+          if (_check1==1&&_check2==1) {
+        	  phone=onePhone;
+        	  break;
+          }
+        }
+      }
+      var _leftDiv="<a href='#'>"+name+"<br/><span>&nbsp;</span><br/>"+fTime+"</a>";
+      if (phone) _leftDiv="<a href='tel:"+phone+"'>"+name+"<br/><span>"+phone+"</span><br/>"+fTime+"</a>";
       //顾问
       var _url=_viewUrl+"?recordId="+oneData.id;
       if (oneData.status==1) status="<span class='ysh'>审核中</span>";
@@ -118,7 +136,7 @@ function loadPage() {
           +"&userId="+oneData.userId+"&userName="+encodeURIComponent(oneData.authorName)
           +"&projId="+oneData.projId;
       html="<div class='scrollItem row examine'>"
-    	  +  "<div class='col-40 item-name2'><a href='tel:"+oneData.custPhoneNum+"'>"+name+"<span>"+oneData.custPhoneNum+"</span><br/>"+fTime+"</a></div>"
+    	  +  "<div class='col-40 item-name2'>"+_leftDiv+"</div>"
           +  "<div class='col-60'><div class='col-70 item-name' style='margin-left:30%'>"+_GW+"<br>总次："+_total+"次&nbsp;&nbsp;"+_CJ+"<br>"+status+(_to02Url?"<span style='margin-left:.5rem;'>添加复访</span>":"")+"</div>"
           +    "<div class='adopt' onclick=\"openNew('"+_url+"')\">&nbsp;</div>"
           +    (_to02Url?"<div class='to02' onclick=\"openNew('"+_to02Url+"')\">&nbsp;</div>":"")

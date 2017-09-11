@@ -179,6 +179,8 @@ function initData(data) {
 function loadProjUser(projId) {
   $("#userData").html("");
   $("span[name='userInput']").html("加载顾问...");
+  _uUserId="";
+  _uUserName="";
   var url=_URL_BASE+"/wx/api/getUserList?projId="+projId;
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
@@ -277,22 +279,22 @@ function cleanData(type) {//清除数据
 function step1Next() {//要判断是否应该进行首访录入
   var _data={};
   if (!_uProjId) {
-    alert("请选择具体项目！");
+    alert("请选择具体项目!");
     return;
   }
   _data.projId=_uProjId;
   if (!_uUserId) {
-    alert("请选择一位顾问！");
+    alert("请选择一位顾问!");
     return;
   }
   _data.custName=$("input[name='custName']").val();
   if (!_data.custName) {
-    alert("请选择客户！");
+    alert("请选择客户!");
     return;
   }
   _data.phoneNum=$("input[name='custPhone']").val();
   if (!_data.phoneNum) {
-    alert("请选择客户！");
+    alert("请选择客户!");
     return;
   }
 //  if (_TYPE=='add') {
@@ -413,74 +415,85 @@ function step5Prev() {
   $("#step5").hide(0);
 }
 function checkStep1() {
-  if (!_uSex) return "请选择客户性别！";
-  if (!$("input[name='firstVisitTime']").val()) return "请选择客户！";
-  if (!$("input[name='recpTime']").val()) return "请输入到访时间！";
-  if (!_uVisitorCount) return "请选择来访人数！";
-  if (!_uDecisionerIn) return "请选择决策人是否到场！";
-  if (!_uVisitorRefs) return "请选择来访人之间关系！";
+  if (!_uSex) return "请选择客户性别!";
+  if (!$("input[name='firstVisitTime']").val()) return "请选择客户!";
+  if (!$("input[name='recpTime']").val()) return "请输入到访时间!";
+  if (!_uVisitorCount) return "请选择来访人数!";
+  if (!_uDecisionerIn) return "请选择决策人是否到场!";
+  if (!_uVisitorRefs) return "请选择来访人之间关系!";
+  temp=checkPhone('custPhone');
+  if (temp) return temp;
   return "";
 }
 function checkStep2() {
-  if (!_uChildrenNum) return "请选择未成年子女数量！";
-  if (!_uChildAgeGroup) return "请选择孩子年龄段！";
-  if (!_uSchoolType) return "请选择孩子在读学校类型！";
-  //if (!$("input[name='schoolName']").val()) return "请录入在读学校名称！";
-  if (!_uChildAvocations) return "请选择孩子的课余爱好！";
-  if (!_uFulltimeWifeFlag) return "请选择是否全职太太！";
-  if (!_uNannyFlag) return "请选择是否有保姆！";
-  if (!_uPetFlag) return "请选择是否有宠物！";
-  if (!_uOutEduWill) return "请选择是否有国际教育意愿！";
-  if (!_uOutExperFlag) return "请选择业主是否有海外经历！";
-  if (_uOutExperFlag==1&&!$("input[name='outExperCity']").val()) return "请录入业主海外经历主要在那个城市！";
-  if (!_uChildOutExperFlag) return "请选择子女是否有海外经历！";
-  if (_uChildOutExperFlag==1&&!$("input[name='childOutExperCity']").val()) return "请录入子女海外经历主要在那个城市！";
+  if (!_uChildrenNum) return "请选择未成年子女数量!";
+  if (!_uChildAgeGroup) return "请选择孩子年龄段!";
+  if (!_uSchoolType) return "请选择孩子在读学校类型!";
+  //if (!$("input[name='schoolName']").val()) return "请录入在读学校名称!";
+  if (!_uChildAvocations) return "请选择孩子的课余爱好!";
+  if (!_uFulltimeWifeFlag) return "请选择是否全职太太!";
+  if (!_uNannyFlag) return "请选择是否有保姆!";
+  if (!_uPetFlag) return "请选择是否有宠物!";
+  if (!_uOutEduWill) return "请选择是否有国际教育意愿!";
+  if (!_uOutExperFlag) return "请选择业主是否有海外经历!";
+  if (_uOutExperFlag==1&&!$("input[name='outExperCity']").val()) return "请录入业主海外经历主要在那个城市!";
+  if (!_uChildOutExperFlag) return "请选择子女是否有海外经历!";
+  if (_uChildOutExperFlag==1&&!$("input[name='childOutExperCity']").val()) return "请录入子女海外经历主要在那个城市!";
   return "";
 
 }
 function checkStep3() {
-  if (!_uLivingRadius) return "请选择生活半径！";
-  if (!$("input[name='communityName']").val()) return "请录入居住社区名称！";
-  if (!$("input[name='houseType']").val()) return "请录入住房性质！";
-  if (!_uLiveAcreage) return "请选择目前的居住面积！";
-  if (!_uLoanStatus) return "请选择贷款记录！";
+  if (!_uLivingRadius) return "请选择生活半径!";
+  if (!$("input[name='communityName']").val()) return "请录入居住社区名称!";
+  if (!$("input[name='houseType']").val()) return "请录入住房性质!";
+  if (!_uLiveAcreage) return "请选择目前的居住面积!";
+  if (!_uLoanStatus) return "请选择贷款记录!";
 
-  if (!$("input[name='enterpriseName']").val()) return "请录入公司名称！";
-  if (!$("input[name='enterpriseAddress']").val()) return "请录入公司地址！";
-  if (!$("input[name='enterprisePost']").val()) return "请录入公司职务！";
-  if (!$("input[name='houseCount']").val()) return "请录入家庭已购房产数量！";
-  if (!$("input[name='carFamilyCount']").val()) return "请录入家庭汽车数量！";
-  if (!$("input[name='carBrand']").val()) return "请录入汽车品牌！";
-  if (!_uCarTotalPrice) return "请选择驾车总价！";
-  if (!$("input[name='attentWX']").val()) return "请录入关注微信公众号！";
-  if (!_uAvocations) return "请选择业余爱好！";
+  if (!$("input[name='enterpriseName']").val()) return "请录入公司名称!";
+  if (!$("input[name='enterpriseAddress']").val()) return "请录入公司地址!";
+  if (!$("input[name='enterprisePost']").val()) return "请录入公司职务!";
+
+  var temp=$("input[name='houseCount']").val();
+  if (!temp) return "请录入家庭已购房产数量!";
+  if (!(/^\d+/.test(temp))) return "家庭已购房产数量要录入数字!";
+  if (temp<=0) return "家庭已购房产数量要大于0!";
+
+  var temp=$("input[name='carFamilyCount']").val();
+  if (!temp) return "请录入家庭汽车数量!";
+  if (!(/^\d+/.test(temp))) return "家庭汽车数量要录入数字!";
+  if (temp<=0) return "家庭汽车数量要大于0!";
+  
+  if (!$("input[name='carBrand']").val()) return "请录入汽车品牌!";
+  if (!_uCarTotalPrice) return "请选择驾车总价!";
+  if (!$("input[name='attentWX']").val()) return "请录入关注微信公众号!";
+  if (!_uAvocations) return "请选择业余爱好!";
   return "";
 }
 function checkStep4() { 
-  if (!_uResistPoint) return "请选择对本案的抗拒点！";
-  if (!_uLoveActivation) return "请选择喜欢参加的活动！";
-  if (!_uFreeTimeSection) return "请选择可参加业主活动时间！";
-  if (!_uRecepTimeSection) return "请选择参观接待时间！";
-  if (!_uCustScore) return "请选择客户评级！";
-  if (!$("textarea[name='custDescn']").html()) return "请录入复访接待描述！";
+  if (!_uResistPoint) return "请选择对本案的抗拒点!";
+  if (!_uLoveActivation) return "请选择喜欢参加的活动!";
+  if (!_uFreeTimeSection) return "请选择可参加业主活动时间!";
+  if (!_uRecepTimeSection) return "请选择参观接待时间!";
+  if (!_uCustScore) return "请选择客户评级!";
+  if (!$("textarea[name='custDescn']").html()) return "请录入复访接待描述!";
   return "";
 }
 function checkStep5() {
-  if (!_uFamilyStatus) return "请选择家庭状况！";
-  if (!_uAgeGroup) return "请选择年龄段！";
-  if (!_uTrafficType) return "请选择出行方式！";
-  if (!_uBuyQualify) return "请选择购房资格！";
-  if (!_uWorkIndustry) return "请选择从事行业！";
-  if (!_uEnterpriseType) return "请选择企业性质！";
-  if (!_uKnowWay) return "请选择认知渠道！";
-  if (!_uEstCustWorth) return "请选择预估身价！";
-  if (!_uInvestType) return "请选择重点投资！";
-  if (!_uCapitalPrepSection) return "请选择资金筹备期！";
-  if (!_uRealtyProductType) return "请选择关注产品类型！";
-  if (!_uAttentAcreage) return "请选择关注区间面积！";
-  if (!_uPriceSection) return "请选择接受总房款！";
-  if (!_uBuyPurpose) return "请选择购房目的！";
-  if (!_uAttentionPoint) return "请选择对本案关注点！";
+  if (!$("#i_familystatus").is(":hidden")&&!_uFamilyStatus) return "请选择家庭状况!";
+  if (!$("#i_agegroup").is(":hidden")&&!_uAgeGroup) return "请选择年龄段!";
+  if (!$("#i_traffictype").is(":hidden")&&!_uTrafficType) return "请选择出行方式!";
+  if (!$("#i_buyqualify").is(":hidden")&&!_uBuyQualify) return "请选择购房资格!";
+  if (!$("#i_workindustry").is(":hidden")&&!_uWorkIndustry) return "请选择从事行业!";
+  if (!$("#i_enterprisetype").is(":hidden")&&!_uEnterpriseType) return "请选择企业性质!";
+  if (!$("#i_knowway").is(":hidden")&&!_uKnowWay) return "请选择认知渠道!";
+  if (!$("#i_estcustworth").is(":hidden")&&!_uEstCustWorth) return "请选择预估身价!";
+  if (!$("#i_investtype").is(":hidden")&&!_uInvestType) return "请选择重点投资!";
+  if (!$("#i_capitalprepsection").is(":hidden")&&!_uCapitalPrepSection) return "请选择资金筹备期!";
+  if (!$("#i_realtyproducttype").is(":hidden")&&!_uRealtyProductType) return "请选择关注产品类型!";
+  if (!$("#i_attentacreage").is(":hidden")&&!_uAttentAcreage) return "请选择关注区间面积!";
+  if (!$("#i_pricesection").is(":hidden")&&!_uPriceSection) return "请选择接受总房款!";
+  if (!$("#i_buypurpose").is(":hidden")&&!_uBuyPurpose) return "请选择购房目的!";
+  if (!$("#i_attentionpoint").is(":hidden")&&!_uAttentionPoint) return "请选择对本案关注点!";
   return "";
 }
 
@@ -605,14 +618,14 @@ function commitData() {
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         if (json.msg!='100') {
-          window.location.href=_URL_BASE+"/wxfront/err.html?8001=录入复访记录错误！";
+          window.location.href=_URL_BASE+"/wxfront/err.html?8001=录入复访记录错误!";
         } else {
           if (confirm("录入成功，要录入下一条复访记录吗？")) {
             step2Prev();
             cleanData(1);
             fillDataForReInput(_data);
           } else {
-            window.location.href=_URL_BASE+"/wxfront/search/record01.html";
+            window.location.href=_URL_BASE+"/wxfront/record02/record02Search.html";
           }
         }
       },
@@ -627,10 +640,10 @@ function commitData() {
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         if (json.msg!='100') {
-          window.location.href=_URL_BASE+"/wxfront/err.html?9001=修改首访记录错误！";
+          window.location.href=_URL_BASE+"/wxfront/err.html?9001=修改首访记录错误!";
         } else {
           alert("修改复访记录成功!");
-          window.location.href=_URL_BASE+"/wxfront/search/record01.html";
+          window.location.href=_URL_BASE+"/wxfront/record02/record02Search.html";
         }
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -668,15 +681,15 @@ function openSelCust() {
         } else {
           $("#custData").html("");
           if (json.customers.length==0) {
-            alert("["+_uProjName+"]项目还没有接待任何客户，只能从首访录入，不能录入复访！");
+            alert("["+_uProjName+"]项目还没有接待任何客户，只能从首访录入，不能录入复访!");
             return;
           }
           for (var i=0; i<json.customers.length; i++) {
             var oneCust=json.customers[i];
-            var _phones=oneCust.phoneNum;
+            var _phones=oneCust.custPhone;
             _phones=$.trim(_phones.split(",")[0]);
             var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span><span>"+oneCust.projName+"</span>";
-            var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.id+"' _text='"+oneCust.custName+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+oneCust.phoneNum+"' onclick='selCust()'/>"+_innerHtml+"</label>";
+            var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label>";
             if (i<(json.customers.length-1)) userHtml+="<br>";
             $("#custData").append(userHtml);
           }
@@ -690,7 +703,9 @@ function openSelCust() {
     _thisProjId=_uProjId;
     _thisUserId=_uUserId;
   } else {
-    $('#selectCustomersModal').modal('show');
+  	var choose=document.getElementsByName('selectCustomers');
+  	if (choose&&choose.length>0) $('#selectCustomersModal').modal('show');
+  	else alert("["+_uProjName+"]项目还没有接待任何客户，只能从首访录入，不能录入复访!");
   }
 }
 function cleanCust() {
@@ -982,4 +997,24 @@ function fillData(data) {//填数据，包括所有页面
     }
     fillSelectField("attentionPoint", _temp, true);
   }
+}
+function checkPhone(docId) {
+  var temp=$("input[name='"+docId+"']").val();
+  if (!temp) return "请录入客户电话号码";
+  var phones=temp.split(",");
+  var _errPhone="";
+  var _okPhones="";
+  var _check1,_check2;
+  for (var i=0; i<phones.length; i++) {
+    var onePhone=$.trim(phones[i]);
+    _check1=checkMPhone(onePhone);
+    _check2=checkDPhone(onePhone);
+    if (_check1==0||_check2==0) continue;
+    if (_check1!=1||_check2!=1) {
+    	_errPhone=onePhone;
+    	break;
+    }
+  }
+  if (_errPhone) return "客户电话号码["+_errPhone+"]不合法";
+  return "";
 }

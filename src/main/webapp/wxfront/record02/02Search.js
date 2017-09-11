@@ -85,7 +85,24 @@ function loadPage() {
       var name=oneData.custName;
       if (oneData.custSex) name=name+"("+oneData.custSex+")";
       name=name+"<br/>";
-      var phone="<span><a href='tel:"+oneData.custPhoneNum+"'>"+oneData.custPhoneNum+"</a></span><br/>";
+      //电话号码
+      var phone="";
+      if (oneData.custPhoneNum) {
+        var phones=oneData.custPhoneNum.split(",");
+        var _check1,_check2;
+        for (var i=0; i<phones.length; i++) {
+          var onePhone=$.trim(phones[i]);
+          _check1=checkMPhone(onePhone);
+          _check2=checkDPhone(onePhone);
+          if (_check1==0||_check2==0) continue;
+          if (_check1==1&&_check2==1) {
+        	  phone=onePhone;
+        	  break;
+          }
+        }
+      }
+      if (phone) phone="<span><a href='tel:"+phone+"'>"+phone+"</a></span><br/>";
+      else phone="<span><a href='#'>&nbsp;</a></span><br/>";
       var cTime=new Date();
       cTime.setTime(oneData.recepTime.time);
       var fTime="<span class='sftime'>复访："+cTime.Format('yyyy-MM-dd')+"</span>";

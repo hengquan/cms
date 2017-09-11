@@ -75,6 +75,9 @@ var vueStep1=new Vue({
       $("#cleanProjBtn").hide();
       fillSelectField('proj', "", false);
       this.cleanUser();
+      $("span[name='userInput']").html("请先选择项目");
+      $("#_SELUSER").hide();
+      $("#_SHOWUSER").show();
     },
     selSex: function() {
       _uSex="";
@@ -1270,7 +1273,7 @@ function initData() {
       else {
         $("#_SELUSER").hide();
         $("#_SHOWUSER").show();
-        $("span[name='userInput']").html("先选项目");
+        $("span[name='userInput']").html("请先选择项目");
       }
     }
     //如果是更新，则要获取记录内容
@@ -1484,6 +1487,7 @@ function step1Next() {//要判断是否应该进行首访录入
 }
 function checkPhone(docId) {
   var temp=$("input[name='"+docId+"']").val();
+  alert(temp);
   if (!temp) return "请录入客户电话号码";
   var phones=temp.split(",");
   var _errPhone="";
@@ -1494,7 +1498,7 @@ function checkPhone(docId) {
     _check1=checkMPhone(onePhone);
     _check2=checkDPhone(onePhone);
     if (_check1==0||_check2==0) continue;
-    if (_check1==1&&_check2==1) _okPhones+=onePhone;
+    if (_check1==1&&_check2==1) _okPhones+=","+onePhone;
     else {
     	_errPhone=onePhone;
     	break;

@@ -53,7 +53,24 @@ function fillData(data) {
   } else $("#GW").hide();
   var needAudit=false;//是否需要审核
   if (data.custname) $("#custName").html(data.custname);
-  if (data.custphonenum) $("#custPhone").html("<a href='tel:"+data.custphonenum+"'>"+data.custphonenum+"</a>");
+  if (data.custphonenum) {
+    var phoneHtml="";
+    var _flag=0;
+    var phones=oneData.custPhoneNum.split(",");
+    var _check1,_check2;
+    for (var i=0; i<phones.length; i++) {
+      var onePhone=$.trim(phones[i]);
+      _check1=checkMPhone(onePhone);
+      _check2=checkDPhone(onePhone);
+      if (_check1==0||_check2==0) continue;
+      if (_check1==1&&_check2==1) {
+        phoneHtml+="<span><a href='tel:"+onePhone+"'>"+onePhone+"</a></span>"
+  	    if (_flag++%2==1) phoneHtml+="<br/>"
+  	    break;
+      }
+    }
+    $("#custPhone").html(phoneHtml);
+  }
   if (data.custsex) $("#custSex").html(data.custsex);
   if (data.firstknowtime) {
     var fTime=new Date();

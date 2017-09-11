@@ -2546,8 +2546,10 @@ public class WxApiController extends ControllerBaseWx {
 			Customer customer = customerService.findById(custId);
 			//首次获取时间
 			List<AccessRecord01> accessRecord01s = accessRecord01Service.selectByUserId(parmeterMap);
-			Date firstknowtime = accessRecord01s.get(0).getFirstknowtime();
-			customer.setFirstvisittime(firstknowtime);
+			if (accessRecord01s!=null&&!accessRecord01s.isEmpty()) {
+				Date firstknowtime = accessRecord01s.get(0).getFirstknowtime();
+				customer.setFirstvisittime(firstknowtime);
+			}
 			//复访总次数
 			Integer totalRecord02 = accessRecord01Service.selectByCustIdAndProjId(parmeterMap);
 			customer.setVisitcount(totalRecord02+1);

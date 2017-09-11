@@ -139,7 +139,7 @@
   </select>
 
   <select id="selectByProjIdAndUserId" resultType="java.util.Map" parameterType="java.util.Map">
-  SELECT uc.id, uc.projId, p.projName, uc.custId, c.custName, uc.userId, u.realName, c.custPhone
+  SELECT uc.id, uc.projId, p.projName, uc.custId, c.custName, uc.userId, u.realName, c.phoneNum custPhone, c.custSex
   FROM ql_UserCust_Ref uc
     left JOIN ql_Customer c ON uc.custId=c.id
     left JOIN ql_Project p ON uc.projId=p.id
