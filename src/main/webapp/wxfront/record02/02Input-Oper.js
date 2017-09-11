@@ -773,11 +773,11 @@ var vueStep3=new Vue({
 //      if (selOther&&_uAvocationsDesc=="") alert("请录入“其他”交通出行方式");
 //      else {
         if (_uAvocations.length>0) {
-          _uAvocationsDesc=_uAvocations.substr(1);
+          _uAvocations=_uAvocations.substr(1);
           ttArray=ttArray.substr(1);
         }
-        $("#avocationsDesc").html(ttArray==""?"&nbsp;":ttArray);
-        $("#avocationsDescModal").modal('hide');
+        $("#avocations").html(ttArray==""?"&nbsp;":ttArray);
+        $("#avocationsModal").modal('hide');
         if (_uAvocations!="") $("#cleanAvocationsBtn").show();
 //      }
     },

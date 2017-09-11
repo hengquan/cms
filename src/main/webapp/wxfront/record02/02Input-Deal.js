@@ -412,16 +412,16 @@ function step5Prev() {
   $("#step4").show(0);
   $("#step5").hide(0);
 }
-function checkStep1() {return "";
+function checkStep1() {
   if (!_uSex) return "请选择客户性别！";
   if (!$("input[name='firstVisitTime']").val()) return "请选择客户！";
   if (!$("input[name='recpTime']").val()) return "请输入到访时间！";
-  if (!$("input[name='visitCount']").val()) return "请选择客户！";
+  if (!_uVisitorCount) return "请选择来访人数！";
   if (!_uDecisionerIn) return "请选择决策人是否到场！";
   if (!_uVisitorRefs) return "请选择来访人之间关系！";
   return "";
 }
-function checkStep2() {return "";
+function checkStep2() {
   if (!_uChildrenNum) return "请选择未成年子女数量！";
   if (!_uChildAgeGroup) return "请选择孩子年龄段！";
   if (!_uSchoolType) return "请选择孩子在读学校类型！";
@@ -439,12 +439,48 @@ function checkStep2() {return "";
 
 }
 function checkStep3() {
+  if (!_uLivingRadius) return "请选择生活半径！";
+  if (!$("input[name='communityName']").val()) return "请录入居住社区名称！";
+  if (!$("input[name='houseType']").val()) return "请录入住房性质！";
+  if (!_uLiveAcreage) return "请选择目前的居住面积！";
+  if (!_uLoanStatus) return "请选择贷款记录！";
+
+  if (!$("input[name='enterpriseName']").val()) return "请录入公司名称！";
+  if (!$("input[name='enterpriseAddress']").val()) return "请录入公司地址！";
+  if (!$("input[name='enterprisePost']").val()) return "请录入公司职务！";
+  if (!$("input[name='houseCount']").val()) return "请录入家庭已购房产数量！";
+  if (!$("input[name='carFamilyCount']").val()) return "请录入家庭汽车数量！";
+  if (!$("input[name='carBrand']").val()) return "请录入汽车品牌！";
+  if (!_uCarTotalPrice) return "请选择驾车总价！";
+  if (!$("input[name='attentWX']").val()) return "请录入关注微信公众号！";
+  if (!_uAvocations) return "请选择业余爱好！";
   return "";
 }
-function checkStep4() {
+function checkStep4() { 
+  if (!_uResistPoint) return "请选择对本案的抗拒点！";
+  if (!_uLoveActivation) return "请选择喜欢参加的活动！";
+  if (!_uFreeTimeSection) return "请选择可参加业主活动时间！";
+  if (!_uRecepTimeSection) return "请选择参观接待时间！";
+  if (!_uCustScore) return "请选择客户评级！";
+  if (!$("textarea[name='custDescn']").html()) return "请录入复访接待描述！";
   return "";
 }
 function checkStep5() {
+  if (!_uFamilyStatus) return "请选择家庭状况！";
+  if (!_uAgeGroup) return "请选择年龄段！";
+  if (!_uTrafficType) return "请选择出行方式！";
+  if (!_uBuyQualify) return "请选择购房资格！";
+  if (!_uWorkIndustry) return "请选择从事行业！";
+  if (!_uEnterpriseType) return "请选择企业性质！";
+  if (!_uKnowWay) return "请选择认知渠道！";
+  if (!_uEstCustWorth) return "请选择预估身价！";
+  if (!_uInvestType) return "请选择重点投资！";
+  if (!_uCapitalPrepSection) return "请选择资金筹备期！";
+  if (!_uRealtyProductType) return "请选择关注产品类型！";
+  if (!_uAttentAcreage) return "请选择关注区间面积！";
+  if (!_uPriceSection) return "请选择接受总房款！";
+  if (!_uBuyPurpose) return "请选择购房目的！";
+  if (!_uAttentionPoint) return "请选择对本案关注点！";
   return "";
 }
 
@@ -606,24 +642,25 @@ function commitData() {
 }
 
 //=以下客户处理====================================
+var _curUCP={};
 var _thisProjId="";
 var _thisUserId="";
 var _REINPUTCOUNT=15;
 var needReInputCount=_REINPUTCOUNT;
 function openSelCust() {
-  if (!_uUserId) {
-    alert("未确定置业顾问，无法选择客户");
-    return ;
-  }
   if (!_uProjId) {
     alert("未确定具体项目，无法选择客户");
+    return ;
+  }
+  if (!_uUserId&&_uUserRole=='顾问') {
+    alert("未确定置业顾问，无法选择客户");
     return ;
   }
   if (_thisProjId!=_uProjId||_thisUserId!=_uUserId) {
     var url=_URL_BASE+"/wx/api/getCustList";
     var _data={};
     _data.projId=_uProjId;
-    _data.userId=_uUserId;
+    if (_uUserId) _data.userId=_uUserId;
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         if (json.msg!='100') {
@@ -636,8 +673,10 @@ function openSelCust() {
           }
           for (var i=0; i<json.customers.length; i++) {
             var oneCust=json.customers[i];
-            var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+oneCust.phoneNum+"</span><span>"+oneCust.projName+"</span>";
-            var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.id+"' _text='"+oneCust.custName+"' _phone='"+oneCust.phoneNum+"' onclick='selCust()'/>"+_innerHtml+"</label>";
+            var _phones=oneCust.phoneNum;
+            _phones=$.trim(_phones.split(",")[0]);
+            var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span><span>"+oneCust.projName+"</span>";
+            var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.id+"' _text='"+oneCust.custName+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+oneCust.phoneNum+"' onclick='selCust()'/>"+_innerHtml+"</label>";
             if (i<(json.customers.length-1)) userHtml+="<br>";
             $("#custData").append(userHtml);
           }
@@ -669,6 +708,9 @@ function selCust() {
       $("input[name='custName']").val(choose[i].getAttribute("_text"));
       $("input[name='custPhone']").val(choose[i].getAttribute("_phone"));
       custId=choose[i].value;
+      $("span[name='userInput']").html(choose[i].getAttribute("_userName"));
+      _uUserId=choose[i].getAttribute("_userId");
+      _uUserName=choose[i].getAttribute("_userName");
     }
   }
   $("#selectCustomersModal").modal('hide');

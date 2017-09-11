@@ -5,10 +5,25 @@
 /**
  * 验证手机号码包含153，159号段
  */
-function checkPhone(phone) {
+function checkMPhone(phone) {
   if (!phone) return 0;
   var mphone=/^0?1[3|4|5|8][0-9]\d{8}$/;
   if (mphone.test(phone)) return 1;
+  return 2;
+}
+function checkDPhone(phone) {
+	var _phone=phone.replace(/\s/g,"");
+  if (!phone) return 0;
+  var rphone01=/^[^0]\d{7}/;
+  var rphone02=/^[^0]\d{6}/;
+  var rphone1=/^\d{11}/;
+  var rphone2=/^\d{3}-\d{8}/;
+  var rphone3=/^\d{4}-\d{7}/;
+  if (rphone01.test(phone)) return 1;
+  if (rphone02.test(phone)) return 1;
+  if (rphone1.test(phone)) return 1;
+  if (rphone2.test(phone)) return 1;
+  if (rphone3.test(phone)) return 1;
   return 2;
 }
 
@@ -177,13 +192,13 @@ function jqueryColor2HexColor(jqueryColor) {
  */
 Date.prototype.Format = function(fmt) {
   var o = {
-  "M+" : this.getMonth()+1,            //月份
-  "d+" : this.getDate(),              //日
-  "h+" : this.getHours(),             //小时
-  "m+" : this.getMinutes(),            //分
-  "s+" : this.getSeconds(),            //秒
-  "q+" : Math.floor((this.getMonth()+3)/3), //季度
-  "S"  : this.getMilliseconds()         //毫秒
+    "M+" : this.getMonth()+1,           //月份
+    "d+" : this.getDate(),              //日
+    "h+" : this.getHours(),             //小时
+    "m+" : this.getMinutes(),           //分
+    "s+" : this.getSeconds(),           //秒
+    "q+" : Math.floor((this.getMonth()+3)/3), //季度
+    "S"  : this.getMilliseconds()       //毫秒
   };
   if (/(y+)/.test(fmt)) fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
   for(var k in o) {

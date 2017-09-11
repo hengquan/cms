@@ -190,7 +190,7 @@ function registerUser() {
     if (!inputData.realname) return "姓名为空";
     if (!inputData.roleId) return "权限未设置";
     if (!inputData.prjectNames) return "项目未填写";
-    if (checkPhone($.trim(inputData.mainphonenum))!=1) return "\n手机号码不符合规则";
+    if (checkMPhone($.trim(inputData.mainphonenum))!=1) return "\n手机号码不符合规则";
     return "";
   }
 }
