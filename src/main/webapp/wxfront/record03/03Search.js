@@ -48,7 +48,6 @@ function loaded () {
 function initPage(data) {
   userInfo=data;
   loadPage();
-  $('body').show();
 }
 function loadPage() {
   var url=_URL_BASE+"/wx/api/getRecord03List";
@@ -61,6 +60,7 @@ function loadPage() {
     success: function(json) {
       if (json.msg=='100') {
         fillList(json.data);
+        $('body').show();
         scrollMain.refresh();
       } else {
         window.location.href=_URL_BASE+"/wxfront/err.html?1000=查询失败";
@@ -85,7 +85,24 @@ function loadPage() {
       var name=oneData.custName;
       if (oneData.custSex) name=name+"("+oneData.custSex+")";
       name=name+"<br/>";
-      var phone="<span><a href='tel:"+oneData.custPhoneNum+"'>"+oneData.custPhoneNum+"</a></span><br/>";
+      //电话号码
+      var phone="";
+      if (oneData.custPhoneNum) {
+        var phones=oneData.custPhoneNum.split(",");
+        var _check1,_check2;
+        for (var j=0; j<phones.length; j++) {
+          var onePhone=$.trim(phones[j]);
+          _check1=checkMPhone(onePhone);
+          if (_check1==0) continue;
+          _check2=checkDPhone(onePhone);
+          if (_check1==1||_check2==1) {
+            phone=onePhone;
+            break;
+          }
+        }
+      }
+      if (phone) phone="<span><a href='tel:"+phone+"'>"+phone+"</a></span><br/>";
+      else phone="<span><a href='#'>&nbsp;</a></span><br/>";
       var cTime=new Date();
       cTime.setTime(oneData.recepTime.time);
       var fTime="<span class='sftime'>成交："+cTime.Format('yyyy-MM-dd')+"</span>";
@@ -100,11 +117,11 @@ function loadPage() {
         _url=_updateUrl+"&recordId="+oneData.id;
       }
       if (userInfo.roleName!='顾问') {
-          status="<span class='ysh'>已审核</span>";
-          if (oneData.status==1) status="<span>待审核</span>";
-          if (oneData.status==2) status="<span class='ysh'>已通过</span>";
-          if (oneData.status==3) status="<span class='ysh'>未通过</span>";
-          if (oneData.status==4) status="<span class='ysh'>未通过</span>";
+        status="<span class='ysh'>已审核</span>";
+        if (oneData.status==1) status="<span>待审核</span>";
+        if (oneData.status==2) status="<span class='ysh'>已通过</span>";
+        if (oneData.status==3) status="<span class='ysh'>未通过</span>";
+        if (oneData.status==4) status="<span class='ysh'>未通过</span>";
       }
       var _GW="";
       if (userInfo.roleName!='顾问'&&oneData.authorName) {

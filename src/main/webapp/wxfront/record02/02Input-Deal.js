@@ -1008,9 +1008,9 @@ function checkPhone(docId) {
   for (var i=0; i<phones.length; i++) {
     var onePhone=$.trim(phones[i]);
     _check1=checkMPhone(onePhone);
+    if (_check1==0) continue;
     _check2=checkDPhone(onePhone);
-    if (_check1==0||_check2==0) continue;
-    if (_check1!=1||_check2!=1) {
+    if (_check1!=1&&_check2!=1) {
     	_errPhone=onePhone;
     	break;
     }

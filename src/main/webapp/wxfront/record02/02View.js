@@ -52,7 +52,23 @@ function fillData(data) {
   } else $("#GW").hide();
   var needAudit=false;//是否需要审核
   if (data.custname) $("#custName").html(data.custname);
-  if (data.custphonenum) $("#custPhone").html("<a href='tel:"+data.custphonenum+"'>"+data.custphonenum+"</a>");
+  if (data.custphonenum) {
+    var phoneHtml="";
+    var _flag=0;
+    var phones=data.custphonenum.split(",");
+    var _check1,_check2;
+    for (var i=0; i<phones.length; i++) {
+      var onePhone=$.trim(phones[i]);
+      _check1=checkMPhone(onePhone);
+      if (_check1==0) continue;
+      _check2=checkDPhone(onePhone);
+      if (_check1==1||_check2==1) {
+        if (_flag++%2==0) phoneHtml+="<br/>";
+        phoneHtml+="<span><a href='tel:"+onePhone+"'>"+onePhone+"</a></span>";
+      }
+    }
+    $("#custPhone").html(phoneHtml.substring(5));
+  }
   if (data.custsex) $("#custSex").html(data.custsex);
   if (data.receptime) {
     var rTime=new Date();
@@ -148,6 +164,11 @@ function auditOk() {
 }
 
 function auditNo() {
+  var _auditMsg=$("#auditMsg").val();
+  if (!_auditMsg) {
+    alert("请填写退回理由！");
+    return;
+  }
   var url=_URL_BASE+"/wx/api/addAudit";
   var _data={};
   _data.recordId=recordId;
