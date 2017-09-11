@@ -7,23 +7,30 @@
  */
 function checkMPhone(phone) {
   if (!phone) return 0;
+  var _phone=phone.replace(/\s/g,"");
+  if (!_phone) return 0;
+
   var mphone=/^0?1[3|4|5|8][0-9]\d{8}$/;
-  if (mphone.test(phone)) return 1;
+
+  if (mphone.test(_phone)) return 1;
   return 2;
 }
 function checkDPhone(phone) {
-	var _phone=phone.replace(/\s/g,"");
   if (!phone) return 0;
+  var _phone=phone.replace(/\s/g,"");
+  if (!_phone) return 0;
+
   var rphone01=/^[^0]\d{7}/;
   var rphone02=/^[^0]\d{6}/;
   var rphone1=/^\d{11}/;
   var rphone2=/^\d{3}-\d{8}/;
   var rphone3=/^\d{4}-\d{7}/;
-  if (rphone01.test(phone)) return 1;
-  if (rphone02.test(phone)) return 1;
-  if (rphone1.test(phone)) return 1;
-  if (rphone2.test(phone)) return 1;
-  if (rphone3.test(phone)) return 1;
+
+  if (rphone01.test(_phone)) return 1;
+  if (rphone02.test(_phone)) return 1;
+  if (rphone1.test(_phone)) return 1;
+  if (rphone2.test(_phone)) return 1;
+  if (rphone3.test(_phone)) return 1;
   return 2;
 }
 
