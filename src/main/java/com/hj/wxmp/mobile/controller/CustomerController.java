@@ -281,8 +281,6 @@ public class CustomerController extends ControllerBase {
 			style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
 	        // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet  
 	        HSSFSheet sheet = wb.createSheet("客户查询结果");  
-	        //自适应列宽
-	        sheet.autoSizeColumn(1,true); 
 	        // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short  
 	        HSSFRow row0 = sheet.createRow((int) 0);  
 	        HSSFCell createCell2 = row0.createCell((short) 0);
@@ -298,8 +296,6 @@ public class CustomerController extends ControllerBase {
 	        //合并单元格
 	        sheet.addMergedRegion(new CellRangeAddress(1,1,0,5));
 	        HSSFRow row = sheet.createRow((int) 2);
-//			sheet.getRow(0).setHeightInPoints(50);//设置行高
-//			sheet.getRow(1).setHeightInPoints(50);//设置行高
 	        HSSFCell cell = row.createCell((short) 0);  
 	        cell.setCellValue("客户姓名");  
 	        cell.setCellStyle(style);  
@@ -333,6 +329,15 @@ public class CustomerController extends ControllerBase {
 	            cell.setCellValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(map2.get("cTime")));  
 	            row.createCell((short) 5).setCellValue(map2.get("realName").toString());  
 	        }  
+	        
+	         sheet.autoSizeColumn((short)0); //调整第一列宽度
+	         sheet.autoSizeColumn((short)1); //调整第二列宽度
+	         sheet.autoSizeColumn((short)2); //调整第三列宽度
+	         sheet.autoSizeColumn((short)3); //调整第四列宽度
+	         sheet.autoSizeColumn((short)4); //调整第四列宽度
+	         sheet.autoSizeColumn((short)5); //调整第四列宽度
+	        
+	        
 	        // 第六步，将文件存到指定位置  
             FileOutputStream fout = new FileOutputStream("D:/cust.xls");  
             wb.write(fout);  
