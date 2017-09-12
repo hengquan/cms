@@ -760,6 +760,7 @@ function _dealCustomer(customer) {
     fillTime("firstVisitTime", rTime);
   }
   $("input[name='visitCount']").val(customer.visitcount);
+  fillSelectField('sex', customer.custsex, true);
   //判断是否需要再次填写
   _dealOne("familystatus", customer);
   _dealOne("agegroup", customer);

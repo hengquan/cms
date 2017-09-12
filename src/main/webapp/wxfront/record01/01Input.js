@@ -1511,7 +1511,7 @@ function checkPhone(docId) {
   if (_errPhone) return "客户电话号码["+_errPhone+"]不合法";
   return "";
 }
-function checkStep1() {
+function checkStep1() {return "";
   if (!_uProjId) return "请选择项目！";
   var temp=$("span[name='userInput']").html();
   if (!temp||temp=='&nbsp;'||temp=='加载顾问...') return "请录选择置业顾问！";
@@ -1528,7 +1528,7 @@ function checkStep1() {
   if (!_uTrafficType) return "请选择出行方式！";
   return "";
 }
-function checkStep2() {
+function checkStep2() {return "";
   if (!_uBuyQualify) return "请选择购房资格！";
   if (!_uWorkIndustry) return "请选择从事行业！";
   if (!_uEnterpriseType) return "请选择企业性质！";
@@ -1546,6 +1546,7 @@ function checkStep3() {
   if (!_uAttentionPoint) return "请选择对本案关注点！";
   if (!_uRecepTimeSection) return "请选择参观接待时间";
   if (!_uCustScore) return "请选择客户评级！";
+  alert("001:"+$("textarea[name='custDescn']").html());
   if (!$("textarea[name='custDescn']").html()) return "请录入复访接待描述！";
 	return "";
 }
