@@ -5,9 +5,17 @@
 var _TYPE="add";
 var recordId="";//记录Id只有当_TYPE=update时，此变量才有值。
 var custId="";
+var curUserInfo={};
 
 //填充数据,并初始化
 $(function() {
+  $(".subNav").click(function(){
+    $(this).toggleClass("currentDd").siblings(".subNav").removeClass("currentDd");
+    $(this).toggleClass("currentDt").siblings(".subNav").removeClass("currentDt");
+    $(this).next(".navContent").slideToggle(500).siblings(".navContent").slideUp(500);
+  });
+  $("#auditArea").hide();
+
   _TYPE=getUrlParam(window.location.href, 'type');
   if (_TYPE==null) _TYPE="add";
   if (_TYPE.toLocaleLowerCase()=='update') _TYPE="update";
@@ -15,7 +23,7 @@ $(function() {
   else
   if (_TYPE=='update') $(document).attr("title","客户数据中心-复访信息修改");
 
-  if (_TYPE=='add') {
+  if (_TYPE=='add') {//处理带入的参数
     var _projId=getUrlParam(window.location.href, 'projId');
     var _userId=getUrlParam(window.location.href, 'userId');
     var _userName=getUrlParam(window.location.href, 'userName');
@@ -35,10 +43,8 @@ $(function() {
     }
     initData(data);
   } else if (_TYPE=='update') {
-    //设置不能修改的字段:项目名称，客户名称，客户电话号码
-    $(document).attr("title","客户数据中心-复访信息修改");
     //获得本条记录消息信息
-    var recordId=getUrlParam(window.location.href, 'recordId');
+    recordId=getUrlParam(window.location.href, 'recordId');
     if (!recordId) window.location.href=_URL_BASE+"/wxfront/err.html?3000=无记录Id";
     else {
       var _data={};
@@ -60,7 +66,7 @@ $(function() {
 
 /**
  * 初始化数据
- * @param data 若是修改，此data是单条数据；若新增，则data为空。
+ * @param data 若是修改，此data是单条数据；若新增，则data为空；若带入，则data为带入的信息。
  */
 function initData(data) {
   //获取人员信息
@@ -80,6 +86,7 @@ function initData(data) {
     }
   });
   function initPage(userInfo, data) {
+    curUserInfo=userInfo;
     cleanData(2);
     //初始化项目选择
     var canShowProj=false;
@@ -122,7 +129,11 @@ function initData(data) {
     }
     var nt=new Date();
     fillTime("recpTime", nt);
-    if (_TYPE=='update'&&data) fillData(data);
+    if (_TYPE=='update'&&data) {
+      fillData(data);
+      getAudit(recordId);
+    }
+    step2Prev();
 
     //按传入处理
     if (_TYPE=='add'&&data&&data.from01Flag&&data.from01Flag==1) {
@@ -172,6 +183,21 @@ function initData(data) {
     }
   }
 }
+function getAudit(id) {
+  var url=_URL_BASE+"/wx/api/getCheckReason?recordType=2&recordId="+id;
+  $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
+    success: function(json) {
+      if (json.msg=='100') {
+        $("#auditText").html(json.checkReason);
+        if (json.checkReason) $("#auditArea").show();
+      }
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
+        +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
+    }
+  });
+}
 
 /**
  * 加载顾问
@@ -190,6 +216,7 @@ function loadProjUser(projId) {
           $("#_SHOWUSER").hide();
           for (var i=0; i<json.users.length; i++) {
             var oneUser=json.users[i];
+            if (oneUser.id==curUserInfo.userid) continue;
             var _innerHtml=oneUser.realName+"<span>（"+(oneUser.sex==1?"男":"女")+"）</span><span>"+oneUser.mainPhoneNum+"</span><span>"+oneUser.projName+"</span>";
             var userHtml="<label><input type='radio' name='user' value='"+oneUser.id+"-"+oneUser.realName+"' _text='"+oneUser.realName+"' onclick='selUser()'/>"+_innerHtml+"</label>";
             if (i<(json.users.length-1)) userHtml+="<br>";
@@ -273,6 +300,7 @@ function cleanData(type) {//清除数据
   _uBuyPurposeDesc="";
   _uAttentionPoint="";
   _uAttentionPointDesc="";
+  _uAgeGroup="";
 }
 
 //翻页切换
@@ -514,6 +542,12 @@ function commitData() {
       return;
     }
   }
+  //遮罩
+  $("#mask").show();
+  //按钮致为兰色
+  $("div[_type='BTN']").each(function(){
+    $(this).attr("style", "margin-top:1.5rem;background-color:#dedede;color:#c7c7c7");
+  });
   var commitData=getData(_TYPE);
   if (_TYPE=='add') commitInsert(commitData);
   else
@@ -580,7 +614,8 @@ function commitData() {
     if (_uResistPointDesc) retData.resistpointdesc=_uResistPointDesc;
     if (_uLoveActivation) retData.loveactivation=_uLoveActivation;
     if (_uLoveActivationDesc) retData.loveactdesc=_uLoveActivationDesc;
-    if (_uFreeTimeSection) retData.freetimesection=_uFreeTimeSection;
+    temp=$("span[id='freeTimeSection']").html();
+    if (temp&&temp!='&nbsp;') retData.freetimesection=temp;
     if (_uRecepTimeSection) retData.receptimesection=_uRecepTimeSection;
     if (_uCustScore) retData.custscore=_uCustScore;
     temp=$("textarea[name='compareProjs']").val();
@@ -610,6 +645,11 @@ function commitData() {
     if (_uBuyPurposeDesc) retData.buypurposedesc=_uBuyPurposeDesc;
     if (_uAttentionPoint) retData.attentionpoint=_uAttentionPoint;
     if (_uAttentionPointDesc) retData.attentionpointdesc=_uAttentionPointDesc;
+    if (_uAgeGroup) retData.agegroup=_uAgeGroup;
+    if (_uNannyFlag) retData.nannyflag=_uNannyFlag;
+    if (_uPetFlag) retData.petflag=_uPetFlag;
+    if (_uFulltimeWifeFlag) retData.fulltimewifeflag=_uFulltimeWifeFlag;
+    if (_uLoanStatus) retData.loanstatus=_uLoanStatus;
 
     return retData;
   }
@@ -617,6 +657,12 @@ function commitData() {
     var url=_URL_BASE+"/wx/api/addAfterVisit";
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
+        //遮罩
+        $("#mask").css("display", "none");
+        //按钮致为兰色
+        $("div[_type='BTN']").each(function(){
+          $(this).attr("style", "margin-top:1.5rem;background-color:#19a6ee;color:#FFFFFF");
+        });
         if (json.msg!='100') {
           window.location.href=_URL_BASE+"/wxfront/err.html?8001=录入复访记录错误!";
         } else {
@@ -639,6 +685,12 @@ function commitData() {
     var url=_URL_BASE+"/wx/api/updateRecord01";
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
+        //遮罩
+        $("#mask").css("display", "none");
+        //按钮致为兰色
+        $("div[_type='BTN']").each(function(){
+          $(this).attr("style", "margin-top:1.5rem;background-color:#19a6ee;color:#FFFFFF");
+        });
         if (json.msg!='100') {
           window.location.href=_URL_BASE+"/wxfront/err.html?9001=修改首访记录错误!";
         } else {
@@ -655,7 +707,6 @@ function commitData() {
 }
 
 //=以下客户处理====================================
-var _curUCP={};
 var _thisProjId="";
 var _thisUserId="";
 var _REINPUTCOUNT=15;
@@ -703,9 +754,9 @@ function openSelCust() {
     _thisProjId=_uProjId;
     _thisUserId=_uUserId;
   } else {
-  	var choose=document.getElementsByName('selectCustomers');
-  	if (choose&&choose.length>0) $('#selectCustomersModal').modal('show');
-  	else alert("["+_uProjName+"]项目还没有接待任何客户，只能从首访录入，不能录入复访!");
+    var choose=document.getElementsByName('selectCustomers');
+    if (choose&&choose.length>0) $('#selectCustomersModal').modal('show');
+    else alert("["+_uProjName+"]项目还没有接待任何客户，只能从首访录入，不能录入复访!");
   }
 }
 function cleanCust() {
@@ -779,7 +830,7 @@ function _dealCustomer(customer) {
   _dealOne("buypurpose", customer);
   _dealOne("attentionpoint", customer);
   if (needReInputCount==0) {
-    $("div[onclick='step4Next()']").html("<a href='#'>提交</a>");
+    $("div[onclick='step4Next()']").html("提交");
     $("div[onclick='step4Next()']").attr("onclick", "commitData()");
     $("#step5").hide();
   }
@@ -791,6 +842,26 @@ function _dealCustomer(customer) {
       needReInputCount--;
     }
   }
+}
+function checkPhone(docId) {
+  var temp=$("input[name='"+docId+"']").val();
+  if (!temp) return "请录入客户电话号码";
+  var phones=temp.split(",");
+  var _errPhone="";
+  var _okPhones="";
+  var _check1,_check2;
+  for (var i=0; i<phones.length; i++) {
+    var onePhone=$.trim(phones[i]);
+    _check1=checkMPhone(onePhone);
+    if (_check1==0) continue;
+    _check2=checkDPhone(onePhone);
+    if (_check1!=1&&_check2!=1) {
+    	_errPhone=onePhone;
+    	break;
+    }
+  }
+  if (_errPhone) return "客户电话号码["+_errPhone+"]不合法";
+  return "";
 }
 
 //=====================================
@@ -809,6 +880,11 @@ function fillDataForReInput(_data) {
 }
 function fillData(data) {//填数据，包括所有页面
   if (!data) return;
+  if (data.projid) _uProjId=data.projid;
+  if (data.projname) {
+    _uProjName=data.projname;
+    $("#proj").html(_uProjName);
+  }
   if (data.custid) custId=data.custid;
   if (data.custname) $("input[name='custName']").val(data.custname);
   if (data.custphonenum) $("input[name='custPhone']").val(data.custphonenum);
@@ -818,7 +894,7 @@ function fillData(data) {//填数据，包括所有页面
     rTime.setTime(data.receptime.time);
     fillTime("curTime", rTime);
   }
-  if (data.visitorcount) fillSelectField("visitorCount", data.visitorcount, true);
+  if (data.visitorcount) fillSelectField('visitorCount', data.visitorcount, true);
   if (data.decisionerin) fillSelectField("decisionerIn", data.decisionerin, true);
   if (data.visitorrefs) {
     var _temp=data.visitorrefs;
@@ -844,12 +920,16 @@ function fillData(data) {//填数据，包括所有页面
     }
     fillSelectField("childAvocations", _temp, true);
   }
+  if (data.fulltimewifeflag)  fillSelectField("fulltimeWifeFlag", data.fulltimewifeflag, true);
+  if (data.nannyflag)  fillSelectField("nannyFlag", data.nannyflag, true);
+  if (data.petflag)  fillSelectField("petFlag", data.petflag, true);
+  if (data.loanstatus)  fillSelectField("loanStatus", data.loanstatus, true);
   if (data.outeduwill) fillSelectField("outEduWill", data.outeduwill, true);
   if (data.outexperflag) fillSelectField("outExperFlag", data.outexperflag, true);
   if (data.outexpercity) $("input[name='outExperCity']").val(data.outexpercity);
   if (data.childoutexperflag) fillSelectField("childOutExperFlag", data.childoutexperflag, true);
   if (data.childoutexpercity) $("input[name='childOutExperCity']").val(data.childoutexpercity);
-  if (data.livingradius) $("input[name='livingRadius']").val(data.livingradius);
+  if (data.livingradius) fillSelectField("livingRadius", data.livingradius, true);
   if (data.communityname) $("input[name='communityName']").val(data.communityname);
   if (data.housetype) $("input[name='houseType']").val(data.housetype);
   if (data.liveacreage) fillSelectField("liveAcreage", data.liveacreage, true);
@@ -999,24 +1079,22 @@ function fillData(data) {//填数据，包括所有页面
     }
     fillSelectField("attentionPoint", _temp, true);
   }
-}
-function checkPhone(docId) {
-  var temp=$("input[name='"+docId+"']").val();
-  if (!temp) return "请录入客户电话号码";
-  var phones=temp.split(",");
-  var _errPhone="";
-  var _okPhones="";
-  var _check1,_check2;
-  for (var i=0; i<phones.length; i++) {
-    var onePhone=$.trim(phones[i]);
-    _check1=checkMPhone(onePhone);
-    if (_check1==0) continue;
-    _check2=checkDPhone(onePhone);
-    if (_check1!=1&&_check2!=1) {
-    	_errPhone=onePhone;
-    	break;
+  var url=_URL_BASE+"/wx/api/getCustMsg";
+  var _data={};
+  _data.custId=custId;
+  _data.projId=_uProjId;
+  $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
+    success: function(json) {
+      if (json.msg=='100') {
+        var customer=json.customer;
+        if (customer) {
+          needReInputCount=_REINPUTCOUNT;
+          _dealCustomer(customer);
+        }
+      }
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      alert("获得客户信息时出现系统错误：\nstatu="+XMLHttpRequest.status+"\nreadyState="+XMLHttpRequest.readyState+"\ntext="+textStatus+"\nerrThrown="+errorThrown);
     }
-  }
-  if (_errPhone) return "客户电话号码["+_errPhone+"]不合法";
-  return "";
+  });
 }

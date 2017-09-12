@@ -108,6 +108,16 @@ var vueStep1=new Vue({
       $("#_SELUSER").hide();
       $("#_SHOWUSER").show();
     },
+    cleanUser: function() {
+      $("span[name='userInput']").html("&nbsp;");
+      _uUserId="";
+      _uUserName="";
+      $("#cleanUserBtn").hide();
+      fillSelectField('user', "", false);
+      custId="";
+      $("input[name='custName']").val("");
+      $("input[name='custPhone']").val("");
+    },
     selSex: function() {
       var choose=document.getElementsByName('sex');
       for (var i=0; i<choose.length; i++) {
@@ -124,16 +134,6 @@ var vueStep1=new Vue({
       _uSex="";
       $("#cleanSexBtn").hide();
       fillSelectField('sex', "", false);
-    },
-    cleanUser: function() {
-      $("span[name='userInput']").html("&nbsp;");
-      _uUserId="";
-      _uUserName="";
-      $("#cleanUserBtn").hide();
-      fillSelectField('user', "", false);
-      custId="";
-      $("input[name='custName']").val("");
-      $("input[name='custPhone']").val("");
     },
     selVisitorCount: function() {
       var choose=document.getElementsByName('visitorCount');
@@ -1135,15 +1135,15 @@ var vueStep5=new Vue({
       for (var i=0; i<choose.length; i++) {
         if (choose[i].checked) {
           $("#familyStatus").html(choose[i].getAttribute("_text"));
-          _uGgeGroup=choose[i].value;
+          _uFamilyStatus=choose[i].value;
         }
       }
       $("#familyStatusModal").modal('hide');
-      if (_uGgeGroup!="") $("#cleanFamilyStatusBtn").show();
+      if (_uFamilyStatus!="") $("#cleanFamilyStatusBtn").show();
     },
     cleanFamilyStatus: function() {
       $("#familyStatus").html("&nbsp;");
-      _uGgeGroup="";
+      _uFamilyStatus="";
       $("#cleanFamilyStatusBtn").hide();
       fillSelectField('familyStatus', "", false);
     },
@@ -1913,6 +1913,8 @@ $('#trafficTypeModal').on('hide.bs.modal', function () {
 
 //通用方法=========================================
 function fillSelectField(id, value, isSetValue) {
+  var isLowOut=false;
+  var _value="";
   var choose=document.getElementsByName(''+id);
   var _checkeds=value.split(",");
   var _fv="";
@@ -1930,13 +1932,18 @@ function fillSelectField(id, value, isSetValue) {
       if (_checkeds[j].indexOf(_t)==0) break;
     }
     choose[i].checked=j<_checkeds.length;
-//    if (id=='freeTimeSection') {
-//      j=0;
-//      for (; j<_checkeds.length; j++) {
-//        if (_t.indexOf(_checkeds[j])>0) break;
-//      }
-//      choose[i].checked=j<_checkeds.length;
-//    }
+    if (!choose[i].checked) {
+      _t=choose[i].getAttribute("value");
+      j=0;
+      for (; j<_checkeds.length; j++) {
+        if (_checkeds[j].indexOf(_t)==0) break;
+      }
+      choose[i].checked=j<_checkeds.length;
+      if (choose[i].checked) {
+        isLowOut=true;
+        _value+=","+choose[i].getAttribute("_text");
+      }
+    }
     if (choose[i].checked) {
       if (isSetValue) _fv+=","+choose[i].value;
       if (choose[i].getAttribute("_text")=='其他'&&$("input[name='"+id+"Desc']")) {
@@ -1986,5 +1993,6 @@ function fillSelectField(id, value, isSetValue) {
       if (id=='knowWay'&&_fvOther.length>0) _fvOther=_fvOther.substr(1);
       eval("_u"+_id+"Desc=_fv");
     }
+    $("span[id='"+id+"']").html(isLowOut?_value.substring(1):value);
   }
 }

@@ -1318,6 +1318,7 @@ function loadProjUser(projId) {//加载顾问
           $("#_SHOWUSER").hide();
           for (var i=0; i<json.users.length; i++) {
             var oneUser=json.users[i];
+            if (oneUser.id==userInfo.userid) continue;
             var _innerHtml=oneUser.realName+"<span>（"+(oneUser.sex==1?"男":"女")+"）</span><span>"+oneUser.mainPhoneNum+"</span><span>"+oneUser.projName+"</span>";
             var userHtml="<label><input type='radio' name='user' value='"+oneUser.id+"-"+oneUser.realName+"' _text='"+oneUser.realName+"' onclick='selUser()'/>"+_innerHtml+"</label>";
             if (i<(json.users.length-1)) userHtml+="<br>";
@@ -1579,23 +1580,15 @@ function commitData() {
     return;
   }
   var commitData=getData(_TYPE);
-  var msg=validate(commitData, _TYPE);
-  if (msg.err) {
-    if (msg.turnTo==1) step2Prev();
-    alert(msg.err);
-    return;
-  }
   //遮罩
   $("#mask").show();
-  //按钮职位灰色
+  //按钮致为灰色
   $("div[_type='BTN']").each(function(){
     $(this).attr("style", "margin-top:1.5rem;background-color:#dedede;color:#c7c7c7");
   });
-  if (_TYPE=='add') {
-    commitInsert(commitData);
-  } else if (_TYPE='update') {
-    commitUpdate(commitData);
-  }
+  if (_TYPE=='add') commitInsert(commitData);
+  else if (_TYPE='update') commitUpdate(commitData);
+
   function getData(type) {
     var retData={};
     var temp="";
@@ -1649,35 +1642,13 @@ function commitData() {
     if (temp) retData.custdescn=temp;
     return retData;
   }
-  function validate(data, type) {
-    var ret={};
-    ret.err="";
-    ret.turnTo=3;//到第几节
-    var err="";
-    if (!data) {
-      err="请先输入数据";
-      return ret;
-    }
-    if (!data.projid) ret.err+=";\n无法获得项目Id";
-    if (!data.custid&&type=='update') ret.err+=";\n无法获得客户Id";
-    if (!data.custname) {
-      ret.err+=";\n无法获得客户名称";
-      ret.turnTo=1;
-    }
-    if (!data.custphonenum) {
-      ret.err+=";\n无法获得客户手机";
-      ret.turnTo=1;
-    }
-    if (ret.err) ret.err=ret.err.substring(2);
-    return ret;
-  }
   function commitInsert(_data) {
     var url=_URL_BASE+"/wx/api/addHisFirstRecord";
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         //遮罩
         $("#mask").css("display", "none");
-        //按钮职位灰色
+        //按钮致为兰色
         $("div[_type='BTN']").each(function(){
           $(this).attr("style", "margin-top:1.5rem;background-color:#19a6ee;color:#FFFFFF");
         });
@@ -1705,7 +1676,7 @@ function commitData() {
       success: function(json) {
         //遮罩
         $("#mask").css("display", "none");
-        //按钮职位灰色
+        //按钮致为兰色
         $("div[_type='BTN']").each(function(){
           $(this).attr("style", "margin-top:1.5rem;background-color:#19a6ee;color:#FFFFFF");
         });

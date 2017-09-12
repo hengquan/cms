@@ -23,21 +23,20 @@
 <body>
 <!-- 遮罩层 -->
 <div id="mask" style="display:none;">
-<div class="loding">
-  <img id="waittingImg" align="middle" src="../images/waiting_circle.jpg"/><br/>
-  <span id="waittingText" style="font-weight:bold;">请稍候，数据提交中...</span>
+  <div class="loding">
+    <img id="waittingImg" align="middle" src="../images/waiting_circle.jpg"/><br/>
+    <span id="waittingText" style="font-weight:bold;">请稍候，数据提交中...</span>
   </div>
-<div class="mask02"></div>
+  <div class="mask02"></div>
 </div>
-
 <!-- 代码 开始 -->
 <div id="auditArea" style="display:none;">
-<div class="subNavBox">
-  <div class="subNav currentDd currentDt">审核意见</div>
-  <ul class="navContent " style="display:block">
-    <li id="auditText">	</li>
-  </ul>
-</div>
+  <div class="subNavBox">
+    <div class="subNav currentDd currentDt">审核意见</div>
+    <ul class="navContent " style="display:block">
+      <li id="auditText">	</li>
+    </ul>
+  </div>
 </div>
 <!-- 代码 结束 -->
 
@@ -94,25 +93,7 @@
       </div>
     </div>
   </div>
-  <div class="item_sflr row">
-    <div class="col-title col-title-4">认购日期</div>
-    <div class="col-input-4 inputdate">
-      <input type="date" placeholder="" name="purchaseDate" readonly/>
-    </div>
-  </div>
-  <div class="item_sflr row">
-    <div class="col-title col-title-4">签约日期</div>
-    <div class="col-input-4 inputdate">
-      <input type="date" placeholder="" name="signDate" readonly/>
-    </div>
-  </div>
-  <div class="item_sflr row">
-    <div class="col-title col-title-5">到访总次数</div>
-    <div class="col-input-5">
-      <input type="text" placeholder="" name="visited" value="" >
-    </div>
-  </div>
-  <div class="line"></div>
+  <div class="select"> 
   <div class="item_sflr row">
     <div class="col-title col-title-7">房屋买受人姓名</div>
     <div class="col-input-7">
@@ -125,6 +106,23 @@
       <input type="text" placeholder="" name="custPhone"/>
     </div>
   </div>
+  <a href="" data-toggle="modal" onclick="openSelCust()"><div class="customers">选择<br>客户</div></a> 
+  </div>
+  <div class="modal fade" id="selectCustomersModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">选择客户</h4>
+        </div>
+        <div class="user-scroll modal-body" id="custData"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cleanCust()" id="cleanCustBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>  
   <div class="item_sflr row">
     <div class="col-title col-title-2">性别</div>
     <a href="" data-toggle="modal" data-target="#sexModal">
@@ -149,6 +147,25 @@
           <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanSex()" id="cleanSexBtn" style="display:none;">清除并关闭</button>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="line"></div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">认购日期</div>
+    <div class="col-input-4 inputdate">
+      <input type="date" placeholder="" name="purchaseDate" readonly/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">签约日期</div>
+    <div class="col-input-4 inputdate">
+      <input type="date" placeholder="" name="signDate" readonly/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-5">到访总次数</div>
+    <div class="col-input-5">
+      <input type="text" placeholder="" name="visited" value="" >
     </div>
   </div>
   <div class="item_sflr row">
@@ -389,8 +406,8 @@
     </div>
   </div>
   <div class="row row-link">
-    <div class="col-50" style="margin-top:1.5rem;" onClick="step2Prev()"><a href="#">上一步</a></div>
-    <div class="col-50" style="margin-top:1.5rem;" onClick="step2Next()"><a href="#">下一步</a></div>
+    <div class="col-50" style="margin-top:1.5rem;" onClick="step2Prev()" _type="BTN">上一步</div>
+    <div class="col-50" style="margin-top:1.5rem;" onClick="step2Next()" _type="BTN">下一步</div>
   </div>
 </div>
 <!-- 第3页 -->
@@ -420,10 +437,12 @@
     </div>
   </div>
   <div class="row row-link">
-    <div class="col-50" style="margin-top:1.5rem;" onClick="step3Prev()">上一步</div>
-    <div class="col-50" style="margin-top:1.5rem;" onClick="commitData()">提交</div>
+    <div class="col-50" style="margin-top:1.5rem;" onClick="step3Prev()" _type="BTN">上一步</div>
+    <div class="col-50" style="margin-top:1.5rem;" onClick="commitData()" _type="BTN">提交</div>
   </div>
 </div>
-<script src="03Input.js"></script>
+
+<script src="./03Input-Oper.js"></script>
+<script src="./03Input-Deal.js"></script>
 </body>
 </html>
