@@ -469,13 +469,13 @@ function checkStep3() {
   if (!_uAvocations) return "请选择业余爱好!";
   return "";
 }
-function checkStep4() { 
+function checkStep4() {
   if (!_uResistPoint) return "请选择对本案的抗拒点!";
   if (!_uLoveActivation) return "请选择喜欢参加的活动!";
   if (!_uFreeTimeSection) return "请选择可参加业主活动时间!";
   if (!_uRecepTimeSection) return "请选择参观接待时间!";
   if (!_uCustScore) return "请选择客户评级!";
-  if (!$("textarea[name='custDescn']").html()) return "请录入复访接待描述!";
+  if (!$("textarea[name='custDescn']").val()) return "请录入复访接待描述!";
   return "";
 }
 function checkStep5() {
@@ -761,6 +761,7 @@ function _dealCustomer(customer) {
   }
   $("input[name='visitCount']").val(customer.visitcount);
   fillSelectField('sex', customer.custsex, true);
+  $("#sex").html(customer.custsex);
   //判断是否需要再次填写
   _dealOne("familystatus", customer);
   _dealOne("agegroup", customer);
