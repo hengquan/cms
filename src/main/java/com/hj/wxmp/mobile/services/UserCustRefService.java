@@ -104,4 +104,8 @@ public interface UserCustRefService {
 
 	public List<Map<String, Object>> downloadExcel(Map<String, Object> map);
 
+	public List<Map<String, Object>> selectZongHe(Map<String, Object> map);
+
+	public Integer selectZongHeCount(Map<String, Object> map);
+
 }

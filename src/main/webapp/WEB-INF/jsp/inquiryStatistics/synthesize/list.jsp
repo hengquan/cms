@@ -63,6 +63,13 @@
 .tr {
 	text-align: center
 }
+
+.panel-heading{
+	font-weight:normal;
+}
+.selectItem {
+  font-weight:normal;
+}
 </style>
 
 </head>
@@ -84,7 +91,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<section class="panel">
-							<form action="${appRoot}/customer/customerList" method="post"
+							<form action="${appRoot}/customer/integratedQuery" method="post"
 								id="selectCheckMessage" >
 								<div class="panel-heading" style="height: 50px;">
 									<div class="col-lg-2" style="line-height:37px">综合查询</div>
@@ -100,81 +107,107 @@
 											</button>
 										</span>
 									</div>
-									<div class="dropdown">
+									<!-- <div class="dropdown">
 									  <button class="btn mini btn-white" type="button" id="dropdownMenu1" 
 									  	data-toggle="dropdown" onclick="gaoji()" aria-haspopup="true" aria-expanded="true" style="margin-left:20px;">
 									    	高级查询
 									    <span class="caret"></span>
 									  </button>
-									</div>  
-								    <div class="modal-dialog modal-lg" id="gaojitiaojian" role="document" style="width:100%;margin-top:-23px;border-color:#000">
+									</div>   -->
+									
+									<a href="javascript:gaoji();" class="btn mini btn-white" id="gaoji">高级查询</a>
+									
+								    <div class="modal-dialog modal-lg" id="gaojitiaojian"  style="width:100%;margin-top:-23px;">
 								    <div class="modal-content" style="border-color:#000;border-bottom:2px solid;border-left:2px solid;border-right:2px solid">
-								   	<label style="margin-left:20px;">首访接待时间:</label>
-									<input type="date" name="record01Begin" class="btn mini btn-white">至
-									<input type="date" name="record01End" class="btn mini btn-white">
+								   	
+								   	<label class='selectItem'>
+									   	<label style="margin-left:20px;">首访接待时间:</label>
+										<input type="date" name="record01Begin" class="btn mini btn-white">至
+										<input type="date" name="record01End" class="btn mini btn-white">
+								   	</label>
 									
-								   	<label style="margin-left:100px;">复访接待时间:</label>
-									<input type="date" name="record02Begin" class="btn mini btn-white">至
-									<input type="date" name="record02End" class="btn mini btn-white"></p>
+									<label class='selectItem'>
+									   	<label style="margin-left:100px;">复访接待时间:</label>
+										<input type="date" name="record02Begin" class="btn mini btn-white">至
+										<input type="date" name="record02End" class="btn mini btn-white">
+									</label><br>
 									
-								   	<label style="margin-left:20px;">成交接待时间:</label>
-									<input type="date" name="record03Begin" class="btn mini btn-white">至
-									<input type="date" name="record03End" class="btn mini btn-white"></p>
+									<label class='selectItem'>
+									   	<label style="margin-left:20px;">成交接待时间:</label>
+										<input type="date" name="record03Begin" class="btn mini btn-white">至
+										<input type="date" name="record03End" class="btn mini btn-white">
+									</label><br>
 								
-								   	<label style="margin-left:20px;">年龄段:</label>
-								   	<input type="checkbox" name="agegroup" value="">25岁以下
-								   	<input type="checkbox" name="agegroup" value="">26~35岁
-								   	<input type="checkbox" name="agegroup" value="">36~45岁
-								   	<input type="checkbox" name="agegroup" value="">46~55岁
-								   	<input type="checkbox" name="agegroup" value="">56岁以上
-								   	<input type="checkbox" name="agegroup" value="">无法了解</p>
+								   	<label class='selectItem'>
+								   		<input type="hidden" id="agegroups" name="agegroups" />
+									   	<label style="margin-left:20px;">年龄段:</label>
+									   	<input type="checkbox" name="agegroup" value="25岁以下"/>25岁以下 
+									   	<input type="checkbox" name="agegroup" value="26~35岁">26~35岁
+									   	<input type="checkbox" name="agegroup" value="36~45岁">36~45岁
+									   	<input type="checkbox" name="agegroup" value="46~55岁">46~55岁
+									   	<input type="checkbox" name="agegroup" value="56岁以上">56岁以上
+									   	<input type="checkbox" name="agegroup" value="无法了解">无法了解
+								   	</label><br>
+								   	
 								
-								   	<label style="margin-left:20px;">认知渠道:</label>
-								   	<input type="checkbox" name="knowway" value="">户外广告牌
-								   	<input type="checkbox" name="knowway" value="">网络
-								   	<input type="checkbox" name="knowway" value="">短信
-								   	<input type="checkbox" name="knowway" value="">纸媒
-								   	<input type="checkbox" name="knowway" value="">路过
-								   	<input type="checkbox" name="knowway" value="">朋友介绍
-								   	<input type="checkbox" name="knowway" value="">渠道介绍
-								   	<input type="checkbox" name="knowway" value="">巡展
-								   	<input type="checkbox" name="knowway" value="">广播
-								   	<input type="checkbox" name="knowway" value="">电CALL
-								   	<input type="checkbox" name="knowway" value="">直投
-								   	<input type="checkbox" name="knowway" value="">活动
-								   	<input type="checkbox" name="knowway" value="">DM单
-								   	<input type="checkbox" name="knowway" value="">外联
-								   	<input type="checkbox" name="knowway" value="">老带新
-								   	<input type="checkbox" name="knowway" value="">其他
-								   	<input type="checkbox" name="knowway" value="">无法了解</P>
+								   	<label class='selectItem'>
+									   	<input type="hidden" name="knowways" id="knowways">
+								   		<label style="margin-left:20px;">认知渠道:</label>
+									   	<input type="checkbox" name="knowway" value="户外广告牌">户外广告牌
+									   	<input type="checkbox" name="knowway" value="网络">网络
+									   	<input type="checkbox" name="knowway" value="短信">短信
+									   	<input type="checkbox" name="knowway" value="纸媒">纸媒
+									   	<input type="checkbox" name="knowway" value="路过">路过
+									   	<input type="checkbox" name="knowway" value="朋友介绍">朋友介绍
+									   	<input type="checkbox" name="knowway" value="渠道介绍">渠道介绍
+									   	<input type="checkbox" name="knowway" value="巡展">巡展
+									   	<input type="checkbox" name="knowway" value="广播">广播
+									   	<input type="checkbox" name="knowway" value="电CALL">电CALL
+									   	<input type="checkbox" name="knowway" value="直投">直投
+									   	<input type="checkbox" name="knowway" value="活动">活动
+									   	<input type="checkbox" name="knowway" value="DM单">DM单
+									   	<input type="checkbox" name="knowway" value="外联">外联
+									   	<input type="checkbox" name="knowway" value="老带新">老带新
+									   	<input type="checkbox" name="knowway" value="其他">其他
+									   	<input type="checkbox" name="knowway" value="无法了解">无法了解
+									</label><br>
 								   	
-								   	<label style="margin-left:20px;">房屋面积:</label>
-								   	<input type="checkbox" name="liveacreage" value="">200㎡以下
-								   	<input type="checkbox" name="liveacreage" value="">200~300㎡
-								   	<input type="checkbox" name="liveacreage" value="">300~400㎡
-								   	<input type="checkbox" name="liveacreage" value="">400~500㎡
-								   	<input type="checkbox" name="liveacreage" value="">500~600㎡
-								   	<input type="checkbox" name="liveacreage" value="">600~700㎡
-								   	<input type="checkbox" name="liveacreage" value="">700~800㎡
-								   	<input type="checkbox" name="liveacreage" value="">800以上</p>
+								   	<label class='selectItem'>
+								   		<input type="hidden" name="liveacreages" id="liveacreages">
+									   	<label style="margin-left:20px;">房屋面积:</label>
+									   	<input type="checkbox" name="liveacreage" value="200㎡以下">200㎡以下
+									   	<input type="checkbox" name="liveacreage" value="200~300㎡">200~300㎡
+									   	<input type="checkbox" name="liveacreage" value="300~400㎡">300~400㎡
+									   	<input type="checkbox" name="liveacreage" value="400~500㎡">400~500㎡
+									   	<input type="checkbox" name="liveacreage" value="500~600㎡">500~600㎡
+									   	<input type="checkbox" name="liveacreage" value="600~700㎡">600~700㎡
+									   	<input type="checkbox" name="liveacreage" value="700~800㎡">700~800㎡
+									   	<input type="checkbox" name="liveacreage" value="800以上">800以上
+								   	</label><br>
 								   	
-								   	<label style="margin-left:20px;">接受价格区段:</label>
-								   	<input type="checkbox" name="pricesection" value="">500万以下
-								   	<input type="checkbox" name="pricesection" value="">500~1000万
-								   	<input type="checkbox" name="pricesection" value="">1000~1500万
-								   	<input type="checkbox" name="pricesection" value="">1500~2000万
-								   	<input type="checkbox" name="pricesection" value="">2000~3000万
-								   	<input type="checkbox" name="pricesection" value="">3000~4000万
-								   	<input type="checkbox" name="pricesection" value="">4000~5000万
-								   	<input type="checkbox" name="pricesection" value="">5000~6000万
-								   	<input type="checkbox" name="pricesection" value="">6000~8000万
-								   	<input type="checkbox" name="pricesection" value="">8000万以上</p>
-								   	
-								   	<label style="margin-left:20px;">客户评级:</label>
-								   	<input type="checkbox" name="custscore" value="">A
-								   	<input type="checkbox" name="custscore" value="">B
-								   	<input type="checkbox" name="custscore" value="">C
-								   	<input type="checkbox" name="custscore" value="">D
+									<label class='selectItem'>
+										<input type="hidden" name="pricesections" id="pricesections">
+									   	<label style="margin-left:20px;">接受价格区段:</label>
+									   	<input type="checkbox" name="pricesection" value="500万以下">500万以下
+									   	<input type="checkbox" name="pricesection" value="500~1000万">500~1000万
+									   	<input type="checkbox" name="pricesection" value="1000~1500万">1000~1500万
+									   	<input type="checkbox" name="pricesection" value="1500~2000万">1500~2000万
+									   	<input type="checkbox" name="pricesection" value="2000~3000万">2000~3000万
+									   	<input type="checkbox" name="pricesection" value="3000~4000万">3000~4000万
+									   	<input type="checkbox" name="pricesection" value="4000~5000万">4000~5000万
+									   	<input type="checkbox" name="pricesection" value="5000~6000万">5000~6000万
+									   	<input type="checkbox" name="pricesection" value="6000~8000万">6000~8000万
+									   	<input type="checkbox" name="pricesection" value="8000万以上">8000万以上
+									</label><br>								   	
+
+									<label class='selectItem'>
+										<input type="hidden" name="custscores" id="custscores">
+									   	<label style="margin-left:20px;">客户评级:</label>
+									   	<input type="checkbox" name="custscore" value="A">A
+									   	<input type="checkbox" name="custscore" value="B">B
+									   	<input type="checkbox" name="custscore" value="C">C
+									   	<input type="checkbox" name="custscore" value="D">D
+									</label>								   	
 								    </div><!-- /.modal-content -->
 								    </div>
 								</div>
@@ -397,6 +430,60 @@
 	<script type="text/javascript">
 	//下载EXCEL
 	function downloadExcel(){
+		//年龄段
+		var str = document.getElementsByName("agegroup");
+		var objarray = str.length;
+		var agegroup = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				agegroup += str[i].value + ",";
+			}
+		}
+		$("#agegroups").val(agegroup);
+		//认知渠道
+		var str = document.getElementsByName("knowway");
+		var objarray = str.length;
+		var knowway = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				knowway += str[i].value + ",";
+			}
+		}
+		$("#knowways").val(knowway);
+		//房屋面积
+		var str = document.getElementsByName("liveacreage");
+		var objarray = str.length;
+		var liveacreage = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				liveacreage += str[i].value + ",";
+			}
+		}
+		$("#liveacreages").val(liveacreage);
+		//接受价格区段
+		var str = document.getElementsByName("pricesection");
+		var objarray = str.length;
+		var pricesection = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				pricesection += str[i].value + ",";
+			}
+		}
+		$("#pricesections").val(pricesection);
+		//客户评级
+		var str = document.getElementsByName("custscore");
+		var objarray = str.length;
+		var custscore = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				custscore += str[i].value + ",";
+			}
+		}
+		$("#custscores").val(custscore);
 		var datamsg = $("#selectCheckMessage").serialize();
 		$.ajax({
 			type:'post',
@@ -514,6 +601,60 @@
 	
 	//选择不同的页数
 	function doPanation(number){
+		//年龄段
+		var str = document.getElementsByName("agegroup");
+		var objarray = str.length;
+		var agegroup = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				agegroup += str[i].value + ",";
+			}
+		}
+		$("#agegroups").val(agegroup);
+		//认知渠道
+		var str = document.getElementsByName("knowway");
+		var objarray = str.length;
+		var knowway = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				knowway += str[i].value + ",";
+			}
+		}
+		$("#knowways").val(knowway);
+		//房屋面积
+		var str = document.getElementsByName("liveacreage");
+		var objarray = str.length;
+		var liveacreage = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				liveacreage += str[i].value + ",";
+			}
+		}
+		$("#liveacreages").val(liveacreage);
+		//接受价格区段
+		var str = document.getElementsByName("pricesection");
+		var objarray = str.length;
+		var pricesection = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				pricesection += str[i].value + ",";
+			}
+		}
+		$("#pricesections").val(pricesection);
+		//客户评级
+		var str = document.getElementsByName("custscore");
+		var objarray = str.length;
+		var custscore = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				custscore += str[i].value + ",";
+			}
+		}
+		$("#custscores").val(custscore);
 		$("#nowPageNumber").val(number);
 		seeAllMsg();
 	}
@@ -560,6 +701,61 @@
 	
 	//根据选择查看信息
 	function seeAllMsg() {
+		//年龄段
+		var str = document.getElementsByName("agegroup");
+		var objarray = str.length;
+		var agegroup = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				agegroup += str[i].value + ",";
+			}
+		}
+		$("#agegroups").val(agegroup);
+		//认知渠道
+		var str = document.getElementsByName("knowway");
+		var objarray = str.length;
+		var knowway = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				knowway += str[i].value + ",";
+			}
+		}
+		$("#knowways").val(knowway);
+		//房屋面积
+		var str = document.getElementsByName("liveacreage");
+		var objarray = str.length;
+		var liveacreage = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				liveacreage += str[i].value + ",";
+			}
+		}
+		$("#liveacreages").val(liveacreage);
+		//接受价格区段
+		var str = document.getElementsByName("pricesection");
+		var objarray = str.length;
+		var pricesection = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				pricesection += str[i].value + ",";
+			}
+		}
+		$("#pricesections").val(pricesection);
+		//客户评级
+		var str = document.getElementsByName("custscore");
+		var objarray = str.length;
+		var custscore = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				custscore += str[i].value + ",";
+			}
+		}
+		$("#custscores").val(custscore);
+		
 		$("#selectCheckMessage").submit();
 	}
 	

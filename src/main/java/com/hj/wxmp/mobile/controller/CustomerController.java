@@ -255,6 +255,30 @@ public class CustomerController extends ControllerBase {
 	public String customerMsgExcel(@RequestParam(value="isValidate",defaultValue="") String isValidate,
 			ModelMap model) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		//所有条件
+		//首访接待开始时间
+		String record01Begin = getTrimParameter("record01Begin");
+		//首访接待结束时间
+		String record01End = getTrimParameter("record01End");
+		//复访接待开始时间
+		String record02Begin = getTrimParameter("record02Begin");
+		//复访接待结束时间
+		String record02End = getTrimParameter("record02End");
+		//成交接待开始时间
+		String record03Begin = getTrimParameter("record03Begin");
+		//成交接待结束时间
+		String record03End = getTrimParameter("record03End");
+		//年龄段
+		String agegroup = getTrimParameter("agegroups");
+		//认知渠道
+		String knowway = getTrimParameter("knowways");
+		//房屋面积
+		String liveacreage = getTrimParameter("liveacreages");
+		//接受价格区段
+		String pricesection = getTrimParameter("pricesections");
+		//客户评价
+		String custscore = getTrimParameter("custscores");
+		//名字
 		String name = getTrimParameter("custName");
 		map.put("isValidate", isValidate);
 		try {
@@ -263,6 +287,17 @@ public class CustomerController extends ControllerBase {
 			}else{
 				map.put("name", name);
 			}
+			map.put("record01Begin", record01Begin);
+			map.put("record01End", record01End);
+			map.put("record02Begin", record02Begin);
+			map.put("record02End", record02End);
+			map.put("record03Begin", record03Begin);
+			map.put("record03End", record03End);
+			map.put("agegroup", agegroup);
+			map.put("knowway", knowway);
+			map.put("liveacreage", liveacreage);
+			map.put("pricesection", pricesection);
+			map.put("custscore", custscore);
 			// 获取所有用户信息
 			List<Map<String,Object>> userMsg = userCustRefService.downloadExcel(map);
 			// 第一步，创建一个webbook，对应一个Excel文件  
@@ -386,17 +421,15 @@ public class CustomerController extends ControllerBase {
 		//成交接待结束时间
 		String record03End = getTrimParameter("record03End");
 		//年龄段
-		String agegroup = getTrimParameter("agegroup");
+		String agegroup = getTrimParameter("agegroups");
 		//认知渠道
-		String knowway = getTrimParameter("knowway");
-		//年龄段
-		String liveacreage = getTrimParameter("liveacreage");
-		//年龄段
-		String pricesection = getTrimParameter("pricesection");
-		//年龄段
-		String custscore = getTrimParameter("custscore");
-		
-		
+		String knowway = getTrimParameter("knowways");
+		//房屋面积
+		String liveacreage = getTrimParameter("liveacreages");
+		//接受价格区段
+		String pricesection = getTrimParameter("pricesections");
+		//客户评价
+		String custscore = getTrimParameter("custscores");
 		//纪录总数
 		Integer listMessgeCount = 0;
 		String name = getTrimParameter("custName");
@@ -414,10 +447,21 @@ public class CustomerController extends ControllerBase {
 			}else{
 				map.put("name", name);
 			}
+			map.put("record01Begin", record01Begin);
+			map.put("record01End", record01End);
+			map.put("record02Begin", record02Begin);
+			map.put("record02End", record02End);
+			map.put("record03Begin", record03Begin);
+			map.put("record03End", record03End);
+			map.put("agegroup", agegroup);
+			map.put("knowway", knowway);
+			map.put("liveacreage", liveacreage);
+			map.put("pricesection", pricesection);
+			map.put("custscore", custscore);
 			// 获取所有用户信息
-			List<Map<String,Object>> userMsg = userCustRefService.selectByUserMessge(map);
+			List<Map<String,Object>> userMsg = userCustRefService.selectZongHe(map);
 			//所有信息数量
-			listMessgeCount = userCustRefService.selectByUserMessgeCount(map);
+			listMessgeCount = userCustRefService.selectZongHeCount(map);
 		 	Integer totalCount = listMessgeCount%pageSize;
 			Integer totalPageNum = 0;
 			if(totalCount==0){

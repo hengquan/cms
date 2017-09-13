@@ -206,8 +206,142 @@
 	OR instr(proj.projName, #{name})
 	OR instr(qc.phoneNum, #{name})
 	OR instr(pu.realName, #{name}))
-	<if test="isValidate != '' and isValidate != null">
-		and pu.isValidate = 3
+	<if test="agegroup != '' and agegroup != null">
+		and INSTR(#{agegroup},qc.ageGroup)
 	</if>  
+	<if test="liveacreage != '' and liveacreage != null">
+		and INSTR(#{liveacreage}, qc.liveAcreage)
+	</if>  
+	<if test="pricesection != '' and pricesection != null">
+		and INSTR(#{pricesection}, qc.priceSection)
+	</if>  
+	<if test="custscore != '' and custscore != null">
+		and INSTR(#{custscore}, qc.custScore)
+	</if>  
+	<if test="record01Begin != '' and record01Begin != null">
+		and r01.recepTime > #{record01Begin}
+	</if> 
+	<if test="record01End != '' and record01End != null">
+		and r01.recepTime &lt; #{record01End}
+	</if> 
+	<if test="record02Begin != '' and record02Begin != null">
+		and r02.recepTime > #{record02Begin}
+	</if> 
+	<if test="record02End != '' and record02End != null">
+		and r02.recepTime &lt; #{record02End}
+	</if> 
+	<if test="record03Begin != '' and record03Begin != null">
+		and r03.recepTime > #{record03Begin}
+	</if> 
+	<if test="record03End != '' and record03End != null">
+		and r03.recepTime &lt; #{record03End}
+	</if> 
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- 综合查询统计 -->
+  <select id="selectZongHe" resultType="java.util.Map" parameterType="java.util.Map">
+	SELECT
+		qur.*, qc.*, pu.realName,
+		pu.isValidate,proj.projName,pu.isValidate
+	FROM
+		ql_UserCust_Ref qur
+	JOIN ql_Customer qc ON qur.custId = qc.id
+	JOIN plat_User pu ON qur.userId = pu.id
+	JOIN ql_Project proj ON qur.projId = proj.id
+	JOIN ql_AccessRecord01 r01 ON qur.custId = r01.custId
+	JOIN ql_AccessRecord01 r02 ON qur.custId = r02.custId
+	JOIN ql_AccessRecord01 r03 ON qur.custId = r03.custId
+	WHERE 1=1 and 
+	(instr(qc.custName,#{name})
+	OR instr(proj.projName, #{name})
+	OR instr(qc.phoneNum, #{name})
+	OR instr(pu.realName, #{name}))
+	<if test="agegroup != '' and agegroup != null">
+		and INSTR(#{agegroup},qc.ageGroup)
+	</if>  
+	<if test="liveacreage != '' and liveacreage != null">
+		and INSTR(#{liveacreage}, qc.liveAcreage)
+	</if>  
+	<if test="pricesection != '' and pricesection != null">
+		and INSTR(#{pricesection}, qc.priceSection)
+	</if>  
+	<if test="custscore != '' and custscore != null">
+		and INSTR(#{custscore}, qc.custScore)
+	</if>  
+	<if test="record01Begin != '' and record01Begin != null">
+		and r01.recepTime > #{record01Begin}
+	</if> 
+	<if test="record01End != '' and record01End != null">
+		and r01.recepTime &lt; #{record01End}
+	</if> 
+	<if test="record02Begin != '' and record02Begin != null">
+		and r02.recepTime > #{record02Begin}
+	</if> 
+	<if test="record02End != '' and record02End != null">
+		and r02.recepTime &lt; #{record02End}
+	</if> 
+	<if test="record03Begin != '' and record03Begin != null">
+		and r03.recepTime > #{record03Begin}
+	</if> 
+	<if test="record03End != '' and record03End != null">
+		and r03.recepTime &lt; #{record03End}
+	</if> 
+	limit #{page},#{pageSize}
+  </select>
+  
+  <!-- 综合查询统计 -->
+  <select id="selectZongHeCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+	SELECT
+		count(1)
+	FROM
+		ql_UserCust_Ref qur
+	JOIN ql_Customer qc ON qur.custId = qc.id
+	JOIN plat_User pu ON qur.userId = pu.id
+	JOIN ql_Project proj ON qur.projId = proj.id
+	JOIN ql_AccessRecord01 r01 ON qur.custId = r01.custId
+	JOIN ql_AccessRecord01 r02 ON qur.custId = r02.custId
+	JOIN ql_AccessRecord01 r03 ON qur.custId = r03.custId
+	WHERE 1=1 and 
+	(instr(qc.custName,#{name})
+	OR instr(proj.projName, #{name})
+	OR instr(qc.phoneNum, #{name})
+	OR instr(pu.realName, #{name}))
+	<if test="agegroup != '' and agegroup != null">
+		and INSTR(#{agegroup},qc.ageGroup)
+	</if>  
+	<if test="liveacreage != '' and liveacreage != null">
+		and INSTR(#{liveacreage}, qc.liveAcreage)
+	</if>  
+	<if test="pricesection != '' and pricesection != null">
+		and INSTR(#{pricesection}, qc.priceSection)
+	</if>  
+	<if test="custscore != '' and custscore != null">
+		and INSTR(#{custscore}, qc.custScore)
+	</if>  
+	<if test="record01Begin != '' and record01Begin != null">
+		and r01.recepTime > #{record01Begin}
+	</if> 
+	<if test="record01End != '' and record01End != null">
+		and r01.recepTime &lt; #{record01End}
+	</if> 
+	<if test="record02Begin != '' and record02Begin != null">
+		and r02.recepTime > #{record02Begin}
+	</if> 
+	<if test="record02End != '' and record02End != null">
+		and r02.recepTime &lt; #{record02End}
+	</if> 
+	<if test="record03Begin != '' and record03Begin != null">
+		and r03.recepTime > #{record03Begin}
+	</if> 
+	<if test="record03End != '' and record03End != null">
+		and r03.recepTime &lt; #{record03End}
+	</if> 
   </select>
 </mapper>

@@ -244,10 +244,6 @@ function checkField(id){
 
 //翻页切换
 function step1Next() {//要判断是否应该进行成交录入
-  if (userInfo.roleName=='项目管理人') {
-    window.location.href=_URL_BASE+"/wxfront/err.html?7000=作为项目管理人<br/>您无需录入成交记录！";
-    return;
-  }
   if (!checkField("custName")){
     alert('请填写房屋买受人姓名');
     return false;
@@ -549,7 +545,7 @@ function openSelCust() {
             var _phones=oneCust.custPhone;
             _phones=$.trim(_phones.split(",")[0]);
             var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span><span>"+oneCust.projName+"</span>";
-            var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label>";
+            var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userSex='"+oneCust.custSex+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label>";
             if (i<(json.customers.length-1)) userHtml+="<br>";
             $("#custData").append(userHtml);
           }
@@ -586,6 +582,7 @@ function selCust() {
       $("span[name='userInput']").html(choose[i].getAttribute("_userName"));
       _uUserId=choose[i].getAttribute("_userId");
       _uUserName=choose[i].getAttribute("_userName");
+      fillSelectField('sex', choose[i].getAttribute("_userSex"), true);
     }
   }
   $("#selectCustomersModal").modal('hide');

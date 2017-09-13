@@ -1880,21 +1880,13 @@ public class WxApiController extends ControllerBaseWx {
 		parseResult=parseDictsStr(tempStr);
 		if (parseResult!=null) {
 			tempStr=parseResult.get("storeStr")+"";
-			_retR03.setHouseregitype(tempStr);
+			_retR03.setPaymenttype(tempStr);
 			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
 			List<TabDictRef> cartotalpriceO1=transToDictRefList(dictList, "030", "付款方式", "ql_AccessRecord03", id);
 			if (cartotalpriceO1!=null) dictRefList.addAll(cartotalpriceO1);
 		}
 		//贷款银行
-		tempStr=record03.getLoanbank();
-		parseResult=parseDictsStr(tempStr);
-		if (parseResult!=null) {
-			tempStr=parseResult.get("storeStr")+"";
-			_retR03.setLoanbank(tempStr);
-			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
-			List<TabDictRef> cartotalpriceO1=transToDictRefList(dictList, "030", "贷款银行", "ql_AccessRecord03", id);
-			if (cartotalpriceO1!=null) dictRefList.addAll(cartotalpriceO1);
-		}
+		_retR03.setLoanbank(record03.getLoanbank());
 		//购买产品类型
 		tempStr=record03.getRealtyproducttype();
 		parseResult=parseDictsStr(tempStr);

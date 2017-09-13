@@ -31,4 +31,8 @@ public interface UserCustRefMapper {
 	void updateByProjIdAndCustId(Map<String, Object> parmeterMap);
 
 	List<Map<String, Object>> downloadExcel(Map<String, Object> map);
+
+	List<Map<String, Object>> selectZongHe(Map<String, Object> map);
+
+	Integer selectZongHeCount(Map<String, Object> map);
 }
