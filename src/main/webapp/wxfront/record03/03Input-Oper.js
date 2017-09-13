@@ -3,6 +3,7 @@ var _uProjName="";
 var _uUserId="";
 var _uUserName="";
 var _uUserRole="";
+var _uSex="";
 var _uHouseRegiType="";
 var _uPaymentType="";
 var _uPaymentTypeDesc="";

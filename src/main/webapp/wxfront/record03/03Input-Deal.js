@@ -18,6 +18,7 @@ $(function() {
   if (_TYPE=='update') $(document).attr("title","客户数据中心-成交信息修改");
 
   if (_TYPE=='add') {//处理带入的参数
+      var data={};
 //    var _projId=getUrlParam(window.location.href, 'projId');
 //    var _userId=getUrlParam(window.location.href, 'userId');
 //    var _userName=getUrlParam(window.location.href, 'userName');
@@ -224,6 +225,7 @@ function cleanData(type) {
     _uUserName="";
     _uUserRole="";
   }
+  _uSex="";
   _uHouseRegiType="";
   _uPaymentType="";
   _uPaymentTypeDesc="";
@@ -235,17 +237,6 @@ function cleanData(type) {
   _uRealPayMen="";
   _uRealPayMenDesc="";
 }
-
-/**
- * 判断name为id的输入对象是否为空
- * @param id
- * @param type 类型：1=val;2=html
- * @returns true 不为空
- */
-/*function checkField(id) {
- return !(!($.trim($("[name='"+id+"']").val())));
-
- }*/
 
 function checkField(id){
   return !(!$.trim($("[name='"+id+"']").val()));
@@ -405,39 +396,39 @@ function step3Prev() {
 }
 //=以下为提交，包括修改和删除====================================
 function commitData() {
-  var commitData=getData(_TYPE);
-  var msg=validate(commitData, _TYPE);
-  if (msg.err) {
-    if (msg.turnTo==1) step2Prev();
-    alert(msg.err);
-    return;
-  }
   //遮罩
   $("#mask").show();
   //按钮致为灰色
   $("div[_type='BTN']").each(function(){
     $(this).attr("style", "margin-top:1.5rem;background-color:#dedede;color:#c7c7c7");
   });
+  var commitData=getData(_TYPE);
   if (_TYPE=='add') commitInsert(commitData);
-  else if (_TYPE='update') commitUpdate(commitData);
+  else
+  if (_TYPE='update') commitUpdate(commitData);
 
   function getData(type) {
     var retData={};
     var temp="";
     //获取项目id
     if (_uProjId) retData.projid=_uProjId;
-    //获取用户名称
-    if (type=='update'&&custId) retData.custid=custId;
-    //用户名称
+    if (type=='add') {
+      if (_uUserId) retData.authorid=_uUserId;
+      if (_uUserId) retData.creatorid=_uUserId;
+    }
+    temp=$("input[name='recpTime']").val();
+    if (temp) retData.receptime1=temp;
+    if (custId) retData.custid=custId;
+    //用户名称-房屋买受人姓名
     temp=$("input[name='custName']").val();
     if (temp) retData.custname=temp;
     temp=$("input[name='custPhone']").val();
     if (temp) retData.custphonenum=temp;
-    temp=$("input[name='signDate']").val();
-    if (temp) retData.receptime1=temp;
-    temp=$("input[name='purchaseDate']").val();
-    if (temp) retData.firstknowtime1=temp;
     if (_uSex) retData.custsex=_uSex;
+    temp=$("input[name='purchaseDate']").val();
+    if (temp) retData.purchasedate1=temp;
+    temp=$("input[name='signDate']").val();
+    if (temp) retData.signdate1=temp;
     temp=$("input[name='houseNum']").val();
     if (temp) retData.housenum=temp;
     temp=$("input[name='visitCycle']").val();
@@ -453,10 +444,12 @@ function commitData() {
     if (temp) retData.unitprice=temp;
     temp=$("input[name='totalPrice']").val();
     if (temp) retData.totalprice=temp;
-    if (_uPaymentType) retData.paymentType=_uPaymentType;
+    if (_uPaymentType) retData.paymenttype=_uPaymentType;
+    if (_uPaymentTypeDesc) retData.paymenttypedesc=_uPaymentTypeDesc;
     temp=$("input[name='loanBank']").val();
     if (temp) retData.loanbank=temp;
     if (_uRealtyProductType) retData.realtyproducttype=_uRealtyProductType;
+    if (_uRealtyProductTypeDesc) retData.realtyproducttypedesc=_uRealtyProductTypeDesc;
     temp=$("input[name='addressMail']").val();
     if (temp) retData.addressmail=temp;
     if (_uLivingStatus) retData.livingstatus=_uLivingStatus;
@@ -470,33 +463,7 @@ function commitData() {
     if (temp) retData.signqands=temp;
     temp=$("textarea[name='sumDescn']").val();
     if (temp) retData.sumdescn=temp;
-    if (type=='add') {
-      if (_uUserId) retData.authorid=_uUserId;
-      if (_uUserId) retData.creatorid=_uUserId;
-    }
     return retData;
-  }
-  function validate(data, type) {
-    var ret={};
-    ret.err="";
-    ret.turnTo=3;//到第几节
-    var err="";
-    if (!data) {
-      err="请先输入数据";
-      return ret;
-    }
-    if (!data.projid) ret.err+=";\n无法获得项目Id";
-    if (!data.custid&&type=='update') ret.err+=";\n无法获得客户Id";
-    if (!data.custname) {
-      ret.err+=";\n无法获得客户名称";
-      ret.turnTo=1;
-    }
-    if (!data.custphonenum) {
-      ret.err+=";\n无法获得客户手机";
-      ret.turnTo=1;
-    }
-    if (ret.err) ret.err=ret.err.substring(2);
-    return ret;
   }
   function commitInsert(_data) {
     var url=_URL_BASE+"/wx/api/addTradeVisit";
@@ -656,43 +623,36 @@ function fillTime(id, _time) {
 }
 function fillData(data) {//填数据
   if (!data) return;
-  var projOk=false;
-  var sProjs=(userInfo.checkProj).split(",");
-  for (var i=0; i<sProjs.length; i++) {
-    var iS=sProjs[i].split("-");
-    if (iS[0]==data.projid) {
-      $("#proj").html(iS[1]);
-      _uProjId=data.projid;
-      _uProjName=iS[1];
-      projOk=true;
-      break;
-    }
+  if (data.projid) _uProjId=data.projid;
+  if (data.projname) {
+    _uProjName=data.projname;
+    $("#proj").html(_uProjName);
   }
   if (data.custid) custId=data.custid;
-  if (userInfo.roleName=='管理员') projOk=true;
-  if (!projOk)  {
-    window.location.href=_URL_BASE+"/wxfront/err.html?4000=抱歉<br/>您的权限不足，无法浏览系统<br/>禁止录入";
-    return;
-  }
   if (data.custname) $("input[name='custName']").val(data.custname);
   if (data.custphonenum) $("input[name='custPhone']").val(data.custphonenum);
   if (data.custsex) fillSelectField("sex", data.custsex, true);
-
-  if (data.firstknowtime.time) {
-    var fTime=new Date();
-    fTime.setTime(data.firstknowtime.time);
-    fillTime("purchaseDate", fTime);
-  }
   if (data.receptime.time) {
     var rTime=new Date();
     rTime.setTime(data.receptime.time);
+    fillTime("recpTime", rTime);
+  }
+  if (data.purchasedate.time) {
+    var rTime=new Date();
+    rTime.setTime(data.purchasedate.time);
+    fillTime("purchaseDate", rTime);
+  }
+  if (data.signdate.time) {
+    var rTime=new Date();
+    rTime.setTime(data.signdate.time);
     fillTime("signDate", rTime);
   }
+  $("#visitCount").html("?");
   if (data.housenumup) $("input[name='houseNumup']").val(data.housenumup);
   if (data.visitcycle) $("input[name='visitCycle']").val(data.visitcycle);
   if (data.purchasecycle) $("input[name='purchaseCycle']").val(data.purchasecycle);
   if (data.signcycle) $("input[name='signCycle']").val(data.signcycle);
-  if (data.houseregiType) fillSelectField("houseRegiType", data.houseregiType, true);
+  if (data.houseregitype) fillSelectField("houseRegiType", data.houseregitype, true);
   if (data.houseacreage) $("input[name='houseAcreage']").val(data.houseacreage);
   if (data.unitprice) $("input[name='unitPrice']").val(data.unitprice);
   if (data.totalprice) $("input[name='totalPrice']").val(data.totalprice);
@@ -719,26 +679,8 @@ function fillData(data) {//填数据
   }
   if (data.addressmail) $("input[name='addressMail']").val(data.addressmail);
   if (data.livingstatus) fillSelectField("livingStatus", data.livingstatus, true);
-  if (data.realusemen) {
-    var _temp=data.realusemen;
-    if (data.realusemen.indexOf('其他')!=-1) {
-      if (data.realusemendesc) {
-        var _temp2="其他("+data.realusemendesc+")";
-        _temp=_temp.replace("其他", _temp2);
-      }
-    }
-    fillSelectField("realUseMen", _temp, true);
-  }
-  if (data.realpaymen) {
-    var _temp=data.realpaymen;
-    if (data.realpaymen.indexOf('其他')!=-1) {
-      if (data.realpaymendesc) {
-        var _temp2="其他("+data.realpaymendesc+")";
-        _temp=_temp.replace("其他", _temp2);
-      }
-    }
-    fillSelectField("realPayMen", _temp, true);
-  }
+  if (data.realusemen) fillSelectField("realUseMen", data.realusemen, true);
+  if (data.realpaymen) fillSelectField("realPayMen", data.realpaymen, true);
   if (data.suggestion) $("textarea[name='suggestion']").val(data.suggestion);
   if (data.talkqandS) $("textarea[name='talkQandS']").val(data.talkqandS);
   if (data.signqandS) $("textarea[name='signQandS']").val(data.signqandS);

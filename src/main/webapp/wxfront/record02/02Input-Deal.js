@@ -892,7 +892,7 @@ function fillData(data) {//填数据，包括所有页面
   if (data.receptime.time) {
     var rTime=new Date();
     rTime.setTime(data.receptime.time);
-    fillTime("curTime", rTime);
+    fillTime("recpTime", rTime);
   }
   if (data.visitorcount) fillSelectField('visitorCount', data.visitorcount, true);
   if (data.decisionerin) fillSelectField("decisionerIn", data.decisionerin, true);
