@@ -108,5 +108,9 @@ public class AccessRecord02ServiceImpl implements AccessRecord02Service {
 	public void updateByProjIdAndCustId(Map<String, Object> parmeterMap) {
 		dao.updateByProjIdAndCustId(parmeterMap);
 	}
+	@Override
+	public AccessRecord02 selectById(String recordId) {
+		return dao.selectById(recordId);
+	}
 
 }
