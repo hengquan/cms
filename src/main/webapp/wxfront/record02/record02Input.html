@@ -18,6 +18,25 @@
   <script src="../js/vue.js"></script>
 </head>
 <body>
+<!-- 遮罩层 -->
+<div id="mask" style="display:none;">
+  <div class="loding">
+    <img id="waittingImg" align="middle" src="../images/waiting_circle.jpg"/><br/>
+    <span id="waittingText" style="font-weight:bold;">请稍候，数据提交中...</span>
+  </div>
+  <div class="mask02"></div>
+</div>
+<!-- 代码 开始 -->
+<div id="auditArea" style="display:none;">
+  <div class="subNavBox">
+    <div class="subNav currentDd currentDt">审核意见</div>
+    <ul class="navContent " style="display:block">
+      <li id="auditText">	</li>
+    </ul>
+  </div>
+</div>
+<!-- 代码 结束 -->
+
 <!-- 第1页 -->
 <div class="container" id="step1" style="display:none">
   <div class="item_sflr row" id="projArea" style="display:none;">
@@ -231,7 +250,7 @@
       </div>
     </div>
   </div>
-  <div class="item-zhc row-link" style="margin-top:1.5rem;" onClick="step1Next()"><a href="#">下一步</a></div>
+  <div class="item-zhc row-link" style="margin-top:1.5rem;" onClick="step1Next()" _type="BTN">下一步</div>
 </div>
 <!-- 第2页 -->
 <div class="container" id="step2" style="display:none">
@@ -535,8 +554,8 @@
     <div class="col-input-8"><input type="text" placeholder="" name="childOutExperCity"/></div>
   </div>
   <div class="row row-link">
-    <div class="col-50" style="margin-top:1.5rem;" onClick="step2Prev()"><a href="#">上一步</a></div>
-    <div class="col-50" style="margin-top:1.5rem;" onClick="step2Next()"><a href="#">下一步</a></div>
+    <div class="col-50" style="margin-top:1.5rem;" onClick="step2Prev()" _type="BTN">上一步</div>
+    <div class="col-50" style="margin-top:1.5rem;" onClick="step2Next()" _type="BTN">下一步</div>
   </div>
 </div>
 <!-- 第3页 -->
@@ -769,8 +788,8 @@
     </div>
   </div>
   <div class="row row-link">
-    <div class="col-50" style="margin-top:1.5rem;" onClick="step3Prev()"><a href="#">上一步</a></div>
-    <div class="col-50" style="margin-top:1.5rem;" onClick="step3Next()"><a href="#">下一步</a></div>
+    <div class="col-50" style="margin-top:1.5rem;" onClick="step3Prev()" _type="BTN">上一步</div>
+    <div class="col-50" style="margin-top:1.5rem;" onClick="step3Next()" _type="BTN">下一步</div>
   </div>
 </div>
 <!-- 第4页 -->
@@ -966,8 +985,8 @@
     </div>
   </div>
   <div class="row row-link">
-    <div class="col-50" style="margin-top:1.5rem;" onClick="step4Prev()"><a href="#">上一步</a></div>
-    <div class="col-50" style="margin-top:1.5rem;" onClick="step4Next()"><a href="#">下一步</a></div>
+    <div class="col-50" style="margin-top:1.5rem;" onClick="step4Prev()" _type="BTN">上一步</div>
+    <div class="col-50" style="margin-top:1.5rem;" onClick="step4Next()" _type="BTN">下一步</div>
   </div>
 </div>
 <!-- 第5页 -->
@@ -1502,8 +1521,8 @@
     </div>
   </div>
   <div class="row row-link">
-    <div class="col-50" style="margin-top:1.5rem;" onClick="step5Prev()"><a href="#">上一步</a></div>
-    <div class="col-50" style="margin-top:1.5rem;" onClick="commitData()"><a href="#">提交</a></div>
+    <div class="col-50" style="margin-top:1.5rem;" onClick="step5Prev()" _type="BTN">上一步</div>
+    <div class="col-50" style="margin-top:1.5rem;" onClick="commitData()" _type="BTN">提交</div>
   </div>
 </div>
 

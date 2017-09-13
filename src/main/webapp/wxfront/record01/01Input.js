@@ -1318,6 +1318,7 @@ function loadProjUser(projId) {//加载顾问
           $("#_SHOWUSER").hide();
           for (var i=0; i<json.users.length; i++) {
             var oneUser=json.users[i];
+            if (oneUser.id==userInfo.userid) continue;
             var _innerHtml=oneUser.realName+"<span>（"+(oneUser.sex==1?"男":"女")+"）</span><span>"+oneUser.mainPhoneNum+"</span><span>"+oneUser.projName+"</span>";
             var userHtml="<label><input type='radio' name='user' value='"+oneUser.id+"-"+oneUser.realName+"' _text='"+oneUser.realName+"' onclick='selUser()'/>"+_innerHtml+"</label>";
             if (i<(json.users.length-1)) userHtml+="<br>";
@@ -1440,18 +1441,22 @@ function step1Next() {//要判断是否应该进行首访录入
   } else if (_TYPE=='add') {//要判断是否应该进行首访录入
     //获得参数
     var _data={};
-    _data.custName=$("input[name='custName']").val();
-    _data.custPhone=$("input[name='custPhone']").val();
-    var errMsg="";
-    if (!$.trim(_data.custName)) errMsg+="\n请输入客户姓名！";
-    if (!$.trim(_data.custPhone)) errMsg+="\n请输入客户电话号码！";
-    else if (checkMPhone($.trim(_data.custPhone))!=1) errMsg+="\n手机号码不符合规则"; 
-    if (!$.trim(_uProjId)) errMsg+="\n请选择项目！";
-    _data.projId=_uProjId;
-    if (errMsg!="") {
-      alert(errMsg.substr(1));
+    if (!$.trim(_uProjId)) {
+      alert("请选择项目！");
       return;
     }
+    _data.projId=_uProjId;
+    _data.custName=$("input[name='custName']").val();
+    if (!$.trim(_data.custName)) {
+      alert("请输入客户姓名！");
+      return;
+    }
+    var errMsg=checkPhone('custPhone');
+    if (errMsg) {
+      alert(errMsg);
+      return temp;
+    }
+    _data.custPhone=$("input[name='custPhone']").val();
     var canNext=false;
     var url=_URL_BASE+"/wx/api/existRecord01";
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
@@ -1487,7 +1492,6 @@ function step1Next() {//要判断是否应该进行首访录入
 }
 function checkPhone(docId) {
   var temp=$("input[name='"+docId+"']").val();
-  alert(temp);
   if (!temp) return "请录入客户电话号码";
   var phones=temp.split(",");
   var _errPhone="";
@@ -1496,16 +1500,16 @@ function checkPhone(docId) {
   for (var i=0; i<phones.length; i++) {
     var onePhone=$.trim(phones[i]);
     _check1=checkMPhone(onePhone);
+    if (_check1==0) continue;
     _check2=checkDPhone(onePhone);
-    if (_check1==0||_check2==0) continue;
-    if (_check1==1&&_check2==1) _okPhones+=","+onePhone;
+    if (_check1==1||_check2==1) _okPhones+=","+onePhone;
     else {
-    	_errPhone=onePhone;
-    	break;
+      if (!_errPhone) _errPhone=onePhone;
+      _okPhones+=","+onePhone;
     }
   }
-  if (_errPhone) return "客户电话号码["+_errPhone+"]不合法";
   $("input[name='"+docId+"']").val(_okPhones.substring(1));
+  if (_errPhone) return "客户电话号码["+_errPhone+"]不合法";
   return "";
 }
 function checkStep1() {
@@ -1533,7 +1537,7 @@ function checkStep2() {
   if (!_uEstCustWorth) return "请选择预估身价！";
   if (!_uInvestType) return "请选择重点投资！";
   if (!_uCapitalPrepSection) return "请选择资金筹备期！";
-	return "";
+  return "";
 }
 function checkStep3() {
   if (!_uRealtyProductType) return "请选择关注产品类型！";
@@ -1543,7 +1547,7 @@ function checkStep3() {
   if (!_uAttentionPoint) return "请选择对本案关注点！";
   if (!_uRecepTimeSection) return "请选择参观接待时间";
   if (!_uCustScore) return "请选择客户评级！";
-  if (!$("textarea[name='custDescn']").html()) return "请录入复访接待描述！";
+  if (!$("textarea[name='custDescn']").val()) return "请录入复访接待描述！";
 	return "";
 }
 
@@ -1576,23 +1580,15 @@ function commitData() {
     return;
   }
   var commitData=getData(_TYPE);
-  var msg=validate(commitData, _TYPE);
-  if (msg.err) {
-    if (msg.turnTo==1) step2Prev();
-    alert(msg.err);
-    return;
-  }
   //遮罩
   $("#mask").show();
-  //按钮职位灰色
+  //按钮致为灰色
   $("div[_type='BTN']").each(function(){
     $(this).attr("style", "margin-top:1.5rem;background-color:#dedede;color:#c7c7c7");
   });
-  if (_TYPE=='add') {
-    commitInsert(commitData);
-  } else if (_TYPE='update') {
-    commitUpdate(commitData);
-  }
+  if (_TYPE=='add') commitInsert(commitData);
+  else if (_TYPE='update') commitUpdate(commitData);
+
   function getData(type) {
     var retData={};
     var temp="";
@@ -1646,35 +1642,13 @@ function commitData() {
     if (temp) retData.custdescn=temp;
     return retData;
   }
-  function validate(data, type) {
-    var ret={};
-    ret.err="";
-    ret.turnTo=3;//到第几节
-    var err="";
-    if (!data) {
-      err="请先输入数据";
-      return ret;
-    }
-    if (!data.projid) ret.err+=";\n无法获得项目Id";
-    if (!data.custid&&type=='update') ret.err+=";\n无法获得客户Id";
-    if (!data.custname) {
-      ret.err+=";\n无法获得客户名称";
-      ret.turnTo=1;
-    }
-    if (!data.custphonenum) {
-      ret.err+=";\n无法获得客户手机";
-      ret.turnTo=1;
-    }
-    if (ret.err) ret.err=ret.err.substring(2);
-    return ret;
-  }
   function commitInsert(_data) {
     var url=_URL_BASE+"/wx/api/addHisFirstRecord";
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         //遮罩
         $("#mask").css("display", "none");
-        //按钮职位灰色
+        //按钮致为兰色
         $("div[_type='BTN']").each(function(){
           $(this).attr("style", "margin-top:1.5rem;background-color:#19a6ee;color:#FFFFFF");
         });
@@ -1702,7 +1676,7 @@ function commitData() {
       success: function(json) {
         //遮罩
         $("#mask").css("display", "none");
-        //按钮职位灰色
+        //按钮致为兰色
         $("div[_type='BTN']").each(function(){
           $(this).attr("style", "margin-top:1.5rem;background-color:#19a6ee;color:#FFFFFF");
         });
