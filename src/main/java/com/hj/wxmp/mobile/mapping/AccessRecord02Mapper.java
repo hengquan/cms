@@ -39,4 +39,6 @@ public interface AccessRecord02Mapper {
 	List<Map<String, Object>> getRecord02ListGuanLi(Map<String, Object> result);
 
 	void updateByProjIdAndCustId(Map<String, Object> parmeterMap);
+
+	AccessRecord02 selectById(String recordId);
 }

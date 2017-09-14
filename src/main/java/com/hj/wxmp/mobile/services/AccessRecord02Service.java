@@ -112,5 +112,7 @@ public interface AccessRecord02Service {
 
 	public void updateByProjIdAndCustId(Map<String, Object> parmeterMap);
 
+	public AccessRecord02 selectById(String recordId);
+
 
 }

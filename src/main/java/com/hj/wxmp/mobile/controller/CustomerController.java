@@ -255,6 +255,30 @@ public class CustomerController extends ControllerBase {
 	public String customerMsgExcel(@RequestParam(value="isValidate",defaultValue="") String isValidate,
 			ModelMap model) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		//所有条件
+		//首访接待开始时间
+		String record01Begin = getTrimParameter("record01Begin");
+		//首访接待结束时间
+		String record01End = getTrimParameter("record01End");
+		//复访接待开始时间
+		String record02Begin = getTrimParameter("record02Begin");
+		//复访接待结束时间
+		String record02End = getTrimParameter("record02End");
+		//成交接待开始时间
+		String record03Begin = getTrimParameter("record03Begin");
+		//成交接待结束时间
+		String record03End = getTrimParameter("record03End");
+		//年龄段
+		String agegroup = getTrimParameter("agegroups");
+		//认知渠道
+		String knowway = getTrimParameter("knowways");
+		//房屋面积
+		String liveacreage = getTrimParameter("liveacreages");
+		//接受价格区段
+		String pricesection = getTrimParameter("pricesections");
+		//客户评价
+		String custscore = getTrimParameter("custscores");
+		//名字
 		String name = getTrimParameter("custName");
 		map.put("isValidate", isValidate);
 		try {
@@ -263,9 +287,19 @@ public class CustomerController extends ControllerBase {
 			}else{
 				map.put("name", name);
 			}
+			map.put("record01Begin", record01Begin);
+			map.put("record01End", record01End);
+			map.put("record02Begin", record02Begin);
+			map.put("record02End", record02End);
+			map.put("record03Begin", record03Begin);
+			map.put("record03End", record03End);
+			map.put("agegroup", agegroup);
+			map.put("knowway", knowway);
+			map.put("liveacreage", liveacreage);
+			map.put("pricesection", pricesection);
+			map.put("custscore", custscore);
 			// 获取所有用户信息
 			List<Map<String,Object>> userMsg = userCustRefService.downloadExcel(map);
-			
 			// 第一步，创建一个webbook，对应一个Excel文件  
 	        HSSFWorkbook wb = new HSSFWorkbook();  
 	        //样式
@@ -274,32 +308,40 @@ public class CustomerController extends ControllerBase {
 			//生成一个字体
 			HSSFFont font=wb.createFont();
 			font.setColor(HSSFColor.BLACK.index);//HSSFColor.VIOLET.index //字体颜色
-			font.setFontHeightInPoints((short)26);
+			font.setFontHeightInPoints((short)12);
 			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);         //字体增粗
 			//把字体应用到当前的样式
 			style.setFont(font);
 			style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
 	        // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet  
 	        HSSFSheet sheet = wb.createSheet("客户查询结果");  
-	        //自适应列宽
-	        sheet.autoSizeColumn(1,true); 
 	        // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short  
+	        //第一行
 	        HSSFRow row0 = sheet.createRow((int) 0);  
-	        HSSFCell createCell2 = row0.createCell((short) 0);
-	        createCell2.setCellValue("客户查询结果");  
+	        HSSFCell createCell = row0.createCell((short) 0);
+	        createCell.setCellValue("客户查询结果");  
+	        createCell.setCellStyle(style); 
+	        sheet.addMergedRegion(new CellRangeAddress(0,0,0,8));
+	        //第二行
+	        HSSFRow row1 = sheet.createRow((int) 1);  
+	        HSSFCell createCell1 = row1.createCell((short) 0);
+	        createCell1.setCellValue("导出人:张恒全");
+	        createCell1.setCellStyle(style); 
+	        sheet.addMergedRegion(new CellRangeAddress(1,1,0,1));
+	        //第二行第一列
+	        HSSFCell createCell2 = row1.createCell((short) 4);
+	        createCell2.setCellValue("导出时间:2017-09-11");
 	        createCell2.setCellStyle(style); 
 	        //合并单元格
-	        sheet.addMergedRegion(new CellRangeAddress(0,0,0,5));
-	        HSSFRow row1 = sheet.createRow((int) 1);  
-	        HSSFCell createCell = row1.createCell((short) 0);
-	        createCell.setCellValue("导出人:张恒全\r\n导出时间:2017-09-11\n总条数:26条");
-	        font.setFontHeightInPoints((short)12);
-	        createCell.setCellStyle(style);  
+	        sheet.addMergedRegion(new CellRangeAddress(1,1,4,5));
+	        //第四列
+	        HSSFCell createCell3 = row1.createCell((short) 6);
+	        createCell3.setCellValue("总条数:26条");
+	        createCell3.setCellStyle(style); 
 	        //合并单元格
-	        sheet.addMergedRegion(new CellRangeAddress(1,1,0,5));
+	        sheet.addMergedRegion(new CellRangeAddress(1,1,6,8));
+	        //五列及以后
 	        HSSFRow row = sheet.createRow((int) 2);
-//			sheet.getRow(0).setHeightInPoints(50);//设置行高
-//			sheet.getRow(1).setHeightInPoints(50);//设置行高
 	        HSSFCell cell = row.createCell((short) 0);  
 	        cell.setCellValue("客户姓名");  
 	        cell.setCellStyle(style);  
@@ -333,6 +375,12 @@ public class CustomerController extends ControllerBase {
 	            cell.setCellValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(map2.get("cTime")));  
 	            row.createCell((short) 5).setCellValue(map2.get("realName").toString());  
 	        }  
+	         sheet.autoSizeColumn((short)0); //调整第一列宽度
+	         sheet.autoSizeColumn((short)1); //调整第二列宽度
+	         sheet.autoSizeColumn((short)2); //调整第三列宽度
+	         sheet.autoSizeColumn((short)3); //调整第四列宽度
+	         sheet.autoSizeColumn((short)4); //调整第四列宽度
+	         sheet.autoSizeColumn((short)5); //调整第四列宽度
 	        // 第六步，将文件存到指定位置  
             FileOutputStream fout = new FileOutputStream("D:/cust.xls");  
             wb.write(fout);  
@@ -344,4 +392,102 @@ public class CustomerController extends ControllerBase {
 		}
 		return JsonUtils.map2json(map);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 综合查询
+	@RequestMapping(value = "/customer/integratedQuery")
+	public String integratedQuery(@RequestParam(value="nowPage",defaultValue="1") int nowPage,
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize,ModelMap model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		//所有条件
+		//首访接待开始时间
+		String record01Begin = getTrimParameter("record01Begin");
+		//首访接待结束时间
+		String record01End = getTrimParameter("record01End");
+		//复访接待开始时间
+		String record02Begin = getTrimParameter("record02Begin");
+		//复访接待结束时间
+		String record02End = getTrimParameter("record02End");
+		//成交接待开始时间
+		String record03Begin = getTrimParameter("record03Begin");
+		//成交接待结束时间
+		String record03End = getTrimParameter("record03End");
+		//年龄段
+		String agegroup = getTrimParameter("agegroups");
+		//认知渠道
+		String knowway = getTrimParameter("knowways");
+		//房屋面积
+		String liveacreage = getTrimParameter("liveacreages");
+		//接受价格区段
+		String pricesection = getTrimParameter("pricesections");
+		//客户评价
+		String custscore = getTrimParameter("custscores");
+		//纪录总数
+		Integer listMessgeCount = 0;
+		String name = getTrimParameter("custName");
+		Integer start = ((nowPage - 1) * pageSize);
+		map.put("page", start);
+		map.put("pageSize", pageSize);
+		String pageUrl = "inquiryStatistics/synthesize/list";
+		try {
+			//用户角色权限信息
+			UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+			String roleId = userRole.getRoleid();
+			SysRole role = sysRoleService.findById(roleId);
+			if(name == null){
+				map.put("name", "");
+			}else{
+				map.put("name", name);
+			}
+			map.put("record01Begin", record01Begin);
+			map.put("record01End", record01End);
+			map.put("record02Begin", record02Begin);
+			map.put("record02End", record02End);
+			map.put("record03Begin", record03Begin);
+			map.put("record03End", record03End);
+			map.put("agegroup", agegroup);
+			map.put("knowway", knowway);
+			map.put("liveacreage", liveacreage);
+			map.put("pricesection", pricesection);
+			map.put("custscore", custscore);
+			// 获取所有用户信息
+			List<Map<String,Object>> userMsg = userCustRefService.selectZongHe(map);
+			//所有信息数量
+			listMessgeCount = userCustRefService.selectZongHeCount(map);
+		 	Integer totalCount = listMessgeCount%pageSize;
+			Integer totalPageNum = 0;
+			if(totalCount==0){
+				totalPageNum = listMessgeCount/pageSize;
+			}else{
+				totalPageNum = (listMessgeCount/pageSize)+1;
+			}
+			model.put("nowPage", nowPage);
+			model.put("totalPageNum", totalPageNum);
+			model.addAttribute("userMsg", userMsg);
+			model.addAttribute("role", role);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+		List<SysItemRole> lst = sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+		List<SysItemRole> item = sysItemRoleDao.selectItemByPId(userRole.getRoleid());
+		model.addAttribute("itemNamesss", item);
+		model.addAttribute("lst", lst);
+		String itemId = super.getTrimParameter("itemId");
+		String id = super.getTrimParameter("id");
+		model.addAttribute("itemId", itemId);
+		model.addAttribute("id", id);
+		model.addAttribute("name", name);
+		return pageUrl;
+	}
+	
+	
 }

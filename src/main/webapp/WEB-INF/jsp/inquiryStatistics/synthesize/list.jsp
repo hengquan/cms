@@ -63,6 +63,13 @@
 .tr {
 	text-align: center
 }
+
+.panel-heading{
+	font-weight:normal;
+}
+.selectItem {
+  font-weight:normal;
+}
 </style>
 
 </head>
@@ -84,10 +91,10 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<section class="panel">
-							<form action="${appRoot}/customer/customerList" method="post"
+							<form action="${appRoot}/customer/integratedQuery" method="post"
 								id="selectCheckMessage" >
 								<div class="panel-heading" style="height: 50px;">
-									<div class="col-lg-2" style="line-height:37px">客户列表</div>
+									<div class="col-lg-2" style="line-height:37px">综合查询</div>
 									<!-- 根据用户昵称查询 -->
 									<div
 										style="float: left; position: relative;">
@@ -100,18 +107,109 @@
 											</button>
 										</span>
 									</div>
-									<input type="hidden" name="isValidate" id="isValidate" value="${isValidate }">
-									<a href="javascript:seeCancellationUserMsg();" style="margin-left:20px;" class="btn mini btn-white" id="seeCancellationUserMsg">
-										<c:choose>
-										   <c:when test="${isValidate==null || isValidate==''}">  
-										         查看所有已作废顾问的客户     
-										   </c:when>
-										   <c:otherwise> 
-										         查看所有客户
-										   </c:otherwise>
-										</c:choose>
-									</a>
-									<a href="javascript:gaojichaxun();" class="btn mini btn-white pull-right" id="gaoji">高级查询</a>
+									<!-- <div class="dropdown">
+									  <button class="btn mini btn-white" type="button" id="dropdownMenu1" 
+									  	data-toggle="dropdown" onclick="gaoji()" aria-haspopup="true" aria-expanded="true" style="margin-left:20px;">
+									    	高级查询
+									    <span class="caret"></span>
+									  </button>
+									</div>   -->
+									
+									<a href="javascript:gaoji();" class="btn mini btn-white" id="gaoji">高级查询</a>
+									
+								    <div class="modal-dialog modal-lg" id="gaojitiaojian"  style="width:100%;margin-top:-23px;">
+								    <div class="modal-content" style="border-color:#000;border-bottom:2px solid;border-left:2px solid;border-right:2px solid">
+								   	
+								   	<label class='selectItem'>
+									   	<label style="margin-left:20px;">首访接待时间:</label>
+										<input type="date" name="record01Begin" class="btn mini btn-white">至
+										<input type="date" name="record01End" class="btn mini btn-white">
+								   	</label>
+									
+									<label class='selectItem'>
+									   	<label style="margin-left:100px;">复访接待时间:</label>
+										<input type="date" name="record02Begin" class="btn mini btn-white">至
+										<input type="date" name="record02End" class="btn mini btn-white">
+									</label><br>
+									
+									<label class='selectItem'>
+									   	<label style="margin-left:20px;">成交接待时间:</label>
+										<input type="date" name="record03Begin" class="btn mini btn-white">至
+										<input type="date" name="record03End" class="btn mini btn-white">
+									</label><br>
+								
+								   	<label class='selectItem'>
+								   		<input type="hidden" id="agegroups" name="agegroups" />
+									   	<label style="margin-left:20px;">年龄段:</label>
+									   	<input type="checkbox" name="agegroup" value="25岁以下"/>25岁以下 
+									   	<input type="checkbox" name="agegroup" value="26~35岁">26~35岁
+									   	<input type="checkbox" name="agegroup" value="36~45岁">36~45岁
+									   	<input type="checkbox" name="agegroup" value="46~55岁">46~55岁
+									   	<input type="checkbox" name="agegroup" value="56岁以上">56岁以上
+									   	<input type="checkbox" name="agegroup" value="无法了解">无法了解
+								   	</label><br>
+								   	
+								
+								   	<label class='selectItem'>
+									   	<input type="hidden" name="knowways" id="knowways">
+								   		<label style="margin-left:20px;">认知渠道:</label>
+									   	<input type="checkbox" name="knowway" value="户外广告牌">户外广告牌
+									   	<input type="checkbox" name="knowway" value="网络">网络
+									   	<input type="checkbox" name="knowway" value="短信">短信
+									   	<input type="checkbox" name="knowway" value="纸媒">纸媒
+									   	<input type="checkbox" name="knowway" value="路过">路过
+									   	<input type="checkbox" name="knowway" value="朋友介绍">朋友介绍
+									   	<input type="checkbox" name="knowway" value="渠道介绍">渠道介绍
+									   	<input type="checkbox" name="knowway" value="巡展">巡展
+									   	<input type="checkbox" name="knowway" value="广播">广播
+									   	<input type="checkbox" name="knowway" value="电CALL">电CALL
+									   	<input type="checkbox" name="knowway" value="直投">直投
+									   	<input type="checkbox" name="knowway" value="活动">活动
+									   	<input type="checkbox" name="knowway" value="DM单">DM单
+									   	<input type="checkbox" name="knowway" value="外联">外联
+									   	<input type="checkbox" name="knowway" value="老带新">老带新
+									   	<input type="checkbox" name="knowway" value="其他">其他
+									   	<input type="checkbox" name="knowway" value="无法了解">无法了解
+									</label><br>
+								   	
+								   	<label class='selectItem'>
+								   		<input type="hidden" name="liveacreages" id="liveacreages">
+									   	<label style="margin-left:20px;">房屋面积:</label>
+									   	<input type="checkbox" name="liveacreage" value="200㎡以下">200㎡以下
+									   	<input type="checkbox" name="liveacreage" value="200~300㎡">200~300㎡
+									   	<input type="checkbox" name="liveacreage" value="300~400㎡">300~400㎡
+									   	<input type="checkbox" name="liveacreage" value="400~500㎡">400~500㎡
+									   	<input type="checkbox" name="liveacreage" value="500~600㎡">500~600㎡
+									   	<input type="checkbox" name="liveacreage" value="600~700㎡">600~700㎡
+									   	<input type="checkbox" name="liveacreage" value="700~800㎡">700~800㎡
+									   	<input type="checkbox" name="liveacreage" value="800以上">800以上
+								   	</label><br>
+								   	
+									<label class='selectItem'>
+										<input type="hidden" name="pricesections" id="pricesections">
+									   	<label style="margin-left:20px;">接受价格区段:</label>
+									   	<input type="checkbox" name="pricesection" value="500万以下">500万以下
+									   	<input type="checkbox" name="pricesection" value="500~1000万">500~1000万
+									   	<input type="checkbox" name="pricesection" value="1000~1500万">1000~1500万
+									   	<input type="checkbox" name="pricesection" value="1500~2000万">1500~2000万
+									   	<input type="checkbox" name="pricesection" value="2000~3000万">2000~3000万
+									   	<input type="checkbox" name="pricesection" value="3000~4000万">3000~4000万
+									   	<input type="checkbox" name="pricesection" value="4000~5000万">4000~5000万
+									   	<input type="checkbox" name="pricesection" value="5000~6000万">5000~6000万
+									   	<input type="checkbox" name="pricesection" value="6000~8000万">6000~8000万
+									   	<input type="checkbox" name="pricesection" value="8000万以上">8000万以上
+									</label><br>								   	
+
+									<label class='selectItem'>
+										<input type="hidden" name="custscores" id="custscores">
+									   	<label style="margin-left:20px;">客户评级:</label>
+									   	<input type="checkbox" name="custscore" value="A">A
+									   	<input type="checkbox" name="custscore" value="B">B
+									   	<input type="checkbox" name="custscore" value="C">C
+									   	<input type="checkbox" name="custscore" value="D">D
+									</label>								   	
+								    </div><!-- /.modal-content -->
+								    </div>
 								</div>
 								<!-- 分页信息 -->
 								<input type="hidden" value="${nowPage}" id="nowPageNumber"
@@ -133,11 +231,11 @@
 										<th class="hidden-phone" style="line-height:37px">关注时间</th>
 										<th class="hidden-phone" style="line-height:37px">顾问姓名</th>
 										<th class="hidden-phone">
-											<a href="javascript:selectUsers();" class="btn mini btn-white">批量分配</a>
-											<a href="javascript:doRefresh();" class="btn mini btn-white"><i
+											来访总数(次)
+											<a href="javascript:doRefresh();" style="margin-left:2px;" class="btn mini btn-white"><i
 												class="icon-refresh"></i></a>
 											<a href="javascript:downloadExcel();" class="btn mini btn-white"><i
-												class="glyphicon glyphicon-calendar"></i></a>
+												class="icon-download-alt"></i></a>
 										</th>
 										
 									</tr>
@@ -196,6 +294,9 @@
 
 
 
+	
+
+
 
 
 
@@ -233,113 +334,6 @@
 				</div>
 			</div>
 		</div>
-
-
-
-
-
-
-
-
-
-		<div class="modal fade" id="editProblemType" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="modal-title">修改商品</h4>
-					</div>
-					<div class="modal-body">
-						<form action="${appRoot}/anwProduct/edit" method="post" class="form-horizontal"  enctype="multipart/form-data"  role="form" id="updateMessage" name="itemForm" >
-							<input type="hidden" name="editId" id="editId">
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">商品名称<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<input type="text" class="form-control" id="productName1"
-										name="productName" maxlength="4" >
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">商品价格<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<input type="text" class="form-control" id="price1"
-										name="price" maxlength="4" >
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">销量<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<input type="text" class="form-control" id="salesVolume1"
-										name="salesVolume" maxlength="4" >
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">运费<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<input type="text" class="form-control" id="freight1"
-										name="freight" maxlength="4" >
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">商品类型<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<select class="form-control doEditSelect" name="categoryId">
-										<c:forEach items="${categorys}" var="u" varStatus="s">
-											<option value="${u.id }">${u.name }</option>
-										</c:forEach>
-									</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">商品详情<font
-									style="color: red;"></font></label>
-								<div class="col-lg-10">
-									<textarea rows="5" cols="60" class="form-control"
-										id="productDetails1" name="productDetails">
-										
-										</textarea>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">商品图片<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<div class="form-group pic_upload clearfix">
-										<ul id="hiddenImgUrl">
-											<li><img src="${appRoot}/static/img/zanwu1.png" style="height: 70px;" id="imgURL2" /></li>
-											<li><input type="file" name="imgfile2" onchange="editImg(this)" /> <i class="glyphicon glyphicon-plus"></i></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-lg-offset-2 col-lg-10">
-									<button type="button" onclick="submitUpdateData();" class="btn btn-send">提交</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -436,6 +430,60 @@
 	<script type="text/javascript">
 	//下载EXCEL
 	function downloadExcel(){
+		//年龄段
+		var str = document.getElementsByName("agegroup");
+		var objarray = str.length;
+		var agegroup = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				agegroup += str[i].value + ",";
+			}
+		}
+		$("#agegroups").val(agegroup);
+		//认知渠道
+		var str = document.getElementsByName("knowway");
+		var objarray = str.length;
+		var knowway = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				knowway += str[i].value + ",";
+			}
+		}
+		$("#knowways").val(knowway);
+		//房屋面积
+		var str = document.getElementsByName("liveacreage");
+		var objarray = str.length;
+		var liveacreage = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				liveacreage += str[i].value + ",";
+			}
+		}
+		$("#liveacreages").val(liveacreage);
+		//接受价格区段
+		var str = document.getElementsByName("pricesection");
+		var objarray = str.length;
+		var pricesection = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				pricesection += str[i].value + ",";
+			}
+		}
+		$("#pricesections").val(pricesection);
+		//客户评级
+		var str = document.getElementsByName("custscore");
+		var objarray = str.length;
+		var custscore = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				custscore += str[i].value + ",";
+			}
+		}
+		$("#custscores").val(custscore);
 		var datamsg = $("#selectCheckMessage").serialize();
 		$.ajax({
 			type:'post',
@@ -553,12 +601,67 @@
 	
 	//选择不同的页数
 	function doPanation(number){
+		//年龄段
+		var str = document.getElementsByName("agegroup");
+		var objarray = str.length;
+		var agegroup = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				agegroup += str[i].value + ",";
+			}
+		}
+		$("#agegroups").val(agegroup);
+		//认知渠道
+		var str = document.getElementsByName("knowway");
+		var objarray = str.length;
+		var knowway = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				knowway += str[i].value + ",";
+			}
+		}
+		$("#knowways").val(knowway);
+		//房屋面积
+		var str = document.getElementsByName("liveacreage");
+		var objarray = str.length;
+		var liveacreage = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				liveacreage += str[i].value + ",";
+			}
+		}
+		$("#liveacreages").val(liveacreage);
+		//接受价格区段
+		var str = document.getElementsByName("pricesection");
+		var objarray = str.length;
+		var pricesection = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				pricesection += str[i].value + ",";
+			}
+		}
+		$("#pricesections").val(pricesection);
+		//客户评级
+		var str = document.getElementsByName("custscore");
+		var objarray = str.length;
+		var custscore = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				custscore += str[i].value + ",";
+			}
+		}
+		$("#custscores").val(custscore);
 		$("#nowPageNumber").val(number);
 		seeAllMsg();
 	}
 	
 
 	$(function() {
+		$("#gaojitiaojian").hide();
 		$('.input-group').hide();
 		$('#sample_1_info').hide();
 		$('.dataTables_paginate').hide();
@@ -598,6 +701,61 @@
 	
 	//根据选择查看信息
 	function seeAllMsg() {
+		//年龄段
+		var str = document.getElementsByName("agegroup");
+		var objarray = str.length;
+		var agegroup = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				agegroup += str[i].value + ",";
+			}
+		}
+		$("#agegroups").val(agegroup);
+		//认知渠道
+		var str = document.getElementsByName("knowway");
+		var objarray = str.length;
+		var knowway = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				knowway += str[i].value + ",";
+			}
+		}
+		$("#knowways").val(knowway);
+		//房屋面积
+		var str = document.getElementsByName("liveacreage");
+		var objarray = str.length;
+		var liveacreage = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				liveacreage += str[i].value + ",";
+			}
+		}
+		$("#liveacreages").val(liveacreage);
+		//接受价格区段
+		var str = document.getElementsByName("pricesection");
+		var objarray = str.length;
+		var pricesection = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				pricesection += str[i].value + ",";
+			}
+		}
+		$("#pricesections").val(pricesection);
+		//客户评级
+		var str = document.getElementsByName("custscore");
+		var objarray = str.length;
+		var custscore = "";
+		for (i = 0; i < objarray; i++) {
+			if (str[i].checked == true) {
+				jy = true;
+				custscore += str[i].value + ",";
+			}
+		}
+		$("#custscores").val(custscore);
+		
 		$("#selectCheckMessage").submit();
 	}
 	
@@ -639,6 +797,16 @@
 	}
 		
 
+	
+	function gaoji(){
+		var temp=$("#gaojitiaojian").is(":visible");//是否隐藏
+		if(temp){
+			$("#gaojitiaojian").hide();
+		}else{
+			$("#gaojitiaojian").show();
+		}
+		
+	}
 	</script>
 	<input type="hidden" value="" id="adminId" />
 </body>

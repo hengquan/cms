@@ -156,8 +156,18 @@ public class AccessRecord02 {
     private String realtyproducttypedesc;
 
     private String buypurposedesc;
+    
+    private String projname;
 
-    public String getAvocationsdesc() {
+	public String getProjname() {
+		return projname;
+	}
+
+	public void setProjname(String projname) {
+		this.projname = projname;
+	}
+
+	public String getAvocationsdesc() {
         return avocationsdesc;
     }
 

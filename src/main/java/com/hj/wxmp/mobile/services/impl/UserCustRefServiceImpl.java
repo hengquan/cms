@@ -93,6 +93,14 @@ public class UserCustRefServiceImpl implements UserCustRefService {
 	public List<Map<String, Object>> downloadExcel(Map<String, Object> map) {
 		return dao.downloadExcel(map);
 	}
+	@Override
+	public List<Map<String, Object>> selectZongHe(Map<String, Object> map) {
+		return dao.selectZongHe(map);
+	}
+	@Override
+	public Integer selectZongHeCount(Map<String, Object> map) {
+		return dao.selectZongHeCount(map);
+	}
 
 	
 

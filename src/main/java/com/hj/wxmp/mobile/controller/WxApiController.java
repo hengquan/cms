@@ -472,9 +472,6 @@ public class WxApiController extends ControllerBaseWx {
 				Date parse = formata.parse(receptime1);				
 				record01.setReceptime(parse);
 			}
-			//录入人权限人
-			record01.setAuthorid(userId);
-			record01.setCreatorid(userId);
 			//扫描一次，处理本表，处理客户表，处理客户项目关系表，处理字典表；
 			Object[] resultObjs=scan(record01,0);
 			if (accessRecord01Service.insert((AccessRecord01)resultObjs[0])) {
@@ -965,7 +962,8 @@ public class WxApiController extends ControllerBaseWx {
 			tdr.setRefname(refName);
 			if (((Integer)oneDict.get("type"))==2) {
 				tdr.setSectionbegin(Float.parseFloat(oneDict.get("begin")+""));
-				tdr.setSectionend(Float.parseFloat(oneDict.get("end")+""));
+				if ((oneDict.get("end")+"").trim().equals("")) tdr.setSectionend(null);
+				else tdr.setSectionend(Float.parseFloat(oneDict.get("end")+""));
 			}
 			ret.add(tdr);
 		}
@@ -1002,9 +1000,6 @@ public class WxApiController extends ControllerBaseWx {
 				Date parse = formata.parse(receptime1);				
 				record01.setReceptime(parse);
 			}
-			//录入人权限人
-			record01.setAuthorid(userId);
-			record01.setCreatorid(userId);
 			//扫描一次，处理本表，处理客户表，处理客户项目关系表，处理字典表；
 			Object[] resultObjs=scan(record01,1);
 			if (accessRecord01Service.update((AccessRecord01)resultObjs[0])) {
@@ -1048,9 +1043,6 @@ public class WxApiController extends ControllerBaseWx {
 				Date parse = formata.parse(receptime1);				
 				record02.setReceptime(parse);
 			}
-			//录入人权限人
-			record02.setAuthorid(userId);
-			record02.setCreatorid(userId);
 			//扫描一次，处理本表，处理客户表，处理客户项目关系表，处理字典表；
 			Object[] resultObjs=scan2(record02,0);
 			//处理多电话号码
@@ -1063,7 +1055,7 @@ public class WxApiController extends ControllerBaseWx {
 	    	if(StringUtils.isNotEmpty(custId)){
 	    		Customer customer2 = customerService.findById(custId);
 	    		if(customer2!=null){
-	    			String phonenum = customer.getPhonenum();
+	    			String phonenum = customer2.getPhonenum();
 	    	    	String[] phones = phonenum.split(",");
 	    			if(phones.length>1) phonenum=phones[0];
 	    			//现有客户电话
@@ -1579,6 +1571,19 @@ public class WxApiController extends ControllerBaseWx {
 			_retR02.setRealtyproducttypedesc(tempStr);
 			cust.setRealtyproducttypedesc(tempStr);
 		}
+		//关注产品类型
+		tempStr=record02.getRealtyproducttype();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR02.setRealtyproducttype(tempStr);
+			cust.setRealtyproducttype(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> sexO1=transToDictRefList(dictList, "009", "关注产品类型", "ql_AccessRecord02", id);
+			if (sexO1!=null) dictRefList.addAll(sexO1);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "009", "关注产品类型", "ql_Customer", customerId);
+			if (sexCust!=null) dictRefList.addAll(sexCust);
+		}
 		//关注面积
 		tempStr=record02.getAttentacreage();
 		parseResult=parseDictsStr(tempStr);
@@ -1653,9 +1658,6 @@ public class WxApiController extends ControllerBaseWx {
 				Date parse = formata.parse(receptime1);				
 				record02.setReceptime(parse);
 			}
-			//录入人权限人
-			record02.setAuthorid(userId);
-			record02.setCreatorid(userId);
 			//扫描一次，处理本表，处理客户表，处理客户项目关系表，处理字典表；
 			Object[] resultObjs=scan2(record02,1);
 			//处理多电话号码
@@ -1668,7 +1670,7 @@ public class WxApiController extends ControllerBaseWx {
 	    	if(StringUtils.isNotEmpty(custId)){
 	    		Customer customer2 = customerService.findById(custId);
 	    		if(customer2!=null){
-	    			String phonenum = customer.getPhonenum();
+	    			String phonenum = customer2.getPhonenum();
 	    	    	String[] phones = phonenum.split(",");
 	    			if(phones.length>1) phonenum=phones[0];
 	    			//现有客户电话
@@ -1741,9 +1743,6 @@ public class WxApiController extends ControllerBaseWx {
 				Date parse = formata.parse(signdate1);				
 				record03.setSigndate(parse);
 			}
-			//录入人权限人
-			record03.setAuthorid(userId);
-			record03.setCreatorid(userId);
 			//扫描一次，处理本表，处理客户表，处理客户项目关系表，处理字典表；
 			Object[] resultObjs=scan3(record03,0);
 			//处理多电话号码
@@ -1756,7 +1755,7 @@ public class WxApiController extends ControllerBaseWx {
 	    	if(StringUtils.isNotEmpty(custId)){
 	    		Customer customer2 = customerService.findById(custId);
 	    		if(customer2!=null){
-	    			String phonenum = customer.getPhonenum();
+	    			String phonenum = customer2.getPhonenum();
 	    	    	String[] phones = phonenum.split(",");
 	    			if(phones.length>1) phonenum=phones[0];
 	    			//现有客户电话
@@ -1881,21 +1880,13 @@ public class WxApiController extends ControllerBaseWx {
 		parseResult=parseDictsStr(tempStr);
 		if (parseResult!=null) {
 			tempStr=parseResult.get("storeStr")+"";
-			_retR03.setHouseregitype(tempStr);
+			_retR03.setPaymenttype(tempStr);
 			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
 			List<TabDictRef> cartotalpriceO1=transToDictRefList(dictList, "030", "付款方式", "ql_AccessRecord03", id);
 			if (cartotalpriceO1!=null) dictRefList.addAll(cartotalpriceO1);
 		}
 		//贷款银行
-		tempStr=record03.getLoanbank();
-		parseResult=parseDictsStr(tempStr);
-		if (parseResult!=null) {
-			tempStr=parseResult.get("storeStr")+"";
-			_retR03.setLoanbank(tempStr);
-			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
-			List<TabDictRef> cartotalpriceO1=transToDictRefList(dictList, "030", "贷款银行", "ql_AccessRecord03", id);
-			if (cartotalpriceO1!=null) dictRefList.addAll(cartotalpriceO1);
-		}
+		_retR03.setLoanbank(record03.getLoanbank());
 		//购买产品类型
 		tempStr=record03.getRealtyproducttype();
 		parseResult=parseDictsStr(tempStr);
@@ -1986,9 +1977,6 @@ public class WxApiController extends ControllerBaseWx {
 				Date parse = formata.parse(signdate1);				
 				record03.setSigndate(parse);
 			}
-			//录入人权限人
-			record03.setAuthorid(userId);
-			record03.setCreatorid(userId);
 			//扫描一次，处理本表，处理客户表，处理客户项目关系表，处理字典表；
 			Object[] resultObjs=scan3(record03,0);
 			//处理多电话号码
@@ -2001,7 +1989,7 @@ public class WxApiController extends ControllerBaseWx {
 	    	if(StringUtils.isNotEmpty(custId)){
 	    		Customer customer2 = customerService.findById(custId);
 	    		if(customer2!=null){
-	    			String phonenum = customer.getPhonenum();
+	    			String phonenum = customer2.getPhonenum();
 	    	    	String[] phones = phonenum.split(",");
 	    			if(phones.length>1) phonenum=phones[0];
 	    			//现有客户电话
@@ -2143,7 +2131,7 @@ public class WxApiController extends ControllerBaseWx {
 		try {
 			String recordId = m.get("recordId")==null?null:m.get("recordId").toString();
 			if(recordId != null && !"".equals(recordId)){
-				AccessRecord02 accessRecord02 = accessRecord02Service.findById(recordId);
+				AccessRecord02 accessRecord02 = accessRecord02Service.selectById(recordId);
 				map.put("msg", "100");
 				map.put("data", accessRecord02);
 			}else{

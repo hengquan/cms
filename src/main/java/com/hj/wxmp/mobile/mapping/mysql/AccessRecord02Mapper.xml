@@ -1160,4 +1160,14 @@
   <update id="updateByProjIdAndCustId" parameterType="java.util.Map">
   	update ql_AccessRecord02 set authorId = #{userId} where projId=#{projId} and instr(#{custId},custId)
   </update>
+  
+  
+  <select id="selectById" parameterType="java.lang.String" resultType="com.hj.wxmp.mobile.entity.AccessRecord02">
+	SELECT
+		a02.*, proj.projName projname
+	FROM
+		ql_AccessRecord02 a02
+	JOIN ql_Project proj ON a02.projId = proj.id 
+	where a02.id = #{recordId}
+  </select>
 </mapper>
