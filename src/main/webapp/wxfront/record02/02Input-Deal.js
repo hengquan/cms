@@ -810,7 +810,7 @@ function _dealCustomer(customer) {
     rTime.setTime(customer.firstvisittime.time);
     fillTime("firstVisitTime", rTime);
   }
-  $("input[name='visitCount']").val(customer.visitcount);
+  if (customer.visitcount) $("input[name='visitCount']").val(customer.visitcount);
   fillSelectField('sex', customer.custsex, true);
   $("#sex").html(customer.custsex);
   //判断是否需要再次填写
@@ -920,10 +920,10 @@ function fillData(data) {//填数据，包括所有页面
     }
     fillSelectField("childAvocations", _temp, true);
   }
-  if (data.fulltimewifeflag)  fillSelectField("fulltimeWifeFlag", data.fulltimewifeflag, true);
-  if (data.nannyflag)  fillSelectField("nannyFlag", data.nannyflag, true);
-  if (data.petflag)  fillSelectField("petFlag", data.petflag, true);
-  if (data.loanstatus)  fillSelectField("loanStatus", data.loanstatus, true);
+  if (data.fulltimewifeflag) fillSelectField("fulltimeWifeFlag", data.fulltimewifeflag, true);
+  if (data.nannyflag) fillSelectField("nannyFlag", data.nannyflag, true);
+  if (data.petflag) fillSelectField("petFlag", data.petflag, true);
+  if (data.loanstatus) fillSelectField("loanStatus", data.loanstatus, true);
   if (data.outeduwill) fillSelectField("outEduWill", data.outeduwill, true);
   if (data.outexperflag) fillSelectField("outExperFlag", data.outexperflag, true);
   if (data.outexpercity) $("input[name='outExperCity']").val(data.outexpercity);

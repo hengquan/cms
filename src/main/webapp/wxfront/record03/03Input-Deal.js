@@ -244,111 +244,10 @@ function checkField(id){
 
 //翻页切换
 function step1Next() {//要判断是否应该进行成交录入
-  if (userInfo.roleName=='项目管理人') {
-    window.location.href=_URL_BASE+"/wxfront/err.html?7000=作为项目管理人<br/>您无需录入成交记录！";
+  var err=checkStep1();
+  if (err) {
+    alert(err);
     return;
-  }
-  if (!checkField("custName")){
-    alert('请填写房屋买受人姓名');
-    return false;
-  }
-  var tempVal="";
-  tempVal = $("[name='custPhone']").val();
-  if (!checkField("custPhone")){
-    alert('请填写电话');
-    return false;
-  }else if(!(/^1(3|4|5|7|8)\d{9}$/.test(tempVal))){
-    alert('电话不符合规则');
-    return false;
-  }
-  tempVal = $("#sex").html();
-  if(tempVal=="" || tempVal=="&nbsp;"){
-    alert('请填写性别');
-    return false;
-  };
-  if (!checkField("houseNum")){
-    alert('请填写购买房号');
-    return false;
-  }
-  tempVal = $("[name='visitCycle']").val();
-  if (!checkField("visitCycle")){
-    alert('请填写认知-到访');
-    return false;
-  }else if(isNaN(tempVal)){
-    alert('填写认知-到访(必须是数字)');
-    return false;
-  }else if(tempVal<=0){
-    alert('必须是大于0的数字');
-    return false;
-  }
-  tempVal = $("[name='purchaseCycle']").val();
-  if (!checkField("purchaseCycle")){
-    alert('请填写到访-认购');
-    return false;
-  }else if(isNaN(tempVal)){
-    alert('填写到访-认购(必须是数字)');
-    return false;
-  }else if(tempVal<=0){
-    alert('必须是大于0的数字');
-    return false;
-  }
-  tempVal = $("[name='signCycle']").val();
-  if (!checkField("signCycle")){
-    alert('请填写认购-签约');
-    return false;
-  }else if(isNaN(tempVal)){
-    alert('填写认购-签约(必须是数字)');
-    return false;
-  }else if(tempVal<=0){
-    alert('必须是大于0的数字');
-    return false;
-  }
-  tempVal = $("#houseRegiType").html();
-  if(tempVal=="" || tempVal=="&nbsp;"){
-    alert('请填写户籍');
-    return false;
-  };
-  tempVal = $("[name='houseAcreage']").val();
-  if (!checkField("houseAcreage")){
-    alert('请填写成交面积');
-    return false;
-  }else if(isNaN(tempVal)){
-    alert('填写成交面积(必须是数字)');
-    return false;
-  }else if(tempVal<=0){
-    alert('必须是大于0的数字');
-    return false;
-  }
-  tempVal = $("[name='unitPrice']").val();
-  if (!checkField("unitPrice")){
-    alert('请填写成交单价');
-    return false;
-  }else if(isNaN(tempVal)){
-    alert('填写成交单价(必须是数字)');
-    return false;
-  }else if(tempVal<=0){
-    alert('必须是大于0的数字');
-    return false;
-  }
-  tempVal = $("[name='totalPrice']").val();
-  if (!checkField("totalPrice")){
-    alert('请填写成交总价');
-    return false;
-  }else if(isNaN(tempVal)){
-    alert('填写成交总价(必须是数字)');
-    return false;
-  }else if(tempVal<=0){
-    alert('必须是大于0的数字');
-    return false;
-  }
-  tempVal = $("#paymentType").html();
-  if(tempVal=="" || tempVal=="&nbsp;"){
-    alert('请填写付款方式');
-    return false;
-  };
-  if (!checkField("loanBank")){
-    alert('请填写贷款银行');
-    return false;
   }
   $("#step1").hide(0);
   $("#step2").show(0);
@@ -360,30 +259,10 @@ function step2Prev() {
   $("#step3").hide(0);
 }
 function step2Next() {
-  var tempVal="";
-  tempVal = $("#realtyProductType").html();
-  if(tempVal=="" || tempVal=="&nbsp;"){
-    alert('请填写关注产品类型');
-    return false;
-  }
-  if (!checkField("addressMail")){
-    alert('请填写通邮地址');
-    return false;
-  }
-  tempVal = $("#livingStatus").html();
-  if(tempVal=="" || tempVal=="&nbsp;"){
-    alert('请填写实际居住情况');
-    return false;
-  }
-  tempVal = $("#realUseMen").html();
-  if(tempVal=="" || tempVal=="&nbsp;"){
-    alert('请填写房屋使用人是谁');
-    return false;
-  }
-  tempVal = $("#realPayMen").html();
-  if(tempVal=="" || tempVal=="&nbsp;"){
-    alert('购房出资人是谁');
-    return false;
+  var err=checkStep2();
+  if (err) {
+    alert(err);
+    return;
   }
   $("#step1").hide(0);
   $("#step2").hide(0);
@@ -394,8 +273,82 @@ function step3Prev() {
   $("#step2").show(0);
   $("#step3").hide(0);
 }
+
+function checkPhone(docId) {
+  var temp=$("input[name='"+docId+"']").val();
+  if (!temp) return "请录入客户电话号码";
+  var phones=temp.split(",");
+  var _errPhone="";
+  var _okPhones="";
+  var _check1,_check2;
+  for (var i=0; i<phones.length; i++) {
+    var onePhone=$.trim(phones[i]);
+    _check1=checkMPhone(onePhone);
+    if (_check1==0) continue;
+    _check2=checkDPhone(onePhone);
+    if (_check1!=1&&_check2!=1) {
+    	_errPhone=onePhone;
+    	break;
+    }
+  }
+  if (_errPhone) return "客户电话号码["+_errPhone+"]不合法";
+  return "";
+}
+
+function checkStep1() {
+  if (!_uProjId) return "请选择项目!";
+  if (!_uUserId) return "请选择置业顾问!";
+  if (!checkField("custName")) return '请录入房屋买受人姓名!';
+  var temp=checkPhone('custPhone');
+  if (temp) return temp;
+  if (!_uSex) return "请选择客户性别!";
+  if (!checkField("recpTime")) return '请录入到访时间!';
+  if (!checkField("purchaseDate")) return '请录入认购日期!';
+  if (!checkField("signDate")) return '请填录入签约日期!';
+  if (!checkField("houseNum")) return '请填录入购买房号!';
+  temp=$("[name='visitCycle']").val();
+  if (!temp) return '请填录入认知-到访天数!';
+  if(isNaN(temp)) return '认知-到访天数须是大于0的自然数!';
+  if(temp<=0) return '认知-到访天数须是大于0的自然数!';
+  temp=$("[name='purchaseCycle']").val();
+  if (!temp) return '请填录入到访-认购天数!';
+  if(isNaN(temp)) return '到访-认购天数须是大于0的自然数!';
+  if(temp<=0) return '到访-认购天数须是大于0的自然数!';
+  temp=$("[name='signCycle']").val();
+  if (!temp) return '请填录入认购-签约天数!';
+  if(isNaN(temp)) return '认购-签约天数须是大于0的自然数!';
+  if(temp<=0) return '认购-签约天数须是大于0的自然数!';
+  if (!_uHouseRegiType) return "请选择户籍!";
+  if (!checkField("houseAcreage")) return '请录入成交面积!';
+  if (!checkField("unitPrice")) return '请录入成交单价!';
+  if (!checkField("totalPrice")) return '请录入成交总价!';
+  if (!_uPaymentType) return "请选择付款方式!";
+  if (!checkField("loanBank")) return '请录入贷款银行!';
+  return "";
+}
+function checkStep2() {
+  if (!_uRealtyProductType) return "请选择关注产品类型!";
+  if (!checkField("addressMail")) return '请录入通邮地址!';
+  if (!_uLivingStatus) return "请选择实际居住情况!";
+  if (!_uRealUseMen) return "请选择房屋使用人!";
+  if (!_uRealPayMen) return "请选择购房出资人!";
+  return "";
+}
+function checkStep3() {
+  if (!($("textarea[name='sumDescn']").val())) return "请录入客户综合描述";
+  return "";
+}
+
 //=以下为提交，包括修改和删除====================================
 function commitData() {
+  var err="";
+  if (!($("#step4").is(":hidden"))) {
+    err=checkStep3();
+    if (err) {
+      alert(err);
+      return;
+    }
+  }
   //遮罩
   $("#mask").show();
   //按钮致为灰色
@@ -517,6 +470,7 @@ function commitData() {
     });
   }
 }
+
 //=以下客户处理====================================
 var _thisProjId="";
 var _thisUserId="";
@@ -549,7 +503,7 @@ function openSelCust() {
             var _phones=oneCust.custPhone;
             _phones=$.trim(_phones.split(",")[0]);
             var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span><span>"+oneCust.projName+"</span>";
-            var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label>";
+            var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userSex='"+oneCust.custSex+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label>";
             if (i<(json.customers.length-1)) userHtml+="<br>";
             $("#custData").append(userHtml);
           }
@@ -586,31 +540,11 @@ function selCust() {
       $("span[name='userInput']").html(choose[i].getAttribute("_userName"));
       _uUserId=choose[i].getAttribute("_userId");
       _uUserName=choose[i].getAttribute("_userName");
+      fillSelectField('sex', choose[i].getAttribute("_userSex"), true);
     }
   }
   $("#selectCustomersModal").modal('hide');
   if (custId!="") $("#cleanCustBtn").show();
-}
-
-function checkPhone(docId) {
-  var temp=$("input[name='"+docId+"']").val();
-  if (!temp) return "请录入客户电话号码";
-  var phones=temp.split(",");
-  var _errPhone="";
-  var _okPhones="";
-  var _check1,_check2;
-  for (var i=0; i<phones.length; i++) {
-    var onePhone=$.trim(phones[i]);
-    _check1=checkMPhone(onePhone);
-    if (_check1==0) continue;
-    _check2=checkDPhone(onePhone);
-    if (_check1!=1&&_check2!=1) {
-    	_errPhone=onePhone;
-    	break;
-    }
-  }
-  if (_errPhone) return "客户电话号码["+_errPhone+"]不合法";
-  return "";
 }
 
 //=====================================

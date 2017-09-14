@@ -1493,6 +1493,7 @@ function step1Next() {//要判断是否应该进行首访录入
 function checkPhone(docId) {
   var temp=$("input[name='"+docId+"']").val();
   if (!temp) return "请录入客户电话号码";
+  temp=temp.replace(/，/g, ",");
   var phones=temp.split(",");
   var _errPhone="";
   var _okPhones="";
@@ -1523,8 +1524,8 @@ function checkStep1() {
   if (!_uSex) return "请选择客户性别！";
   if (!$("input[name='firstTime']").val()) return "请输入第一次获知时！";
   if (!_uAgeGroup) return "请选择年龄段！";
-  if ((!$("input[name='localResidence']").val())||(!$("input[name='outResidence']").val())) return "请选择居住区域(本地或外阜)！";
-  if ((!$("input[name='localWorkArea']").val())||(!$("input[name='outWorkArea']").val())) return "请选择工作区域(本地或外阜)！";
+  if ((!$("input[name='localResidence']").val())&&(!$("input[name='outResidence']").val())) return "请选择居住区域(本地或外阜)！";
+  if ((!$("input[name='localWorkArea']").val())&&(!$("input[name='outWorkArea']").val())) return "请选择工作区域(本地或外阜)！";
   if (!_uFamilyStatus) return "请选择家庭状况！";
   if (!_uTrafficType) return "请选择出行方式！";
   return "";
@@ -1547,7 +1548,7 @@ function checkStep3() {
   if (!_uAttentionPoint) return "请选择对本案关注点！";
   if (!_uRecepTimeSection) return "请选择参观接待时间";
   if (!_uCustScore) return "请选择客户评级！";
-  if (!$("textarea[name='custDescn']").val()) return "请录入复访接待描述！";
+  if (!$("textarea[name='custDescn']").val()) return "请录入接待描述！";
 	return "";
 }
 
