@@ -1,4 +1,3 @@
-var _uUserId="";
 var userInfo={};
 var recordId="";
 $(function() {
@@ -23,15 +22,30 @@ $(function() {
   });
 });
 
+var data03={};
+var customer={};
 function initPage(data) {
   userInfo=data;
-  _uUserId=data.userid;
   var url=_URL_BASE+"/wx/api/getRecord03?recordId="+recordId;
   //var url=_URL_BASE+"/wx/api/getRecord03?recordId=123123123123";
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
-        fillData(json.data);
+        data03=json.data;
+        var url=_URL_BASE+"/wx/api/getCustMsg";
+        var _data={};
+        _data.custId=data03.custid;
+        _data.projId=data03.projid;
+        $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
+          success: function(json) {
+            if (json.msg=='100') customer=json.customer;
+            fillData();
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("获得客户信息时出现系统错误：\nstatu="+XMLHttpRequest.status+"\nreadyState="+XMLHttpRequest.readyState+"\ntext="+textStatus+"\nerrThrown="+errorThrown);
+            fillData();
+          }
+        });
       } else {
         window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息<br/>禁止录入";
       }
@@ -69,7 +83,12 @@ function fillData(data) {
     }
     $("#custPhone").html(phoneHtml.substring(5));
   }
-  if (data.custsex) $("#custSex").html(data.custsex);
+  if (customer.custsex) $("#custSex").html(customer.custsex);
+  if (data.receptime) {
+    var rTime=new Date();
+    rTime.setTime(data.receptime.time);
+    $("#recpTime").html(rTime.Format('yyyy-MM-dd'));
+  }
   if (data.purchasedate) {
     var rTime=new Date();
     rTime.setTime(data.purchasedate.time);
@@ -80,6 +99,7 @@ function fillData(data) {
     rTime.setTime(data.signdate.time);
     $("#signDate").html(rTime.Format('yyyy-MM-dd'));
   }
+  if (customer.visitcount) $("#visitCount").html(customer.visitcount);
   if (data.housenum) $("#houseNum").html(data.housenum);
   if (data.houseregitype) $("#houseRegiType").html(data.houseregitype);
   if (data.houseacreage) $("#houseAcreage").html(data.houseacreage);
@@ -108,7 +128,7 @@ function fillData(data) {
   }
   if (data.addressmail) $("#addressMail").html(data.addressmail);
   if (data.livingstatus) $("#livingStatus").html(data.livingstatus);
-    if (data.realusemen) {
+  if (data.realusemen) {
     var _temp=data.realusemen;
     if (data.realusemen.indexOf('其他')!=-1) {
       if (data.realusemendesc) {

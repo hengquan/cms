@@ -1,4 +1,3 @@
-var _uUserId="";
 var userInfo={};
 var recordId="";
 $(function() {
@@ -23,15 +22,29 @@ if (!recordId) {
   });
 });
 
+var data02={};
+var customer={};
 function initPage(data) {
   userInfo=data;
-  _uUserId=data.userid;
   var url=_URL_BASE+"/wx/api/getRecord02?recordId="+recordId;
-  //var url=_URL_BASE+"/wx/api/getRecord02?recordId=123123123123";
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
-        fillData(json.data);
+        data02=json.data;
+        var url=_URL_BASE+"/wx/api/getCustMsg";
+        var _data={};
+        _data.custId=data02.custid;
+        _data.projId=data02.projid;
+        $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
+          success: function(json) {
+            if (json.msg=='100') customer=json.customer;
+            fillData();
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("获得客户信息时出现系统错误：\nstatu="+XMLHttpRequest.status+"\nreadyState="+XMLHttpRequest.readyState+"\ntext="+textStatus+"\nerrThrown="+errorThrown);
+            fillData();
+          }
+        });
       } else {
         window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息<br/>禁止录入";
       }
@@ -43,7 +56,8 @@ function initPage(data) {
   });
 }
 
-function fillData(data) {
+function fillData() {
+  var data=data02;
   if (!data) return;
   var gwmc=decodeURIComponent(getUrlParam(window.location.href, 'GWMC'));
   if (gwmc&&gwmc!='null') {
@@ -69,18 +83,19 @@ function fillData(data) {
     }
     $("#custPhone").html(phoneHtml.substring(5));
   }
-  if (data.custsex) $("#custSex").html(data.custsex);
+  if (customer.custsex) $("#custSex").html(customer.custsex);
+  if (customer.visitcount) $("#visitCount").html(customer.visitcount);
   if (data.receptime) {
     var rTime=new Date();
     rTime.setTime(data.receptime.time);
     $("#recpTime").html(rTime.Format('yyyy-MM-dd'));
   }
-  if (data.receptime) {
+  if (customer.ctime) {
     var rTime=new Date();
-    rTime.setTime(data.receptime.time);
+    rTime.setTime(data.ctime.time);
     $("#curTime").html(rTime.Format('yyyy-MM-dd'));
   }
-  if (data.visitorcount) $("#visitorCount").html(data.visitorcount);
+  if (data.visitorcount) $("#visitorCount").html(data.visitorcount==5?data.visitorcount+"人以上":data.visitorcount+"人");
   if (data.decisionerin) $("#decisionerIn").html(data.decisionerin==1?"是":(data.outeduwill==-1?"无法了解":"否"));
   if (data.visitorrefs) {
     var _temp=data.visitorrefs;
@@ -93,24 +108,51 @@ function fillData(data) {
     $("#visitorRefs").html(_temp);
   }
   if (data.childrennum) $("#childrenNum").html(data.childrennum);
-  if (data.childAgegroup) $("#childAgeGroup").html(data.childAgegroup);
+  if (data.childagegroup) $("#childAgeGroup").html(data.childagegroup);
   if (data.schooltype) $("#schoolType").html(data.schooltype);
   if (data.schoolname) $("#schoolName").html(data.schoolname);
-  if (data.avocations) $("#avocations").html(data.avocations);
+  if (data.childavocations) {
+    var _temp=data.childavocations;
+    if (data.childavocations.indexOf('其他')!=-1) {
+      if (data.childavocationsdesc) {
+        var _temp2="其他("+data.childavocationsdesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    $("#childAvocations").html(_temp);
+  }
   if (data.outeduwill) $("#outEduWill").html(data.outeduwill==1?"是":(data.outeduwill==-1?"无法了解":"否"));
   if (data.outexperflag) $("#outExperFlag").html(data.outexperflag==1?"是":(data.outeduwill==-1?"无法了解":"否"));
   if (data.outexpercity) $("#outExperCity").html(data.outexpercity);
   if (data.childoutexperflag) $("#childOutExperFlag").html(data.childoutexperflag==1?"是":(data.outeduwill==-1?"无法了解":"否"));
   if (data.childoutexpercity) $("#childOutExperCity").html(data.childoutexpercity);
+  if (data.fulltimewifeflag) $("#fullTimeWifeFlag").html(data.fulltimewifeflag==1?"是":(data.fulltimewifeflag==-1?"无法了解":"否"));
+  if (data.nannyflag) $("#nannyFlag").html(data.nannyflag==1?"是":(data.nannyflag==-1?"无法了解":"否"));
+  if (data.petflag) $("#petFlag").html(data.petflag==1?"是":(data.petflag==-1?"无法了解":"否"));
   if (data.livingradius) $("#livingRadius").html(data.livingradius);
+  if (data.communityname) $("#communityName").html(data.communityname);
+  if (data.housetype) $("#houseType").html(data.housetype);
   if (data.liveacreage) $("#liveAcreage").html(data.liveacreage);
+  if (data.loanstatus) $("#loanStatus").html(data.loanstatus);
+  if (data.enterprisename) $("#enterpriseName").html(data.enterprisename);
+  if (data.enterpriseaddress) $("#enterpriseAddress").html(data.enterpriseaddress);
+  if (data.enterprisepost) $("#enterprisePost").html(data.enterprisepost);
   if (data.housecount) $("#houseCount").html(data.housecount);
   if (data.carfamilycount) $("#carFamilyCount").html(data.carfamilycount);
   if (data.carbrand) $("#carBrand").html(data.carbrand);
   if (data.cartotalprice) $("#carTotalPrice").html(data.cartotalprice);
   if (data.attentwx) $("#attentWX").html(data.attentwx);
   if (data.appnames) $("#appNames").html(data.appnames);
-  if (data.avocationsdesc) $("#avocationsDesc").html(data.avocationsdesc);
+  if (data.avocations) {
+    var _temp=data.avocations;
+    if (data.avocations.indexOf('其他')!=-1) {
+      if (data.avocationsdesc) {
+        var _temp2="其他("+data.avocationsdesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    $("#avocations").html(_temp);
+  }
   if (data.resistpoint) {
     var _temp=data.resistpoint;
     if (data.resistpoint.indexOf('其他')!=-1) {
@@ -134,8 +176,8 @@ function fillData(data) {
   if (data.freetimesection) $("#freeTimeSection").html(data.freetimesection);
   if (data.receptimesection) $("#recepTimeSection").html(data.receptimesection);
   if (data.custscore) $("#custScore").html(data.custscore);
-  if (data.compareprojs) $("#compareProjs").html(data.compareprojs);
-  if (data.custdescn) $("#custDescn").html(data.custdescn);
+  if (customer.compareprojs) $("#compareProjs").html(customer.compareprojs);
+  if (data.descn) $("#custDescn").html(data.descn);
   if (userInfo.roleName=='项目负责人'&&data.status==1) needAudit=true;
   if (needAudit) $("#operArea").show();
   $('body').css("display", "block");
