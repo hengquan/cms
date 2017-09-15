@@ -124,6 +124,8 @@ function initData(data) {
     }
     var nt=new Date();
     fillTime("recpTime", nt);
+    fillTime("purchaseDate", nt);
+    fillTime("signDate", nt);
     if (_TYPE=='update'&&data) {
       fillData(data);
       getAudit(recordId);

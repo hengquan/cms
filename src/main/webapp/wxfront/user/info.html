@@ -39,26 +39,26 @@
 </div>
 <div class="line"></div>
 <div class="item-yhm ">
-  <div class="item-my row">
+  <div class="item-my row" onclick="openChangePwd()">
     <div class="col-pic"><img src="../images/pic_04.png"></div>
     <div class="col-xm">修改密码</div>
   </div>
 </div>
 <div class="line"></div>
 <div class="item-yhm ">
-  <div class="item-my row">
+  <div class="item-my row" onclick="openStat(1)">
     <div class="col-pic"><img src="../images/pic_10.png"></div>
-    <div class="col-xm"><a href="data.html">日数据统计</a></div>
+    <div class="col-xm">日数据统计</div>
   </div>
 </div>
 <div class="item-yhm ">
-  <div class="item-my row">
+  <div class="item-my row" onclick="openStat(2)">
     <div class="col-pic"><img src="../images/pic_11.png"></div>
     <div class="col-xm">周数据统计</div>
   </div>
 </div>
 <div class="item-yhm ">
-  <div class="item-my row">
+  <div class="item-my row" onclick="openStat(3)">
     <div class="col-pic"><img src="../images/pic_12.png"></div>
     <div class="col-xm">月数据统计</div>
   </div>
@@ -83,10 +83,10 @@
     <div class="col-50" style="margin-top:1.5rem;"><a href="#" id="savePwd">保存</a></div>
     <div class="col-50" style="margin-top:1.5rem;"><a href="#" id="cancelPwd">取消</a></div>
   </div>
-  
 </div>
 </body>
 <script>
+var userInfo={};
 $(function() {
   //获取用户数据
   var url=_URL_BASE+"/wx/api/personalCenter";
@@ -105,11 +105,6 @@ $(function() {
         +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
     }
   });
-  //绑定修改密码方法
-  $("div[class='col-xm']").click(function() {
-    $("div[class='main']").hide();
-    $("#changePwdArea").show();
-  });
   //绑定修改密码中的取消按钮
   $("#cancelPwd").click(function(){
     $("div[class='main']").show();
@@ -121,10 +116,20 @@ $(function() {
   });
 });
 
+function openChangePwd() {
+  $("div[class='main']").hide();
+  $("#changePwdArea").show();
+}
+
+function openStat(type) {
+  window.location.href=_URL_BASE+"/wxfront/user/data.html#"+type;
+}
+
 /**
  * 填充页面信息
  */
 function fillPage(data) {
+  userInfo=data;
   $("#userName").html("<span>"+data.realname+"</span><span style='color:#999;font-size:.8rem;'>("+data.loginname+")</span><br/>"+data.mainphonenum);
   $("#portraitImg").attr("src",data.headimgurl);
 

@@ -6,6 +6,7 @@ var _TYPE="add";
 var recordId="";//记录Id只有当_TYPE=update时，此变量才有值。
 var custId="";
 var curUserInfo={};
+var customer=null;
 
 //填充数据,并初始化
 $(function() {
@@ -169,7 +170,7 @@ function initData(data) {
       $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
         success: function(json) {
           if (json.msg=='100') {
-            var customer=json.customer;
+            customer=json.customer;
             if (customer) {
               needReInputCount=_REINPUTCOUNT;
               _dealCustomer(customer);
@@ -621,7 +622,7 @@ function commitData() {
     temp=$("textarea[name='compareProjs']").val();
     if (temp) retData.compareprojs=temp;
     temp=$("textarea[name='custDescn']").val();
-    if (temp) retData.custdescn=temp;
+    if (temp) retData.descn=temp;
 
     if (_uFamilyStatus) retData.familystatus=_uFamilyStatus;
     if (_uTrafficType) retData.traffictype=_uTrafficType;
@@ -803,7 +804,7 @@ function selCust() {
   }
 }
 //处理客户信息，看是否需要重复录
-function _dealCustomer(customer) {
+function _dealCustomer() {
   //填充必要的信息
   if (customer.firstvisittime.time) {
     var rTime=new Date();
@@ -812,6 +813,7 @@ function _dealCustomer(customer) {
   }
   if (customer.visitcount) $("input[name='visitCount']").val(customer.visitcount);
   fillSelectField('sex', customer.custsex, true);
+  if (customer.compareprojs) $("textarea[name='compareProjs']").val(customer.compareprojs);
   $("#sex").html(customer.custsex);
   //判断是否需要再次填写
   _dealOne("familystatus", customer);
@@ -986,7 +988,7 @@ function fillData(data) {//填数据，包括所有页面
   if (data.receptimesection) fillSelectField("recepTimeSection", data.receptimesection, true);
   if (data.custscore) fillSelectField("custScore", data.custscore, true);
   if (data.compareprojs) $("textarea[name='compareProjs']").val(data.compareprojs);
-  if (data.custdescn) $("textarea[name='custDescn']").val(data.custdescn);
+  if (data.descn) $("textarea[name='custDescn']").val(data.descn);
 
   if (data.familystatus) fillSelectField("familyStatus", data.familystatus, true);
   if (data.traffictype) {
@@ -1086,7 +1088,7 @@ function fillData(data) {//填数据，包括所有页面
   $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
-        var customer=json.customer;
+        customer=json.customer;
         if (customer) {
           needReInputCount=_REINPUTCOUNT;
           _dealCustomer(customer);

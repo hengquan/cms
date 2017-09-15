@@ -1,4 +1,3 @@
-var _uUserId="";
 var userInfo={};
 var recordId="";
 $(function() {
@@ -27,7 +26,6 @@ var data02={};
 var customer={};
 function initPage(data) {
   userInfo=data;
-  _uUserId=data.userid;
   var url=_URL_BASE+"/wx/api/getRecord02?recordId="+recordId;
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
@@ -39,13 +37,12 @@ function initPage(data) {
         _data.projId=data02.projid;
         $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
           success: function(json) {
-            if (json.msg=='100') {
-              customer=json.customer;
-              fillData();
-            }
+            if (json.msg=='100') customer=json.customer;
+            fillData();
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert("获得客户信息时出现系统错误：\nstatu="+XMLHttpRequest.status+"\nreadyState="+XMLHttpRequest.readyState+"\ntext="+textStatus+"\nerrThrown="+errorThrown);
+            fillData();
           }
         });
       } else {
@@ -179,7 +176,7 @@ function fillData() {
   if (data.freetimesection) $("#freeTimeSection").html(data.freetimesection);
   if (data.receptimesection) $("#recepTimeSection").html(data.receptimesection);
   if (data.custscore) $("#custScore").html(data.custscore);
-  if (data.compareprojs) $("#compareProjs").html(data.compareprojs);
+  if (customer.compareprojs) $("#compareProjs").html(customer.compareprojs);
   if (data.descn) $("#custDescn").html(data.descn);
   if (userInfo.roleName=='项目负责人'&&data.status==1) needAudit=true;
   if (needAudit) $("#operArea").show();
