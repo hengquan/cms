@@ -1199,7 +1199,7 @@ public class WxApiController extends ControllerBaseWx {
 		//住房性质
 		tempStr=record02.getHousetype();
 		_retR02.setHousetype(tempStr);
-		cust.setHouseregitype(tempStr);
+		cust.setHousetype(tempStr);
 		//居住面积
 		tempStr=record02.getLiveacreage();
 		parseResult=parseDictsStr(tempStr);
@@ -1917,9 +1917,25 @@ public class WxApiController extends ControllerBaseWx {
 			if (cartotalpriceCust!=null) dictRefList.addAll(cartotalpriceCust);
 		}
 		//实际使用人
-		_retR03.setRealusemen(record03.getRealusemen());
+		tempStr=record03.getRealusemen();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR03.setRealusemen(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> cartotalpriceO1=transToDictRefList(dictList, "031", "实际使用人 ", "ql_AccessRecord03", id);
+			if (cartotalpriceO1!=null) dictRefList.addAll(cartotalpriceO1);
+		}
 		//实际出资人
-		_retR03.setRealpaymen(record03.getRealpaymen());
+		tempStr=record03.getRealpaymen();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR03.setRealpaymen(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> cartotalpriceO1=transToDictRefList(dictList, "031", "实际出资人 ", "ql_AccessRecord03", id);
+			if (cartotalpriceO1!=null) dictRefList.addAll(cartotalpriceO1);
+		}
 		//意见建议
 		_retR03.setSuggestion(record03.getSuggestion());
 		//谈判问题与解决
