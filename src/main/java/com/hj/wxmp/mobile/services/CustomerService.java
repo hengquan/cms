@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hj.wxmp.mobile.entity.Customer;
+import com.hj.wxmp.mobile.entity.CustomerProjs;
 
 public interface CustomerService {
 	/**
@@ -97,5 +98,7 @@ public interface CustomerService {
 	public Customer findByPhone(String phone);
 
 	public Customer selectByCustIdAndProjId(Map<String, Object> parmeter);
+
+	public CustomerProjs findGeneralMessage(Map<String, Object> parmeterMap);
 
 }

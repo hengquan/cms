@@ -158,6 +158,16 @@ public class AccessRecord02 {
     private String buypurposedesc;
     
     private String projname;
+    
+    private String compareprojs;
+
+	public String getCompareprojs() {
+		return compareprojs;
+	}
+
+	public void setCompareprojs(String compareprojs) {
+		this.compareprojs = compareprojs;
+	}
 
 	public String getProjname() {
 		return projname;

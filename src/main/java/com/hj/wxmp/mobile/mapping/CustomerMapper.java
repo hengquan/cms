@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hj.wxmp.mobile.entity.Customer;
+import com.hj.wxmp.mobile.entity.CustomerProjs;
 
 public interface CustomerMapper {
     int deleteByPrimaryKey(String id);
@@ -25,4 +26,6 @@ public interface CustomerMapper {
 	Customer findByPhone(String phone);
 
 	Customer selectByCustIdAndProjId(Map<String, Object> parmeter);
+
+	CustomerProjs findGeneralMessage(Map<String, Object> map);
 }

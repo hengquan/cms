@@ -193,49 +193,67 @@
   
   <!-- 导出excel用户信息 -->
   <select id="downloadExcel" resultType="java.util.Map" parameterType="java.util.Map">
-	SELECT
-		qur.*, qc.*, pu.realName,
-		pu.isValidate,proj.projName,pu.isValidate
-	FROM
-		ql_UserCust_Ref qur
-	JOIN ql_Customer qc ON qur.custId = qc.id
-	JOIN plat_User pu ON qur.userId = pu.id
-	join ql_Project proj on qur.projId = proj.id
-	WHERE 1=1 and 
-	(instr(qc.custName,#{name})
-	OR instr(proj.projName, #{name})
-	OR instr(qc.phoneNum, #{name})
-	OR instr(pu.realName, #{name}))
-	<if test="agegroup != '' and agegroup != null">
-		and INSTR(#{agegroup},qc.ageGroup)
-	</if>  
-	<if test="liveacreage != '' and liveacreage != null">
-		and INSTR(#{liveacreage}, qc.liveAcreage)
-	</if>  
-	<if test="pricesection != '' and pricesection != null">
-		and INSTR(#{pricesection}, qc.priceSection)
-	</if>  
-	<if test="custscore != '' and custscore != null">
-		and INSTR(#{custscore}, qc.custScore)
-	</if>  
-	<if test="record01Begin != '' and record01Begin != null">
-		and r01.recepTime > #{record01Begin}
-	</if> 
-	<if test="record01End != '' and record01End != null">
-		and r01.recepTime &lt; #{record01End}
-	</if> 
+	select searchResult.*,
+	1 c01,
+	case when searchResult.fCount is null then 0 else searchResult.fCount end c02,
+	case when searchResult.cCount is null then 0 else searchResult.cCount end c03,
+	1+(case when searchResult.fCount is null then 0 
+	else searchResult.fCount end)+(case when searchResult.cCount is null then 0 else searchResult.cCount end) total 
+	from (
+	select needData.* from 
+	(
+	  select main.*,r02Count.fCount, cCount  from 
+	  (
+	    select a.*, b.custId, b.projId,c.projName,u.realName,
+	      r01.recepTime
+	    FROM
+	    ql_Customer a,
+	    ql_UserCust_Ref b,
+	    ql_Project c,
+	    ql_AccessRecord01 r01,
+	    plat_User u
+	    where a.id=b.custId and b.projId=c.id and (r01.custId=b.custId and r01.projId=b.projId) and u.id = b.userId
+			and (instr(a.custName,#{name})
+			OR instr(c.projName, #{name})
+			OR instr(a.phoneNum, #{name})
+			OR instr(u.realName, #{name}))
+			<if test="record01Begin != '' and record01Begin != null">
+				and r01.recepTime > #{record01Begin}
+			</if> 
+			<if test="record01End != '' and record01End != null">
+				and r01.recepTime &lt; #{record01End}
+			</if> 
+			<if test="knowway != '' and knowway != null">
+				and INSTR(#{knowway},r01.knowWay)
+			</if>  
+			<if test="agegroup != '' and agegroup != null">
+				and INSTR(#{agegroup},a.ageGroup)
+			</if>  
+			<if test="liveacreage != '' and liveacreage != null">
+				and INSTR(#{liveacreage}, a.liveAcreage)
+			</if>  
+			<if test="pricesection != '' and pricesection != null">
+				and INSTR(#{pricesection}, a.priceSection)
+			</if>  
+			<if test="custscore != '' and custscore != null">
+				and INSTR(#{custscore}, a.custScore)
+			</if>  
+	  ) as main
+	  LEFT JOIN (select custId, projId, count(*) fCount from ql_AccessRecord02 group by custId, projId) as r02Count
+	  on main.custId=r02Count.custId and main.projId=r02Count.projId
+	  LEFT JOIN (select custId, projId, count(*) cCount from ql_AccessRecord03 group by custId, projId) as r03Count
+	  on main.custId=r03Count.custId and main.projId=r03Count.projId
+	) as needData
 	<if test="record02Begin != '' and record02Begin != null">
-		and r02.recepTime > #{record02Begin}
+		<if test="record02End != '' and record02End != null">
+			,(select distinct custId, projId from ql_AccessRecord02 where 1=1 
+			and recepTime > #{record02Begin}
+			and recepTime &lt; #{record02End}
+			) r02flag
+			where needData.projId=r02flag.projId and needData.custId=r02flag.custId 
+		</if> 
 	</if> 
-	<if test="record02End != '' and record02End != null">
-		and r02.recepTime &lt; #{record02End}
-	</if> 
-	<if test="record03Begin != '' and record03Begin != null">
-		and r03.recepTime > #{record03Begin}
-	</if> 
-	<if test="record03End != '' and record03End != null">
-		and r03.recepTime &lt; #{record03End}
-	</if> 
+	) as searchResult 
   </select>
   
   
@@ -247,101 +265,127 @@
   
   <!-- 综合查询统计 -->
   <select id="selectZongHe" resultType="java.util.Map" parameterType="java.util.Map">
-	SELECT
-		qur.*, qc.*, pu.realName,
-		pu.isValidate,proj.projName,pu.isValidate
-	FROM
-		ql_UserCust_Ref qur
-	JOIN ql_Customer qc ON qur.custId = qc.id
-	JOIN plat_User pu ON qur.userId = pu.id
-	JOIN ql_Project proj ON qur.projId = proj.id
-	JOIN ql_AccessRecord01 r01 ON qur.custId = r01.custId
-	JOIN ql_AccessRecord01 r02 ON qur.custId = r02.custId
-	JOIN ql_AccessRecord01 r03 ON qur.custId = r03.custId
-	WHERE 1=1 and 
-	(instr(qc.custName,#{name})
-	OR instr(proj.projName, #{name})
-	OR instr(qc.phoneNum, #{name})
-	OR instr(pu.realName, #{name}))
-	<if test="agegroup != '' and agegroup != null">
-		and INSTR(#{agegroup},qc.ageGroup)
-	</if>  
-	<if test="liveacreage != '' and liveacreage != null">
-		and INSTR(#{liveacreage}, qc.liveAcreage)
-	</if>  
-	<if test="pricesection != '' and pricesection != null">
-		and INSTR(#{pricesection}, qc.priceSection)
-	</if>  
-	<if test="custscore != '' and custscore != null">
-		and INSTR(#{custscore}, qc.custScore)
-	</if>  
-	<if test="record01Begin != '' and record01Begin != null">
-		and r01.recepTime > #{record01Begin}
-	</if> 
-	<if test="record01End != '' and record01End != null">
-		and r01.recepTime &lt; #{record01End}
-	</if> 
+	select searchResult.*,
+	1 c01,
+	case when searchResult.fCount is null then 0 else searchResult.fCount end c02,
+	case when searchResult.cCount is null then 0 else searchResult.cCount end c03,
+	1+(case when searchResult.fCount is null then 0 
+	else searchResult.fCount end)+(case when searchResult.cCount is null then 0 else searchResult.cCount end) total 
+	from (
+	select needData.* from 
+	(
+	  select main.*,r02Count.fCount, cCount  from 
+	  (
+	    select a.*, b.custId, b.projId,c.projName,u.realName,
+	      r01.recepTime
+	    FROM
+	    ql_Customer a,
+	    ql_UserCust_Ref b,
+	    ql_Project c,
+	    ql_AccessRecord01 r01,
+	    plat_User u
+	    where a.id=b.custId and b.projId=c.id and (r01.custId=b.custId and r01.projId=b.projId) and u.id = b.userId
+			and (instr(a.custName,#{name})
+			OR instr(c.projName, #{name})
+			OR instr(a.phoneNum, #{name})
+			OR instr(u.realName, #{name}))
+			<if test="record01Begin != '' and record01Begin != null">
+				and r01.recepTime > #{record01Begin}
+			</if> 
+			<if test="record01End != '' and record01End != null">
+				and r01.recepTime &lt; #{record01End}
+			</if> 
+			<if test="knowway != '' and knowway != null">
+				and INSTR(#{knowway},r01.knowWay)
+			</if>  
+			<if test="agegroup != '' and agegroup != null">
+				and INSTR(#{agegroup},a.ageGroup)
+			</if>  
+			<if test="liveacreage != '' and liveacreage != null">
+				and INSTR(#{liveacreage}, a.liveAcreage)
+			</if>  
+			<if test="pricesection != '' and pricesection != null">
+				and INSTR(#{pricesection}, a.priceSection)
+			</if>  
+			<if test="custscore != '' and custscore != null">
+				and INSTR(#{custscore}, a.custScore)
+			</if>  
+	  ) as main
+	  LEFT JOIN (select custId, projId, count(*) fCount from ql_AccessRecord02 group by custId, projId) as r02Count
+	  on main.custId=r02Count.custId and main.projId=r02Count.projId
+	  LEFT JOIN (select custId, projId, count(*) cCount from ql_AccessRecord03 group by custId, projId) as r03Count
+	  on main.custId=r03Count.custId and main.projId=r03Count.projId
+	) as needData
 	<if test="record02Begin != '' and record02Begin != null">
-		and r02.recepTime > #{record02Begin}
+		<if test="record02End != '' and record02End != null">
+			,(select distinct custId, projId from ql_AccessRecord02 where 1=1 
+			and recepTime > #{record02Begin}
+			and recepTime &lt; #{record02End}
+			) r02flag
+			where needData.projId=r02flag.projId and needData.custId=r02flag.custId 
+		</if> 
 	</if> 
-	<if test="record02End != '' and record02End != null">
-		and r02.recepTime &lt; #{record02End}
-	</if> 
-	<if test="record03Begin != '' and record03Begin != null">
-		and r03.recepTime > #{record03Begin}
-	</if> 
-	<if test="record03End != '' and record03End != null">
-		and r03.recepTime &lt; #{record03End}
-	</if> 
+	) as searchResult 
 	limit #{page},#{pageSize}
   </select>
   
   <!-- 综合查询统计 -->
   <select id="selectZongHeCount" resultType="java.lang.Integer" parameterType="java.util.Map">
-	SELECT
-		count(1)
-	FROM
-		ql_UserCust_Ref qur
-	JOIN ql_Customer qc ON qur.custId = qc.id
-	JOIN plat_User pu ON qur.userId = pu.id
-	JOIN ql_Project proj ON qur.projId = proj.id
-	JOIN ql_AccessRecord01 r01 ON qur.custId = r01.custId
-	JOIN ql_AccessRecord01 r02 ON qur.custId = r02.custId
-	JOIN ql_AccessRecord01 r03 ON qur.custId = r03.custId
-	WHERE 1=1 and 
-	(instr(qc.custName,#{name})
-	OR instr(proj.projName, #{name})
-	OR instr(qc.phoneNum, #{name})
-	OR instr(pu.realName, #{name}))
-	<if test="agegroup != '' and agegroup != null">
-		and INSTR(#{agegroup},qc.ageGroup)
-	</if>  
-	<if test="liveacreage != '' and liveacreage != null">
-		and INSTR(#{liveacreage}, qc.liveAcreage)
-	</if>  
-	<if test="pricesection != '' and pricesection != null">
-		and INSTR(#{pricesection}, qc.priceSection)
-	</if>  
-	<if test="custscore != '' and custscore != null">
-		and INSTR(#{custscore}, qc.custScore)
-	</if>  
-	<if test="record01Begin != '' and record01Begin != null">
-		and r01.recepTime > #{record01Begin}
-	</if> 
-	<if test="record01End != '' and record01End != null">
-		and r01.recepTime &lt; #{record01End}
-	</if> 
+	select count(1) 
+	from (
+	select needData.* from 
+	(
+	  select main.*,r02Count.fCount, cCount  from 
+	  (
+	    select a.*, b.custId, b.projId,c.projName,u.realName,
+	      r01.recepTime
+	    FROM
+	    ql_Customer a,
+	    ql_UserCust_Ref b,
+	    ql_Project c,
+	    ql_AccessRecord01 r01,
+	    plat_User u
+	    where a.id=b.custId and b.projId=c.id and (r01.custId=b.custId and r01.projId=b.projId) and u.id = b.userId
+			and (instr(a.custName,#{name})
+			OR instr(c.projName, #{name})
+			OR instr(a.phoneNum, #{name})
+			OR instr(u.realName, #{name}))
+			<if test="record01Begin != '' and record01Begin != null">
+				and r01.recepTime > #{record01Begin}
+			</if> 
+			<if test="record01End != '' and record01End != null">
+				and r01.recepTime &lt; #{record01End}
+			</if> 
+			<if test="knowway != '' and knowway != null">
+				and INSTR(#{knowway},r01.knowWay)
+			</if>  
+			<if test="agegroup != '' and agegroup != null">
+				and INSTR(#{agegroup},a.ageGroup)
+			</if>  
+			<if test="liveacreage != '' and liveacreage != null">
+				and INSTR(#{liveacreage}, a.liveAcreage)
+			</if>  
+			<if test="pricesection != '' and pricesection != null">
+				and INSTR(#{pricesection}, a.priceSection)
+			</if>  
+			<if test="custscore != '' and custscore != null">
+				and INSTR(#{custscore}, a.custScore)
+			</if>  
+	  ) as main
+	  LEFT JOIN (select custId, projId, count(*) fCount from ql_AccessRecord02 group by custId, projId) as r02Count
+	  on main.custId=r02Count.custId and main.projId=r02Count.projId
+	  LEFT JOIN (select custId, projId, count(*) cCount from ql_AccessRecord03 group by custId, projId) as r03Count
+	  on main.custId=r03Count.custId and main.projId=r03Count.projId
+	) as needData
 	<if test="record02Begin != '' and record02Begin != null">
-		and r02.recepTime > #{record02Begin}
+		<if test="record02End != '' and record02End != null">
+			,(select distinct custId, projId from ql_AccessRecord02 where 1=1 
+			and recepTime > #{record02Begin}
+			and recepTime &lt; #{record02End}
+			) r02flag
+			where needData.projId=r02flag.projId and needData.custId=r02flag.custId 
+		</if> 
 	</if> 
-	<if test="record02End != '' and record02End != null">
-		and r02.recepTime &lt; #{record02End}
-	</if> 
-	<if test="record03Begin != '' and record03Begin != null">
-		and r03.recepTime > #{record03Begin}
-	</if> 
-	<if test="record03End != '' and record03End != null">
-		and r03.recepTime &lt; #{record03End}
-	</if> 
+	) as searchResult 
   </select>
 </mapper>

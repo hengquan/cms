@@ -111,7 +111,7 @@
 										   </c:otherwise>
 										</c:choose>
 									</a>
-									<a href="javascript:gaojichaxun();" class="btn mini btn-white pull-right" id="gaoji">高级查询</a>
+									<!-- <a href="javascript:gaojichaxun();" class="btn mini btn-white pull-right" id="gaoji">高级查询</a> -->
 								</div>
 								<!-- 分页信息 -->
 								<input type="hidden" value="${nowPage}" id="nowPageNumber"
@@ -136,8 +136,6 @@
 											<a href="javascript:selectUsers();" class="btn mini btn-white">批量分配</a>
 											<a href="javascript:doRefresh();" class="btn mini btn-white"><i
 												class="icon-refresh"></i></a>
-											<a href="javascript:downloadExcel();" class="btn mini btn-white"><i
-												class="glyphicon glyphicon-calendar"></i></a>
 										</th>
 										
 									</tr>

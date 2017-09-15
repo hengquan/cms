@@ -37,6 +37,7 @@ import com.hj.wxmp.mobile.entity.AccessRecord02;
 import com.hj.wxmp.mobile.entity.AccessRecord03;
 import com.hj.wxmp.mobile.entity.AuditRecord;
 import com.hj.wxmp.mobile.entity.Customer;
+import com.hj.wxmp.mobile.entity.CustomerProjs;
 import com.hj.wxmp.mobile.entity.ProjCustRef;
 import com.hj.wxmp.mobile.entity.SysRole;
 import com.hj.wxmp.mobile.entity.TabDictRef;
@@ -1116,7 +1117,8 @@ public class WxApiController extends ControllerBaseWx {
 		//客户Id
 		customerId=record02.getCustid();
 		_retR02.setCustid(customerId);
-		cust.setId(customerId);
+		if(type==0) cust.setId("");
+		else cust.setId(customerId);
 		if (projCustRef!=null) projCustRef.setCustid(customerId);
 		userCustRef.setCustid(customerId);
 		//客户名称
@@ -1301,6 +1303,8 @@ public class WxApiController extends ControllerBaseWx {
 			List<TabDictRef> cartotalpriceCust=transToDictRefList(dictList, "026", "业余爱好", "ql_Customer", customerId);
 			if (cartotalpriceCust!=null) dictRefList.addAll(cartotalpriceCust);
 		}
+		//对比项目
+		projCustRef.setCompareprojs(record02.getCompareprojs());
 //		//业余爱好描述
 //		_retR02.setAppnamesdesc(record02.getAppnamesdesc());
 //		cust.setAppnamesdesc(record02.getAppnamesdesc());
@@ -2639,7 +2643,7 @@ public class WxApiController extends ControllerBaseWx {
 			parmeterMap.put("custId", custId);
 			parmeterMap.put("projId", projId);
 			//获取客户详细信息
-			Customer customer = customerService.findById(custId);
+			CustomerProjs customer = customerService.findGeneralMessage(parmeterMap);
 			//首次获取时间
 			List<AccessRecord01> accessRecord01s = accessRecord01Service.selectByUserId(parmeterMap);
 			if (accessRecord01s!=null&&!accessRecord01s.isEmpty()) {

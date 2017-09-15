@@ -178,7 +178,7 @@ public class AccessRecordController extends ControllerBase {
 				auditRecord.setAudittype(1);
 				auditRecord.setReason("");
 				auditRecordService.insert(auditRecord);
-			}else if(Integer.parseInt(state)==3){
+			}else if(Integer.parseInt(state)==4){
 				auditRecord.setAudittype(2);
 				auditRecord.setReason(checkContent);
 				auditRecordService.insert(auditRecord);
@@ -478,7 +478,7 @@ public class AccessRecordController extends ControllerBase {
 				auditRecord.setAudittype(1);
 				auditRecord.setReason("");
 				auditRecordService.insert(auditRecord);
-			}else if(Integer.parseInt(state)==3){
+			}else if(Integer.parseInt(state)==4){
 				auditRecord.setAudittype(2);
 				auditRecord.setReason(checkContent);
 				auditRecordService.insert(auditRecord);
@@ -684,7 +684,7 @@ public class AccessRecordController extends ControllerBase {
 				auditRecord.setAudittype(1);
 				auditRecord.setReason("");
 				auditRecordService.insert(auditRecord);
-			}else if(Integer.parseInt(state)==3){
+			}else if(Integer.parseInt(state)==4){
 				auditRecord.setAudittype(2);
 				auditRecord.setReason(checkContent);
 				auditRecordService.insert(auditRecord);

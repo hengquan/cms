@@ -88,7 +88,9 @@
 													<button type="button" onclick="seeCheckMessages('${u.id}')" class="btn btn-send">审核</button>
 												</c:if>
 												<button type="button" onclick="seeAllMessages('${u.id}')" class="btn btn-send">查看详细信息</button>
+												<c:if test="${u.status == 4}">
 												<button type="button" onclick="updateFirstRecord('${u.id}')" class="btn btn-send">修改审核信息</button>
+												</c:if>
 											</td>
 										</tr>
 									</c:forEach>

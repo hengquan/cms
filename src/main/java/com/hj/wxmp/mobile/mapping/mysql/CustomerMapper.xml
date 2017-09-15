@@ -920,6 +920,16 @@
 	ql_Customer where phoneNum = #{phone}
   </select>
   
-  
+  <!-- 查询客户信息和项目客户信息 -->
+  <select id="findGeneralMessage" resultType="com.hj.wxmp.mobile.entity.CustomerProjs" parameterType="java.util.Map">
+	SELECT
+		*
+	FROM
+		ql_Customer c
+	JOIN ql_ProjCust_Ref pr ON c.id = pr.custId
+	WHERE
+		pr.projId = #{projId}
+	AND pr.custId = #{custId}
+  </select>
   
 </mapper>
