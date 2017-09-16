@@ -207,11 +207,6 @@ function auditOk() {
 }
 
 function auditNo() {
-  var _auditMsg=$("#auditMsg").val();
-  if (!_auditMsg) {
-    alert("请填写退回理由！");
-    return;
-  }
   var url=_URL_BASE+"/wx/api/addAudit";
   var _data={};
   _data.recordId=recordId;

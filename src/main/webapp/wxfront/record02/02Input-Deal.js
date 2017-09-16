@@ -577,6 +577,8 @@ function commitData() {
     if (_uChildrenNum) retData.childrennum=_uChildrenNum;
     if (_uChildAgeGroup) retData.childagegroup=_uChildAgeGroup;
     if (_uSchoolType) retData.schooltype=_uSchoolType;
+    temp=$("input[name='schoolName']").val();
+    if (temp) retData.schoolname=temp;
     if (_uChildAvocations) retData.childavocations=_uChildAvocations;
     if (_uChildAvocationsDesc) retData.childavocationsdesc=_uChildAvocationsDesc;
     if (_uOutEduWill) retData.outeduwill=_uOutEduWill;
@@ -790,7 +792,7 @@ function selCust() {
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         if (json.msg=='100') {
-          var customer=json.customer;
+          customer=json.customer;
           if (customer) {
             needReInputCount=_REINPUTCOUNT;
             _dealCustomer(customer);
