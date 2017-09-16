@@ -122,91 +122,91 @@
 								   	
 								   	<label class='selectItem'>
 									   	<label style="margin-left:20px;">首访接待时间:</label>
-										<input type="date" name="record01Begin" class="btn mini btn-white">至
-										<input type="date" name="record01End" class="btn mini btn-white">
+										<input type="date" name="record01Begin" class="btn mini btn-white" value="${record01Begin }">至
+										<input type="date" name="record01End" class="btn mini btn-white" value="${record01Begin }">
 								   	</label>
 									
 									<label class='selectItem'>
 									   	<label style="margin-left:100px;">复访接待时间:</label>
-										<input type="date" name="record02Begin" class="btn mini btn-white">至
-										<input type="date" name="record02End" class="btn mini btn-white">
+										<input type="date" name="record02Begin" class="btn mini btn-white" value="${record02Begin }">至
+										<input type="date" name="record02End" class="btn mini btn-white" value="${record02End }">
 									</label><br>
 									
 									<label class='selectItem'>
 									   	<label style="margin-left:20px;">成交接待时间:</label>
-										<input type="date" name="record03Begin" class="btn mini btn-white">至
-										<input type="date" name="record03End" class="btn mini btn-white">
+										<input type="date" name="record03Begin" class="btn mini btn-white" value="${record03Begin }">至
+										<input type="date" name="record03End" class="btn mini btn-white" value="${record03End }">
 									</label><br>
 								
 								   	<label class='selectItem'>
 								   		<input type="hidden" id="agegroups" name="agegroups" />
 									   	<label style="margin-left:20px;">年龄段:</label>
-									   	<input type="checkbox" name="agegroup" value="25岁以下"/>25岁以下 
-									   	<input type="checkbox" name="agegroup" value="26~35岁">26~35岁
-									   	<input type="checkbox" name="agegroup" value="36~45岁">36~45岁
-									   	<input type="checkbox" name="agegroup" value="46~55岁">46~55岁
-									   	<input type="checkbox" name="agegroup" value="56岁以上">56岁以上
-									   	<input type="checkbox" name="agegroup" value="无法了解">无法了解
+									   	<input type="checkbox" name="agegroup" <c:if test="${fn:contains(agegroup,'25岁以下') }">checked</c:if> value="25岁以下"/>25岁以下 
+									   	<input type="checkbox" name="agegroup" <c:if test="${fn:contains(agegroup,'26~35岁') }">checked</c:if> value="26~35岁">26~35岁
+									   	<input type="checkbox" name="agegroup" <c:if test="${fn:contains(agegroup,'36~45岁')}">checked</c:if> value="36~45岁">36~45岁
+									   	<input type="checkbox" name="agegroup" <c:if test="${fn:contains(agegroup,'46~55岁') }">checked</c:if> value="46~55岁">46~55岁
+									   	<input type="checkbox" name="agegroup" <c:if test="${fn:contains(agegroup,'56岁以上') }">checked</c:if> value="56岁以上">56岁以上
+									   	<input type="checkbox" name="agegroup" <c:if test="${fn:contains(agegroup,'无法了解') }">checked</c:if> value="无法了解">无法了解
 								   	</label><br>
 								   	
 								
 								   	<label class='selectItem'>
 									   	<input type="hidden" name="knowways" id="knowways">
 								   		<label style="margin-left:20px;">认知渠道:</label>
-									   	<input type="checkbox" name="knowway" value="户外广告牌">户外广告牌
-									   	<input type="checkbox" name="knowway" value="网络">网络
-									   	<input type="checkbox" name="knowway" value="短信">短信
-									   	<input type="checkbox" name="knowway" value="纸媒">纸媒
-									   	<input type="checkbox" name="knowway" value="路过">路过
-									   	<input type="checkbox" name="knowway" value="朋友介绍">朋友介绍
-									   	<input type="checkbox" name="knowway" value="渠道介绍">渠道介绍
-									   	<input type="checkbox" name="knowway" value="巡展">巡展
-									   	<input type="checkbox" name="knowway" value="广播">广播
-									   	<input type="checkbox" name="knowway" value="电CALL">电CALL
-									   	<input type="checkbox" name="knowway" value="直投">直投
-									   	<input type="checkbox" name="knowway" value="活动">活动
-									   	<input type="checkbox" name="knowway" value="DM单">DM单
-									   	<input type="checkbox" name="knowway" value="外联">外联
-									   	<input type="checkbox" name="knowway" value="老带新">老带新
-									   	<input type="checkbox" name="knowway" value="其他">其他
-									   	<input type="checkbox" name="knowway" value="无法了解">无法了解
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'户外广告牌') }">checked</c:if> value="户外广告牌">户外广告牌
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'网络') }">checked</c:if> value="网络">网络
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'短信') }">checked</c:if> value="短信">短信
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'纸媒') }">checked</c:if> value="纸媒">纸媒
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'路过') }">checked</c:if> value="路过">路过
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'朋友介绍') }">checked</c:if> value="朋友介绍">朋友介绍
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'渠道介绍') }">checked</c:if> value="渠道介绍">渠道介绍
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'巡展') }">checked</c:if> value="巡展">巡展
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'广播') }">checked</c:if> value="广播">广播
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'电CALL') }">checked</c:if> value="电CALL">电CALL
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'直投') }">checked</c:if> value="直投">直投
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'活动') }">checked</c:if> value="活动">活动
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'DM单') }">checked</c:if> value="DM单">DM单
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'外联') }">checked</c:if> value="外联">外联
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'老带新') }">checked</c:if> value="老带新">老带新
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'其他') }">checked</c:if> value="其他">其他
+									   	<input type="checkbox" name="knowway" <c:if test="${fn:contains(knowway,'无法了解') }">checked</c:if> value="无法了解">无法了解
 									</label><br>
 								   	
 								   	<label class='selectItem'>
 								   		<input type="hidden" name="liveacreages" id="liveacreages">
 									   	<label style="margin-left:20px;">房屋面积:</label>
-									   	<input type="checkbox" name="liveacreage" value="200㎡以下">200㎡以下
-									   	<input type="checkbox" name="liveacreage" value="200~300㎡">200~300㎡
-									   	<input type="checkbox" name="liveacreage" value="300~400㎡">300~400㎡
-									   	<input type="checkbox" name="liveacreage" value="400~500㎡">400~500㎡
-									   	<input type="checkbox" name="liveacreage" value="500~600㎡">500~600㎡
-									   	<input type="checkbox" name="liveacreage" value="600~700㎡">600~700㎡
-									   	<input type="checkbox" name="liveacreage" value="700~800㎡">700~800㎡
-									   	<input type="checkbox" name="liveacreage" value="800以上">800以上
+									   	<input type="checkbox" name="liveacreage" <c:if test="${fn:contains(liveacreage,'200㎡以下') }">checked</c:if> value="200㎡以下">200㎡以下
+									   	<input type="checkbox" name="liveacreage" <c:if test="${fn:contains(liveacreage,'200~300㎡') }">checked</c:if> value="200~300㎡">200~300㎡
+									   	<input type="checkbox" name="liveacreage" <c:if test="${fn:contains(liveacreage,'300~400㎡' )}">checked</c:if> value="300~400㎡">300~400㎡
+									   	<input type="checkbox" name="liveacreage" <c:if test="${fn:contains(liveacreage,'400~500㎡') }">checked</c:if> value="400~500㎡">400~500㎡
+									   	<input type="checkbox" name="liveacreage" <c:if test="${fn:contains(liveacreage,'500~600㎡') }">checked</c:if> value="500~600㎡">500~600㎡
+									   	<input type="checkbox" name="liveacreage" <c:if test="${fn:contains(liveacreage,'600~700㎡') }">checked</c:if> value="600~700㎡">600~700㎡
+									   	<input type="checkbox" name="liveacreage" <c:if test="${fn:contains(liveacreage,'700~800㎡') }">checked</c:if> value="700~800㎡">700~800㎡
+									   	<input type="checkbox" name="liveacreage" <c:if test="${fn:contains(liveacreage,'800以上') }">checked</c:if> value="800以上">800以上
 								   	</label><br>
 								   	
 									<label class='selectItem'>
 										<input type="hidden" name="pricesections" id="pricesections">
 									   	<label style="margin-left:20px;">接受价格区段:</label>
-									   	<input type="checkbox" name="pricesection" value="500万以下">500万以下
-									   	<input type="checkbox" name="pricesection" value="500~1000万">500~1000万
-									   	<input type="checkbox" name="pricesection" value="1000~1500万">1000~1500万
-									   	<input type="checkbox" name="pricesection" value="1500~2000万">1500~2000万
-									   	<input type="checkbox" name="pricesection" value="2000~3000万">2000~3000万
-									   	<input type="checkbox" name="pricesection" value="3000~4000万">3000~4000万
-									   	<input type="checkbox" name="pricesection" value="4000~5000万">4000~5000万
-									   	<input type="checkbox" name="pricesection" value="5000~6000万">5000~6000万
-									   	<input type="checkbox" name="pricesection" value="6000~8000万">6000~8000万
-									   	<input type="checkbox" name="pricesection" value="8000万以上">8000万以上
+									   	<input type="checkbox" name="pricesection" <c:if test="${fn:contains(pricesection,'500万以下') }">checked</c:if> value="500万以下">500万以下
+									   	<input type="checkbox" name="pricesection" <c:if test="${fn:contains(pricesection,'500~1000万') }">checked</c:if> value="500~1000万">500~1000万
+									   	<input type="checkbox" name="pricesection" <c:if test="${fn:contains(pricesection,'1000~1500万') }">checked</c:if> value="1000~1500万">1000~1500万
+									   	<input type="checkbox" name="pricesection" <c:if test="${fn:contains(pricesection,'1500~2000万' )}">checked</c:if> value="1500~2000万">1500~2000万
+									   	<input type="checkbox" name="pricesection" <c:if test="${fn:contains(pricesection,'2000~3000万') }">checked</c:if> value="2000~3000万">2000~3000万
+									   	<input type="checkbox" name="pricesection" <c:if test="${fn:contains(pricesection,'3000~4000万') }">checked</c:if> value="3000~4000万">3000~4000万
+									   	<input type="checkbox" name="pricesection" <c:if test="${fn:contains(pricesection,'4000~5000万') }">checked</c:if> value="4000~5000万">4000~5000万
+									   	<input type="checkbox" name="pricesection" <c:if test="${fn:contains(pricesection,'5000~6000万') }">checked</c:if> value="5000~6000万">5000~6000万
+									   	<input type="checkbox" name="pricesection" <c:if test="${fn:contains(pricesection,'6000~8000万') }">checked</c:if> value="6000~8000万">6000~8000万
+									   	<input type="checkbox" name="pricesection" <c:if test="${fn:contains(pricesection,'8000万以上') }">checked</c:if> value="8000万以上">8000万以上
 									</label><br>								   	
 
 									<label class='selectItem'>
 										<input type="hidden" name="custscores" id="custscores">
 									   	<label style="margin-left:20px;">客户评级:</label>
-									   	<input type="checkbox" name="custscore" value="A">A
-									   	<input type="checkbox" name="custscore" value="B">B
-									   	<input type="checkbox" name="custscore" value="C">C
-									   	<input type="checkbox" name="custscore" value="D">D
+									   	<input type="checkbox" name="custscore" <c:if test="${fn:contains(custscore,'A') }">checked</c:if>  value="A">A
+									   	<input type="checkbox" name="custscore" <c:if test="${fn:contains(custscore,'B') }">checked</c:if>  value="B">B
+									   	<input type="checkbox" name="custscore" <c:if test="${fn:contains(custscore,'C') }">checked</c:if>  value="C">C
+									   	<input type="checkbox" name="custscore" <c:if test="${fn:contains(custscore,'D') }">checked</c:if>  value="D">D
 									</label>								   	
 								    </div><!-- /.modal-content -->
 								    </div>
@@ -253,10 +253,7 @@
 												<fmt:formatDate value="${u.cTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 											</td>
 											<td class="hidden-phone">${u.realName}</td>
-											<td class="hidden-phone">
-												<button type="button" onclick="editJurisdiction('${u.projId}','${u.custId }')" 
-												class="btn btn-send">为客户分配顾问</button>
-											</td>
+											<td class="hidden-phone">${u.total}次</td>
 										</tr>
 									</c:forEach>
 								</tbody>

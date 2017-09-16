@@ -37,6 +37,7 @@ import com.hj.wxmp.mobile.entity.AccessRecord02;
 import com.hj.wxmp.mobile.entity.AccessRecord03;
 import com.hj.wxmp.mobile.entity.AuditRecord;
 import com.hj.wxmp.mobile.entity.Customer;
+import com.hj.wxmp.mobile.entity.CustomerProjs;
 import com.hj.wxmp.mobile.entity.ProjCustRef;
 import com.hj.wxmp.mobile.entity.SysRole;
 import com.hj.wxmp.mobile.entity.TabDictRef;
@@ -1116,7 +1117,8 @@ public class WxApiController extends ControllerBaseWx {
 		//客户Id
 		customerId=record02.getCustid();
 		_retR02.setCustid(customerId);
-		cust.setId(customerId);
+		if(type==0) cust.setId("");
+		else cust.setId(customerId);
 		if (projCustRef!=null) projCustRef.setCustid(customerId);
 		userCustRef.setCustid(customerId);
 		//客户名称
@@ -1197,7 +1199,7 @@ public class WxApiController extends ControllerBaseWx {
 		//住房性质
 		tempStr=record02.getHousetype();
 		_retR02.setHousetype(tempStr);
-		cust.setHouseregitype(tempStr);
+		cust.setHousetype(tempStr);
 		//居住面积
 		tempStr=record02.getLiveacreage();
 		parseResult=parseDictsStr(tempStr);
@@ -1301,6 +1303,8 @@ public class WxApiController extends ControllerBaseWx {
 			List<TabDictRef> cartotalpriceCust=transToDictRefList(dictList, "026", "业余爱好", "ql_Customer", customerId);
 			if (cartotalpriceCust!=null) dictRefList.addAll(cartotalpriceCust);
 		}
+		//对比项目
+		projCustRef.setCompareprojs(record02.getCompareprojs());
 //		//业余爱好描述
 //		_retR02.setAppnamesdesc(record02.getAppnamesdesc());
 //		cust.setAppnamesdesc(record02.getAppnamesdesc());
@@ -1913,9 +1917,25 @@ public class WxApiController extends ControllerBaseWx {
 			if (cartotalpriceCust!=null) dictRefList.addAll(cartotalpriceCust);
 		}
 		//实际使用人
-		_retR03.setRealusemen(record03.getRealusemen());
+		tempStr=record03.getRealusemen();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR03.setRealusemen(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> cartotalpriceO1=transToDictRefList(dictList, "031", "实际使用人 ", "ql_AccessRecord03", id);
+			if (cartotalpriceO1!=null) dictRefList.addAll(cartotalpriceO1);
+		}
 		//实际出资人
-		_retR03.setRealpaymen(record03.getRealpaymen());
+		tempStr=record03.getRealpaymen();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR03.setRealpaymen(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> cartotalpriceO1=transToDictRefList(dictList, "031", "实际出资人 ", "ql_AccessRecord03", id);
+			if (cartotalpriceO1!=null) dictRefList.addAll(cartotalpriceO1);
+		}
 		//意见建议
 		_retR03.setSuggestion(record03.getSuggestion());
 		//谈判问题与解决
@@ -2522,6 +2542,15 @@ public class WxApiController extends ControllerBaseWx {
 			String projId = m.get("projId")==null?null:m.get("projId").toString();
 			//获取用户列表
 			List<Map<String,Object>> users = projUserRoleService.selectByProjId(projId);
+			for(Map<String,Object>user:users){
+				String userId = "";
+				if(StringUtils.isNotEmpty(user.get("id").toString())) userId = user.get("id").toString(); 
+				UserRole userRole = sysUserRoleService.selectByuserId(userId);
+				String roleid = userRole.getRoleid();
+				SysRole role = roleService.findById(roleid);
+				String roleName = role.getRoleName();
+				user.put("roleName", roleName);
+			}
 			map.put("users", users);
 			map.put("msg", "100");
 		} catch (Exception e) {
@@ -2639,7 +2668,7 @@ public class WxApiController extends ControllerBaseWx {
 			parmeterMap.put("custId", custId);
 			parmeterMap.put("projId", projId);
 			//获取客户详细信息
-			Customer customer = customerService.findById(custId);
+			CustomerProjs customer = customerService.findGeneralMessage(parmeterMap);
 			//首次获取时间
 			List<AccessRecord01> accessRecord01s = accessRecord01Service.selectByUserId(parmeterMap);
 			if (accessRecord01s!=null&&!accessRecord01s.isEmpty()) {

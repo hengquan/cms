@@ -85,14 +85,40 @@
 												<fmt:formatDate value="${u.cTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 											</td>
 											<td class="hidden-phone">
+												<c:if test="${u.status == 1}">
 												<button type="button" onclick="checkMessages('${u.id}')" class="btn btn-send">审核</button>
+												</c:if>
 												<button type="button" onclick="seeAllMessages('${u.id}')" class="btn btn-send">查看详细信息</button>
+												<c:if test="${u.status == 4}">
 												<button type="button" onclick="updateMessages('${u.id}')" class="btn btn-send">修改成交信息</button>
+												</c:if>
 											</td>
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
+							<nav class="clearfix">
+								<ul class="pagination pull-left">
+									<li><div class="dataTables_info" id="sample_1_info">共${totalPageNum } 页,当前为第${nowPage}页</div></li>
+								</ul>
+								<ul class="pagination pull-right">
+									<li><a href="javascript:doPanation(1)">首页</a></li>
+									<li>
+										<a href="javascript:doPanation(${nowPage - 1 < 1 ? 1 : nowPage - 1})" aria-label="Previous">
+											<span aria-hidden="true">&laquo;</span>
+										</a>
+									</li>
+										<c:forEach begin="${nowPage - 5 > 0 ? nowPage - 5 : 1 }" end="${nowPage + 5 > totalPageNum ? totalPageNum : nowPage + 5}" var="t">
+											<li <c:if test="${nowPage == t}">class="act"</c:if>><a href="javascript:doPanation(${t})">${t}</a></li>
+										</c:forEach>
+									<li>
+										<a href="javascript:doPanation(${nowPage + 1 > totalPageNum ? totalPageNum : nowPage + 1})" aria-label="Next">
+											<span aria-hidden="true">&raquo;</span>
+										</a>
+									</li>
+									<li><a href="javascript:doPanation(${totalPageNum})">末页</a></li>
+								</ul>
+							</nav>
 						</section>
 					</div>
 				</div>
@@ -263,11 +289,12 @@
 	
 	$(function(){
 		$('.input-group').hide();
+		$('#sample_1_info').hide();
+		$('.dataTables_paginate').hide();
 		$("#sample_1_length .form-control").hide();
 		$("#sample_1_length .js-add").hide();
 		$("#sample_1_length .js-ref").hide();
 		$("#sample_1_length .js-del").hide();
-		
 	});
 	
 	//查看举报信息

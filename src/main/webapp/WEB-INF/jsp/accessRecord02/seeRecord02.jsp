@@ -395,15 +395,7 @@ px
 
 									<tr>
 										<td colspan="3">贷款记录：
-										<select name="daikuan">
-											<option value="0">请选择</option>
-											<option value="有贷款（住宅）">有贷款（住宅）</option>
-											<option value="有贷款（商业）">有贷款（商业）</option>
-											<option value="有贷款（住宅和商业）">有贷款（住宅和商业）</option>
-											<option value="无贷款">无贷款</option>
-											<option value="无法了解" style="color: red">无法了解</option>
-										</select>
-
+										<input name="loanstatus" type="text" value="${accessRecord02.loanstatus }" style="width: 30rem">
 										</td>
 									</tr>
 
@@ -491,17 +483,8 @@ px
 									</tr>
 
 									<tr>
-										<td>名下房产：<select name="yigou_num">
-												<option value="0">请选择</option>
-												<option value="1">1套</option>
-												<option value="2">2套</option>
-												<option value="3">3套</option>
-												<option value="3套以上">3套以上</option>
-												<option value="无房">无房</option>
-												<option value="无法了解" style="color: red">无法了解</option>
-										</select>
-
-
+										<td>名下房产：
+											<input name="housecount" type="text" value="${accessRecord02.housecount }" style="width: 10rem">
 										</td>
 										<td>家庭汽车数量：
 											<input type="text" name="carfamilycount" style="width: 3rem" value="${accessRecord02.carfamilycount }">辆

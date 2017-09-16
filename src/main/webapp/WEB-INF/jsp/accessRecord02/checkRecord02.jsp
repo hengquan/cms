@@ -687,7 +687,7 @@ px
 							</table>
 
 							<hr/>
-							<input type="hidden" id="accessRecord01Id" value="${accessRecord01.id }">
+							<input type="hidden" id="accessRecord02Id" value="${accessRecord02.id }">
 							<div style="width: 100px; height: 30px; font-weight: bold; font-family: &amp; #39; 微软雅黑 &amp;#39;; margin-left: 30px">审核操作：</div>
 							<span class="tijiao" id="tijiao"
 								style="height: 1.5rem; padding: 20px 0px; position: relative; top: 0px; background: white;margin-bottom: 40px;">
@@ -706,17 +706,6 @@ px
 						</form>
 					</div>
 				</div>
-
-
-
-
-
-
-
-
-
-
-
 				<!-- page end-->
 			</section>
 		</section>
@@ -742,6 +731,43 @@ px
 		</div>
 	</div>
 	<!-- modal -->
+
+
+
+
+	<div class="modal fade" id="seeOneCheckMessage" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="modal-title">意见信息</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" role="form" id="itemForm" name="itemForm" >
+							<input type="hidden" name="editId" id="editId">
+							<div class="form-group">
+								<div class="col-lg-12">
+									<textarea rows="5" cols="60" class="form-control" id="checkTextContent"></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-lg-offset-2 col-lg-10">
+									<button data-dismiss="modal" type="button" class="btn btn-send" onclick="subCheckStateMessage(4)">提交</button>
+									<button data-dismiss="modal" type="button" id="quxiao" class="btn btn-send">返回</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+
+
+
 
 
 	<div class="modal fade" id="myModalUpdatePwd" tabindex="-1"
@@ -788,6 +814,40 @@ px
 		$(function() {
 		});
 
+		
+		
+		//退回
+		function tuihui(type){
+			var $modal = $('#seeOneCheckMessage');
+			$modal.modal();
+		}
+		
+		
+		//设置审核的状态---确认提交
+		function subCheckStateMessage(state){
+			//state  2 审核通过   3作废
+			var checkedId = $("#accessRecord02Id").val();
+			var checkContent = $("#checkTextContent").val();
+			$.ajax({
+				type:'post',
+				data : {"checkedId":checkedId,"state":state,"checkContent":checkContent},  
+				url:'${appRoot}/accessRecord/recheckRecordCheck',
+				dataType:'json',
+				success:function(data){
+					if(data.msg == 100){
+						windowShow("提交成功","");
+						window.location.href="${appRoot}/accessRecord/recheckRecord";
+					}else{
+						windowShow("提交失败","");
+					}
+				}
+			});
+			
+		}
+		
+		
+		
+		
 		//提交表单
 		function checkinput() {
 			var datamsg = $("#theform").serialize();

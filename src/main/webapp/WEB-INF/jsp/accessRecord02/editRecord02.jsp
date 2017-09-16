@@ -307,9 +307,10 @@ px
 
 							<div class="tijiao" id="tijiao"
 								style="background: white; height: 1.5rem; padding: 20px 0; position: relative;">
-								<input type="button" onclick="chongzhi()" value="重置表单"
+								<!-- <input type="button" onclick="chongzhi()" value="重置表单"
 									class="btn-4"
 									style="width: 100px; height: 30px; font-weight: bold; font-family: &amp; #39; 微软雅黑 &amp;#39;; margin-left: 20px">
+								 -->
 								<input type="button" onclick="checkinput()" value="提交表单"
 									class="btn-4"
 									style="width: 100px; height: 30px; font-weight: bold; font-family: &amp; #39; 微软雅黑 &amp;#39;; margin-left: 10px">

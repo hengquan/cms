@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import com.hj.wxmp.mobile.entity.Customer;
+import com.hj.wxmp.mobile.entity.CustomerProjs;
 import com.hj.wxmp.mobile.mapping.CustomerMapper;
 import com.hj.wxmp.mobile.services.CustomerService;
 import com.hj.wxmp.mobile.services.IKeyGen;
@@ -78,6 +79,10 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public Customer selectByCustIdAndProjId(Map<String, Object> parmeter) {
 		return dao.selectByCustIdAndProjId(parmeter);
+	}
+	@Override
+	public CustomerProjs findGeneralMessage(Map<String, Object> map) {
+		return dao.findGeneralMessage(map);
 	}
 	
 

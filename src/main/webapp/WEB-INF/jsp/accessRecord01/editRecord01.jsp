@@ -223,10 +223,10 @@ rgba
 
 						<div class="tijiao" id="tijiao"
 							style="height: 1.5rem; padding: 20px 0px; position: relative; top: 0px; background: white;">
-							<input type="button" onclick="chongzhi()" value="重置表单"
+							<!-- <input type="button" onclick="chongzhi()" value="重置表单"
 								class="btn-4"
 								style="width: 100px; height: 30px; font-weight: bold; font-family: &amp; #39; 微软雅黑 &amp;#39;; margin-left: 20px">
-
+ -->
 
 							<input type="button" onclick="checkinput()" value="提交表单"
 								class="btn-4"
@@ -706,9 +706,6 @@ rgba
 						
 						<div class="tijiao" id="tijiao"
 							style="height: 1.5rem; padding: 20px 0px; position: relative; top: 0px; background: white;margin-bottom: 40px;">
-							<input type="reset" onclick="chongzhi()" value="重置表单"
-								class="btn-4"
-								style="width: 100px; height: 30px; font-weight: bold; font-family: &amp; #39; 微软雅黑 &amp;#39;; margin-left: 20px">
 							<input type="button" onclick="checkinput()" value="提交表单"
 								class="btn-4"
 								style="width: 100px; height: 30px; font-weight: bold; font-family: &amp; #39; 微软雅黑 &amp;#39;; margin-left: 10px">

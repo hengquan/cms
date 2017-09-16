@@ -178,7 +178,7 @@ public class AccessRecordController extends ControllerBase {
 				auditRecord.setAudittype(1);
 				auditRecord.setReason("");
 				auditRecordService.insert(auditRecord);
-			}else if(Integer.parseInt(state)==3){
+			}else if(Integer.parseInt(state)==4){
 				auditRecord.setAudittype(2);
 				auditRecord.setReason(checkContent);
 				auditRecordService.insert(auditRecord);
@@ -478,7 +478,7 @@ public class AccessRecordController extends ControllerBase {
 				auditRecord.setAudittype(1);
 				auditRecord.setReason("");
 				auditRecordService.insert(auditRecord);
-			}else if(Integer.parseInt(state)==3){
+			}else if(Integer.parseInt(state)==4){
 				auditRecord.setAudittype(2);
 				auditRecord.setReason(checkContent);
 				auditRecordService.insert(auditRecord);
@@ -499,6 +499,9 @@ public class AccessRecordController extends ControllerBase {
 		try {
 			String id = getTrimParameter("id");
 			AccessRecord02 accessRecord02 = accessRecord02Service.findById(id);
+			String authorid = accessRecord02.getAuthorid();
+			UserInfo userInfo = userInfoService.findById(authorid);
+			model.addAttribute("name", userInfo.getRealname());
 			model.addAttribute("accessRecord02", accessRecord02);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -684,7 +687,7 @@ public class AccessRecordController extends ControllerBase {
 				auditRecord.setAudittype(1);
 				auditRecord.setReason("");
 				auditRecordService.insert(auditRecord);
-			}else if(Integer.parseInt(state)==3){
+			}else if(Integer.parseInt(state)==4){
 				auditRecord.setAudittype(2);
 				auditRecord.setReason(checkContent);
 				auditRecordService.insert(auditRecord);
@@ -706,6 +709,9 @@ public class AccessRecordController extends ControllerBase {
 		try {
 			String id = getTrimParameter("id");
 			AccessRecord03 accessRecord03 = accessRecord03Service.findById(id);
+			String authorid = accessRecord03.getAuthorid();
+			UserInfo userInfo = userInfoService.findById(authorid);
+			model.addAttribute("name", userInfo.getRealname());
 			model.addAttribute("accessRecord03", accessRecord03);
 		} catch (Exception e) {
 			e.printStackTrace();
