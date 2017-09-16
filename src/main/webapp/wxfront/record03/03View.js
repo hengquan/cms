@@ -27,7 +27,6 @@ var customer={};
 function initPage(data) {
   userInfo=data;
   var url=_URL_BASE+"/wx/api/getRecord03?recordId="+recordId;
-  //var url=_URL_BASE+"/wx/api/getRecord03?recordId=123123123123";
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
@@ -149,8 +148,8 @@ function fillData(data) {
     $("#realPayMen").html(_temp);
   }
   if (data.suggestion) $("#suggestion").html(data.suggestion);
-  if (data.talkqandS) $("#talkQandS").html(data.talkqandS);
-  if (data.signqandS) $("#signQandS").html(data.signqandS);
+  if (data.talkqands) $("#talkQandS").html(data.talkqands);
+  if (data.signqands) $("#signQandS").html(data.signqands);
   if (data.sumdescn) $("#sumDescn").html(data.sumdescn);
   if (userInfo.roleName=='项目负责人'&&data.status==1) needAudit=true;
   if (needAudit) $("#operArea").show();
