@@ -429,45 +429,37 @@ px
 											<input type="text" name="totalprice" value="${accessRecord03.totalprice }" style="width: 4rem;">万
 										</td>
 										<td>付款方式：
-											<select name="fukuan">
-												<option value="0">请选择</option>
-												<option value="银行贷款（首套按揭）">银行贷款（首套按揭）</option>
-												<option value="银行贷款（二套按揭）">银行贷款（二套按揭）</option>
-												<option value="分期">分期</option>
-												<option value="一次性">一次性</option>
-												<option value="公积金贷款">公积金贷款</option>
-												<option value="无法了解" style="color: red">无法了解</option>
-											</select>
+											<input type="text" name="paymenttype" value="${accessRecord03.paymenttype }" style="width: 10rem;">
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">您关注的产品类型：
-											<input name="realtyproducttype" type="text" value="${accessRecord03.realtyproducttype}" style="width: 10rem"> 
+											<input name="realtyproducttype" type="text" value="${accessRecord03.realtyproducttype}" style="width: 50rem"> 
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">通邮地址：
-											<input type="text" name="addressmail" value="${accessRecord03.addressmail }" style="width: 11rem">
+											<input type="text" name="addressmail" value="${accessRecord03.addressmail }" style="width: 50rem">
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">实际居住情况：
-											<input name="livingstatus" type="text" value="${accessRecord03.livingstatus}" style="width: 10rem">
+											<input name="livingstatus" type="text" value="${accessRecord03.livingstatus}" style="width: 50rem">
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">房屋使用人是谁：
-											<input name="realusemen" type="text" value="${accessRecord03.realusemen}" style="width: 10rem" > 
+											<input name="realusemen" type="text" value="${accessRecord03.realusemen}" style="width: 50rem" > 
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">房屋出资人是谁：
-											<input name="realpaymen" type="text" value="${accessRecord03.realpaymen}" style="width: 10rem">
+											<input name="realpaymen" type="text" value="${accessRecord03.realpaymen}" style="width: 50rem">
 										</td>
 									</tr>
 

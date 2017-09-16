@@ -364,27 +364,24 @@ public class CustomerController extends ControllerBase {
 	        cell.setCellValue("访问总次数");  
 	        cell.setCellStyle(style);  
 	        cell = row.createCell((short) 7);  
-	        cell.setCellValue("本案关注点");  
-	        cell.setCellStyle(style);  
-	        cell = row.createCell((short) 8);  
 	        cell.setCellValue("年龄段");  
 	        cell.setCellStyle(style);  
-	        cell = row.createCell((short) 9);  
-	        cell.setCellValue("是否有购房资格");  
+	        cell = row.createCell((short) 8);  
+	        cell.setCellValue("是购房资格");  
 	        cell.setCellStyle(style);  
-	        cell = row.createCell((short) 10);  
+	        cell = row.createCell((short) 9);  
 	        cell.setCellValue("本地居住区");  
 	        cell.setCellStyle(style);  
-	        cell = row.createCell((short) 11);  
+	        cell = row.createCell((short) 10);  
 	        cell.setCellValue("本地工作区");  
 	        cell.setCellStyle(style);  
-	        cell = row.createCell((short) 12);  
+	        cell = row.createCell((short) 11);  
 	        cell.setCellValue("外阜居住区");  
 	        cell.setCellStyle(style);  
-	        cell = row.createCell((short) 13);  
+	        cell = row.createCell((short) 12);  
 	        cell.setCellValue("外阜工作区");  
 	        cell.setCellStyle(style);  
-	        cell = row.createCell((short) 14);  
+	        cell = row.createCell((short) 13);  
 	        cell.setCellValue("家庭状况");  
 	        cell.setCellStyle(style);  
 	        cell = row.createCell((short) 14);  
@@ -393,74 +390,159 @@ public class CustomerController extends ControllerBase {
 	        cell = row.createCell((short) 15);  
 	        cell.setCellValue("出行方式");  
 	        cell.setCellStyle(style);  
-	        cell = row.createCell((short) 15);  
+	        cell = row.createCell((short) 16);  
 	        cell.setCellValue("出行方式描述");  
 	        cell.setCellStyle(style); 
-	        cell = row.createCell((short) 15);  
+	        cell = row.createCell((short) 17);  
+	        cell.setCellValue("从事行业");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 18);  
+	        cell.setCellValue("从事行业描述");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 19);  
 	        cell.setCellValue("公司名称");  
 	        cell.setCellStyle(style); 
-	        cell = row.createCell((short) 15);  
+	        cell = row.createCell((short) 20);  
 	        cell.setCellValue("公司地址");  
 	        cell.setCellStyle(style); 
-	        cell = row.createCell((short) 15);  
+	        cell = row.createCell((short) 21);  
 	        cell.setCellValue("公司职务");  
 	        cell.setCellStyle(style); 
-	        cell = row.createCell((short) 15);  
+	        cell = row.createCell((short) 22);  
 	        cell.setCellValue("企业性质");  
 	        cell.setCellStyle(style); 
-	        cell = row.createCell((short) 15);  
+	        cell = row.createCell((short) 23);  
 	        cell.setCellValue("企业性质描述");  
 	        cell.setCellStyle(style);
-	        cell = row.createCell((short) 18);  
+	        cell = row.createCell((short) 24);  
 	        cell.setCellValue("关注产品类型");  
 	        cell.setCellStyle(style);  
-	        cell = row.createCell((short) 18);  
+	        cell = row.createCell((short) 25);  
 	        cell.setCellValue("关注产品类型描述");  
 	        cell.setCellStyle(style);  
-	        cell = row.createCell((short) 19);  
+	        cell = row.createCell((short) 26);  
 	        cell.setCellValue("关注面积");  
 	        cell.setCellStyle(style);  
-	        cell = row.createCell((short) 20);  
+	        cell = row.createCell((short) 27);  
 	        cell.setCellValue("接受价格区段");  
 	        cell.setCellStyle(style);  
-	        cell = row.createCell((short) 21);  
+	        cell = row.createCell((short) 28);  
 	        cell.setCellValue("购房目的");  
 	        cell.setCellStyle(style);  
-	        cell = row.createCell((short) 21);  
+	        cell = row.createCell((short) 29);  
 	        cell.setCellValue("购房目的描述");  
 	        cell.setCellStyle(style); 
-	        cell = row.createCell((short) 23);  
+	        cell = row.createCell((short) 30);  
 	        cell.setCellValue("预估身价");  
 	        cell.setCellStyle(style);  
-	        cell = row.createCell((short) 24);  
+	        cell = row.createCell((short) 31);  
 	        cell.setCellValue("重点投资");  
 	        cell.setCellStyle(style);  
-	        cell = row.createCell((short) 24);  
+	        cell = row.createCell((short) 32);  
 	        cell.setCellValue("重点投资描述");  
 	        cell.setCellStyle(style);
-	        cell = row.createCell((short) 24);  
+	        cell = row.createCell((short) 33);  
 	        cell.setCellValue("小孩个数");  
 	        cell.setCellStyle(style);
-	        cell = row.createCell((short) 24);  
+	        cell = row.createCell((short) 34);  
 	        cell.setCellValue("小孩年龄段");  
 	        cell.setCellStyle(style);
-	        cell = row.createCell((short) 24);  
+	        cell = row.createCell((short) 35);  
 	        cell.setCellValue("小孩业余爱好");  
 	        cell.setCellStyle(style);
-	        cell = row.createCell((short) 24);  
+	        cell = row.createCell((short) 36);  
 	        cell.setCellValue("小孩业余爱好描述");  
 	        cell.setCellStyle(style);
-	        cell = row.createCell((short) 24);  
+	        cell = row.createCell((short) 37);  
 	        cell.setCellValue("孩子学校类型");  
 	        cell.setCellStyle(style);
-	        
-	        
-	        cell = row.createCell((short) 25);  
-	        cell.setCellValue("资金筹备期");  
-	        cell.setCellStyle(style);  
-	        cell = row.createCell((short) 26);  
-	        cell.setCellValue("比较项目");  
-	        cell.setCellStyle(style);  
+	        cell = row.createCell((short) 38);  
+	        cell.setCellValue("学校名称");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 39);  
+	        cell.setCellValue("生活半径");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 40);  
+	        cell.setCellValue("社区名称");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 41);  
+	        cell.setCellValue("住房性质");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 42);  
+	        cell.setCellValue("居住面积");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 43);  
+	        cell.setCellValue("贷款记录");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 44);  
+	        cell.setCellValue("全职太太");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 45);  
+	        cell.setCellValue("国际教育意愿");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 46);  
+	        cell.setCellValue("是否有保姆");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 47);  
+	        cell.setCellValue("业主海外经历");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 48);  
+	        cell.setCellValue("业主海外经历城市");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 49);  
+	        cell.setCellValue("子女海外经历");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 50);  
+	        cell.setCellValue("子女海外经历城市");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 51);  
+	        cell.setCellValue("是否有宠物");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 52);  
+	        cell.setCellValue("家庭汽车数量");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 53);  
+	        cell.setCellValue("汽车品牌");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 54);  
+	        cell.setCellValue("汽车总价");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 55);  
+	        cell.setCellValue("名下房产数量");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 56);  
+	        cell.setCellValue("关注微信号");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 57);  
+	        cell.setCellValue("常用APP");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 58);  
+	        cell.setCellValue("业余爱好");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 59);  
+	        cell.setCellValue("业余爱好描述");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 60);  
+	        cell.setCellValue("喜欢活动");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 61);  
+	        cell.setCellValue("喜欢活动描述");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 62);  
+	        cell.setCellValue("可参加活动时间");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 63);  
+	        cell.setCellValue("户籍类型");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 64);  
+	        cell.setCellValue("通邮地址");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 65);  
+	        cell.setCellValue("客户评级");  
+	        cell.setCellStyle(style);
+	        cell = row.createCell((short) 66);  
+	        cell.setCellValue("客户描述");  
+	        cell.setCellStyle(style);
 	        // 第五步，写入实体数据 实际应用中这些数据从数据库得到，  
 	        //List list = CreateSimpleExcelToDisk.getStudent();  
 	        for (int i = 0; i < userMsg.size(); i++)  
@@ -475,6 +557,129 @@ public class CustomerController extends ControllerBase {
 	            cell = row.createCell((short) 4);  
 	            cell.setCellValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(map2.get("cTime")));  
 	            row.createCell((short) 5).setCellValue(map2.get("realName").toString());  
+	            //总次数
+	            row.createCell((short) 6).setCellValue(map2.get("total")==null?"":map2.get("total").toString()); 
+	            //年龄段
+	            row.createCell((short) 7).setCellValue(map2.get("ageGroup")==null?"":map2.get("ageGroup").toString()); 
+	            //购房资格
+	            row.createCell((short) 8).setCellValue(map2.get("buyQualify")==null?"":map2.get("buyQualify").toString()); 
+	            //本地居住地
+	            row.createCell((short) 9).setCellValue(map2.get("localResidence")==null?"":map2.get("localResidence").toString()); 
+	            //本地工作地
+	            row.createCell((short) 10).setCellValue(map2.get("localWorkArea")==null?"":map2.get("localWorkArea").toString()); 
+	            //外阜居住地
+	            row.createCell((short) 11).setCellValue(map2.get("outResidence")==null?"":map2.get("outResidence").toString()); 
+	            //外阜工作地
+	            row.createCell((short) 12).setCellValue(map2.get("outWorkArea")==null?"":map2.get("outWorkArea").toString()); 
+	            //家庭状况
+	            row.createCell((short) 13).setCellValue(map2.get("familyStatus")==null?"":map2.get("familyStatus").toString()); 
+	            //实际居住情况
+	            row.createCell((short) 14).setCellValue(map2.get("livingStatus")==null?"":map2.get("livingStatus").toString()); 
+	            //出行方式
+	            row.createCell((short) 15).setCellValue(map2.get("trafficType")==null?"":map2.get("trafficType").toString()); 
+	            //出行方式描述
+	            row.createCell((short) 16).setCellValue(map2.get("trafficTypeDesc")==null?"":map2.get("trafficTypeDesc").toString()); 
+	            //从事行业
+	            row.createCell((short) 17).setCellValue(map2.get("workIndustry")==null?"":map2.get("workIndustry").toString()); 
+	            //从事行业描述
+	            row.createCell((short) 18).setCellValue(map2.get("workIndustryDesc")==null?"":map2.get("workIndustryDesc").toString()); 
+	            //公司名称
+	            row.createCell((short) 19).setCellValue(map2.get("enterpriseName")==null?"":map2.get("enterpriseName").toString()); 
+	            //公司地址
+	            row.createCell((short) 20).setCellValue(map2.get("enterpriseAddress")==null?"":map2.get("enterpriseAddress").toString()); 
+	            //公司职务
+	            row.createCell((short) 21).setCellValue(map2.get("enterprisePost")==null?"":map2.get("enterprisePost").toString()); 
+	            //企业性质
+	            row.createCell((short) 22).setCellValue(map2.get("enterpriseType")==null?"":map2.get("enterpriseType").toString()); 
+	            //企业性质描述
+	            row.createCell((short) 23).setCellValue(map2.get("enterpriseTypeDesc")==null?"":map2.get("enterpriseTypeDesc").toString()); 
+	            //关注产品类型
+	            row.createCell((short) 24).setCellValue(map2.get("realtyProductType")==null?"":map2.get("realtyProductType").toString()); 
+	            //关注产品类型描述
+	            row.createCell((short) 25).setCellValue(map2.get("realtyProductTypeDesc")==null?"":map2.get("realtyProductTypeDesc").toString()); 
+	            //关注产面积
+	            row.createCell((short) 26).setCellValue(map2.get("attentAcreage")==null?"":map2.get("attentAcreage").toString()); 
+	            //接受价格区段
+	            row.createCell((short) 27).setCellValue(map2.get("priceSection")==null?"":map2.get("priceSection").toString()); 
+	            //购房目的
+	            row.createCell((short) 28).setCellValue(map2.get("buyPurpose")==null?"":map2.get("buyPurpose").toString()); 
+	            //购房目的描述
+	            row.createCell((short) 29).setCellValue(map2.get("buyPurposeDesc")==null?"":map2.get("buyPurposeDesc").toString()); 
+	            //预估身价
+	            row.createCell((short) 30).setCellValue(map2.get("estCustWorth")==null?"":map2.get("estCustWorth").toString()); 
+	            //重点投资
+	            row.createCell((short) 31).setCellValue(map2.get("investType")==null?"":map2.get("investType").toString()); 
+	            //重点投资描述
+	            row.createCell((short) 32).setCellValue(map2.get("investTypeDesc")==null?"":map2.get("investTypeDesc").toString()); 
+	            //小孩个数
+	            row.createCell((short) 33).setCellValue(map2.get("childrenNum")==null?"":map2.get("childrenNum").toString()); 
+	            //小孩年龄段
+	            row.createCell((short) 34).setCellValue(map2.get("childAgeGroup")==null?"":map2.get("childAgeGroup").toString()); 
+	            //小孩业余爱好
+	            row.createCell((short) 35).setCellValue(map2.get("childAvocations")==null?"":map2.get("childAvocations").toString()); 
+	            //小孩业余爱好描述
+	            row.createCell((short) 36).setCellValue(map2.get("childAvocationsDesc")==null?"":map2.get("childAvocationsDesc").toString()); 
+	            //孩子学校类型
+	            row.createCell((short) 37).setCellValue(map2.get("schoolType")==null?"":map2.get("schoolType").toString()); 
+	            //学校名称
+	            row.createCell((short) 38).setCellValue(map2.get("schoolName")==null?"":map2.get("schoolName").toString()); 
+	            //生活半径
+	            row.createCell((short) 39).setCellValue(map2.get("livingRadius")==null?"":map2.get("livingRadius").toString()); 
+	            //社区名称
+	            row.createCell((short) 40).setCellValue(map2.get("communityName")==null?"":map2.get("communityName").toString()); 
+	            //住房性质
+	            row.createCell((short) 41).setCellValue(map2.get("houseType")==null?"":map2.get("houseType").toString()); 
+	            //居住面积
+	            row.createCell((short) 42).setCellValue(map2.get("liveAcreage")==null?"":map2.get("liveAcreage").toString()); 
+	            //贷款记录
+	            row.createCell((short) 43).setCellValue(map2.get("loanStatus")==null?"":map2.get("loanStatus").toString()); 
+	            //全职太太
+	            row.createCell((short) 44).setCellValue(map2.get("fulltimeWifeFlag")==null?"":map2.get("fulltimeWifeFlag").toString()); 
+	            //国际教育意愿
+	            row.createCell((short) 45).setCellValue(map2.get("outEduWill")==null?"":map2.get("outEduWill").toString()); 
+	            //是否有保姆
+	            row.createCell((short) 46).setCellValue(map2.get("nannyFlag")==null?"":map2.get("nannyFlag").toString()); 
+	            //业主海外经历
+	            row.createCell((short) 47).setCellValue(map2.get("outExperFlag")==null?"":map2.get("outExperFlag").toString()); 
+	            //业主海外经历城市
+	            row.createCell((short) 48).setCellValue(map2.get("outExperCity")==null?"":map2.get("outExperCity").toString()); 
+	            //子女外省经历
+	            row.createCell((short) 49).setCellValue(map2.get("childOutExperFlag")==null?"":map2.get("childOutExperFlag").toString()); 
+	            //子女外省经历城市
+	            row.createCell((short) 50).setCellValue(map2.get("childOutExperCity")==null?"":map2.get("childOutExperCity").toString()); 
+	            //是否有宠物
+	            row.createCell((short) 51).setCellValue(map2.get("petFlag")==null?"":map2.get("petFlag").toString()); 
+	            //家庭汽车数据量
+	            row.createCell((short) 52).setCellValue(map2.get("carFamilyCount")==null?"":map2.get("carFamilyCount").toString()); 
+	            //汽车品牌
+	            row.createCell((short) 53).setCellValue(map2.get("carBrand")==null?"":map2.get("carBrand").toString()); 
+	            //汽车总价
+	            row.createCell((short) 54).setCellValue(map2.get("carTotalPrice")==null?"":map2.get("carTotalPrice").toString()); 
+	            //名下房产数量
+	            row.createCell((short) 55).setCellValue(map2.get("houseCount")==null?"":map2.get("houseCount").toString()); 
+	            //关注微信号
+	            row.createCell((short) 56).setCellValue(map2.get("attentWX")==null?"":map2.get("attentWX").toString()); 
+	            //常用APP
+	            row.createCell((short) 57).setCellValue(map2.get("appNames")==null?"":map2.get("appNames").toString()); 
+	            //业余爱好
+	            row.createCell((short) 58).setCellValue(map2.get("avocations")==null?"":map2.get("avocations").toString()); 
+	            //业余爱好描述
+	            row.createCell((short) 59).setCellValue(map2.get("avocationsDesc")==null?"":map2.get("avocationsDesc").toString()); 
+	            //喜欢活动
+	            row.createCell((short) 60).setCellValue(map2.get("loveActivation")==null?"":map2.get("loveActivation").toString()); 
+	            //喜欢活动描述
+	            row.createCell((short) 61).setCellValue(map2.get("lovActDesc")==null?"":map2.get("lovActDesc").toString()); 
+	            //可参加活动时间
+	            row.createCell((short) 62).setCellValue(map2.get("freeTimeSection")==null?"":map2.get("freeTimeSection").toString()); 
+	            //户籍类型
+	            row.createCell((short) 63).setCellValue(map2.get("houseRegiType")==null?"":map2.get("houseRegiType").toString()); 
+	            //通邮地址
+	            row.createCell((short) 64).setCellValue(map2.get("addressMail")==null?"":map2.get("addressMail").toString()); 
+	            //客户评级
+	            row.createCell((short) 65).setCellValue(map2.get("custScore")==null?"":map2.get("custScore").toString()); 
+	            //客户描述
+	            row.createCell((short) 66).setCellValue(map2.get("custDescn")==null?"":map2.get("custDescn").toString()); 
+	        
 	        }  
 	         sheet.autoSizeColumn((short)0); //调整第一列宽度
 	         sheet.autoSizeColumn((short)1); //调整第二列宽度
@@ -484,6 +689,7 @@ public class CustomerController extends ControllerBase {
 	         sheet.autoSizeColumn((short)5); //调整第四列宽度
 	        // 第六步，将文件存到指定位置  
             FileOutputStream fout = new FileOutputStream("D:/cust.xls");  
+            //FileOutputStream fout = new FileOutputStream("/opt/tomcat/webapps/wxmp.ql/expexcls/cust.xls");
             wb.write(fout);  
             fout.close();  
             map.put("msg", "100");

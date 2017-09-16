@@ -499,6 +499,9 @@ public class AccessRecordController extends ControllerBase {
 		try {
 			String id = getTrimParameter("id");
 			AccessRecord02 accessRecord02 = accessRecord02Service.findById(id);
+			String authorid = accessRecord02.getAuthorid();
+			UserInfo userInfo = userInfoService.findById(authorid);
+			model.addAttribute("name", userInfo.getRealname());
 			model.addAttribute("accessRecord02", accessRecord02);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -706,6 +709,9 @@ public class AccessRecordController extends ControllerBase {
 		try {
 			String id = getTrimParameter("id");
 			AccessRecord03 accessRecord03 = accessRecord03Service.findById(id);
+			String authorid = accessRecord03.getAuthorid();
+			UserInfo userInfo = userInfoService.findById(authorid);
+			model.addAttribute("name", userInfo.getRealname());
 			model.addAttribute("accessRecord03", accessRecord03);
 		} catch (Exception e) {
 			e.printStackTrace();
