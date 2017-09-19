@@ -144,7 +144,7 @@ function fillData(data) {
     $("#investType").html(_temp);
   }
   if (data.capitalprepsection) $("#capitalPrepSection").html(data.capitalprepsection);
-  if (data.investtype) {
+  if (data.realtyproducttype) {
     var _temp=data.realtyproducttype;
     if (data.realtyproducttype.indexOf('其他')!=-1) {
       if (data.realtyproducttypedesc) {

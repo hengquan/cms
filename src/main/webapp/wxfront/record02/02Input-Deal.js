@@ -135,7 +135,6 @@ function initData(data) {
       getAudit(recordId);
     }
     step2Prev();
-
     //按传入处理
     if (_TYPE=='add'&&data&&data.from01Flag&&data.from01Flag==1) {
       _uProjId=data.projId;
@@ -217,6 +216,7 @@ function loadProjUser(projId) {
           $("#_SHOWUSER").hide();
           for (var i=0; i<json.users.length; i++) {
             var oneUser=json.users[i];
+            if (oneUser.roleName!="顾问") continue;
             if (oneUser.id==curUserInfo.userid) continue;
             var _innerHtml=oneUser.realName+"<span>（"+(oneUser.sex==1?"男":"女")+"）</span><span>"+oneUser.mainPhoneNum+"</span><span>"+oneUser.projName+"</span>";
             var userHtml="<label><input type='radio' name='user' value='"+oneUser.id+"-"+oneUser.realName+"' _text='"+oneUser.realName+"' onclick='selUser()'/>"+_innerHtml+"</label>";
@@ -268,7 +268,11 @@ function cleanData(type) {//清除数据
   _uOutExperFlag="";
   _uChildOutExperFlag="";
   _uLivingRadius="";
+  _uHouseType="";
+  _uHouseTypeDesc="";
   _uLiveAcreage="";
+  _uHouseCount="";
+  _uCarFamilyCount="";
   _uCarTotalPrice="";
   _uAvocations="";
   _uAvocationsDesc="";
@@ -306,6 +310,7 @@ function cleanData(type) {//清除数据
 
 //翻页切换
 function step1Next() {//要判断是否应该进行首访录入
+	return "";
   var _data={};
   if (!_uProjId) {
     alert("请选择具体项目!");
@@ -387,6 +392,7 @@ function step2Prev() {
   $("#step5").hide(0);
 }
 function step2Next() {
+	return "";
   var err=checkStep2();
   if (err) {
     alert(err);
@@ -406,6 +412,7 @@ function step3Prev() {
   $("#step5").hide(0);
 }
 function step3Next() {
+	return "";
   var err=checkStep3();
   if (err) {
     alert(err);
@@ -425,6 +432,7 @@ function step4Prev() {
   $("#step5").hide(0);
 }
 function step4Next() {
+	return "";
   var err=checkStep4();
   if (err) {
     alert(err);
@@ -474,23 +482,25 @@ function checkStep2() {
 function checkStep3() {
   if (!_uLivingRadius) return "请选择生活半径!";
   if (!$("input[name='communityName']").val()) return "请录入居住社区名称!";
-  if (!$("input[name='houseType']").val()) return "请录入住房性质!";
+  if (!_uHouseType) return "请录入住房性质!";
   if (!_uLiveAcreage) return "请选择目前的居住面积!";
   if (!_uLoanStatus) return "请选择贷款记录!";
 
   if (!$("input[name='enterpriseName']").val()) return "请录入公司名称!";
   if (!$("input[name='enterpriseAddress']").val()) return "请录入公司地址!";
   if (!$("input[name='enterprisePost']").val()) return "请录入公司职务!";
+//  var temp=$("input[name='houseCount']").val();
+//  if (!temp) return "请录入家庭已购房产数量!";
+//  if (!(/^\d+/.test(temp))) return "家庭已购房产数量要录入数字!";
+//  if (temp<=0) return "家庭已购房产数量要大于0!";
 
-  var temp=$("input[name='houseCount']").val();
-  if (!temp) return "请录入家庭已购房产数量!";
-  if (!(/^\d+/.test(temp))) return "家庭已购房产数量要录入数字!";
-  if (temp<=0) return "家庭已购房产数量要大于0!";
+  if (!_uHouseCount) return "请选择家庭已购房产数量!";
+  if (!_uCarFamilyCount) return "请选择家庭汽车数量!";
 
-  var temp=$("input[name='carFamilyCount']").val();
-  if (!temp) return "请录入家庭汽车数量!";
-  if (!(/^\d+/.test(temp))) return "家庭汽车数量要录入数字!";
-  if (temp<=0) return "家庭汽车数量要大于0!";
+//  var temp=$("input[name='carFamilyCount']").val();
+//  if (!temp) return "请录入家庭汽车数量!";
+//  if (!(/^\d+/.test(temp))) return "家庭汽车数量要录入数字!";
+//  if (temp<=0) return "家庭汽车数量要大于0!";
   
   if (!$("input[name='carBrand']").val()) return "请录入汽车品牌!";
   if (!_uCarTotalPrice) return "请选择驾车总价!";
@@ -591,8 +601,8 @@ function commitData() {
     if (_uLivingRadius) retData.livingradius=_uLivingRadius;
     temp=$("input[name='communityName']").val();
     if (temp) retData.communityname=temp;
-    temp=$("input[name='houseType']").val();
-    if (temp) retData.housetype=temp;
+    if (_uHouseType) retData.housetype=_uHouseType;
+    if (_uHouseTypeDesc) retData.housetypedesc=_uHouseTypeDesc;
     if (_uLiveAcreage) retData.liveacreage=_uLiveAcreage;
     temp=$("input[name='enterpriseName']").val();
     if (temp) retData.enterprisename=temp;
@@ -600,8 +610,7 @@ function commitData() {
     if (temp) retData.enterpriseaddress=temp;
     temp=$("input[name='enterprisePost']").val();
     if (temp) retData.enterprisepost=temp;
-    temp=$("input[name='houseCount']").val();
-    if (temp) retData.housecount=temp;
+    if (_uHouseCount) retData.housecount=_uHouseCount;
     temp=$("input[name='carFamilyCount']").val();
     if (temp) retData.carfamilycount=temp;
     temp=$("input[name='carBrand']").val();
@@ -935,13 +944,22 @@ function fillData(data) {//填数据，包括所有页面
   if (data.childoutexpercity) $("input[name='childOutExperCity']").val(data.childoutexpercity);
   if (data.livingradius) fillSelectField("livingRadius", data.livingradius, true);
   if (data.communityname) $("input[name='communityName']").val(data.communityname);
-  if (data.housetype) $("input[name='houseType']").val(data.housetype);
+  if (data.housetype) {
+    var _temp=data.housetype;
+    if (data.housetype.indexOf('其他')!=-1) {
+      if (data.housetypedesc) {
+        var _temp2="其他("+data.housetypedesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    fillSelectField("houseType", _temp, true);
+  }
   if (data.liveacreage) fillSelectField("liveAcreage", data.liveacreage, true);
   if (data.enterprisename) $("input[name='enterpriseName']").val(data.enterprisename);
   if (data.enterpriseaddress) $("input[name='enterpriseAddress']").val(data.enterpriseaddress);
   if (data.enterprisepost) $("input[name='enterprisePost']").val(data.enterprisepost);
-  if (data.housecount) $("input[name='houseCount']").val(data.housecount);
-  if (data.carfamilycount) $("input[name='carFamilyCount']").val(data.carfamilycount);
+  if (data.housecount) fillSelectField("houseCount", data.housecount, true);
+  if (data.carfamilycount) fillSelectField("carFamilyCount", data.carfamilycount, true);
   if (data.carbrand) $("input[name='carBrand']").val(data.carbrand);
   if (data.cartotalprice) fillSelectField("carTotalPrice", data.cartotalprice, true);
   if (data.attentwx) $("input[name='attentWX']").val(data.attentwx);

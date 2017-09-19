@@ -97,7 +97,13 @@
   <div class="item_sflr row">
     <div class="col-title col-title-7">房屋买受人姓名</div>
     <div class="col-input-7">
-      <input type="text" placeholder="" name="custName"/>
+      <input type="text" placeholder="" name="buyerName"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-7">客户姓名</div>
+    <div class="col-input-7">
+      <input type="text" placeholder="" name="custName" onblur="fillBuyerNameByCustName()"/>
     </div>
   </div>
   <div class="item_sflr row">
@@ -151,19 +157,19 @@
   </div>
   <div class="line"></div>
   <div class="item_sflr row">
-    <div class="col-title col-title-6">本次到访时间</div>
+    <div class="col-title col-title-6">首次认知时间</div>
     <div class="col-input-6 inputdate">
-      <input type="date" placeholder="" name="recpTime"/>
+      <input type="date" placeholder="" name="firstKnowTime"/>
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-4">认购日期</div>
     <div class="col-input-4 inputdate">
-      <input type="date" placeholder="" name="purchaseDate"/>
+      <input type="date" placeholder="" name="purchaseDate" onblur="adjustSignDate(10)"/>
     </div>
   </div>
   <div class="item_sflr row">
-    <div class="col-title col-title-4">签约日期</div>
+    <div class="col-title col-title-4">预计签约日期</div>
     <div class="col-input-4 inputdate">
       <input type="date" placeholder="" name="signDate"/>
     </div>

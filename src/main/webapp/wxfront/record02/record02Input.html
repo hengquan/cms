@@ -177,7 +177,8 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-          <h4 class="modal-title">来访人数</h4></div>
+          <h4 class="modal-title">来访人数</h4>
+        </div>
         <div class="modal-body">
           <label><input type="radio" name="visitorCount" value="1" _text="一人" @click="selVisitorCount()"/> 一人 </label>
           <label><input type="radio" name="visitorCount" value="2" _text="两人" @click="selVisitorCount()"/> 两人 </label>
@@ -598,9 +599,45 @@
     </div>
   </div>
   <div class="item_sflr row">
-    <div class="col-title col-title-4">住房性质</div>
-    <div class="col-input-4">
-      <input type="text" placeholder="" name="houseType"/>
+    <div class="col-title col-title-6">住房性质</div>
+    <a href="" data-toggle="modal" data-target="#houseTypeModal">
+    <div class="col-input-6-1">
+      <span class="input_style form-group" id="houseType">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="houseTypeModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">住房性质</h4>
+        </div>
+        <div class="modal-body">
+          <label>别墅&nbsp;(
+          <input type="checkbox" name="houseType" value="009001001-独栋" _text="别墅-独栋" @click="clickHouseTypeCheck(1)"/> 独栋 </label>
+          <label><input type="checkbox" name="houseType" value="009001002-类独栋" _text="别墅-类独栋" @click="clickHouseTypeCheck(1)"/> 类独栋 </label>
+          <label><input type="checkbox" name="houseType" value="009001003-双拼" _text="别墅-双拼" @click="clickHouseTypeCheck(1)"/> 双拼 </label>
+          <label><input type="checkbox" name="houseType" value="009001004-联排" _text="别墅-联排" @click="clickHouseTypeCheck(1)"/> 联排 </label>
+          <label><input type="checkbox" name="houseType" value="009001005-上叠" _text="别墅-上叠" @click="clickHouseTypeCheck(1)"/> 上叠 </label>
+          <label><input type="checkbox" name="houseType" value="009001006-下叠" _text="别墅-下叠" @click="clickHouseTypeCheck(1)"/> 下叠 )</label><br/>
+          <label>平层&nbsp;(
+          <input type="checkbox" name="houseType" value="009002001-两居及以下" _text="平层-两居及以下" @click="clickHouseTypeCheck(1)"/> 两居及以下 </label>
+          <label><input type="checkbox" name="houseType" value="009002002-三居" _text="平层-三居" @click="clickHouseTypeCheck(1)"/> 三居 </label>
+          <label><input type="checkbox" name="houseType" value="009002003-四居" _text="平层-四居" @click="clickHouseTypeCheck(1)"/> 四居 </label>
+          <label><input type="checkbox" name="houseType" value="009002004-五居及以上" _text="平层-五居及以上" @click="clickHouseTypeCheck(1)"/> 五居及以上 )</label><br/>
+          <label><input type="checkbox" name="houseType" value="009003-商业" _text="商业" @click="clickHouseTypeCheck(1)"> 商业 </label>
+          <label><input type="checkbox" name="houseType" value="00904-商业办公" _text="商业办公" @click="clickHouseTypeCheck(1)"/> 商业办公 </label>
+          <label class="wflj"><input type="checkbox" name="houseType" value="009000-无法了解" _text="无法了解" @click="clickHouseTypeCheck(2)"/> 无法了解 </label><br/>
+          <label><input type="checkbox" name="houseType" value="009999-其他" _text="其他" @click="clickHouseTypeCheck(3)"/> 其他 </label>
+          <input type="text" placeholder="" name="houseTypeDesc" style="display:none;"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanHouseType(1)">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanHouseType(2)" id="cleanHouseTypeBtn" style="display:none;">清除并关闭</button>
+          <button type="button" class="btn btn-primary" @click="selHouseType()">确定</button>
+        </div>
+      </div>
     </div>
   </div>
   <div class="item_sflr row">
@@ -682,15 +719,59 @@
     </div>
   </div>
   <div class="item_sflr row">
-    <div class="col-title col-title-8">家庭已购房产（套）</div>
-    <div class="col-input-8">
-      <input type="text" placeholder="" name="houseCount"/>
+    <div class="col-title col-title-4">家庭已购房产（套）</div>
+    <a href="" data-toggle="modal" data-target="#houseCountModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="houseCount">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="houseCountModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">家庭已购房产（套）</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="houseCount" value="1" _text="一套" @click="selHouseCount()"/> 一套 </label>
+          <label><input type="radio" name="houseCount" value="2" _text="两套" @click="selHouseCount()"/> 两套 </label>
+          <label><input type="radio" name="houseCount" value="3" _text="三套" @click="selHouseCount()"/> 三套 </label>
+          <label><input type="radio" name="houseCount" value="4" _text="四套及以上" @click="selHouseCount()"/> 四套及以上 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanHouseCount()" id="cleanHouseCountBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
     </div>
   </div>
   <div class="item_sflr row">
-    <div class="col-title col-title-8">家庭汽车数量（辆）</div>
-    <div class="col-input-8">
-      <input type="text" placeholder="" name="carFamilyCount"/>
+    <div class="col-title col-title-4">家庭汽车数量（辆）</div>
+    <a href="" data-toggle="modal" data-target="carFamilyCountModal">
+    <div class="col-input-4-1">
+      <span class="input_style form-group" id="carFamilyCount">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="carFamilyCountModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">家庭汽车数量（辆）</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="carFamilyCount" value="1" _text="一辆" @click="selCarFamilyCount()"/> 一辆 </label>
+          <label><input type="radio" name="carFamilyCount" value="2" _text="两辆" @click="selCarFamilyCount()"/> 两辆 </label>
+          <label><input type="radio" name="carFamilyCount" value="3" _text="三辆" @click="selCarFamilyCount()"/> 三辆 </label>
+          <label><input type="radio" name="carFamilyCount" value="4" _text="四辆及以上" @click="selHouseCount()"/> 四辆及以上 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanCarFamilyCount()" id="cleanCarFamilyCountBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
     </div>
   </div>
   <div class="item_sflr row">

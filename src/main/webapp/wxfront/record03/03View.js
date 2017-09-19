@@ -83,17 +83,17 @@ function fillData(data) {
     $("#custPhone").html(phoneHtml.substring(5));
   }
   if (customer.custsex) $("#custSex").html(customer.custsex);
-  if (data.receptime) {
+  if (data.firstknowtime.time) {
     var rTime=new Date();
-    rTime.setTime(data.receptime.time);
-    $("#recpTime").html(rTime.Format('yyyy-MM-dd'));
+    rTime.setTime(data.firstknowtime.time);
+    $("#firstKnowTime").html(rTime.Format('yyyy-MM-dd'));
   }
-  if (data.purchasedate) {
+  if (data.purchasedate.time) {
     var rTime=new Date();
     rTime.setTime(data.purchasedate.time);
     $("#purchaseDate").html(rTime.Format('yyyy-MM-dd'));
   }
-  if (data.signdate) {
+  if (data.signdate.time) {
     var rTime=new Date();
     rTime.setTime(data.signdate.time);
     $("#signDate").html(rTime.Format('yyyy-MM-dd'));
