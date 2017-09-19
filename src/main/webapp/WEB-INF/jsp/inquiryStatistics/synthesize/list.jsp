@@ -406,6 +406,11 @@
 		<input type="hidden" name="byid" id="byid"> <input
 			type="hidden" name="boxeditId" id="boxeditId">
 	</form>
+	
+	<form action="${appRoot}/customer/downLoadExcel" method="post"
+		id="downLoadExcel" name="downLoadExcel">
+		<input type="hidden" name="path" id="excelPath">
+	</form>
 
 	<form action="${appRoot}/user/setExpert" method="post" id="checkExpert"
 		name="checkExpert">
@@ -488,11 +493,11 @@
 			url:'${appRoot}/customer/customerMsgExcel',
 			dataType:'json',
 			success:function(data){
-				if(data.msg==100){
-					windowShow("导出成功","");
-				}else{
-					windowShow("导出失败","");
-				}
+				var path = data.path;
+				alert(path);
+				$("#excelPath").val(path);
+				$("#downLoadExcel").submit();
+				//window.location.href="${appRoot}/customer/downLoadExcel?path="+path;
 			}
 		});
 	}

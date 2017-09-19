@@ -161,6 +161,16 @@ public class AccessRecord02 {
     
     private String compareprojs;
 
+    private String housetypedesc;
+
+	public String getHousetypedesc() {
+		return housetypedesc;
+	}
+
+	public void setHousetypedesc(String housetypedesc) {
+		this.housetypedesc = housetypedesc;
+	}
+
 	public String getCompareprojs() {
 		return compareprojs;
 	}

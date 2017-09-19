@@ -60,6 +60,7 @@
     <result column="livingStatus" property="livingstatus" jdbcType="VARCHAR" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
+    <result column="firstKnowTime" property="firstknowtime" jdbcType="TIMESTAMP" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.hj.wxmp.mobile.entity.Customer" extends="BaseResultMap" >
     <result column="trafficTypeDesc" property="traffictypedesc" jdbcType="LONGVARCHAR" />
@@ -71,6 +72,8 @@
     <result column="avocationsDesc" property="avocationsdesc" jdbcType="LONGVARCHAR" />
     <result column="loveActDesc" property="loveactdesc" jdbcType="LONGVARCHAR" />
     <result column="custDescn" property="custdescn" jdbcType="LONGVARCHAR" />
+    <result column="houseTypeDesc" property="housetypedesc" jdbcType="LONGVARCHAR" />
+    <result column="paymentTypeDesc" property="paymenttypedesc" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, custName, phoneNum, custSex, ageGroup, buyQualify, localResidence, localWorkArea, 
@@ -81,11 +84,11 @@
     enterpriseAddress, enterprisePost, loanStatus, fulltimeWifeFlag, outEduWill, nannyFlag, 
     outExperFlag, outExperCity, childOutExperFlag, childOutExperCity, petFlag, houseCount, 
     carFamilyCount, carBrand, carTotalPrice, attentWX, appNames, avocations, loveActivation, 
-    freeTimeSection, addressMail, houseRegiType, custScore, livingStatus, cTime, lmTime
+    freeTimeSection, addressMail, houseRegiType, custScore, livingStatus, cTime, lmTime,firstKnowTime
   </sql>
   <sql id="Blob_Column_List" >
     trafficTypeDesc, workIndustryDesc, enterpriseTypeDesc, realtyProductTypeDesc, buyPurposeDesc, 
-    investTypeDesc, avocationsDesc, loveActDesc, custDescn
+    investTypeDesc, avocationsDesc, loveActDesc, custDescn,houseTypeDesc,paymentTypeDesc
   </sql>
   <select id="selectByPrimaryKey" resultType="com.hj.wxmp.mobile.entity.Customer" parameterType="java.lang.String" >
     select 
@@ -353,6 +356,15 @@
       <if test="custdescn != null" >
         custDescn,
       </if>
+      <if test="housetypedesc != null" >
+        houseTypeDesc,
+      </if>
+      <if test="firstknowtime != null" >
+        firstKnowTime,
+      </if>
+      <if test="paymenttypedesc != null" >
+        paymentTypeDesc,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -556,6 +568,15 @@
       <if test="custdescn != null" >
         #{custdescn,jdbcType=LONGVARCHAR},
       </if>
+      <if test="housetypedesc != null" >
+        #{housetypedesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="firstknowtime != null" >
+        #{firstknowtime,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="paymenttypedesc != null" >
+        #{paymenttypedesc,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.Customer" >
@@ -758,6 +779,15 @@
       </if>
       <if test="custdescn != null" >
         custDescn = #{custdescn,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="housetypedesc != null" >
+        houseTypeDesc = #{housetypedesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="firstKnowTime != null" >
+        firstKnowTime = #{firstknowtime,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="paymenttypedesc != null" >
+        paymentTypeDesc = #{paymenttypedesc,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
