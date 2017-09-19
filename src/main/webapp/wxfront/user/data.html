@@ -70,11 +70,13 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
   <div class="tabCon">
     <div class="tabBox">
       <div class="tabList">
+        <!--
         <div class="item_sflr row" style="width:96%; border:1px solid #FFFFFF;margin:0;padding:0;">
           <div class="inputdate02">
             <input type="date" placeholder="" value="2017-09-14" style="width:97%;">
           </div>
         </div>
+        -->
         <div style="line-height:4rem;text-align:center;font-size:1.3rem">天成团队8月客户来访日数据统计</div>
         <table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
           <thead>
@@ -89,11 +91,13 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
         </table>
       </div>
       <div class="tabList">
+        <!--
         <div class="item_sflr row" style="width:96%; border:1px solid #FFFFFF;margin:0;padding:0;">
           <div class="inputdate02">
-            <input type="date" placeholder="Birth day" value="2017-09" style="width:97%;">
+            <input type="date" placeholder="" value="2017-09-14" style="width:97%;">
           </div>
         </div>
+        -->
         <div style="line-height:4rem;text-align:center;font-size:1.3rem">天成团队8月客户来访周数据统计</div>
         <table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
           <thead>
@@ -108,12 +112,13 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
         </table>
       </div>
       <div class="tabList">
+        <!--
         <div class="item_sflr row" style="width:96%; border:1px solid #FFFFFF;margin:0;padding:0;">
           <div class="inputdate02">
-            <input type="date" placeholder="Birth day" value="2017-09" style="width:97%;">
+            <input type="date" placeholder="" value="2017-09-14" style="width:97%;">
           </div>
         </div>
-        <div style="line-height:4rem;text-align:center;font-size:1.3rem">天成团队8月客户来访月数据统计</div>
+        -->
         <div style="line-height:4rem;text-align:center;font-size:1.3rem">天成团队8月客户来访周数据统计</div>
         <table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
           <thead>
@@ -243,6 +248,15 @@ $(function(){
     var stars=wrap.querySelector('.active').start;
     init.lineAnme(lineDiv,stars*windowWidth/4);
   };
+
+  function dealInit() {
+    var url=window.location.href;
+    var pos=url.indexOf("#");
+    if (pos>0) {
+      var localNavi=url.substring(url.indexOf("#")+1);
+      alert (localNavi);
+    }
+  }
 });
 
 var init={

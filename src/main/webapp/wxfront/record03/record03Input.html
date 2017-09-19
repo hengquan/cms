@@ -106,7 +106,7 @@
       <input type="text" placeholder="" name="custPhone"/>
     </div>
   </div>
-  <a href="" data-toggle="modal" onclick="openSelCust()"><div class="customers">选择<br>客户</div></a> 
+  <a href="" data-toggle="modal" onClick="openSelCust()"><div class="customers">选择<br>客户</div></a> 
   </div>
   <div class="modal fade" id="selectCustomersModal" role="dialog">
     <div class="modal-dialog">
@@ -118,7 +118,7 @@
         <div class="user-scroll modal-body" id="custData"></div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cleanCust()" id="cleanCustBtn" style="display:none;">清除并关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onClick="cleanCust()" id="cleanCustBtn" style="display:none;">清除并关闭</button>
         </div>
       </div>
     </div>
@@ -170,8 +170,8 @@
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-5">到访总次数</div>
-    <div class="col-input-5">
-      <span class="input_style form-group" id="visitCount">&nbsp;</span>
+    <div class="col-input-5" style="padding-top:.8rem;line-height:1.5rem;">
+      <span class="input_style form-group" id="visitCount" style="color:#999999;">&nbsp;</span>
     </div>
   </div>
   <div class="item_sflr row">

@@ -289,8 +289,8 @@ function checkPhone(docId) {
     if (_check1==0) continue;
     _check2=checkDPhone(onePhone);
     if (_check1!=1&&_check2!=1) {
-    	_errPhone=onePhone;
-    	break;
+      _errPhone=onePhone;
+      break;
     }
   }
   if (_errPhone) return "客户电话号码["+_errPhone+"]不合法";
@@ -392,7 +392,7 @@ function commitData() {
     if (temp) retData.purchasecycle=temp;
     temp=$("input[name='signCycle']").val();
     if (temp) retData.signcycle=temp;
-    if (_uHouseRegiType) retData.houseRegiType=_uHouseRegiType;
+    if (_uHouseRegiType) retData.houseregitype=_uHouseRegiType;
     temp=$("input[name='houseAcreage']").val();
     if (temp) retData.houseacreage=temp;
     temp=$("input[name='unitPrice']").val();
@@ -519,9 +519,9 @@ function openSelCust() {
     _thisProjId=_uProjId;
     _thisUserId=_uUserId;
   } else {
-  	var choose=document.getElementsByName('selectCustomers');
-  	if (choose&&choose.length>0) $('#selectCustomersModal').modal('show');
-  	else alert("["+_uProjName+"]项目还没有接待任何客户，可直接录入该客户的信息进行成交录入!");
+    var choose=document.getElementsByName('selectCustomers');
+    if (choose&&choose.length>0) $('#selectCustomersModal').modal('show');
+    else alert("["+_uProjName+"]项目还没有接待任何客户，可直接录入该客户的信息进行成交录入!");
   }
 }
 function cleanCust() {
@@ -547,6 +547,25 @@ function selCust() {
   }
   $("#selectCustomersModal").modal('hide');
   if (custId!="") $("#cleanCustBtn").show();
+  if (oldCustId!=custId&&custId) {
+    var url=_URL_BASE+"/wx/api/getCustMsg";
+    var _data={};
+    _data.custId=custId;
+    _data.projId=_uProjId;
+    $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
+      success: function(json) {
+        if (json.msg=='100') {
+          customer=json.customer;
+          if (customer) {
+            if (customer.visitcount) $("#visitCount").html(customer.visitcount);
+          }
+        }
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        alert("获得客户信息时出现系统错误：\nstatu="+XMLHttpRequest.status+"\nreadyState="+XMLHttpRequest.readyState+"\ntext="+textStatus+"\nerrThrown="+errorThrown);
+      }
+    });
+  }
 }
 
 //=====================================
@@ -583,7 +602,6 @@ function fillData(data) {//填数据
     rTime.setTime(data.signdate.time);
     fillTime("signDate", rTime);
   }
-  $("#visitCount").html("?");
   if (data.housenumup) $("input[name='houseNumup']").val(data.housenumup);
   if (data.visitcycle) $("input[name='visitCycle']").val(data.visitcycle);
   if (data.purchasecycle) $("input[name='purchaseCycle']").val(data.purchasecycle);
@@ -618,7 +636,7 @@ function fillData(data) {//填数据
   if (data.realusemen) fillSelectField("realUseMen", data.realusemen, true);
   if (data.realpaymen) fillSelectField("realPayMen", data.realpaymen, true);
   if (data.suggestion) $("textarea[name='suggestion']").val(data.suggestion);
-  if (data.talkqandS) $("textarea[name='talkQandS']").val(data.talkqandS);
-  if (data.signqandS) $("textarea[name='signQandS']").val(data.signqandS);
+  if (data.talkqands) $("textarea[name='talkQandS']").val(data.talkqands);
+  if (data.signqands) $("textarea[name='signQandS']").val(data.signqands);
   if (data.sumdescn) $("textarea[name='sumDescn']").val(data.sumdescn);
 }
