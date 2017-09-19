@@ -217,6 +217,23 @@
 			OR instr(c.projName, #{name})
 			OR instr(a.phoneNum, #{name})
 			OR instr(u.realName, #{name}))
+			<if test="userType==2">
+				<if test="projIds !='' and projIds !=null">
+					and instr(#{projIds},c.id)
+				</if> 
+			</if> 
+			<if test="userType==3">
+				<if test="projIds !='' and projIds !=null">
+					and instr(#{projIds},c.id)
+				</if> 
+			</if> 
+			<if test="userType==4">
+				<if test="userId !='' and userId !=null">
+					and a.id in (SELECT custId FROM ql_AccessRecord01 WHERE authorId = #{userId}
+					UNION SELECT custId FROM ql_AccessRecord02 where authorId = #{userId}
+					UNION SELECT custId FROM ql_AccessRecord03 where authorId = #{userId})
+				</if> 
+			</if> 
 			<if test="record01Begin != '' and record01Begin != null">
 				and r01.recepTime > #{record01Begin}
 			</if> 
@@ -289,6 +306,23 @@
 			OR instr(c.projName, #{name})
 			OR instr(a.phoneNum, #{name})
 			OR instr(u.realName, #{name}))
+			<if test="userType==2">
+				<if test="projIds !='' and projIds !=null">
+					and instr(#{projIds},c.id)
+				</if> 
+			</if> 
+			<if test="userType==3">
+				<if test="projIds !='' and projIds !=null">
+					and instr(#{projIds},c.id)
+				</if> 
+			</if> 
+			<if test="userType==4">
+				<if test="userId !='' and userId !=null">
+					and a.id in (SELECT custId FROM ql_AccessRecord01 WHERE authorId = #{userId}
+					UNION SELECT custId FROM ql_AccessRecord02 where authorId = #{userId}
+					UNION SELECT custId FROM ql_AccessRecord03 where authorId = #{userId})
+				</if> 
+			</if> 
 			<if test="record01Begin != '' and record01Begin != null">
 				and r01.recepTime > #{record01Begin}
 			</if> 
@@ -350,6 +384,23 @@
 			OR instr(c.projName, #{name})
 			OR instr(a.phoneNum, #{name})
 			OR instr(u.realName, #{name}))
+			<if test="userType==2">
+				<if test="projIds !='' and projIds !=null">
+					and instr(#{projIds},c.id)
+				</if> 
+			</if> 
+			<if test="userType==3">
+				<if test="projIds !='' and projIds !=null">
+					and instr(#{projIds},c.id)
+				</if> 
+			</if> 
+			<if test="userType==4">
+				<if test="userId !='' and userId !=null">
+					and a.id in (SELECT custId FROM ql_AccessRecord01 WHERE authorId = #{userId}
+					UNION SELECT custId FROM ql_AccessRecord02 where authorId = #{userId}
+					UNION SELECT custId FROM ql_AccessRecord03 where authorId = #{userId})
+				</if> 
+			</if> 
 			<if test="record01Begin != '' and record01Begin != null">
 				and r01.recepTime > #{record01Begin}
 			</if> 

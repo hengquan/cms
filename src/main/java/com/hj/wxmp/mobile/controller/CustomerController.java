@@ -1,12 +1,24 @@
 package com.hj.wxmp.mobile.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -25,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hj.utils.DownLoad;
 import com.hj.utils.JsonUtils;
 import com.hj.web.core.mvc.ControllerBase;
 import com.hj.wxmp.mobile.common.HashSessions;
@@ -250,12 +263,68 @@ public class CustomerController extends ControllerBase {
 	
 	
 	//查询结果导出excel
+	@RequestMapping(value = "/customer/downLoadExcel")
+	public void  downLoadExcel(@RequestParam(value="path",defaultValue="") String path) {
+		 // path是指欲下载的文件的路径。
+         File file = new File(path);
+         // 取得文件名。
+         String filename = file.getName();
+    	 //下载
+         response.setContentType("multipart/form-data");
+         response.setContentType("application/force-download");
+         response.setHeader("Content-Disposition", "attachment;fileName="+filename);
+         ServletOutputStream out = null;
+         try {
+             FileInputStream inputStream = new FileInputStream(file);
+             //3.通过response获取ServletOutputStream对象(out)
+             out = response.getOutputStream();
+             int b = 0;
+             byte[] buffer = new byte[1024];
+             while (b != -1){
+                 b = inputStream.read(buffer);
+                 //4.写到输出流(out)中 
+                 out.write(buffer,0,b);
+             }
+             inputStream.close();
+             out.close();
+             out.flush();
+         } catch (IOException e) {
+         } finally {
+         	if (out!=null) {
+         		try {
+             		out.close();
+         		} catch(Exception e1) {
+         		}
+         		out=null;
+         	}
+         }
+	}
+	
+	
+	//查询结果导出excel
 	@ResponseBody
 	@RequestMapping(value = "/customer/customerMsgExcel")
-	public String customerMsgExcel(@RequestParam(value="isValidate",defaultValue="") String isValidate,
-			ModelMap model) {
+	public String customerMsgExcel() throws Exception{
+		String path = "";
+		//总条数
+		Integer sumTotal = 0;
+		//导出时间
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String date = format.format(new Date());
+		//导出人
+		String id = hashSession.getCurrentAdmin(request).getId();
+		UserRole userRole = sysUserRoleService.selectByuserId(id);
+		String roleid = userRole.getRoleid();
+		SysRole role = sysRoleService.findById(roleid);
+		String roleName = role.getRoleName();
+		//用户
+		UserInfo userInfo = userInfoService.findById(id);
+		String realname = userInfo.getRealname();
+		//
 		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> json = new HashMap<String, Object>();
 		//所有条件
+		String isValidate = getTrimParameter("isValidate");
 		//首访接待开始时间
 		String record01Begin = getTrimParameter("record01Begin");
 		//首访接待结束时间
@@ -299,7 +368,34 @@ public class CustomerController extends ControllerBase {
 			map.put("pricesection", pricesection);
 			map.put("custscore", custscore);
 			// 获取所有用户信息
-			List<Map<String,Object>> userMsg = userCustRefService.downloadExcel(map);
+			List<Map<String,Object>> userMsg = new ArrayList<Map<String,Object>>();
+			if(roleName.equals("管理员")) {
+				map.put("userType", "1");
+			}
+			if(roleName.equals("项目负责人")) {
+				String projIds = "";
+				List<Map<String, Object>> projs = projUserRoleService.selectByUserId(id);
+				for(Map<String, Object> proj : projs){
+					projIds+=proj.get("id").toString()+",";
+				}
+				map.put("projIds", projIds);
+				map.put("userType", "2");
+			}
+			if(roleName.equals("项目管理人")) {
+				String projIds = "";
+				List<Map<String, Object>> projs = projUserRoleService.selectByUserId(id);
+				for(Map<String, Object> proj : projs){
+					projIds+=proj.get("id").toString()+",";
+				}
+				map.put("projIds", projIds);
+				map.put("userType", "3");
+			}
+			if(roleName.equals("顾问")) {
+				map.put("userType", "4");
+				map.put("userId", id);
+			}
+			userMsg=userCustRefService.downloadExcel(map);
+			sumTotal=userMsg.size();
 			// 第一步，创建一个webbook，对应一个Excel文件  
 	        HSSFWorkbook wb = new HSSFWorkbook();  
 	        //样式
@@ -325,18 +421,18 @@ public class CustomerController extends ControllerBase {
 	        //第二行
 	        HSSFRow row1 = sheet.createRow((int) 1);  
 	        HSSFCell createCell1 = row1.createCell((short) 0);
-	        createCell1.setCellValue("导出人:张恒全");
+	        createCell1.setCellValue("导出人:"+realname);
 	        createCell1.setCellStyle(style); 
 	        sheet.addMergedRegion(new CellRangeAddress(1,1,0,1));
 	        //第二行第一列
 	        HSSFCell createCell2 = row1.createCell((short) 4);
-	        createCell2.setCellValue("导出时间:2017-09-11");
+	        createCell2.setCellValue("导出时间:"+date);
 	        createCell2.setCellStyle(style); 
 	        //合并单元格
 	        sheet.addMergedRegion(new CellRangeAddress(1,1,4,5));
 	        //第四列
 	        HSSFCell createCell3 = row1.createCell((short) 6);
-	        createCell3.setCellValue("总条数:26条");
+	        createCell3.setCellValue("总条数:"+sumTotal);
 	        createCell3.setCellStyle(style); 
 	        //合并单元格
 	        sheet.addMergedRegion(new CellRangeAddress(1,1,6,8));
@@ -549,6 +645,10 @@ public class CustomerController extends ControllerBase {
 	        {  
 	            row = sheet.createRow((int) i + 3);  
 	            Map<String, Object> map2 = userMsg.get(i);  
+	            Integer number = Integer.parseInt(map2.get("total").toString());
+	            sumTotal += number;
+	            
+	            
 	            // 第四步，创建单元格，并设置值  
 	            row.createCell((short) 0).setCellValue(map2.get("custName").toString());  
 	            row.createCell((short) 1).setCellValue(map2.get("phoneNum").toString());  
@@ -687,19 +787,21 @@ public class CustomerController extends ControllerBase {
 	         sheet.autoSizeColumn((short)3); //调整第四列宽度
 	         sheet.autoSizeColumn((short)4); //调整第四列宽度
 	         sheet.autoSizeColumn((short)5); //调整第四列宽度
-	        // 第六步，将文件存到指定位置  
-            FileOutputStream fout = new FileOutputStream("D:/cust.xls");  
-            //FileOutputStream fout = new FileOutputStream("/opt/tomcat/webapps/wxmp.ql/expexcls/cust.xls");
-            wb.write(fout);  
-            fout.close();  
-            map.put("msg", "100");
+	         // 第六步，将文件存到指定位置  
+	         long time = new Date().getTime();
+	         String fileName = time+"cust.xls";
+	         path="D:\\excels\\"+fileName;
+	         FileOutputStream fout = new FileOutputStream(path);
+	         wb.write(fout);  
+	         fout.close();  
+	         json.put("msg", "100");
+	         json.put("path", path);
 		} catch (Exception e) {
+			json.put("msg", "103");
 			e.printStackTrace();
-			map.put("msg", "103");
 		}
-		return JsonUtils.map2json(map);
+		return JsonUtils.map2json(json);
 	}
-	
 	
 	
 	
@@ -746,9 +848,11 @@ public class CustomerController extends ControllerBase {
 		String pageUrl = "inquiryStatistics/synthesize/list";
 		try {
 			//用户角色权限信息
-			UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+			String id = hashSession.getCurrentAdmin(request).getId();
+			UserRole userRole = sysUserRoleService.selectByUserId(id);
 			String roleId = userRole.getRoleid();
 			SysRole role = sysRoleService.findById(roleId);
+			String roleName = role.getRoleName();
 			if(name == null){
 				map.put("name", "");
 			}else{
@@ -765,6 +869,31 @@ public class CustomerController extends ControllerBase {
 			map.put("liveacreage", liveacreage);
 			map.put("pricesection", pricesection);
 			map.put("custscore", custscore);
+			if(roleName.equals("管理员")) {
+				map.put("userType", "1");
+			}
+			if(roleName.equals("项目负责人")) {
+				String projIds = "";
+				List<Map<String, Object>> projs = projUserRoleService.selectByUserId(id);
+				for(Map<String, Object> proj : projs){
+					projIds+=proj.get("id").toString()+",";
+				}
+				map.put("projIds", projIds);
+				map.put("userType", "2");
+			}
+			if(roleName.equals("项目管理人")) {
+				String projIds = "";
+				List<Map<String, Object>> projs = projUserRoleService.selectByUserId(id);
+				for(Map<String, Object> proj : projs){
+					projIds+=proj.get("id").toString()+",";
+				}
+				map.put("projIds", projIds);
+				map.put("userType", "3");
+			}
+			if(roleName.equals("顾问")) {
+				map.put("userType", "4");
+				map.put("userId", id);
+			}
 			// 获取所有用户信息
 			List<Map<String,Object>> userMsg = userCustRefService.selectZongHe(map);
 			//所有信息数量

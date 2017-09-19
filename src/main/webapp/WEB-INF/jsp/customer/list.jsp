@@ -442,12 +442,14 @@
 			dataType:'json',
 			success:function(data){
 				if(data.msg==100){
-					windowShow("导出成功","");
+					var path = data.path;
+					alert(path);
+					window.location.href="${appRoot}/customer/downLoadExcel?path="+path;
 				}else{
 					windowShow("导出失败","");
 				}
 			}
-		});
+		}); 
 	}
 	
 	//查看所有已作废顾问下的客户信息

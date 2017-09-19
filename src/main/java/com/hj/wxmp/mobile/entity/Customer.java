@@ -140,7 +140,27 @@ public class Customer {
     private Date firstvisittime;
     
     private Integer visitcount;
+    
+    private String housetypedesc;
+    
+    private String paymenttypedesc;
 
+	public String getPaymenttypedesc() {
+		return paymenttypedesc;
+	}
+
+	public void setPaymenttypedesc(String paymenttypedesc) {
+		this.paymenttypedesc = paymenttypedesc;
+	}
+
+	public String getHousetypedesc() {
+		return housetypedesc;
+	}
+
+	public void setHousetypedesc(String housetypedesc) {
+		this.housetypedesc = housetypedesc;
+	}
+	
     public Date getFirstvisittime() {
 		return firstvisittime;
 	}

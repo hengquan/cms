@@ -38,6 +38,7 @@
     <result column="talkQandS" property="talkqands" jdbcType="LONGVARCHAR" />
     <result column="signQandS" property="signqands" jdbcType="LONGVARCHAR" />
     <result column="sumDescn" property="sumdescn" jdbcType="LONGVARCHAR" />
+    <result column="houseTypeDesc" property="housetypedesc" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, projId, custId, custName, custPhoneNum, custSex, visitCycle, purchaseCycle, signCycle, 
@@ -46,7 +47,7 @@
     authorId, creatorId, status, cTime, lmTime,recepTime,loanBank
   </sql>
   <sql id="Blob_Column_List" >
-    realtyProductTypeDesc, suggestion, talkQandS, signQandS, sumDescn
+    realtyProductTypeDesc, suggestion, talkQandS, signQandS, sumDescn,houseTypeDesc
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
@@ -191,6 +192,9 @@
       <if test="loanbank != null" >
         loanBank,
       </if>
+      <if test="housetypedesc != null" >
+        houseTypeDesc,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -295,6 +299,9 @@
       <if test="loanbank != null" >
         #{loanbank,jdbcType=VARCHAR},
       </if>
+      <if test="housetypedesc != null" >
+        #{housetypedesc,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.AccessRecord03" >
@@ -398,6 +405,9 @@
       </if>
       <if test="loanbank != null" >
         loanBank = #{loanbank,jdbcType=VARCHAR},
+      </if>
+      <if test="housetypedesc != null" >
+        houseTypeDesc = #{housetypedesc,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
