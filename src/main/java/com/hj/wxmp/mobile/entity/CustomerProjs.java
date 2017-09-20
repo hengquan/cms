@@ -3,7 +3,7 @@ package com.hj.wxmp.mobile.entity;
 import java.util.Date;
 
 public class CustomerProjs extends ProjCustRef{
-    private String id;
+	private String id;
 
     private String custname;
 
@@ -140,7 +140,17 @@ public class CustomerProjs extends ProjCustRef{
     private Date firstvisittime;
     
     private Integer visitcount;
+    
+    private String housetypedesc;
+    
+	public String getHousetypedesc() {
+		return housetypedesc;
+	}
 
+	public void setHousetypedesc(String housetypedesc) {
+		this.housetypedesc = housetypedesc;
+	}
+	
     public Date getFirstvisittime() {
 		return firstvisittime;
 	}

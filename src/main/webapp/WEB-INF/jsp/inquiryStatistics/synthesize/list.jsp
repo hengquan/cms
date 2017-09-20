@@ -494,7 +494,6 @@
 			dataType:'json',
 			success:function(data){
 				var path = data.path;
-				alert(path);
 				$("#excelPath").val(path);
 				$("#downLoadExcel").submit();
 				//window.location.href="${appRoot}/customer/downLoadExcel?path="+path;

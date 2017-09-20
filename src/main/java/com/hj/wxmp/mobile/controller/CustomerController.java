@@ -1,13 +1,9 @@
 package com.hj.wxmp.mobile.controller;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,8 +13,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -37,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hj.utils.DownLoad;
 import com.hj.utils.JsonUtils;
 import com.hj.web.core.mvc.ControllerBase;
 import com.hj.wxmp.mobile.common.HashSessions;
@@ -107,13 +100,40 @@ public class CustomerController extends ControllerBase {
 		String pageUrl = "customer/list";
 		try {
 			//用户角色权限信息
-			UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+			String id = hashSession.getCurrentAdmin(request).getId();
+			UserRole userRole = sysUserRoleService.selectByUserId(id);
 			String roleId = userRole.getRoleid();
 			SysRole role = sysRoleService.findById(roleId);
+			String roleName = role.getRoleName();
 			if(name == null){
 				map.put("name", "");
 			}else{
 				map.put("name", name);
+			}
+			if(roleName.equals("管理员")) {
+				map.put("userType", "1");
+			}
+			if(roleName.equals("项目负责人")) {
+				String projIds = "";
+				List<Map<String, Object>> projs = projUserRoleService.selectByUserId(id);
+				for(Map<String, Object> proj : projs){
+					projIds+=proj.get("id").toString()+",";
+				}
+				map.put("projIds", projIds);
+				map.put("userType", "2");
+			}
+			if(roleName.equals("项目管理人")) {
+				String projIds = "";
+				List<Map<String, Object>> projs = projUserRoleService.selectByUserId(id);
+				for(Map<String, Object> proj : projs){
+					projIds+=proj.get("id").toString()+",";
+				}
+				map.put("projIds", projIds);
+				map.put("userType", "3");
+			}
+			if(roleName.equals("顾问")) {
+				map.put("userType", "4");
+				map.put("userId", id);
 			}
 			// 获取所有用户信息
 			List<Map<String,Object>> userMsg = userCustRefService.selectByUserMessge(map);
@@ -790,7 +810,9 @@ public class CustomerController extends ControllerBase {
 	         // 第六步，将文件存到指定位置  
 	         long time = new Date().getTime();
 	         String fileName = time+"cust.xls";
-	         path="D:\\excels\\"+fileName;
+	         //path="D:\\excels\\"+fileName;
+	         //path="wl.weechao.com/excels/"+fileName;
+	         path="/opt/tomcat/webapps/ROOT/excels/"+fileName;
 	         FileOutputStream fout = new FileOutputStream(path);
 	         wb.write(fout);  
 	         fout.close();  

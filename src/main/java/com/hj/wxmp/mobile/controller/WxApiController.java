@@ -461,14 +461,16 @@ public class WxApiController extends ControllerBaseWx {
 			record01.setId(key.getUUIDKey());
 			//第一次获知本案的时间
 			if(firstknowtime1!=null){
-				firstknowtime1+=" 00:00:00";
+				String[] data = firstknowtime1.split(" ");
+				if(data.length==1) firstknowtime1+=" 00:00:00";
 				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date parse = formata.parse(firstknowtime1);				
 				record01.setFirstknowtime(parse);
 			}
 			//本次到访时间
 			if(receptime1!=null){
-				receptime1+=" 00:00:00";
+				String[] data = receptime1.split(" ");
+				if(data.length==1) receptime1+=" 00:00:00";
 				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date parse = formata.parse(receptime1);				
 				record01.setReceptime(parse);
@@ -989,14 +991,16 @@ public class WxApiController extends ControllerBaseWx {
 			userId=userInfo.getId();
 			//第一次获知本案的时间
 			if(firstknowtime1!=null){
-				firstknowtime1+=" 00:00:00";
+				String[] data = firstknowtime1.split(" ");
+				if(data.length==1) firstknowtime1+=" 00:00:00";
 				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date parse = formata.parse(firstknowtime1);				
 				record01.setFirstknowtime(parse);
 			}
 			//本次到访时间
 			if(receptime1!=null){
-				receptime1+=" 00:00:00";
+				String[] data = receptime1.split(" ");
+				if(data.length==1) receptime1+=" 00:00:00";
 				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date parse = formata.parse(receptime1);				
 				record01.setReceptime(parse);
@@ -1039,7 +1043,8 @@ public class WxApiController extends ControllerBaseWx {
 			record02.setId(key.getUUIDKey());
 			//本次到访时间
 			if(receptime1!=null){
-				receptime1+=" 00:00:00";
+				String[] data = receptime1.split(" ");
+				if(data.length==1) receptime1+=" 00:00:00";
 				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date parse = formata.parse(receptime1);				
 				record02.setReceptime(parse);
@@ -1198,8 +1203,21 @@ public class WxApiController extends ControllerBaseWx {
 		cust.setCommunityname(tempStr);
 		//住房性质
 		tempStr=record02.getHousetype();
-		_retR02.setHousetype(tempStr);
-		cust.setHousetype(tempStr);
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR02.setHousetype(tempStr);
+			cust.setHousetype(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> livingradiusO1=transToDictRefList(dictList, "009", "住房性质", "ql_AccessRecord02", id);
+			if (livingradiusO1!=null) dictRefList.addAll(livingradiusO1);
+			List<TabDictRef> livingradiusCust=transToDictRefList(dictList, "009", "住房性质", "ql_Customer", customerId);
+			if (livingradiusCust!=null) dictRefList.addAll(livingradiusCust);
+		}
+		//住房性质描述
+		tempStr=record02.getHousetypedesc();
+		_retR02.setHousetypedesc(tempStr);
+		cust.setHousetypedesc(tempStr);
 		//居住面积
 		tempStr=record02.getLiveacreage();
 		parseResult=parseDictsStr(tempStr);
@@ -1657,7 +1675,8 @@ public class WxApiController extends ControllerBaseWx {
 			userId=userInfo.getId();
 			//本次到访时间
 			if(receptime1!=null){
-				receptime1+=" 00:00:00";
+				String[] data = receptime1.split(" ");
+				if(data.length==1) receptime1+=" 00:00:00";
 				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date parse = formata.parse(receptime1);				
 				record02.setReceptime(parse);
@@ -1713,7 +1732,8 @@ public class WxApiController extends ControllerBaseWx {
 	@ResponseBody
 	public String addTradeVisit(HttpServletRequest requet,HttpServletResponse response,
 			AccessRecord03 record03,Customer customer,
-			String receptime1,String userId,String signdate1,String purchasedate1) {
+			String receptime1,String userId,String signdate1,String purchasedate1,
+			String firstknowtime1) {
 		responseInfo(response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -1728,24 +1748,35 @@ public class WxApiController extends ControllerBaseWx {
 			record03.setId(key.getUUIDKey());
 			//本次到访时间
 			if(receptime1!=null){
-				receptime1+=" 00:00:00";
+				String[] data = receptime1.split(" ");
+				if(data.length==1) receptime1+=" 00:00:00";
 				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date parse = formata.parse(receptime1);				
 				record03.setReceptime(parse);
 			}
 			//购买日期
 			if(purchasedate1!=null){
-				purchasedate1+=" 00:00:00";
+				String[] data = purchasedate1.split(" ");
+				if(data.length==1) purchasedate1+=" 00:00:00";
 				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date parse = formata.parse(purchasedate1);				
 				record03.setPurchasedate(parse);
 			}
 			//签约日期
 			if(signdate1!=null){
-				signdate1+=" 00:00:00";
+				String[] data = signdate1.split(" ");
+				if(data.length==1) signdate1+=" 00:00:00";
 				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date parse = formata.parse(signdate1);				
 				record03.setSigndate(parse);
+			}
+			//首次获知
+			if(firstknowtime1!=null){
+				String[] data = firstknowtime1.split(" ");
+				if(data.length==1) firstknowtime1+=" 00:00:00";
+				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date parse = formata.parse(firstknowtime1);				
+				record03.setFirstknowtime(parse);
 			}
 			//扫描一次，处理本表，处理客户表，处理客户项目关系表，处理字典表；
 			Object[] resultObjs=scan3(record03,0);
@@ -1860,6 +1891,8 @@ public class WxApiController extends ControllerBaseWx {
 		_retR03.setSigndate(record03.getSigndate());
 		//购买房号
 		_retR03.setHousenum(record03.getHousenum());
+		//买受人姓名
+		_retR03.setBuyername(record03.getBuyername());
 		//户籍类型
 		tempStr=record03.getHouseregitype();
 		parseResult=parseDictsStr(tempStr);
@@ -1965,7 +1998,8 @@ public class WxApiController extends ControllerBaseWx {
 	@ResponseBody
 	public String updateRecord03(HttpServletRequest requet,HttpServletResponse response,
 			AccessRecord03 record03,Customer customer,
-			String receptime1,String userId,String signdate1,String purchasedate1) {
+			String receptime1,String userId,String signdate1,String purchasedate1,
+			String firstknowtime1) {
 		responseInfo(response);
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
@@ -1978,24 +2012,35 @@ public class WxApiController extends ControllerBaseWx {
 			userId=userInfo.getId();
 			//本次到访时间
 			if(receptime1!=null){
-				receptime1+=" 00:00:00";
+				String[] data = receptime1.split(" ");
+				if(data.length==1) receptime1+=" 00:00:00";
 				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date parse = formata.parse(receptime1);				
 				record03.setReceptime(parse);
 			}
 			//购买日期
 			if(purchasedate1!=null){
-				purchasedate1+=" 00:00:00";
+				String[] data = purchasedate1.split(" ");
+				if(data.length==1) purchasedate1+=" 00:00:00";
 				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date parse = formata.parse(purchasedate1);				
 				record03.setPurchasedate(parse);
 			}
 			//签约日期
 			if(signdate1!=null){
-				signdate1+=" 00:00:00";
+				String[] data = signdate1.split(" ");
+				if(data.length==1) signdate1+=" 00:00:00";
 				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date parse = formata.parse(signdate1);				
 				record03.setSigndate(parse);
+			}
+			//首次获知
+			if(firstknowtime1!=null){
+				String[] data = firstknowtime1.split(" ");
+				if(data.length==1) firstknowtime1+=" 00:00:00";
+				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date parse = formata.parse(firstknowtime1);				
+				record03.setFirstknowtime(parse);
 			}
 			//扫描一次，处理本表，处理客户表，处理客户项目关系表，处理字典表；
 			Object[] resultObjs=scan3(record03,0);

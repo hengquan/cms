@@ -31,6 +31,7 @@
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
     <result column="recepTime" property="receptime" jdbcType="TIMESTAMP" />
+    <result column="firstKnowTime" property="firstknowtime" jdbcType="TIMESTAMP" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.hj.wxmp.mobile.entity.AccessRecord03" extends="BaseResultMap" >
     <result column="realtyProductTypeDesc" property="realtyproducttypedesc" jdbcType="LONGVARCHAR" />
@@ -38,16 +39,17 @@
     <result column="talkQandS" property="talkqands" jdbcType="LONGVARCHAR" />
     <result column="signQandS" property="signqands" jdbcType="LONGVARCHAR" />
     <result column="sumDescn" property="sumdescn" jdbcType="LONGVARCHAR" />
-    <result column="houseTypeDesc" property="housetypedesc" jdbcType="LONGVARCHAR" />
+    <result column="buyerName" property="buyername" jdbcType="VARCHAR" />
+    <result column="paymentTypeDesc" property="paymenttypedesc" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, projId, custId, custName, custPhoneNum, custSex, visitCycle, purchaseCycle, signCycle, 
     purchaseDate, signDate, houseNum, houseRegiType, houseAcreage, unitPrice, totalPrice, 
     paymentType, realtyProductType, addressMail, livingStatus, realUseMen, realPayMen, 
-    authorId, creatorId, status, cTime, lmTime,recepTime,loanBank
+    authorId, creatorId, status, cTime, lmTime,recepTime,loanBank,firstKnowTime
   </sql>
   <sql id="Blob_Column_List" >
-    realtyProductTypeDesc, suggestion, talkQandS, signQandS, sumDescn,houseTypeDesc
+    realtyProductTypeDesc, suggestion, talkQandS, signQandS, sumDescn,buyerName,paymentTypeDesc
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
@@ -192,8 +194,14 @@
       <if test="loanbank != null" >
         loanBank,
       </if>
-      <if test="housetypedesc != null" >
-        houseTypeDesc,
+      <if test="buyername != null" >
+        buyerName,
+      </if>
+      <if test="firstknowtime != null" >
+        firstKnowTime,
+      </if>
+      <if test="paymenttypedesc != null" >
+        paymentTypeDesc,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -299,8 +307,14 @@
       <if test="loanbank != null" >
         #{loanbank,jdbcType=VARCHAR},
       </if>
-      <if test="housetypedesc != null" >
-        #{housetypedesc,jdbcType=VARCHAR},
+      <if test="buyername != null" >
+        #{buyername,jdbcType=VARCHAR},
+      </if>
+      <if test="firstknowtime != null" >
+        #{firstknowtime,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="paymenttypedesc != null" >
+        #{paymenttypedesc,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -406,8 +420,14 @@
       <if test="loanbank != null" >
         loanBank = #{loanbank,jdbcType=VARCHAR},
       </if>
-      <if test="housetypedesc != null" >
-        houseTypeDesc = #{housetypedesc,jdbcType=VARCHAR},
+      <if test="buyername != null" >
+        buyerName = #{buyername,jdbcType=VARCHAR},
+      </if>
+      <if test="firstKnowTime != null" >
+        firstKnowTime = #{firstknowtime,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="paymenttypedesc != null" >
+        paymentTypeDesc = #{paymenttypedesc,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
