@@ -41,6 +41,7 @@ function selUser() {
       _uUserId=choose[i].value.substring(0, choose[i].value.indexOf('-'));
       if (oldUserId!=_uUserId) {
         custId="";
+        $("input[name='buyerName']").val("");
         $("input[name='custName']").val("");
         $("input[name='custPhone']").val("");
       }
@@ -71,6 +72,7 @@ var vueStep1=new Vue({
       $("#cleanUserBtn").hide();
       fillSelectField('user', "", false);
       custId="";
+      $("input[name='buyerName']").val("");
       $("input[name='custName']").val("");
       $("input[name='custPhone']").val("");
     },

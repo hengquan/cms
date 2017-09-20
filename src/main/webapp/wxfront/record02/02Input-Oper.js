@@ -21,7 +21,11 @@ var _uOutEduWill="";
 var _uOutExperFlag="";
 var _uChildOutExperFlag="";
 var _uLivingRadius="";
+var _uHouseType="";
+var _uHouseTypeDesc="";
 var _uLiveAcreage="";
+var _uHoustCount="";
+var _uCarFamilyCount="";
 var _uCarTotalPrice="";
 var _uAvocations="";
 var _uAvocationsDesc="";
@@ -706,6 +710,86 @@ var vueStep3=new Vue({
         }
       }
     },
+    selHouseType: function() {
+      _uHouseType="";
+      _uHouseTypeDesc="";
+      var choose=document.getElementsByName('houseType');
+      var ttArray="";
+      var selOther=false;
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          var oneText=choose[i].getAttribute("_text");
+          if (choose[i].getAttribute("_text")=='其他') {
+            selOther=true;
+            if ($.trim($("input[name='houseTypeDesc']").val())!="") {
+              oneText=oneText+"("+$.trim($("input[name='houseTypeDesc']").val())+")";
+              _uHouseTypeDesc=$.trim($("input[name='houseTypeDesc']").val());
+            }
+          }
+          ttArray+=","+oneText;
+          _uHouseType+=","+choose[i].value;
+        }
+      }
+//        if (selOther&&_uHouseTypeDesc=="") alert("请录入“其他”关注产品类型");
+//        else {
+      if (_uHouseType.length>0) {
+        _uHouseType=_uHouseType.substr(1);
+        ttArray=ttArray.substr(1);
+      }
+      $("#houseType").html(ttArray==""?"&nbsp;":ttArray);
+      $("#houseTypeModal").modal('hide');
+      if (_uHouseType!="") $("#cleanHouseTypeBtn").show();
+//        }
+    },
+    cleanHouseType: function(type) {
+      if (type==2) {
+        _uHouseType="";
+        _uHouseTypeDesc="";
+        $("#houseType").html("&nbsp;");
+        $("#cleanHouseTypeBtn").hide();
+      }
+      fillSelectField('houseType', $("#houseType").html(), false);
+    },
+    clickHouseTypeCheck: function(flag) {
+      var choose=document.getElementsByName('houseType');
+      var n=0;
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) n++;
+      }
+      if (flag==1) {
+        if (n>1) {
+          for (var i=0; i<choose.length; i++) {
+            if (choose[i].checked&&choose[i].getAttribute("_text")=='无法了解') {
+              choose[i].checked=false;
+              break;
+            }
+          }
+        }
+      }
+      if (flag==2) {
+        if (n>1) {
+          for (var i=0; i<choose.length; i++) {
+            if (choose[i].checked&&choose[i].getAttribute("_text")!='无法了解') choose[i].checked=false;
+          }
+          $("input[name='houseTypeDesc']").hide();
+        }
+      }
+      if (flag==3) {
+        var otherCheck=false;
+        for (var i=0; i<choose.length; i++) {
+          if (choose[i].checked&&choose[i].getAttribute("_text")=='其他') otherCheck=true;
+        }
+        if (otherCheck) $("input[name='houseTypeDesc']").show(); else $("input[name='houseTypeDesc']").hide();
+        if (n>1) {
+          for (var i=0; i<choose.length; i++) {
+            if (choose[i].checked&&choose[i].getAttribute("_text")=='无法了解') {
+              choose[i].checked=false;
+              break;
+            }
+          }
+        }
+      }
+    },
     selLiveAcreage: function() {
       _uLiveAcreage="";
       var choose=document.getElementsByName('liveAcreage');
@@ -741,6 +825,42 @@ var vueStep3=new Vue({
       _uLoanStatus="";
       $("#cleanLoanStatusBtn").hide();
       fillSelectField('loanStatus', "", false);
+    },
+    selHouseCount: function() {
+      _uHouseCount="";
+      var choose=document.getElementsByName('houseCount');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          $("#houseCount").html(choose[i].getAttribute("_text"));
+          _uHouseCount=choose[i].value;
+        }
+      }
+      $("#houseCountModal").modal('hide');
+      if (_uHouseCount!="") $("#cleanHouseCountBtn").show();
+    },
+    cleanHouseCount: function() {
+      $("#houseCount").html("&nbsp;");
+      _uHouseCount="";
+      $("#cleanHouseCountBtn").hide();
+      fillSelectField('houseCount', "", false);
+    },
+    selCarFamilyCount: function() {
+      _uCarFamilyCount="";
+      var choose=document.getElementsByName('carFamilyCount');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          $("#carFamilyCount").html(choose[i].getAttribute("_text"));
+          _uCarFamilyCount=choose[i].value;
+        }
+      }
+      $("#carFamilyCountModal").modal('hide');
+      if (_uCarFamilyCount!="") $("#cleanCarFamilyCountBtn").show();
+    },
+    cleanCarFamilyCount: function() {
+      $("#carFamilyCount").html("&nbsp;");
+      _uCarFamilyCount="";
+      $("#cleanCarFamilyCountBtn").hide();
+      fillSelectField('carFamilyCount', "", false);
     },
     selCarTotalPrice: function() {
       _uCarTotalPrice="";
@@ -844,6 +964,9 @@ var vueStep3=new Vue({
 });
 $('#livingRadiusModal').on('hide.bs.modal', function () {
   vueStep3.cleanLivingRadius(1);
+});
+$('#houseTypeModal').on('hide.bs.modal', function () {
+  vueStep3.cleanHouseType(1);
 });
 $('#avocationsModal').on('hide.bs.modal', function () {
   vueStep3.cleanAvocations(1);

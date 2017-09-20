@@ -131,7 +131,16 @@ function fillData() {
   if (data.petflag) $("#petFlag").html(data.petflag==1?"是":(data.petflag==-1?"无法了解":"否"));
   if (data.livingradius) $("#livingRadius").html(data.livingradius);
   if (data.communityname) $("#communityName").html(data.communityname);
-  if (data.housetype) $("#houseType").html(data.housetype);
+  if (data.housetype) {
+    var _temp=data.housetype;
+    if (data.housetype.indexOf('其他')!=-1) {
+      if (data.housetypedesc) {
+        var _temp2="其他("+data.housetypedesc+")";
+        _temp=_temp.replace("其他", _temp2);
+      }
+    }
+    $("#houseType").html(_temp);
+  }
   if (data.liveacreage) $("#liveAcreage").html(data.liveacreage);
   if (data.loanstatus) $("#loanStatus").html(data.loanstatus);
   if (data.enterprisename) $("#enterpriseName").html(data.enterprisename);

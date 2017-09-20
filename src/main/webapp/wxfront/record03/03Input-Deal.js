@@ -300,7 +300,8 @@ function checkPhone(docId) {
 function checkStep1() {
   if (!_uProjId) return "请选择项目!";
   if (!_uUserId) return "请选择置业顾问!";
-  if (!checkField("custName")) return '请录入房屋买受人姓名!';
+  if (!checkField("custName")) return '请录入客户姓名!';
+  if (!checkField("buyerName")) return '请录入房屋买受人姓名!';
   var temp=checkPhone('custPhone');
   if (temp) return temp;
   if (!_uSex) return "请选择客户性别!";
@@ -374,6 +375,9 @@ function commitData() {
     temp=$("input[name='recpTime']").val();
     if (temp) retData.receptime1=temp;
     if (custId) retData.custid=custId;
+    //用户名称-房屋买受人姓名
+    temp=$("input[name='buyerName']").val();
+    if (temp) retData.buyername=temp;
     //用户名称-房屋买受人姓名
     temp=$("input[name='custName']").val();
     if (temp) retData.custname=temp;
@@ -525,8 +529,13 @@ function openSelCust() {
   }
 }
 function cleanCust() {
+  $("input[name='buyerName']").val("");
   $("input[name='custName']").val("");
   $("input[name='custPhone']").val("");
+  $("input[name='firstKnowTime']").val("");
+  $("input[name='custName']").removeAttr("readonly");
+  $("input[name='custPhone']").removeAttr("readonly");
+  $("input[name='firstKnowTime']").removeAttr("readonly");
   custId="";
   var choose=document.getElementsByName('selectCustomers');
   for (var i=0; i<choose.length; i++) choose[i].checked=false;
@@ -536,8 +545,13 @@ function selCust() {
   var choose=document.getElementsByName('selectCustomers');
   for (var i=0; i<choose.length; i++) {
     if (choose[i].checked) {
+      $("input[name='buyerName']").val(choose[i].getAttribute("_text"));
       $("input[name='custName']").val(choose[i].getAttribute("_text"));
       $("input[name='custPhone']").val(choose[i].getAttribute("_phone"));
+
+      $("input[name='custName']").attr("readonly","true");
+      $("input[name='custPhone']").attr("readonly","true");
+      $("input[name='firstKnowTime']").attr("readonly","true");
       custId=choose[i].value;
       $("span[name='userInput']").html(choose[i].getAttribute("_userName"));
       _uUserId=choose[i].getAttribute("_userId");
@@ -558,6 +572,11 @@ function selCust() {
           customer=json.customer;
           if (customer) {
             if (customer.visitcount) $("#visitCount").html(customer.visitcount);
+            if (customer.firstknowtime.time) {
+              var rTime=new Date();
+              rTime.setTime(data.firstknowtime.time);
+              fillTime("firstKnowTime", rTime);
+            }
           }
         }
       },
@@ -585,12 +604,13 @@ function fillData(data) {//填数据
   }
   if (data.custid) custId=data.custid;
   if (data.custname) $("input[name='custName']").val(data.custname);
+  if (data.buyername) $("input[name='buyerName']").val(data.buyername);
   if (data.custphonenum) $("input[name='custPhone']").val(data.custphonenum);
   if (data.custsex) fillSelectField("sex", data.custsex, true);
-  if (data.receptime.time) {
+  if (data.firstknowtime.time) {
     var rTime=new Date();
-    rTime.setTime(data.receptime.time);
-    fillTime("recpTime", rTime);
+    rTime.setTime(data.firstknowtime.time);
+    fillTime("firstKnowTime", rTime);
   }
   if (data.purchasedate.time) {
     var rTime=new Date();
@@ -639,4 +659,24 @@ function fillData(data) {//填数据
   if (data.talkqands) $("textarea[name='talkQandS']").val(data.talkqands);
   if (data.signqands) $("textarea[name='signQandS']").val(data.signqands);
   if (data.sumdescn) $("textarea[name='sumDescn']").val(data.sumdescn);
+}
+function fillBuyerNameByCustName() {
+  var cName=$("input[name='custName']").val();
+  var bName=$("input[name='buyerName']").val();
+  if (!bName) $("input[name='buyerName']").val();
+}
+function adjustSignDate(delayDay) {
+  var od=$("input[name='purchaseDate']").val();
+  var timestamp=Date.parse(od);
+  var newts=timestamp-((24*60*60*1000)*delayDay);
+  var nd=new Date();
+  nd.setTime(newts);
+  var a=nd.getFullYear();
+  var tm=""+(nd.getMonth()+1);
+  if (tm.length==1) tm="0"+tm;
+  a+="-"+tm;
+  tm=""+nd.getDate();
+  if (tm.length==1) tm="0"+tm;
+  a+="-"+tm;
+  $("input[name='signDate']").val(a);
 }
