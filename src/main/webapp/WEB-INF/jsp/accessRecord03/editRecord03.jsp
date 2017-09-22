@@ -428,7 +428,18 @@ px
 											<input name="houseregitype" type="radio" value="外国籍" <c:if test="${accessRecord03.houseregitype == '外国籍'}">selected</c:if> style="width: 1rem">外国籍
 										</td>
 									</tr>
-
+									<tr>
+										<td colspan="2">成交周期-到访：
+											<input type="text" name="visitcycle" value="${accessRecord03.visitcycle }" style="width: 4rem">
+											<span style="margin-right: 2rem">天</span> 成交周期-认购：
+											<input type="text" name="purchasecycle" value="${accessRecord03.purchasecycle }" style="width: 4rem;">
+											<span style="margin-right: 2rem">天</span> 成交周期-签约：
+											<input type="text" name="signcycle" value="${accessRecord03.signcycle }" style="width: 4rem;">天
+										</td>
+										<td colspan="1">获知时间：
+											<input type="date" name="firstknowtime" value="${accessRecord03.firstknowtime }" style="width: 10rem">
+										</td>
+									</tr>
 									<tr>
 										<td colspan="2">成交面积：
 											<input type="text" name="houseacreage" value="${accessRecord03.houseacreage }" style="width: 4rem">
@@ -449,7 +460,11 @@ px
 											</select>
 										</td>
 									</tr>
-
+									<tr>
+										<td colspan="3">贷款银行：
+											<input type="text" name="loanbank" value="${accessRecord03.loanbank }" style="width: 13rem">
+										</td>
+									</tr>
 									<tr>
 										<td colspan="3">您关注的产品类型：
 											<span style="margin-left: 20px">别墅</span>
@@ -474,7 +489,7 @@ px
 
 									<tr>
 										<td colspan="3">通邮地址：
-											<input type="text" name="addressmail" value="${accessRecord03.addressmail }" style="width: 11rem">
+											<input type="text" name="addressmail" value="${accessRecord03.addressmail }" style="width: 60rem">
 										</td>
 									</tr>
 
@@ -635,7 +650,7 @@ px
 			$.ajax({
 				type:'post',
 				data: datamsg, 
-				url:'${appRoot}/wx/api/updateRecord01',
+				url:'${appRoot}/wx/api/addTradeVisit',
 				dataType:'json',
 				success:function(data){
 					if(data.msg==100){

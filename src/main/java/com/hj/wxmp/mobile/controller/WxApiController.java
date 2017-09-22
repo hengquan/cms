@@ -1855,8 +1855,12 @@ public class WxApiController extends ControllerBaseWx {
 		projCustRef.setProjid(projId);
 		userCustRef.setProjid(projId);
 		//用户Id
-		if (type==0) customerId=key.getUUIDKey();
-		else customerId=record03.getCustid();
+		String custid = record03.getCustid();
+		if(StringUtils.isNotEmpty(custid)){
+			customerId=custid;
+		}else{
+			customerId=key.getUUIDKey();
+		}
 		_retR03.setCustid(customerId);
 		cust.setId(customerId);
 		projCustRef.setCustid(customerId);
@@ -1885,6 +1889,8 @@ public class WxApiController extends ControllerBaseWx {
 		_retR03.setPurchasecycle(record03.getPurchasecycle());
 		//成交周期签约
 		_retR03.setSigncycle(record03.getSigncycle());
+		//首次认知时间
+		_retR03.setFirstknowtime(record03.getFirstknowtime());
 		//认购日期
 		_retR03.setPurchasedate(record03.getPurchasedate());
 		//签约日期

@@ -311,7 +311,7 @@
         #{buyername,jdbcType=VARCHAR},
       </if>
       <if test="firstknowtime != null" >
-        #{firstknowtime,jdbcType=LONGVARCHAR},
+        #{firstknowtime,jdbcType=TIMESTAMP},
       </if>
       <if test="paymenttypedesc != null" >
         #{paymenttypedesc,jdbcType=LONGVARCHAR},
@@ -423,8 +423,8 @@
       <if test="buyername != null" >
         buyerName = #{buyername,jdbcType=VARCHAR},
       </if>
-      <if test="firstKnowTime != null" >
-        firstKnowTime = #{firstknowtime,jdbcType=LONGVARCHAR},
+      <if test="firstknowtime != null" >
+        firstKnowTime = #{firstknowtime,jdbcType=TIMESTAMP},
       </if>
       <if test="paymenttypedesc != null" >
         paymentTypeDesc = #{paymenttypedesc,jdbcType=LONGVARCHAR},

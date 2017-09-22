@@ -335,19 +335,19 @@ px
 
 									<tr>
 										<td colspan="3">未成年子女数量（小于18岁）：
-										<input name="childrennum" type="text" value="${accessRecord02.childrennum }" style="width: 10rem" >
+										<input name="childrennum" type="text" value="${accessRecord02.childrennum }" style="width: 60rem" >
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3" id="td1">孩子年龄段：
-											<input name="childagegroup" type="text" value="${accessRecord02.childagegroup }"  style="width: 10rem">
+											<input name="childagegroup" type="text" value="${accessRecord02.childagegroup }"  style="width: 70rem">
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="2" id="td2">孩子在读学校类型：
-											<input name="schooltype" type="text" value="${accessRecord02.schooltype }" style="width: 10rem" >
+											<input name="schooltype" type="text" value="${accessRecord02.schooltype }" style="width: 40rem" >
 										</td>
 										<td id="td3"><span id="box3" style="display: block;">在读学校名称：
 											<input type="text" style="width: 9rem" name="schoolname" value="${accessRecord02.schoolname }"></span>
@@ -356,39 +356,39 @@ px
 
 									<tr>
 										<td colspan="3">您的生活半径：
-											<input name="livingradius" type="text" value="${accessRecord02.livingradius }"  style="width: 30rem">
+											<input name="livingradius" type="text" value="${accessRecord02.livingradius }"  style="width: 70rem">
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">现居住社区名称：
-											<input type="text" value="${accessRecord02.communityname }" style="width: 30rem" name="communityname">
+											<input type="text" value="${accessRecord02.communityname }" style="width: 70rem" name="communityname">
 										</td>
 									</tr>
 									<tr>
 										<td colspan="3">住房性质：
-											<input type="text" value="${accessRecord02.communityname }" style="width: 30rem" name="communityname">
+											<input type="text" value="${accessRecord02.communityname }" style="width: 70rem" name="communityname">
 										</td>
 									</tr>
 									<tr>
 										<td colspan="3">公司名称：
-											<input type="text" value="${accessRecord02.communityname }" style="width: 30rem" name="communityname">
+											<input type="text" value="${accessRecord02.communityname }" style="width: 70rem" name="communityname">
 										</td>
 									</tr>
 									<tr>
 										<td colspan="3">公司地址：
-											<input type="text" value="${accessRecord02.communityname }" style="width: 30rem" name="communityname">
+											<input type="text" value="${accessRecord02.communityname }" style="width: 70rem" name="communityname">
 										</td>
 									</tr>
 									<tr>
 										<td colspan="3">公司职务：
-											<input type="text" value="${accessRecord02.communityname }" style="width: 30rem" name="communityname">
+											<input type="text" value="${accessRecord02.communityname }" style="width: 70rem" name="communityname">
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">目前的居住面积：
-											<input name="liveacreage" type="text" value="${accessRecord02.liveacreage }" style="width: 30rem"> 
+											<input name="liveacreage" type="text" value="${accessRecord02.liveacreage }" style="width: 70rem"> 
 										</td>
 									</tr>
 
@@ -496,72 +496,72 @@ px
 
 									<tr>
 										<td colspan="3">驾车总价：
-											<input name="cartotalprice" type="text" value="${accessRecord02.cartotalprice }"  style="width: 30rem">
+											<input name="cartotalprice" type="text" value="${accessRecord02.cartotalprice }"  style="width: 70rem">
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="1">关注的公众微信号：
-											<input type="text" style="width: 7rem" name="attentwx" value="${accessRecord02.attentwx }">
+											<input type="text" style="width: 11rem" name="attentwx" value="${accessRecord02.attentwx }">
 										</td>
 
 										<td colspan="2">常用APP(除微信外三个)：
-											<input type="text" style="width: 6rem" name="appnames" value=${accessRecord02.appnames }>
+											<input type="text" style="width: 30rem" name="appnames" value=${accessRecord02.appnames }>
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">您的业余爱好：
-											<input name="avocations" type="text" value="${accessRecord02.avocations }" style="width: 30rem">
+											<input name="avocations" type="text" value="${accessRecord02.avocations }" style="width: 70rem">
 										</td>
 									</tr>
 									<tr>
 										<td colspan="3">孩子的课余爱好：
-											<input name="childavocations" type="text" value="${accessRecord02.childavocations }"  style="width: 30rem">
+											<input name="childavocations" type="text" value="${accessRecord02.childavocations }"  style="width: 70rem">
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">您对本案的抗拒点：
-											<input name="resistpoint" type="text" value="${accessRecord02.resistpoint }" style="width: 30rem"> 
+											<input name="resistpoint" type="text" value="${accessRecord02.resistpoint }" style="width: 70rem"> 
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">您喜欢参加的活动：
-											<input name="loveactivation" type="text" value="${accessRecord02.loveactivation }" style="width: 30rem">
+											<input name="loveactivation" type="text" value="${accessRecord02.loveactivation }" style="width: 70rem">
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">可参加业主活动时间：
-											<input name="freetimesection" type="text" value="${accessRecord02.freetimesection }" style="width: 55rem; margin-left: 5px">
+											<input name="freetimesection" type="text" value="${accessRecord02.freetimesection }" style="width: 70rem; margin-left: 5px">
 										</td>
 									</tr>
 
 
 									<tr>
 										<td colspan="3">来访人数：
-											<input name="visitorcount" type="text" value="${accessRecord02.visitorcount }" style="width: 10rem" >
+											<input name="visitorcount" type="text" value="${accessRecord02.visitorcount }" style="width: 70rem" >
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">
 											<span id="box4" style="display: block;">来访人之间关系：
-											<input name="visitorrefs" type="text" value="${accessRecord02.visitorrefs }" style="width: 20rem"> 
+											<input name="visitorrefs" type="text" value="${accessRecord02.visitorrefs }" style="width: 70rem"> 
 										</span></td>
 									</tr>
 
 									<tr>
 										<td colspan="3">本次参观接待时间：
-											<input name="receptimesection" type="text" value="${accessRecord02.receptimesection }" style="width: 10rem">
+											<input name="receptimesection" type="text" value="${accessRecord02.receptimesection }" style="width: 70rem">
 										</td>
 									</tr>
 									
 									<tr>
 										<td colspan="3">家庭状况：
-											<input type="text" value="${accessRecord02.familystatus }" style="width: 30rem">
+											<input type="text" value="${accessRecord02.familystatus }" style="width: 70rem">
 										</td>
 									</tr>
 	
