@@ -2623,9 +2623,11 @@ public class WxApiController extends ControllerBaseWx {
 		try {
 			String projId = m.get("projId")==null?null:m.get("projId").toString();
 			String userId = m.get("userId")==null?null:m.get("userId").toString();
+			String custName = m.get("custName")==null?null:m.get("custName").toString();
 			//获取用户列表
 			result.put("projId", projId);
 			result.put("userId", userId);
+			result.put("custName", custName);
 			List<Map<String,Object>> customers = projUserRoleService.selectByProjIdAndUserId(result);
 			map.put("customers", customers);
 			map.put("msg", "100");

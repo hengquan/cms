@@ -367,17 +367,17 @@ px
 									</tr>
 									<tr>
 										<td colspan="3">住房性质：
-											<input type="text" value="${accessRecord02.communityname }" style="width: 70rem" name="communityname">
+											<input type="text" value="${accessRecord02.housetype }" style="width: 70rem" name="communityname">
 										</td>
 									</tr>
 									<tr>
 										<td colspan="3">公司名称：
-											<input type="text" value="${accessRecord02.communityname }" style="width: 70rem" name="communityname">
+											<input type="text" value="${accessRecord02.enterprisename }" style="width: 70rem" name="communityname">
 										</td>
 									</tr>
 									<tr>
 										<td colspan="3">公司地址：
-											<input type="text" value="${accessRecord02.communityname }" style="width: 70rem" name="communityname">
+											<input type="text" value="${accessRecord02.enterpriseaddress }" style="width: 70rem" name="communityname">
 										</td>
 									</tr>
 									<tr>

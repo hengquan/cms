@@ -400,6 +400,10 @@ px
 							<table id="orderinfo" cellpadding="0" cellspacing="0"
 								bgcolor="#dddddd" border="1" style="margin-top:40px;">
 								<tbody>
+									<input type="hidden" name="id" value="${accessRecord03.id }" />
+									<input type="hidden" name="custid" value="${accessRecord03.custid }" />
+									<input type="hidden" name="projid" value="${accessRecord03.projid }" />
+									<input type="hidden" name="userId" value="${userId }" />
 									<tr style="">
 										<td style="width: 330px;">房屋买卖人姓名：<input type="text"
 											name="xingming" value="${accessRecord03.custname }" style="width: 10rem"></td>
@@ -413,9 +417,9 @@ px
 										<td>联系方式：
 											<input type="text" name="custphonenum" value="${accessRecord03.custphonenum }" style="width: 10rem"></td>
 										<td>认购日期：
-											<input type="text" name="rengou_time" value="2017-07-15" style="width: 10rem"></td>
+											<input type="date" name="purchasedate1" value="${accessRecord03.purchasedate }" style="width: 10rem">
 										<td>签约日期：
-											<input type="text" name="qianyue_time" value="2017-07-15" style="width: 10rem"></td>
+											<input type="date" name="signdate1" value="${accessRecord03.signdate }" style="width: 10rem">
 									</tr>
 
 									<tr>
@@ -437,7 +441,7 @@ px
 											<input type="text" name="signcycle" value="${accessRecord03.signcycle }" style="width: 4rem;">天
 										</td>
 										<td colspan="1">获知时间：
-											<input type="date" name="firstknowtime" value="${accessRecord03.firstknowtime }" style="width: 10rem">
+											<input type="date" name="firstknowtime1" value="${accessRecord03.firstknowtime }" style="width: 10rem">
 										</td>
 									</tr>
 									<tr>
