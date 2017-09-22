@@ -307,10 +307,15 @@ function cleanData(type) {//清除数据
   _uAttentionPointDesc="";
   _uAgeGroup="";
 }
-
 //翻页切换
 function step1Next() {//要判断是否应该进行首访录入
-	return "";
+  $("#step1").hide(0);
+  $("#step2").show(0);
+  $("#step3").hide(0);
+  $("#step4").hide(0);
+  $("#step5").hide(0);
+  return;
+
   var _data={};
   if (!_uProjId) {
     alert("请选择具体项目!");
@@ -376,13 +381,14 @@ function step1Next() {//要判断是否应该进行首访录入
   var err=checkStep1();
   if (err) {
     alert(err);
-    return;
+   
   }
   $("#step1").hide(0);
   $("#step2").show(0);
   $("#step3").hide(0);
   $("#step4").hide(0);
   $("#step5").hide(0);
+  
 }
 function step2Prev() {
   $("#step1").show(0);
@@ -392,7 +398,6 @@ function step2Prev() {
   $("#step5").hide(0);
 }
 function step2Next() {
-	return "";
   var err=checkStep2();
   if (err) {
     alert(err);
@@ -412,7 +417,6 @@ function step3Prev() {
   $("#step5").hide(0);
 }
 function step3Next() {
-	return "";
   var err=checkStep3();
   if (err) {
     alert(err);
@@ -432,7 +436,6 @@ function step4Prev() {
   $("#step5").hide(0);
 }
 function step4Next() {
-	return "";
   var err=checkStep4();
   if (err) {
     alert(err);
@@ -460,7 +463,7 @@ function checkStep1() {
   if (!_uVisitorRefs) return "请选择来访人之间关系!";
   temp=checkPhone('custPhone');
   if (temp) return temp;
-  return "";
+  /*return "";*/
 }
 function checkStep2() {
   if (!_uChildrenNum) return "请选择未成年子女数量!";
@@ -476,7 +479,7 @@ function checkStep2() {
   if (_uOutExperFlag==1&&!$("input[name='outExperCity']").val()) return "请录入业主海外经历主要在那个城市!";
   if (!_uChildOutExperFlag) return "请选择子女是否有海外经历!";
   if (_uChildOutExperFlag==1&&!$("input[name='childOutExperCity']").val()) return "请录入子女海外经历主要在那个城市!";
-  return "";
+  /*return "";*/
 
 }
 function checkStep3() {
@@ -506,16 +509,16 @@ function checkStep3() {
   if (!_uCarTotalPrice) return "请选择驾车总价!";
   if (!$("input[name='attentWX']").val()) return "请录入关注微信公众号!";
   if (!_uAvocations) return "请选择业余爱好!";
-  return "";
+  /*return "";*/
 }
-function checkStep4() {
+function checkStep4() {return"";
   if (!_uResistPoint) return "请选择对本案的抗拒点!";
   if (!_uLoveActivation) return "请选择喜欢参加的活动!";
   if (!_uFreeTimeSection) return "请选择可参加业主活动时间!";
   if (!_uRecepTimeSection) return "请选择参观接待时间!";
   if (!_uCustScore) return "请选择客户评级!";
   if (!$("textarea[name='custDescn']").val()) return "请录入复访接待描述!";
-  return "";
+  /*return "";*/
 }
 function checkStep5() {
   if (!$("#i_familystatus").is(":hidden")&&!_uFamilyStatus) return "请选择家庭状况!";
@@ -533,7 +536,7 @@ function checkStep5() {
   if (!$("#i_pricesection").is(":hidden")&&!_uPriceSection) return "请选择接受总房款!";
   if (!$("#i_buypurpose").is(":hidden")&&!_uBuyPurpose) return "请选择购房目的!";
   if (!$("#i_attentionpoint").is(":hidden")&&!_uAttentionPoint) return "请选择对本案关注点!";
-  return "";
+  /*return "";*/
 }
 
 //=以下为提交，包括修改和删除====================================
@@ -723,6 +726,7 @@ var _thisProjId="";
 var _thisUserId="";
 var _REINPUTCOUNT=15;
 var needReInputCount=_REINPUTCOUNT;
+
 function openSelCust() {
   if (!_uProjId) {
     alert("未确定具体项目，无法选择客户");
@@ -771,6 +775,48 @@ function openSelCust() {
     else alert("["+_uProjName+"]项目还没有接待任何客户，只能从首访录入，不能录入复访!");
   }
 }
+
+
+//筛选客户
+function filterCust() {
+	  var searchStr=$("#searchStr").val();
+	  alert(searchStr);
+	 
+	  if (_thisProjId!=_uProjId||_thisUserId!=_uUserId) {
+	    var url=_URL_BASE+"/wx/api/getCustList";
+	    var _data={};
+	    _data.projId=_uProjId;
+	    _data.custName=searchStr;
+	    if (_uUserId) _data.userId=_uUserId;
+	    $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
+	      success: function(json) {
+	        if (json.msg!='100') {
+	          alert("未获得任何客户信息");
+	        } else {
+	          $("#custData").html("");
+	          if (json.customers.length==0) {
+	            alert("["+_uProjName+"]项目还没有接待任何客户，只能从首访录入，不能录入复访!");
+	            return;
+	          }
+	          for (var i=0; i<json.customers.length; i++) {
+	            var oneCust=json.customers[i];
+	            var _phones=oneCust.custPhone;
+	            _phones=$.trim(_phones.split(",")[0]);
+	            var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span><span>"+oneCust.projName+"</span>";
+	            var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label>";
+	            if (i<(json.customers.length-1)) userHtml+="<br>";
+	            $("#custData").append(userHtml);
+	          }
+	          $('#selectCustomersModal').modal('show');
+	        }
+	      },
+	      
+	    });
+	   
+	  }
+	}
+
+
 function cleanCust() {
   $("input[name='custName']").val("");
   $("input[name='custPhone']").val("");

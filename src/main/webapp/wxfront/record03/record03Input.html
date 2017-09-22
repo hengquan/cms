@@ -95,15 +95,9 @@
   </div>
   <div class="select"> 
   <div class="item_sflr row">
-    <div class="col-title col-title-7">房屋买受人姓名</div>
-    <div class="col-input-7">
-      <input type="text" placeholder="" name="buyerName"/>
-    </div>
-  </div>
-  <div class="item_sflr row">
-    <div class="col-title col-title-7">客户姓名</div>
-    <div class="col-input-7">
-      <input type="text" placeholder="" name="custName" onblur="fillBuyerNameByCustName()"/>
+    <div class="col-title col-title-4">客户姓名</div>
+    <div class="col-input-4">
+      <input type="text" placeholder="" name="custName" onChange="fillBuyerNameByCustName()"/>
     </div>
   </div>
   <div class="item_sflr row">
@@ -112,6 +106,13 @@
       <input type="text" placeholder="" name="custPhone"/>
     </div>
   </div>
+   <div class="item_sflr row">
+    <div class="col-title col-title-7">房屋买受人姓名</div>
+    <div class="col-input-7">
+      <input type="text" placeholder="" name="buyerName"/>
+    </div>
+  </div>
+ 
   <a href="" data-toggle="modal" onClick="openSelCust()"><div class="customers">选择<br>客户</div></a> 
   </div>
   <div class="modal fade" id="selectCustomersModal" role="dialog">
@@ -165,12 +166,12 @@
   <div class="item_sflr row">
     <div class="col-title col-title-4">认购日期</div>
     <div class="col-input-4 inputdate">
-      <input type="date" placeholder="" name="purchaseDate" onblur="adjustSignDate(10)"/>
+      <input type="date" placeholder="" name="purchaseDate" onChange="adjustSignDate(10)"/>
     </div>
   </div>
   <div class="item_sflr row">
-    <div class="col-title col-title-4">预计签约日期</div>
-    <div class="col-input-4 inputdate">
+    <div class="col-title col-title-6">预计签约日期</div>
+    <div class="col-input-6 inputdate">
       <input type="date" placeholder="" name="signDate"/>
     </div>
   </div>
@@ -186,15 +187,15 @@
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-7">认知-到访（天）</div>
-    <div class="col-input-7"><input type="text" placeholder="" name="visitCycle"></div>
+    <div class="col-input-7"><input type="number" min="1" max="365" placeholder="" name="visitCycle"></div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-7">到访-认购（天）</div>
-    <div class="col-input-7"><input type="text" placeholder="" name="purchaseCycle"></div>
+    <div class="col-input-7"><input type="number" min="1" max="365" placeholder="" name="purchaseCycle"></div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-7">认购-签约（天）</div>
-    <div class="col-input-7"><input type="text" placeholder="" name="signCycle"></div>
+    <div class="col-input-7"><input type="number" min="1" max="365" placeholder="" name="signCycle"></div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-2">户籍</div>
@@ -224,15 +225,15 @@
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-7">成交面积（m<sup>2</sup>）</div>
-    <div class="col-input-6"><input type="text" placeholder="" name="houseAcreage"/></div>
+    <div class="col-input-6"><input type="number" min="1" max="1000000000" placeholder="" name="houseAcreage"/></div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-9">成交单价（元 / m<sup>2</sup>）</div>
-    <div class="col-input-8"><input type="text" placeholder="" name="unitPrice"/></div>
+    <div class="col-input-8"><input type="number" min="1" max="1000000000" placeholder="" name="unitPrice"/></div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-7">成交总价（元）</div>
-    <div class="col-input-6"><input type="text" placeholder="" name="totalPrice"/></div>
+    <div class="col-input-6"><input type="number" min="1" max="1000000000" placeholder="" name="totalPrice"/></div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-4">付款方式</div>

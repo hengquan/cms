@@ -1319,6 +1319,7 @@ function loadProjUser(projId) {//加载顾问
           for (var i=0; i<json.users.length; i++) {
             var oneUser=json.users[i];
             if (oneUser.id==userInfo.userid) continue;
+            if (oneUser.roleName!="顾问") continue;
             var _innerHtml=oneUser.realName+"<span>（"+(oneUser.sex==1?"男":"女")+"）</span><span>"+oneUser.mainPhoneNum+"</span><span>"+oneUser.projName+"</span>";
             var userHtml="<label><input type='radio' name='user' value='"+oneUser.id+"-"+oneUser.realName+"' _text='"+oneUser.realName+"' onclick='selUser()'/>"+_innerHtml+"</label>";
             if (i<(json.users.length-1)) userHtml+="<br>";

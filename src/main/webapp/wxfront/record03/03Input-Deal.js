@@ -123,9 +123,9 @@ function initData(data) {
       }
     }
     var nt=new Date();
-    fillTime("recpTime", nt);
+    fillTime("firstKnowTime", nt);
     fillTime("purchaseDate", nt);
-    fillTime("signDate", nt);
+    adjustSignDate(10);
     if (_TYPE=='update'&&data) {
       fillData(data);
       getAudit(recordId);
@@ -305,7 +305,7 @@ function checkStep1() {
   var temp=checkPhone('custPhone');
   if (temp) return temp;
   if (!_uSex) return "请选择客户性别!";
-  if (!checkField("recpTime")) return '请录入到访时间!';
+ /* if (!checkField("recpTime")) return '请录入到访时间!';*/
   if (!checkField("purchaseDate")) return '请录入认购日期!';
   if (!checkField("signDate")) return '请填录入签约日期!';
   if (!checkField("houseNum")) return '请填录入购买房号!';
@@ -372,8 +372,7 @@ function commitData() {
       if (_uUserId) retData.authorid=_uUserId;
       if (_uUserId) retData.creatorid=_uUserId;
     }
-    temp=$("input[name='recpTime']").val();
-    if (temp) retData.receptime1=temp;
+    if (temp) retData.receptime1=new Date();
     if (custId) retData.custid=custId;
     //用户名称-房屋买受人姓名
     temp=$("input[name='buyerName']").val();
@@ -384,6 +383,8 @@ function commitData() {
     temp=$("input[name='custPhone']").val();
     if (temp) retData.custphonenum=temp;
     if (_uSex) retData.custsex=_uSex;
+    temp=$("input[name='firstKnowTime']").val();
+    if (temp) retData.firstknowtime1=temp;
     temp=$("input[name='purchaseDate']").val();
     if (temp) retData.purchasedate1=temp;
     temp=$("input[name='signDate']").val();
@@ -425,6 +426,9 @@ function commitData() {
     return retData;
   }
   function commitInsert(_data) {
+
+
+
     var url=_URL_BASE+"/wx/api/addTradeVisit";
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
@@ -574,7 +578,7 @@ function selCust() {
             if (customer.visitcount) $("#visitCount").html(customer.visitcount);
             if (customer.firstknowtime.time) {
               var rTime=new Date();
-              rTime.setTime(data.firstknowtime.time);
+              rTime.setTime(customer.firstknowtime.time);
               fillTime("firstKnowTime", rTime);
             }
           }
@@ -668,7 +672,7 @@ function fillBuyerNameByCustName() {
 function adjustSignDate(delayDay) {
   var od=$("input[name='purchaseDate']").val();
   var timestamp=Date.parse(od);
-  var newts=timestamp-((24*60*60*1000)*delayDay);
+  var newts=timestamp+((24*60*60*1000)*delayDay);
   var nd=new Date();
   nd.setTime(newts);
   var a=nd.getFullYear();
