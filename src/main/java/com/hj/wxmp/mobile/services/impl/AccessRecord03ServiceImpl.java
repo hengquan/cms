@@ -109,9 +109,5 @@ public class AccessRecord03ServiceImpl implements AccessRecord03Service {
 	public void updateByProjIdAndCustId(Map<String, Object> parmeterMap) {
 		dao.updateByProjIdAndCustId(parmeterMap);
 	}
-	@Override
-	public AccessRecord03 selectByRecepTime(String date) {
-		return dao.selectByRecepTime(date);
-	}
 
 }
