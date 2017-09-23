@@ -755,7 +755,7 @@ function openSelCust() {
             var oneCust=json.customers[i];
             var _phones=oneCust.custPhone;
             _phones=$.trim(_phones.split(",")[0]);
-            var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span><span>"+oneCust.projName+"</span>";
+            var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span>";
             var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label>";
             if (i<(json.customers.length-1)) userHtml+="<br>";
             $("#custData").append(userHtml);
@@ -779,42 +779,46 @@ function openSelCust() {
 
 //筛选客户
 function filterCust() {
-	  var searchStr=$("#searchStr").val();
-	  alert(searchStr);
-	 
-	  if (_thisProjId!=_uProjId||_thisUserId!=_uUserId) {
+	    var searchStr=$("#searchStr").val();
+	    
 	    var url=_URL_BASE+"/wx/api/getCustList";
 	    var _data={};
+	  
 	    _data.projId=_uProjId;
 	    _data.custName=searchStr;
-	    if (_uUserId) _data.userId=_uUserId;
-	    $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
-	      success: function(json) {
-	        if (json.msg!='100') {
-	          alert("未获得任何客户信息");
-	        } else {
-	          $("#custData").html("");
-	          if (json.customers.length==0) {
-	            alert("["+_uProjName+"]项目还没有接待任何客户，只能从首访录入，不能录入复访!");
-	            return;
-	          }
-	          for (var i=0; i<json.customers.length; i++) {
-	            var oneCust=json.customers[i];
-	            var _phones=oneCust.custPhone;
-	            _phones=$.trim(_phones.split(",")[0]);
-	            var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span><span>"+oneCust.projName+"</span>";
-	            var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label>";
-	            if (i<(json.customers.length-1)) userHtml+="<br>";
-	            $("#custData").append(userHtml);
-	          }
-	          $('#selectCustomersModal').modal('show');
-	        }
-	      },
-	      
-	    });
-	   
+	    if (searchStr!=''){
+	      $.ajax({
+			type:'get',
+			data: _data, 
+			url:url,
+			dataType:'json',
+			success:function(data){
+				console.log(data);
+				$("#custData").empty();
+                var str = "";     
+                var customers = data.customers;
+                for(var i=0;i<customers.length;i++){
+                	var custName = customers[i].custName;
+                	
+                	if(custName.indexOf(searchStr)>=0){
+                		 console.log()
+                		 for (var i=0; i<json.customers.length; i++) {
+                	            var oneCust=json.customers[i];
+                	            var _phones=oneCust.custPhone;
+                	            _phones=$.trim(_phones.split(",")[0]);
+                	            var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span>";
+                	            str += _innerHtml;
+                	          }
+                	}
+                }
+
+                $("#custData").append(str);
+			}
+		  });
+	    }else{
+	    	$("#custData").empty()
+	    }
 	  }
-	}
 
 
 function cleanCust() {

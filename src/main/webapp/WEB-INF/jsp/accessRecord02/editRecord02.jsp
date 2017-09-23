@@ -437,13 +437,13 @@ px
 
 									<tr>
 										<td colspan="3">贷款记录：
-										<select name="daikuan">
+										<select name="loanstatus">
 											<option value="0">请选择</option>
-											<option value="有贷款（住宅）">有贷款（住宅）</option>
-											<option value="有贷款（商业）">有贷款（商业）</option>
-											<option value="有贷款（住宅和商业）">有贷款（住宅和商业）</option>
-											<option value="无贷款">无贷款</option>
-											<option value="无法了解" style="color: red">无法了解</option>
+											<option value="024001-有贷款（住宅）" <c:if test="${accessRecord02.loanstatus=='有贷款（住宅）' }">selected</c:if>>有贷款（住宅）</option>
+											<option value="024002-有贷款（商业）" <c:if test="${accessRecord02.loanstatus=='有贷款（商业）' }">selected</c:if>>有贷款（商业）</option>
+											<option value="024003-有贷款（住宅和商业）" <c:if test="${accessRecord02.loanstatus=='有贷款（住宅和商业）' }">selected</c:if>>有贷款（住宅和商业）</option>
+											<option value="024004-无贷款" <c:if test="${accessRecord02.loanstatus=='无贷款' }">selected</c:if>>无贷款</option>
+											<option value="024000-无法了解" <c:if test="${accessRecord02.loanstatus=='无法了解' }">selected</c:if> style="color: red">无法了解</option>
 										</select>
 
 										</td>
@@ -501,14 +501,12 @@ px
 									</tr>
 
 									<tr>
-										<td>名下房产：<select name="yigou_num">
-												<option value="0">请选择</option>
-												<option value="1">1套</option>
-												<option value="2">2套</option>
-												<option value="3">3套</option>
-												<option value="3套以上">3套以上</option>
-												<option value="无房">无房</option>
-												<option value="无法了解" style="color: red">无法了解</option>
+										<td>名下房产：<select name="housecount">
+												<option value="0" <c:if test="${accessRecord02.housecount=='0' }">selected</c:if>>请选择</option>
+												<option value="1" <c:if test="${accessRecord02.housecount=='1' }">selected</c:if>>1套</option>
+												<option value="2" <c:if test="${accessRecord02.housecount=='2'}">selected</c:if>>2套</option>
+												<option value="3" <c:if test="${accessRecord02.housecount=='3' }">selected</c:if>>3套</option>
+												<option value="无法了解" <c:if test="${accessRecord02.housecount=='-1' }">selected</c:if> style="color: red">无法了解</option>
 										</select>
 
 

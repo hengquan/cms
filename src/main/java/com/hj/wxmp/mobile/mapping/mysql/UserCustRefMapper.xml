@@ -158,6 +158,23 @@
 	OR instr(proj.projName, #{name})
 	OR instr(qc.phoneNum, #{name})
 	OR instr(pu.realName, #{name}))
+	<if test="userType==2">
+		<if test="projIds !='' and projIds !=null">
+			and instr(#{projIds},proj.id)
+		</if> 
+	</if> 
+	<if test="userType==3">
+		<if test="projIds !='' and projIds !=null">
+			and instr(#{projIds},proj.id)
+		</if> 
+	</if> 
+	<if test="userType==4">
+		<if test="userId !='' and userId !=null">
+			and qc.id in (SELECT custId FROM ql_AccessRecord01 WHERE authorId = #{userId}
+			UNION SELECT custId FROM ql_AccessRecord02 where authorId = #{userId}
+			UNION SELECT custId FROM ql_AccessRecord03 where authorId = #{userId})
+		</if> 
+	</if> 
 	<if test="isValidate != '' and isValidate != null">
 		and pu.isValidate = 3
 	</if>  
@@ -179,6 +196,23 @@
 	OR instr(proj.projName, #{name})
 	OR instr(qc.phoneNum, #{name})
 	OR instr(pu.realName, #{name}))
+	<if test="userType==2">
+		<if test="projIds !='' and projIds !=null">
+			and instr(#{projIds},proj.id)
+		</if> 
+	</if> 
+	<if test="userType==3">
+		<if test="projIds !='' and projIds !=null">
+			and instr(#{projIds},proj.id)
+		</if> 
+	</if> 
+	<if test="userType==4">
+		<if test="userId !='' and userId !=null">
+			and qc.id in (SELECT custId FROM ql_AccessRecord01 WHERE authorId = #{userId}
+			UNION SELECT custId FROM ql_AccessRecord02 where authorId = #{userId}
+			UNION SELECT custId FROM ql_AccessRecord03 where authorId = #{userId})
+		</if> 
+	</if> 
 	<if test="isValidate != '' and isValidate != null">
 		and pu.isValidate = 3
 	</if>  

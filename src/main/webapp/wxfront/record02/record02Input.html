@@ -93,7 +93,7 @@
   <div class="item_sflr row">
     <div class="col-title col-title-2">姓名</div>
     <div class="col-input">
-      <input type="text" placeholder="" name="custName" readonly="true"/>
+      <input type="text" placeholder="" name="custName" id="custName" readonly="true"/>
     </div>
   </div>
   <div class="item_sflr row">
@@ -112,7 +112,7 @@
           <h4 class="modal-title">选择客户</h4>
           <div id="header" class="input-group">
     		<input id="searchStr" type="text" placeholder="请输入客户姓名、电话" class="form-control input-lg"/>
-    		<span id="searchCommit" class="input-group-addon btn btn-primary" onClick="openSelCust()">搜索</span>
+    		<span id="searchCommit" class="input-group-addon btn btn-primary" onClick="filterCust()">搜索</span>
   		  </div>
         </div>
         <div class="user-scroll modal-body" id="custData"></div>

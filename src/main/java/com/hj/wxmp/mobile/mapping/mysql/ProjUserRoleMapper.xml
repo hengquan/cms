@@ -144,7 +144,8 @@
     left JOIN ql_Customer c ON uc.custId=c.id
     left JOIN ql_Project p ON uc.projId=p.id
     left JOIN plat_User u ON uc.userId=u.id
-  where uc.projId=#{projId} <if test="userId!=null"> and uc.userId=#{userId}</if>
+  where uc.projId=#{projId} <if test="userId!=null"> and uc.userId=#{userId}</if> 
+  <if test="custName!=null and custName!=''"> and instr(#{custName},c.custName)</if>
   </select>
 
   <select id="selectProjUserDataByProjIdGLY" resultType="com.hj.wxmp.mobile.entity.UserInfo" parameterType="java.lang.String">

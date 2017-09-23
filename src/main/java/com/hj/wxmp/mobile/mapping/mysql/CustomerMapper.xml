@@ -60,7 +60,6 @@
     <result column="livingStatus" property="livingstatus" jdbcType="VARCHAR" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
-    <result column="firstKnowTime" property="firstknowtime" jdbcType="TIMESTAMP" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.hj.wxmp.mobile.entity.Customer" extends="BaseResultMap" >
     <result column="trafficTypeDesc" property="traffictypedesc" jdbcType="LONGVARCHAR" />
@@ -73,7 +72,6 @@
     <result column="loveActDesc" property="loveactdesc" jdbcType="LONGVARCHAR" />
     <result column="custDescn" property="custdescn" jdbcType="LONGVARCHAR" />
     <result column="houseTypeDesc" property="housetypedesc" jdbcType="LONGVARCHAR" />
-    <result column="paymentTypeDesc" property="paymenttypedesc" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, custName, phoneNum, custSex, ageGroup, buyQualify, localResidence, localWorkArea, 
@@ -84,11 +82,11 @@
     enterpriseAddress, enterprisePost, loanStatus, fulltimeWifeFlag, outEduWill, nannyFlag, 
     outExperFlag, outExperCity, childOutExperFlag, childOutExperCity, petFlag, houseCount, 
     carFamilyCount, carBrand, carTotalPrice, attentWX, appNames, avocations, loveActivation, 
-    freeTimeSection, addressMail, houseRegiType, custScore, livingStatus, cTime, lmTime,firstKnowTime
+    freeTimeSection, addressMail, houseRegiType, custScore, livingStatus, cTime, lmTime
   </sql>
   <sql id="Blob_Column_List" >
     trafficTypeDesc, workIndustryDesc, enterpriseTypeDesc, realtyProductTypeDesc, buyPurposeDesc, 
-    investTypeDesc, avocationsDesc, loveActDesc, custDescn,houseTypeDesc,paymentTypeDesc
+    investTypeDesc, avocationsDesc, loveActDesc, custDescn,houseTypeDesc
   </sql>
   <select id="selectByPrimaryKey" resultType="com.hj.wxmp.mobile.entity.Customer" parameterType="java.lang.String" >
     select 
@@ -359,12 +357,6 @@
       <if test="housetypedesc != null" >
         houseTypeDesc,
       </if>
-      <if test="firstknowtime != null" >
-        firstKnowTime,
-      </if>
-      <if test="paymenttypedesc != null" >
-        paymentTypeDesc,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -570,12 +562,6 @@
       </if>
       <if test="housetypedesc != null" >
         #{housetypedesc,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="firstknowtime != null" >
-        #{firstknowtime,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="paymenttypedesc != null" >
-        #{paymenttypedesc,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -783,12 +769,6 @@
       <if test="housetypedesc != null" >
         houseTypeDesc = #{housetypedesc,jdbcType=LONGVARCHAR},
       </if>
-      <if test="firstKnowTime != null" >
-        firstKnowTime = #{firstknowtime,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="paymenttypedesc != null" >
-        paymentTypeDesc = #{paymenttypedesc,jdbcType=LONGVARCHAR},
-      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -956,7 +936,7 @@
 		*
 	FROM
 		ql_Customer c
-	JOIN ql_ProjCust_Ref pr ON c.id = pr.custId
+	left JOIN ql_ProjCust_Ref pr ON c.id = pr.custId
 	WHERE
 		pr.projId = #{projId}
 	AND pr.custId = #{custId}

@@ -423,12 +423,21 @@ px
 											<input type="text" name="housenum" value="${accessRecord03.housenum }" style="width: 7rem">
 										</td>
 										<td colspan="2">户籍：
-											<input name="houseregitype" type="radio" value="京籍" <c:if test="${accessRecord03.houseregitype == '京籍'}">selected</c:if> style="width: 1rem">京籍 
-											<input name="houseregitype" type="radio" value="外地" <c:if test="${accessRecord03.houseregitype == '外地'}">selected</c:if> style="width: 1rem">外地 
-											<input name="houseregitype" type="radio" value="外国籍" <c:if test="${accessRecord03.houseregitype == '外国籍'}">selected</c:if> style="width: 1rem">外国籍
+											<input name="houseregitype" type="text" value="${accessRecord03.houseregitype}" style="width: 40rem">
 										</td>
 									</tr>
-
+									<tr>
+										<td colspan="2">成交周期-到访：
+											<input type="text" name="visitcycle" value="${accessRecord03.visitcycle }" style="width: 4rem">
+											<span style="margin-right: 2rem">天</span> 成交周期-认购：
+											<input type="text" name="purchasecycle" value="${accessRecord03.purchasecycle }" style="width: 4rem;">
+											<span style="margin-right: 2rem">天</span> 成交周期-签约：
+											<input type="text" name="signcycle" value="${accessRecord03.signcycle }" style="width: 4rem;">天
+										</td>
+										<td colspan="1">获知时间：
+											<input type="text" name="firstknowtime" value="${accessRecord03.firstknowtime }" style="width: 10rem">
+										</td>
+									</tr>
 									<tr>
 										<td colspan="2">成交面积：
 											<input type="text" name="houseacreage" value="${accessRecord03.houseacreage }" style="width: 4rem">
@@ -438,15 +447,7 @@ px
 											<input type="text" name="totalprice" value="${accessRecord03.totalprice }" style="width: 4rem;">万
 										</td>
 										<td>付款方式：
-											<select name="fukuan">
-												<option value="0">请选择</option>
-												<option value="银行贷款（首套按揭）">银行贷款（首套按揭）</option>
-												<option value="银行贷款（二套按揭）">银行贷款（二套按揭）</option>
-												<option value="分期">分期</option>
-												<option value="一次性">一次性</option>
-												<option value="公积金贷款">公积金贷款</option>
-												<option value="无法了解" style="color: red">无法了解</option>
-											</select>
+											<input type="text" name="paymenttype" value="${accessRecord03.paymenttype }" style="width: 13rem;">
 										</td>
 									</tr>
 
@@ -471,7 +472,11 @@ px
 											<span style="color: red">无法了解</span>
 										</td>
 									</tr>
-
+									<tr>
+										<td colspan="3">贷款银行：
+											<input type="text" name="loanbank" value="${accessRecord03.loanbank }" style="width: 13rem">
+										</td>
+									</tr>
 									<tr>
 										<td colspan="3">通邮地址：
 											<input type="text" name="addressmail" value="${accessRecord03.addressmail }" style="width: 11rem">

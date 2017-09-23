@@ -71,9 +71,27 @@ public class AccessRecord03 {
     
     private String loanbank;
     
-    private String housetypedesc;
+    private String buyername;
     
     private Date firstknowtime;
+    
+    private String paymenttypedesc;
+
+	public String getPaymenttypedesc() {
+		return paymenttypedesc;
+	}
+
+	public void setPaymenttypedesc(String paymenttypedesc) {
+		this.paymenttypedesc = paymenttypedesc;
+	}
+
+	public String getBuyername() {
+		return buyername;
+	}
+
+	public void setBuyername(String buyername) {
+		this.buyername = buyername;
+	}
 
 	public Date getFirstknowtime() {
 		return firstknowtime;
@@ -81,14 +99,6 @@ public class AccessRecord03 {
 
 	public void setFirstknowtime(Date firstknowtime) {
 		this.firstknowtime = firstknowtime;
-	}
-
-	public String getHousetypedesc() {
-		return housetypedesc;
-	}
-
-	public void setHousetypedesc(String housetypedesc) {
-		this.housetypedesc = housetypedesc;
 	}
     
 	public String getLoanbank() {
