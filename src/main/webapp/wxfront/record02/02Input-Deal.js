@@ -87,6 +87,10 @@ function initData(data) {
     }
   });
   function initPage(userInfo, data) {
+    if (userInfo.roleName!='顾问'&&userInfo.roleName!='项目负责人') {
+      window.location.href=_URL_BASE+"/wxfront/err.html?9000=您以["+userInfo.roleName+"]身份登录系统<br/>无需进行复访记录的"+(_TYPE=='add'?"录入":"修改")+"操作";
+      return;
+    }
     curUserInfo=userInfo;
     cleanData(2);
     //初始化项目选择
@@ -309,12 +313,13 @@ function cleanData(type) {//清除数据
 }
 //翻页切换
 function step1Next() {//要判断是否应该进行首访录入
-  $("#step1").hide(0);
+	
+ /* $("#step1").hide(0);
   $("#step2").show(0);
   $("#step3").hide(0);
   $("#step4").hide(0);
   $("#step5").hide(0);
-  return;
+  return;*/
 
   var _data={};
   if (!_uProjId) {
@@ -379,16 +384,17 @@ function step1Next() {//要判断是否应该进行首访录入
 //    }
 //  }
   var err=checkStep1();
+
   if (err) {
     alert(err);
-   
+    return;
   }
   $("#step1").hide(0);
   $("#step2").show(0);
   $("#step3").hide(0);
   $("#step4").hide(0);
   $("#step5").hide(0);
-  
+ 
 }
 function step2Prev() {
   $("#step1").show(0);
@@ -463,7 +469,7 @@ function checkStep1() {
   if (!_uVisitorRefs) return "请选择来访人之间关系!";
   temp=checkPhone('custPhone');
   if (temp) return temp;
-  /*return "";*/
+  return "";
 }
 function checkStep2() {
   if (!_uChildrenNum) return "请选择未成年子女数量!";
@@ -761,6 +767,23 @@ function openSelCust() {
             $("#custData").append(userHtml);
           }
           $('#selectCustomersModal').modal('show');
+          //客户搜索
+          $(function(){
+              //键盘按键弹起时执行
+              $('#searchStr').keyup(function(){
+                  var index = $.trim($('#searchStr').val().toString()); // 去掉两头空格
+                  if(index == ''){ // 如果搜索框输入为空
+                      $("label").show();
+                      $("label:contains('"+index+"')").prependTo(parent).hide();
+                      return false;
+                  }
+                  var parent = $('#custData');
+                  $("label").show();
+                  // prependTo() 方法在被选元素的开头（仍位于内部）插入指定内容
+                  // contains 选择器，选取包含指定字符串的元素
+                  $("label:contains('"+index+"')").prependTo(parent).show().siblings().hide();
+              });
+           });
         }
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -777,48 +800,43 @@ function openSelCust() {
 }
 
 
-//筛选客户
-function filterCust() {
-	    var searchStr=$("#searchStr").val();
-	    
-	    var url=_URL_BASE+"/wx/api/getCustList";
-	    var _data={};
-	  
-	    _data.projId=_uProjId;
-	    _data.custName=searchStr;
-	    if (searchStr!=''){
-	      $.ajax({
-			type:'get',
-			data: _data, 
-			url:url,
-			dataType:'json',
-			success:function(data){
-				console.log(data);
-				$("#custData").empty();
-                var str = "";     
-                var customers = data.customers;
-                for(var i=0;i<customers.length;i++){
-                	var custName = customers[i].custName;
-                	
-                	if(custName.indexOf(searchStr)>=0){
-                		 console.log()
-                		 for (var i=0; i<json.customers.length; i++) {
-                	            var oneCust=json.customers[i];
-                	            var _phones=oneCust.custPhone;
-                	            _phones=$.trim(_phones.split(",")[0]);
-                	            var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span>";
-                	            str += _innerHtml;
-                	          }
-                	}
-                }
 
-                $("#custData").append(str);
-			}
-		  });
-	    }else{
-	    	$("#custData").empty()
+//筛选客户
+/*function filterCust() {
+  var searchStr=$("#searchStr").val();
+  var url=_URL_BASE+"/wx/api/getCustList";
+  var _data={};
+  _data.projId=_uProjId;
+  _data.custName=searchStr;
+  if (searchStr!=''){
+	  $.ajax({
+	     type:'get',
+		 data: _data, 
+		 url:url,
+		 dataType:'json',
+		 success:function(data){
+		 console.log(data);
+		 $("#custData").empty();
+         var str = "";     
+         var customers = data.customers;
+         for(var i=0;i<customers.length;i++){
+           var custName = customers[i].custName;
+           if(custName.indexOf(searchStr)>=0){     		
+             for (var i=0; i<data.customers.length; i++) {
+               var oneCust=data.customers[i];
+               var _phones=oneCust.custPhone;
+               _phones=$.trim(_phones.split(",")[0]);
+               var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span>";
+               var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label>";
+             }
+           }
+          }$("#custData").append(userHtml);
+	   }
+	 })
+	}else{
+		$("#custData").empty()
 	    }
-	  }
+}*/
 
 
 function cleanCust() {
