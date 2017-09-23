@@ -1180,4 +1180,8 @@
 	JOIN ql_Project proj ON a02.projId = proj.id 
 	where a02.id = #{recordId}
   </select>
+  
+  <select id="selectByRecepTime" resultType="com.hj.wxmp.mobile.entity.AccessRecord02" parameterType="java.lang.String">
+  	select recepTime from ql_AccessRecord02 where INSTR(recepTime,#{date})
+  </select>
 </mapper>

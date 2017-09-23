@@ -114,5 +114,7 @@ public interface AccessRecord01Service {
 
 	public Integer selectByCustIdAndProjId(Map<String, Object> parmeterMap);
 
+	public AccessRecord01 selectByRecepTime(String date);
+
 
 }

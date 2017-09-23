@@ -114,5 +114,7 @@ public interface AccessRecord02Service {
 
 	public AccessRecord02 selectById(String recordId);
 
+	public AccessRecord02 selectByRecepTime(String date);
+
 
 }

@@ -748,4 +748,10 @@
 	ql_AccessRecord02 record01 where projId=#{projId} and custId=#{custId} and `status`!=3
   </select>
   
+  
+  <select id="selectByRecepTime" resultType="com.hj.wxmp.mobile.entity.AccessRecord01" parameterType="java.lang.String">
+  	select recepTime from ql_AccessRecord01 where INSTR(recepTime,#{date})
+  </select>
+  
+  
 </mapper>

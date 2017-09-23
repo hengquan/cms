@@ -2049,7 +2049,7 @@ public class WxApiController extends ControllerBaseWx {
 				record03.setFirstknowtime(parse);
 			}
 			//扫描一次，处理本表，处理客户表，处理客户项目关系表，处理字典表；
-			Object[] resultObjs=scan3(record03,0);
+			Object[] resultObjs=scan3(record03,1);
 			//处理多电话号码
 			//客户
 			Customer cust = (Customer)resultObjs[1];
@@ -2077,7 +2077,7 @@ public class WxApiController extends ControllerBaseWx {
 	    			}
 	    		}
 	    	}
-			if (accessRecord03Service.insert(accessRecord03)) {
+			if (accessRecord03Service.update(accessRecord03)) {
 				Deal01OtherTable d01=new Deal01OtherTable(customer, (ProjCustRef)resultObjs[2], (UserCustRef)resultObjs[3], (List<TabDictRef>)resultObjs[4], 0);
 				d01.start();
 				map.put("msg", "100");

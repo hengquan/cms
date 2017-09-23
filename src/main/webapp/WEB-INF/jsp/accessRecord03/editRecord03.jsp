@@ -396,17 +396,17 @@ px
 									style="width: 100px; height: 30px; font-weight: bold; font-family: &amp; #39; 微软雅黑 &amp;#39;; margin-left: 10px">
 							</div>
 
+							<input type="hidden" name="id" value="${accessRecord03.id }" />
+							<input type="hidden" name="custid" value="${accessRecord03.custid }" />
+							<input type="hidden" name="projid" value="${accessRecord03.projid }" />
+							<input type="hidden" name="userId" value="${userId }" />
 
 							<table id="orderinfo" cellpadding="0" cellspacing="0"
 								bgcolor="#dddddd" border="1" style="margin-top:40px;">
 								<tbody>
-									<input type="hidden" name="id" value="${accessRecord03.id }" />
-									<input type="hidden" name="custid" value="${accessRecord03.custid }" />
-									<input type="hidden" name="projid" value="${accessRecord03.projid }" />
-									<input type="hidden" name="userId" value="${userId }" />
 									<tr style="">
 										<td style="width: 330px;">房屋买卖人姓名：<input type="text"
-											name="xingming" value="${accessRecord03.custname }" style="width: 10rem"></td>
+											name="custname" value="${accessRecord03.custname }" style="width: 10rem"></td>
 										<td style="width: 320px;">性别：<input name="sex"
 											type="text" value="${accessRecord03.custsex }" style="width: 10rem" >
 										</td>
@@ -417,19 +417,22 @@ px
 										<td>联系方式：
 											<input type="text" name="custphonenum" value="${accessRecord03.custphonenum }" style="width: 10rem"></td>
 										<td>认购日期：
-											<input type="date" name="purchasedate1" value="${accessRecord03.purchasedate }" style="width: 10rem">
+											<input type="date" name="purchasedate1" value="<fmt:formatDate value="${accessRecord03.purchasedate }" pattern="yyyy-MM-dd"/>" style="width: 13rem">
 										<td>签约日期：
-											<input type="date" name="signdate1" value="${accessRecord03.signdate }" style="width: 10rem">
+											<input type="date" name="signdate1" value="<fmt:formatDate value="${accessRecord03.signdate }" pattern="yyyy-MM-dd"/>" style="width: 13rem">
 									</tr>
 
 									<tr>
 										<td colspan="1">购买房号：
 											<input type="text" name="housenum" value="${accessRecord03.housenum }" style="width: 7rem">
 										</td>
-										<td colspan="2">户籍：
-											<input name="houseregitype" type="radio" value="京籍" <c:if test="${accessRecord03.houseregitype == '京籍'}">selected</c:if> style="width: 1rem">京籍 
-											<input name="houseregitype" type="radio" value="外地" <c:if test="${accessRecord03.houseregitype == '外地'}">checked</c:if> style="width: 1rem">外地 
-											<input name="houseregitype" type="radio" value="外国籍" <c:if test="${accessRecord03.houseregitype == '外国籍'}">selected</c:if> style="width: 1rem">外国籍
+										<td colspan="1">户籍：
+											<input name="houseregitype" type="radio" value="029001-京籍" <c:if test="${accessRecord03.houseregitype == '京籍'}">selected</c:if> style="width: 1rem">京籍 
+											<input name="houseregitype" type="radio" value="029002-外地" <c:if test="${accessRecord03.houseregitype == '外地'}">checked</c:if> style="width: 1rem">外地 
+											<input name="houseregitype" type="radio" value="029003-外国籍" <c:if test="${accessRecord03.houseregitype == '外国籍'}">selected</c:if> style="width: 1rem">外国籍
+										</td>
+										<td colspan="1">买受人姓名：
+											<input type="text" name="buyername" value="${accessRecord03.buyername }" style="width: 13rem">
 										</td>
 									</tr>
 									<tr>
@@ -441,7 +444,7 @@ px
 											<input type="text" name="signcycle" value="${accessRecord03.signcycle }" style="width: 4rem;">天
 										</td>
 										<td colspan="1">获知时间：
-											<input type="date" name="firstknowtime1" value="${accessRecord03.firstknowtime }" style="width: 10rem">
+											<input type="date" name="firstknowtime1" value="<fmt:formatDate value="${accessRecord03.firstknowtime }" pattern="yyyy-MM-dd"/>" style="width: 13rem">
 										</td>
 									</tr>
 									<tr>
@@ -455,12 +458,12 @@ px
 										<td>付款方式：
 											<select name="fukuan">
 												<option value="0">请选择</option>
-												<option value="银行贷款（首套按揭）">银行贷款（首套按揭）</option>
-												<option value="银行贷款（二套按揭）">银行贷款（二套按揭）</option>
-												<option value="分期">分期</option>
-												<option value="一次性">一次性</option>
-												<option value="公积金贷款">公积金贷款</option>
-												<option value="无法了解" style="color: red">无法了解</option>
+												<option value="030001-银行贷款（首套按揭）" <c:if test="${accessRecord03.paymenttype =='银行贷款（首套按揭）' }">selected</c:if>>银行贷款（首套按揭）</option>
+												<option value="030002-银行贷款（二套按揭）" <c:if test="${accessRecord03.paymenttype =='银行贷款（二套按揭）' }">selected</c:if>>银行贷款（二套按揭）</option>
+												<option value="030003-分期" <c:if test="${accessRecord03.paymenttype =='分期' }">selected</c:if>>分期</option>
+												<option value="030004-一次性" <c:if test="${accessRecord03.paymenttype =='一次性' }">selected</c:if>>一次性</option>
+												<option value="030005-公积金贷款" <c:if test="${accessRecord03.paymenttype =='公积金贷款' }">selected</c:if>>公积金贷款</option>
+												<option value="007000-无法了解" <c:if test="${accessRecord03.paymenttype =='无法了解' }">selected</c:if> style="color: red">无法了解</option>
 											</select>
 										</td>
 									</tr>
@@ -499,35 +502,35 @@ px
 
 									<tr>
 										<td colspan="3">实际居住情况：
-											<input name="livingstatus" type="radio" value="单身" <c:if test="${fn:contains(accessRecord03.livingstatus, '单身')}">checked</c:if> style="width: 1rem">单身 
-											<input name="livingstatus" type="radio" value="夫妻" <c:if test="${fn:contains(accessRecord03.livingstatus, '夫妻')}">checked</c:if> style="width: 1rem">夫妻 
-											<input name="livingstatus" type="radio" value="一孩家庭" <c:if test="${fn:contains(accessRecord03.livingstatus, '一孩家庭')}">checked</c:if> style="width: 1rem">一孩家庭
-											<input name="livingstatus" type="radio" value="俩孩家庭" <c:if test="${fn:contains(accessRecord03.livingstatus, '俩孩家庭')}">checked</c:if> style="width: 1rem">俩孩家庭 
-											<input name="livingstatus" type="radio" value="三孩及以上家庭" <c:if test="${fn:contains(accessRecord03.livingstatus, '三孩及以上家庭')}">checked</c:if> style="width: 1rem">三孩及以上家庭
-											<input name="livingstatus" type="radio" value="三代同堂" <c:if test="${fn:contains(accessRecord03.livingstatus, '三代同堂')}">checked</c:if> style="width: 1rem">三代同堂 
-											<input name="livingstatus" type="radio" value="无法了解" <c:if test="${fn:contains(accessRecord03.livingstatus, '无法了解')}">checked</c:if> style="width: 1rem">
+											<input name="livingstatus" type="radio" value="005001-单身" <c:if test="${fn:contains(accessRecord03.livingstatus, '单身')}">checked</c:if> style="width: 1rem">单身 
+											<input name="livingstatus" type="radio" value="005002-夫妻" <c:if test="${fn:contains(accessRecord03.livingstatus, '夫妻')}">checked</c:if> style="width: 1rem">夫妻 
+											<input name="livingstatus" type="radio" value="005003-一孩家庭" <c:if test="${fn:contains(accessRecord03.livingstatus, '一孩家庭')}">checked</c:if> style="width: 1rem">一孩家庭
+											<input name="livingstatus" type="radio" value="005004-俩孩家庭" <c:if test="${fn:contains(accessRecord03.livingstatus, '俩孩家庭')}">checked</c:if> style="width: 1rem">俩孩家庭 
+											<input name="livingstatus" type="radio" value="005005-三孩及以上家庭" <c:if test="${fn:contains(accessRecord03.livingstatus, '三孩及以上家庭')}">checked</c:if> style="width: 1rem">三孩及以上家庭
+											<input name="livingstatus" type="radio" value="005006-三代同堂" <c:if test="${fn:contains(accessRecord03.livingstatus, '三代同堂')}">checked</c:if> style="width: 1rem">三代同堂 
+											<input name="livingstatus" type="radio" value="005000-无法了解" <c:if test="${fn:contains(accessRecord03.livingstatus, '无法了解')}">checked</c:if> style="width: 1rem">
 											<span style="color: red">无法了解</span>
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">房屋使用人是谁：
-											<input name="realusemen" type="checkbox" value="本人" <c:if test="${fn:contains(accessRecord03.realusemen, '本人')}">checked</c:if> style="width: 1rem" >本人 
-											<input name="realusemen" type="checkbox" value="配偶" <c:if test="${fn:contains(accessRecord03.realusemen, '配偶')}">checked</c:if> style="width: 1rem" >配偶
-											<input name="realusemen" type="checkbox" value="您的父母" <c:if test="${fn:contains(accessRecord03.realusemen, '您的父母')}">checked</c:if> style="width: 1rem" >您的父母
-											<input name="realusemen" type="checkbox" value="您的子女" <c:if test="${fn:contains(accessRecord03.realusemen, '您的子女')}">checked</c:if> style="width: 1rem" >您的子女
-											<input name="realusemen" type="checkbox" value="无法了解" <c:if test="${fn:contains(accessRecord03.realusemen, '无法了解')}">checked</c:if> style="width: 1rem; color: red" >
+											<input name="realusemen" type="checkbox" value="031001-本人" <c:if test="${fn:contains(accessRecord03.realusemen, '本人')}">checked</c:if> style="width: 1rem" >本人 
+											<input name="realusemen" type="checkbox" value="031002-配偶" <c:if test="${fn:contains(accessRecord03.realusemen, '配偶')}">checked</c:if> style="width: 1rem" >配偶
+											<input name="realusemen" type="checkbox" value="031003-您的父母" <c:if test="${fn:contains(accessRecord03.realusemen, '您的父母')}">checked</c:if> style="width: 1rem" >您的父母
+											<input name="realusemen" type="checkbox" value="031004-您的子女" <c:if test="${fn:contains(accessRecord03.realusemen, '您的子女')}">checked</c:if> style="width: 1rem" >您的子女
+											<input name="realusemen" type="checkbox" value="013000-无法了解" <c:if test="${fn:contains(accessRecord03.realusemen, '无法了解')}">checked</c:if> style="width: 1rem; color: red" >
 											<span style="color: red">无法了解</span>
 										</td>
 									</tr>
 
 									<tr>
 										<td colspan="3">房屋出资人是谁：
-											<input name="realpaymen" type="checkbox" value="本人" <c:if test="${fn:contains(accessRecord03.realpaymen, '本人')}">checked</c:if> style="width: 1rem">本人
-											<input name="realpaymen" type="checkbox" value="配偶" <c:if test="${fn:contains(accessRecord03.realpaymen, '配偶')}">checked</c:if> style="width: 1rem"  >配偶
-											<input name="realpaymen" type="checkbox" value="您的父母" <c:if test="${fn:contains(accessRecord03.realpaymen, '您的父母')}">checked</c:if> style="width: 1rem"  >您的父母
-											<input name="realpaymen" type="checkbox" value="您的子女" <c:if test="${fn:contains(accessRecord03.realpaymen, '您的子女')}">checked</c:if> style="width: 1rem"  >您的子女
-											<input name="realpaymen" type="checkbox" value="无法了解" <c:if test="${fn:contains(accessRecord03.realpaymen, '无法了解')}">checked</c:if> style="width: 1rem; color: red">
+											<input name="realpaymen" type="checkbox" value="031001-本人" <c:if test="${fn:contains(accessRecord03.realpaymen, '本人')}">checked</c:if> style="width: 1rem">本人
+											<input name="realpaymen" type="checkbox" value="031002-配偶" <c:if test="${fn:contains(accessRecord03.realpaymen, '配偶')}">checked</c:if> style="width: 1rem"  >配偶
+											<input name="realpaymen" type="checkbox" value="031003-您的父母" <c:if test="${fn:contains(accessRecord03.realpaymen, '您的父母')}">checked</c:if> style="width: 1rem"  >您的父母
+											<input name="realpaymen" type="checkbox" value="031004-您的子女" <c:if test="${fn:contains(accessRecord03.realpaymen, '您的子女')}">checked</c:if> style="width: 1rem"  >您的子女
+											<input name="realpaymen" type="checkbox" value="013000-无法了解" <c:if test="${fn:contains(accessRecord03.realpaymen, '无法了解')}">checked</c:if> style="width: 1rem; color: red">
 											<span style="color: red">无法了解</span>
 										</td>
 									</tr>
@@ -654,7 +657,7 @@ px
 			$.ajax({
 				type:'post',
 				data: datamsg, 
-				url:'${appRoot}/wx/api/addTradeVisit',
+				url:'${appRoot}/wx/api/updateRecord03',
 				dataType:'json',
 				success:function(data){
 					if(data.msg==100){

@@ -112,5 +112,9 @@ public class AccessRecord02ServiceImpl implements AccessRecord02Service {
 	public AccessRecord02 selectById(String recordId) {
 		return dao.selectById(recordId);
 	}
+	@Override
+	public AccessRecord02 selectByRecepTime(String date) {
+		return dao.selectByRecepTime(date);
+	}
 
 }
