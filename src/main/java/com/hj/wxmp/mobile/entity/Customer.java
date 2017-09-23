@@ -143,16 +143,6 @@ public class Customer {
     
     private String housetypedesc;
     
-    private String paymenttypedesc;
-
-	public String getPaymenttypedesc() {
-		return paymenttypedesc;
-	}
-
-	public void setPaymenttypedesc(String paymenttypedesc) {
-		this.paymenttypedesc = paymenttypedesc;
-	}
-
 	public String getHousetypedesc() {
 		return housetypedesc;
 	}

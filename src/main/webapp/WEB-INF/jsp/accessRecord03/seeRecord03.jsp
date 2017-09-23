@@ -406,30 +406,41 @@ px
 										<td>联系方式：
 											<input type="text" name="custphonenum" value="${accessRecord03.custphonenum }" style="width: 10rem"></td>
 										<td>认购日期：
-											<input type="text" name="rengou_time" value="2017-07-15" style="width: 10rem"></td>
+											<input type="text" name="purchasedate1" value="<fmt:formatDate value="${accessRecord03.purchasedate }" pattern="yyyy-MM-dd"/>" style="width: 10rem"></td>
 										<td>签约日期：
-											<input type="text" name="qianyue_time" value="2017-07-15" style="width: 10rem"></td>
+											<input type="text" name="signdate1" value="<fmt:formatDate value="${accessRecord03.signdate }" pattern="yyyy-MM-dd"/>" style="width: 10rem"></td>
 									</tr>
 
 									<tr>
 										<td colspan="1">购买房号：
-											<input type="text" name="housenum" value="${accessRecord03.housenum }" style="width: 7rem">
+											<input type="text" name="housenum" value="${accessRecord03.housenum }" style="width: 10rem">
 										</td>
 										<td colspan="2">户籍：
-											<input name="houseregitype" type="text" value="${accessRecord03.houseregitype}" style="width: 10rem">
+											<input name="houseregitype" type="text" value="${accessRecord03.houseregitype}" style="width: 40rem">
 										</td>
 									</tr>
-
+									<tr>
+										<td colspan="2">成交周期-到访：
+											<input type="text" name="visitcycle" value="${accessRecord03.visitcycle }" style="width: 4rem">
+											<span style="margin-right: 2rem">天</span> 成交周期-认购：
+											<input type="text" name="purchasecycle" value="${accessRecord03.purchasecycle }" style="width: 4rem;">
+											<span style="margin-right: 2rem">天</span> 成交周期-签约：
+											<input type="text" name="signcycle" value="${accessRecord03.signcycle }" style="width: 4rem;">天
+										</td>
+										<td colspan="1">获知时间：
+											<input type="text" name="firstknowtime1" value="<fmt:formatDate value="${accessRecord03.firstknowtime }" pattern="yyyy-MM-dd"/>" style="width: 10rem">
+										</td>
+									</tr>
 									<tr>
 										<td colspan="2">成交面积：
-											<input type="text" name="houseacreage" value="${accessRecord03.houseacreage }" style="width: 4rem">
+											<input type="text" name="houseacreage" value="${accessRecord03.houseacreage }" style="width: 9rem">
 											<span style="margin-right: 2rem">平米</span> 成交单价：
 											<input type="text" name="unitprice" value="${accessRecord03.unitprice }" style="width: 4rem;">
 											<span style="margin-right: 2rem">万</span> 成交总价：
 											<input type="text" name="totalprice" value="${accessRecord03.totalprice }" style="width: 4rem;">万
 										</td>
 										<td>付款方式：
-											<input type="text" name="paymenttype" value="${accessRecord03.paymenttype }" style="width: 10rem;">
+											<input type="text" name="paymenttype" value="${accessRecord03.paymenttype }" style="width: 13rem;">
 										</td>
 									</tr>
 
@@ -438,7 +449,11 @@ px
 											<input name="realtyproducttype" type="text" value="${accessRecord03.realtyproducttype}" style="width: 50rem"> 
 										</td>
 									</tr>
-
+									<tr>
+										<td colspan="3">贷款银行：
+											<input type="text" name="loanbank" value="${accessRecord03.loanbank }" style="width: 13rem">
+										</td>
+									</tr>
 									<tr>
 										<td colspan="3">通邮地址：
 											<input type="text" name="addressmail" value="${accessRecord03.addressmail }" style="width: 50rem">

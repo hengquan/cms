@@ -100,13 +100,40 @@ public class CustomerController extends ControllerBase {
 		String pageUrl = "customer/list";
 		try {
 			//用户角色权限信息
-			UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+			String id = hashSession.getCurrentAdmin(request).getId();
+			UserRole userRole = sysUserRoleService.selectByUserId(id);
 			String roleId = userRole.getRoleid();
 			SysRole role = sysRoleService.findById(roleId);
+			String roleName = role.getRoleName();
 			if(name == null){
 				map.put("name", "");
 			}else{
 				map.put("name", name);
+			}
+			if(roleName.equals("管理员")) {
+				map.put("userType", "1");
+			}
+			if(roleName.equals("项目负责人")) {
+				String projIds = "";
+				List<Map<String, Object>> projs = projUserRoleService.selectByUserId(id);
+				for(Map<String, Object> proj : projs){
+					projIds+=proj.get("id").toString()+",";
+				}
+				map.put("projIds", projIds);
+				map.put("userType", "2");
+			}
+			if(roleName.equals("项目管理人")) {
+				String projIds = "";
+				List<Map<String, Object>> projs = projUserRoleService.selectByUserId(id);
+				for(Map<String, Object> proj : projs){
+					projIds+=proj.get("id").toString()+",";
+				}
+				map.put("projIds", projIds);
+				map.put("userType", "3");
+			}
+			if(roleName.equals("顾问")) {
+				map.put("userType", "4");
+				map.put("userId", id);
 			}
 			// 获取所有用户信息
 			List<Map<String,Object>> userMsg = userCustRefService.selectByUserMessge(map);
@@ -783,7 +810,9 @@ public class CustomerController extends ControllerBase {
 	         // 第六步，将文件存到指定位置  
 	         long time = new Date().getTime();
 	         String fileName = time+"cust.xls";
-	         path="D:\\excels\\"+fileName;
+	         //path="D:\\excels\\"+fileName;
+	         //path="wl.weechao.com/excels/"+fileName;
+	         path="/opt/tomcat/webapps/ROOT/excels/"+fileName;
 	         FileOutputStream fout = new FileOutputStream(path);
 	         wb.write(fout);  
 	         fout.close();  
