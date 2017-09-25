@@ -25,7 +25,7 @@ import com.spiritdata.framework.ext.spring.SpringGetBean;
 @Component
 public class QlWeixinMenuFilter implements Filter {
     private final static Logger logger = LoggerFactory.getLogger(QlWeixinMenuFilter.class);
-
+    private HashSessions hashSession = HashSessions.getInstance();
     @Override
     public void destroy() {
     }
@@ -57,7 +57,11 @@ public class QlWeixinMenuFilter implements Filter {
             		logger.debug("url:{}",url);
             	} else {
                     UserInfo userInfo=userInfoService.findByOpenid(openid);
-                    if (userInfo==null) url=siteName+"/wxmp.ql/wxfront/user/register.html";
+                    if (userInfo==null) {
+                    	hashSession.setOpenId(req, res, "");
+                    	url=siteName+"/wxmp.ql/wx/api/redirectUrl.az?wx_url="+requestURL;
+                    	//url=siteName+"/wxmp.ql/wxfront/user/register.html";
+                    }
                     else {
                     	String realname = userInfo.getRealname();
                         String phone = userInfo.getMainphonenum();
