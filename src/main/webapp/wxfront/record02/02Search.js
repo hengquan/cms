@@ -201,3 +201,4 @@ function search() {
   var _searchStr=$("#searchStr").val();
   window.location.href=_URL_BASE+"/wxfront/record02/record02Search.html?searchStr="+encodeURIComponent(_searchStr);
 }
+

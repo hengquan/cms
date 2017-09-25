@@ -315,7 +315,7 @@ function checkStep1() {
   var temp=checkPhone('custPhone');
   if (temp) return temp;
   if (!_uSex) return "请选择客户性别!";
- /* if (!checkField("recpTime")) return '请录入到访时间!';*/
+  /* if (!checkField("recpTime")) return '请录入到访时间!';*/
   if (!checkField("purchaseDate")) return '请录入认购日期!';
   if (!checkField("signDate")) return '请填录入签约日期!';
   if (!checkField("houseNum")) return '请填录入购买房号!';
