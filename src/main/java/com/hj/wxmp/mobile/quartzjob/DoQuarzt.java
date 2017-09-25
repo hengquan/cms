@@ -1,7 +1,6 @@
 package com.hj.wxmp.mobile.quartzjob;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -70,15 +69,15 @@ public class DoQuarzt {
 			//多线程
 			//今天
 			String today = format.format(DateTimeUtil.getdate(-1));
-			ManyStatistics x01=new ManyStatistics(today);
+			ManyStatistics x01=new ManyStatistics(today,1);
 			x01.start();
 			//昨天
 			String yesterday = format.format(DateTimeUtil.getdate(-2));
-			ManyStatistics x02=new ManyStatistics(yesterday);
+			ManyStatistics x02=new ManyStatistics(yesterday,2);
 			x02.start();
 			//前天
 			String yesterdayBeFor = format.format(DateTimeUtil.getdate(-3));
-			ManyStatistics x03=new ManyStatistics(yesterdayBeFor);
+			ManyStatistics x03=new ManyStatistics(yesterdayBeFor,2);
 			x03.start();
 		} catch (Exception e) {
 			logger.error(e.toString());
@@ -92,8 +91,10 @@ public class DoQuarzt {
 	//线程
 	class ManyStatistics extends Thread {
 		String date="";
-		public ManyStatistics(String date) {
+		int type=0;
+		public ManyStatistics(String date,int type) {
 			this.date=date;
+			this.type=type;
 		}
 		@Override
         public void run() {
@@ -185,16 +186,19 @@ public class DoQuarzt {
 						}
 					}
 					//添加统计
-					dayRecep.setId(key.getUUIDKey());
 					dayRecep.setDaystr(date);
 					dayRecep.setMiiuserid(userInfoId);
-					dayRecep.setAr01count(projRecord01Total);
-					dayRecep.setAr02count(projRecord02Total);
-					dayRecep.setAr03count(projRecord03Total);
-					//添加
-					dayRecepService.insert(dayRecep);
-					//更新
-					dayRecepService.update(dayRecep);
+					dayRecep.setAr01count(userRecord01Total);
+					dayRecep.setAr02count(userRecord02Total);
+					dayRecep.setAr03count(userRecord03Total);
+					if(type==1){
+						dayRecep.setId(key.getUUIDKey());
+						//添加
+						dayRecepService.insert(dayRecep);
+					}else{
+						//更新
+						dayRecepService.update(dayRecep);
+					}
 				}
 				
 				//客户总次数
@@ -229,9 +233,9 @@ public class DoQuarzt {
 					dayRecep.setId(key.getUUIDKey());
 					dayRecep.setDaystr(date);
 					dayRecep.setMiicustid(custId);
-					dayRecep.setAr01count(projRecord01Total);
-					dayRecep.setAr02count(projRecord02Total);
-					dayRecep.setAr03count(projRecord03Total);
+					dayRecep.setAr01count(custRecord01Total);
+					dayRecep.setAr02count(custRecord02Total);
+					dayRecep.setAr03count(custRecord03Total);
 					//添加
 					dayRecepService.insert(dayRecep);
 					//更新
@@ -275,9 +279,9 @@ public class DoQuarzt {
 					dayRecep.setDaystr(date);
 					dayRecep.setMiicustid(custid);
 					dayRecep.setMiiprojid(projid);
-					dayRecep.setAr01count(projRecord01Total);
-					dayRecep.setAr02count(projRecord02Total);
-					dayRecep.setAr03count(projRecord03Total);
+					dayRecep.setAr01count(projCustRecord01Total);
+					dayRecep.setAr02count(projCustRecord02Total);
+					dayRecep.setAr03count(projCustRecord03Total);
 					//添加
 					dayRecepService.insert(dayRecep);
 					//更新
@@ -321,9 +325,9 @@ public class DoQuarzt {
 					dayRecep.setDaystr(date);
 					dayRecep.setMiiuserid(userId);
 					dayRecep.setMiiprojid(projId);
-					dayRecep.setAr01count(projRecord01Total);
-					dayRecep.setAr02count(projRecord02Total);
-					dayRecep.setAr03count(projRecord03Total);
+					dayRecep.setAr01count(projUserInfoRecord01Total);
+					dayRecep.setAr02count(projUserInfoRecord02Total);
+					dayRecep.setAr03count(projUserInfoRecord03Total);
 					//添加
 					dayRecepService.insert(dayRecep);
 					//更新
