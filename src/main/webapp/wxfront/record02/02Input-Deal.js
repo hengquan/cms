@@ -17,6 +17,28 @@ $(function() {
   });
   $("#auditArea").hide();
 
+  //客户搜索
+  //键盘按键弹起时执行
+  $('#searchStr').keyup(function(){
+    if (!($("#custData").html())) return;
+
+    var searchStr = $.trim($('#searchStr').val().toString()); // 去掉两头空格
+    if(searchStr == '') { // 如果搜索框输入为空
+      $("#custData").find("label").each(function(){$(this).show()});
+    } else {
+      $("#custData").find("label").each(function(){
+    	  var _text=$(this).text();
+    	  if (_text.indexOf(searchStr)!=-1) $(this).show();
+    	  else $(this).hide();
+      });
+    }
+//    var parent = $('#custData');
+//    $("label").show();
+    // prependTo() 方法在被选元素的开头（仍位于内部）插入指定内容
+    // contains 选择器，选取包含指定字符串的元素
+//    $("label:contains('"+index+"')").prependTo(parent).show().siblings().hide();
+  });
+
   _TYPE=getUrlParam(window.location.href, 'type');
   if (_TYPE==null) _TYPE="add";
   if (_TYPE.toLocaleLowerCase()=='update') _TYPE="update";
@@ -772,23 +794,6 @@ function openSelCust() {
             $("#custData").append(userHtml);
           }
           $('#selectCustomersModal').modal('show');
-          //客户搜索
-          $(function(){
-              //键盘按键弹起时执行
-              $('#searchStr').keyup(function(){
-                  var index = $.trim($('#searchStr').val().toString()); // 去掉两头空格
-                  if(index == ''){ // 如果搜索框输入为空
-                      $("label").show();
-                      $("label:contains('"+index+"')").prependTo(parent).hide();
-                      return false;
-                  }
-                  var parent = $('#custData');
-                  $("label").show();
-                  // prependTo() 方法在被选元素的开头（仍位于内部）插入指定内容
-                  // contains 选择器，选取包含指定字符串的元素
-                  $("label:contains('"+index+"')").prependTo(parent).show().siblings().hide();
-              });
-           });
         }
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -803,8 +808,6 @@ function openSelCust() {
     else alert("["+_uProjName+"]项目还没有接待任何客户，只能从首访录入，不能录入复访!");
   }
 }
-
-
 
 //筛选客户
 /*function filterCust() {
