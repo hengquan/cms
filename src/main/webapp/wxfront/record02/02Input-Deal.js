@@ -769,22 +769,22 @@ function openSelCust() {
           }
           $('#selectCustomersModal').modal('show');
           //客户搜索
-          $(function(){
+          
               //键盘按键弹起时执行
               $('#searchStr').keyup(function(){
-                  var index = $.trim($('#searchStr').val().toString()); // 去掉两头空格
-                  if(index == ''){ // 如果搜索框输入为空
+                  var _searchStr = $.trim($('#searchStr').val().toString()); // 去掉两头空格
+                  if(_searchStr == ''){ // 如果搜索框输入为空
                       $("label").show();
                       $("label:contains('"+index+"')").prependTo(parent).hide();
                       return false;
                   }
-                  var parent = $('#custData');
+                  var labelParent = $('#custData');
                   $("label").show();
                   // prependTo() 方法在被选元素的开头（仍位于内部）插入指定内容
                   // contains 选择器，选取包含指定字符串的元素
-                  $("label:contains('"+index+"')").prependTo(parent).show().siblings().hide();
+                  $("label:contains('"+index+"')").prependTo(labelParent).show().siblings().hide();
               });
-           });
+          
         }
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -893,7 +893,7 @@ function _dealCustomer() {
   }
   if (customer.visitcount) $("input[name='visitCount']").val(customer.visitcount);
   fillSelectField('sex', customer.custsex, true);
-  if (customer.compareprojs) $("textarea[name='compareProjs']").val(customer.compareprojs);
+  if (customer.compareprojs) $("textarea[name='compareProjs']").val();
   $("#sex").html(customer.custsex);
   //判断是否需要再次填写
   _dealOne("familystatus", customer);
