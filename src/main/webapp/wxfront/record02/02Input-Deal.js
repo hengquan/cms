@@ -486,7 +486,7 @@ function checkStep2() {
   if (_uOutExperFlag==1&&!$("input[name='outExperCity']").val()) return "请录入业主海外经历主要在那个城市!";
   if (!_uChildOutExperFlag) return "请选择子女是否有海外经历!";
   if (_uChildOutExperFlag==1&&!$("input[name='childOutExperCity']").val()) return "请录入子女海外经历主要在那个城市!";
-  /*return "";*/
+  return "";
 
 }
 function checkStep3() {
@@ -516,16 +516,16 @@ function checkStep3() {
   if (!_uCarTotalPrice) return "请选择驾车总价!";
   if (!$("input[name='attentWX']").val()) return "请录入关注微信公众号!";
   if (!_uAvocations) return "请选择业余爱好!";
-  /*return "";*/
+  return "";
 }
-function checkStep4() {return"";
+function checkStep4() {
   if (!_uResistPoint) return "请选择对本案的抗拒点!";
   if (!_uLoveActivation) return "请选择喜欢参加的活动!";
   if (!_uFreeTimeSection) return "请选择可参加业主活动时间!";
   if (!_uRecepTimeSection) return "请选择参观接待时间!";
   if (!_uCustScore) return "请选择客户评级!";
   if (!$("textarea[name='custDescn']").val()) return "请录入复访接待描述!";
-  /*return "";*/
+  return "";
 }
 function checkStep5() {
   if (!$("#i_familystatus").is(":hidden")&&!_uFamilyStatus) return "请选择家庭状况!";
@@ -543,7 +543,7 @@ function checkStep5() {
   if (!$("#i_pricesection").is(":hidden")&&!_uPriceSection) return "请选择接受总房款!";
   if (!$("#i_buypurpose").is(":hidden")&&!_uBuyPurpose) return "请选择购房目的!";
   if (!$("#i_attentionpoint").is(":hidden")&&!_uAttentionPoint) return "请选择对本案关注点!";
-  /*return "";*/
+  return "";
 }
 
 //=以下为提交，包括修改和删除====================================
@@ -563,6 +563,7 @@ function commitData() {
       return;
     }
   }
+  
   //遮罩
   $("#mask").show();
   //按钮致为兰色

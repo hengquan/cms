@@ -245,12 +245,5 @@ icon-search:before{content:"\e61d"}
 .examine .adopt {position: absolute;width:8rem;height:5.2rem;top:0}
 .examine .to02 {position: absolute;width:5rem;height:5.2rem;top:0;left:75%;}
 .item-nr2 span{padding-left:.5rem}
-.inputdate02 input {width:100%;margin:.7rem; border:1px solid #cccccc;padding:0;font-size:1rem;height:2rem;line-height:2rem;padding-left:.5rem;}
-
-/*boot白分比*/
-@media screen and (min-width: 400px) {
-   .modal-dialog {
-    width: 96% !important;
-	}
-}
- 
+.inputdate02 input {width:100%; border:1px solid #cccccc;padding:0;font-size:16px;height:2rem;line-height:2rem;padding-left:.5rem;}
+.inputdate02 button{width：20%;font-size:14px;padding:2px;}
