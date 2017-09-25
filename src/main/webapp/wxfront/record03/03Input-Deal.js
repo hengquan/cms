@@ -81,6 +81,10 @@ function initData(data) {
     }
   });
   function initPage(userInfo, data) {
+    if (userInfo.roleName!='顾问'&&userInfo.roleName!='项目负责人') {
+      window.location.href=_URL_BASE+"/wxfront/err.html?9000=您是"+userInfo.roleName+"<br/>无法进行成交记录的"+(_TYPE=='add'?"录入":"修改")+"操作";
+      return;
+    }
     curUserInfo=userInfo;
     cleanData(2);
     //初始化项目选择
@@ -102,7 +106,7 @@ function initData(data) {
     }
     if (canShowProj&&lPrj.length>1) {
       $("#projData").html(projHtml);
-      $("#projArea").show(); 
+      $("#projArea").show();
     } else {
       _uProjName=projName;
       _uProjId=projId;
@@ -122,10 +126,15 @@ function initData(data) {
         $("span[name='userInput']").html("请先选择项目");
       }
     }
+
     var nt=new Date();
-    fillTime("recpTime", nt);
+    fillTime("firstKnowTime", nt);
+    fillTime("firstVisitTime", nt);
     fillTime("purchaseDate", nt);
-    fillTime("signDate", nt);
+    adjustSignDate(10);
+    adjustDayDiff();
+
+    if (_TYPE=='update') $("#_fvt").show(); else $("#_fvt").hide(); 
     if (_TYPE=='update'&&data) {
       fillData(data);
       getAudit(recordId);
@@ -211,9 +220,10 @@ function getAudit(id) {
 function cleanData(type) {
   //清除所有数据
   $("input[type='text']").val("");
+  $("input[type='number']").val("");
   $("input[type='radio']").attr("checked", false);
   $("input[type='checkbox']").attr("checked", false);
-  $("textareaa").html("");
+  $("textarea").val("");
   $(".item_sflr.row").find("span").each(function(){$(this).html("&nbsp;");});
   $(".modal-footer").find("button").each(function(){
     if ((($(this).attr("id"))+"").indexOf('Btn')>0) $(this).hide();
@@ -305,7 +315,7 @@ function checkStep1() {
   var temp=checkPhone('custPhone');
   if (temp) return temp;
   if (!_uSex) return "请选择客户性别!";
-  if (!checkField("recpTime")) return '请录入到访时间!';
+ /* if (!checkField("recpTime")) return '请录入到访时间!';*/
   if (!checkField("purchaseDate")) return '请录入认购日期!';
   if (!checkField("signDate")) return '请填录入签约日期!';
   if (!checkField("houseNum")) return '请填录入购买房号!';
@@ -353,11 +363,11 @@ function commitData() {
     }
   }
   //遮罩
-  $("#mask").show();
+//  $("#mask").show();
   //按钮致为灰色
-  $("div[_type='BTN']").each(function(){
-    $(this).attr("style", "margin-top:1.5rem;background-color:#dedede;color:#c7c7c7");
-  });
+//  $("div[_type='BTN']").each(function(){
+  //  $(this).attr("style", "margin-top:1.5rem;background-color:#dedede;color:#c7c7c7");
+  //});
   var commitData=getData(_TYPE);
   if (_TYPE=='add') commitInsert(commitData);
   else
@@ -372,8 +382,7 @@ function commitData() {
       if (_uUserId) retData.authorid=_uUserId;
       if (_uUserId) retData.creatorid=_uUserId;
     }
-    temp=$("input[name='recpTime']").val();
-    if (temp) retData.receptime1=temp;
+    if (temp) retData.receptime1=new Date();
     if (custId) retData.custid=custId;
     //用户名称-房屋买受人姓名
     temp=$("input[name='buyerName']").val();
@@ -384,6 +393,8 @@ function commitData() {
     temp=$("input[name='custPhone']").val();
     if (temp) retData.custphonenum=temp;
     if (_uSex) retData.custsex=_uSex;
+    temp=$("input[name='firstKnowTime']").val();
+    if (temp) retData.firstknowtime1=temp;
     temp=$("input[name='purchaseDate']").val();
     if (temp) retData.purchasedate1=temp;
     temp=$("input[name='signDate']").val();
@@ -438,10 +449,21 @@ function commitData() {
           alert("录入成交记录错误！");
         } else {
           if (confirm("录入成功，要录入下一条成交记录吗？")) {
-            cleanData();
+            cleanData(2);
+            var nt=new Date();
+            fillTime("firstKnowTime", nt);
+            fillTime("firstVisitTime", nt);
+            fillTime("purchaseDate", nt);
+            adjustSignDate(10);
+            adjustDayDiff();
+            if ($("#projArea").is("visible")) {
+              fillSelectField('proj', _uProjName, false);
+            }
+            $("span[id='proj']").html(_uProjName);
+            $("span[name='userInput']").html(_uUserName);
             step2Prev();
           } else {
-            window.location.href=_URL_BASE+"/wxfront/record03/record03Search.html";
+            window.location.href=_URL_BASE+"/wxfront/record03/record03Search.html"
           }
         }
       },
@@ -536,6 +558,9 @@ function cleanCust() {
   $("input[name='custName']").removeAttr("readonly");
   $("input[name='custPhone']").removeAttr("readonly");
   $("input[name='firstKnowTime']").removeAttr("readonly");
+  $("#_fvt").hide();
+  var nt=new Date();
+  fillTime("firstKnowTime", nt);
   custId="";
   var choose=document.getElementsByName('selectCustomers');
   for (var i=0; i<choose.length; i++) choose[i].checked=false;
@@ -548,11 +573,11 @@ function selCust() {
       $("input[name='buyerName']").val(choose[i].getAttribute("_text"));
       $("input[name='custName']").val(choose[i].getAttribute("_text"));
       $("input[name='custPhone']").val(choose[i].getAttribute("_phone"));
-
       $("input[name='custName']").attr("readonly","true");
       $("input[name='custPhone']").attr("readonly","true");
       $("input[name='firstKnowTime']").attr("readonly","true");
       custId=choose[i].value;
+      $("span[name='userInput']").html(choose[i].getAttribute("_userName"));
       $("span[name='userInput']").html(choose[i].getAttribute("_userName"));
       _uUserId=choose[i].getAttribute("_userId");
       _uUserName=choose[i].getAttribute("_userName");
@@ -574,10 +599,17 @@ function selCust() {
             if (customer.visitcount) $("#visitCount").html(customer.visitcount);
             if (customer.firstknowtime.time) {
               var rTime=new Date();
-              rTime.setTime(data.firstknowtime.time);
+              rTime.setTime(customer.firstknowtime.time);
               fillTime("firstKnowTime", rTime);
             }
+            if (customer.firstvisittime.time) {
+              var rTime=new Date();
+              rTime.setTime(customer.firstvisittime.time);
+              fillTime("firstVisitTime", rTime);
+              $("#_fvt").show(); 
+            }
           }
+          adjustDayDiff();
         }
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -659,6 +691,33 @@ function fillData(data) {//填数据
   if (data.talkqands) $("textarea[name='talkQandS']").val(data.talkqands);
   if (data.signqands) $("textarea[name='signQandS']").val(data.signqands);
   if (data.sumdescn) $("textarea[name='sumDescn']").val(data.sumdescn);
+  var url=_URL_BASE+"/wx/api/getCustMsg";
+  var _data={};
+  _data.custId=custId;
+  _data.projId=_uProjId;
+  $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
+    success: function(json) {
+      if (json.msg=='100') {
+        customer=json.customer;
+        if (customer) {
+          if (customer.visitcount) $("#visitCount").html(customer.visitcount);
+          if (customer.firstknowtime.time) {
+            var rTime=new Date();
+            rTime.setTime(customer.firstknowtime.time);
+            fillTime("firstKnowTime", rTime);
+          }
+          if (customer.firstvisittime.time) {
+            var rTime=new Date();
+            rTime.setTime(customer.firstvisittime.time);
+            fillTime("firstVisitTime", rTime);
+          }
+        }
+      }
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      alert("获得客户信息时出现系统错误：\nstatu="+XMLHttpRequest.status+"\nreadyState="+XMLHttpRequest.readyState+"\ntext="+textStatus+"\nerrThrown="+errorThrown);
+    }
+  });
 }
 function fillBuyerNameByCustName() {
   var cName=$("input[name='custName']").val();
@@ -668,7 +727,7 @@ function fillBuyerNameByCustName() {
 function adjustSignDate(delayDay) {
   var od=$("input[name='purchaseDate']").val();
   var timestamp=Date.parse(od);
-  var newts=timestamp-((24*60*60*1000)*delayDay);
+  var newts=timestamp+((24*60*60*1000)*delayDay);
   var nd=new Date();
   nd.setTime(newts);
   var a=nd.getFullYear();
@@ -679,4 +738,27 @@ function adjustSignDate(delayDay) {
   if (tm.length==1) tm="0"+tm;
   a+="-"+tm;
   $("input[name='signDate']").val(a);
+}
+function diffDays(d1, d2) {
+  var td1=Date.parse(d1);
+  var td2=Date.parse(d2);
+  return (td2-td1)/(24*60*60*1000);
+}
+function adjustDayDiff() {
+  var d1=$("input[name='firstKnowTime']").val();
+  var d2=$("input[name='firstVisitTime']").val();
+  var d3=$("input[name='purchaseDate']").val();
+  var d4=$("input[name='signDate']").val();
+
+  if (d1&&d2) $("input[name='visitCycle']").val(absDiffDays(d1, d2));
+  if (d2&&d3) $("input[name='purchaseCycle']").val(absDiffDays(d2, d3));
+  if (d3&&d4) $("input[name='signCycle']").val(absDiffDays(d3, d4));
+
+  function absDiffDays(d1, d2) {
+    var ts1=Date.parse(d1);
+    var ts2=Date.parse(d2);
+    var diff=ts1-ts2;
+    diff=diff/(24*60*60*1000);
+    return Math.abs(diff);
+  }
 }

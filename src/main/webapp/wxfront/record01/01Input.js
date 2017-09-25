@@ -1191,6 +1191,10 @@ function initData() {
   });
   function initPage(data) {
     userInfo=data;
+    if (userInfo.roleName!='顾问'&&userInfo.roleName!='项目负责人') {
+      window.location.href=_URL_BASE+"/wxfront/err.html?9000=您是"+userInfo.roleName+"<br/>无法进行首访信息的"+(_TYPE=='add'?"录入":"修改")+"操作";
+      return;
+    }
     var url=_URL_BASE+"/wx/api/getLocalArea";
 
     var localResidenceArea=new LArea();
@@ -1319,7 +1323,8 @@ function loadProjUser(projId) {//加载顾问
           for (var i=0; i<json.users.length; i++) {
             var oneUser=json.users[i];
             if (oneUser.id==userInfo.userid) continue;
-            var _innerHtml=oneUser.realName+"<span>（"+(oneUser.sex==1?"男":"女")+"）</span><span>"+oneUser.mainPhoneNum+"</span><span>"+oneUser.projName+"</span>";
+            if (oneUser.roleName!="顾问") continue;
+            var _innerHtml=oneUser.realName+"<span>（"+(oneUser.sex==1?"男":"女")+"）</span><span>"+oneUser.mainPhoneNum+"</span>";
             var userHtml="<label><input type='radio' name='user' value='"+oneUser.id+"-"+oneUser.realName+"' _text='"+oneUser.realName+"' onclick='selUser()'/>"+_innerHtml+"</label>";
             if (i<(json.users.length-1)) userHtml+="<br>";
             $("#userData").append(userHtml);

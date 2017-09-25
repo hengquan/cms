@@ -54,235 +54,345 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
 .lineDiv{ background: #006598; height: 2px; width: 33.3%;}
 </style>
 <script type="text/javascript">
+function xlh(){
+  var tbl = document.getElementById("tbl");
+  var rows = tbl.rows.length;
+  for(var i=0;i<rows;i++){
+    if(i%2 == 0) tbl.rows[i].style.backgroundColor= "#f9f9f9";
+	else tbl.rows[i].style.backgroundColor = "#fff";
+  }
+}
 </script>
 </head>
 
 <body>
 <div class="wrap" id="wrap">
-  <ul class="tabClick">
-    <li class="active"><img src="../images/pic_13.png">日数据统计</li>
-    <li><img src="../images/pic_14.png">周数据统计</li>
-    <li><img src="../images/pic_15.png">月数据统计</li>
-  </ul>
-  <div class="lineBorder">
-    <div class="lineDiv"><!--移动的div--></div>
-  </div>
-  <div class="tabCon">
-    <div class="tabBox">
-      <div class="tabList">
-        <!--
-        <div class="item_sflr row" style="width:96%; border:1px solid #FFFFFF;margin:0;padding:0;">
-          <div class="inputdate02">
-            <input type="date" placeholder="" value="2017-09-14" style="width:97%;">
-          </div>
-        </div>
-        -->
-        <div style="line-height:4rem;text-align:center;font-size:1.3rem">天成团队8月客户来访日数据统计</div>
-        <table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
-          <thead>
-            <tr><td>顾问</td><td>日访</td><td>首访</td><td>复访</td><td>成交</td></tr>
-          </thead>
-          <tbody id="tbl">
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="tabList">
-        <!--
-        <div class="item_sflr row" style="width:96%; border:1px solid #FFFFFF;margin:0;padding:0;">
-          <div class="inputdate02">
-            <input type="date" placeholder="" value="2017-09-14" style="width:97%;">
-          </div>
-        </div>
-        -->
-        <div style="line-height:4rem;text-align:center;font-size:1.3rem">天成团队8月客户来访周数据统计</div>
-        <table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
-          <thead>
-            <tr><td>顾问</td><td>日访</td><td>首访</td><td>复访</td><td>成交</td></tr>
-          </thead>
-          <tbody id="tbl">
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="tabList">
-        <!--
-        <div class="item_sflr row" style="width:96%; border:1px solid #FFFFFF;margin:0;padding:0;">
-          <div class="inputdate02">
-            <input type="date" placeholder="" value="2017-09-14" style="width:97%;">
-          </div>
-        </div>
-        -->
-        <div style="line-height:4rem;text-align:center;font-size:1.3rem">天成团队8月客户来访周数据统计</div>
-        <table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
-          <thead>
-            <tr><td>顾问</td><td>日访</td><td>首访</td><td>复访</td><td>成交</td></tr>
-          </thead>
-          <tbody id="tbl">
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-          </tbody>
-        </table>
-      </div>
+    <ul class="tabClick">
+        <li class="active"><img src="../images/pic_13.png">日数据统计</li>
+        <li><img src="../images/pic_14.png">周数据统计</li>
+        <li><img src="../images/pic_15.png">月数据统计</li>
+    </ul>
+<div class="lineBorder">
+        <div class="lineDiv"><!--移动的div--></div>
+    </div>
+    <div class="tabCon">
+        <div class="tabBox">
+            <div class="tabList">
+  <div class="item_sflr row" style="width:96%; border:1px solid #FFFFFF;margin:0;padding:0;">
+    <div class="inputdate02">
+      <input type="date" id=”date_data“ placeholder="" value="2017-09-14" style="width:97%;">
     </div>
   </div>
+<div style="line-height:4rem;text-align:center;font-size:1.3rem">天成团队8月客户来访日数据统计</div>
+<table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
+  <thead><tr>
+    <td>顾问</td>
+    <td>日访</td>
+    <td>首访</td>
+    <td>复访</td>
+    <td>成交</td>
+  </tr>
+  </thead>
+  <tbody id="tbl">
+  <tr>
+    <td>池如霞</td>
+    <td>4</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+  </tr>
+  <tr>
+    <td>池如霞</td>
+    <td>4</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+  </tr>
+  <tr>
+    <td>池如霞</td>
+    <td>4</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+  </tr>
+  <tr>
+    <td>池如霞</td>
+    <td>4</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+  </tr>
+  </tbody>
+</table>
 </div>
+<div class="tabList">
+  <div class="item_sflr row" style="width:96%; border:1px solid #FFFFFF;margin:0;padding:0;">
+    <div class="inputdate02">
+      <input type="week" placeholder="Birth day" value="2017-09" style="width:97%;">
+    </div>
+  </div>
 
+<div style="line-height:4rem;text-align:center;font-size:1.3rem">天成团队8月客户来访周数据统计</div>
+<table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
+  <thead><tr>
+    <td>顾问</td>
+    <td>日均</td>
+    <td>周访</td>
+    <td>首访</td>
+    <td>复访</td>
+    <td>成交</td>
+  </tr>
+  </thead>
+  <tbody id="tbl">
+  <tr>
+    <td>池如霞</td>
+    <td>4</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>6</td>
+  </tr>
+  <tr>
+    <td>池如霞</td>
+    <td>4</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>6</td>
+  </tr>
+  <tr>
+    <td>池如霞</td>
+    <td>4</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>6</td>
+  </tr>
+  <tr>
+    <td>池如霞</td>
+    <td>4</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>6</td>
+  </tr>
+  <tr>
+    <td>池如霞</td>
+    <td>4</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>6</td>
+  </tr>
+  </tbody>
+</table>
+</div>
+<div class="tabList">
+ <div class="item_sflr row" style="width:96%; border:1px solid #FFFFFF;margin:0;padding:0;">
+    <div class="inputdate02">
+      <input type="month" placeholder="Birth day" value="2017-09" style="width:97%;">
+    </div>
+  </div>
+<div style="line-height:4rem;text-align:center;font-size:1.3rem">天成团队8月客户来访月数据统计</div>
+<table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
+  <thead><tr>
+    <td>顾问</td>
+    <td>日均</td>
+    <td>月访</td>
+    <td>首访</td>
+    <td>复访</td>
+    <td>成交</td>
+  </tr>
+  </thead>
+  <tbody id="tbl">
+  <tr>
+    <td>池如霞</td>
+    <td>4</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>6</td>
+  </tr>
+  <tr>
+    <td>池如霞</td>
+    <td>4</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>6</td>
+  </tr>
+  <tr>
+    <td>池如霞</td>
+    <td>4</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>6</td>
+  </tr>
+  <tr>
+    <td>池如霞</td>
+    <td>4</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>6</td>
+  </tr>
+  <tr>
+    <td>池如霞</td>
+    <td>4</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>6</td>
+  </tr>
+  </tbody>
+</table>
+</div>
+        </div>
+    </div>
+</div>
 <script charset="utf-8">
-function xlh(){
-  var tbl=document.getElementById("tbl");
-  var rows=tbl.rows.length;
-  for(var i=0;i<rows;i++){
-    if(i%2 == 0) tbl.rows[i].style.backgroundColor= "#f9f9f9";
-  else tbl.rows[i].style.backgroundColor="#fff";
-  }
-}
-
-$(function(){
-  xlh();
-  var windowWidth=document.body.clientWidth; //window 宽度;
-  var wrap=document.getElementById('wrap');
-  var tabClick=wrap.querySelectorAll('.tabClick')[0];
-  var tabLi=tabClick.getElementsByTagName('li');
-  var tabBox= wrap.querySelectorAll('.tabBox')[0];
-  var tabList=tabBox.querySelectorAll('.tabList');
-  var lineBorder=wrap.querySelectorAll('.lineBorder')[0];
-  var lineDiv=lineBorder.querySelectorAll('.lineDiv')[0];
-  
-  var tar=0;
-  var endX=0;
-  var dist=0;
-  
-  tabBox.style.overflow='hidden';
-  tabBox.style.position='relative';
-  tabBox.style.width=windowWidth*tabList.length+"px";
+	window.onload = function (){
+	xlh();
+        var windowWidth = document.body.clientWidth; //window 宽度;
+		var wrap = document.getElementById('wrap');
+        var tabClick = wrap.querySelectorAll('.tabClick')[0];
+        var tabLi = tabClick.getElementsByTagName('li');
         
-  tabBox.addEventListener('touchstart',chstart,false);
-  tabBox.addEventListener('touchmove',chmove,false);
-  tabBox.addEventListener('touchend',chend,false);
-
-  for(var i=0 ;i<tabLi.length; i++ ){
-    tabList[i].style.width=windowWidth+"px";
-    tabList[i].style.float='left';
-    tabList[i].style.float='left';
-    tabList[i].style.padding='0';
-    tabList[i].style.margin='0';
-    tabList[i].style.verticalAlign='top';
-    tabList[i].style.display='table-cell';
-  }
-
-  for(var i=0 ;i<tabLi.length; i++ ){
-    tabLi[i].start=i;
-    tabLi[i].onclick=function(){
-      var star=this.start;
-      for(var i=0 ;i<tabLi.length; i++ ){
-        tabLi[i].className='';
-      }
-      tabLi[star].className='active';
-      init.lineAnme(lineDiv,windowWidth/tabLi.length*star)
-      init.translate(tabBox,windowWidth,star);
-      endX= -star*windowWidth;
+        var tabBox =  wrap.querySelectorAll('.tabBox')[0];
+        var tabList = tabBox.querySelectorAll('.tabList');
+        
+        var lineBorder = wrap.querySelectorAll('.lineBorder')[0];
+        var lineDiv = lineBorder.querySelectorAll('.lineDiv')[0];
+        
+        var tar = 0;
+        var endX = 0;
+        var dist = 0;
+        
+        tabBox.style.overflow='hidden';
+        tabBox.style.position='relative';
+        tabBox.style.width=windowWidth*tabList.length+"px";
+        
+        for(var i = 0 ;i<tabLi.length; i++ ){
+              tabList[i].style.width=windowWidth+"px";
+              tabList[i].style.float='left';
+              tabList[i].style.float='left';
+              tabList[i].style.padding='0';
+              tabList[i].style.margin='0';
+              tabList[i].style.verticalAlign='top';
+              tabList[i].style.display='table-cell';
+        }
+        
+        for(var i = 0 ;i<tabLi.length; i++ ){
+            tabLi[i].start = i;
+            tabLi[i].onclick = function(){
+                var star = this.start;
+                for(var i = 0 ;i<tabLi.length; i++ ){
+                    tabLi[i].className='';
+                };
+                tabLi[star].className='active';
+                init.lineAnme(lineDiv,windowWidth/tabLi.length*star)
+                init.translate(tabBox,windowWidth,star);
+                endX= -star*windowWidth;
+            }
+        }
+        
+        function OnTab(star){
+            if(star<0){
+                star=0;
+            }else if(star>=tabLi.length){
+                star=tabLi.length-1
+            }
+            for(var i = 0 ;i<tabLi.length; i++ ){
+                tabLi[i].className='';
+            };
+            
+             tabLi[star].className='active';
+            init.translate(tabBox,windowWidth,star);
+            endX= -star*windowWidth;
+        };
+        
+        tabBox.addEventListener('touchstart',chstart,false);
+        tabBox.addEventListener('touchmove',chmove,false);
+        tabBox.addEventListener('touchend',chend,false);
+        //按下
+        function chstart(ev){
+            ev.preventDefault;
+            var touch = ev.touches[0];
+            tar=touch.pageX;
+            tabBox.style.webkitTransition='all 0s ease-in-out';
+            tabBox.style.transition='all 0s ease-in-out';
+        };
+        //滑动
+        function chmove(ev){
+            var stars = wrap.querySelector('.active').start;
+            ev.preventDefault;
+            var touch = ev.touches[0];
+            var distance = touch.pageX-tar;
+            dist = distance;
+            init.touchs(tabBox,windowWidth,tar,distance,endX);
+            init.lineAnme(lineDiv,-dist/tabLi.length-endX/4);
+        };
+        //离开
+        function chend(ev){
+            var str= tabBox.style.transform;
+            var strs = JSON.stringify(str.split(",",1));  
+            endX = Number(strs.substr(14,strs.length-18)); 
+            
+            if(endX>0){
+                init.back(tabBox,windowWidth,tar,0,0,0.3);
+                endX=0
+            }else if(endX<-windowWidth*tabList.length+windowWidth){
+                endX=-windowWidth*tabList.length+windowWidth
+                init.back(tabBox,windowWidth,tar,0,endX,0.3);
+            }else if(dist<-windowWidth/3){
+                 OnTab(tabClick.querySelector('.active').start+1);
+                 init.back(tabBox,windowWidth,tar,0,endX,0.3);
+            }else if(dist>windowWidth/3){
+                 OnTab(tabClick.querySelector('.active').start-1);
+            }else{
+                 OnTab(tabClick.querySelector('.active').start);
+            }
+            var stars = wrap.querySelector('.active').start;
+            init.lineAnme(lineDiv,stars*windowWidth/4);
+            
+        };
+	};
+	
+    var init={
+        translate:function(obj,windowWidth,star){
+            obj.style.webkitTransform='translate3d('+-star*windowWidth+'px,0,0)';
+            obj.style.transform='translate3d('+-star*windowWidth+',0,0)px';
+            obj.style.webkitTransition='all 0.3s ease-in-out';
+            obj.style.transition='all 0.3s ease-in-out';
+        },
+        touchs:function(obj,windowWidth,tar,distance,endX){
+            obj.style.webkitTransform='translate3d('+(distance+endX)+'px,0,0)';
+            obj.style.transform='translate3d('+(distance+endX)+',0,0)px';
+        },
+        lineAnme:function(obj,stance){
+            obj.style.webkitTransform='translate3d('+stance+'px,0,0)';
+            obj.style.transform='translate3d('+stance+'px,0,0)';
+            obj.style.webkitTransition='all 0.1s ease-in-out';
+            obj.style.transition='all 0.1s ease-in-out';
+        },
+        back:function(obj,windowWidth,tar,distance,endX,time){
+            obj.style.webkitTransform='translate3d('+(distance+endX)+'px,0,0)';
+            obj.style.transform='translate3d('+(distance+endX)+',0,0)px';
+            obj.style.webkitTransition='all '+time+'s ease-in-out';
+            obj.style.transition='all '+time+'s ease-in-out';
+        }
     }
-  }
-
-  function OnTab(star){
-    if(star<0) star=0;
-    else
-    if(star>=tabLi.length) star=tabLi.length-1;
-    for(var i=0 ;i<tabLi.length; i++ ){
-      tabLi[i].className='';
-    }
-    tabLi[star].className='active';
-    init.translate(tabBox,windowWidth,star);
-    endX= -star*windowWidth;
-  }
-  //按下
-  function chstart(ev){
-    ev.preventDefault;
-    var touch=ev.touches[0];
-    tar=touch.pageX;
-    tabBox.style.webkitTransition='all 0s ease-in-out';
-    tabBox.style.transition='all 0s ease-in-out';
-  };
-  //滑动
-  function chmove(ev){
-    var stars=wrap.querySelector('.active').start;
-    ev.preventDefault;
-    var touch=ev.touches[0];
-    var distance=touch.pageX-tar;
-    dist=distance;
-    init.touchs(tabBox,windowWidth,tar,distance,endX);
-    init.lineAnme(lineDiv,-dist/tabLi.length-endX/4);
-  };
-  //离开
-  function chend(ev){
-    var str= tabBox.style.transform;
-    var strs=JSON.stringify(str.split(",",1));  
-    endX=Number(strs.substr(14,strs.length-18)); 
     
-    if (endX>0) {
-       init.back(tabBox,windowWidth,tar,0,0,0.3);
-       endX=0
-    } else
-    if (endX<-windowWidth*tabList.length+windowWidth) {
-      endX=-windowWidth*tabList.length+windowWidth
-      init.back(tabBox,windowWidth,tar,0,endX,0.3);
-    } else
-    if (dist<-windowWidth/3) {
-      OnTab(tabClick.querySelector('.active').start+1);
-      init.back(tabBox,windowWidth,tar,0,endX,0.3);
-    } else
-    if (dist>windowWidth/3) {
-      OnTab(tabClick.querySelector('.active').start-1);
-    } else {
-      OnTab(tabClick.querySelector('.active').start);
-    }
-    var stars=wrap.querySelector('.active').start;
-    init.lineAnme(lineDiv,stars*windowWidth/4);
-  };
-
-  function dealInit() {
-    var url=window.location.href;
-    var pos=url.indexOf("#");
-    if (pos>0) {
-      var localNavi=url.substring(url.indexOf("#")+1);
-      alert (localNavi);
-    }
-  }
-});
-
-var init={
-  translate:function(obj,windowWidth,star){
-    obj.style.webkitTransform='translate3d('+-star*windowWidth+'px,0,0)';
-    obj.style.transform='translate3d('+-star*windowWidth+',0,0)px';
-    obj.style.webkitTransition='all 0.3s ease-in-out';
-    obj.style.transition='all 0.3s ease-in-out';
-  },
-  touchs:function(obj,windowWidth,tar,distance,endX){
-    obj.style.webkitTransform='translate3d('+(distance+endX)+'px,0,0)';
-    obj.style.transform='translate3d('+(distance+endX)+',0,0)px';
-  },
-  lineAnme:function(obj,stance){
-    obj.style.webkitTransform='translate3d('+stance+'px,0,0)';
-    obj.style.transform='translate3d('+stance+'px,0,0)';
-    obj.style.webkitTransition='all 0.1s ease-in-out';
-    obj.style.transition='all 0.1s ease-in-out';
-  },
-  back:function(obj,windowWidth,tar,distance,endX,time){
-    obj.style.webkitTransform='translate3d('+(distance+endX)+'px,0,0)';
-    obj.style.transform='translate3d('+(distance+endX)+',0,0)px';
-    obj.style.webkitTransition='all '+time+'s ease-in-out';
-    obj.style.transition='all '+time+'s ease-in-out';
-  }
-};
+    //获取当前时间  赋值到文本框中
+    $(function(){
+    	var date=new Date();
+    	var year=date.getFullYear(); //获取当前年份
+    	var mon=date.getMonth()+1; //获取当前月份
+    	var da=date.getDate(); //获取当前日
+    	var mytime=year+"-"+mon+"-"+da;
+    	$("#date_data").val(mytime);
+    })
 </script>
 </body>
 </html>
