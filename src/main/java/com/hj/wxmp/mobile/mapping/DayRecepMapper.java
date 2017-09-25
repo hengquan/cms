@@ -14,4 +14,6 @@ public interface DayRecepMapper {
     int updateByPrimaryKeySelective(DayRecep record);
 
     int updateByPrimaryKey(DayRecep record);
+
+	void updateMsg(DayRecep dayRecep);
 }

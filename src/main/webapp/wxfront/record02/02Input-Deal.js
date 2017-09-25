@@ -87,6 +87,10 @@ function initData(data) {
     }
   });
   function initPage(userInfo, data) {
+    if (userInfo.roleName!='顾问'&&userInfo.roleName!='项目负责人') {
+      window.location.href=_URL_BASE+"/wxfront/err.html?9000=您是"+userInfo.roleName+"<br/>无法进行复访息的"+(_TYPE=='add'?"录入":"修改")+"操作";
+      return;
+    }
     curUserInfo=userInfo;
     cleanData(2);
     //初始化项目选择
@@ -218,7 +222,7 @@ function loadProjUser(projId) {
             var oneUser=json.users[i];
             if (oneUser.roleName!="顾问") continue;
             if (oneUser.id==curUserInfo.userid) continue;
-            var _innerHtml=oneUser.realName+"<span>（"+(oneUser.sex==1?"男":"女")+"）</span><span>"+oneUser.mainPhoneNum+"</span><span>"+oneUser.projName+"</span>";
+            var _innerHtml=oneUser.realName+"<span>（"+(oneUser.sex==1?"男":"女")+"）</span><span>"+oneUser.mainPhoneNum+"</span>";
             var userHtml="<label><input type='radio' name='user' value='"+oneUser.id+"-"+oneUser.realName+"' _text='"+oneUser.realName+"' onclick='selUser()'/>"+_innerHtml+"</label>";
             if (i<(json.users.length-1)) userHtml+="<br>";
             $("#userData").append(userHtml);
@@ -239,9 +243,10 @@ function loadProjUser(projId) {
 function cleanData(type) {//清除数据
   //清除所有数据
   $("input[type='text']").val("");
+  $("input[type='number']").val("");
   $("input[type='radio']").attr("checked", false);
   $("input[type='checkbox']").attr("checked", false);
-  $("textareaa").html("");
+  $("textareaa").val("");
   $(".item_sflr.row").find("span").each(function(){$(this).html("&nbsp;");});
   $(".modal-footer").find("button").each(function(){
     if ((($(this).attr("id"))+"").indexOf('Btn')>0) $(this).hide();
@@ -307,10 +312,16 @@ function cleanData(type) {//清除数据
   _uAttentionPointDesc="";
   _uAgeGroup="";
 }
-
 //翻页切换
 function step1Next() {//要判断是否应该进行首访录入
-	return "";
+	
+ /* $("#step1").hide(0);
+  $("#step2").show(0);
+  $("#step3").hide(0);
+  $("#step4").hide(0);
+  $("#step5").hide(0);
+  return;*/
+
   var _data={};
   if (!_uProjId) {
     alert("请选择具体项目!");
@@ -374,6 +385,7 @@ function step1Next() {//要判断是否应该进行首访录入
 //    }
 //  }
   var err=checkStep1();
+
   if (err) {
     alert(err);
     return;
@@ -383,6 +395,7 @@ function step1Next() {//要判断是否应该进行首访录入
   $("#step3").hide(0);
   $("#step4").hide(0);
   $("#step5").hide(0);
+ 
 }
 function step2Prev() {
   $("#step1").show(0);
@@ -392,7 +405,6 @@ function step2Prev() {
   $("#step5").hide(0);
 }
 function step2Next() {
-	return "";
   var err=checkStep2();
   if (err) {
     alert(err);
@@ -412,7 +424,6 @@ function step3Prev() {
   $("#step5").hide(0);
 }
 function step3Next() {
-	return "";
   var err=checkStep3();
   if (err) {
     alert(err);
@@ -432,7 +443,6 @@ function step4Prev() {
   $("#step5").hide(0);
 }
 function step4Next() {
-	return "";
   var err=checkStep4();
   if (err) {
     alert(err);
@@ -553,6 +563,7 @@ function commitData() {
       return;
     }
   }
+  
   //遮罩
   $("#mask").show();
   //按钮致为兰色
@@ -679,9 +690,12 @@ function commitData() {
           window.location.href=_URL_BASE+"/wxfront/err.html?8001=录入复访记录错误!";
         } else {
           if (confirm("录入成功，要录入下一条复访记录吗？")) {
+            cleanData(2);
+            $("span[id='proj']").html(_uProjName);
+            $("span[name='userInput']").html(_uUserName);
+            var nt=new Date();
+            fillTime("recpTime",nt);
             step2Prev();
-            cleanData(1);
-            fillDataForReInput(_data);
           } else {
             window.location.href=_URL_BASE+"/wxfront/record02/record02Search.html";
           }
@@ -723,6 +737,7 @@ var _thisProjId="";
 var _thisUserId="";
 var _REINPUTCOUNT=15;
 var needReInputCount=_REINPUTCOUNT;
+
 function openSelCust() {
   if (!_uProjId) {
     alert("未确定具体项目，无法选择客户");
@@ -751,12 +766,29 @@ function openSelCust() {
             var oneCust=json.customers[i];
             var _phones=oneCust.custPhone;
             _phones=$.trim(_phones.split(",")[0]);
-            var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span><span>"+oneCust.projName+"</span>";
+            var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span>";
             var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label>";
             if (i<(json.customers.length-1)) userHtml+="<br>";
             $("#custData").append(userHtml);
           }
           $('#selectCustomersModal').modal('show');
+          //客户搜索
+          $(function(){
+              //键盘按键弹起时执行
+              $('#searchStr').keyup(function(){
+                  var index = $.trim($('#searchStr').val().toString()); // 去掉两头空格
+                  if(index == ''){ // 如果搜索框输入为空
+                      $("label").show();
+                      $("label:contains('"+index+"')").prependTo(parent).hide();
+                      return false;
+                  }
+                  var parent = $('#custData');
+                  $("label").show();
+                  // prependTo() 方法在被选元素的开头（仍位于内部）插入指定内容
+                  // contains 选择器，选取包含指定字符串的元素
+                  $("label:contains('"+index+"')").prependTo(parent).show().siblings().hide();
+              });
+           });
         }
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -771,6 +803,47 @@ function openSelCust() {
     else alert("["+_uProjName+"]项目还没有接待任何客户，只能从首访录入，不能录入复访!");
   }
 }
+
+
+
+//筛选客户
+/*function filterCust() {
+  var searchStr=$("#searchStr").val();
+  var url=_URL_BASE+"/wx/api/getCustList";
+  var _data={};
+  _data.projId=_uProjId;
+  _data.custName=searchStr;
+  if (searchStr!=''){
+	  $.ajax({
+	     type:'get',
+		 data: _data, 
+		 url:url,
+		 dataType:'json',
+		 success:function(data){
+		 console.log(data);
+		 $("#custData").empty();
+         var str = "";     
+         var customers = data.customers;
+         for(var i=0;i<customers.length;i++){
+           var custName = customers[i].custName;
+           if(custName.indexOf(searchStr)>=0){     		
+             for (var i=0; i<data.customers.length; i++) {
+               var oneCust=data.customers[i];
+               var _phones=oneCust.custPhone;
+               _phones=$.trim(_phones.split(",")[0]);
+               var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span>";
+               var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label>";
+             }
+           }
+          }$("#custData").append(userHtml);
+	   }
+	 })
+	}else{
+		$("#custData").empty()
+	    }
+}*/
+
+
 function cleanCust() {
   $("input[name='custName']").val("");
   $("input[name='custPhone']").val("");
@@ -884,12 +957,6 @@ function fillTime(id, _time) {
   str+=((100+(_time.getMonth()+1))+"").substr(1)+"-";
   str+=((100+_time.getDate())+"").substr(1);
   $("input[name='"+id+"']").val(str);
-}
-function fillDataForReInput(_data) {
-  if (_uProjName) $("#proj").html(_uProjName);
-  if (_uUserName) $("#user").html(_uUserName);
-  var nt=new Date();
-  fillTime("recpTime",nt);
 }
 function fillData(data) {//填数据，包括所有页面
   if (!data) return;

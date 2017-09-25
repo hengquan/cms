@@ -86,6 +86,7 @@ function selUser() {
   for (var i=0; i<choose.length; i++) {
     if (choose[i].checked) {
       $("span[name='userInput']").html(choose[i].getAttribute("_text"));
+      _uUserName=$("span[name='userInput']").html();
       var oldUserId=_uUserId;
       _uUserId=choose[i].value.substring(0, choose[i].value.indexOf('-'));
       if (oldUserId!=_uUserId) {

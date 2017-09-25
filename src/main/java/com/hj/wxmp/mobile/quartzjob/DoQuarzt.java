@@ -91,7 +91,7 @@ public class DoQuarzt {
 	//线程
 	class ManyStatistics extends Thread {
 		String date="";
-		int type=0;
+		int type=1;
 		public ManyStatistics(String date,int type) {
 			this.date=date;
 			this.type=type;
@@ -145,16 +145,19 @@ public class DoQuarzt {
 						}
 					}
 					//添加统计
-					dayRecep.setId(key.getUUIDKey());
 					dayRecep.setDaystr(date);
 					dayRecep.setMiiprojid(projId);
 					dayRecep.setAr01count(projRecord01Total);
 					dayRecep.setAr02count(projRecord02Total);
 					dayRecep.setAr03count(projRecord03Total);
-					//添加
-					dayRecepService.insert(dayRecep);
-					//更新
-					dayRecepService.update(dayRecep);
+					if(type==1){
+						dayRecep.setId(key.getUUIDKey());
+						//添加
+						dayRecepService.insert(dayRecep);
+					}else{
+						//更新
+						dayRecepService.updateMsg(dayRecep);
+					}
 				}
 				
 				//用户总次数
@@ -197,7 +200,7 @@ public class DoQuarzt {
 						dayRecepService.insert(dayRecep);
 					}else{
 						//更新
-						dayRecepService.update(dayRecep);
+						dayRecepService.updateMsg(dayRecep);
 					}
 				}
 				
@@ -230,16 +233,19 @@ public class DoQuarzt {
 						}
 					}
 					//添加统计
-					dayRecep.setId(key.getUUIDKey());
 					dayRecep.setDaystr(date);
 					dayRecep.setMiicustid(custId);
 					dayRecep.setAr01count(custRecord01Total);
 					dayRecep.setAr02count(custRecord02Total);
 					dayRecep.setAr03count(custRecord03Total);
-					//添加
-					dayRecepService.insert(dayRecep);
-					//更新
-					dayRecepService.update(dayRecep);
+					if(type==1){
+						dayRecep.setId(key.getUUIDKey());
+						//添加
+						dayRecepService.insert(dayRecep);
+					}else{
+						//更新
+						dayRecepService.updateMsg(dayRecep);
+					}
 				}
 				
 				//项目客户总次数
@@ -275,17 +281,20 @@ public class DoQuarzt {
 						}
 					}
 					//添加统计
-					dayRecep.setId(key.getUUIDKey());
 					dayRecep.setDaystr(date);
 					dayRecep.setMiicustid(custid);
 					dayRecep.setMiiprojid(projid);
 					dayRecep.setAr01count(projCustRecord01Total);
 					dayRecep.setAr02count(projCustRecord02Total);
 					dayRecep.setAr03count(projCustRecord03Total);
-					//添加
-					dayRecepService.insert(dayRecep);
-					//更新
-					dayRecepService.update(dayRecep);
+					if(type==1){
+						dayRecep.setId(key.getUUIDKey());
+						//添加
+						dayRecepService.insert(dayRecep);
+					}else{
+						//更新
+						dayRecepService.update(dayRecep);
+					}
 				}
 				
 				//项目用户总次数
@@ -321,17 +330,20 @@ public class DoQuarzt {
 						}
 					}
 					//添加统计
-					dayRecep.setId(key.getUUIDKey());
 					dayRecep.setDaystr(date);
 					dayRecep.setMiiuserid(userId);
 					dayRecep.setMiiprojid(projId);
 					dayRecep.setAr01count(projUserInfoRecord01Total);
 					dayRecep.setAr02count(projUserInfoRecord02Total);
 					dayRecep.setAr03count(projUserInfoRecord03Total);
-					//添加
-					dayRecepService.insert(dayRecep);
-					//更新
-					dayRecepService.update(dayRecep);
+					if(type==1){
+						dayRecep.setId(key.getUUIDKey());
+						//添加
+						dayRecepService.insert(dayRecep);
+					}else{
+						//更新
+						dayRecepService.update(dayRecep);
+					}
 				}
 			}catch(Exception e){
 				e.printStackTrace();

@@ -50,6 +50,8 @@ public interface DayRecepService {
 	 * @throws Exception
 	 */
 	public DayRecep findById(String sys_uuid) throws Exception;
+
+	public void updateMsg(DayRecep dayRecep);
 	
 
 }

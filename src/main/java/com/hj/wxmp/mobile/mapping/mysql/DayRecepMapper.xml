@@ -125,4 +125,64 @@
       ar03Count = #{ar03count,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <update id="updateMsg" parameterType="com.hj.wxmp.mobile.entity.DayRecep" >
+    update ql_ST_dayRecep
+    <set >
+      <if test="daystr != null" >
+        dayStr = #{daystr,jdbcType=VARCHAR},
+      </if>
+      <if test="miiprojid != null" >
+        miiProjId = #{miiprojid,jdbcType=VARCHAR},
+      </if>
+      <if test="miiprojid == null" >
+        miiProjId is null,
+      </if>
+      <if test="miiuserid != null" >
+        miiUserId = #{miiuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="miiuserid == null" >
+        miiUserId is null,
+      </if>
+      <if test="miicustid != null" >
+        miiCustId = #{miicustid,jdbcType=VARCHAR},
+      </if>
+      <if test="miicustid == null" >
+        miiCustId is null,
+      </if>
+      <if test="ar01count != null" >
+        ar01Count = #{ar01count,jdbcType=INTEGER},
+      </if>
+      <if test="ar02count != null" >
+        ar02Count = #{ar02count,jdbcType=INTEGER},
+      </if>
+      <if test="ar03count != null" >
+        ar03Count = #{ar03count,jdbcType=INTEGER},
+      </if>
+    </set>
+    where instr(dayStr,#{daystr}) 
+    <if test="miiprojid != null" >
+      and miiProjId = #{miiprojid,jdbcType=VARCHAR}
+    </if>
+    <if test="miiuserid != null" >
+      and miiUserId = #{miiuserid,jdbcType=VARCHAR}
+    </if>
+    <if test="miicustid != null" >
+      and miiCustId = #{miicustid,jdbcType=VARCHAR}
+    </if>
+  </update>
+  
+  
+  
+  
 </mapper>

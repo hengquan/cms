@@ -44,5 +44,9 @@ public class DayRecepServiceImpl implements DayRecepService {
 	public DayRecep findById(String sys_uuid) throws Exception {
 		return dao.selectByPrimaryKey(sys_uuid);
 	}
+	@Override
+	public void updateMsg(DayRecep dayRecep) {
+		dao.updateMsg(dayRecep);
+	}
 	
 }
