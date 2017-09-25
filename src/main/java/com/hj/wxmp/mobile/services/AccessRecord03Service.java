@@ -112,7 +112,7 @@ public interface AccessRecord03Service {
 
 	public void updateByProjIdAndCustId(Map<String, Object> parmeterMap);
 
-	public AccessRecord03 selectByRecepTime(String date);
+	public List<AccessRecord03> selectByRecepTime(String date);
 
 
 }

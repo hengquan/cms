@@ -42,5 +42,5 @@ public interface AccessRecord01Mapper {
 
 	Integer selectByCustIdAndProjId(Map<String, Object> parmeterMap);
 
-	AccessRecord01 selectByRecepTime(String date);
+	List<AccessRecord01> selectByRecepTime(String date);
 }

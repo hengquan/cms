@@ -421,4 +421,12 @@
     where loginName = #{loginId,jdbcType=VARCHAR}
   </select>
   
+  
+  <!-- 获取所有项目信息 -->
+  <select id="findAll" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from plat_User
+  </select>
+  
 </mapper>

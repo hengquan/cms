@@ -811,7 +811,6 @@ public class CustomerController extends ControllerBase {
 	         long time = new Date().getTime();
 	         String fileName = time+"cust.xls";
 	         //path="D:\\excels\\"+fileName;
-	         //path="wl.weechao.com/excels/"+fileName;
 	         path="/opt/tomcat/webapps/ROOT/excels/"+fileName;
 	         FileOutputStream fout = new FileOutputStream(path);
 	         wb.write(fout);  

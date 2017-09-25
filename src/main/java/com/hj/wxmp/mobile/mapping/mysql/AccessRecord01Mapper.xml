@@ -753,5 +753,10 @@
   	select recepTime from ql_AccessRecord01 where INSTR(recepTime,#{date})
   </select>
   
-  
+  <!-- 获取所有项目信息 -->
+  <select id="findAll" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from ql_AccessRecord01
+  </select>
 </mapper>

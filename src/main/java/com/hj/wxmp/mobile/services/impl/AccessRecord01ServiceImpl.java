@@ -113,7 +113,7 @@ public class AccessRecord01ServiceImpl implements AccessRecord01Service {
 		return dao.selectByCustIdAndProjId(parmeterMap);
 	}
 	@Override
-	public AccessRecord01 selectByRecepTime(String date) {
+	public List<AccessRecord01> selectByRecepTime(String date) {
 		return dao.selectByRecepTime(date);
 	}
 	

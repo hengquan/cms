@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
+import com.hj.wxmp.mobile.entity.AccessRecord01;
 import com.hj.wxmp.mobile.entity.AccessRecord03;
 import com.hj.wxmp.mobile.mapping.AccessRecord03Mapper;
 import com.hj.wxmp.mobile.services.AccessRecord03Service;
@@ -108,6 +109,10 @@ public class AccessRecord03ServiceImpl implements AccessRecord03Service {
 	@Override
 	public void updateByProjIdAndCustId(Map<String, Object> parmeterMap) {
 		dao.updateByProjIdAndCustId(parmeterMap);
+	}
+	@Override
+	public List<AccessRecord03> selectByRecepTime(String date) {
+		return dao.selectByRecepTime(date);
 	}
 
 }
