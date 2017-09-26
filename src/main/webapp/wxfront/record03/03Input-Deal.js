@@ -10,6 +10,8 @@ $(function() {
     $(this).toggleClass("currentDt").siblings(".subNav").removeClass("currentDt");
     $(this).next(".navContent").slideToggle(500).siblings(".navContent").slideUp(500);
   });
+  
+  
   _TYPE=getUrlParam(window.location.href, 'type');
   if (_TYPE==null) _TYPE="add";
   if (_TYPE.toLocaleLowerCase()=='update') _TYPE="update";
@@ -58,6 +60,25 @@ $(function() {
     }
   }
   
+  //客户搜索
+  //键盘按键弹起时执行
+  $('#searchStr').keyup(function(){
+    if (!($("#custData").html())) return;
+    var searchStr = $.trim($('#searchStr').val().toString()); // 去掉两头空格
+    if(searchStr == '') { // 如果搜索框输入为空
+      $("#custData").find("label").each(function(){
+    	  $(this).show();
+      });
+    } else {
+      $("#custData").find("label").each(function(){
+    	  var _text=$(this).text();
+    	  if (_text.indexOf(searchStr)!=-1){
+    		  $(this).show().siblings().hide();
+    	  } else $(this).hide();
+
+      });
+    }
+  });
 });
 
 
