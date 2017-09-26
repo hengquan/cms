@@ -261,6 +261,8 @@ function xlh(){
         </div>
     </div>
 </div>
+<script src="datePicker.js"></script>
+<script src="myEchart.js"></script>
 <script charset="utf-8">
 	window.onload = function (){
 	xlh();
@@ -393,246 +395,32 @@ function xlh(){
             obj.style.transition='all '+time+'s ease-in-out';
         }
     }
-
-    //实现天，周，月的增减
-	var preclickDay="";
-	var preclickWeek="";
-	var preclickMonth="";
-	Date.prototype.Format = function(fmt) {
-		var o = {
-			"M+": this.getMonth() + 1, //月份   
-			"d+": this.getDate(), //日   
-			"h+": this.getHours(), //小时   
-			"m+": this.getMinutes(), //分   
-			"s+": this.getSeconds(), //秒   
-			"q+": Math.floor((this.getMonth() + 3) / 3), //季度   
-			"S": this.getMilliseconds() //毫秒   
-		};
-		if(/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-		for(var k in o)
-			if(new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-		return fmt;
-	}
-	var date = new Date().Format("yyyy-MM-dd"); //Format("输入你想要的时间格式:yyyy-MM-dd,yyyyMMdd")  
-	var textVal = $("#nowDate").val(date);
-	var textVal = $("#nowWeek").val(date);
-	var textVal = $("#nowMonth").val(date);
-	//点击按钮实现前一天后一天
-	function preDay(){
-		preclickDay++ 
-		updateDate(preclickDay)		
-	}
-	function nextDay() {		
-		preclickDay--
-		updateDate(preclickDay)
-	}
-	//设置一个函数
-	function updateDate(datatimeval){
-		var date = new Date(); //获取当前时间  
-		date.setDate(date.getDate() - datatimeval); //设置天数 -1 天  
-		var time = date.Format("yyyy-MM-dd");
-		$("#nowDate").val(time);			
-	}
+    //从后台获取数据并渲染
+    function getDaydata(dateBegin,dateEnd,user){  
+    	var _data={};
+    	_data.dateBegin = dateBegin;
+    	_data.dateEnd = dateEnd;
+    	_data.user = user;
+     
+    	console.log(dateBegin);
+    	console.log(user); 
+        $.ajax({  
+            type: "GET",  
+            url: _URL_BASE+"/wx/api/getCount",
+            data: {"dateBegin":dateBegin,"dateEnd":dateEnd,"user":user},  
+            dataType:"json",  
+            async:true,  
+            cache:false,  
+            success: function(data){  
+              console.log(data);
+            },  
+            error: function(json){  
+               console.log("获取数据失败");
+            }  
+        });     
+    } 
+    getDaydata();
 	
-	//点击按钮实现前一周后一周
-	function preWeek(){
-		preclickWeek = preclickWeek+7;
-		updateWeek(preclickWeek)		
-	}
-	function nextWeek() {		
-		preclickWeek = preclickWeek -7;
-		updateWeek(preclickWeek)
-	}
-	//设置一个函数
-	function updateWeek(datatimeval){
-		var date = new Date(); //获取当前时间  
-		date.setDate(date.getDate() - datatimeval); //设置周数 -1 周  
-		var time = date.Format("yyyy-MM-dd");
-		var textVal = $("#nowWeek").val(time);			
-	}
-
-	//点击按钮实现前一月后一月
-	function preMonth(){
-		preclickMonth++;
-		updateMonth(preclickMonth)		
-	}
-	function nextMonth() {		
-		preclickMonth--;
-		updateMonth(preclickMonth)
-	}
-	//设置一个函数
-	function updateMonth(datatimeval){
-		var date = new Date(); //获取当前时间  
-		date.setMonth(date.getMonth() - datatimeval); //设置月数 -1 月  
-		var time = date.Format("yyyy-MM-dd");
-		var textVal = $("#nowMonth").val(time);			
-	}
-	
-	//echarts饼图
-	// 基于准备好的dom，初始化echarts实例
-	var myChart = echarts.init(document.getElementById('dayEcharts'));
-	// 指定图表的配置项和数据
-	option = {
-		title: {
-			text: '某站点用户访问来源',
-			subtext: '纯属虚构',
-			x: 'center'
-		},
-		tooltip: {
-			trigger: 'item',
-			formatter: "{a} <br/>{b} : {c} ({d}%)"
-		},
-		legend: {
-			orient: 'vertical',
-			left: 'left',
-			data: ['日访', '首访', '复访', '成交']
-		},
-		series: [{
-			name: '访问来源',
-			type: 'pie',
-			radius: '55%',
-			center: ['50%', '40%'],
-			data: [{
-					value: 335,
-					name: '日访'
-				},
-				{
-					value: 310,
-					name: '首访'
-				},
-				{
-					value: 234,
-					name: '复访'
-				},
-				{
-					value: 135,
-					name: '成交'
-				}
-			],
-			itemStyle: {
-				emphasis: {
-					shadowBlur: 10,
-					shadowOffsetX: 0,
-					shadowColor: 'rgba(0, 0, 0, 0.5)'
-				}
-			}
-		}]
-	};
-
-	// 使用刚指定的配置项和数据显示图表。
-	myChart.setOption(option);	
-	
-	//周访图饼
-	var myChart = echarts.init(document.getElementById('weekEcharts'));
-	// 指定图表的配置项和数据
-	option1 = {
-		title: {
-			text: '某站点用户访问来源',
-			subtext: '纯属虚构',
-			x: 'center'
-		},
-		tooltip: {
-			trigger: 'item',
-			formatter: "{a} <br/>{b} : {c} ({d}%)"
-		},
-		legend: {
-			orient: 'vertical',
-			left: 'left',
-			data: ['日访','周访', '首访', '复访', '成交']
-		},
-		series: [{
-			name: '访问来源',
-			type: 'pie',
-			radius: '55%',
-			center: ['50%', '40%'],
-			data: [{
-					value: 335,
-					name: '日访'
-				},
-				{
-					value: 365,
-					name: '周访'
-				},
-				{
-					value: 310,
-					name: '首访'
-				},
-				{
-					value: 234,
-					name: '复访'
-				},
-				{
-					value: 135,
-					name: '成交'
-				}
-			],
-			itemStyle: {
-				emphasis: {
-					shadowBlur: 10,
-					shadowOffsetX: 0,
-					shadowColor: 'rgba(0, 0, 0, 0.5)'
-				}
-			}
-		}]
-	};
-	// 使用刚指定的配置项和数据显示图表。
-	myChart.setOption(option1);	
-	
-	//月访图饼
-	var myChart = echarts.init(document.getElementById('monthEcharts'));
-	// 指定图表的配置项和数据
-	option1 = {
-		title: {
-			text: '某站点用户访问来源',
-			subtext: '纯属虚构',
-			x: 'center'
-		},
-		tooltip: {
-			trigger: 'item',
-			formatter: "{a} <br/>{b} : {c} ({d}%)"
-		},
-		legend: {
-			orient: 'vertical',
-			left: 'left',
-			data: ['日访','月访', '首访', '复访', '成交']
-		},
-		series: [{
-			name: '访问来源',
-			type: 'pie',
-			radius: '55%',
-			center: ['50%', '40%'],
-			data: [{
-					value: 335,
-					name: '日访'
-				},
-				{
-					value: 365,
-					name: '月访'
-				},
-				{
-					value: 310,
-					name: '首访'
-				},
-				{
-					value: 234,
-					name: '复访'
-				},
-				{
-					value: 135,
-					name: '成交'
-				}
-			],
-			itemStyle: {
-				emphasis: {
-					shadowBlur: 10,
-					shadowOffsetX: 0,
-					shadowColor: 'rgba(0, 0, 0, 0.5)'
-				}
-			}
-		}]
-	};
-	// 使用刚指定的配置项和数据显示图表。
-	myChart.setOption(option1);	
 </script>
 </body>
 </html>
