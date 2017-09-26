@@ -514,7 +514,6 @@ function checkStep2() {
   if (!_uChildOutExperFlag) return "请选择子女是否有海外经历!";
   if (_uChildOutExperFlag==1&&!$("input[name='childOutExperCity']").val()) return "请录入子女海外经历主要在那个城市!";
   return "";
-
 }
 function checkStep3() {
   if (!_uLivingRadius) return "请选择生活半径!";
@@ -813,49 +812,15 @@ function openSelCust() {
     else alert("["+_uProjName+"]项目还没有接待任何客户，只能从首访录入，不能录入复访!");
   }
 }
-
-//筛选客户
-/*function filterCust() {
-  var searchStr=$("#searchStr").val();
-  var url=_URL_BASE+"/wx/api/getCustList";
-  var _data={};
-  _data.projId=_uProjId;
-  _data.custName=searchStr;
-  if (searchStr!=''){
-	  $.ajax({
-	     type:'get',
-		 data: _data, 
-		 url:url,
-		 dataType:'json',
-		 success:function(data){
-		 console.log(data);
-		 $("#custData").empty();
-         var str = "";     
-         var customers = data.customers;
-         for(var i=0;i<customers.length;i++){
-           var custName = customers[i].custName;
-           if(custName.indexOf(searchStr)>=0){     		
-             for (var i=0; i<data.customers.length; i++) {
-               var oneCust=data.customers[i];
-               var _phones=oneCust.custPhone;
-               _phones=$.trim(_phones.split(",")[0]);
-               var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span>";
-               var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label>";
-             }
-           }
-          }$("#custData").append(userHtml);
-	   }
-	 })
-	}else{
-		$("#custData").empty()
-	    }
-}*/
-
-
 function cleanCust() {
   $("input[name='custName']").val("");
   $("input[name='custPhone']").val("");
   custId="";
+  $("input[name='firstKnowTime']").val("");
+  $("input[name='firstKnowTime']").removeAttr("readonly");
+  fillSelectField('sex', "", true);
+  var nt=new Date();
+  fillTime("firstKnowTime", nt);
   var choose=document.getElementsByName('selectCustomers');
   for (var i=0; i<choose.length; i++) choose[i].checked=false;
 }
