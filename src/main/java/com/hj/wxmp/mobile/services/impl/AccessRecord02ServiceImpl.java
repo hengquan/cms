@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
+import com.hj.wxmp.mobile.entity.AccessRecord01;
 import com.hj.wxmp.mobile.entity.AccessRecord02;
 import com.hj.wxmp.mobile.mapping.AccessRecord02Mapper;
 import com.hj.wxmp.mobile.services.AccessRecord02Service;
@@ -111,6 +112,10 @@ public class AccessRecord02ServiceImpl implements AccessRecord02Service {
 	@Override
 	public AccessRecord02 selectById(String recordId) {
 		return dao.selectById(recordId);
+	}
+	@Override
+	public List<AccessRecord02> selectByRecepTime(String date) {
+		return dao.selectByRecepTime(date);
 	}
 
 }

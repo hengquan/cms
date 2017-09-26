@@ -38,8 +38,6 @@ function initPage(data) {
         $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
           success: function(json) {
             if (json.msg=='100') customer=json.customer;
-            
-           
             fillData();
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -91,6 +89,11 @@ function fillData() {
     var rTime=new Date();
     rTime.setTime(data03.firstknowtime.time);
     $("#firstKnowTime").html(rTime.Format('yyyy-MM-dd'));
+  }
+  if (customer.firstvisittime.time) {
+    var rTime=new Date();
+    rTime.setTime(customer.firstvisittime.time);
+    $("#firstVisitTime").html(rTime.Format('yyyy-MM-dd'));
   }
   if (data03.purchasedate.time) {
     var rTime=new Date();

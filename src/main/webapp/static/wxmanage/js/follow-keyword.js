@@ -274,7 +274,7 @@ function openMaterialDiv(type,name) {
 }
 
 function doSelect(title,imgUrl,desc,articleType,articleId){
-	var url = "http://crm.kylindpc.cn/wxmp.ql/article/analysis.do?articleType="+articleType+"&articleId="+articleId;
+	var url = "http://wl.weechao.com/wxmp.ql/article/analysis.do?articleType="+articleType+"&articleId="+articleId;
 	
 	if("1"==respType){
 		$('#title').val(title);

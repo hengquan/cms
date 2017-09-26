@@ -17,6 +17,33 @@ $(function() {
   });
   $("#auditArea").hide();
 
+  //客户搜索
+  //键盘按键弹起时执行
+  $('#searchStr').keyup(function(){
+    if (!($("#custData").html())) return;
+
+    var searchStr = $.trim($('#searchStr').val().toString()); // 去掉两头空格
+    if(searchStr == '') { // 如果搜索框输入为空
+      $("#custData").find("label").each(function(){
+    	  $(this).show();
+    	 
+      });
+    } else {
+      $("#custData").find("label").each(function(){
+    	  var _text=$(this).text();
+    	  if (_text.indexOf(searchStr)!=-1){
+    		  $(this).show().siblings().hide();
+    	  } else $(this).hide();
+
+      });
+    }
+//    var parent = $('#custData');
+//    $("label").show();
+    // prependTo() 方法在被选元素的开头（仍位于内部）插入指定内容
+    // contains 选择器，选取包含指定字符串的元素
+//    $("label:contains('"+index+"')").prependTo(parent).show().siblings().hide();
+  });
+
   _TYPE=getUrlParam(window.location.href, 'type');
   if (_TYPE==null) _TYPE="add";
   if (_TYPE.toLocaleLowerCase()=='update') _TYPE="update";
@@ -88,7 +115,7 @@ function initData(data) {
   });
   function initPage(userInfo, data) {
     if (userInfo.roleName!='顾问'&&userInfo.roleName!='项目负责人') {
-      window.location.href=_URL_BASE+"/wxfront/err.html?9000=您以["+userInfo.roleName+"]身份登录系统<br/>无需进行复访记录的"+(_TYPE=='add'?"录入":"修改")+"操作";
+      window.location.href=_URL_BASE+"/wxfront/err.html?9000=您是"+userInfo.roleName+"<br/>无法进行复访息的"+(_TYPE=='add'?"录入":"修改")+"操作";
       return;
     }
     curUserInfo=userInfo;
@@ -243,9 +270,10 @@ function loadProjUser(projId) {
 function cleanData(type) {//清除数据
   //清除所有数据
   $("input[type='text']").val("");
+  $("input[type='number']").val("");
   $("input[type='radio']").attr("checked", false);
   $("input[type='checkbox']").attr("checked", false);
-  $("textareaa").html("");
+  $("textareaa").val("");
   $(".item_sflr.row").find("span").each(function(){$(this).html("&nbsp;");});
   $(".modal-footer").find("button").each(function(){
     if ((($(this).attr("id"))+"").indexOf('Btn')>0) $(this).hide();
@@ -689,9 +717,12 @@ function commitData() {
           window.location.href=_URL_BASE+"/wxfront/err.html?8001=录入复访记录错误!";
         } else {
           if (confirm("录入成功，要录入下一条复访记录吗？")) {
+            cleanData(2);
+            $("span[id='proj']").html(_uProjName);
+            $("span[name='userInput']").html(_uUserName);
+            var nt=new Date();
+            fillTime("recpTime",nt);
             step2Prev();
-            cleanData(1);
-            fillDataForReInput(_data);
           } else {
             window.location.href=_URL_BASE+"/wxfront/record02/record02Search.html";
           }
@@ -768,23 +799,6 @@ function openSelCust() {
             $("#custData").append(userHtml);
           }
           $('#selectCustomersModal').modal('show');
-          //客户搜索
-          
-              //键盘按键弹起时执行
-              $('#searchStr').keyup(function(){
-                  var _searchStr = $.trim($('#searchStr').val().toString()); // 去掉两头空格
-                  if(_searchStr == ''){ // 如果搜索框输入为空
-                      $("label").show();
-                      $("label:contains('"+index+"')").prependTo(parent).hide();
-                      return false;
-                  }
-                  var labelParent = $('#custData');
-                  $("label").show();
-                  // prependTo() 方法在被选元素的开头（仍位于内部）插入指定内容
-                  // contains 选择器，选取包含指定字符串的元素
-                  $("label:contains('"+index+"')").prependTo(labelParent).show().siblings().hide();
-              });
-          
         }
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -799,8 +813,6 @@ function openSelCust() {
     else alert("["+_uProjName+"]项目还没有接待任何客户，只能从首访录入，不能录入复访!");
   }
 }
-
-
 
 //筛选客户
 /*function filterCust() {
@@ -953,12 +965,6 @@ function fillTime(id, _time) {
   str+=((100+(_time.getMonth()+1))+"").substr(1)+"-";
   str+=((100+_time.getDate())+"").substr(1);
   $("input[name='"+id+"']").val(str);
-}
-function fillDataForReInput(_data) {
-  if (_uProjName) $("#proj").html(_uProjName);
-  if (_uUserName) $("#user").html(_uUserName);
-  var nt=new Date();
-  fillTime("recpTime",nt);
 }
 function fillData(data) {//填数据，包括所有页面
   if (!data) return;

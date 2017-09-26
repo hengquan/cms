@@ -145,7 +145,7 @@ function initRols(roleList) {
  * 注册用户
  */
 function registerUser() {
-  var inputData={};
+  var inputData={};6
   inputData.loginname=$("input[name='loginName']").val();
   inputData.password=$("input[name='pwd']").val();
   inputData.pwdConfirm=$("input[name='pwdConfirm']").val();
@@ -155,29 +155,29 @@ function registerUser() {
   inputData.roleId=_uRole;
 
   var errMsg=checkInput(inputData);
-
-  if (errMsg!="") alert(errMsg);
-  else {
-    delete inputData.pwdConfirm;
-    var url=_URL_BASE+"/wx/api/updateUserMsg";
-    $.ajax({type:"post", async:true, url:url, data:inputData, dataType:"json",
-      success: function(json) {
-      if (json.msg=='100') window.location.href=_URL_BASE+"/wxfront/err.html?1000=已成功提交<br/>请等待管理员审核";
-        else {
-          var errStr="";
-          if (json.msg=="103") errStr="程序出错";
-          else if (json.msg=='200') errStr="登录名为空";
-          else if (json.msg=='201') errStr="密码为空";
-          else if (json.msg=='202') errStr="手机号为空";
-          else if (json.msg=='203') errStr="姓名为空";
-          else if (json.msg=='204') errStr="权限未设置";
-          else if (json.msg=='205') errStr="项目未填写";
-          if (errStr=="") errStr="未知错误";
-          alert(errStr);
-        }
-      }
-    });
+  if (errMsg!="") {
+    alert(errMsg);
+    return ;
   }
+  delete inputData.pwdConfirm;
+  var url=_URL_BASE+"/wx/api/updateUserMsg";
+  $.ajax({type:"post", async:true, url:url, data:inputData, dataType:"json",
+    success: function(json) {
+      if (json.msg=='100') window.location.href=_URL_BASE+"/wxfront/err.html?1000=已成功提交<br/>请等待管理员审核";
+      else {
+        var errStr="";
+        if (json.msg=="103") errStr="程序出错";
+        else if (json.msg=='200') errStr="登录名为空";
+        else if (json.msg=='201') errStr="密码为空";
+        else if (json.msg=='202') errStr="手机号为空";
+        else if (json.msg=='203') errStr="姓名为空";
+        else if (json.msg=='204') errStr="权限未设置";
+        else if (json.msg=='205') errStr="项目未填写";
+        if (errStr=="") errStr="未知错误";
+        alert(errStr);
+      }
+    }
+  });
 
   //检查录入
   function checkInput(inputData) {

@@ -1191,6 +1191,10 @@ function initData() {
   });
   function initPage(data) {
     userInfo=data;
+    if (userInfo.roleName!='顾问'&&userInfo.roleName!='项目负责人') {
+      window.location.href=_URL_BASE+"/wxfront/err.html?9000=您是"+userInfo.roleName+"<br/>无法进行首访信息的"+(_TYPE=='add'?"录入":"修改")+"操作";
+      return;
+    }
     var url=_URL_BASE+"/wx/api/getLocalArea";
 
     var localResidenceArea=new LArea();

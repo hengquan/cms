@@ -20,7 +20,7 @@
 		 <param-value>
 			/WEB-INF/config/application-context.xml,
 			/WEB-INF/config/shiro-context.xml,
-			<!-- /WEB-INF/config/spring-quartz.xml -->
+			/WEB-INF/config/spring-quartz.xml
 		</param-value><!--  
 		<param-value>
 			/WEB-INF/config/application-context.xml

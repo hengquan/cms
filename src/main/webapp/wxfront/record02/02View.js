@@ -90,10 +90,10 @@ function fillData() {
     rTime.setTime(data.receptime.time);
     $("#recpTime").html(rTime.Format('yyyy-MM-dd'));
   }
-  if (customer.ctime) {
+  if (customer.firstvisittime.time) {
     var rTime=new Date();
-    rTime.setTime(data.ctime.time);
-    $("#curTime").html(rTime.Format('yyyy-MM-dd'));
+    rTime.setTime(customer.firstvisittime.time);
+    $("#firstVisitTime").html(rTime.Format('yyyy-MM-dd'));
   }
   if (data.visitorcount) $("#visitorCount").html(data.visitorcount==5?data.visitorcount+"人以上":data.visitorcount+"人");
   if (data.decisionerin) $("#decisionerIn").html(data.decisionerin==1?"是":(data.outeduwill==-1?"无法了解":"否"));

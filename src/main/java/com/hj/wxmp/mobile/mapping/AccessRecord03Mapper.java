@@ -3,6 +3,7 @@ package com.hj.wxmp.mobile.mapping;
 import java.util.List;
 import java.util.Map;
 
+import com.hj.wxmp.mobile.entity.AccessRecord01;
 import com.hj.wxmp.mobile.entity.AccessRecord03;
 
 public interface AccessRecord03Mapper {
@@ -39,4 +40,6 @@ public interface AccessRecord03Mapper {
 	List<Map<String, Object>> getRecord03ListAdmin(Map<String, Object> result);
 
 	void updateByProjIdAndCustId(Map<String, Object> parmeterMap);
+
+	List<AccessRecord03> selectByRecepTime(String date);
 }

@@ -175,4 +175,12 @@
     role.role_name = '顾问'
   AND projCust.projId = #{projId}
   </select>
+  
+  
+  <!-- 获取所有项目信息 -->
+  <select id="findAll" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from ql_ProjUserRole
+  </select>
 </mapper>

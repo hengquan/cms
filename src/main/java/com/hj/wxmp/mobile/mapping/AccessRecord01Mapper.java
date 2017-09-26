@@ -41,4 +41,6 @@ public interface AccessRecord01Mapper {
 	void updateByProjIdAndCustId(Map<String, Object> parmeterMap);
 
 	Integer selectByCustIdAndProjId(Map<String, Object> parmeterMap);
+
+	List<AccessRecord01> selectByRecepTime(String date);
 }

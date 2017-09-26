@@ -135,6 +135,7 @@ function loadPage() {
           +"&custId="+oneData.custId+"&custName="+encodeURIComponent(oneData.custName)+"&custPhone="+oneData.custPhoneNum
           +"&userId="+oneData.userId+"&userName="+encodeURIComponent(oneData.authorName)
           +"&projId="+oneData.projId;
+      if (userInfo.roleName!='顾问'&&userInfo.roleName!='项目负责人') _to02Url="";
       html="<div class='scrollItem row examine'>"
           +  "<div class='col-40 item-name2'>"+_leftDiv+"</div>"
           +  "<div class='col-60'><div class='col-70 item-name' style='margin-left:30%'>"+_GW+"<br>总次："+_total+"次&nbsp;&nbsp;"+_CJ+"<br>"+status+(_to02Url?"<span style='margin-left:.5rem;'>添加复访</span>":"")+"</div>"

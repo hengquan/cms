@@ -639,4 +639,16 @@
   <update id="updateByProjIdAndCustId" parameterType="java.util.Map">
   	update ql_AccessRecord03 set authorId = #{userId} where projId=#{projId} and instr(#{custId},custId)
   </update>
+  
+  <select id="selectByRecepTime" resultType="com.hj.wxmp.mobile.entity.AccessRecord03" parameterType="java.lang.String">
+  	select recepTime from ql_AccessRecord03 where INSTR(recepTime,#{date})
+  </select>
+  
+  
+  <!-- 获取所有项目信息 -->
+  <select id="findAll" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from ql_AccessRecord03
+  </select>
 </mapper>

@@ -18,7 +18,6 @@
   <script src="../js/vue.js"></script>
   <script src="../js/zepto.js"></script>
   <script src="../js/zepto.mdater.js"></script>
-  
 </head>
 <body>
 <!-- 遮罩层 -->
@@ -121,8 +120,10 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
           <h4 class="modal-title">选择客户</h4>
+     		
         </div>
         <div class="user-scroll modal-body" id="custData"></div>
+        
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
           <button type="button" class="btn btn-default" data-dismiss="modal" onClick="cleanCust()" id="cleanCustBtn" style="display:none;">清除并关闭</button>
@@ -160,19 +161,25 @@
   <div class="item_sflr row">
     <div class="col-title col-title-6">首次认知时间</div>
     <div class="col-input-6 inputdate">
-      <input type="date" placeholder="" name="firstKnowTime"/>
+      <input type="date" placeholder="" name="firstKnowTime" onChange="adjustDayDiff()"/>
+    </div>
+  </div>
+  <div class="item_sflr row" id="_fvt">
+    <div class="col-title col-title-6">首次到访时间</div>
+    <div class="col-input-6 inputdate">
+      <input type="date" placeholder="" name="firstVisitTime" readonly="readonly" onChange="adjustDayDiff()"/>
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-4">认购日期</div>
     <div class="col-input-4 inputdate">
-      <input type="date" placeholder="" name="purchaseDate" onChange="adjustSignDate(10)"/>
+      <input type="date" placeholder="" name="purchaseDate" onChange="adjustSignDate(10);adjustDayDiff()"/>
     </div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-6">预计签约日期</div>
     <div class="col-input-6 inputdate">
-      <input type="date" placeholder="" name="signDate"/>
+      <input type="date" placeholder="" name="signDate" onChange="adjustDayDiff()"/>
     </div>
   </div>
   <div class="item_sflr row">
@@ -187,15 +194,15 @@
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-7">认知-到访（天）</div>
-    <div class="col-input-7"><input type="number" min="1" max="365" placeholder="" name="visitCycle"></div>
+    <div class="col-input-7"><input type="number" min="1" max="365" placeholder="" name="visitCycle" readonly="readonly"/></div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-7">到访-认购（天）</div>
-    <div class="col-input-7"><input type="number" min="1" max="365" placeholder="" name="purchaseCycle"></div>
+    <div class="col-input-7"><input type="number" min="1" max="365" placeholder="" name="purchaseCycle" readonly="readonly"></div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-7">认购-签约（天）</div>
-    <div class="col-input-7"><input type="number" min="1" max="365" placeholder="" name="signCycle"></div>
+    <div class="col-input-7"><input type="number" min="1" max="365" placeholder="" name="signCycle" readonly="readonly"></div>
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-2">户籍</div>
