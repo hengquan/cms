@@ -361,20 +361,33 @@ function checkStep1() {
   if (!checkField("houseNum")) return '请填录入购买房号!';
   temp=$("[name='visitCycle']").val();
   if (!temp) return '请填录入认知-到访天数!';
-  if(isNaN(temp)) return '认知-到访天数须是大于0的自然数!';
-  if(temp<=0) return '认知-到访天数须是大于0的自然数!';
+  if(isNaN(temp)) return '认知-到访天数须是数字!';
+  if(temp<=0) return '认知-到访天数不能是负数!';
   temp=$("[name='purchaseCycle']").val();
   if (!temp) return '请填录入到访-认购天数!';
-  if(isNaN(temp)) return '到访-认购天数须是大于0的自然数!';
-  if(temp<=0) return '到访-认购天数须是大于0的自然数!';
+  if(isNaN(temp)) return '到访-认购天数须是数字!';
+  if(temp<=0) return '到访-认购天数不能是负数!';
   temp=$("[name='signCycle']").val();
   if (!temp) return '请填录入认购-签约天数!';
-  if(isNaN(temp)) return '认购-签约天数须是大于0的自然数!';
-  if(temp<=0) return '认购-签约天数须是大于0的自然数!';
+  if(isNaN(temp)) return '认购-签约天数须是数字!';
+  if(temp<=0) return '认购-签约天数不能是负数!';
   if (!_uHouseRegiType) return "请选择户籍!";
-  if (!checkField("houseAcreage")) return '请录入成交面积!';
-  if (!checkField("unitPrice")) return '请录入成交单价!';
-  if (!checkField("totalPrice")) return '请录入成交总价!';
+
+  temp=$("[name='houseAcreage']").val();
+  if (!temp) return '请录入成交面积!';
+  if(isNaN(temp)) return '成交面积应是数字!';
+  if(temp<=0) return '成交面积须大于0!';
+
+  temp=$("[name='unitPrice']").val();
+  if (!temp) return '请录入成交单价!';
+  if(isNaN(temp)) return '成交单价应是数字!';
+  if(temp<=0) return '成交单价须大于0!';
+
+  temp=$("[name='totalPrice']").val();
+  if (!temp) return '请录入成交总价!';
+  if(isNaN(temp)) return '成交总价应是数字!';
+  if(temp<=0) return '成交总价须大于0!';
+
   if (!_uPaymentType) return "请选择付款方式!";
   if (!checkField("loanBank")) return '请录入贷款银行!';
   return "";
@@ -595,9 +608,10 @@ function cleanCust() {
   $("input[name='custName']").val("");
   $("input[name='custPhone']").val("");
   $("input[name='firstVisitTime']").val("");
+  $("input[name='firstKonwTime']").val("");
   $("input[name='custName']").removeAttr("readonly");
   $("input[name='custPhone']").removeAttr("readonly");
-  $("input[name='firstVisitTime']").removeAttr("readonly");
+  $("input[name='firstKonwTime']").removeAttr("readonly");
   $("#_fvt").hide();
   custId="";
   var choose=document.getElementsByName('selectCustomers');
@@ -613,7 +627,7 @@ function selCust() {
       $("input[name='custPhone']").val(choose[i].getAttribute("_phone"));
       $("input[name='custName']").attr("readonly","true");
       $("input[name='custPhone']").attr("readonly","true");
-      $("input[name='firstKnowTime']").attr("readonly","true");
+      $("input[name='firstKnowTime']").attr("readonly","readonly");
       custId=choose[i].value;
       $("span[name='userInput']").html(choose[i].getAttribute("_userName"));
       $("span[name='userInput']").html(choose[i].getAttribute("_userName"));
