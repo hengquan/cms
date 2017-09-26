@@ -57,7 +57,10 @@ $(function() {
       });
     }
   }
+  
 });
+
+
 
 /**
  * 初始化数据
@@ -185,7 +188,7 @@ function loadProjUser(projId) {//加载顾问
           for (var i=0; i<json.users.length; i++) {
             var oneUser=json.users[i];
             if (oneUser.id==curUserInfo.userid) continue;
-            var _innerHtml=oneUser.realName+"<span>（"+(oneUser.sex==1?"男":"女")+"）</span><span>"+oneUser.mainPhoneNum+"</span><span>"+oneUser.projName+"</span>";
+            var _innerHtml=oneUser.realName+"<span>（"+(oneUser.sex==1?"男":"女")+"）</span><span>"+oneUser.mainPhoneNum+"</span>";
             var userHtml="<label><input type='radio' name='user' value='"+oneUser.id+"-"+oneUser.realName+"' _text='"+oneUser.realName+"' onclick='selUser()'/>"+_innerHtml+"</label>";
             if (i<(json.users.length-1)) userHtml+="<br>";
             $("#userData").append(userHtml);
@@ -530,7 +533,7 @@ function openSelCust() {
             var oneCust=json.customers[i];
             var _phones=oneCust.custPhone;
             _phones=$.trim(_phones.split(",")[0]);
-            var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span><span>"+oneCust.projName+"</span>";
+            var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span>";
             var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userSex='"+oneCust.custSex+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label>";
             if (i<(json.customers.length-1)) userHtml+="<br>";
             $("#custData").append(userHtml);

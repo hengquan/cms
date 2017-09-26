@@ -24,12 +24,17 @@ $(function() {
 
     var searchStr = $.trim($('#searchStr').val().toString()); // 去掉两头空格
     if(searchStr == '') { // 如果搜索框输入为空
-      $("#custData").find("label").each(function(){$(this).show()});
+      $("#custData").find("label").each(function(){
+    	  $(this).show();
+    	 
+      });
     } else {
       $("#custData").find("label").each(function(){
     	  var _text=$(this).text();
-    	  if (_text.indexOf(searchStr)!=-1) $(this).show();
-    	  else $(this).hide();
+    	  if (_text.indexOf(searchStr)!=-1){
+    		  $(this).show().siblings().hide();
+    	  } else $(this).hide();
+
       });
     }
 //    var parent = $('#custData');
@@ -900,7 +905,7 @@ function _dealCustomer() {
   }
   if (customer.visitcount) $("input[name='visitCount']").val(customer.visitcount);
   fillSelectField('sex', customer.custsex, true);
-  if (customer.compareprojs) $("textarea[name='compareProjs']").val(customer.compareprojs);
+  if (customer.compareprojs) $("textarea[name='compareProjs']").val();
   $("#sex").html(customer.custsex);
   //判断是否需要再次填写
   _dealOne("familystatus", customer);
