@@ -578,13 +578,11 @@ function cleanCust() {
   $("input[name='buyerName']").val("");
   $("input[name='custName']").val("");
   $("input[name='custPhone']").val("");
-  $("input[name='firstKnowTime']").val("");
+  $("input[name='firstVisitTime']").val("");
   $("input[name='custName']").removeAttr("readonly");
   $("input[name='custPhone']").removeAttr("readonly");
-  $("input[name='firstKnowTime']").removeAttr("readonly");
+  $("input[name='firstVisitTime']").removeAttr("readonly");
   $("#_fvt").hide();
-  var nt=new Date();
-  fillTime("firstKnowTime", nt);
   custId="";
   var choose=document.getElementsByName('selectCustomers');
   for (var i=0; i<choose.length; i++) choose[i].checked=false;
