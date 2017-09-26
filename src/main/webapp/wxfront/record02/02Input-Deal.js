@@ -358,14 +358,6 @@ function cleanData(type) {//清除数据
 }
 //翻页切换
 function step1Next() {//要判断是否应该进行首访录入
-	
- /* $("#step1").hide(0);
-  $("#step2").show(0);
-  $("#step3").hide(0);
-  $("#step4").hide(0);
-  $("#step5").hide(0);
-  return;*/
-
   var _data={};
   if (!_uProjId) {
     alert("请选择具体项目!");
@@ -750,8 +742,9 @@ function commitData() {
       }
     });
   }
-  function commitUpdate(data) {
-    var url=_URL_BASE+"/wx/api/updateRecord01";
+  function commitUpdate(_data) {
+    var url=_URL_BASE+"/wx/api/updateRecord02";
+    alert(url);
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         //遮罩
@@ -761,7 +754,7 @@ function commitData() {
           $(this).attr("style", "margin-top:1.5rem;background-color:#19a6ee;color:#FFFFFF");
         });
         if (json.msg!='100') {
-          window.location.href=_URL_BASE+"/wxfront/err.html?9001=修改首访记录错误!";
+          window.location.href=_URL_BASE+"/wxfront/err.html?9001=修改复访记录错误!";
         } else {
           alert("修改复访记录成功!");
           window.location.href=_URL_BASE+"/wxfront/record02/record02Search.html";

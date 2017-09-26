@@ -10,8 +10,7 @@ $(function() {
     $(this).toggleClass("currentDt").siblings(".subNav").removeClass("currentDt");
     $(this).next(".navContent").slideToggle(500).siblings(".navContent").slideUp(500);
   });
-  
-  
+
   _TYPE=getUrlParam(window.location.href, 'type');
   if (_TYPE==null) _TYPE="add";
   if (_TYPE.toLocaleLowerCase()=='update') _TYPE="update";
@@ -71,30 +70,30 @@ $(function() {
       });
     } else {
       $("#custData").find("p").each(function(){
-    	  var _text=$(this).text();
-    	  if (_text.indexOf(searchStr)!=-1){
-    	    $(this).show().siblings().hide();
-    	  } else $(this).hide();
+        var _text=$(this).text();
+        if (_text.indexOf(searchStr)!=-1){
+          $(this).show().siblings().hide();
+        } else $(this).hide();
       });
     }
   });
   //清除
   $("#cleaSearch").click(function(){
-	  $("#searchStr").val("");
-	  var searchStr = $.trim($('#searchStr').val().toString()); // 去掉两头空格
-	    if(searchStr == '') { // 如果搜索框输入为空
-	      $("#custData").find("p").each(function(){
-	        $(this).show();
-	      });
-	    } else {
-	      $("#custData").find("p").each(function(){
-	    	  var _text=$(this).text();
-	    	  if (_text.indexOf(searchStr)!=-1){
-	    	    $(this).show().siblings().hide();
-	    	  } else $(this).hide();
-	      });
-	    } 
-  }) 
+    $("#searchStr").val("");
+    var searchStr = $.trim($('#searchStr').val().toString()); // 去掉两头空格
+    if(searchStr == '') { // 如果搜索框输入为空
+      $("#custData").find("p").each(function(){
+        $(this).show();
+      });
+    } else {
+      $("#custData").find("p").each(function(){
+        var _text=$(this).text();
+        if (_text.indexOf(searchStr)!=-1){
+          $(this).show().siblings().hide();
+        } else $(this).hide();
+      });
+    } 
+  }); 
 });
 
 
@@ -389,7 +388,7 @@ function checkStep1() {
   if(temp<=0) return '成交总价须大于0!';
 
   if (!_uPaymentType) return "请选择付款方式!";
-  if (!checkField("loanBank")) return '请录入贷款银行!';
+  //if (!checkField("loanBank")) return '请录入贷款银行!';
   return "";
 }
 function checkStep2() {
