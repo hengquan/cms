@@ -450,6 +450,8 @@ function fillSelectField(id, value, isSetValue) {
   var _fv="";
   var _fvOther="";
   var hadChecked=false;
+  var isLowOut=false;
+  var _value="";
   $("input[name='"+id+"Desc']").val("");
   $("input[name='"+id+"Desc']").hide();
   if (id=="knowWay") {
@@ -466,6 +468,18 @@ function fillSelectField(id, value, isSetValue) {
   	  }
     }
     choose[i].checked=j<_checkeds.length;
+    if (!choose[i].checked) {
+      _t=choose[i].getAttribute("value");
+      j=0;
+      for (; j<_checkeds.length; j++) {
+        if (_checkeds[j].indexOf(_t)==0) break;
+      }
+      choose[i].checked=j<_checkeds.length;
+      if (choose[i].checked) {
+        isLowOut=true;
+        _value+=","+choose[i].getAttribute("_text");
+      }
+    }
     if (choose[i].checked) {
    	  if (!hadChecked) hadChecked=true;
       if (isSetValue) _fv+=","+choose[i].value;
@@ -518,7 +532,11 @@ function fillSelectField(id, value, isSetValue) {
       eval("_u"+_id+"Desc=_fv");
     }
     var _v="";
-    for (var j=0; j<_checkeds.length; j++) _v+=","+_checkeds[j];
-    $("span[id='"+id+"']").html(_v.substring(1));
+    if (hadChecked) {
+    	for (var j=0; j<_checkeds.length; j++) _v+=","+_checkeds[j];
+    	if (_v) _v=_v.substring(1);
+    }
+    if (isLowOut) _v=_value.substring(1);
+    $("span[id='"+id+"']").html(_v);
   }
 }
