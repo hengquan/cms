@@ -66,19 +66,35 @@ $(function() {
     if (!($("#custData").html())) return;
     var searchStr = $.trim($('#searchStr').val().toString()); // 去掉两头空格
     if(searchStr == '') { // 如果搜索框输入为空
-      $("#custData").find("label").each(function(){
-    	  $(this).show();
+      $("#custData").find("p").each(function(){
+        $(this).show();
       });
     } else {
-      $("#custData").find("label").each(function(){
+      $("#custData").find("p").each(function(){
     	  var _text=$(this).text();
     	  if (_text.indexOf(searchStr)!=-1){
-    		  $(this).show().siblings().hide();
+    	    $(this).show().siblings().hide();
     	  } else $(this).hide();
-
       });
     }
   });
+  //清除
+  $("#cleaSearch").click(function(){
+	  $("#searchStr").val("");
+	  var searchStr = $.trim($('#searchStr').val().toString()); // 去掉两头空格
+	    if(searchStr == '') { // 如果搜索框输入为空
+	      $("#custData").find("p").each(function(){
+	        $(this).show();
+	      });
+	    } else {
+	      $("#custData").find("p").each(function(){
+	    	  var _text=$(this).text();
+	    	  if (_text.indexOf(searchStr)!=-1){
+	    	    $(this).show().siblings().hide();
+	    	  } else $(this).hide();
+	      });
+	    } 
+  }) 
 });
 
 
@@ -555,8 +571,8 @@ function openSelCust() {
             var _phones=oneCust.custPhone;
             _phones=$.trim(_phones.split(",")[0]);
             var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span>";
-            var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userSex='"+oneCust.custSex+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label>";
-            if (i<(json.customers.length-1)) userHtml+="<br>";
+            var userHtml="<p><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userSex='"+oneCust.custSex+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</p>";
+            if (i<(json.customers.length-1)) ;
             $("#custData").append(userHtml);
           }
           $('#selectCustomersModal').modal('show');
