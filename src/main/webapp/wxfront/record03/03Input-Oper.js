@@ -444,12 +444,14 @@ $('#realPayMenModal').on('hide.bs.modal', function () {
 
 //通用方法=========================================
 function fillSelectField(id, value, isSetValue) {
-  var isLowOut=false;
-  var _value="";
+  var _id=id.substr(0,1).toUpperCase()+id.substr(1);	
   var choose=document.getElementsByName(''+id);
   var _checkeds=value.split(",");
   var _fv="";
   var _fvOther="";
+  var hadChecked=false;
+  var isLowOut=false;
+  var _value="";
   $("input[name='"+id+"Desc']").val("");
   $("input[name='"+id+"Desc']").hide();
   if (id=="knowWay") {
@@ -460,7 +462,10 @@ function fillSelectField(id, value, isSetValue) {
     var _t=choose[i].getAttribute("_text");
     var j=0;
     for (; j<_checkeds.length; j++) {
-      if (_checkeds[j].indexOf(_t)==0) break;
+  	  if (_checkeds[j].indexOf(_t)==0||_t.indexOf("-"+_checkeds[j])!=-1) {
+        if (_t.indexOf("-"+_checkeds[j])!=-1) _checkeds[j]=_t;
+        break;
+  	  }
     }
     choose[i].checked=j<_checkeds.length;
     if (!choose[i].checked) {
@@ -476,6 +481,7 @@ function fillSelectField(id, value, isSetValue) {
       }
     }
     if (choose[i].checked) {
+   	  if (!hadChecked) hadChecked=true;
       if (isSetValue) _fv+=","+choose[i].value;
       if (choose[i].getAttribute("_text")=='其他'&&$("input[name='"+id+"Desc']")) {
         $("input[name='"+id+"Desc']").show();
@@ -516,6 +522,7 @@ function fillSelectField(id, value, isSetValue) {
       }
     }
   }
+  if (hadChecked) $("#clean"+_id+"Btn").show();
   if (isSetValue) {
     if (_fv.length>0) _fv=_fv.substr(1);
     var _id=id.substr(0,1).toUpperCase()+id.substr(1);
@@ -524,6 +531,12 @@ function fillSelectField(id, value, isSetValue) {
       if (id=='knowWay'&&_fvOther.length>0) _fvOther=_fvOther.substr(1);
       eval("_u"+_id+"Desc=_fv");
     }
-    $("span[id='"+id+"']").html(isLowOut?_value.substring(1):value);
+    var _v="";
+    if (hadChecked) {
+    	for (var j=0; j<_checkeds.length; j++) _v+=","+_checkeds[j];
+    	if (_v) _v=_v.substring(1);
+    }
+    if (isLowOut) _v=_value.substring(1);
+    $("span[id='"+id+"']").html(_v);
   }
 }

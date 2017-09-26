@@ -27,7 +27,7 @@
   <div class="mask02"></div>
 </div>-->
 <!-- 代码 开始 -->
-<div id="auditArea">
+<div id="auditArea" style="display:none;">
   <div class="subNavBox">
     <div class="subNav currentDd currentDt">审核意见</div>
     <ul class="navContent " style="display:block">
@@ -111,8 +111,9 @@
           <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
           <h4 class="modal-title">选择客户</h4>
           <div id="header" class="input-group">
+          	<image src="../images/magnifier.png" class="magnifier">
             <input id="searchStr" type="text" placeholder="请输入客户姓名、电话" class="form-control input-lg"/>
-            <span id="searchCommit" class="input-group-addon btn btn-primary" onClick="filterCust()">搜索</span>
+            <span id="cleaSearch" class="input-group-addon btn btn-primary">清除</span>
           </div>
         </div>
         <div class="user-scroll modal-body" id="custData"></div>
@@ -256,7 +257,6 @@
     </div>
   </div>
   <div class="item-zhc row-link" style="margin-top:1.5rem;" onClick="step1Next()" _type="BTN">下一步</div>
-
 </div>
 <!-- 第2页 -->
 <div class="container" id="step2" style="display:none">
@@ -693,9 +693,9 @@
         </div>
         <div class="modal-body">
           <label><input type="radio" name="loanStatus" value="024001-有贷款（住宅）" _text="有贷款（住宅）" @click="selLoanStatus()"/> 有贷款（住宅） </label>
-          <label><input type="radio" name="loanStatus" value="024002-有贷款（商业）" _text="否" @click="selLoanStatus()"/> 有贷款（商业） </label>
-          <label><input type="radio" name="loanStatus" value="024003-有贷款（住宅和商业）" _text="否" @click="selLoanStatus()"/> 有贷款（住宅和商业） </label>
-          <label><input type="radio" name="loanStatus" value="024004-无贷款" _text="否" @click="selLoanStatus()"/> 无贷款 </label>
+          <label><input type="radio" name="loanStatus" value="024002-有贷款（商业）" _text="有贷款（商业）" @click="selLoanStatus()"/> 有贷款（商业） </label>
+          <label><input type="radio" name="loanStatus" value="024003-有贷款（住宅和商业）" _text="有贷款（住宅和商业）" @click="selLoanStatus()"/> 有贷款（住宅和商业） </label>
+          <label><input type="radio" name="loanStatus" value="024004-无贷款" _text="无贷款" @click="selLoanStatus()"/> 无贷款 </label>
           <label class="wflj"><input type="radio" name="loanStatus" value="024000-无法了解" _text="无法了解" @click="selLoanStatus()"/> 无法了解 </label>
         </div>
         <div class="modal-footer">

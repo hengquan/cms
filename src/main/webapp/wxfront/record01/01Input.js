@@ -155,15 +155,15 @@ var vueStep1=new Vue({
           if (choose[i].getAttribute("_text")=='其他') $("input[name='trafficTypeDesc']").val("");
         }
       }
-//      if (selOther&&_uTrafficTypeDesc=="") alert("请录入“其他”交通出行方式");
-//      else {
-        if (_uTrafficType.length>0) {
-          _uTrafficType=_uTrafficType.substr(1);
-          ttArray=ttArray.substr(1);
-        }
-        $("#trafficType").html(ttArray==""?"&nbsp;":ttArray);
-        $("#trafficTypeModal").modal('hide');
-        if (_uTrafficType!="") $("#cleanTrafficTypeBtn").show();
+//    if (selOther&&_uTrafficTypeDesc=="") alert("请录入“其他”交通出行方式");
+//    else {
+      if (_uTrafficType.length>0) {
+        _uTrafficType=_uTrafficType.substr(1);
+        ttArray=ttArray.substr(1);
+      }
+      $("#trafficType").html(ttArray==""?"&nbsp;":ttArray);
+      $("#trafficTypeModal").modal('hide');
+      if (_uTrafficType!="") $("#cleanTrafficTypeBtn").show();
 //      }
     },
     cleanTrafficType: function(type) {
@@ -267,16 +267,16 @@ var vueStep2=new Vue({
           _uWorkIndustry+=","+choose[i].value;
         }
       }
-//      if (selOther&&_uWorkIndustryDesc=="") alert("请录入“其他”从事行业方式");
-//      else {
-        if (_uWorkIndustry.length>0) {
-          _uWorkIndustry=_uWorkIndustry.substr(1);
-          ttArray=ttArray.substr(1);
-        }
-        $("#workIndustry").html(ttArray==""?"&nbsp;":ttArray);
-        $("#workIndustryModal").modal('hide');
-        if (_uWorkIndustry!="") $("#cleanWorkIndustryBtn").show();
-//      }
+//    if (selOther&&_uWorkIndustryDesc=="") alert("请录入“其他”从事行业方式");
+//    else {
+      if (_uWorkIndustry.length>0) {
+        _uWorkIndustry=_uWorkIndustry.substr(1);
+        ttArray=ttArray.substr(1);
+      }
+      $("#workIndustry").html(ttArray==""?"&nbsp;":ttArray);
+      $("#workIndustryModal").modal('hide');
+      if (_uWorkIndustry!="") $("#cleanWorkIndustryBtn").show();
+//    }
     },
     cleanWorkIndustry: function() {
       $("#workIndustry").html("&nbsp;");
@@ -322,16 +322,16 @@ var vueStep2=new Vue({
           _uEnterpriseType+=","+choose[i].value;
         }
       }
-//      if (selOther&&_uEnterpriseTypeDesc=="") alert("请录入“其他”企业性质");
-//      else {
-        if (_uEnterpriseType.length>0) {
-          _uEnterpriseType=_uEnterpriseType.substr(1);
-          ttArray=ttArray.substr(1);
-        }
-        $("#enterpriseType").html(ttArray==""?"&nbsp;":ttArray);
-        $("#enterpriseTypeModal").modal('hide');
-        if (_uEnterpriseType!="") $("#cleanEnterpriseTypeBtn").show();
-//      }
+//    if (selOther&&_uEnterpriseTypeDesc=="") alert("请录入“其他”企业性质");
+//    else {
+      if (_uEnterpriseType.length>0) {
+        _uEnterpriseType=_uEnterpriseType.substr(1);
+        ttArray=ttArray.substr(1);
+      }
+      $("#enterpriseType").html(ttArray==""?"&nbsp;":ttArray);
+      $("#enterpriseTypeModal").modal('hide');
+      if (_uEnterpriseType!="") $("#cleanEnterpriseTypeBtn").show();
+//    }
     },
     cleanEnterpriseType: function() {
       $("#enterpriseType").html("&nbsp;");
@@ -389,17 +389,17 @@ var vueStep2=new Vue({
           _uKnowWay+=","+choose[i].value;
         }
       }
-//      if (selOther&&_uKnowWayDesc=="") alert("请录入“其他”从事行业方式");
-//      else {
-        if (_uKnowWay.length>0) {
-          _uKnowWay=_uKnowWay.substr(1);
-          ttArray=ttArray.substr(1);
-        }
-        if (_uKnowWayDesc.length>0) _uKnowWayDesc=_uKnowWayDesc.substr(1);
-        $("#knowWay").html(ttArray==""?"&nbsp;":ttArray);
-        $("#knowWayModal").modal('hide');
-        if (_uKnowWay!="") $("#cleanKnowWayBtn").show();
-//      }
+//    if (selOther&&_uKnowWayDesc=="") alert("请录入“其他”从事行业方式");
+//    else {
+      if (_uKnowWay.length>0) {
+        _uKnowWay=_uKnowWay.substr(1);
+        ttArray=ttArray.substr(1);
+      }
+      if (_uKnowWayDesc.length>0) _uKnowWayDesc=_uKnowWayDesc.substr(1);
+      $("#knowWay").html(ttArray==""?"&nbsp;":ttArray);
+      $("#knowWayModal").modal('hide');
+      if (_uKnowWay!="") $("#cleanKnowWayBtn").show();
+//    }
     },
     cleanKnowWay: function(type) {
       if (type==2) {
@@ -429,7 +429,7 @@ var vueStep2=new Vue({
             }
           }
         }
-      }
+      } 
       if (flag==2) {
         if (n>1) {
           for (var i=0; i<choose.length; i++) {
@@ -546,16 +546,16 @@ var vueStep2=new Vue({
           _uInvestType+=","+choose[i].value;
         }
       }
-//      if (selOther&&_uInvestTypeDesc=="") alert("请录入“其他”从事行业方式");
-//      else {
-        if (_uInvestType.length>0) {
-          _uInvestType=_uInvestType.substr(1);
-          ttArray=ttArray.substr(1);
-        }
-        $("#investType").html(ttArray==""?"&nbsp;":ttArray);
-        $("#investTypeModal").modal('hide');
-        if (_uInvestType!="") $("#cleanInvestTypeBtn").show();
-//      }
+//    if (selOther&&_uInvestTypeDesc=="") alert("请录入“其他”从事行业方式");
+//    else {
+      if (_uInvestType.length>0) {
+        _uInvestType=_uInvestType.substr(1);
+        ttArray=ttArray.substr(1);
+      }
+      $("#investType").html(ttArray==""?"&nbsp;":ttArray);
+      $("#investTypeModal").modal('hide');
+      if (_uInvestType!="") $("#cleanInvestTypeBtn").show();
+//    }
     },
     cleanInvestType: function(type) {
       if (type==2) {
@@ -659,16 +659,16 @@ var vueStep3=new Vue({
           _uRealtyProductType+=","+choose[i].value;
         }
       }
-//      if (selOther&&_uRealtyProductTypeDesc=="") alert("请录入“其他”关注产品类型");
-//      else {
-        if (_uRealtyProductType.length>0) {
-          _uRealtyProductType=_uRealtyProductType.substr(1);
-          ttArray=ttArray.substr(1);
-        }
-        $("#realtyProductType").html(ttArray==""?"&nbsp;":ttArray);
-        $("#realtyProductTypeModal").modal('hide');
-        if (_uRealtyProductType!="") $("#cleanRealtyProductTypeBtn").show();
-//      }
+//    if (selOther&&_uRealtyProductTypeDesc=="") alert("请录入“其他”关注产品类型");
+//    else {
+      if (_uRealtyProductType.length>0) {
+        _uRealtyProductType=_uRealtyProductType.substr(1);
+        ttArray=ttArray.substr(1);
+      }
+      $("#realtyProductType").html(ttArray==""?"&nbsp;":ttArray);
+      $("#realtyProductTypeModal").modal('hide');
+      if (_uRealtyProductType!="") $("#cleanRealtyProductTypeBtn").show();
+//    }
     },
     cleanRealtyProductType: function(type) {
       if (type==2) {
@@ -682,9 +682,7 @@ var vueStep3=new Vue({
     clickRealtyProductTypeCheck: function(flag) {
       var choose=document.getElementsByName('realtyProductType');
       var n=0;
-      for (var i=0; i<choose.length; i++) {
-        if (choose[i].checked) n++;
-      }
+      for (var i=0; i<choose.length; i++) if (choose[i].checked) n++;
       if (flag==1) {
         if (n>1) {
           for (var i=0; i<choose.length; i++) {
@@ -779,16 +777,16 @@ var vueStep3=new Vue({
           _uBuyPurpose+=","+choose[i].value;
         }
       }
-//      if (selOther&&_uBuyPurposeDescDesc=="") alert("请录入“其他”购房目的");
-//      else {
-        if (_uBuyPurpose.length>0) {
-          _uBuyPurpose=_uBuyPurpose.substr(1);
-          ttArray=ttArray.substr(1);
-        }
-        $("#buyPurpose").html(ttArray==""?"&nbsp;":ttArray);
-        $("#buyPurposeModal").modal('hide');
-        if (_uBuyPurposeDesc!="") $("#cleanBuyPurposeBtn").show();
-//      }
+//    if (selOther&&_uBuyPurposeDescDesc=="") alert("请录入“其他”购房目的");
+//    else {
+      if (_uBuyPurpose.length>0) {
+        _uBuyPurpose=_uBuyPurpose.substr(1);
+        ttArray=ttArray.substr(1);
+      }
+      $("#buyPurpose").html(ttArray==""?"&nbsp;":ttArray);
+      $("#buyPurposeModal").modal('hide');
+      if (_uBuyPurposeDesc!="") $("#cleanBuyPurposeBtn").show();
+//    }
     },
     cleanBuyPurpose: function() {
       $("#buyPurpose").html("&nbsp;");
@@ -830,8 +828,8 @@ var vueStep3=new Vue({
           _uAttentionPoint+=","+choose[i].value;
         }
       }
-//      if (selOther&&_uAttentionPointDescDesc=="") alert("请录入“其他”购房目的");
-//      else {
+//    if (selOther&&_uAttentionPointDescDesc=="") alert("请录入“其他”购房目的");
+//    else {
       if (_uAttentionPoint.length>0) {
         _uAttentionPoint=_uAttentionPoint.substr(1);
         ttArray=ttArray.substr(1);
@@ -839,7 +837,7 @@ var vueStep3=new Vue({
       $("#attentionPoint").html(ttArray==""?"&nbsp;":ttArray);
       $("#attentionPointModal").modal('hide');
       if (_uAttentionPointDesc!="") $("#cleanAttentionPointBtn").show();
-//      }
+//    }
     },
     cleanAttentionPoint: function(type) {
       if (type==2) {
@@ -939,10 +937,12 @@ $('#attentionPointModal').on('hide.bs.modal', function () {
 });
 
 function fillSelectField(id, value, isSetValue) {
+  var _id=id.substr(0,1).toUpperCase()+id.substr(1);	
   var choose=document.getElementsByName(''+id);
   var _checkeds=value.split(",");
   var _fv="";
   var _fvOther="";
+  var hadChecked=false;
   $("input[name='"+id+"Desc']").val("");
   $("input[name='"+id+"Desc']").hide();
   if (id=="knowWay") {
@@ -952,9 +952,15 @@ function fillSelectField(id, value, isSetValue) {
   for (var i=0; i<choose.length; i++) {
     var _t=choose[i].getAttribute("_text");
     var j=0;
-    for (; j<_checkeds.length; j++) if (_checkeds[j].indexOf(_t)==0) break;
+    for (; j<_checkeds.length; j++) {
+  	  if (_checkeds[j].indexOf(_t)==0||_t.indexOf("-"+_checkeds[j])!=-1) {
+        if (_t.indexOf("-"+_checkeds[j])!=-1) _checkeds[j]=_t;
+        break;
+  	  }
+    }
     choose[i].checked=j<_checkeds.length;
     if (choose[i].checked) {
+      if (!hadChecked) hadChecked=true;
       if (isSetValue) _fv+=","+choose[i].value;
       if (choose[i].getAttribute("_text")=='其他'&&$("input[name='"+id+"Desc']")) {
         $("input[name='"+id+"Desc']").show();
@@ -994,15 +1000,17 @@ function fillSelectField(id, value, isSetValue) {
       }
     }
   }
+  if (hadChecked) $("#clean"+_id+"Btn").show();
   if (isSetValue) {
     if (_fv.length>0) _fv=_fv.substr(1);
-    var _id=id.substr(0,1).toUpperCase()+id.substr(1);
     eval("_u"+_id+"=_fv");
     if (_fvOther) {
       if (id=='knowWay'&&_fvOther.length>0) _fvOther=_fvOther.substr(1);
       eval("_u"+_id+"Desc=_fv");
     }
-    $("span[id='"+id+"']").html(value);
+    var _v="";
+    for (var j=0; j<_checkeds.length; j++) _v+=","+_checkeds[j];
+    $("span[id='"+id+"']").html(_v.substring(1));
   }
 }
 //=====================================================================
@@ -1016,7 +1024,7 @@ var userInfo={};
 
 //填充数据,并初始化
 $(function() {
-  $(".subNav").click(function(){
+  $(".subNav").click(function() {
     $(this).toggleClass("currentDd").siblings(".subNav").removeClass("currentDd");
     $(this).toggleClass("currentDt").siblings(".subNav").removeClass("currentDt");
     $(this).next(".navContent").slideToggle(500).siblings(".navContent").slideUp(500);
@@ -1106,13 +1114,12 @@ function fillData(data) {//填数据
     if (data.knowwaydesc) {
       var s=(data.knowwaydesc).split(",");
       for (var j=0;j<s.length;j++) {
-         var temp2=s[j];
-         var s2=temp2.split("=");
-         temp2=temp2.replace("=", "(");
-         temp2+=")";
-         _temp=_temp.replace(s2[0], temp2);
+        var temp2=s[j];
+       var s2=temp2.split("=");
+       temp2=temp2.replace("=", "(");
+       temp2+=")";
+       _temp=_temp.replace(s2[0], temp2);
       }
-      
     }
     fillSelectField("knowWay", _temp, true);
   }
@@ -1186,7 +1193,7 @@ function initData() {
     },
     error: function(XMLHttpRequest, textStatus, errorThrown) {
       window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
-        +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
+      +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
     }
   });
   function initPage(data) {
@@ -1202,9 +1209,9 @@ function initData() {
       'trigger': '#localRedisId', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
       'valueTo': '#localRedisVal', //选择完毕后id属性输出到该位置
       'keys': {
-         id: 'id',
+        id: 'id',
          name: 'name'
-      }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
+       }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
       'type': 1, //数据源类型
       'data': localArea.data.children//数据源
     });
@@ -1215,9 +1222,9 @@ function initData() {
       'keys': {
         id: 'id',
         name: 'name'
-      }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
-      'type': 1, //数据源类型
-      'data': localArea.data.children//数据源
+       }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
+       'type': 1, //数据源类型
+       'data': localArea.data.children//数据源
     });
     var outResidenceArea=new LArea();
     outResidenceArea.init({
@@ -1247,14 +1254,12 @@ function initData() {
     var projHtml="";
     var projId,projName;
     for (var i=0;i<lPrj.length; i++) {
-      if ($.trim(lPrj[i])!='') {
-        if (lPrj[i].indexOf('-')!=-1) {
-          _uProj=lPrj[i];
-          if (!canShowProj) canShowProj=true;
-          projId=lPrj[i].substring(0,lPrj[i].indexOf('-'));
-          projName=lPrj[i].substring(lPrj[i].indexOf('-')+1);
-          projHtml+='<label><input type="radio" name="proj" value="'+projId+'-'+projName+'" _text="'+projName+'" onclick="selProj()"/> '+projName+' </label>';
-        }
+      if ($.trim(lPrj[i])!=''&&lPrj[i].indexOf('-')!=-1) {
+        _uProj=lPrj[i];
+        if (!canShowProj) canShowProj=true;
+        projId=lPrj[i].substring(0,lPrj[i].indexOf('-'));
+        projName=lPrj[i].substring(lPrj[i].indexOf('-')+1);
+        projHtml+='<label><input type="radio" name="proj" value="'+projId+'-'+projName+'" _text="'+projName+'" onclick="selProj()"/> '+projName+' </label>';
       }
     }
     if (canShowProj&&lPrj.length>1) {
@@ -1565,8 +1570,8 @@ function step2Prev() {
 function step2Next() {
   var err=checkStep2();
   if (err) {
-    alert(err);
-    return;
+  alert(err);
+  return;
   }
   $("#step1").hide(0);
   $("#step2").hide(0);
@@ -1590,7 +1595,7 @@ function commitData() {
   $("#mask").show();
   //按钮致为灰色
   $("div[_type='BTN']").each(function(){
-    $(this).attr("style", "margin-top:1.5rem;background-color:#dedede;color:#c7c7c7");
+  $(this).attr("style", "margin-top:1.5rem;background-color:#dedede;color:#c7c7c7");
   });
   if (_TYPE=='add') commitInsert(commitData);
   else if (_TYPE='update') commitUpdate(commitData);
@@ -1646,6 +1651,7 @@ function commitData() {
     if (_uInvestTypeDesc) retData.investtypedesc=_uInvestTypeDesc;
     temp=$("textarea[name='custDescn']").val();
     if (temp) retData.custdescn=temp;
+
     return retData;
   }
   function commitInsert(_data) {
@@ -1658,9 +1664,8 @@ function commitData() {
         $("div[_type='BTN']").each(function(){
           $(this).attr("style", "margin-top:1.5rem;background-color:#19a6ee;color:#FFFFFF");
         });
-        if (json.msg!='100') {
-          alert("录入首访记录错误！");
-        } else {
+        if (json.msg!='100') alert("录入首访记录错误！");
+        else {
           if (confirm("录入成功，要录入下一条首访记录吗？")) {
             cleanData();
             step2Prev();
@@ -1686,9 +1691,8 @@ function commitData() {
         $("div[_type='BTN']").each(function(){
           $(this).attr("style", "margin-top:1.5rem;background-color:#19a6ee;color:#FFFFFF");
         });
-        if (json.msg!='100') {
-          alert("修改首访记录错误！");
-        } else {
+        if (json.msg!='100') alert("修改首访记录错误！");
+        else {
           alert("修改首访记录成功!");
           window.location.href=_URL_BASE+"/wxfront/record01/record01Search.html";
         }

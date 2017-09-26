@@ -10,6 +10,7 @@ $(function() {
     $(this).toggleClass("currentDt").siblings(".subNav").removeClass("currentDt");
     $(this).next(".navContent").slideToggle(500).siblings(".navContent").slideUp(500);
   });
+
   _TYPE=getUrlParam(window.location.href, 'type');
   if (_TYPE==null) _TYPE="add";
   if (_TYPE.toLocaleLowerCase()=='update') _TYPE="update";
@@ -39,7 +40,7 @@ $(function() {
     initData(data);
   } else if (_TYPE=='update') {
     //获得本条记录消息信息
-    var recordId=getUrlParam(window.location.href, 'recordId');
+    recordId=getUrlParam(window.location.href, 'recordId');
     if (!recordId) window.location.href=_URL_BASE+"/wxfront/err.html?3000=无记录Id";
     else {
       var _data={};
@@ -57,6 +58,42 @@ $(function() {
       });
     }
   }
+  
+  //客户搜索
+  //键盘按键弹起时执行
+  $('#searchStr').keyup(function(){
+    if (!($("#custData").html())) return;
+    var searchStr = $.trim($('#searchStr').val().toString()); // 去掉两头空格
+    if(searchStr == '') { // 如果搜索框输入为空
+      $("#custData").find("p").each(function(){
+        $(this).show();
+      });
+    } else {
+      $("#custData").find("p").each(function(){
+        var _text=$(this).text();
+        if (_text.indexOf(searchStr)!=-1){
+          $(this).show();
+        } else $(this).hide();
+      });
+    }
+  });
+  //清除
+  $("#cleaSearch").click(function(){
+    $("#searchStr").val("");
+    var searchStr = $.trim($('#searchStr').val().toString()); // 去掉两头空格
+    if(searchStr == '') { // 如果搜索框输入为空
+      $("#custData").find("p").each(function(){
+        $(this).show();
+      });
+    } else {
+      $("#custData").find("p").each(function(){
+        var _text=$(this).text();
+        if (_text.indexOf(searchStr)!=-1){
+          $(this).show();
+        } else $(this).hide();
+      });
+    } 
+  }); 
 });
 
 /**
@@ -185,7 +222,7 @@ function loadProjUser(projId) {//加载顾问
           for (var i=0; i<json.users.length; i++) {
             var oneUser=json.users[i];
             if (oneUser.id==curUserInfo.userid) continue;
-            var _innerHtml=oneUser.realName+"<span>（"+(oneUser.sex==1?"男":"女")+"）</span><span>"+oneUser.mainPhoneNum+"</span><span>"+oneUser.projName+"</span>";
+            var _innerHtml=oneUser.realName+"<span>（"+(oneUser.sex==1?"男":"女")+"）</span><span>"+oneUser.mainPhoneNum+"</span>";
             var userHtml="<label><input type='radio' name='user' value='"+oneUser.id+"-"+oneUser.realName+"' _text='"+oneUser.realName+"' onclick='selUser()'/>"+_innerHtml+"</label>";
             if (i<(json.users.length-1)) userHtml+="<br>";
             $("#userData").append(userHtml);
@@ -203,6 +240,7 @@ function loadProjUser(projId) {//加载顾问
   });
 }
 function getAudit(id) {
+	alert(id);
   var url=_URL_BASE+"/wx/api/getCheckReason?recordType=3&recordId="+id;
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
@@ -321,22 +359,35 @@ function checkStep1() {
   if (!checkField("houseNum")) return '请填录入购买房号!';
   temp=$("[name='visitCycle']").val();
   if (!temp) return '请填录入认知-到访天数!';
-  if(isNaN(temp)) return '认知-到访天数须是大于0的自然数!';
-  if(temp<=0) return '认知-到访天数须是大于0的自然数!';
+  if(isNaN(temp)) return '认知-到访天数须是数字!';
+  if(temp<=0) return '认知-到访天数不能是负数!';
   temp=$("[name='purchaseCycle']").val();
   if (!temp) return '请填录入到访-认购天数!';
-  if(isNaN(temp)) return '到访-认购天数须是大于0的自然数!';
-  if(temp<=0) return '到访-认购天数须是大于0的自然数!';
+  if(isNaN(temp)) return '到访-认购天数须是数字!';
+  if(temp<=0) return '到访-认购天数不能是负数!';
   temp=$("[name='signCycle']").val();
   if (!temp) return '请填录入认购-签约天数!';
-  if(isNaN(temp)) return '认购-签约天数须是大于0的自然数!';
-  if(temp<=0) return '认购-签约天数须是大于0的自然数!';
+  if(isNaN(temp)) return '认购-签约天数须是数字!';
+  if(temp<=0) return '认购-签约天数不能是负数!';
   if (!_uHouseRegiType) return "请选择户籍!";
-  if (!checkField("houseAcreage")) return '请录入成交面积!';
-  if (!checkField("unitPrice")) return '请录入成交单价!';
-  if (!checkField("totalPrice")) return '请录入成交总价!';
+
+  temp=$("[name='houseAcreage']").val();
+  if (!temp) return '请录入成交面积!';
+  if(isNaN(temp)) return '成交面积应是数字!';
+  if(temp<=0) return '成交面积须大于0!';
+
+  temp=$("[name='unitPrice']").val();
+  if (!temp) return '请录入成交单价!';
+  if(isNaN(temp)) return '成交单价应是数字!';
+  if(temp<=0) return '成交单价须大于0!';
+
+  temp=$("[name='totalPrice']").val();
+  if (!temp) return '请录入成交总价!';
+  if(isNaN(temp)) return '成交总价应是数字!';
+  if(temp<=0) return '成交总价须大于0!';
+
   if (!_uPaymentType) return "请选择付款方式!";
-  if (!checkField("loanBank")) return '请录入贷款银行!';
+  //if (!checkField("loanBank")) return '请录入贷款银行!';
   return "";
 }
 function checkStep2() {
@@ -530,9 +581,9 @@ function openSelCust() {
             var oneCust=json.customers[i];
             var _phones=oneCust.custPhone;
             _phones=$.trim(_phones.split(",")[0]);
-            var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span><span>"+oneCust.projName+"</span>";
-            var userHtml="<label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userSex='"+oneCust.custSex+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label>";
-            if (i<(json.customers.length-1)) userHtml+="<br>";
+            var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span>";
+            var userHtml="<p><label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userSex='"+oneCust.custSex+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label></p>";
+            if (i<(json.customers.length-1)) ;
             $("#custData").append(userHtml);
           }
           $('#selectCustomersModal').modal('show');
@@ -554,13 +605,12 @@ function cleanCust() {
   $("input[name='buyerName']").val("");
   $("input[name='custName']").val("");
   $("input[name='custPhone']").val("");
-  $("input[name='firstKnowTime']").val("");
+  $("input[name='firstVisitTime']").val("");
+  $("input[name='firstKonwTime']").val("");
   $("input[name='custName']").removeAttr("readonly");
   $("input[name='custPhone']").removeAttr("readonly");
-  $("input[name='firstKnowTime']").removeAttr("readonly");
+  $("input[name='firstKonwTime']").removeAttr("readonly");
   $("#_fvt").hide();
-  var nt=new Date();
-  fillTime("firstKnowTime", nt);
   custId="";
   var choose=document.getElementsByName('selectCustomers');
   for (var i=0; i<choose.length; i++) choose[i].checked=false;
@@ -575,7 +625,7 @@ function selCust() {
       $("input[name='custPhone']").val(choose[i].getAttribute("_phone"));
       $("input[name='custName']").attr("readonly","true");
       $("input[name='custPhone']").attr("readonly","true");
-      $("input[name='firstKnowTime']").attr("readonly","true");
+      $("input[name='firstKnowTime']").attr("readonly","readonly");
       custId=choose[i].value;
       $("span[name='userInput']").html(choose[i].getAttribute("_userName"));
       $("span[name='userInput']").html(choose[i].getAttribute("_userName"));
