@@ -473,4 +473,15 @@
 	</if> 
 	) as searchResult 
   </select>
+  
+  
+  
+  
+  <select id="findAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ql_UserCust_Ref
+  </select>
+  
+  
 </mapper>

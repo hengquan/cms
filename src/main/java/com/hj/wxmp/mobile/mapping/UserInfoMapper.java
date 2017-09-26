@@ -42,5 +42,7 @@ public interface UserInfoMapper {
 
 	UserInfo selectByLoginId(String loginId);
 
+	List<UserInfo> findAll();
+
 	
 }

@@ -28,4 +28,6 @@ public interface CustomerMapper {
 	Customer selectByCustIdAndProjId(Map<String, Object> parmeter);
 
 	CustomerProjs findGeneralMessage(Map<String, Object> map);
+
+	List<Customer> findAll();
 }

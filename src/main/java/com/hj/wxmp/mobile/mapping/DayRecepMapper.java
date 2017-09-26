@@ -1,5 +1,8 @@
 package com.hj.wxmp.mobile.mapping;
 
+import java.util.List;
+import java.util.Map;
+
 import com.hj.wxmp.mobile.entity.DayRecep;
 
 public interface DayRecepMapper {
@@ -16,4 +19,6 @@ public interface DayRecepMapper {
     int updateByPrimaryKey(DayRecep record);
 
 	void updateMsg(DayRecep dayRecep);
+
+	List<Map<String, Object>> selectByTimeAnd(Map<String, Object> result);
 }

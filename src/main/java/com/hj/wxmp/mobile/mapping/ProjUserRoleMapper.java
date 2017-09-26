@@ -36,4 +36,6 @@ public interface ProjUserRoleMapper {
 	List<UserInfo> selectProjUserDataByProjIdGLY(String projId);
 
 	List<UserInfo> selectProjUserDataByProjIdFZR(String projId);
+
+	List<ProjUserRole> findAll();
 }

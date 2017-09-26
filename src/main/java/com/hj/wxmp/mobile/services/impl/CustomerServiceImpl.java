@@ -56,8 +56,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 	@Override
 	public List<Customer> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findAll();
 	}
 	@Override
 	public int selectCount() {

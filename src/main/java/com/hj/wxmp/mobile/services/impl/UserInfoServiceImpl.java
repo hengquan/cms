@@ -78,8 +78,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public List<UserInfo> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return userInfoMapper.findAll();
 	}
 
 	@Override

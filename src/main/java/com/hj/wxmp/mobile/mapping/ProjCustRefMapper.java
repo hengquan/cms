@@ -23,4 +23,6 @@ public interface ProjCustRefMapper {
 	ProjCustRef selectByCusIdAndProjId(Map<String, Object> result);
 
 	List<Map<String, Object>> selectByProjIdAndCusId(Map<String, Object> result);
+
+	List<ProjCustRef> findAll();
 }

@@ -52,6 +52,8 @@ public interface DayRecepService {
 	public DayRecep findById(String sys_uuid) throws Exception;
 
 	public void updateMsg(DayRecep dayRecep);
+
+	public List<Map<String, Object>> selectByTimeAnd(Map<String, Object> result);
 	
 
 }

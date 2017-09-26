@@ -35,4 +35,6 @@ public interface UserCustRefMapper {
 	List<Map<String, Object>> selectZongHe(Map<String, Object> map);
 
 	Integer selectZongHeCount(Map<String, Object> map);
+
+	List<UserCustRef> findAll();
 }

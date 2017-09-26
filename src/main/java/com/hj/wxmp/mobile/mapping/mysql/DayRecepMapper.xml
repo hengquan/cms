@@ -145,20 +145,11 @@
       <if test="miiprojid != null" >
         miiProjId = #{miiprojid,jdbcType=VARCHAR},
       </if>
-      <if test="miiprojid == null" >
-        miiProjId is null,
-      </if>
       <if test="miiuserid != null" >
         miiUserId = #{miiuserid,jdbcType=VARCHAR},
       </if>
-      <if test="miiuserid == null" >
-        miiUserId is null,
-      </if>
       <if test="miicustid != null" >
         miiCustId = #{miicustid,jdbcType=VARCHAR},
-      </if>
-      <if test="miicustid == null" >
-        miiCustId is null,
       </if>
       <if test="ar01count != null" >
         ar01Count = #{ar01count,jdbcType=INTEGER},
@@ -174,15 +165,52 @@
     <if test="miiprojid != null" >
       and miiProjId = #{miiprojid,jdbcType=VARCHAR}
     </if>
+    <if test="miiprojid == null" >
+      and miiProjId is null
+    </if>
     <if test="miiuserid != null" >
       and miiUserId = #{miiuserid,jdbcType=VARCHAR}
+    </if>
+    <if test="miiuserid == null" >
+      and miiUserId is null
     </if>
     <if test="miicustid != null" >
       and miiCustId = #{miicustid,jdbcType=VARCHAR}
     </if>
+    <if test="miicustid == null" >
+      and miiCustId is null
+    </if>
   </update>
   
   
-  
+  <select id="selectByTimeAnd" resultType="java.util.Map" parameterType="java.util.Map">
+	SELECT
+		days.*, pro.projName,
+		cust.custName,
+		users.realName
+	FROM
+		ql_ST_dayRecep days
+	JOIN ql_Project pro ON `days`.miiProjId = pro.id
+	LEFT JOIN ql_Customer cust ON `days`.miiCustId = cust.id
+	LEFT JOIN plat_User users ON `days`.miiUserId = users.id
+	WHERE
+		1 = 1
+	<if test="dateEnd == null" >
+		AND days.dayStr=#{dateBegin}
+	</if>	
+	<if test="dateEnd != null" >
+		AND days.dayStr BETWEEN #{dateBegin}
+		AND #{dateEnd}
+	</if>	
+	<if test="custId != null" >
+		AND INSTR('', days.miiCustId)
+	</if>
+	<if test="projId != null" >
+		AND INSTR('', days.miiProjId)
+	</if>
+	<if test="userId != null" >
+		AND INSTR('', days.miiUserId)
+	</if>
+  </select>
   
 </mapper>

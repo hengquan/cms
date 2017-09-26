@@ -750,7 +750,7 @@
   
   
   <select id="selectByRecepTime" resultType="com.hj.wxmp.mobile.entity.AccessRecord01" parameterType="java.lang.String">
-  	select recepTime from ql_AccessRecord01 where INSTR(recepTime,#{date})
+  	select * from ql_AccessRecord01 where INSTR(recepTime,#{date})
   </select>
   
   <!-- 获取所有项目信息 -->

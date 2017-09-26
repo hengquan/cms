@@ -57,8 +57,7 @@ public class ProjCustRefServiceImpl implements ProjCustRefService {
 	}
 	@Override
 	public List<ProjCustRef> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findAll();
 	}
 	@Override
 	public int selectCount() {

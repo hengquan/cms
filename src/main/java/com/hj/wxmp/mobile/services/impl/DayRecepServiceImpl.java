@@ -48,5 +48,9 @@ public class DayRecepServiceImpl implements DayRecepService {
 	public void updateMsg(DayRecep dayRecep) {
 		dao.updateMsg(dayRecep);
 	}
+	@Override
+	public List<Map<String, Object>> selectByTimeAnd(Map<String, Object> result) {
+		return dao.selectByTimeAnd(result);
+	}
 	
 }

@@ -641,7 +641,7 @@
   </update>
   
   <select id="selectByRecepTime" resultType="com.hj.wxmp.mobile.entity.AccessRecord03" parameterType="java.lang.String">
-  	select recepTime from ql_AccessRecord03 where INSTR(recepTime,#{date})
+  	select * from ql_AccessRecord03 where INSTR(recepTime,#{date})
   </select>
   
   

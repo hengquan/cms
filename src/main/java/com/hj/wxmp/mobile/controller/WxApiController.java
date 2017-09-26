@@ -39,6 +39,8 @@ import com.hj.wxmp.mobile.entity.AuditRecord;
 import com.hj.wxmp.mobile.entity.Customer;
 import com.hj.wxmp.mobile.entity.CustomerProjs;
 import com.hj.wxmp.mobile.entity.ProjCustRef;
+import com.hj.wxmp.mobile.entity.ProjUserRole;
+import com.hj.wxmp.mobile.entity.Project;
 import com.hj.wxmp.mobile.entity.SysRole;
 import com.hj.wxmp.mobile.entity.TabDictRef;
 import com.hj.wxmp.mobile.entity.UserCustRef;
@@ -49,6 +51,7 @@ import com.hj.wxmp.mobile.services.AccessRecord02Service;
 import com.hj.wxmp.mobile.services.AccessRecord03Service;
 import com.hj.wxmp.mobile.services.AuditRecordService;
 import com.hj.wxmp.mobile.services.CustomerService;
+import com.hj.wxmp.mobile.services.DayRecepService;
 import com.hj.wxmp.mobile.services.IKeyGen;
 import com.hj.wxmp.mobile.services.ProjCustRefService;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
@@ -80,7 +83,7 @@ public class WxApiController extends ControllerBaseWx {
 	@Autowired
 	WxLoginService wxLoginService;
 	@Autowired
-	private UserInfoService userInfoService;
+	UserInfoService userInfoService;
 	@Autowired
 	SysItemRoleDao sysItemRoleDao;
 	@Autowired
@@ -91,6 +94,8 @@ public class WxApiController extends ControllerBaseWx {
 	ProjCustRefService projCustRefService;
 	@Autowired
 	UserCustRefService userCustRefService;
+	@Autowired
+	DayRecepService dayRecepService;
 	@Autowired
 	ProjectService projectService;
 	@Autowired
@@ -2838,6 +2843,264 @@ public class WxApiController extends ControllerBaseWx {
 		}
 		return JsonUtils.map2json(map);
 	}
+	
+	
+	
+	//获取访问次数统计数据信息
+	@RequestMapping(value = "/getARCount")
+	@ResponseBody
+	public String getARCount(HttpServletRequest req){
+		Map<String, Object> m=RequestUtils.getDataFromRequest(req);
+		responseInfo(response);
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> result = new HashMap<String,Object>();
+		List<Map<String,Object>> datas = new ArrayList<Map<String,Object>>();
+		try {
+			String dateBegin = m.get("dateBegin")==null?null:m.get("dateBegin").toString();
+			String dateEnd = m.get("dateEnd")==null?null:m.get("dateEnd").toString();
+			String projs = m.get("projs")==null?null:m.get("projs").toString();
+			String users = m.get("users")==null?null:m.get("users").toString();
+			String custs = m.get("custs")==null?null:m.get("custs").toString();
+			Integer resultsType = m.get("resultsType")==null?1:Integer.parseInt(m.get("resultsType").toString());
+			String results = m.get("results")==null?null:m.get("results").toString();
+			//获取总数据
+			result.put("dateBegin", dateBegin);
+			result.put("dateEnd", dateEnd);
+			result.put("projId", projs);
+			result.put("userId", users);
+			result.put("custId", custs);
+			List<Map<String,Object>> arCountDatas = dayRecepService.selectByTimeAnd(result);
+			if(results==null){
+				datas = arCountDatas;
+			}else{
+				for(Map<String,Object>arCountData : arCountDatas){
+					//项目
+					if(results.equals("proj")){
+						Object object = arCountData.get("miiProjId");
+						if(object!=null){
+							datas.add(arCountData);
+						}
+					}
+					//用户
+					if(results.equals("user")){
+						Object object = arCountData.get("miiUserId");
+						if(object!=null){
+							datas.add(arCountData);
+						}
+					}
+					//客户
+					if(results.equals("cust")){
+						Object object = arCountData.get("miiCustId");
+						if(object!=null){
+							datas.add(arCountData);
+						}
+					}
+					//项目用户
+					if(results.equals("proj_user")){
+						Object object = arCountData.get("miiProjId");
+						Object object1 = arCountData.get("miiUserId");
+						if(object!=null && object1!=null){
+							datas.add(arCountData);
+						}
+					}
+					//项目客户
+					if(results.equals("proj_cust")){
+						Object object = arCountData.get("miiProjId");
+						Object object1 = arCountData.get("miiCustId");
+						if(object!=null && object1!=null){
+							datas.add(arCountData);
+						}
+					}
+					//用户客户
+					if(results.equals("user_cust")){
+						Object object = arCountData.get("miiProjId");
+						Object object1 = arCountData.get("miiCustId");
+						Object object2 = arCountData.get("miiUserId");
+						if(object!=null && object1!=null && object2!=null){
+							datas.add(arCountData);
+						}
+					}
+				}
+				//是否需要补全信息
+				if(resultsType==2){
+					if(results.equals("proj")){
+						//所有项目
+						List<Project> projects = projectService.findAll();
+						//项目
+						for(Project proj : projects){
+							String projid = proj.getId();
+							boolean find=false;
+							for(Map<String,Object> data : datas){
+								String miiProjId = data.get("miiProjId").toString();
+								if(projid.equals(miiProjId)) {
+									find=true;
+									break;
+								}
+							}
+							if(!find){
+								Map<String,Object>msg=new HashMap<String,Object>();
+								msg.put("miiProjId", projid);
+								msg.put("ar01count", 0);
+								msg.put("ar02count", 0);
+								msg.put("ar03count", 0);
+								msg.put("projName", proj.getProjname());
+								datas.add(msg);
+							}
+						}
+					}
+					if(results.equals("user")){
+						//所有用户
+						List<UserInfo> userInfos = userInfoService.findAll();
+						//用户
+						for(UserInfo user : userInfos){
+							String userid = user.getId();
+							boolean find=false;
+							for(Map<String,Object> data : datas){
+								String miiUserId = data.get("miiUserId").toString();
+								if(userid.equals(miiUserId)) {
+									find=true;
+									break;
+								}
+							}
+							if(!find){
+								Map<String,Object>msg=new HashMap<String,Object>();
+								msg.put("miiUserId", userid);
+								msg.put("ar01count", 0);
+								msg.put("ar02count", 0);
+								msg.put("ar03count", 0);
+								msg.put("userName", user.getRealname());
+								datas.add(msg);
+							}
+						}
+					}
+					if(results.equals("cust")){
+						//所有客户
+						List<Customer> customers = customerService.findAll();
+						//客户
+						for(Customer cust : customers){
+							String custid = cust.getId();
+							boolean find=false;
+							for(Map<String,Object> data : datas){
+								String miiCustId = data.get("miiCustId").toString();
+								if(custid.equals(miiCustId)) {
+									find=true;
+									break;
+								}
+							}
+							if(!find){
+								Map<String,Object>msg=new HashMap<String,Object>();
+								msg.put("miiCustId", custid);
+								msg.put("ar01count", 0);
+								msg.put("ar02count", 0);
+								msg.put("ar03count", 0);
+								msg.put("custName", cust.getCustname());
+								datas.add(msg);
+							}
+						}
+					}
+					if(results.equals("proj_cust")){
+						//所有项目客户
+						List<ProjCustRef> projCustRefs = projCustRefService.findAll();
+						//项目客户
+						for(ProjCustRef projCust : projCustRefs){
+							String projid = projCust.getProjid();
+							String custid = projCust.getCustid();
+							boolean find=false;
+							for(Map<String,Object> data : datas){
+								String miiCustId = data.get("miiCustId").toString();
+								String miiProjId = data.get("miiProjId").toString();
+								if(custid.equals(miiCustId) && projid.equals(miiProjId)) {
+									find=true;
+									break;
+								}
+							}
+							if(!find){
+								Map<String,Object>msg=new HashMap<String,Object>();
+								msg.put("miiCustId", custid);
+								msg.put("miiProjId", projid);
+								msg.put("ar01count", 0);
+								msg.put("ar02count", 0);
+								msg.put("ar03count", 0);
+								msg.put("projName", projectService.findById(projid).getProjname());
+								msg.put("custName", customerService.findById(custid).getCustname());
+								datas.add(msg);
+							}
+						}
+					}
+					if(results.equals("proj_user")){
+						//所有项目用户
+						List<ProjUserRole> projUserRoles = projUserRoleService.findAll();
+						//项目用户
+						for(ProjUserRole projUser : projUserRoles){
+							String projid = projUser.getProjid();
+							String userid = projUser.getUserid();
+							boolean find=false;
+							for(Map<String,Object> data : datas){
+								String miiUserId = data.get("miiUserId").toString();
+								String miiProjId = data.get("miiProjId").toString();
+								if(userid.equals(miiUserId) && projid.equals(miiProjId)) {
+									find=true;
+									break;
+								}
+							}
+							if(!find){
+								Map<String,Object>msg=new HashMap<String,Object>();
+								msg.put("miiUserId", userid);
+								msg.put("miiProjId", projid);
+								msg.put("ar01count", 0);
+								msg.put("ar02count", 0);
+								msg.put("ar03count", 0);
+								msg.put("projName", projectService.findById(projid).getProjname());
+								msg.put("userName", userInfoService.findById(userid).getRealname());
+								datas.add(msg);
+							}
+						}
+					}
+					if(results.equals("user_cust")){
+						//所有用户客户
+						List<UserCustRef> userCustRefs = userCustRefService.findAll();
+						//用户客户
+						for(UserCustRef userCustRef : userCustRefs){
+							String projid = userCustRef.getProjid();
+							String userid = userCustRef.getUserid();
+							String custid = userCustRef.getCustid();
+							boolean find=false;
+							for(Map<String,Object> data : datas){
+								String miiUserId = data.get("miiUserId").toString();
+								String miiProjId = data.get("miiProjId").toString();
+								String miiCustId = data.get("miiCustId").toString();
+								if(userid.equals(miiUserId) && projid.equals(miiProjId) && custid.equals(miiCustId)) {
+									find=true;
+									break;
+								}
+							}
+							if(!find){
+								Map<String,Object>msg=new HashMap<String,Object>();
+								msg.put("miiUserId", userid);
+								msg.put("miiProjId", projid);
+								msg.put("miiCustId", custid);
+								msg.put("ar01count", 0);
+								msg.put("ar02count", 0);
+								msg.put("ar03count", 0);
+								msg.put("projName", projectService.findById(projid).getProjname());
+								msg.put("userName", userInfoService.findById(userid).getRealname());
+								msg.put("custName", customerService.findById(custid).getCustname());
+								datas.add(msg);
+							}
+						}
+					}
+				}
+			}
+			map.put("datas", datas);
+			map.put("msg", "100");
+		} catch (Exception e) {
+			map.put("msg", "103");
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+	}
+	
+	
 	
 	
 	

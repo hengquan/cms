@@ -23,7 +23,7 @@
 		</property>
 		<property name="cronExpression">
 			<!-- <value>*/15 * * * * ?</value> -->
-			<value>0 0/59 * * * ?</value>
+			<value>0 0 02 * * ?</value>
 		</property>
 	</bean>
 	<bean id="myJobDetail"

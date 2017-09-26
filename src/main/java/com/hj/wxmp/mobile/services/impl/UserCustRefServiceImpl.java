@@ -57,8 +57,7 @@ public class UserCustRefServiceImpl implements UserCustRefService {
 	}
 	@Override
 	public List<UserCustRef> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findAll();
 	}
 	@Override
 	public int selectCount() {

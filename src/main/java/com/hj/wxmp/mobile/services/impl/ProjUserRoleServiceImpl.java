@@ -55,8 +55,7 @@ public class ProjUserRoleServiceImpl implements ProjUserRoleService {
 	}
 	@Override
 	public List<ProjUserRole> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findAll();
 	}
 	@Override
 	public int selectCount() {
