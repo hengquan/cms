@@ -40,7 +40,7 @@ $(function() {
     initData(data);
   } else if (_TYPE=='update') {
     //获得本条记录消息信息
-    var recordId=getUrlParam(window.location.href, 'recordId');
+    recordId=getUrlParam(window.location.href, 'recordId');
     if (!recordId) window.location.href=_URL_BASE+"/wxfront/err.html?3000=无记录Id";
     else {
       var _data={};
@@ -72,7 +72,7 @@ $(function() {
       $("#custData").find("p").each(function(){
         var _text=$(this).text();
         if (_text.indexOf(searchStr)!=-1){
-          $(this).show().siblings().hide();
+          $(this).show();
         } else $(this).hide();
       });
     }
@@ -89,14 +89,12 @@ $(function() {
       $("#custData").find("p").each(function(){
         var _text=$(this).text();
         if (_text.indexOf(searchStr)!=-1){
-          $(this).show().siblings().hide();
+          $(this).show();
         } else $(this).hide();
       });
     } 
   }); 
 });
-
-
 
 /**
  * 初始化数据
@@ -242,6 +240,7 @@ function loadProjUser(projId) {//加载顾问
   });
 }
 function getAudit(id) {
+	alert(id);
   var url=_URL_BASE+"/wx/api/getCheckReason?recordType=3&recordId="+id;
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
@@ -583,7 +582,7 @@ function openSelCust() {
             var _phones=oneCust.custPhone;
             _phones=$.trim(_phones.split(",")[0]);
             var _innerHtml=oneCust.custName+"<span>（"+oneCust.custSex+"）</span><span>"+_phones+"</span>";
-            var userHtml="<p><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userSex='"+oneCust.custSex+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</p>";
+            var userHtml="<p><label><input type='radio' name='selectCustomers' value='"+oneCust.custId+"' _text='"+oneCust.custName+"' _userSex='"+oneCust.custSex+"' _userId='"+oneCust.userId+"' _userName='"+oneCust.realName+"' _phone='"+_phones+"' onclick='selCust()'/>"+_innerHtml+"</label></p>";
             if (i<(json.customers.length-1)) ;
             $("#custData").append(userHtml);
           }

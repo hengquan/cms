@@ -736,8 +736,8 @@ function commitData() {
     });
   }
   function commitUpdate(_data) {
+    _data.id=recordId;
     var url=_URL_BASE+"/wx/api/updateRecord02";
-    alert(url);
     $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
       success: function(json) {
         //遮罩
