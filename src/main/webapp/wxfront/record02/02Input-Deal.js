@@ -19,7 +19,7 @@ $(function() {
 
   //客户搜索
   //键盘按键弹起时执行
-  $('#searchStr').keyup(function(){
+  $('#searchStr').change(function(){
     if (!($("#custData").html())) return;
     var searchStr = $.trim($('#searchStr').val().toString()); // 去掉两头空格
     if(searchStr == '') { // 如果搜索框输入为空
@@ -29,9 +29,9 @@ $(function() {
     } else {
       $("#custData").find("p").each(function(){
         var _text=$(this).text();
-    	if (_text.indexOf(searchStr)!=-1){
+        if (_text.indexOf(searchStr)!=-1) {
     	  $(this).show();
-    	} else $(this).hide();
+        } else $(this).hide();
       });
     }
   });
