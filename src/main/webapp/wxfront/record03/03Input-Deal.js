@@ -240,7 +240,6 @@ function loadProjUser(projId) {//加载顾问
   });
 }
 function getAudit(id) {
-	alert(id);
   var url=_URL_BASE+"/wx/api/getCheckReason?recordType=3&recordId="+id;
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
@@ -512,6 +511,7 @@ function commitData() {
             }
             $("span[id='proj']").html(_uProjName);
             $("span[name='userInput']").html(_uUserName);
+            $("#_fvt").hide();
             step2Prev();
           } else {
             window.location.href=_URL_BASE+"/wxfront/record03/record03Search.html"
@@ -610,6 +610,7 @@ function cleanCust() {
   $("input[name='custName']").removeAttr("readonly");
   $("input[name='custPhone']").removeAttr("readonly");
   $("input[name='firstKonwTime']").removeAttr("readonly");
+  $("input[name='firstKnowTime']").removeAttr("onFocus");
   $("#_fvt").hide();
   custId="";
   var choose=document.getElementsByName('selectCustomers');
@@ -626,6 +627,7 @@ function selCust() {
       $("input[name='custName']").attr("readonly","true");
       $("input[name='custPhone']").attr("readonly","true");
       $("input[name='firstKnowTime']").attr("readonly","readonly");
+      $("input[name='firstKnowTime']").attr("onFocus","this.blur()");
       custId=choose[i].value;
       $("span[name='userInput']").html(choose[i].getAttribute("_userName"));
       $("span[name='userInput']").html(choose[i].getAttribute("_userName"));
@@ -704,7 +706,7 @@ function fillData(data) {//填数据
     rTime.setTime(data.signdate.time);
     fillTime("signDate", rTime);
   }
-  if (data.housenumup) $("input[name='houseNumup']").val(data.housenumup);
+  if (data.housenum) $("input[name='houseNum']").val(data.housenum);
   if (data.visitcycle) $("input[name='visitCycle']").val(data.visitcycle);
   if (data.purchasecycle) $("input[name='purchaseCycle']").val(data.purchasecycle);
   if (data.signcycle) $("input[name='signCycle']").val(data.signcycle);

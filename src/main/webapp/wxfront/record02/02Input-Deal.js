@@ -821,6 +821,7 @@ function cleanCust() {
   custId="";
   $("input[name='firstKnowTime']").val("");
   $("input[name='firstKnowTime']").removeAttr("readonly");
+  $("input[name='firstKnowTime']").removeAttr("onFocus");
   fillSelectField('sex', "", true);
   var nt=new Date();
   fillTime("firstKnowTime", nt);
@@ -834,6 +835,8 @@ function selCust() {
     if (choose[i].checked) {
       $("input[name='custName']").val(choose[i].getAttribute("_text"));
       $("input[name='custPhone']").val(choose[i].getAttribute("_phone"));
+      $("input[name='firstKnowTime']").attr("readonly","readonly");
+      $("input[name='firstKnowTime']").attr("onFocus","this.blur()");
       custId=choose[i].value;
       $("span[name='userInput']").html(choose[i].getAttribute("_userName"));
       _uUserId=choose[i].getAttribute("_userId");
