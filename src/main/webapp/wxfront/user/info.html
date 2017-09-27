@@ -15,64 +15,61 @@
 
 <body>
 <div class="main" style="display:none">
-<div class="item-yhm">
-  <div class="item-my row">
-    <div class="col-item-pic"><img id="portraitImg"></div>
-    <div class="col-item-pic-2" id="userName"></div>
+  <div class="item-yhm">
+    <div class="item-my row">
+      <div class="col-item-pic"><img id="portraitImg"></div>
+      <div class="col-item-pic-2" id="userName"></div>
+    </div>
   </div>
-</div>
-<div class="line"></div>
-<div class="item-yhm ">
-  <div class="item-my row">
-    <div class="col-pic"><img src="../images/pic_03.png"></div>
-    <div class="col-xm">所在项目</div>
-    <div class="col-xm-2" id="projs"></div>
+  <div class="line"></div>
+  <div class="item-yhm ">
+    <div class="item-my row">
+      <div class="col-pic"><img src="../images/pic_03.png"></div>
+      <div class="col-xm">所在项目</div>
+      <div class="col-xm-2" id="projs"></div>
+    </div>
   </div>
-</div>
-<div class="line"></div>
-<div class="item-yhm ">
-  <div class="item-my row">
-    <div class="col-pic"><img src="../images/pic_09.png"></div>
-    <div class="col-xm">用户类型</div>
-    <div class="col-xm-2" id="roles"></div>
+  <div class="line"></div>
+  <div class="item-yhm ">
+    <div class="item-my row">
+      <div class="col-pic"><img src="../images/pic_09.png"></div>
+      <div class="col-xm">用户类型</div>
+      <div class="col-xm-2" id="roles"></div>
+    </div>
   </div>
-</div>
-<div class="line"></div>
-<div class="item-yhm ">
-  <div class="item-my row">
-    <div class="col-pic"><img src="../images/pic_04.png"></div>
-    <div class="col-xm">修改密码</div>
+  <div class="line"></div>
+  <div class="item-yhm" id="chgPwdArea">
+    <div class="item-my row">
+      <div class="col-pic"><img src="../images/pic_04.png"></div>
+      <div class="col-xm">修改密码</div>
+    </div>
   </div>
-</div>
-<div class="line"></div>
-<div class="item-yhm ">
-  <div class="item-my row">
-    <div class="col-pic"><img src="../images/pic_10.png"></div>
-    <div class="col-xm"><a href="data.html">日数据统计</a></div>
+  <div class="line"></div>
+  <div id="statArea">
+    <div class="item-yhm ">
+      <div class="item-my row" onclick="openStat(1)">
+        <div class="col-pic"><img src="../images/pic_10.png"></div>
+        <div class="col-xm"><a href="data.html">日数据统计</a></div>
+      </div>
+    </div>
+    <div class="item-yhm ">
+      <div class="item-my row" onclick="openStat(2)">
+        <div class="col-pic"><img src="../images/pic_11.png"></div>
+        <div class="col-xm">周数据统计</div>
+      </div>
+    </div>
+    <div class="item-yhm ">
+      <div class="item-my row" onclick="openStat(3)">
+        <div class="col-pic"><img src="../images/pic_12.png"></div>
+        <div class="col-xm">月数据统计</div>
+      </div>
+    </div>
   </div>
-</div>
-<div class="item-yhm ">
-  <div class="item-my row">
-    <div class="col-pic"><img src="../images/pic_11.png"></div>
-    <div class="col-xm">周数据统计</div>
-  </div>
-</div>
-<div class="item-yhm ">
-  <div class="item-my row">
-    <div class="col-pic"><img src="../images/pic_12.png"></div>
-    <div class="col-xm">月数据统计</div>
-  </div>
-</div>
-<div class="line"></div>
-<div class="xxts" id="comment"></div>
+  <div class="line"></div>
+  <div class="xxts" id="comment"></div>
 </div>
 
 <div class="hidding" id="changePwdArea" style="display:none">
-<!-- 
-  <div class="item_inner-2">
-    <input type="password" placeholder="请输入原密码" name="oldPwd"/>
-  </div>
- -->
   <div class="item_inner-2">
     <input type="password" placeholder="请输入新密码" class="" name="newPwd"/>
   </div>
@@ -83,7 +80,6 @@
     <div class="col-50" style="margin-top:1.5rem;"><a href="#" id="savePwd">保存</a></div>
     <div class="col-50" style="margin-top:1.5rem;"><a href="#" id="cancelPwd">取消</a></div>
   </div>
-  
 </div>
 </body>
 <script>
@@ -106,7 +102,7 @@ $(function() {
     }
   });
   //绑定修改密码方法
-  $("div[class='col-xm']").click(function() {
+  $("#chgPwdArea").click(function() {
     $("div[class='main']").hide();
     $("#changePwdArea").show();
   });
@@ -120,6 +116,10 @@ $(function() {
     savePwd();
   });
 });
+
+function openStat(type) {
+  window.location.href=_URL_BASE+"/wxfront/user/data.html#"+type;
+}
 
 /**
  * 填充页面信息
@@ -144,9 +144,10 @@ function fillPage(data) {
   if (userType=='1') pageComment="";
   else//审核未通过
   if (userType=='2') pageComment="您的账号未通过审核";
-  else //作废
-  pageComment="您的账号已作废";
+  else pageComment="您的账号已作废";//作废
   $("#comment").html(pageComment);
+  if (userType==1) $("#statArea").show();
+  else $("#statArea").hide();
 
   var lPrj=prjNames.split(',');
   prjNames="";
@@ -154,7 +155,6 @@ function fillPage(data) {
   prjNames=prjNames.substr(5);
   $("#projs").html(prjNames);
 }
-
 /*
  * 修改密码
  */
