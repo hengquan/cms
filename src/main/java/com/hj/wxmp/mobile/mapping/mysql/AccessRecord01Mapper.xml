@@ -608,6 +608,9 @@
 	<if test="state != -1 and state != null">
 		and ql1.status = #{state}
 	</if>
+	<if test="userIds != '' and userIds != null">
+		and instr(#{userIds},ql1.authorId)
+	</if>
 	and instr(ql1.custName , #{userName}) 
 	order by cTime desc 
 	limit #{page},#{pageSize}
@@ -623,6 +626,9 @@
 	WHERE 1=1 
 	<if test="state != -1 and state != null">
 		and ql1.status = #{state}
+	</if>
+	<if test="userIds != '' and userIds != null">
+		and instr(#{userIds},ql1.authorId)
 	</if>
 	and instr(ql1.custName , #{userName}) 
   </select>

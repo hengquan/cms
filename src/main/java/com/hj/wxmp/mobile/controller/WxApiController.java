@@ -2278,6 +2278,7 @@ public class WxApiController extends ControllerBaseWx {
 						String projId = proj.get("id").toString();
 						projid += projId+",";
 					}
+					param.put("projId", projid);
 					//处理查询字符串
 					if (StringUtils.isNotEmpty(searchStr)) {
 						searchStr = searchStr.replaceAll(" ", ",");
@@ -2350,6 +2351,7 @@ public class WxApiController extends ControllerBaseWx {
 						String projId = proj.get("id").toString();
 						projid += projId+",";
 					}
+					result.put("projId", projid);
 					//处理查询字符串
 					if (StringUtils.isNotEmpty(searchStr)) {
 						searchStr = searchStr.replaceAll(" ", ",");
@@ -2422,6 +2424,7 @@ public class WxApiController extends ControllerBaseWx {
 						String projId = proj.get("id").toString();
 						projid += projId+",";
 					}
+					result.put("projId", projid);
 					//处理查询字符串
 					if (StringUtils.isNotEmpty(searchStr)) {
 						searchStr = searchStr.replaceAll(" ", ",");

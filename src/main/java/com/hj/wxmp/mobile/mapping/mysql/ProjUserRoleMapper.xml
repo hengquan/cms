@@ -183,4 +183,35 @@
     <include refid="Base_Column_List" />
     from ql_ProjUserRole
   </select>
+  
+  
+  
+
+  <select id="findByProjIds" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_ProjUserRole
+    where instr(#{projIds},projId)
+  </select>
+  
+  
+  
+  <select id="findByUserId" resultType="java.util.Map" parameterType="java.util.Map">
+  SELECT
+    pro.*
+  FROM
+    ql_ProjUserRole qlp
+  JOIN ql_Project pro ON qlp.projId = pro.id 
+  where qlp.userId = #{userId}
+  limit #{page},#{pageSize}
+  </select>
+  
+  <select id="findByUserIdCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+  SELECT
+    count(1)
+  FROM
+    ql_ProjUserRole qlp
+  JOIN ql_Project pro ON qlp.projId = pro.id 
+  where qlp.userId = #{userId}
+  </select>
 </mapper>

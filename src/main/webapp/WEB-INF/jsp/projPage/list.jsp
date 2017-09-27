@@ -90,9 +90,9 @@
 							</header>
 							
 							<div class="modal-body">
-								<form class="form-horizontal" role="form" id="itemForm"
-									name="itemForm">
-									<input type="hidden" name="editId" id="editId">
+								<form class="form-horizontal" action="${appRoot}/user/belongToProj"
+								 role="form" id="itemForm" name="itemForm">
+									<input type="hidden" name="userId" value="${userInfo.id }">
 									<div class="form-group">
 										<label class="col-lg-1 control-label pd-r5">登录名<font
 											style="color: red;"></font></label>
@@ -115,6 +115,9 @@
 											<input class="form-control" value ="${roleName }"/>
 										</div>
 									</div>
+									
+									<input type="hidden" value="${nowPage}" id="nowPageNumber" name="nowPage">
+									<input type="hidden" value="${totalPageNum }">
 								</form>
 							</div>
 							
@@ -146,6 +149,28 @@
 									</c:forEach>
 								</tbody>
 							</table>
+							<nav class="clearfix">
+								<ul class="pagination pull-left">
+									<li><div class="dataTables_info" id="sample_1_info">共${totalPageNum } 页,当前为第${nowPage}页</div></li>
+								</ul>
+								<ul class="pagination pull-right">
+									<li><a href="javascript:doPanation(1)">首页</a></li>
+									<li>
+										<a href="javascript:doPanation(${nowPage - 1 < 1 ? 1 : nowPage - 1})" aria-label="Previous">
+											<span aria-hidden="true">&laquo;</span>
+										</a>
+									</li>
+										<c:forEach begin="${nowPage - 5 > 0 ? nowPage - 5 : 1 }" end="${nowPage + 5 > totalPageNum ? totalPageNum : nowPage + 5}" var="t">
+											<li <c:if test="${nowPage == t}">class="act"</c:if>><a href="javascript:doPanation(${t})">${t}</a></li>
+										</c:forEach>
+									<li>
+										<a href="javascript:doPanation(${nowPage + 1 > totalPageNum ? totalPageNum : nowPage + 1})" aria-label="Next">
+											<span aria-hidden="true">&raquo;</span>
+										</a>
+									</li>
+									<li><a href="javascript:doPanation(${totalPageNum})">末页</a></li>
+								</ul>
+							</nav>
 						</section>
 					</div>
 				</div>
@@ -481,6 +506,8 @@
 
 		$(function() {
 			$('.input-group').hide();
+			$('#sample_1_info').hide();
+			$('.dataTables_paginate').hide();
 			$("#sample_1_length .form-control").hide();
 			$("#sample_1_length .js-add").hide();
 			$("#sample_1_length .js-ref").hide();
@@ -514,11 +541,6 @@
 			}
 		}
 		
-		
-		//根据选择查看信息
-		function seeAllMsg() {
-			$("#selectCheckMessage").submit();
-		}
 		
 
 		//添加菜单
@@ -594,6 +616,18 @@
 		function seeProduct(id){
 			window.location.href="${appRoot}/anwProduct/seeComment?id="+id;
 		}
+		
+		//选择不同的页数
+		function doPanation(number){
+			$("#nowPageNumber").val(number);
+			seeAllMsg();
+		}
+		
+		//根据选择查看信息
+		function seeAllMsg(){
+			$("#itemForm").submit();
+		}
+		
 
 	</script>
 	<input type="hidden" value="" id="adminId" />
