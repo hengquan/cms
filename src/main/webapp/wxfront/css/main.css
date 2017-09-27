@@ -245,8 +245,10 @@ icon-search:before{content:"\e61d"}
 .examine .adopt {position: absolute;width:8rem;height:5.2rem;top:0}
 .examine .to02 {position: absolute;width:5rem;height:5.2rem;top:0;left:75%;}
 .item-nr2 span{padding-left:.5rem}
-.inputdate02 input {width:100%; border:1px solid #cccccc;padding:0;font-size:16px;height:2rem;line-height:2rem;padding-left:.5rem;}
-.inputdate02 button{width：20%;font-size:0.25em;padding:2px;}
+.inputdate02 input {width:100%; border:1px solid #cccccc;padding:0;height:1.8rem;line-height:1.8rem;padding-left:.5rem;border-radius:0;}
+.inputdate02 button{width：20%;font-size:0.8em;padding:4px;height:1.8rem;line-height:1.2rem;}
+.inputdate02 .btn-primary-left{border-radius:4px 0 0 4px;}
+.inputdate02 .btn-primary-right{border-radius:0 4px 4px 0;}
 #searchStr{padding-left:30px;padding-top:12px;}
 img.magnifier{width:30px;position:absolute;padding-top:0.15em;z-index:9;padding-left:4px;}
 #custData p{margin:0.2em 0;}

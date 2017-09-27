@@ -359,15 +359,15 @@ function checkStep1() {
   temp=$("[name='visitCycle']").val();
   if (!temp) return '请填录入认知-到访天数!';
   if(isNaN(temp)) return '认知-到访天数须是数字!';
-  if(temp<=0) return '认知-到访天数不能是负数!';
+  if(temp<0) return '认知-到访天数不能是负数!';
   temp=$("[name='purchaseCycle']").val();
   if (!temp) return '请填录入到访-认购天数!';
   if(isNaN(temp)) return '到访-认购天数须是数字!';
-  if(temp<=0) return '到访-认购天数不能是负数!';
+  if(temp<0) return '到访-认购天数不能是负数!';
   temp=$("[name='signCycle']").val();
   if (!temp) return '请填录入认购-签约天数!';
   if(isNaN(temp)) return '认购-签约天数须是数字!';
-  if(temp<=0) return '认购-签约天数不能是负数!';
+  if(temp<0) return '认购-签约天数不能是负数!';
   if (!_uHouseRegiType) return "请选择户籍!";
 
   temp=$("[name='houseAcreage']").val();
@@ -609,9 +609,12 @@ function cleanCust() {
   $("input[name='firstKonwTime']").val("");
   $("input[name='custName']").removeAttr("readonly");
   $("input[name='custPhone']").removeAttr("readonly");
-  $("input[name='firstKonwTime']").removeAttr("readonly");
+  $("input[name='firstKnowTime']").removeAttr("readonly");
   $("input[name='firstKnowTime']").removeAttr("onFocus");
   $("#_fvt").hide();
+  var nt=new Date();
+  fillTime("firstKnowTime", nt);
+  fillTime("firstVisitTime", nt);
   custId="";
   var choose=document.getElementsByName('selectCustomers');
   for (var i=0; i<choose.length; i++) choose[i].checked=false;

@@ -19,21 +19,18 @@
 		return fmt;
 	}
 	var date = new Date().Format("yyyy-MM-dd"); //Format("输入你想要的时间格式:yyyy-MM-dd,yyyyMMdd")  
-	var textVal = $("#nowDate").val(date);
-	var textVal = $("#nowWeek").val(date);
-	var textVal = $("#nowMonth").val(date);
-	theWeek();
-	var textVal = $("#nowMonth").val(date);
+	$("#nowDate").val(date);
+	$("#nowWeek").val(date);
+	$("#nowMonth").val(date);
+
 	//点击按钮实现前一天后一天
 	function preDay(){
 		 preclickDay = 1
 	     updateDate(preclickDay)
-	     theWeek()	
 	}
 	function nextDay() {		
 		preclickDay = -1
         updateDate(preclickDay)
-        theWeek()
 	}
 	//设置一个函数
 	function updateDate(datatimeval){
@@ -46,18 +43,18 @@
 	//点击按钮实现前一周后一周
 	function preWeek(){
 		preclickWeek = 7;
-		updateWeek(preclickWeek)		
+		updateWeek(preclickWeek);
 	}
 	function nextWeek() {		
 		preclickWeek =  -7;
-		updateWeek(preclickWeek)
+		updateWeek(preclickWeek);
 	}
 	//设置一个函数
 	function updateWeek(datatimeval){
 		var date = new Date($("#nowWeek").val()); //获取当前时间  
 		date.setDate(date.getDate() - datatimeval); //设置周数 -1 周  
 		var time = date.Format("yyyy-MM-dd");
-		var textVal = $("#nowWeek").val(time);			
+		$("#nowWeek").val(time);			
 	}
 
 	//点击按钮实现前一月后一月
@@ -74,49 +71,5 @@
 		var date = new Date($("#nowMonth").val()); //获取当前时间  
 		date.setMonth(date.getMonth() - datatimeval); //设置月数 -1 月  
 		var time = date.Format("yyyy-MM-dd");
-		var textVal = $("#nowMonth").val(time);			
+		$("#nowMonth").val(time);			
 	}
-    //判断这是某年 第某周
-    function theWeek() {
-        date = new Date($("#nowDate").val());
-        var totalDays = 0;
-        now = date;
-        years = date.getYear()
-        stringYears = date.getFullYear()
-        $("#nowYear").val(stringYears);
-        if (years < 1000)
-            years += 1900
-        var days = new Array(12);
-        days[0] = 31;
-        days[2] = 31;
-        days[3] = 30;
-        days[4] = 31;
-        days[5] = 30;
-        days[6] = 31;
-        days[7] = 31;
-        days[8] = 30;
-        days[9] = 31;
-        days[10] = 30;
-        days[11] = 31;
-
-        //判断是否为闰年，针对2月的天数进行计算
-        if (Math.round(now.getYear() / 4) == now.getYear() / 4) {
-            days[1] = 29
-        } else {
-            days[1] = 28
-        }
-
-        if (now.getMonth() == 0) {
-            totalDays = totalDays + now.getDate();
-        } else {
-            var curMonth = now.getMonth();
-            for (var count = 1; count <= curMonth; count++) {
-                totalDays = totalDays + days[count - 1];
-            }
-            totalDays = totalDays + now.getDate();
-        }
-        //得到第几周
-        var week = Math.ceil(totalDays / 7);
-        $("#nowWeek").val(week);
-        return week;
-    }

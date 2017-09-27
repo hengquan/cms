@@ -352,97 +352,35 @@ rgba
 								</tr>
 
 								<tr>
-									<td>外埠居住： <select name="juzhu_province_id"
-										id="selProvinces_2">
-											<option value="0">请选择省</option>
-											<option value="35">台湾</option>
-											<option value="34">澳门</option>
-											<option value="33">香港</option>
-											<option value="32">重庆</option>
-											<option value="31">浙江</option>
-											<option value="30">云南</option>
-											<option value="29">新疆</option>
-											<option value="28">西藏</option>
-											<option value="27">天津</option>
-											<option value="26">四川</option>
-											<option value="25">上海</option>
-											<option value="24">陕西</option>
-											<option value="23">山西</option>
-											<option value="22">山东</option>
-											<option value="21">青海</option>
-											<option value="20">宁夏</option>
-											<option value="19">内蒙古</option>
-											<option value="18">辽宁</option>
-											<option value="17">江西</option>
-											<option value="16">江苏</option>
-											<option value="15">吉林</option>
-											<option value="14">湖南</option>
-											<option value="13">湖北</option>
-											<option value="12">黑龙江</option>
-											<option value="11">河南</option>
-											<option value="10">河北</option>
-											<option value="9">海南</option>
-											<option value="8">贵州</option>
-											<option value="7">广西</option>
-											<option value="6">广东</option>
-											<option value="5">甘肃</option>
-											<option value="4">福建</option>
-											<option value="3">安徽</option>
-											<option value="2">北京</option>
-									</select> <select name="juzhu_city_id" id="selCities_2">
-											<option value="0">请选择市</option>
-											<option value="395">香港</option>
-									</select> <a onclick="chongzhi_juzhu_waifu()"
-										style="cursor: pointer; margin-left: 10px; color: #0000FF; text-decoration: none">清空</a>
+									<td colspan="3"><span style="float:left">外埠居住：</span>
+									
+								  <form class="">
+								      <div data-toggle="distpicker">
+								          <select class="" id="province1"></select>
+								          <select class="" id="city1"></select>
+								          <select class="" id="district1"></select>
+								     
+								      </div>
+								   </form>
+									
+								
 									</td>
 
-									<td>外埠工作： <select name="work_province_id"
-										id="selProvinces_4">
-											<option value="0">请选择省</option>
-											<option value="35">台湾</option>
-											<option value="34">澳门</option>
-											<option value="33">香港</option>
-											<option value="32">重庆</option>
-											<option value="31">浙江</option>
-											<option value="30">云南</option>
-											<option value="29">新疆</option>
-											<option value="28">西藏</option>
-											<option value="27">天津</option>
-											<option value="26">四川</option>
-											<option value="25">上海</option>
-											<option value="24">陕西</option>
-											<option value="23">山西</option>
-											<option value="22">山东</option>
-											<option value="21">青海</option>
-											<option value="20">宁夏</option>
-											<option value="19">内蒙古</option>
-											<option value="18">辽宁</option>
-											<option value="17">江西</option>
-											<option value="16">江苏</option>
-											<option value="15">吉林</option>
-											<option value="14">湖南</option>
-											<option value="13">湖北</option>
-											<option value="12">黑龙江</option>
-											<option value="11">河南</option>
-											<option value="10">河北</option>
-											<option value="9">海南</option>
-											<option value="8">贵州</option>
-											<option value="7">广西</option>
-											<option value="6">广东</option>
-											<option value="5">甘肃</option>
-											<option value="4">福建</option>
-											<option value="3">安徽</option>
-											<option value="2">北京</option>
-									</select> <select name="work_city_id" id="selCities_4">
-											<option value="0">请选择市</option>
-											<option value="395">香港</option>
-									</select> <a onclick="chongzhi_work_waifu()"
-										style="cursor: pointer; margin-left: 10px; color: #0000FF; text-decoration: none">清空</a>
-									</td>
+									
 
-									<td></td>
+								
 								</tr>
-
+								<tr>
+									<td colspan="3"><span style="float:left">外埠工作：</span>
+									    <form class="">
+									      <div data-toggle="distpicker">
+									          <select class="" id="province2" data-province="---- 选择省 ----"></select>
+									          <select class="" id="city2" data-city="---- 选择市 ----"></select>
+									          <select class="" id="district2" data-district="---- 选择区 ----"></select>
+									      </div>
+									    </form>
+									</td>
+								</tr>
 								<tr>
 									<td colspan="3">家庭状况：
 										<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord01.familystatus, '单身')}">checked</c:if> value="005001-单身" _text="单身" style="width: 1rem">单身 
@@ -772,6 +710,9 @@ rgba
 	</form>
 
 	<%@ include file="/WEB-INF/jsp/inc/foot_bootstrap.jsp"%>
+	<script type="text/javascript" src="${appRoot}/static/js/distpicker.js"></script>
+	<script type="text/javascript" src="${appRoot}/static/js/distpicker (1).js"></script>
+	<script type="text/javascript" src="${appRoot}/static/js/main.js"></script>
 	<script src="${appRoot}/static/js/jquery.sparkline.js"
 		type="text/javascript"></script>
 
