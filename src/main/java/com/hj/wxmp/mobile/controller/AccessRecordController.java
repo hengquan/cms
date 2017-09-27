@@ -24,7 +24,9 @@ import com.hj.wxmp.mobile.entity.AccessRecord01;
 import com.hj.wxmp.mobile.entity.AccessRecord02;
 import com.hj.wxmp.mobile.entity.AccessRecord03;
 import com.hj.wxmp.mobile.entity.AuditRecord;
+import com.hj.wxmp.mobile.entity.ProjUserRole;
 import com.hj.wxmp.mobile.entity.SysItemRole;
+import com.hj.wxmp.mobile.entity.SysRole;
 import com.hj.wxmp.mobile.entity.UserInfo;
 import com.hj.wxmp.mobile.entity.UserRole;
 import com.hj.wxmp.mobile.services.AccessRecord01Service;
@@ -35,6 +37,7 @@ import com.hj.wxmp.mobile.services.CustomerService;
 import com.hj.wxmp.mobile.services.IKeyGen;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
 import com.hj.wxmp.mobile.services.ProjectService;
+import com.hj.wxmp.mobile.services.SysRoleService;
 import com.hj.wxmp.mobile.services.UserCustRefService;
 import com.hj.wxmp.mobile.services.UserInfoService;
 import com.hj.wxmp.mobile.services.UserRoleService;
@@ -48,6 +51,8 @@ public class AccessRecordController extends ControllerBase {
 
 	@Resource
 	private IKeyGen keyGen;
+	@Autowired
+	SysRoleService roleService;
 	@Autowired
 	private UserInfoService userInfoService;
 	@Autowired
@@ -74,7 +79,7 @@ public class AccessRecordController extends ControllerBase {
 	//首访审核列表
 	@RequestMapping(value = "/accessRecord/hisFirstRecord")
 	public String userList(@RequestParam(value="nowPage",defaultValue="1") int nowPage,
-			@RequestParam(value="pageSize",defaultValue="10") int pageSize,ModelMap model) {
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize,ModelMap model)throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String pageUrl = "accessRecord01/list";
 		//纪录总数
@@ -85,6 +90,34 @@ public class AccessRecordController extends ControllerBase {
 		Integer start = ((nowPage - 1) * pageSize);
 		map.put("page", start);
 		map.put("pageSize", pageSize);
+		//用户本身
+		String userId = hashSession.getCurrentAdmin(request).getId();
+		UserRole userRole = sysUserRoleService.selectByUserId(userId);
+		String roleid = userRole.getRoleid();
+	    SysRole role = roleService.findById(roleid);
+	    String roleName = role.getRoleName();
+	    if(roleName.equals("管理员")){
+	    	map.put("userIds", null);
+	    }
+	    if(roleName.equals("项目管理人") || roleName.equals("项目负责人")){
+	    	List<Map<String, Object>> projects = projUserRoleService.selectByUserId(userId);
+	    	String projIds="";
+	    	for(Map<String,Object> proj : projects){
+	    		projIds+=","+proj.get("id").toString();
+	    	}
+	    	projIds=projIds.substring(1);
+	    	//
+	    	String userIds = "";
+	    	List<ProjUserRole> projUserRoles = projUserRoleService.findByProjIds(projIds);
+	    	for(ProjUserRole projUserRole : projUserRoles){
+	    		userIds+=","+projUserRole.getUserid();
+	    	}
+	    	userIds=userIds.substring(1);
+	    	map.put("userIds", userIds);
+	    }
+	    if(roleName.equals("顾问")){
+	    	map.put("userIds", userId);
+	    }
 		try {
 			if(userName == null){
 				map.put("userName", "");
@@ -108,7 +141,6 @@ public class AccessRecordController extends ControllerBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
 		List<SysItemRole> lst = sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
 		List<SysItemRole> item = sysItemRoleDao.selectItemByPId(userRole.getRoleid());
 		model.addAttribute("itemNamesss", item);
@@ -117,6 +149,8 @@ public class AccessRecordController extends ControllerBase {
 		String id = super.getTrimParameter("id");
 		model.addAttribute("itemId", itemId);
 		model.addAttribute("id", id);
+	    //权限
+	    model.addAttribute(roleName);
 		return pageUrl;
 	}
 	
@@ -378,11 +412,10 @@ public class AccessRecordController extends ControllerBase {
 	
 	
 	
-	
 	//复访审核列表
 	@RequestMapping(value = "/accessRecord/recheckRecord")
 	public String recheckRecord(@RequestParam(value="nowPage",defaultValue="1") int nowPage,
-			@RequestParam(value="pageSize",defaultValue="10") int pageSize,ModelMap model) {
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize,ModelMap model)throws Exception  {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String pageUrl = "accessRecord02/list";
 		//纪录总数
@@ -393,6 +426,34 @@ public class AccessRecordController extends ControllerBase {
 		Integer start = ((nowPage - 1) * pageSize);
 		map.put("page", start);
 		map.put("pageSize", pageSize);
+		//用户本身
+		String userId = hashSession.getCurrentAdmin(request).getId();
+		UserRole userRole = sysUserRoleService.selectByUserId(userId);
+		String roleid = userRole.getRoleid();
+	    SysRole role = roleService.findById(roleid);
+	    String roleName = role.getRoleName();
+	    if(roleName.equals("管理员")){
+	    	map.put("userIds", null);
+	    }
+	    if(roleName.equals("项目管理人") || roleName.equals("项目负责人")){
+	    	List<Map<String, Object>> projects = projUserRoleService.selectByUserId(userId);
+	    	String projIds="";
+	    	for(Map<String,Object> proj : projects){
+	    		projIds+=","+proj.get("id").toString();
+	    	}
+	    	projIds=projIds.substring(1);
+	    	//
+	    	String userIds = "";
+	    	List<ProjUserRole> projUserRoles = projUserRoleService.findByProjIds(projIds);
+	    	for(ProjUserRole projUserRole : projUserRoles){
+	    		userIds+=","+projUserRole.getUserid();
+	    	}
+	    	userIds=userIds.substring(1);
+	    	map.put("userIds", userIds);
+	    }
+	    if(roleName.equals("顾问")){
+	    	map.put("userIds", userId);
+	    }
 		try {
 			if(userName == null){
 				map.put("userName", "");
@@ -416,7 +477,6 @@ public class AccessRecordController extends ControllerBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
 		List<SysItemRole> lst = sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
 		List<SysItemRole> item = sysItemRoleDao.selectItemByPId(userRole.getRoleid());
 		model.addAttribute("itemNamesss", item);
@@ -425,6 +485,8 @@ public class AccessRecordController extends ControllerBase {
 		String id = super.getTrimParameter("id");
 		model.addAttribute("itemId", itemId);
 		model.addAttribute("id", id);
+	    //权限
+	    model.addAttribute("roleName",roleName);
 		return pageUrl;
 	}
 	
@@ -587,11 +649,10 @@ public class AccessRecordController extends ControllerBase {
 	
 	
 	
-	
 	//成交审核列表
 	@RequestMapping(value = "/accessRecord/knockdownRecord")
 	public String knockdownRecord(@RequestParam(value="nowPage",defaultValue="1") int nowPage,
-			@RequestParam(value="pageSize",defaultValue="10") int pageSize,ModelMap model) {
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize,ModelMap model)throws Exception  {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String pageUrl = "accessRecord03/list";
 		//纪录总数
@@ -602,6 +663,34 @@ public class AccessRecordController extends ControllerBase {
 		Integer start = ((nowPage - 1) * pageSize);
 		map.put("page", start);
 		map.put("pageSize", pageSize);
+		//用户本身
+		String userId = hashSession.getCurrentAdmin(request).getId();
+		UserRole userRole = sysUserRoleService.selectByUserId(userId);
+		String roleid = userRole.getRoleid();
+	    SysRole role = roleService.findById(roleid);
+	    String roleName = role.getRoleName();
+	    if(roleName.equals("管理员")){
+	    	map.put("userIds", null);
+	    }
+	    if(roleName.equals("项目管理人") || roleName.equals("项目负责人")){
+	    	List<Map<String, Object>> projects = projUserRoleService.selectByUserId(userId);
+	    	String projIds="";
+	    	for(Map<String,Object> proj : projects){
+	    		projIds+=","+proj.get("id").toString();
+	    	}
+	    	projIds=projIds.substring(1);
+	    	//
+	    	String userIds = "";
+	    	List<ProjUserRole> projUserRoles = projUserRoleService.findByProjIds(projIds);
+	    	for(ProjUserRole projUserRole : projUserRoles){
+	    		userIds+=","+projUserRole.getUserid();
+	    	}
+	    	userIds=userIds.substring(1);
+	    	map.put("userIds", userIds);
+	    }
+	    if(roleName.equals("顾问")){
+	    	map.put("userIds", userId);
+	    }
 		try {
 			if(userName == null){
 				map.put("userName", "");
@@ -625,7 +714,6 @@ public class AccessRecordController extends ControllerBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
 		List<SysItemRole> lst = sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
 		List<SysItemRole> item = sysItemRoleDao.selectItemByPId(userRole.getRoleid());
 		model.addAttribute("itemNamesss", item);
@@ -634,6 +722,8 @@ public class AccessRecordController extends ControllerBase {
 		String id = super.getTrimParameter("id");
 		model.addAttribute("itemId", itemId);
 		model.addAttribute("id", id);
+	    //权限
+	    model.addAttribute("roleName",roleName);
 		return pageUrl;
 	}
 	

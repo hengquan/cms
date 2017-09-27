@@ -109,4 +109,10 @@ public interface ProjUserRoleService {
 
 	public List<UserInfo> selectProjUserDataByProjIdFZR(String projId);
 
+	public List<ProjUserRole> findByProjIds(String projIds);
+
+	public List<Map<String, Object>> findByUserId(Map<String, Object> map);
+
+	public Integer findByUserIdCount(Map<String, Object> map);
+
 }

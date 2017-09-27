@@ -95,8 +95,10 @@
 													onclick="sellAllProject('${u.id}')">查看所属项目</button>
 											<%-- <button type="button" class="btn btn-send"
 													onclick="seeAllKeHu('${u.id}')">查看所有用户</button> --%>
-											<button type="button" class="btn btn-send"
-													onclick="updateUserMsg('${u.id}','${u.userRole.role_name}')">更改用户信息</button>
+											<c:if test="${roleName=='管理员' }">
+												<button type="button" class="btn btn-send"
+														onclick="updateUserMsg('${u.id}','${u.userRole.role_name}')">更改用户信息</button>
+											</c:if>
 										</td>
 						 			</tr>
 								</c:if>

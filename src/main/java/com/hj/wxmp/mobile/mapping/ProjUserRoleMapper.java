@@ -38,4 +38,10 @@ public interface ProjUserRoleMapper {
 	List<UserInfo> selectProjUserDataByProjIdFZR(String projId);
 
 	List<ProjUserRole> findAll();
+
+	List<ProjUserRole> findByProjIds(String projIds);
+
+	List<Map<String, Object>> findByUserId(Map<String, Object> map);
+
+	Integer findByUserIdCount(Map<String, Object> map);
 }

@@ -89,7 +89,7 @@ public class LoginController extends ControllerBase {
 	        
 	        String newpassword = MD5Utils.MD5(password);
 	        if(newpassword.equals(userInfo.getPassword())){
-        		successUrl="/user/userList";
+        		successUrl="/accessRecord/hisFirstRecord";
         		successUrl = "redirect:"+successUrl;
 	        }else{
 				map.put("loginId", userName);

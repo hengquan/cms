@@ -165,7 +165,7 @@ public class UserController extends ControllerBase {
 	
 	//用户列表
 	@RequestMapping(value = "/user/userList")
-	public String userList(@RequestParam(value="nowPage",defaultValue="1") int nowPage,@RequestParam(value="pageSize",defaultValue="10") int pageSize,ModelMap model) {
+	public String userList(@RequestParam(value="nowPage",defaultValue="1") int nowPage,@RequestParam(value="pageSize",defaultValue="10") int pageSize,ModelMap model)throws Exception {
 		String pageUrl = "user/list";
 		//纪录总数
 		Integer listMessgeCount = 0;
@@ -214,6 +214,10 @@ public class UserController extends ControllerBase {
 	    String id = super.getTrimParameter("id");
 	    model.addAttribute("itemId",itemId);
 	    model.addAttribute("id",id);
+	    //权限
+	    String roleid = userRole.getRoleid();
+	    SysRole role = roleService.findById(roleid);
+	    model.addAttribute("roleName",role.getRoleName());
 		return pageUrl;
 	}	
 	
@@ -265,10 +269,33 @@ public class UserController extends ControllerBase {
 	
 	//该用户所属项目
 	@RequestMapping(value="/user/belongToProj")
-	public String belongToProj(ModelMap model) throws Exception{
+	public String belongToProj(@RequestParam(value="nowPage",defaultValue="1") int nowPage,
+			@RequestParam(value="pageSize",defaultValue="10") int pageSize,ModelMap model) throws Exception{
 		String pageUrl = "projPage/list";
+		Map<String,Object>map = new HashMap<String,Object>();
+		//纪录总数
+		Integer listMessgeCount = 0;
+		String userName = getTrimParameter("userName");
+		String state = getTrimParameter("state");
+		map.put("state", state);
+		Integer start = ((nowPage - 1) * pageSize);
+		map.put("page", start);
+		map.put("pageSize", pageSize);
+		//
 		String userId = getTrimParameter("userId");
-		List<Map<String, Object>> projData = projUserRoleService.selectByUserId(userId);
+		map.put("userId", userId);
+		List<Map<String, Object>> projData = projUserRoleService.findByUserId(map);
+		//所有信息数量
+		listMessgeCount = projUserRoleService.findByUserIdCount(map);
+	 	Integer totalCount = listMessgeCount%pageSize;
+		Integer totalPageNum = 0;
+		if(totalCount==0){
+			totalPageNum = listMessgeCount/pageSize;
+		}else{
+			totalPageNum = (listMessgeCount/pageSize)+1;
+		}
+		model.put("nowPage", nowPage);
+		model.put("totalPageNum", totalPageNum);
 		UserInfo userInfo = userInfoService.findById(userId);
 		Map<String, Object> userrole = userRoleService.findByUserId(userId);
 		String roleName = userrole.get("role_name").toString();
@@ -360,7 +387,6 @@ public class UserController extends ControllerBase {
 	@RequestMapping(value="/user/getRoleAndProjectMsg")
 	public JSON getRoleAndProjectMsg() throws Exception{
 		Map<String, Object> data = new HashMap<String,Object>();
-		String proIds = "";
 		String projNames = "";
 		try {
 			String id = getTrimParameter("id");
