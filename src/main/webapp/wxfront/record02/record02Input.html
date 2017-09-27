@@ -110,12 +110,12 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
           <h4 class="modal-title">选择客户</h4>
-          <div id="header" class="input-group">
+        </div>
+        <div id="header" class="input-group">
           	<image src="../images/magnifier.png" class="magnifier">
             <input id="searchStr" type="text" placeholder="请输入客户姓名、电话" class="form-control input-lg"/>
             <span id="cleaSearch" class="input-group-addon btn btn-primary">清除</span>
-          </div>
-        </div>
+         </div>
         <div class="user-scroll modal-body" id="custData"></div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -154,7 +154,7 @@
   <div class="item_sflr row">
     <div class="col-title col-title-6">首次到访时间</div>
     <div class="col-input-6 inputdate">
-      <input type="date" placeholder="" name="firstVisitTime" readonly="true"/>
+      <input type="date" placeholder="" name="firstVisitTime" readonly="readonly" onFocus="this.blur()"/>
     </div>
   </div>
   <div class="item_sflr row">

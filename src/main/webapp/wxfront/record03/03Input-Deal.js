@@ -61,7 +61,7 @@ $(function() {
   
   //客户搜索
   //键盘按键弹起时执行
-  $('#searchStr').keyup(function(){
+  $('#searchStr').change(function(){
     if (!($("#custData").html())) return;
     var searchStr = $.trim($('#searchStr').val().toString()); // 去掉两头空格
     if(searchStr == '') { // 如果搜索框输入为空
@@ -240,7 +240,6 @@ function loadProjUser(projId) {//加载顾问
   });
 }
 function getAudit(id) {
-	alert(id);
   var url=_URL_BASE+"/wx/api/getCheckReason?recordType=3&recordId="+id;
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
@@ -360,15 +359,15 @@ function checkStep1() {
   temp=$("[name='visitCycle']").val();
   if (!temp) return '请填录入认知-到访天数!';
   if(isNaN(temp)) return '认知-到访天数须是数字!';
-  if(temp<=0) return '认知-到访天数不能是负数!';
+  if(temp<0) return '认知-到访天数不能是负数!';
   temp=$("[name='purchaseCycle']").val();
   if (!temp) return '请填录入到访-认购天数!';
   if(isNaN(temp)) return '到访-认购天数须是数字!';
-  if(temp<=0) return '到访-认购天数不能是负数!';
+  if(temp<0) return '到访-认购天数不能是负数!';
   temp=$("[name='signCycle']").val();
   if (!temp) return '请填录入认购-签约天数!';
   if(isNaN(temp)) return '认购-签约天数须是数字!';
-  if(temp<=0) return '认购-签约天数不能是负数!';
+  if(temp<0) return '认购-签约天数不能是负数!';
   if (!_uHouseRegiType) return "请选择户籍!";
 
   temp=$("[name='houseAcreage']").val();
@@ -512,6 +511,7 @@ function commitData() {
             }
             $("span[id='proj']").html(_uProjName);
             $("span[name='userInput']").html(_uUserName);
+            $("#_fvt").hide();
             step2Prev();
           } else {
             window.location.href=_URL_BASE+"/wxfront/record03/record03Search.html"
@@ -609,8 +609,12 @@ function cleanCust() {
   $("input[name='firstKonwTime']").val("");
   $("input[name='custName']").removeAttr("readonly");
   $("input[name='custPhone']").removeAttr("readonly");
-  $("input[name='firstKonwTime']").removeAttr("readonly");
+  $("input[name='firstKnowTime']").removeAttr("readonly");
+  $("input[name='firstKnowTime']").removeAttr("onFocus");
   $("#_fvt").hide();
+  var nt=new Date();
+  fillTime("firstKnowTime", nt);
+  fillTime("firstVisitTime", nt);
   custId="";
   var choose=document.getElementsByName('selectCustomers');
   for (var i=0; i<choose.length; i++) choose[i].checked=false;
@@ -626,6 +630,7 @@ function selCust() {
       $("input[name='custName']").attr("readonly","true");
       $("input[name='custPhone']").attr("readonly","true");
       $("input[name='firstKnowTime']").attr("readonly","readonly");
+      $("input[name='firstKnowTime']").attr("onFocus","this.blur()");
       custId=choose[i].value;
       $("span[name='userInput']").html(choose[i].getAttribute("_userName"));
       $("span[name='userInput']").html(choose[i].getAttribute("_userName"));
@@ -704,7 +709,7 @@ function fillData(data) {//填数据
     rTime.setTime(data.signdate.time);
     fillTime("signDate", rTime);
   }
-  if (data.housenumup) $("input[name='houseNumup']").val(data.housenumup);
+  if (data.housenum) $("input[name='houseNum']").val(data.housenum);
   if (data.visitcycle) $("input[name='visitCycle']").val(data.visitcycle);
   if (data.purchasecycle) $("input[name='purchaseCycle']").val(data.purchasecycle);
   if (data.signcycle) $("input[name='signCycle']").val(data.signcycle);

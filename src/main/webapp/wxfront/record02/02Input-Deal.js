@@ -19,7 +19,7 @@ $(function() {
 
   //客户搜索
   //键盘按键弹起时执行
-  $('#searchStr').keyup(function(){
+  $('#searchStr').change(function(){
     if (!($("#custData").html())) return;
     var searchStr = $.trim($('#searchStr').val().toString()); // 去掉两头空格
     if(searchStr == '') { // 如果搜索框输入为空
@@ -29,9 +29,9 @@ $(function() {
     } else {
       $("#custData").find("p").each(function(){
         var _text=$(this).text();
-    	if (_text.indexOf(searchStr)!=-1){
+        if (_text.indexOf(searchStr)!=-1) {
     	  $(this).show();
-    	} else $(this).hide();
+        } else $(this).hide();
       });
     }
   });
@@ -821,6 +821,7 @@ function cleanCust() {
   custId="";
   $("input[name='firstKnowTime']").val("");
   $("input[name='firstKnowTime']").removeAttr("readonly");
+  $("input[name='firstKnowTime']").removeAttr("onFocus");
   fillSelectField('sex', "", true);
   var nt=new Date();
   fillTime("firstKnowTime", nt);
@@ -834,6 +835,8 @@ function selCust() {
     if (choose[i].checked) {
       $("input[name='custName']").val(choose[i].getAttribute("_text"));
       $("input[name='custPhone']").val(choose[i].getAttribute("_phone"));
+      $("input[name='firstKnowTime']").attr("readonly","readonly");
+      $("input[name='firstKnowTime']").attr("onFocus","this.blur()");
       custId=choose[i].value;
       $("span[name='userInput']").html(choose[i].getAttribute("_userName"));
       _uUserId=choose[i].getAttribute("_userId");
