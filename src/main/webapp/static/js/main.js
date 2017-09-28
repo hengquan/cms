@@ -30,14 +30,13 @@ $(function () {
     district: '---- 所在区 ----'
   });
 
-  $('#distpicker3').distpicker({
+ $('#distpicker3').distpicker({
     province: '浙江省',
     city: '杭州市',
     district: '西湖区'
   });
 
   $('#distpicker4').distpicker({
-    placeholder: false
   });
 
   $('#distpicker5').distpicker({

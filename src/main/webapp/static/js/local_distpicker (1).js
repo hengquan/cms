@@ -1,6 +1,6 @@
 /*!
- * Distpicker v1.0.4
- * https://github.com/fengyuanchen/distpicker
+ * local_distpicker v1.0.4
+ * https://github.com/fengyuanchen/local_distpicker
  *
  * Copyright (c) 2014-2016 Fengyuan Chen
  * Released under the MIT license
@@ -24,25 +24,25 @@
   'use strict';
 
   if (typeof ChineseDistricts === 'undefined') {
-    throw new Error('The file "distpicker.data.js" must be included first!');
+    throw new Error('The file "local_distpicker.data.js" must be included first!');
   }
 
-  var NAMESPACE = 'distpicker';
+  var NAMESPACE = 'local_distpicker';
   var EVENT_CHANGE = 'change.' + NAMESPACE;
   var PROVINCE = 'province';
   var CIRY = 'city';
   var DISTRICT = 'district';
 
-  function Distpicker(element, options) {
+  function local_distpicker(element, options) {
     this.$element = $(element);
-    this.options = $.extend({}, Distpicker.DEFAULTS, $.isPlainObject(options) && options);
-    this.placeholders = $.extend({}, Distpicker.DEFAULTS);
+    this.options = $.extend({}, local_distpicker.DEFAULTS, $.isPlainObject(options) && options);
+    this.placeholders = $.extend({}, local_distpicker.DEFAULTS);
     this.active = false;
     this.init();
   }
 
-  Distpicker.prototype = {
-    constructor: Distpicker,
+  local_distpicker.prototype = {
+    constructor: local_distpicker,
 
     init: function () {
       var options = this.options;
@@ -193,7 +193,7 @@
     }
   };
 
-  Distpicker.DEFAULTS = {
+  local_distpicker.DEFAULTS = {
     autoSelect: true,
     placeholder: true,
     province: '—— 市 ——',
@@ -201,15 +201,15 @@
     district: '—— 详细 ——'
   };
 
-  Distpicker.setDefaults = function (options) {
-    $.extend(Distpicker.DEFAULTS, options);
+  local_distpicker.setDefaults = function (options) {
+    $.extend(local_distpicker.DEFAULTS, options);
   };
 
-  // Save the other distpicker
-  Distpicker.other = $.fn.distpicker;
+  // Save the other local_distpicker
+  local_distpicker.other = $.fn.local_distpicker;
 
   // Register as jQuery plugin
-  $.fn.distpicker = function (option) {
+  $.fn.local_distpicker = function (option) {
     var args = [].slice.call(arguments, 1);
 
     return this.each(function () {
@@ -224,7 +224,7 @@
         }
 
         options = $.extend({}, $this.data(), $.isPlainObject(option) && option);
-        $this.data(NAMESPACE, (data = new Distpicker(this, options)));
+        $this.data(NAMESPACE, (data = new local_distpicker(this, options)));
       }
 
       if (typeof option === 'string' && $.isFunction(fn = data[option])) {
@@ -233,16 +233,16 @@
     });
   };
 
-  $.fn.distpicker.Constructor = Distpicker;
-  $.fn.distpicker.setDefaults = Distpicker.setDefaults;
+  $.fn.local_distpicker.Constructor = local_distpicker;
+  $.fn.local_distpicker.setDefaults = local_distpicker.setDefaults;
 
   // No conflict
-  $.fn.distpicker.noConflict = function () {
-    $.fn.distpicker = Distpicker.other;
+  $.fn.local_distpicker.noConflict = function () {
+    $.fn.local_distpicker = local_distpicker.other;
     return this;
   };
 
   $(function () {
-    $('[data-toggle="distpicker"]').distpicker();
+    $('[data-toggle="local_distpicker"]').local_distpicker();
   });
 });

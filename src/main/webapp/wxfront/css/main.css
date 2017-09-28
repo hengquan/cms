@@ -253,3 +253,4 @@ icon-search:before{content:"\e61d"}
 img.magnifier{width:30px;position:absolute;padding-top:0.15em;z-index:9;padding-left:4px;}
 #custData p{margin:0.2em 0;}
 #custData p input{margin-right:10px;}
+.modal-body label{display:inline-block;}

@@ -298,23 +298,26 @@ rgba
 									
 								</tr>
 								<tr>
-									<td colspan="3" class="docs-methods"><span style="float:left">本地居住：</span>
-									  <div data-toggle="distpicker">
-								          <select class="" id="province4"></select>
-								          <select class="" id="city4"></select>
-								          <select class="" id="district4"></select>
+									<td colspan="3"><span style="float:left">本地居住：</span>
+									  <div data-toggle="local_distpicker">
+								          <select class="" id="local_province4"></select>
+								          <select class="" id="local_city4"></select>
+								          <select class="" id="local_district4"></select>
 								   
 								      </div>
 									</td>
 								</tr>
 								<tr>
 									<td colspan="3"><span style="float:left">本地工作：</span>
-								      <div data-toggle="distpicker">
-								          <select class="" id="province3"></select>
-								          <select class="" id="city3"></select>
-								          <select class="" id="district3"></select>
+								      <div data-toggle="local_distpicker">
+								          <select class="" id="local_province3"></select>
+								          <select class="" id="local_city3"></select>
+								          <select class="" id="local_district3"></select>
 								      </div>
 								</tr>
+									<script type="text/javascript" src="${appRoot}/static/js/local_distpicker.js"></script>
+									<script type="text/javascript" src="${appRoot}/static/js/local_distpicker (1).js"></script>
+									<script type="text/javascript" src="${appRoot}/static/js/local_main.js"></script>
 								<tr>
 									<td colspan="3"><span style="float:left">外埠居住：</span>
 								      <div data-toggle="distpicker">
@@ -665,9 +668,7 @@ rgba
 	<script type="text/javascript" src="${appRoot}/static/js/distpicker.js"></script>
 	<script type="text/javascript" src="${appRoot}/static/js/distpicker (1).js"></script>
 	<script type="text/javascript" src="${appRoot}/static/js/main.js"></script>
-	<script type="text/javascript" src="${appRoot}/static/js/local_distpicker.js"></script>
-	<script type="text/javascript" src="${appRoot}/static/js/local_distpicker (1).js"></script>
-	<script type="text/javascript" src="${appRoot}/static/js/local_main.js"></script>
+
 	<script src="${appRoot}/static/js/jquery.sparkline.js"
 		type="text/javascript"></script>
 
