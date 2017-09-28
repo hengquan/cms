@@ -1127,8 +1127,7 @@ public class WxApiController extends ControllerBaseWx {
 		//客户Id
 		customerId=record02.getCustid();
 		_retR02.setCustid(customerId);
-		if(type==0) cust.setId("");
-		else cust.setId(customerId);
+		cust.setId(customerId);
 		if (projCustRef!=null) projCustRef.setCustid(customerId);
 		userCustRef.setCustid(customerId);
 		//客户名称
@@ -2862,7 +2861,7 @@ public class WxApiController extends ControllerBaseWx {
 			String dateBegin = m.get("dateBegin")==null?null:m.get("dateBegin").toString();
 			String dateEnd = m.get("dateEnd")==null?null:m.get("dateEnd").toString();
 			String projs = m.get("projs")==null?null:m.get("projs").toString();
-			String users = m.get("users")==null?null:m.get("users").toString();
+			String userId = m.get("users")==null?null:m.get("users").toString();
 			String custs = m.get("custs")==null?null:m.get("custs").toString();
 			Integer resultsType = m.get("resultsType")==null?1:Integer.parseInt(m.get("resultsType").toString());
 			String results = m.get("results")==null?null:m.get("results").toString();
@@ -2870,7 +2869,33 @@ public class WxApiController extends ControllerBaseWx {
 			result.put("dateBegin", dateBegin);
 			result.put("dateEnd", dateEnd);
 			result.put("projId", projs);
-			result.put("userId", users);
+			//
+			UserRole userRole = sysUserRoleService.selectByUserId(userId);
+			String roleid = userRole.getRoleid();
+		    SysRole role = roleService.findById(roleid);
+		    String roleName = role.getRoleName();
+		    if(roleName.equals("管理员")){
+		    	map.put("userId", null);
+		    }
+		    if(roleName.equals("项目管理人") || roleName.equals("项目负责人")){
+		    	List<Map<String, Object>> projects = projUserRoleService.selectByUserId(userId);
+		    	String projIds="";
+		    	for(Map<String,Object> proj : projects){
+		    		projIds+=","+proj.get("id").toString();
+		    	}
+		    	projIds=projIds.substring(1);
+		    	//
+		    	String userIds = "";
+		    	List<ProjUserRole> projUserRoles = projUserRoleService.findByProjIds(projIds);
+		    	for(ProjUserRole projUserRole : projUserRoles){
+		    		userIds+=","+projUserRole.getUserid();
+		    	}
+		    	userIds=userIds.substring(1);
+		    	map.put("userId", userId);
+		    }
+		    if(roleName.equals("顾问")){
+		    	map.put("userId", userId);
+		    }
 			result.put("custId", custs);
 			List<Map<String,Object>> arCountDatas = dayRecepService.selectByTimeAnd(result);
 			if(results==null){
@@ -3128,16 +3153,7 @@ public class WxApiController extends ControllerBaseWx {
 			try {
 				//处理客户
 			    if (type==0) {
-			    	String phone=cust.getPhonenum();
-					String[] phones = phone.split(",");
-					if(phones.length>1) phone=phones[0];
-					//是否以有该客户信息
-					Customer customer = customerService.findByPhone(phone);
-					if(customer==null){
-						customerService.insert(cust);
-					}else{
-						customerService.update(cust);
-					}
+					customerService.insert(cust);
 			    }
 			    else customerService.update(cust);
 			    //处理用户客户

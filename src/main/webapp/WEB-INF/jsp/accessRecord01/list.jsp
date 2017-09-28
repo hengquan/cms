@@ -90,11 +90,11 @@
 												</c:if>
 											</c:if>
 												<button type="button" onclick="seeAllMessages('${u.id}')" class="btn btn-send">查看详细信息</button>
-											<%-- <c:if test="${roleName=='顾问' }"> --%>
+											<c:if test="${roleName=='顾问' }">
 												<c:if test="${u.status == 4}">
 												<button type="button" onclick="updateFirstRecord('${u.id}')" class="btn btn-send">修改审核信息</button>
 												</c:if>
-											<%-- </c:if> --%>
+											</c:if>
 											</td>
 										</tr>
 									</c:forEach>
