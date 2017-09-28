@@ -326,6 +326,7 @@ rgba
 									<script type="text/javascript" src="${appRoot}/static/js/local_distpicker.js"></script>
 									<script type="text/javascript" src="${appRoot}/static/js/local_distpicker (1).js"></script>
 									<script type="text/javascript" src="${appRoot}/static/js/local_main.js"></script>
+									
 								<tr>
 									<td colspan="3"><span style="float:left">外埠居住：</span>
 								      <div data-toggle="distpicker">
@@ -337,13 +338,14 @@ rgba
 								</tr>
 								<tr>
 									<td colspan="3"><span style="float:left">外埠工作：</span>
-								      <div data-toggle="distpicker">
+								      <div data-toggle="distpicker" id="distpicker2">
 								          <select class="" id="province2" data-province="---- 选择省 ----"></select>
 								          <select class="" id="city2" data-city="---- 选择市 ----"></select>
 								          <select class="" id="district2" data-district="---- 选择区 ----"></select>
 								      </div>
 									</td>
 								</tr>
+								
 								<tr>
 									<td colspan="3">家庭状况：
 										<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord01.familystatus, '单身')}">checked</c:if> value="005001-单身" _text="单身" style="width: 1rem">单身 

@@ -17,7 +17,7 @@ $(function () {
   $('#reset-deep').click(function () {
     $local_distpicker.distpicker('reset', true);
   });
-
+  
   $('#destroy').click(function () {
     $local_distpicker.distpicker('destroy');
   });

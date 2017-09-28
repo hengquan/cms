@@ -95,7 +95,7 @@ $(function() {
       } else {
         window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息";
       }
-    },
+    }, 
     error: function(XMLHttpRequest, textStatus, errorThrown) {
       window.location.href=_URL_BASE+"/wxfront/err.html?2000=系统错误<br/>status="
         +XMLHttpRequest.status+"<br/>readyState="+XMLHttpRequest.readyState+"<br/>text="+textStatus;
@@ -119,6 +119,7 @@ $(function() {
 
 function openStat(type) {
   window.location.href=_URL_BASE+"/wxfront/user/data.html#"+type;
+  
 }
 
 /**
