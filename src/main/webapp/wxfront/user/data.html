@@ -285,15 +285,15 @@ var init={
 
 
 //从后台获取数据并渲染
-function getDaydata(dateBegin,dateEnd,user){  
+function getDaydata(users){  
   var _data={};
-  _data.dateBegin = dateBegin;
-  _data.dateEnd = dateEnd;
-  _data.user = user;
+/*   _data.dateBegin = dateBegin;
+  _data.dateEnd = dateEnd; */
+  _data.users = users;
   $.ajax({  
     type: "GET",  
     url: _URL_BASE+"/wx/api/getARCount",
-    data: {"dateBegin":dateBegin,"dateEnd":dateEnd,"user":user},  
+    data: {"user":users},  
     dataType:"json",  
     async:true,  
     cache:false,  

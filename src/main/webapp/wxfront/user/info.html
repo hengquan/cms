@@ -118,8 +118,15 @@ $(function() {
 });
 
 function openStat(type) {
+	if(type==1){
+		alert("aa");
+	}else if(type==2){
+		alert("bb");
+	}else{
+		alert("cc");
+	}
   window.location.href=_URL_BASE+"/wxfront/user/data.html#"+type;
-  
+	
 }
 
 /**
