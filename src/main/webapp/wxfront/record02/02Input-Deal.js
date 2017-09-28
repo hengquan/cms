@@ -109,8 +109,10 @@ $(function() {
 function initData(data) {
   //获取人员信息
   var url=_URL_BASE+"/wx/api/personalCenter";
+ 
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
+    
       if (json.msg=='100') {
         initPage(json.userInfo, data);
         $("#step1").show();
