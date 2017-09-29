@@ -53,7 +53,6 @@ $(function() {
     } 
   }); 
 
-
   _TYPE=getUrlParam(window.location.href, 'type');
   if (_TYPE==null) _TYPE="add";
   if (_TYPE.toLocaleLowerCase()=='update') _TYPE="update";
@@ -645,6 +644,7 @@ function commitData() {
     if (_uHouseType) retData.housetype=_uHouseType;
     if (_uHouseTypeDesc) retData.housetypedesc=_uHouseTypeDesc;
     if (_uLiveAcreage) retData.liveacreage=_uLiveAcreage;
+    alert("retData.liveacreage="+retData.liveacreage);
     temp=$("input[name='enterpriseName']").val();
     if (temp) retData.enterprisename=temp;
     temp=$("input[name='enterpriseAddress']").val();
@@ -675,6 +675,8 @@ function commitData() {
     if (temp) retData.compareprojs=temp;
     temp=$("textarea[name='custDescn']").val();
     if (temp) retData.descn=temp;
+    temp=$("textarea[name='faultDescn']").val();
+    if (temp) retData.faultdescn=temp;
 
     if (_uFamilyStatus) retData.familystatus=_uFamilyStatus;
     if (_uTrafficType) retData.traffictype=_uTrafficType;
@@ -902,9 +904,8 @@ function _dealCustomer() {
     $("#step5").hide();
   }
   function _dealOne(ident, customer) {
-    if (!eval("customer."+ident)||(eval("customer."+ident)=='无法了解')) {
-      $("#i_"+ident).show();
-    } else {
+    if (!eval("customer."+ident)||(eval("customer."+ident)=='无法了解')) $("#i_"+ident).show();
+    else {
       $("#i_"+ident).hide();
       needReInputCount--;
     }
@@ -1057,6 +1058,7 @@ function fillData(data) {//填数据，包括所有页面
   if (data.custscore) fillSelectField("custScore", data.custscore, true);
   if (data.compareprojs) $("textarea[name='compareProjs']").val(data.compareprojs);
   if (data.descn) $("textarea[name='custDescn']").val(data.descn);
+  if (data.faultdescn) $("textarea[name='faultDescn']").val(data.faultdescn);
 
   if (data.familystatus) fillSelectField("familyStatus", data.familystatus, true);
   if (data.traffictype) {
@@ -1101,7 +1103,6 @@ function fillData(data) {//填数据，包括所有页面
          temp2+=")";
          _temp=_temp.replace(s2[0], temp2);
       }
-      
     }
     fillSelectField("knowWay", _temp, true);
   }

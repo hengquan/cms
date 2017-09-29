@@ -187,6 +187,7 @@ function fillData() {
   if (data.custscore) $("#custScore").html(data.custscore);
   if (customer.compareprojs) $("#compareProjs").html(customer.compareprojs);
   if (data.descn) $("#custDescn").html(data.descn);
+  if (data.faultdescn) $("#faultDescn").html(data.faultdescn);
   if (userInfo.roleName=='项目负责人'&&data.status==1) needAudit=true;
   if (needAudit) $("#operArea").show();
   $('body').css("display", "block");

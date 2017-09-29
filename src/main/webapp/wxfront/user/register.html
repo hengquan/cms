@@ -163,7 +163,7 @@ function registerUser() {
   var url=_URL_BASE+"/wx/api/updateUserMsg";
   $.ajax({type:"post", async:true, url:url, data:inputData, dataType:"json",
     success: function(json) {
-      if (json.msg=='100') window.location.href=_URL_BASE+"/wxfront/info.html";
+      if (json.msg=='100') window.location.href=_URL_BASE+"/wxfront/user/info.html";
       else {
         var errStr="";
         if (json.msg=="103") errStr="程序出错";
