@@ -91,10 +91,11 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
             <tr><td>顾问</td><td>日访</td><td>首访</td><td>复访</td><td>成交</td></tr>
           </thead>
           <tbody id="tbl">
+         
+           <!--  <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
             <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
             <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
+            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr> -->
           </tbody>
         </table>
         <div id="dayEcharts" style="width: 100%;height:400px;"></div>
@@ -110,7 +111,7 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
           <thead>
             <tr><td>顾问</td><td>日访</td><td>首访</td><td>复访</td><td>成交</td></tr>
           </thead>
-          <tbody id="tbl">
+          <tbody id="tb2">
             <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
             <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
             <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
@@ -130,7 +131,7 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
           <thead>
             <tr><td>顾问</td><td>日访</td><td>首访</td><td>复访</td><td>成交</td></tr>
           </thead>
-          <tbody id="tbl">
+          <tbody id="tb3">
             <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
             <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
             <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
@@ -284,28 +285,48 @@ var init={
 
 
 
+
+
+/* sessionStorage.getItem("userid",userid); */
+var begin= new Date();
+var end=new Date();
+var userid=sessionStorage.getItem("userid",userid);
+
+console.log(userid);
+getDaydata(begin,end,userid);
 //从后台获取数据并渲染
-function getDaydata(users){  
+function getDaydata(){ 
+	console.log("000000000000000000");
   var _data={};
-/*   _data.dateBegin = dateBegin;
-  _data.dateEnd = dateEnd; */
-  _data.users = users;
+ /*  _data.dateBegin = dateBegin;
+  _data.dateEnd = dateEnd; 
+  _data.users = users; */
   $.ajax({  
-    type: "GET",  
+    type: "POST",  
     url: _URL_BASE+"/wx/api/getARCount",
-    data: {"user":users},  
+    data: {"dateBegin":begin,"dateEnd":end,"users":userid},  
     dataType:"json",  
     async:true,  
     cache:false,  
-    success: function(data){  
-      console.log(data);
+    success: function(json){ 
+      if (json.msg=='100'){
+    	
+    	  console.log(json);
+    	  console.log(json.datas);
+          $("#tbl").html('<tr><td>userName</td><td>data</td><td>data</td><td>data</td><td>data</td></tr>');
+         
+         
+       
+      }
+     
     },  
     error: function(json){  
        console.log("获取数据失败");
     }  
   });     
 }
-getDaydata();
+
+
 
 </script>
 </body>

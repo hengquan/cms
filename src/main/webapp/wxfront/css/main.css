@@ -254,3 +254,5 @@ img.magnifier{width:30px;position:absolute;padding-top:0.15em;z-index:9;padding-
 #custData p{margin:0.2em 0;}
 #custData p input{margin-right:10px;}
 .modal-body label{display:inline-block;}
+
+@media only screen and (min-width:400px){.modal-dialog {width:98% !important;}}
