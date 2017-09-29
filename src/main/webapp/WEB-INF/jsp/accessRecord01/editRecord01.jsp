@@ -297,13 +297,21 @@ rgba
 								
 									
 								</tr>
+								<!-- 本地居住地 -->
+								<input type="hidden" id="localresidence1" name="localresidence1" value="${accessRecord01.localresidence }">
+								<!-- 本地工作地 -->
+								<input type="hidden" id="localworkarea1" name="localworkarea1" value="${accessRecord01.localworkarea }">
+								<!-- 外阜居住地 -->
+								<input type="hidden" id="outresidence1" name="outresidence1" value="${accessRecord01.outresidence }">
+								<!-- 外阜工作地 -->
+								<input type="hidden" id="outworkarea1" name="outworkarea1" value="${accessRecord01.outworkarea }">
+								
 								<tr>
 									<td colspan="3"><span style="float:left">本地居住：</span>
 									  <div data-toggle="local_distpicker">
 								          <select class="" id="local_province4"></select>
 								          <select class="" id="local_city4"></select>
 								          <select class="" id="local_district4"></select>
-								   
 								      </div>
 									</td>
 								</tr>
@@ -683,7 +691,41 @@ rgba
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
 		$(function() {
-
+/* 			//本地居住地 
+			var localresidence1 = $("#localresidence1").val();
+			var localworkarea1 = $("#localworkarea1").val();
+			//外阜居住地 
+			var outresidence1 = $("#outresidence1").val();
+			var outworkarea1 = $("#outworkarea1").val();
+			
+			var a = localresidence1.split(',');
+			console.log(a);
+			for(var i=0;i<a.length;i++){
+				if(i==0){
+					var aa = $("#local_city4").find("option")[0];
+					console.log(aa);
+					aa.text = a[i];
+				}
+				if(i==1){
+					var aa = $("#local_district4").find("option")[0];
+					aa.text = a[i];
+				}
+			}
+			var b = localworkarea1.split(',');
+			for(var i=0;i<b.length;i++){
+				if(i==0){
+					var aa = $("#local_city3").find("option")[0];
+					aa.text = a[i];
+				}
+				if(i==1){
+					var aa = $("#local_district3").find("option")[0];
+					aa.text = a[i];
+				}
+			}
+			
+			 */
+			
+			
 		});
 
 		//提交表单
