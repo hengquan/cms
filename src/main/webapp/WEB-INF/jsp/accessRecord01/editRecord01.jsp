@@ -282,63 +282,8 @@ rgba
 								</tr>
 
 								<tr>
-									<td>本地居住： <select name="juzhu_qu_id" id="selDistricts_1">
-											<option value="0">请选择区</option>
-											<option value="517">延庆县</option>
-											<option value="516">密云县</option>
-											<option value="515">大兴区</option>
-											<option value="514">平谷区</option>
-											<option value="513">怀柔区</option>
-											<option value="512">昌平区</option>
-											<option value="511">顺义区</option>
-											<option value="510">通州区</option>
-											<option value="509">门头沟区</option>
-											<option value="508">房山区</option>
-											<option value="507">石景山区</option>
-											<option value="506">丰台区</option>
-											<option value="503">朝阳区</option>
-											<option value="502">海淀区</option>
-											<option value="501">西城区</option>
-											<option value="500">东城区</option>
-
-
-									</select> <select name="juzhu_bankuai_id" id="selBankuai_1">
-											<option value="0">请选择板块</option>
-
-											<option value="3555">延庆</option>
-									</select> <a onclick="chongzhi_juzhu_qu()"
-										style="cursor: pointer; margin-left: 10px; color: #0000FF; text-decoration: none">清空</a>
-									</td>
-
-									<td>本地工作： <select name="work_qu_id" id="selDistricts_3">
-											<option value="0">请选择区</option>
-											<option value="517">延庆县</option>
-											<option value="516">密云县</option>
-											<option value="515">大兴区</option>
-											<option value="514">平谷区</option>
-											<option value="513">怀柔区</option>
-											<option value="512">昌平区</option>
-											<option value="511">顺义区</option>
-											<option value="510">通州区</option>
-											<option value="509">门头沟区</option>
-											<option value="508">房山区</option>
-											<option value="507">石景山区</option>
-											<option value="506">丰台区</option>
-											<option value="503">朝阳区</option>
-											<option value="502">海淀区</option>
-											<option value="501">西城区</option>
-											<option value="500">东城区</option>
-
-
-									</select> <select name="work_bankuai_id" id="selBankuai_3">
-											<option value="0">请选择板块</option>
-
-											<option value="3557">平谷</option>
-									</select> <a onclick="chongzhi_work_qu()"
-										style="cursor: pointer; margin-left: 10px; color: #0000FF; text-decoration: none">清空</a>
-									</td>
-
-									<td>有无购房资格：<select name="buyqualify">
+									<td colspan="3">有无购房资格：
+										<select name="buyqualify">
 											<option value="0">请选择</option>
 											<option <c:if test="${accessRecord01.buyqualify == '有'}">selected</c:if> value="004001-有">有</option>
 											<option <c:if test="${accessRecord01.buyqualify == '无(换产权名解决)'}">selected</c:if> value="004002-无(换产权名解决)">无（换产权名解决）</option>
@@ -347,40 +292,60 @@ rgba
 											<option <c:if test="${accessRecord01.buyqualify == '无(公司产权解决)'}">selected</c:if> value="004005-无(公司产权解决)">无（公司产权解决）</option>
 											<option <c:if test="${accessRecord01.buyqualify == '无(其它解决)'}">selected</c:if> value="004006-无(其它解决)">无（其它解决）</option>
 											<option <c:if test="${accessRecord01.buyqualify == '无法了解'}">selected</c:if> value="004000-无法了解" style="color: red">无法了解</option>
-									</select>
+										</select>
+									</td>
+								
+									
+								</tr>
+								<!-- 本地居住地 -->
+								<input type="hidden" id="localresidence1" name="localresidence1" value="${accessRecord01.localresidence }">
+								<!-- 本地工作地 -->
+								<input type="hidden" id="localworkarea1" name="localworkarea1" value="${accessRecord01.localworkarea }">
+								<!-- 外阜居住地 -->
+								<input type="hidden" id="outresidence1" name="outresidence1" value="${accessRecord01.outresidence }">
+								<!-- 外阜工作地 -->
+								<input type="hidden" id="outworkarea1" name="outworkarea1" value="${accessRecord01.outworkarea }">
+								
+								<tr>
+									<td colspan="3"><span style="float:left">本地居住：</span>
+									  <div data-toggle="local_distpicker">
+								          <select class="" id="local_province4"></select>
+								          <select class="" id="local_city4"></select>
+								          <select class="" id="local_district4"></select>
+								      </div>
 									</td>
 								</tr>
-
+								<tr>
+									<td colspan="3"><span style="float:left">本地工作：</span>
+								      <div data-toggle="local_distpicker">
+								          <select class="" id="local_province3"></select>
+								          <select class="" id="local_city3"></select>
+								          <select class="" id="local_district3"></select>
+								      </div>
+								</tr>
+									<script type="text/javascript" src="${appRoot}/static/js/local_distpicker.js"></script>
+									<script type="text/javascript" src="${appRoot}/static/js/local_distpicker (1).js"></script>
+									<script type="text/javascript" src="${appRoot}/static/js/local_main.js"></script>
+									
 								<tr>
 									<td colspan="3"><span style="float:left">外埠居住：</span>
-									
-								  <form class="">
 								      <div data-toggle="distpicker">
 								          <select class="" id="province1"></select>
 								          <select class="" id="city1"></select>
 								          <select class="" id="district1"></select>
-								     
 								      </div>
-								   </form>
-									
-								
 									</td>
-
-									
-
-								
 								</tr>
 								<tr>
 									<td colspan="3"><span style="float:left">外埠工作：</span>
-									    <form class="">
-									      <div data-toggle="distpicker">
-									          <select class="" id="province2" data-province="---- 选择省 ----"></select>
-									          <select class="" id="city2" data-city="---- 选择市 ----"></select>
-									          <select class="" id="district2" data-district="---- 选择区 ----"></select>
-									      </div>
-									    </form>
+								      <div data-toggle="distpicker" id="distpicker2">
+								          <select class="" id="province2" data-province="---- 选择省 ----"></select>
+								          <select class="" id="city2" data-city="---- 选择市 ----"></select>
+								          <select class="" id="district2" data-district="---- 选择区 ----"></select>
+								      </div>
 									</td>
 								</tr>
+								
 								<tr>
 									<td colspan="3">家庭状况：
 										<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord01.familystatus, '单身')}">checked</c:if> value="005001-单身" _text="单身" style="width: 1rem">单身 
@@ -713,6 +678,7 @@ rgba
 	<script type="text/javascript" src="${appRoot}/static/js/distpicker.js"></script>
 	<script type="text/javascript" src="${appRoot}/static/js/distpicker (1).js"></script>
 	<script type="text/javascript" src="${appRoot}/static/js/main.js"></script>
+
 	<script src="${appRoot}/static/js/jquery.sparkline.js"
 		type="text/javascript"></script>
 
@@ -725,7 +691,41 @@ rgba
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
 		$(function() {
-
+/* 			//本地居住地 
+			var localresidence1 = $("#localresidence1").val();
+			var localworkarea1 = $("#localworkarea1").val();
+			//外阜居住地 
+			var outresidence1 = $("#outresidence1").val();
+			var outworkarea1 = $("#outworkarea1").val();
+			
+			var a = localresidence1.split(',');
+			console.log(a);
+			for(var i=0;i<a.length;i++){
+				if(i==0){
+					var aa = $("#local_city4").find("option")[0];
+					console.log(aa);
+					aa.text = a[i];
+				}
+				if(i==1){
+					var aa = $("#local_district4").find("option")[0];
+					aa.text = a[i];
+				}
+			}
+			var b = localworkarea1.split(',');
+			for(var i=0;i<b.length;i++){
+				if(i==0){
+					var aa = $("#local_city3").find("option")[0];
+					aa.text = a[i];
+				}
+				if(i==1){
+					var aa = $("#local_district3").find("option")[0];
+					aa.text = a[i];
+				}
+			}
+			
+			 */
+			
+			
 		});
 
 		//提交表单

@@ -9,9 +9,7 @@
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<ref bean="redPacket" />
 				<ref bean="myJobTrigger" />
-				<ref bean="orderPastDue" />
 			</list>
 		</property>
 	</bean>
@@ -22,8 +20,7 @@
 			<ref bean="myJobDetail" />
 		</property>
 		<property name="cronExpression">
-			<!-- <value>*/15 * * * * ?</value> -->
-			<value>0 0 02 * * ?</value>
+			<value>0 0 2 * * ?</value>
 		</property>
 	</bean>
 	<bean id="myJobDetail"
@@ -36,55 +33,8 @@
 		</property>
 	</bean>
 	
-	<!-- 发送红包 -->
-	<bean id="redPacket"
-		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-		<property name="jobDetail">
-			<ref bean="redPacketSttle" />
-		</property>
-		<property name="cronExpression">
-			<!-- <value>*/21 * * * * ?</value>   -->
-			<value>0 0 21 * * ?</value>
-		</property>
-	</bean>
-	<bean id="redPacketSttle"
-		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject">
-			<ref bean="myJob1" />
-		</property>
-		<property name="targetMethod">
-			<value>doRedPacket</value>
-		</property>
-	</bean>
-	
-	<!-- 预约订单是否过期 -->
-	<bean id="orderPastDue"
-		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-		<property name="jobDetail">
-			<ref bean="pastDue" />
-		</property>
-		<property name="cronExpression">
-			<value>0 0/59 * * * ?</value>
-			<!-- <value>*/10 * * * * ?</value> -->
-		</property>
-	</bean>
-	<bean id="pastDue"
-		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject">
-			<ref bean="myJob2" />
-		</property>
-		<property name="targetMethod">
-			<value>doPastDue</value>
-		</property>
-	</bean>
-	
 	
 	
 	<!-- 工作的bean -->
 	<bean id="myJob" class="com.hj.wxmp.mobile.quartzjob.DoQuarzt" />
-	
-	<bean id="myJob1" class="com.hj.wxmp.mobile.quartzjob.DoRedPacket" />
-	
-	<bean id="myJob2" class="com.hj.wxmp.mobile.quartzjob.OrderPastDue" />
-
 </beans>

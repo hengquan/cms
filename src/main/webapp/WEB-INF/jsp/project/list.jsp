@@ -219,7 +219,7 @@
 								<label class="col-lg-2 control-label pd-r5">项目名称<font style="color:red;"></font></label>
 								<div class="col-lg-10">
 									<input type="text" class="form-control" id="projname1"
-										name="projname" maxlength="4" >
+										name="projname"  >
 								</div>
 							</div>
 							<div class="form-group">

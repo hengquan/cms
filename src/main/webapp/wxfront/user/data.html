@@ -281,16 +281,18 @@ var init={
     obj.style.transition='all '+time+'s ease-in-out';
   }
 }
+
+
+
 //从后台获取数据并渲染
 function getDaydata(dateBegin,dateEnd,user){  
   var _data={};
   _data.dateBegin = dateBegin;
   _data.dateEnd = dateEnd;
   _data.user = user;
-
   $.ajax({  
     type: "GET",  
-    url: _URL_BASE+"/wx/api/getCount",
+    url: _URL_BASE+"/wx/api/getARCount",
     data: {"dateBegin":dateBegin,"dateEnd":dateEnd,"user":user},  
     dataType:"json",  
     async:true,  
@@ -303,7 +305,7 @@ function getDaydata(dateBegin,dateEnd,user){
     }  
   });     
 }
-//getDaydata();
+getDaydata();
 
 </script>
 </body>
