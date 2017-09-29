@@ -93,7 +93,6 @@ $(function() {
     	console.log(json.userInfo);
     	console.log(json.userInfo.userid);
     	var userid = json.userInfo.userid;
-    	console.log(userid);
     	sessionStorage.setItem("userid",userid);
         fillPage(json.userInfo);
         $("div[class='main']").show();
@@ -124,11 +123,11 @@ $(function() {
 
 function openStat(type) {
 	if(type==1){
-		alert("aa");
+		alert("日统计");
 	}else if(type==2){
-		alert("bb");
+		alert("周统计");
 	}else{
-		alert("cc");
+		alert("月统计");
 	}
   window.location.href=_URL_BASE+"/wxfront/user/data.html#"+type;
 	
