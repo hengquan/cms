@@ -150,7 +150,7 @@ public class AccessRecordController extends ControllerBase {
 		model.addAttribute("itemId", itemId);
 		model.addAttribute("id", id);
 	    //权限
-	    model.addAttribute(roleName);
+	    model.addAttribute("roleName",roleName);
 		return pageUrl;
 	}
 	
