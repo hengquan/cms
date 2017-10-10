@@ -37,7 +37,9 @@
 		var date = new Date($("#nowDate").val()); //获取当前时间  
 		date.setDate(date.getDate() - datatimeval); //设置天数 -1 天  
 		var time = date.Format("yyyy-MM-dd");
-		$("#nowDate").val(time);			
+		$("#nowDate").val(time);	
+		var nowDate = $("#nowDate").val();
+		console.log(nowDate);
 	}
 	
 	//点击按钮实现前一周后一周
@@ -56,7 +58,7 @@
 		var time = date.Format("yyyy-MM-dd");
 		$("#nowWeek").val(time);			
 	}
-
+	
 	//点击按钮实现前一月后一月
 	function preMonth(){
 		preclickMonth = 1;
