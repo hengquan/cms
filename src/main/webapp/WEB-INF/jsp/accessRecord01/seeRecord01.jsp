@@ -284,7 +284,7 @@ rgba
 
 								<tr>
 									<td colspan="3">您的出行方式：
-										<input type="text" value="${accessRecord01.traffictypedesc }" style="width: 70rem">
+										<input type="text" value="${accessRecord01.traffictype }" style="width: 70rem">
 									</td>
 								</tr>
 
