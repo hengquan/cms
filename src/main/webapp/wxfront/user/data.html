@@ -15,7 +15,7 @@
   <script src="../../static/js/jquery.min.js" type="text/javascript"></script>
   <script src="../js/CONSTANT.js" type="text/javascript"></script>
   <script src="../js/common.utils.js" type="text/javascript"></script>
-  <script src="../js/echarts.simple.min.js"></script>
+  <script src="../js/echarts.common.min.js" type="text/javascript"></script>
 
 <style>
 @media (max-width: 767px) {
@@ -102,7 +102,7 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
         <div style="line-height:2rem;text-align:center;font-size:1.2rem;padding:0 1.2rem;">天成团队<span id="nowWeekText"></span>客户来访周数据统计</div>
         <table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
           <thead>
-            <tr><td>顾问</td><td>日访</td><td>首访</td><td>复访</td><td>成交</td></tr>
+            <tr><td>顾问</td><td>周访</td><td>首访</td><td>复访</td><td>成交</td></tr>
           </thead>
           <tbody id="tb2">
 
@@ -119,13 +119,10 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
         <div style="line-height:2rem;text-align:center;font-size:1.2rem;padding:0 1.2rem;">天成团队<span id="nowMonthText"></span>客户来访月数据统计</div>
         <table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
           <thead>
-            <tr><td>顾问</td><td>日访</td><td>首访</td><td>复访</td><td>成交</td></tr>
+            <tr><td>顾问</td><td>月访</td><td>首访</td><td>复访</td><td>成交</td></tr>
           </thead>
           <tbody id="tb3">
-          <!--   <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr> -->
+       
           </tbody>
         </table>
         <div id="monthEcharts" style="width: 100%;height:400px;"></div>
@@ -135,7 +132,7 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
 </div>
 
 <script src="datePicker.js"></script>
-<script src="myEchart.js"></script>
+<!-- <script src="myEchart.js"></script> -->
 <script charset="utf-8">
 function xlh(){
   var tbl=document.getElementById("tbl");
@@ -273,15 +270,11 @@ var init={
   }
 }
 
-
-/* sessionStorage.getItem("userid",userid); */
-
-
   var begin = ""; 
   var end = "";
   var userid = sessionStorage.getItem("userid",userid);
 
-//从后台获取每日数据并渲染
+//从后台获取每日数据并渲染数据及图表
 function getDaydata(){ 
   var getbeginDate = $("#beginDate").val();
   var getendDate = $("#endDate").val();
@@ -296,33 +289,71 @@ function getDaydata(){
     success: function(json){ 
       if (json.msg=='100'){
     	  var tbody='';
+    	  var dayVisitData = 0;
+    	  var firstVisitData = 0;
+    	  var secondVisitData = 0;
+    	  var completeData = 0;
     	  for(var i = 0;i<json.datas.length;i++){
     		  var _realName = json.datas[i].realName;
     		  var _ar01Count = json.datas[i].ar01Count;
-    		  //console.log(_ar01Count+"首访");
+    		  firstVisitData += parseInt(json.datas[i].ar01Count);
     		  var _ar02Count = json.datas[i].ar02Count;
-    		  //console.log(_ar02Count+"复访");
+    		  secondVisitData += parseInt(json.datas[i].ar02Count);
     		  var _ar03Count = json.datas[i].ar03Count;
-    		  //console.log(_ar03Count+"成交");
+    		  completeData += parseInt(json.datas[i].ar03Count);
     		  var _allCount = parseInt(_ar01Count) + parseInt(_ar02Count) + parseInt(_ar03Count);
-    		  console.log(_allCount+"日访");
-    		
+    		  dayVisitData += _allCount;
 			  tbody += '<tr><td>' + _realName + '</td><td>' +_allCount+ '</td><td>' +_ar01Count+ '</td><td>' +_ar02Count+ '</td><td>' +_ar03Count+ '</td></tr>';
     	  }
-    	 
     	  $("#tbl").html(tbody);
-    	  
-    	  var echartsDateAll = option.series[0].data[0].value;
-    	  _allCount += _allCount;
-    	  
-		  echartsDateAll = _allCount;
-		  
-		  var echartsDate02 = option.series[0].data[1].value;
-    	  echartsDate01 = _ar01Count;
-    	  var echartsDate03 = option.series[0].data[2].value;
-    	  echartsDate02 = _ar02Count;
-    	  var echartsDate04 = option.series[0].data[3].value;
-    	  echartsDate03 = _ar03Count;
+    	  var dom = document.getElementById("dayEcharts");
+    	  var myChart = echarts.init(dom);
+    	  var app = {};
+    	  option = null;
+    	  function fetchData(getData) {
+    	      // 通过 setTimeout 模拟异步加载
+    	      setTimeout(function () {
+    	    	  getData({
+    	              categories: ["日访","首访","复访","成交"],
+    	              data: [dayVisitData, firstVisitData, secondVisitData, completeData]
+    	          });
+    	      }, 1000);
+    	  }
+    	  // 初始 option
+    	  option = {
+    	      title: {
+    	          text: '客户访问数据统计'
+    	      },
+    	      tooltip: {},
+    	      legend: {
+    	          data:['访问量']
+    	      },
+    	      xAxis: {
+    	          data: []
+    	      },
+    	      yAxis: {},
+    	      series: [{
+    	          name: '访问量',
+    	          type: 'bar',
+    	          data: []
+    	      }]
+    	  };
+
+    	  fetchData(function (data) {
+    	      myChart.setOption({
+    	          xAxis: {
+    	              data: data.categories
+    	          },
+    	          series: [{
+    	              // 根据名字对应到相应的系列
+    	              name: '访问量',
+    	              data: data.data
+    	          }]
+    	      });
+    	  });;
+    	  if (option && typeof option === "object") {
+    	      myChart.setOption(option, true);
+    	  }
       }	
     },  
     error: function(json){  
@@ -346,31 +377,75 @@ function getWeekdata(){
     async:true,  
     cache:false,  
     success: function(json){ 
-      if (json.msg=='100'){
-    	  var tbody='';
-    	  for(var i = 0;i<json.datas.length;i++){
-    		  var _realName = json.datas[i].realName;
-    		  var _ar01Count = json.datas[i].ar01Count;
-    		  //console.log(_ar01Count+"首访");
-    		  var _ar02Count = json.datas[i].ar02Count;
-    		  //console.log(_ar02Count+"复访");
-    		  var _ar03Count = json.datas[i].ar03Count;
-    		  //console.log(_ar03Count+"成交");
-    		  var _allCount = parseInt(_ar01Count) + parseInt(_ar02Count) + parseInt(_ar03Count);
-    		  //console.log(_allCount+"日访");
-			  tbody += '<tr><td>' + _realName + '</td><td>' +_allCount+ '</td><td>' +_ar01Count+ '</td><td>' +_ar02Count+ '</td><td>' +_ar03Count+ '</td></tr>';
-    	  }
-    	  $("#tb2").html(tbody);
-    	  var echartsDate01 = option.series[0].data[0].value;
-		  echartsDateAll = _allCount;
-		  var echartsDate02 = option.series[0].data[1].value;
-    	  echartsDate01 = _ar01Count;
-    	  var echartsDate03 = option.series[0].data[2].value;
-    	  echartsDate02 = _ar02Count;
-    	  var echartsDate04 = option.series[0].data[3].value;
-    	  echartsDate03 = _ar03Count;
-      }	
-    },  
+        if (json.msg=='100'){
+      	  var tbody='';
+      	  var dayVisitData = 0;
+      	  var firstVisitData = 0;
+      	  var secondVisitData = 0;
+      	  var completeData = 0;
+      	  for(var i = 0;i<json.datas.length;i++){
+      		  var _realName = json.datas[i].realName;
+      		  var _ar01Count = json.datas[i].ar01Count;
+      		  firstVisitData += parseInt(json.datas[i].ar01Count);
+      		  var _ar02Count = json.datas[i].ar02Count;
+      		  secondVisitData += parseInt(json.datas[i].ar02Count);
+      		  var _ar03Count = json.datas[i].ar03Count;
+      		  completeData += parseInt(json.datas[i].ar03Count);
+      		  var _allCount = parseInt(_ar01Count) + parseInt(_ar02Count) + parseInt(_ar03Count);
+      		  dayVisitData += _allCount;
+  			  tbody += '<tr><td>' + _realName + '</td><td>' +_allCount+ '</td><td>' +_ar01Count+ '</td><td>' +_ar02Count+ '</td><td>' +_ar03Count+ '</td></tr>';
+      	  }
+      	  $("#tb2").html(tbody);
+      	  var dom = document.getElementById("weekEcharts");
+      	  var myChart = echarts.init(dom);
+      	  var app = {};
+      	  option = null;
+      	  function fetchData(getData) {
+      	      // 通过 setTimeout 模拟异步加载
+      	      setTimeout(function () {
+      	    	  getData({
+      	              categories: ["周访","首访","复访","成交"],
+      	              data: [dayVisitData, firstVisitData, secondVisitData, completeData]
+      	          });
+      	      }, 1000);
+      	  }
+      	  // 初始 option
+      	  option = {
+      	      title: {
+      	          text: '客户访问数据统计'
+      	      },
+      	      tooltip: {},
+      	      legend: {
+      	          data:['访问量']
+      	      },
+      	      xAxis: {
+      	          data: []
+      	      },
+      	      yAxis: {},
+      	      series: [{
+      	          name: '访问量',
+      	          type: 'bar',
+      	          data: []
+      	      }]
+      	  };
+
+      	  fetchData(function (data) {
+      	      myChart.setOption({
+      	          xAxis: {
+      	              data: data.categories
+      	          },
+      	          series: [{
+      	              // 根据名字对应到相应的系列
+      	              name: '访问量',
+      	              data: data.data
+      	          }]
+      	      });
+      	  });;
+      	  if (option && typeof option === "object") {
+      	      myChart.setOption(option, true);
+      	  }
+        }	
+      },  
     error: function(json){  
        console.log("获取数据失败");
     }  
@@ -389,31 +464,75 @@ function getMonthdata(){
     async:true,  
     cache:false,  
     success: function(json){ 
-      if (json.msg=='100'){
-    	  var tbody='';
-    	  for(var i = 0;i<json.datas.length;i++){
-    		  var _realName = json.datas[i].realName;
-    		  var _ar01Count = json.datas[i].ar01Count;
-    		  //console.log(_ar01Count+"首访");
-    		  var _ar02Count = json.datas[i].ar02Count;
-    		  //console.log(_ar02Count+"复访");
-    		  var _ar03Count = json.datas[i].ar03Count;
-    		  //console.log(_ar03Count+"成交");
-    		  var _allCount = parseInt(_ar01Count) + parseInt(_ar02Count) + parseInt(_ar03Count);
-    		  //console.log(_allCount+"日访");
-			  tbody += '<tr><td>' + _realName + '</td><td>' +_allCount+ '</td><td>' +_ar01Count+ '</td><td>' +_ar02Count+ '</td><td>' +_ar03Count+ '</td></tr>';
-    	  }
-    	  $("#tb3").html(tbody);
-    	  var echartsDate01 = option.series[0].data[0].value;
-		  echartsDateAll = _allCount;
-		  var echartsDate02 = option.series[0].data[1].value;
-    	  echartsDate01 = _ar01Count;
-    	  var echartsDate03 = option.series[0].data[2].value;
-    	  echartsDate02 = _ar02Count;
-    	  var echartsDate04 = option.series[0].data[3].value;
-    	  echartsDate03 = _ar03Count;
-      }	
-    },  
+        if (json.msg=='100'){
+      	  var tbody='';
+      	  var dayVisitData = 0;
+      	  var firstVisitData = 0;
+      	  var secondVisitData = 0;
+      	  var completeData = 0;
+      	  for(var i = 0;i<json.datas.length;i++){
+      		  var _realName = json.datas[i].realName;
+      		  var _ar01Count = json.datas[i].ar01Count;
+      		  firstVisitData += parseInt(json.datas[i].ar01Count);
+      		  var _ar02Count = json.datas[i].ar02Count;
+      		  secondVisitData += parseInt(json.datas[i].ar02Count);
+      		  var _ar03Count = json.datas[i].ar03Count;
+      		  completeData += parseInt(json.datas[i].ar03Count);
+      		  var _allCount = parseInt(_ar01Count) + parseInt(_ar02Count) + parseInt(_ar03Count);
+      		  dayVisitData += _allCount;
+  			  tbody += '<tr><td>' + _realName + '</td><td>' +_allCount+ '</td><td>' +_ar01Count+ '</td><td>' +_ar02Count+ '</td><td>' +_ar03Count+ '</td></tr>';
+      	  }
+      	  $("#tb3").html(tbody);
+      	  var dom = document.getElementById("monthEcharts");
+      	  var myChart = echarts.init(dom);
+      	  var app = {};
+      	  option = null;
+      	  function fetchData(getData) {
+      	      // 通过 setTimeout 模拟异步加载
+      	      setTimeout(function () {
+      	    	  getData({
+      	              categories: ["月访","首访","复访","成交"],
+      	              data: [dayVisitData, firstVisitData, secondVisitData, completeData]
+      	          });
+      	      }, 1000);
+      	  }
+      	  // 初始 option
+      	  option = {
+      	      title: {
+      	          text: '客户访问数据统计'
+      	      },
+      	      tooltip: {},
+      	      legend: {
+      	          data:['访问量']
+      	      },
+      	      xAxis: {
+      	          data: []
+      	      },
+      	      yAxis: {},
+      	      series: [{
+      	          name: '访问量',
+      	          type: 'bar',
+      	          data: []
+      	      }]
+      	  };
+
+      	  fetchData(function (data) {
+      	      myChart.setOption({
+      	          xAxis: {
+      	              data: data.categories
+      	          },
+      	          series: [{
+      	              // 根据名字对应到相应的系列
+      	              name: '访问量',
+      	              data: data.data
+      	          }]
+      	      });
+      	  });;
+      	  if (option && typeof option === "object") {
+      	      myChart.setOption(option, true);
+      	  }
+        }	
+      },  
     error: function(json){  
        console.log("获取数据失败");
     }  
