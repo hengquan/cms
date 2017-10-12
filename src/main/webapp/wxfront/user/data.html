@@ -68,25 +68,27 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
   <div class="lineBorder">
     <div class="lineDiv"><!--移动的div--></div>
   </div>
+  <input type="hidden" id="beginDate" value="">
+  <input type="hidden" id="endDate" value="">
+  <input type="hidden" id="weekFirstDay" value="">
+  <input type="hidden" id="weekLastDay" value="">
+  <input type="hidden" id="monthFirstDay" value="">
+  <input type="hidden" id="monthLastDay" value="">
   <div class="tabCon">
     <div class="tabBox">
       <div class="tabList">
         <div class="item_sflr row" style="width:100%; border:1px solid #FFFFFF;margin:0;padding:0;" >
           <div class="inputdate02">
-            <button id="preDate" class="btn btn-primary btn-primary-left" onclick="preDay()">前一天</button><input type="date" placeholder="" id="nowDate" value="请输入日期" style="width:60%;"><button id="nextDate" class="btn btn-primary btn-primary-right" onclick="nextDay()">后一天</button>
+            <button id="preDate" class="btn btn-primary btn-primary-left" onclick="preDay()">前一天</button><input type="date" placeholder="" id="nowDate" oninput="OnInput(event)" value="请输入日期" style="width:60%;"><button id="nextDate" class="btn btn-primary btn-primary-right" onclick="nextDay()">后一天</button>
           </div>
         </div>
-        <div style="line-height:4rem;text-align:center;font-size:1.3rem">天成团队8月客户来访日数据统计</div>
+        <div style="line-height:2rem;text-align:center;font-size:1.2rem;padding:0 1.2rem;">天成团队<span id="nowDayText"></span>客户来访日数据统计</div>
         <table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
           <thead>
             <tr><td>顾问</td><td>日访</td><td>首访</td><td>复访</td><td>成交</td></tr>
           </thead>
           <tbody id="tbl">
-         
-           <!--  <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr> -->
+
           </tbody>
         </table>
         <div id="dayEcharts" style="width: 100%;height:400px;"></div>
@@ -94,19 +96,16 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
       <div class="tabList">
         <div class="item_sflr row" style="width:100%; border:1px solid #FFFFFF;margin:0;padding:0;">
           <div class="inputdate02">
-            <button id="preWeek" class="btn btn-primary btn-primary-left" onclick="preWeek()">前一周</button><input type="date" placeholder="Birth day" id="nowWeek" value="请输入日期" style="width:60%;"><button id="nextWeek" class="btn btn-primary btn-primary-right" onclick="nextWeek()">后一周</button>
+            <button id="preWeek" class="btn btn-primary btn-primary-left" onclick="preWeek()">前一周</button><input type="date" placeholder="" id="nowWeek" oninput="OnInput(event)" value="请输入日期" style="width:60%;"><button id="nextWeek" class="btn btn-primary btn-primary-right" onclick="nextWeek()">后一周</button>
           </div>
         </div>
-        <div style="line-height:4rem;text-align:center;font-size:1.3rem">天成团队8月客户来访周数据统计</div>
+        <div style="line-height:2rem;text-align:center;font-size:1.2rem;padding:0 1.2rem;">天成团队<span id="nowWeekText"></span>客户来访周数据统计</div>
         <table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
           <thead>
             <tr><td>顾问</td><td>日访</td><td>首访</td><td>复访</td><td>成交</td></tr>
           </thead>
           <tbody id="tb2">
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
+
           </tbody>
         </table>
         <div id="weekEcharts" style="width: 100%;height:400px;"></div>
@@ -114,19 +113,19 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
       <div class="tabList">
         <div class="item_sflr row" style="width:100%; border:1px solid #FFFFFF;margin:0;padding:0;">
           <div class="inputdate02">
-            <button id="preMonth" class="btn btn-primary btn-primary-left" onclick="preMonth()">前一月</button><input type="date" placeholder="Birth day" id="nowMonth" value="2017-09" style="width:60%;"><button id="nextMonth" class="btn btn-primary btn-primary-right" onclick="nextMonth()">后一月</button>
+            <button id="preMonth" class="btn btn-primary btn-primary-left" onclick="preMonth()">前一月</button><input type="month" placeholder="Birth day" oninput="OnInput(event)" id="nowMonth" value="" style="width:60%;"><button id="nextMonth" class="btn btn-primary btn-primary-right" onclick="nextMonth()">后一月</button>
           </div>
         </div>
-        <div style="line-height:4rem;text-align:center;font-size:1.3rem">天成团队8月客户来访月数据统计</div>
+        <div style="line-height:2rem;text-align:center;font-size:1.2rem;padding:0 1.2rem;">天成团队<span id="nowMonthText"></span>客户来访月数据统计</div>
         <table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
           <thead>
             <tr><td>顾问</td><td>日访</td><td>首访</td><td>复访</td><td>成交</td></tr>
           </thead>
           <tbody id="tb3">
+          <!--   <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
             <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
             <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
+            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr> -->
           </tbody>
         </table>
         <div id="monthEcharts" style="width: 100%;height:400px;"></div>
@@ -206,7 +205,6 @@ $(function(){
   }
   //按下
   function chstart(ev){
-	alert("按下");
     ev.preventDefault;
     var touch=ev.touches[0];
     tar=touch.pageX;
@@ -276,74 +274,151 @@ var init={
 }
 
 
-
-
-
 /* sessionStorage.getItem("userid",userid); */
- 
 
- 
-var begin= '2017-09-26'; 
-var end='2017-09-28';
-var userid=sessionStorage.getItem("userid",userid);
 
-//从后台获取数据并渲染
+  var begin = ""; 
+  var end = "";
+  var userid = sessionStorage.getItem("userid",userid);
+
+//从后台获取每日数据并渲染
 function getDaydata(){ 
+  var getbeginDate = $("#beginDate").val();
+  var getendDate = $("#endDate").val();
   var _data={};
   $.ajax({  
     type: "POST",  
     url: _URL_BASE+"/wx/api/getARCount",
-    data: {"dateBegin":begin,"dateEnd":end,"users":userid},  
+    data: {"dateBegin":getbeginDate,"dateEnd":getendDate,"users":userid},  
     dataType:"json",  
     async:true,  
     cache:false,  
     success: function(json){ 
       if (json.msg=='100'){
     	  var tbody='';
-    	  console.log(json);
-    	  
     	  for(var i = 0;i<json.datas.length;i++){
     		  var _realName = json.datas[i].realName;
     		  var _ar01Count = json.datas[i].ar01Count;
+    		  //console.log(_ar01Count+"首访");
     		  var _ar02Count = json.datas[i].ar02Count;
+    		  //console.log(_ar02Count+"复访");
     		  var _ar03Count = json.datas[i].ar03Count;
-        	  var _allCount = parseInt(_ar01Count) + parseInt(_ar02Count) + parseInt(_ar03Count);
-
+    		  //console.log(_ar03Count+"成交");
+    		  var _allCount = parseInt(_ar01Count) + parseInt(_ar02Count) + parseInt(_ar03Count);
+    		  console.log(_allCount+"日访");
+    		
 			  tbody += '<tr><td>' + _realName + '</td><td>' +_allCount+ '</td><td>' +_ar01Count+ '</td><td>' +_ar02Count+ '</td><td>' +_ar03Count+ '</td></tr>';
-	          
-			 /*  json.datas[i].ar01Count += json.datas[i].ar01Count;
-			  console.log(json.datas[i].ar01Count); */
-  
     	  }
+    	 
     	  $("#tbl").html(tbody);
+    	  
     	  var echartsDateAll = option.series[0].data[0].value;
-    	  console.log(echartsDateAll);
+    	  _allCount += _allCount;
+    	  
 		  echartsDateAll = _allCount;
-		  console.log(echartsDateAll);
-		  var echartsDate01 = option.series[0].data[1].value;
+		  
+		  var echartsDate02 = option.series[0].data[1].value;
     	  echartsDate01 = _ar01Count;
-    	  var echartsDate02 = option.series[0].data[2].value;
+    	  var echartsDate03 = option.series[0].data[2].value;
     	  echartsDate02 = _ar02Count;
-    	  var echartsDate03 = option.series[0].data[3].value;
+    	  var echartsDate04 = option.series[0].data[3].value;
     	  echartsDate03 = _ar03Count;
-    	  console.log(11111111111)
-    	  console.log(echartsDate01);
-    	  console.log(echartsDate02);
-    	  console.log(echartsDate03);
-    	  console.log(echartsDateAll);
-    	  console.log(2222222222222)
       }	
-      
-   
-      /* console.log(option.series); */
     },  
     error: function(json){  
        console.log("获取数据失败");
     }  
   });     
 }
-getDaydata(begin,end,userid);
 
+//从后台获取每周数据并渲染
+function getWeekdata(){ 
+  var getbeginDate = $("#weekFirstDay").val();
+  var getendDate = $("#weekLastDay").val();
+  $("#nowWeekText").html(getbeginDate+"至"+getendDate);
+  //$("#nowWeek").val(getbeginDate+"至"+getendDate);
+  var _data={};
+  $.ajax({  
+    type: "POST",  
+    url: _URL_BASE+"/wx/api/getARCount",
+    data: {"dateBegin":getbeginDate,"dateEnd":getendDate,"users":userid},  
+    dataType:"json",  
+    async:true,  
+    cache:false,  
+    success: function(json){ 
+      if (json.msg=='100'){
+    	  var tbody='';
+    	  for(var i = 0;i<json.datas.length;i++){
+    		  var _realName = json.datas[i].realName;
+    		  var _ar01Count = json.datas[i].ar01Count;
+    		  //console.log(_ar01Count+"首访");
+    		  var _ar02Count = json.datas[i].ar02Count;
+    		  //console.log(_ar02Count+"复访");
+    		  var _ar03Count = json.datas[i].ar03Count;
+    		  //console.log(_ar03Count+"成交");
+    		  var _allCount = parseInt(_ar01Count) + parseInt(_ar02Count) + parseInt(_ar03Count);
+    		  //console.log(_allCount+"日访");
+			  tbody += '<tr><td>' + _realName + '</td><td>' +_allCount+ '</td><td>' +_ar01Count+ '</td><td>' +_ar02Count+ '</td><td>' +_ar03Count+ '</td></tr>';
+    	  }
+    	  $("#tb2").html(tbody);
+    	  var echartsDate01 = option.series[0].data[0].value;
+		  echartsDateAll = _allCount;
+		  var echartsDate02 = option.series[0].data[1].value;
+    	  echartsDate01 = _ar01Count;
+    	  var echartsDate03 = option.series[0].data[2].value;
+    	  echartsDate02 = _ar02Count;
+    	  var echartsDate04 = option.series[0].data[3].value;
+    	  echartsDate03 = _ar03Count;
+      }	
+    },  
+    error: function(json){  
+       console.log("获取数据失败");
+    }  
+  });     
+}
+//从后台获取每月数据并渲染
+function getMonthdata(){ 
+  var getbeginDate = $("#monthFirstDay").val();
+  var getendDate = $("#monthLastDay").val();
+  var _data={};
+  $.ajax({  
+    type: "POST",  
+    url: _URL_BASE+"/wx/api/getARCount",
+    data: {"dateBegin":getbeginDate,"dateEnd":getendDate,"users":userid},  
+    dataType:"json",  
+    async:true,  
+    cache:false,  
+    success: function(json){ 
+      if (json.msg=='100'){
+    	  var tbody='';
+    	  for(var i = 0;i<json.datas.length;i++){
+    		  var _realName = json.datas[i].realName;
+    		  var _ar01Count = json.datas[i].ar01Count;
+    		  //console.log(_ar01Count+"首访");
+    		  var _ar02Count = json.datas[i].ar02Count;
+    		  //console.log(_ar02Count+"复访");
+    		  var _ar03Count = json.datas[i].ar03Count;
+    		  //console.log(_ar03Count+"成交");
+    		  var _allCount = parseInt(_ar01Count) + parseInt(_ar02Count) + parseInt(_ar03Count);
+    		  //console.log(_allCount+"日访");
+			  tbody += '<tr><td>' + _realName + '</td><td>' +_allCount+ '</td><td>' +_ar01Count+ '</td><td>' +_ar02Count+ '</td><td>' +_ar03Count+ '</td></tr>';
+    	  }
+    	  $("#tb3").html(tbody);
+    	  var echartsDate01 = option.series[0].data[0].value;
+		  echartsDateAll = _allCount;
+		  var echartsDate02 = option.series[0].data[1].value;
+    	  echartsDate01 = _ar01Count;
+    	  var echartsDate03 = option.series[0].data[2].value;
+    	  echartsDate02 = _ar02Count;
+    	  var echartsDate04 = option.series[0].data[3].value;
+    	  echartsDate03 = _ar03Count;
+      }	
+    },  
+    error: function(json){  
+       console.log("获取数据失败");
+    }  
+  });     
+}
 
 </script>
 </body>
