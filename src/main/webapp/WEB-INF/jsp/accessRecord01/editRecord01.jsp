@@ -294,34 +294,10 @@ rgba
 											<option <c:if test="${accessRecord01.buyqualify == '无法了解'}">selected</c:if> value="004000-无法了解" style="color: red">无法了解</option>
 										</select>
 									</td>
-								
-									
 								</tr>
-								<%-- <!-- 本地居住地 -->
-								<input type="hidden" id="localresidence1" name="localresidence1" value="${accessRecord01.localresidence }">
-								<!-- 本地工作地 -->
-								<input type="hidden" id="localworkarea1" name="localworkarea1" value="${accessRecord01.localworkarea }">
-								<!-- 外阜居住地 -->
-								<input type="hidden" id="outresidence1" name="outresidence1" value="${accessRecord01.outresidence }">
-								<!-- 外阜工作地 -->
-								<input type="hidden" id="outworkarea1" name="outworkarea1" value="${accessRecord01.outworkarea }"> --%>
-								
-								<!-- <tr>
-									<td colspan="3"><span style="float:left">本地居住：</span>
-									  <div data-toggle="local_distpicker">
-							          	<select class="city" name="city">
-											<option value="-1">请选择</option>
-										</select>
-								
-										<select name="area" class="area">
-											<option value="-1">请选择</option>
-										</select>
-								      </div>
-									</td>
-								</tr> -->
 								<tr>
-									<td colspan="3"><span style="float:left">本地工作：</span>
-								      <div>
+									<td colspan="3"><span style="float:left">本地居住：</span>
+									  <div>
 							          	<select id="city" name="city">
 											<option value="-1">请选择</option>
 										</select>
@@ -330,24 +306,37 @@ rgba
 											<option value="-1">请选择</option>
 										</select>
 								      </div>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3"><span style="float:left">本地工作：</span>
+								      <div>
+							          	<select id="workCity" name="workCity">
+											<option value="-1">请选择</option>
+										</select>
+								
+										<select name="workArea" id="workArea">
+											<option value="-1">请选择</option>
+										</select>
+								      </div>
 								</tr>		
-								<!-- <tr>
+								<tr>
 									<td colspan="3"><span style="float:left">外埠居住：</span>
-								      <div data-toggle="distpicker">
-							            <select class="province1" name="province1">
+								      <div>
+							            <select id="province3" name="province3">
 											<option value="-1">请选择</option>
 										</select>
 								
-										<select class="city1" name="city1">
+										<select id="city3" name="city3">
 											<option value="-1">请选择</option>
 										</select>
 								
-										<select name="area1" class="area1">
+										<select name="area3" id="area3">
 											<option value="-1">请选择</option>
 										</select>
 								      </div>
 									</td>
-								</tr> -->
+								</tr>
 								<tr>
 									<td colspan="3"><span style="float:left">外埠工作：</span>
 								      <div>
@@ -365,9 +354,7 @@ rgba
 								      </div>
 									</td>
 								</tr>
-								<script type="text/javascript" src="${appRoot}/static/js/localArea.js"></script>
-								<script type="text/javascript" src="${appRoot}/static/js/allArea.js"></script>
-								<script type="text/javascript" src="${appRoot}/static/js/foreachArea.js"></script>
+								
 								<tr>
 									<td colspan="3">家庭状况：
 										<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord01.familystatus, '单身')}">checked</c:if> value="005001-单身" _text="单身" style="width: 1rem">单身 
@@ -697,7 +684,9 @@ rgba
 	</form>
 
 	<%@ include file="/WEB-INF/jsp/inc/foot_bootstrap.jsp"%>
-	
+	<script type="text/javascript" src="${appRoot}/static/js/localArea.js"></script>
+	<script type="text/javascript" src="${appRoot}/static/js/allArea.js"></script>
+	<script type="text/javascript" src="${appRoot}/static/js/foreachArea.js"></script>
 	<script src="${appRoot}/static/js/jquery.sparkline.js"
 		type="text/javascript"></script>
 
