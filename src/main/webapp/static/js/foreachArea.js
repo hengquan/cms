@@ -1,6 +1,7 @@
-			//北京市二级联动
+		//北京市二级联动
 			var provinceEle = document.getElementById("province");
 			var cityEle = document.getElementById("city");
+			console.log(cityEle);
 			var areaEle = document.getElementById("area");
 			function insertData(children) {
 				if(Object.prototype.toString.call(children) == "[object Array]") { //是数组 则不是根节点
@@ -63,81 +64,104 @@
 			var provinceEle1 = document.getElementById("province1");
 			var cityEle1 = document.getElementById("city1");
 			var areaEle1 = document.getElementById("area1");
-			function insertData1(children) {
-				if(Object.prototype.toString.call(children) == "[object Array]") { //是数组 则不是根节点
-					for(var child in children) {
+
+			function insertData1 (children){
+				//判断是否是根目录 根目录的data对应的值是对象不是数组  其他的都是children对应的数组
+				if(Object.prototype.toString.call(children) == "[object Array]"){//是数组 则不是根节点
+					//遍历元素渲染省份
+					for(var child in children){
 						var optionNode1 = document.createElement("option");
 						var textNode1 = document.createTextNode(children[child].name);
 						optionNode1.appendChild(textNode1);
-						optionNode1.style.display = "none";
-						for(var attribute in children[child].attributes) {
-							optionNode1.setAttribute(attribute, children[child].attributes[attribute]);
+						//为每个ioption添加自定义属性
+						for(var attribute in children[child].attributes){
+							optionNode1.setAttribute(attribute,children[child].attributes[attribute]);
 						}
-						if(children[child]["attributes"].parentId == "001" && children[child].id.substr(-2) === "00") { //一级
-							provinceEle1.appendChild(optionNode1);
-							optionNode1.style.display = "block";
-						} else if(children[child]["attributes"].parentId != "001" && children[child].id.substr(-2) === "00") {
-							cityEle1.appendChild(optionNode1);
-							optionNode1.style.display = "block";
-						} else if(children[child]["attributes"].parentId != "001" && children[child].id.substr(-2) != "00") {
-							areaEle1.appendChild(optionNode1);
-							optionNode1.style.display = "block";
-						} else {
-							console.log("missed");
-							console.log(children[child]);
-						}
-						if(children[child].isParent == "true") {
-							insertData1(children[child].children);
-						}
+						//添加元素到文档
+						provinceEle1.appendChild(optionNode1);
 					}
-				} else {
+				}else{//加载的是根目录 返回回调子级
 					insertData1(children.children);
 				}
 			}
-			provinceEle1.onchange = function() {
+			provinceEle1.onchange = function(){
 				var parentNode = this;
+				//获取选中的option的id
+
 				var index = parentNode.selectedIndex;
 				var parentId = parentNode[index].id;
-				var cityChildren = cityEle1.children;
-				var areaChildren = areaEle1.children;
 
-				for(var i = 0, len = cityChildren.length; i < len; i++) {
-					if(cityChildren[i].getAttribute("parentId") == parentId) {
-						cityChildren[i].style.display = "block";
-					} else {
-						cityChildren[i].style.display = "none";
-					}
-				}
-				for(var i = 0, len = areaChildren.length; i < len; i++) {
-					if(areaChildren[i].getAttribute("parentId") == parentId) {
-				
-						areaChildren[i].style.display = "block";
-					} else {
-						areaChildren[i].style.display = "none";
+				var provinceData = allArea.data.children;
+
+				//移除市区级 除了第一个option外的所有子的节点
+				/*var childs = cityEle.childNodes;
+				for(var i = 1; i < childs.length; i++) {
+				  cityEle.removeChild(childs[i]);
+				}*/
+
+				//清除上次选择添加的option
+				cityEle1.options.length=0;
+				areaEle1.options.length=0;
+
+				//添加该省份所有的市区
+				for(var province in provinceData){
+					if(provinceData[province].id == parentId){//找到选中的省
+						var cities = provinceData[province].children;
+						for(var city in cities){//遍历添加所有的市区
+							var optionNode1 = document.createElement("option");
+							var textNode1 = document.createTextNode(cities[city].name);
+							optionNode1.appendChild(textNode1);
+							for(var attribute in cities[city].attributes){
+								optionNode1.setAttribute(attribute,cities[city].attributes[attribute]);
+							}
+							cityEle1.appendChild(optionNode1);
+						}
+					break;
 					}
 				}
 			};
-			cityEle1.onchange = function() {
-				if(provinceEle1.value == "-1") {
-					alert("请输入省份");
 
+			cityEle1.onchange = function(){
+				if(provinceEle1.value == "-1"){
+					alert("请输入省份");
 				}
 				var parentNode = this;
 				var index = parentNode.selectedIndex;
 				var parentId = parentNode[index].id;
-				var areaChildren = areaEle1.children;
-				for(var i = 0, len = areaChildren.length; i < len; i++) {
-					if(areaChildren[i].getAttribute("parentId") == parentId) {
-						areaChildren[i].style.display = "block";
-					} else {
-						areaChildren[i].style.display = "none";
+
+				var provinceId = parentNode[index].getAttribute("parentId");
+
+				var provinceData = allArea.data.children;
+
+				areaEle1.options.length=0;
+
+				//添加该省份应有的子节点
+				for(var province in provinceData){
+					if(provinceData[province].id == provinceId){//找到选中的省
+						var cities = provinceData[province].children;
+						for(var city in cities){
+							if(cities[city].id == parentId){//找到选中的市区
+								var areas = cities[city].children;
+								for(var area in areas){//遍历添加所有的县
+									var optionNode1 = document.createElement("option");
+									var textNode1 = document.createTextNode(areas[area].name);
+									optionNode1.appendChild(textNode1);
+									for(var attribute in areas[area].attributes){
+										optionNode1.setAttribute(attribute,areas[area].attributes[attribute]);
+									}
+									areaEle1.appendChild(optionNode1);
+								}
+							break;
+							}
+						}
+						break;
 					}
 				}
 			};
-			areaEle1.onchange = function() {
-				if(provinceEle1.value == "-1") {
+			areaEle1.onchange = function(){
+				if(provinceEle1.value == "-1"){
 					alert("请输入省份");
-				} else if(cityEle1.value == "-1") {
+				}else if(cityEle1.value == "-1"){
 					alert("请输入区县");
 				}
 				var parentNode = this;
