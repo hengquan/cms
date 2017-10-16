@@ -13,7 +13,6 @@
 			</list>
 		</property>
 	</bean>
-	<!-- 问题结算幸运支招  -->
 	<bean id="myJobTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail">

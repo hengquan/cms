@@ -255,7 +255,7 @@ public class DoQuarzt {
 						dayRecepService.insert(dayRecep2);
 					}else{
 						//更新
-						dayRecepService.update(dayRecep2);
+						dayRecepService.updateMsg(dayRecep2);
 					}
 					//添加项目客户统计
 					DayRecep dayRecep3 = new DayRecep();
@@ -271,7 +271,7 @@ public class DoQuarzt {
 						dayRecepService.insert(dayRecep3);
 					}else{
 						//更新
-						dayRecepService.update(dayRecep3);
+						dayRecepService.updateMsg(dayRecep3);
 					}
 					//添加项目用户统计
 					DayRecep dayRecep4 = new DayRecep();
@@ -287,7 +287,7 @@ public class DoQuarzt {
 						dayRecepService.insert(dayRecep4);
 					}else{
 						//更新
-						dayRecepService.update(dayRecep4);
+						dayRecepService.updateMsg(dayRecep4);
 					}
 					//添加用户客户统计
 					DayRecep dayRecep5 = new DayRecep();
@@ -304,7 +304,7 @@ public class DoQuarzt {
 						dayRecepService.insert(dayRecep5);
 					}else{
 						//更新
-						dayRecepService.update(dayRecep5);
+						dayRecepService.updateMsg(dayRecep5);
 					}
 					
 				}
