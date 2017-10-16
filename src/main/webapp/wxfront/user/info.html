@@ -90,8 +90,12 @@ $(function() {
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
-    	console.log(json.userInfo);
-    	console.log(json.userInfo.userid);
+    	console.log(json);
+    	//console.log(json.userInfo);
+    	var roleName = json.userInfo.roleName;
+    	
+    	
+    	sessionStorage.setItem("roleName",roleName);
     	var userid = json.userInfo.userid;
     	sessionStorage.setItem("userid",userid);
         fillPage(json.userInfo);
