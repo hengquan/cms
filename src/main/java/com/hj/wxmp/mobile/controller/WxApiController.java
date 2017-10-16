@@ -2875,7 +2875,8 @@ public class WxApiController extends ControllerBaseWx {
 		    SysRole role = roleService.findById(roleid);
 		    String roleName = role.getRoleName();
 		    if(roleName.equals("管理员")){
-		    	map.put("userId", null);
+		    	result.put("userId", null);
+		    	results="proj";
 		    }
 		    if(roleName.equals("项目管理人") || roleName.equals("项目负责人")){
 		    	List<Map<String, Object>> projects = projUserRoleService.selectByUserId(userId);
@@ -2891,10 +2892,12 @@ public class WxApiController extends ControllerBaseWx {
 		    		userIds+=","+projUserRole.getUserid();
 		    	}
 		    	userIds=userIds.substring(1);
-		    	map.put("userId", userId);
+		    	result.put("userId", userIds);
+		    	results="user";
 		    }
 		    if(roleName.equals("顾问")){
-		    	map.put("userId", userId);
+		    	result.put("userId", userId);
+		    	results="cust";
 		    }
 			result.put("custId", custs);
 			List<Map<String,Object>> arCountDatas = dayRecepService.selectByTimeAnd(result);
