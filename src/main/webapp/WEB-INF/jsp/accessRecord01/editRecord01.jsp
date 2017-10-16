@@ -294,54 +294,63 @@ rgba
 											<option <c:if test="${accessRecord01.buyqualify == '无法了解'}">selected</c:if> value="004000-无法了解" style="color: red">无法了解</option>
 										</select>
 									</td>
-								
-									
 								</tr>
-								<!-- 本地居住地 -->
-								<input type="hidden" id="localresidence1" name="localresidence1" value="${accessRecord01.localresidence }">
-								<!-- 本地工作地 -->
-								<input type="hidden" id="localworkarea1" name="localworkarea1" value="${accessRecord01.localworkarea }">
-								<!-- 外阜居住地 -->
-								<input type="hidden" id="outresidence1" name="outresidence1" value="${accessRecord01.outresidence }">
-								<!-- 外阜工作地 -->
-								<input type="hidden" id="outworkarea1" name="outworkarea1" value="${accessRecord01.outworkarea }">
-								
 								<tr>
 									<td colspan="3"><span style="float:left">本地居住：</span>
-									  <div data-toggle="local_distpicker">
-								          <select class="" id="local_province4"></select>
-								          <select class="" id="local_city4"></select>
-								          <select class="" id="local_district4"></select>
+									  <div>
+							          	<select id="city" name="city">
+											<option value="-1">请选择</option>
+										</select>
+								
+										<select name="area" id="area">
+											<option value="-1">请选择</option>
+										</select>
 								      </div>
 									</td>
 								</tr>
 								<tr>
 									<td colspan="3"><span style="float:left">本地工作：</span>
-								      <div data-toggle="local_distpicker">
-								          <select class="" id="local_province3"></select>
-								          <select class="" id="local_city3"></select>
-								          <select class="" id="local_district3"></select>
+								      <div>
+							          	<select id="workCity" name="workCity">
+											<option value="-1">请选择</option>
+										</select>
+								
+										<select name="workArea" id="workArea">
+											<option value="-1">请选择</option>
+										</select>
 								      </div>
-								</tr>
-									<script type="text/javascript" src="${appRoot}/static/js/local_distpicker.js"></script>
-									<script type="text/javascript" src="${appRoot}/static/js/local_distpicker (1).js"></script>
-									<script type="text/javascript" src="${appRoot}/static/js/local_main.js"></script>
-									
+								</tr>		
 								<tr>
 									<td colspan="3"><span style="float:left">外埠居住：</span>
-								      <div data-toggle="distpicker">
-								          <select class="" id="province1"></select>
-								          <select class="" id="city1"></select>
-								          <select class="" id="district1"></select>
+								      <div>
+							            <select id="province3" name="province3">
+											<option value="-1">请选择</option>
+										</select>
+								
+										<select id="city3" name="city3">
+											<option value="-1">请选择</option>
+										</select>
+								
+										<select name="area3" id="area3">
+											<option value="-1">请选择</option>
+										</select>
 								      </div>
 									</td>
 								</tr>
 								<tr>
 									<td colspan="3"><span style="float:left">外埠工作：</span>
-								      <div data-toggle="distpicker" id="distpicker2">
-								          <select class="" id="province2" data-province="---- 选择省 ----"></select>
-								          <select class="" id="city2" data-city="---- 选择市 ----"></select>
-								          <select class="" id="district2" data-district="---- 选择区 ----"></select>
+								      <div>
+							            <select id="province1" name="province1">
+											<option value="-1">请选择</option>
+										</select>
+								
+										<select id="city1" name="city1">
+											<option value="-1">请选择</option>
+										</select>
+								
+										<select name="area1" id="area1">
+											<option value="-1">请选择</option>
+										</select>
 								      </div>
 									</td>
 								</tr>
@@ -675,10 +684,9 @@ rgba
 	</form>
 
 	<%@ include file="/WEB-INF/jsp/inc/foot_bootstrap.jsp"%>
-	<script type="text/javascript" src="${appRoot}/static/js/distpicker.js"></script>
-	<script type="text/javascript" src="${appRoot}/static/js/distpicker (1).js"></script>
-	<script type="text/javascript" src="${appRoot}/static/js/main.js"></script>
-
+	<script type="text/javascript" src="${appRoot}/static/js/localArea.js"></script>
+	<script type="text/javascript" src="${appRoot}/static/js/allArea.js"></script>
+	<script type="text/javascript" src="${appRoot}/static/js/foreachArea.js"></script>
 	<script src="${appRoot}/static/js/jquery.sparkline.js"
 		type="text/javascript"></script>
 
@@ -690,43 +698,6 @@ rgba
 	<script src="${appRoot}/static/js/dynamic-table.js"></script>
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
-		$(function() {
-/* 			//本地居住地 
-			var localresidence1 = $("#localresidence1").val();
-			var localworkarea1 = $("#localworkarea1").val();
-			//外阜居住地 
-			var outresidence1 = $("#outresidence1").val();
-			var outworkarea1 = $("#outworkarea1").val();
-			
-			var a = localresidence1.split(',');
-			console.log(a);
-			for(var i=0;i<a.length;i++){
-				if(i==0){
-					var aa = $("#local_city4").find("option")[0];
-					console.log(aa);
-					aa.text = a[i];
-				}
-				if(i==1){
-					var aa = $("#local_district4").find("option")[0];
-					aa.text = a[i];
-				}
-			}
-			var b = localworkarea1.split(',');
-			for(var i=0;i<b.length;i++){
-				if(i==0){
-					var aa = $("#local_city3").find("option")[0];
-					aa.text = a[i];
-				}
-				if(i==1){
-					var aa = $("#local_district3").find("option")[0];
-					aa.text = a[i];
-				}
-			}
-			
-			 */
-			
-			
-		});
 
 		//提交表单
 		function checkinput() {
