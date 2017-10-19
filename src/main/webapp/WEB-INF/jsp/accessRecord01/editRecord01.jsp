@@ -295,6 +295,10 @@ rgba
 										</select>
 									</td>
 								</tr>
+								<input type="hidden" value="${accessRecord01.localresidence }" id="bdjz">
+								<input type="hidden" value="${accessRecord01.localworkarea }" id="bdgz">
+								<input type="hidden" value="${accessRecord01.outresidence }" id="wfjz">
+								<input type="hidden" value="${accessRecord01.outworkarea }" id="wfgz">
 								<tr>
 									<td colspan="3"><span style="float:left">本地居住：</span>
 									  <div>
@@ -701,6 +705,9 @@ rgba
 
 		//提交表单
 		function checkinput() {
+			var a = $("#area").val();
+			alert(a);
+			return;
 			var datamsg = $("#theform").serialize();
 			$.ajax({
 				type:'post',
