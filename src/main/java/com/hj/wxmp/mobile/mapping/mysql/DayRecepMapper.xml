@@ -181,17 +181,26 @@
   
   
   <select id="selectByTimeAnd" resultType="java.util.Map" parameterType="java.util.Map">
-	SELECT
-		days.*, pro.projName,
-		cust.custName,
-		users.realName
+	SELECT DISTINCT 
+	days.id,
+	sum(days.ar01Count) AS ar01Count,
+	SUM(days.ar02Count) AS ar02Count,
+	SUM(days.ar03Count) AS ar03Count,
+	days.miiCustId,
+	days.miiProjId,
+	days.miiUserId,
+	pro.projName,
+	cust.custName,
+	users.realName
 	FROM
 		ql_ST_dayRecep days
 	JOIN ql_Project pro ON `days`.miiProjId = pro.id
 	LEFT JOIN ql_Customer cust ON `days`.miiCustId = cust.id
 	LEFT JOIN plat_User users ON `days`.miiUserId = users.id
 	WHERE
-		1 = 1
+	days.miiCustId IS NOT NULL
+	AND days.miiProjId IS NOT NULL
+	AND days.miiUserId IS NOT NULL
 	<if test="dateEnd == null" >
 		AND days.dayStr=#{dateBegin}
 	</if>	
@@ -208,6 +217,8 @@
 	<if test="userId != null" >
 		AND INSTR(#{userId}, days.miiUserId)
 	</if>
+	GROUP BY
+	users.realName
   </select>
   
 </mapper>

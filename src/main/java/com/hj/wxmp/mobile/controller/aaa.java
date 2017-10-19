@@ -84,34 +84,34 @@ public class aaa {
 				//当天所有成交记录
 				List<AccessRecord03> accessRecord03s = accessRecord03Service.selectByRecepTime(date);
 				
-				//项目总次数
-				int projRecord01Total = 0;
-				int projRecord02Total = 0;
-				int projRecord03Total = 0;
-				//用户总次数
-				int userRecord01Total = 0;
-				int userRecord02Total = 0;
-				int userRecord03Total = 0;
-				//客户总次数
-				int custRecord01Total = 0;
-				int custRecord02Total = 0;
-				int custRecord03Total = 0;
-				//项目客户总次数
-				int projCustRecord01Total = 0;
-				int projCustRecord02Total = 0;
-				int projCustRecord03Total = 0;
-				//项目用户总次数
-				int projUserInfoRecord01Total = 0;
-				int projUserInfoRecord02Total = 0;
-				int projUserInfoRecord03Total = 0;
-				//用户客户总次数
-				int userCustRecord01Total = 0;
-				int userCustRecord02Total = 0;
-				int userCustRecord03Total = 0;
 				
 				
 				//总数据
 				for(AccessRecord01 accessRecord:accessRecord01s){
+					//项目总次数
+					int projRecord01Total = 0;
+					int projRecord02Total = 0;
+					int projRecord03Total = 0;
+					//用户总次数
+					int userRecord01Total = 0;
+					int userRecord02Total = 0;
+					int userRecord03Total = 0;
+					//客户总次数
+					int custRecord01Total = 0;
+					int custRecord02Total = 0;
+					int custRecord03Total = 0;
+					//项目客户总次数
+					int projCustRecord01Total = 0;
+					int projCustRecord02Total = 0;
+					int projCustRecord03Total = 0;
+					//项目用户总次数
+					int projUserInfoRecord01Total = 0;
+					int projUserInfoRecord02Total = 0;
+					int projUserInfoRecord03Total = 0;
+					//用户客户总次数
+					int userCustRecord01Total = 0;
+					int userCustRecord02Total = 0;
+					int userCustRecord03Total = 0;
 					String userId = accessRecord.getAuthorid();
 					String custId = accessRecord.getCustid();
 					String projId = accessRecord.getProjid();
