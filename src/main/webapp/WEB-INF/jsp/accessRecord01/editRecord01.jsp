@@ -686,7 +686,16 @@ rgba
 			type="hidden" name="byid" id="byid"> <input type="hidden"
 			name="boxeditId" id="boxeditId">
 	</form>
-
+	<input type="hidden" value="" id="localCityValue" />
+	<input type="hidden" value="" id="localAreaValue"/>
+	<input type="hidden" value="" id="localCityValue1"/>
+	<input type="hidden" value="" id="localAreaValue1"/>
+	<input type="hidden" value="" id="outerProvinceValue"/>
+	<input type="hidden" value="" id="outerCityValue"/>
+	<input type="hidden" value="" id="outerAreaValue"/>
+	<input type="hidden" value="" id="outerProvinceValue1"/>
+	<input type="hidden" value="" id="outerCityValue1"/>
+	<input type="hidden" value="" id="outerAreaValue1"/>
 	<%@ include file="/WEB-INF/jsp/inc/foot_bootstrap.jsp"%>
 	<script type="text/javascript" src="${appRoot}/static/js/localArea.js"></script>
 	<script type="text/javascript" src="${appRoot}/static/js/allArea.js"></script>

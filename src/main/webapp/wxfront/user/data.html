@@ -306,7 +306,18 @@ function getDaydata(){
     	  var secondVisitData = 0;
     	  var completeData = 0;
     	  for(var i = 0;i<json.datas.length;i++){
-    		  var _realName = json.datas[i].realName;
+    		  //console.log(json.datas);
+    		  if(roleName === "管理员"){
+    			  var _realName = json.datas[i].projName;
+    			 
+    		   }else if(roleName === "项目负责人" || roleName === "项目管理人"){
+    			  var _realName = json.datas[i].realName;
+    			 
+    		  } else if(roleName === "顾问"){
+    			  var _realName = json.datas[i].custName;
+    			  
+    		  }
+    		  //var _realName = json.datas[i].realName;
     		  var _ar01Count = json.datas[i].ar01Count;
     		  firstVisitData += parseInt(json.datas[i].ar01Count);
     		  var _ar02Count = json.datas[i].ar02Count;
@@ -396,7 +407,17 @@ function getWeekdata(){
       	  var secondVisitData = 0;
       	  var completeData = 0;
       	  for(var i = 0;i<json.datas.length;i++){
-      		  var _realName = json.datas[i].realName;
+      		  if(roleName === "管理员"){
+    			  var _realName = json.datas[i].projName;
+    			 
+    		   }else if(roleName === "项目负责人" || roleName === "项目管理人"){
+    			  var _realName = json.datas[i].realName;
+    			 
+    		  } else if(roleName === "顾问"){
+    			  var _realName = json.datas[i].custName;
+    			  
+    		  }
+      		  //var _realName = json.datas[i].realName;
       		  var _ar01Count = json.datas[i].ar01Count;
       		  firstVisitData += parseInt(json.datas[i].ar01Count);
       		  var _ar02Count = json.datas[i].ar02Count;
@@ -483,7 +504,17 @@ function getMonthdata(){
       	  var secondVisitData = 0;
       	  var completeData = 0;
       	  for(var i = 0;i<json.datas.length;i++){
-      		  var _realName = json.datas[i].realName;
+      		  if(roleName === "管理员"){
+    			  var _realName = json.datas[i].projName;
+    			 
+    		   }else if(roleName === "项目负责人" || roleName === "项目管理人"){
+    			  var _realName = json.datas[i].realName;
+    			 
+    		  } else if(roleName === "顾问"){
+    			  var _realName = json.datas[i].custName;
+    			  
+    		  }
+      		  //var _realName = json.datas[i].realName;
       		  var _ar01Count = json.datas[i].ar01Count;
       		  firstVisitData += parseInt(json.datas[i].ar01Count);
       		  var _ar02Count = json.datas[i].ar02Count;

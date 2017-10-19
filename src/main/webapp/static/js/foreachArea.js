@@ -39,7 +39,11 @@
 				var parentNode = this;
 				var index = parentNode.selectedIndex;
 				var parentId = parentNode[index].id;
+				var parentPathname = parentNode[index].value;
+				var localCityValue = $("#localCityValue").val(parentId +"-"+ parentPathname);
+				console.log(localCityValue.val());
 				var areaChildren = areaEle.children;
+				
 				for(var i = 0, len = areaChildren.length; i < len; i++) {
 					if(areaChildren[i].getAttribute("parentId") == parentId) {
 						areaChildren[i].style.display = "block";
@@ -56,7 +60,9 @@
 				var parentNode = this;
 				var index = parentNode.selectedIndex;
 				var selectedId = parentNode[index].id;
-				console.log(selectedId);
+				var selectedPathname = parentNode[index].value;
+				var localAreaValue = $("#localAreaValue").val(selectedId +"-"+ selectedPathname);
+				console.log(localAreaValue.val());
 			};
 			insertData(localArea.data);
 			
@@ -102,6 +108,9 @@
 				var parentNode = this;
 				var index = parentNode.selectedIndex;
 				var parentId = parentNode[index].id;
+				var parentPathname = parentNode[index].value;
+				var localCityValue1 = $("#localCityValue1").val(parentId +"-"+ parentPathname);
+				console.log(localCityValue1.val());
 				var areaChildren = areaEle2.children;
 				for(var i = 0, len = areaChildren.length; i < len; i++) {
 					if(areaChildren[i].getAttribute("parentId") == parentId) {
@@ -119,7 +128,10 @@
 				var parentNode = this;
 				var index = parentNode.selectedIndex;
 				var selectedId = parentNode[index].id;
-				console.log(selectedId);
+				var selectedPathname = parentNode[index].value;
+				var localAreaValue1 = $("#localAreaValue1").val(selectedId +"-"+ selectedPathname);
+				console.log(localAreaValue1.val());
+				
 			};
 			insertData2(localArea.data);
 			
@@ -155,7 +167,9 @@
 
 				var index = parentNode.selectedIndex;
 				var parentId = parentNode[index].id;
-
+				var parentPathname = parentNode[index].value;
+				var outerProvinceValue = $("#outerProvinceValue").val(parentId +"-"+ parentPathname);
+				console.log(outerProvinceValue.val());
 				var provinceData = allArea.data.children;
 
 				//移除市区级 除了第一个option外的所有子的节点
@@ -193,9 +207,10 @@
 				var parentNode = this;
 				var index = parentNode.selectedIndex;
 				var parentId = parentNode[index].id;
-
 				var provinceId = parentNode[index].getAttribute("parentId");
-
+				var parentPathname = parentNode[index].value;
+				var outerCityValue = $("#outerCityValue").val(parentId +"-"+ parentPathname);
+				console.log(outerCityValue.val());
 				var provinceData = allArea.data.children;
 
 				areaEle1.options.length=0;
@@ -232,7 +247,10 @@
 				var parentNode = this;
 				var index = parentNode.selectedIndex;
 				var selectedId = parentNode[index].id;
-				console.log(selectedId);
+				var selectedPathname = parentNode[index].value;
+				var outerAreaValue = $("#outerAreaValue").val(selectedId +"-"+ selectedPathname);
+				console.log(outerAreaValue.val());
+				
 			};
 			insertData1(allArea.data);
 			
@@ -267,7 +285,9 @@
 
 				var index = parentNode.selectedIndex;
 				var parentId = parentNode[index].id;
-
+				var parentPathname = parentNode[index].value;
+				var outerProvinceValue1 = $("#outerProvinceValue1").val(parentId +"-"+ parentPathname);
+				console.log(outerProvinceValue1.val());
 				var provinceData = allArea.data.children;
 
 				//移除市区级 除了第一个option外的所有子的节点
@@ -307,7 +327,9 @@
 				var parentId = parentNode[index].id;
 
 				var provinceId = parentNode[index].getAttribute("parentId");
-
+				var parentPathname = parentNode[index].value;
+				var outerCityValue1 = $("#outerCityValue1").val(parentId +"-"+ parentPathname);
+				console.log(outerCityValue1.val());
 				var provinceData = allArea.data.children;
 
 				areaEle3.options.length=0;
@@ -344,6 +366,8 @@
 				var parentNode = this;
 				var index = parentNode.selectedIndex;
 				var selectedId = parentNode[index].id;
-				console.log(selectedId);
+				var selectedPathname = parentNode[index].value;
+				var outerAreaValue1 = $("#outerAreaValue1").val(selectedId +"-"+ selectedPathname);
+				console.log(outerAreaValue1.val());
 			};
 			insertData3(allArea.data);
