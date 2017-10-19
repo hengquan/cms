@@ -299,6 +299,11 @@ rgba
 								<input type="hidden" value="${accessRecord01.localworkarea }" id="bdgz">
 								<input type="hidden" value="${accessRecord01.outresidence }" id="wfjz">
 								<input type="hidden" value="${accessRecord01.outworkarea }" id="wfgz">
+								
+								<input type="hidden" value="" id="localresidence" name="localresidence">
+								<input type="hidden" value="" id="localworkarea" name="localworkarea">
+								<input type="hidden" value="" id="outresidence" name="outresidence">
+								<input type="hidden" value="" id="outworkarea" name="outworkarea">
 								<tr>
 									<td colspan="3"><span style="float:left">本地居住：</span>
 									  <div>
@@ -690,12 +695,12 @@ rgba
 	<input type="hidden" value="" id="localAreaValue"/>
 	<input type="hidden" value="" id="localCityValue1"/>
 	<input type="hidden" value="" id="localAreaValue1"/>
-	<input type="hidden" value="" id="outerProvinceValue"/>
-	<input type="hidden" value="" id="outerCityValue"/>
-	<input type="hidden" value="" id="outerAreaValue"/>
 	<input type="hidden" value="" id="outerProvinceValue1"/>
 	<input type="hidden" value="" id="outerCityValue1"/>
 	<input type="hidden" value="" id="outerAreaValue1"/>
+	<input type="hidden" value="" id="outerProvinceValue"/>
+	<input type="hidden" value="" id="outerCityValue"/>
+	<input type="hidden" value="" id="outerAreaValue"/>
 	<%@ include file="/WEB-INF/jsp/inc/foot_bootstrap.jsp"%>
 	<script type="text/javascript" src="${appRoot}/static/js/localArea.js"></script>
 	<script type="text/javascript" src="${appRoot}/static/js/allArea.js"></script>
@@ -714,9 +719,14 @@ rgba
 
 		//提交表单
 		function checkinput() {
-			var a = $("#area").val();
-			alert(a);
-			return;
+			var a = $("#localCityValue").val() +','+$("#localAreaValue").val();
+			var b = $("#localCityValue1").val() +','+$("#localAreaValue1").val();
+			var c = $("#outerProvinceValue1").val() +','+$("#outerCityValue1").val()+','+$("#outerAreaValue1").val();
+			var d = $("#outerProvinceValue").val() +','+$("#outerCityValue").val()+','+$("#outerAreaValue").val();
+			$("#localresidence").val(a);
+			$("#localworkarea").val(b);
+			$("#outresidence").val(c);
+			$("#outworkarea").val(d);
 			var datamsg = $("#theform").serialize();
 			$.ajax({
 				type:'post',
