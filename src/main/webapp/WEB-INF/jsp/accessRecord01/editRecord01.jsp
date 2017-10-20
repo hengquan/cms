@@ -304,6 +304,18 @@ rgba
 								<input type="hidden" value="" id="localworkarea" name="localworkarea">
 								<input type="hidden" value="" id="outresidence" name="outresidence">
 								<input type="hidden" value="" id="outworkarea" name="outworkarea">
+								
+								<input type="hidden" value="" id="lastCityId" name="lastCityId">
+								<input type="hidden" value="" id="lastAreaId" name="lastAreaId">
+								<input type="hidden" value="" id="lastCityId1" name="lastCityId1">
+								<input type="hidden" value="" id="lastAreaId1" name="lastAreaId1">
+								<input type="hidden" value="" id="lastOutProvinceId" name="lastOutProvinceId">
+								<input type="hidden" value="" id="lastOutCityId" name="lastOutCityId">
+								<input type="hidden" value="" id="lastOutAreaId" name="lastOutAreaId">
+								<input type="hidden" value="" id="lastOutProvinceId1" name="lastOutProvinceId1">
+								<input type="hidden" value="" id="lastOutCityId1" name="lastOutCityId1">
+								<input type="hidden" value="" id="lastOutAreaId1" name="lastOutAreaId1">
+							
 								<tr>
 									<td colspan="3"><span style="float:left">本地居住：</span>
 									  <div>
@@ -363,7 +375,28 @@ rgba
 								      </div>
 									</td>
 								</tr>
-								
+								<script>
+									var bejz = $("#bdjz").val();	
+									var bdjzCity = bejz.split("，");
+									$("#city").find("option").html(bdjzCity[0]);
+									$("#area").find("option").html(bdjzCity[1]);
+									var bdgz = $("#bdjz").val();	
+									var bdgzCity = bdgz.split("，");
+									
+									$("#workCity").find("option").html(bdgzCity[0]);
+									$("#workArea").find("option").html(bdgzCity[1]);
+								 	var wfjz = $("#wfjz").val();
+									var wfjzCity = wfjz.split("，");
+									$("#province3").find("option").html(wfjzCity[0]);
+									$("#city3").find("option").html(wfjzCity[1]);
+									$("#area3").find("option").html(wfjzCity[2]);
+									
+									var wfgz = $("#wfjz").val();
+									var wfgzCity = wfgz.split("，");
+									$("#province1").find("option").html(wfgzCity[0]);
+									$("#city1").find("option").html(wfgzCity[1]);
+									$("#area1").find("option").html(wfgzCity[2]);
+								</script>
 								<tr>
 									<td colspan="3">家庭状况：
 										<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord01.familystatus, '单身')}">checked</c:if> value="005001-单身" _text="单身" style="width: 1rem">单身 
@@ -744,6 +777,7 @@ rgba
 		}
 
 	</script>
+		
 	<input type="hidden" value="" id="adminId" />
 </body>
 </html>

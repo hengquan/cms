@@ -5,8 +5,17 @@
 			function insertData(children) {
 				if(Object.prototype.toString.call(children) == "[object Array]") { //是数组 则不是根节点
 					for(var child in children) {
-						//console.log(children[child]);//获取的所有对象
+						//console.log(children);//获取的所有对象
+					
 						var optionNode = document.createElement("option"); //获取各个option
+						//console.log(children[child]);
+						if(children[child].name == bdjzCity[0]){
+							var lastId = children[child].id +"-"+bdjzCity[0];
+							$("#lastCityId").val(lastId);
+						}else if(children[child].name == bdjzCity[1]){
+							var lastId = children[child].id +"-"+bdjzCity[1];
+							$("#lastAreaId").val(lastId);
+						}
 						var textNode = document.createTextNode(children[child].name); //获取各个名称
 						optionNode.appendChild(textNode); //将名称填到option里边
 						for(var attribute in children[child].attributes) {
@@ -41,7 +50,7 @@
 				var parentId = parentNode[index].id;
 				var parentPathname = parentNode[index].value;
 				var localCityValue = $("#localCityValue").val(parentId +"-"+ parentPathname);
-				console.log(localCityValue.val());
+				//console.log(localCityValue.val());
 				var areaChildren = areaEle.children;
 				
 				for(var i = 0, len = areaChildren.length; i < len; i++) {
@@ -62,7 +71,7 @@
 				var selectedId = parentNode[index].id;
 				var selectedPathname = parentNode[index].value;
 				var localAreaValue = $("#localAreaValue").val(selectedId +"-"+ selectedPathname);
-				console.log(localAreaValue.val());
+				//console.log(localAreaValue.val());
 			};
 			insertData(localArea.data);
 			
@@ -75,6 +84,15 @@
 				if(Object.prototype.toString.call(children) == "[object Array]") { //是数组 则不是根节点
 					for(var child in children) {
 						//console.log(children[child]);//获取的所有对象
+						 if(children[child].name == bdgzCity[0]){
+								var lastId = children[child].id +"-"+bdgzCity[0];
+							
+								$("#lastCityId1").val(lastId);
+							}else if(children[child].name == bdgzCity[1]){
+								var lastId = children[child].id +"-"+bdgzCity[1];
+								
+								$("#lastAreaId1").val(lastId);
+							}
 						var optionNode2 = document.createElement("option"); //获取各个option
 						var textNode2 = document.createTextNode(children[child].name); //获取各个名称
 						optionNode2.appendChild(textNode2); //将名称填到option里边
@@ -110,7 +128,7 @@
 				var parentId = parentNode[index].id;
 				var parentPathname = parentNode[index].value;
 				var localCityValue1 = $("#localCityValue1").val(parentId +"-"+ parentPathname);
-				console.log(localCityValue1.val());
+				//console.log(localCityValue1.val());
 				var areaChildren = areaEle2.children;
 				for(var i = 0, len = areaChildren.length; i < len; i++) {
 					if(areaChildren[i].getAttribute("parentId") == parentId) {
@@ -130,14 +148,14 @@
 				var selectedId = parentNode[index].id;
 				var selectedPathname = parentNode[index].value;
 				var localAreaValue1 = $("#localAreaValue1").val(selectedId +"-"+ selectedPathname);
-				console.log(localAreaValue1.val());
+				//console.log(localAreaValue1.val());
 				
 			};
 			insertData2(localArea.data);
 			
 			
 			
-			//省市区三级联动
+			//省市区外地工作三级联动
 			var provinceEle1 = document.getElementById("province1");
 			var cityEle1 = document.getElementById("city1");
 			var areaEle1 = document.getElementById("area1");
@@ -147,6 +165,20 @@
 				if(Object.prototype.toString.call(children) == "[object Array]"){//是数组 则不是根节点
 					//遍历元素渲染省份
 					for(var child in children){
+
+						if(children[child].name == wfgzCity[0]){
+								var lastId = children[child].id +"-"+wfgzCity[0];
+								$("#lastOutProvinceId1").val(lastId);
+							}else if(children[child].name == wfgzCity[1]){
+								
+								var lastId = children[child].id +"-"+wfgzCity[1];
+								console.log(lastId);
+								$("#lastOutCityId1").val(lastId);
+							}else if(children[child].name == wfgzCity[2]){
+								var lastId = children[child].id +"-"+wfgzCity[2];
+								console.log(lastId);
+								$("#lastOutAreaId1").val(lastId);
+							}
 						var optionNode1 = document.createElement("option");
 						var textNode1 = document.createTextNode(children[child].name);
 						optionNode1.appendChild(textNode1);
@@ -157,8 +189,29 @@
 						//添加元素到文档
 						provinceEle1.appendChild(optionNode1);
 					}
+					
+					//遍历出所有市和县的名称
+					var provinceData = allArea.data.children;
+					for(var province in provinceData){
+							var cities = provinceData[province].children;
+							for(var city in cities){
+								if(cities[city].name == wfgzCity[1]){
+										var lastId = cities[city].id +"-"+wfgzCity[1];
+										$("#lastOutCityId1").val(lastId);
+								}
+								var areas = cities[city].children;
+								for(var area in areas){//遍历添加所有的县
+									if(areas[area].name == wfgzCity[2]){
+										var lastId = areas[area].id +"-"+wfgzCity[2];
+										$("#lastOutAreaId1").val(lastId);
+									}
+								}
+							}
+					}
+					
 				}else{//加载的是根目录 返回回调子级
 					insertData1(children.children);
+					
 				}
 			}
 			provinceEle1.onchange = function(){
@@ -169,7 +222,7 @@
 				var parentId = parentNode[index].id;
 				var parentPathname = parentNode[index].value;
 				var outerProvinceValue = $("#outerProvinceValue").val(parentId +"-"+ parentPathname);
-				console.log(outerProvinceValue.val());
+				//console.log(outerProvinceValue.val());
 				var provinceData = allArea.data.children;
 
 				//移除市区级 除了第一个option外的所有子的节点
@@ -187,6 +240,7 @@
 					if(provinceData[province].id == parentId){//找到选中的省
 						var cities = provinceData[province].children;
 						for(var city in cities){//遍历添加所有的市区
+							//console.log(city);
 							var optionNode1 = document.createElement("option");
 							var textNode1 = document.createTextNode(cities[city].name);
 							optionNode1.appendChild(textNode1);
@@ -210,7 +264,7 @@
 				var provinceId = parentNode[index].getAttribute("parentId");
 				var parentPathname = parentNode[index].value;
 				var outerCityValue = $("#outerCityValue").val(parentId +"-"+ parentPathname);
-				console.log(outerCityValue.val());
+				//console.log(outerCityValue.val());
 				var provinceData = allArea.data.children;
 
 				areaEle1.options.length=0;
@@ -249,13 +303,13 @@
 				var selectedId = parentNode[index].id;
 				var selectedPathname = parentNode[index].value;
 				var outerAreaValue = $("#outerAreaValue").val(selectedId +"-"+ selectedPathname);
-				console.log(outerAreaValue.val());
+				//console.log(outerAreaValue.val());
 				
 			};
 			insertData1(allArea.data);
 			
 
-				//省市区外地工作三级联动
+				//省市区外地居住三级联动
 			var provinceEle3 = document.getElementById("province3");
 			var cityEle3 = document.getElementById("city3");
 			var areaEle3 = document.getElementById("area3");
@@ -265,6 +319,14 @@
 				if(Object.prototype.toString.call(children) == "[object Array]"){//是数组 则不是根节点
 					//遍历元素渲染省份
 					for(var child in children){
+						//var childrenName = children[child];
+						//console.log(childrenName);
+						
+						//console.log(children[child].children[child].id);
+						 if(children[child].name == wfjzCity[0]){
+								var lastId = children[child].id +"-"+wfjzCity[0];
+								$("#lastOutProvinceId").val(lastId);
+							}
 						var optionNode3 = document.createElement("option");
 						var textNode3 = document.createTextNode(children[child].name);
 						optionNode3.appendChild(textNode3);
@@ -275,10 +337,34 @@
 						//添加元素到文档
 						provinceEle3.appendChild(optionNode3);
 					}
+					
+					//遍历出所有市和县的名称
+					var provinceData = allArea.data.children;
+					for(var province in provinceData){
+							var cities = provinceData[province].children;
+							for(var city in cities){
+								if(cities[city].name == wfjzCity[1]){
+										var lastId = cities[city].id +"-"+wfjzCity[1];
+										$("#lastOutCityId").val(lastId);
+								}
+								var areas = cities[city].children;
+								for(var area in areas){//遍历添加所有的县
+									if(areas[area].name == wfjzCity[2]){
+										var lastId = areas[area].id +"-"+wfjzCity[2];
+										$("#lastOutAreaId").val(lastId);
+									}
+								}
+							}
+					}
 				}else{//加载的是根目录 返回回调子级
 					insertData3(children.children);
 				}
 			}
+			
+		
+			
+			
+			
 			provinceEle3.onchange = function(){
 				var parentNode = this;
 				//获取选中的option的id
@@ -305,6 +391,7 @@
 					if(provinceData[province].id == parentId){//找到选中的省
 						var cities = provinceData[province].children;
 						for(var city in cities){//遍历添加所有的市区
+							//console.log(cities[city].name);
 							var optionNode3 = document.createElement("option");
 							var textNode3 = document.createTextNode(cities[city].name);
 							optionNode3.appendChild(textNode3);
@@ -329,7 +416,7 @@
 				var provinceId = parentNode[index].getAttribute("parentId");
 				var parentPathname = parentNode[index].value;
 				var outerCityValue1 = $("#outerCityValue1").val(parentId +"-"+ parentPathname);
-				console.log(outerCityValue1.val());
+				//console.log(outerCityValue1.val());
 				var provinceData = allArea.data.children;
 
 				areaEle3.options.length=0;
