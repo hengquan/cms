@@ -756,6 +756,13 @@ rgba
 			var b = $("#localCityValue1").val() +','+$("#localAreaValue1").val();
 			var c = $("#outerProvinceValue1").val() +','+$("#outerCityValue1").val()+','+$("#outerAreaValue1").val();
 			var d = $("#outerProvinceValue").val() +','+$("#outerCityValue").val()+','+$("#outerAreaValue").val();
+			
+			
+			alert(a);
+			alert(b);
+			alert(c);
+			alert(d);
+			
 			$("#localresidence").val(a);
 			$("#localworkarea").val(b);
 			$("#outresidence").val(c);
