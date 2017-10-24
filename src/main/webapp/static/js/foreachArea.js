@@ -50,7 +50,7 @@
 				var parentId = parentNode[index].id;
 				var parentPathname = parentNode[index].value;
 				var localCityValue = $("#localCityValue").val(parentId +"-"+ parentPathname);
-				//console.log(localCityValue.val());
+				console.log(localCityValue.val());
 				var areaChildren = areaEle.children;
 				
 				for(var i = 0, len = areaChildren.length; i < len; i++) {
@@ -71,7 +71,7 @@
 				var selectedId = parentNode[index].id;
 				var selectedPathname = parentNode[index].value;
 				var localAreaValue = $("#localAreaValue").val(selectedId +"-"+ selectedPathname);
-				//console.log(localAreaValue.val());
+				console.log(localAreaValue.val());
 			};
 			insertData(localArea.data);
 			
@@ -85,13 +85,13 @@
 					for(var child in children) {
 						//console.log(children[child]);//获取的所有对象
 						 if(children[child].name == bdgzCity[0]){
-								var lastId = children[child].id +"-"+bdgzCity[0];
+								var lastId1 = children[child].id +"-"+bdgzCity[0];
 							
-								$("#lastCityId1").val(lastId);
+								$("#lastCityId1").val(lastId1);
 							}else if(children[child].name == bdgzCity[1]){
-								var lastId = children[child].id +"-"+bdgzCity[1];
+								var lastId1 = children[child].id +"-"+bdgzCity[1];
 								
-								$("#lastAreaId1").val(lastId);
+								$("#lastAreaId1").val(lastId1);
 							}
 						var optionNode2 = document.createElement("option"); //获取各个option
 						var textNode2 = document.createTextNode(children[child].name); //获取各个名称
@@ -165,7 +165,7 @@
 				if(Object.prototype.toString.call(children) == "[object Array]"){//是数组 则不是根节点
 					//遍历元素渲染省份
 					for(var child in children){
-
+						//console.log(children);
 						if(children[child].name == wfgzCity[0]){
 								var lastId = children[child].id +"-"+wfgzCity[0];
 								$("#lastOutProvinceId1").val(lastId);
