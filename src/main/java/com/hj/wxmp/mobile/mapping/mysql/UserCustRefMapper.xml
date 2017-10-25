@@ -153,11 +153,14 @@
 	JOIN ql_Customer qc ON qur.custId = qc.id
 	JOIN plat_User pu ON qur.userId = pu.id
 	join ql_Project proj on qur.projId = proj.id
-	WHERE 1=1 and 
-	(instr(qc.custName,#{name})
-	OR instr(proj.projName, #{name})
-	OR instr(qc.phoneNum, #{name})
-	OR instr(pu.realName, #{name}))
+	JOIN ql_AccessRecord01 qa1 ON qc.id = qa1.custId
+	WHERE 1=1  
+	<if test="name !='' and name !=null">
+		and (instr(qc.custName,#{name})
+		OR instr(proj.projName, #{name})
+		OR instr(qc.phoneNum, #{name})
+		OR instr(pu.realName, #{name}))
+	</if>
 	<if test="userType==2">
 		<if test="projIds !='' and projIds !=null">
 			and instr(#{projIds},proj.id)
@@ -175,9 +178,6 @@
 			UNION SELECT custId FROM ql_AccessRecord03 where authorId = #{userId})
 		</if> 
 	</if> 
-	<if test="isValidate != '' and isValidate != null">
-		and pu.isValidate = 3
-	</if>  
 	limit #{page},#{pageSize}
   </select>
   
@@ -191,11 +191,14 @@
 	JOIN ql_Customer qc ON qur.custId = qc.id
 	JOIN plat_User pu ON qur.userId = pu.id
 	join ql_Project proj on qur.projId = proj.id
-	WHERE 1=1 and 
-	(instr(qc.custName,#{name})
-	OR instr(proj.projName, #{name})
-	OR instr(qc.phoneNum, #{name})
-	OR instr(pu.realName, #{name}))
+	JOIN ql_AccessRecord01 qa1 ON qc.id = qa1.custId
+	WHERE 1=1  
+	<if test="name !='' and name !=null">
+		and (instr(qc.custName,#{name})
+		OR instr(proj.projName, #{name})
+		OR instr(qc.phoneNum, #{name})
+		OR instr(pu.realName, #{name}))
+	</if>
 	<if test="userType==2">
 		<if test="projIds !='' and projIds !=null">
 			and instr(#{projIds},proj.id)
@@ -213,10 +216,101 @@
 			UNION SELECT custId FROM ql_AccessRecord03 where authorId = #{userId})
 		</if> 
 	</if> 
+  </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <!-- 查询特殊用户客户信息 -->
+  <select id="selectBySpecialUserMessge" resultType="java.util.Map" parameterType="java.util.Map">
+	SELECT
+		qc.custName,
+		qc.phoneNum,
+		qc.custSex,
+		proj.projName,
+		qc.cTime,
+		user1.realName,
+		qa1.projId,
+		qa1.custId
+	FROM
+		ql_Customer qc
+	LEFT JOIN ql_AccessRecord01 qa1 ON qc.id = qa1.custId
+	LEFT JOIN ql_Project proj ON qa1.projId = proj.id
+	LEFT JOIN plat_User user1 ON qa1.authorId = user1.id
+	WHERE
+		1 = 1
+	<if test="name !='' and name !=null">
+		and (instr(qc.custName,#{name})
+		OR instr(proj.projName, #{name})
+		OR instr(qc.phoneNum, #{name})
+		OR instr(user1.realName, #{name}))
+	</if>
+	<if test="userType==2">
+		<if test="projIds !='' and projIds !=null">
+			and instr(#{projIds},proj.id)
+		</if> 
+	</if> 
+	<if test="userType==3">
+		<if test="projIds !='' and projIds !=null">
+			and instr(#{projIds},proj.id)
+		</if> 
+	</if> 
 	<if test="isValidate != '' and isValidate != null">
-		and pu.isValidate = 3
+		AND (
+			user1.isValidate = 3 
+			OR qa1.authorId not in (select id from plat_User)
+		)
+	</if>  
+	limit #{page},#{pageSize}
+  </select>
+  
+  
+  <!-- 根据条件查询用户客记信息数量 -->
+  <select id="selectBySpecialUserMessgeCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+	SELECT
+		count(1)
+	FROM
+		ql_Customer qc
+	LEFT JOIN ql_AccessRecord01 qa1 ON qc.id = qa1.custId
+	LEFT JOIN ql_Project proj ON qa1.projId = proj.id
+	LEFT JOIN plat_User user1 ON qa1.authorId = user1.id
+	WHERE
+		1 = 1
+	<if test="name !='' and name !=null">
+		and (instr(qc.custName,#{name})
+		OR instr(proj.projName, #{name})
+		OR instr(qc.phoneNum, #{name})
+		OR instr(user1.realName, #{name}))
+	</if>
+	<if test="userType==2">
+		<if test="projIds !='' and projIds !=null">
+			and instr(#{projIds},proj.id)
+		</if> 
+	</if> 
+	<if test="userType==3">
+		<if test="projIds !='' and projIds !=null">
+			and instr(#{projIds},proj.id)
+		</if> 
+	</if> 
+	<if test="isValidate != '' and isValidate != null">
+		AND (
+			user1.isValidate = 3 
+			OR qa1.authorId not in (select id from plat_User)
+		)
 	</if>  
   </select>
+  
+  
+  
+  
+  
+  
   
   
   <update id="updateByProjIdAndCustId" parameterType="java.util.Map">

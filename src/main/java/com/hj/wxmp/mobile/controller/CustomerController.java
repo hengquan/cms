@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +31,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.hj.utils.JsonUtils;
 import com.hj.web.core.mvc.ControllerBase;
@@ -135,10 +137,20 @@ public class CustomerController extends ControllerBase {
 				map.put("userType", "4");
 				map.put("userId", id);
 			}
-			// 获取所有用户信息
-			List<Map<String,Object>> userMsg = userCustRefService.selectByUserMessge(map);
-			//所有信息数量
-			listMessgeCount = userCustRefService.selectByUserMessgeCount(map);
+			//最终返回的信息值
+			List<Map<String,Object>> userMsg = new ArrayList<Map<String,Object>>();
+			//是否是正常状态3为特殊状态其他为正常状态
+			if(isValidate.equals("")){
+				// 获取所有用户信息
+				userMsg = userCustRefService.selectByUserMessge(map);
+				//所有信息数量
+				listMessgeCount = userCustRefService.selectByUserMessgeCount(map);
+			}else{
+				//查看所有已作废顾问和客户未有顾问的所有信息
+				userMsg = userCustRefService.selectBySpecialUserMessge(map);
+				//所有信息数量
+				listMessgeCount = userCustRefService.selectBySpecialUserMessgeCount(map);
+			}
 		 	Integer totalCount = listMessgeCount%pageSize;
 			Integer totalPageNum = 0;
 			if(totalCount==0){
@@ -825,6 +837,81 @@ public class CustomerController extends ControllerBase {
 	}
 	
 	
+	
+	//导入客户数据
+	@RequestMapping(value = "/customer/toLead")
+    public String  fileUpload(@RequestParam("file") CommonsMultipartFile file) throws IOException {
+        //用来检测程序运行时间
+        long  startTime=System.currentTimeMillis();
+        System.out.println("fileName："+file.getOriginalFilename());
+        try {
+            //获取输出流
+            InputStream is=file.getInputStream();
+            // 对读取Excel表格标题测试
+            ExcelReader excelReader = new ExcelReader();
+            String[] title = excelReader.readExcelTitle(is);
+            System.out.println("获得Excel表格的标题:");
+            for (String s : title) {
+                System.out.print(s + " ");
+            }
+            // 对读取Excel表格内容测试
+            InputStream is2=file.getInputStream();
+            Map<Integer, String> map = excelReader.readExcelContent(is2);
+            System.out.println("获得Excel表格的内容:");
+            for (int i = 1; i <= map.size(); i++) {
+                System.out.println(map.get(i));
+            }
+        }catch(Exception e){
+        	
+        }
+        return null; 
+    }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//获取登入用户所对应的项目
+	@ResponseBody
+	@RequestMapping(value = "/customer/getProj")
+	public String getProj() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		//用户角色权限信息
+		try {
+			//返回数据结果
+			List<Map<String, Object>> resultMsg = new ArrayList<Map<String, Object>>();
+			String id = hashSession.getCurrentAdmin(request).getId();
+			UserRole userRole = sysUserRoleService.selectByUserId(id);
+			String roleId = userRole.getRoleid();
+			SysRole role;
+			role = sysRoleService.findById(roleId);
+			String roleName = role.getRoleName();
+			if(roleName.equals("管理员")) {
+				resultMsg = projectService.selectAll();
+			}
+			if(roleName.equals("项目负责人")) {
+				resultMsg = projUserRoleService.selectByUserId(id);
+			}
+			map.put("msg", "100");
+			map.put("resultMsg", resultMsg);
+		} catch (Exception e) {
+			map.put("msg", "103");
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+	}
 	
 	
 	

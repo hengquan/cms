@@ -37,4 +37,8 @@ public interface UserCustRefMapper {
 	Integer selectZongHeCount(Map<String, Object> map);
 
 	List<UserCustRef> findAll();
+
+	List<Map<String, Object>> selectBySpecialUserMessge(Map<String, Object> map);
+
+	Integer selectBySpecialUserMessgeCount(Map<String, Object> map);
 }

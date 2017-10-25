@@ -376,11 +376,12 @@ rgba
 									</td>
 								</tr>
 								<script>
-									var bejz = $("#bdjz").val();	
+									var bejz = $("#bdjz").val();
 									var bdjzCity = bejz.split("，");
+									
 									$("#city").find("option").html(bdjzCity[0]);
 									$("#area").find("option").html(bdjzCity[1]);
-									var bdgz = $("#bdjz").val();	
+									var bdgz = $("#bdgz").val();	
 									var bdgzCity = bdgz.split("，");
 									
 									$("#workCity").find("option").html(bdgzCity[0]);
@@ -391,7 +392,7 @@ rgba
 									$("#city3").find("option").html(wfjzCity[1]);
 									$("#area3").find("option").html(wfjzCity[2]);
 									
-									var wfgz = $("#wfjz").val();
+									var wfgz = $("#wfgz").val();
 									var wfgzCity = wfgz.split("，");
 									$("#province1").find("option").html(wfgzCity[0]);
 									$("#city1").find("option").html(wfgzCity[1]);
@@ -750,23 +751,62 @@ rgba
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
 
+		/* 
+		var aa = $("#lastCityId").val()+","+$("#lastAreaId").val();
+		var bb = $("#lastCityId1").val()+","+$("#lastAreaId1").val();
+		var cc = $("#lastOutProvinceId").val()+","+$("#lastOutCityId").val()+","+$("#lastOutAreaId").val();
+		var dd = $("#lastOutProvinceId1").val()+","+$("#lastOutCityId1").val()+","+$("#lastOutAreaId1").val(); */
+		
+		
 		//提交表单
 		function checkinput() {
-			var a = $("#localCityValue").val() +','+$("#localAreaValue").val();
-			var b = $("#localCityValue1").val() +','+$("#localAreaValue1").val();
-			var c = $("#outerProvinceValue1").val() +','+$("#outerCityValue1").val()+','+$("#outerAreaValue1").val();
-			var d = $("#outerProvinceValue").val() +','+$("#outerCityValue").val()+','+$("#outerAreaValue").val();
+		/* 	var a = $("#localCityValue").val() +'，'+$("#localAreaValue").val();
+			var b = $("#localCityValue1").val() +'，'+$("#localAreaValue1").val();
+			var c = $("#outerProvinceValue1").val() +'，'+$("#outerCityValue1").val()+'，'+$("#outerAreaValue1").val();
+			var d = $("#outerProvinceValue").val() +'，'+$("#outerCityValue").val()+'，'+$("#outerAreaValue").val(); */
 			
+			var lastCityIdValue = $("#localCityValue").val();
+			var lastCityIdArr = lastCityIdValue.split("-");
+			var lastAreaIdValue = $("#localAreaValue").val();
+			var lastAreaIdArr = lastAreaIdValue.split("-");
+			console.log(lastAreaIdArr[0]+"-"+lastCityIdArr[1]+"，"+lastAreaIdArr[1]);
 			
-			alert(a);
-			alert(b);
-			alert(c);
-			alert(d);
+			var lastCityIdValue1 = $("#localCityValue1").val();
+			var lastCityIdArr1 = lastCityIdValue1.split("-");
+			var lastAreaIdValue1 = $("#localAreaValue1").val();
+			var lastAreaIdArr1 = lastAreaIdValue1.split("-");
+			console.log(lastAreaIdArr1[0]+"-"+lastCityIdArr1[1]+"，"+lastAreaIdArr1[1]);
 			
-			$("#localresidence").val(a);
-			$("#localworkarea").val(b);
-			$("#outresidence").val(c);
-			$("#outworkarea").val(d);
+			var lastOutProvinceIdValue = $("#outerProvinceValue1").val();
+			var lastOutProvinceIdArr = lastOutProvinceIdValue.split("-");
+			var lastOutCityIdValue = $("#outerCityValue1").val();
+			var lastOutCityIdArr = lastOutCityIdValue.split("-");
+			var lastOutAreaIdValue = $("#outerAreaValue1").val();
+			var lastOutAreaIdArr = lastOutAreaIdValue.split("-");
+			console.log(lastOutAreaIdArr[0]+"-"+lastOutProvinceIdArr[1]+"，"+lastOutCityIdArr[1]+"，"+lastOutAreaIdArr[1]);
+			
+			var lastOutProvinceIdValue1 = $("#outerProvinceValue").val();
+			var lastOutProvinceIdArr1 = lastOutProvinceIdValue1.split("-");
+			var lastOutCityIdValue1 = $("#outerCityValue").val();
+			var lastOutCityIdArr1 = lastOutCityIdValue1.split("-");
+			var lastOutAreaIdValue1 = $("#outerAreaValue").val();
+			var lastOutAreaIdArr1 = lastOutAreaIdValue1.split("-");
+			console.log(lastOutAreaIdArr1[0]+"-"+lastOutProvinceIdArr1[1]+"，"+lastOutCityIdArr1[1]+"，"+lastOutAreaIdArr1[1]);
+		
+			/* $("#localresidence").val(aa);
+			$("#localworkarea").val(bb);
+			$("#outresidence").val(cc);
+			$("#outworkarea").val(dd); */
+			if($("#city").find("option").attr('checked') == undefined){
+				alert("没有选中");
+			}else{
+				alert("选中");
+			}
+			$("#localresidence").val(lastAreaIdArr[0]+"-"+lastCityIdArr[1]+"，"+lastAreaIdArr[1]);
+			$("#localworkarea").val(lastAreaIdArr1[0]+"-"+lastCityIdArr1[1]+"，"+lastAreaIdArr1[1]);
+			$("#outresidence").val(lastOutAreaIdArr[0]+"-"+lastOutProvinceIdArr[1]+"，"+lastOutCityIdArr[1]+"，"+lastOutAreaIdArr[1]);
+			$("#outworkarea").val(lastOutAreaIdArr1[0]+"-"+lastOutProvinceIdArr1[1]+"，"+lastOutCityIdArr1[1]+"，"+lastOutAreaIdArr1[1]);
+			
 			var datamsg = $("#theform").serialize();
 			$.ajax({
 				type:'post',

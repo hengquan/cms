@@ -1426,6 +1426,7 @@ function step1Next() {//要判断是否应该进行首访录入
   if ($.trim($("#localRedisId").val())) {
     id=$("#localRedisVal").val();
     _uLocalResidence=$.trim(id.substr(id.lastIndexOf(",")+1))+"-"+($.trim($("#localRedisId").val())).replace(/,/g,"，");
+    //alert(_uLocalResidence);
   }
   if ($.trim($("#localWorkAreaId").val())) {
     id=$("#localWorkAreaVal").val();
