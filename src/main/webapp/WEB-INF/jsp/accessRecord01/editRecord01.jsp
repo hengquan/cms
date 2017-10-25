@@ -295,16 +295,18 @@ rgba
 										</select>
 									</td>
 								</tr>
+								<!-- 获取数据库的默认值 -->
 								<input type="hidden" value="${accessRecord01.localresidence }" id="bdjz">
 								<input type="hidden" value="${accessRecord01.localworkarea }" id="bdgz">
 								<input type="hidden" value="${accessRecord01.outresidence }" id="wfjz">
 								<input type="hidden" value="${accessRecord01.outworkarea }" id="wfgz">
 								
+								<!-- 提交表单时将数据存在这 -->
 								<input type="hidden" value="" id="localresidence" name="localresidence">
 								<input type="hidden" value="" id="localworkarea" name="localworkarea">
 								<input type="hidden" value="" id="outresidence" name="outresidence">
 								<input type="hidden" value="" id="outworkarea" name="outworkarea">
-								
+								<!-- 将数据库获取出来的值进行拆分并将其改为编码加名称的结构 -->
 								<input type="hidden" value="" id="lastCityId" name="lastCityId">
 								<input type="hidden" value="" id="lastAreaId" name="lastAreaId">
 								<input type="hidden" value="" id="lastCityId1" name="lastCityId1">
@@ -376,9 +378,9 @@ rgba
 									</td>
 								</tr>
 								<script>
+									//将数据库获取出的地区拆分为编码和名称
 									var bejz = $("#bdjz").val();
 									var bdjzCity = bejz.split("，");
-									
 									$("#city").find("option").html(bdjzCity[0]);
 									$("#area").find("option").html(bdjzCity[1]);
 									var bdgz = $("#bdgz").val();	
@@ -725,6 +727,7 @@ rgba
 			type="hidden" name="byid" id="byid"> <input type="hidden"
 			name="boxeditId" id="boxeditId">
 	</form>
+	<!-- 选择地区数据后存储在这 -->
 	<input type="hidden" value="" id="localCityValue" />
 	<input type="hidden" value="" id="localAreaValue"/>
 	<input type="hidden" value="" id="localCityValue1"/>
@@ -751,20 +754,11 @@ rgba
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
 
-		/* 
-		var aa = $("#lastCityId").val()+","+$("#lastAreaId").val();
-		var bb = $("#lastCityId1").val()+","+$("#lastAreaId1").val();
-		var cc = $("#lastOutProvinceId").val()+","+$("#lastOutCityId").val()+","+$("#lastOutAreaId").val();
-		var dd = $("#lastOutProvinceId1").val()+","+$("#lastOutCityId1").val()+","+$("#lastOutAreaId1").val(); */
-		
+
 		
 		//提交表单
 		function checkinput() {
-		/* 	var a = $("#localCityValue").val() +'，'+$("#localAreaValue").val();
-			var b = $("#localCityValue1").val() +'，'+$("#localAreaValue1").val();
-			var c = $("#outerProvinceValue1").val() +'，'+$("#outerCityValue1").val()+'，'+$("#outerAreaValue1").val();
-			var d = $("#outerProvinceValue").val() +'，'+$("#outerCityValue").val()+'，'+$("#outerAreaValue").val(); */
-			
+
 			var lastCityIdValue = $("#localCityValue").val();
 			var lastCityIdArr = lastCityIdValue.split("-");
 			var lastAreaIdValue = $("#localAreaValue").val();
@@ -792,20 +786,49 @@ rgba
 			var lastOutAreaIdValue1 = $("#outerAreaValue").val();
 			var lastOutAreaIdArr1 = lastOutAreaIdValue1.split("-");
 			console.log(lastOutAreaIdArr1[0]+"-"+lastOutProvinceIdArr1[1]+"，"+lastOutCityIdArr1[1]+"，"+lastOutAreaIdArr1[1]);
-		
-			/* $("#localresidence").val(aa);
-			$("#localworkarea").val(bb);
-			$("#outresidence").val(cc);
-			$("#outworkarea").val(dd); */
-			if($("#city").find("option").attr('checked') == undefined){
-				alert("没有选中");
+			
+			//获取默认数据并转换为地区编码加名称的格式
+			var lastCityIdValue2 = $("#lastCityId").val();
+			var lastCityIdArr2 = lastCityIdValue2.split("-");
+			var lastAreaIdValue2 = $("#lastAreaId").val();
+			var lastAreaIdArr2 = lastAreaIdValue2.split("-");
+			console.log(lastAreaIdArr2[0]+"-"+lastCityIdArr2[1]+"，"+lastAreaIdArr2[1]);
+			
+			var lastCityIdValue22 = $("#lastCityId1").val();
+			var lastCityIdArr22 = lastCityIdValue22.split("-");
+			var lastAreaIdValue22 = $("#lastAreaId1").val();
+			var lastAreaIdArr22 = lastAreaIdValue22.split("-");
+			console.log(lastAreaIdArr22[0]+"-"+lastCityIdArr22[1]+"，"+lastAreaIdArr22[1]);
+			
+			var lastOutProvinceIdValue2 = $("#lastOutProvinceId").val();
+			var lastOutProvinceIdArr2 = lastOutProvinceIdValue2.split("-");
+			var lastOutCityIdValue2 = $("#lastOutCityId").val();
+			var lastOutCityIdArr2 = lastOutCityIdValue2.split("-");
+			var lastOutAreaIdValue2 = $("#lastOutAreaId").val();
+			var lastOutAreaIdArr2 = lastOutAreaIdValue2.split("-");
+			console.log(lastOutAreaIdArr2[0]+"-"+lastOutProvinceIdArr2[1]+"，"+lastOutCityIdArr2[1]+"，"+lastOutAreaIdArr2[1]);
+			
+			var lastOutProvinceIdValue22 = $("#lastOutProvinceId1").val();
+			var lastOutProvinceIdArr22 = lastOutProvinceIdValue22.split("-");
+			var lastOutCityIdValue22 = $("#lastOutCityId1").val();
+			var lastOutCityIdArr22 = lastOutCityIdValue22.split("-");
+			var lastOutAreaIdValue22 = $("#lastOutAreaId1").val();
+			var lastOutAreaIdArr22 = lastOutAreaIdValue22.split("-");
+			console.log(lastOutAreaIdArr22[0]+"-"+lastOutProvinceIdArr22[1]+"，"+lastOutCityIdArr22[1]+"，"+lastOutAreaIdArr22[1]);
+			if(lastCityIdValue == ""){
+				$("#localresidence").val(lastAreaIdArr2[0]+"-"+lastCityIdArr2[1]+"，"+lastAreaIdArr2[1]);
+				$("#localworkarea").val(lastAreaIdArr22[0]+"-"+lastCityIdArr22[1]+"，"+lastAreaIdArr22[1]);
+				$("#outresidence").val(lastOutAreaIdArr2[0]+"-"+lastOutProvinceIdArr2[1]+"，"+lastOutCityIdArr2[1]+"，"+lastOutAreaIdArr2[1]);
+				$("#outworkarea").val(lastOutAreaIdArr22[0]+"-"+lastOutProvinceIdArr22[1]+"，"+lastOutCityIdArr22[1]+"，"+lastOutAreaIdArr22[1]);
+				
 			}else{
-				alert("选中");
+				$("#localresidence").val(lastAreaIdArr[0]+"-"+lastCityIdArr[1]+"，"+lastAreaIdArr[1]);
+				$("#localworkarea").val(lastAreaIdArr1[0]+"-"+lastCityIdArr1[1]+"，"+lastAreaIdArr1[1]);
+				$("#outresidence").val(lastOutAreaIdArr[0]+"-"+lastOutProvinceIdArr[1]+"，"+lastOutCityIdArr[1]+"，"+lastOutAreaIdArr[1]);
+				$("#outworkarea").val(lastOutAreaIdArr1[0]+"-"+lastOutProvinceIdArr1[1]+"，"+lastOutCityIdArr1[1]+"，"+lastOutAreaIdArr1[1]);
 			}
-			$("#localresidence").val(lastAreaIdArr[0]+"-"+lastCityIdArr[1]+"，"+lastAreaIdArr[1]);
-			$("#localworkarea").val(lastAreaIdArr1[0]+"-"+lastCityIdArr1[1]+"，"+lastAreaIdArr1[1]);
-			$("#outresidence").val(lastOutAreaIdArr[0]+"-"+lastOutProvinceIdArr[1]+"，"+lastOutCityIdArr[1]+"，"+lastOutAreaIdArr[1]);
-			$("#outworkarea").val(lastOutAreaIdArr1[0]+"-"+lastOutProvinceIdArr1[1]+"，"+lastOutCityIdArr1[1]+"，"+lastOutAreaIdArr1[1]);
+			
+			
 			
 			var datamsg = $("#theform").serialize();
 			$.ajax({
