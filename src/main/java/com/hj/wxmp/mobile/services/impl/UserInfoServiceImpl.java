@@ -301,5 +301,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return userInfoMapper.selectByParentId(parentId);
 	}
 
+	@Override
+	public List<UserInfo> selectByName(String userName) {
+		return userInfoMapper.selectByName(userName);
+	}
+
 
 }

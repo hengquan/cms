@@ -578,4 +578,14 @@
   </select>
   
   
+  
+  <select id="selectByData" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_UserCust_Ref
+    where projId = #{projId,jdbcType=VARCHAR}
+    and custId = #{custId,jdbcType=VARCHAR} 
+    and userId = #{userId,jdbcType=VARCHAR}
+  </select>
+  
 </mapper>

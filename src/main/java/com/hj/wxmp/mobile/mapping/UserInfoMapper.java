@@ -44,5 +44,7 @@ public interface UserInfoMapper {
 
 	List<UserInfo> findAll();
 
+	List<UserInfo> selectByName(String userName);
+
 	
 }

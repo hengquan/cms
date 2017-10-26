@@ -112,4 +112,6 @@ public interface UserCustRefService {
 
 	public Integer selectBySpecialUserMessgeCount(Map<String, Object> map);
 
+	public UserCustRef selectByData(Map<String, Object> data);
+
 }

@@ -41,4 +41,6 @@ public interface UserCustRefMapper {
 	List<Map<String, Object>> selectBySpecialUserMessge(Map<String, Object> map);
 
 	Integer selectBySpecialUserMessgeCount(Map<String, Object> map);
+
+	UserCustRef selectByData(Map<String, Object> data);
 }

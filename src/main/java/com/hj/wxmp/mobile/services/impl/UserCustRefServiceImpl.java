@@ -108,6 +108,10 @@ public class UserCustRefServiceImpl implements UserCustRefService {
 	public Integer selectBySpecialUserMessgeCount(Map<String, Object> map) {
 		return dao.selectBySpecialUserMessgeCount(map);
 	}
+	@Override
+	public UserCustRef selectByData(Map<String, Object> data) {
+		return dao.selectByData(data);
+	}
 
 	
 

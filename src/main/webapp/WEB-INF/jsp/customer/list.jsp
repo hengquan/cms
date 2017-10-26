@@ -213,7 +213,7 @@
 							<div class="form-group">
 								<label class="col-lg-2 control-label pd-r5">请选择项目<font style="color:red;"></font></label>
 								<div class="col-lg-10">
-									<select class="form-control" name="userId" id="userProj">
+									<select class="form-control" name="userProjId" id="userProj">
 										
 									</select>
 								</div>

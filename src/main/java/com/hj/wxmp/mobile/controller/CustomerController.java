@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -23,6 +24,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,9 @@ import com.hj.utils.JsonUtils;
 import com.hj.web.core.mvc.ControllerBase;
 import com.hj.wxmp.mobile.common.HashSessions;
 import com.hj.wxmp.mobile.dao.SysItemRoleDao;
+import com.hj.wxmp.mobile.entity.AccessRecord01;
+import com.hj.wxmp.mobile.entity.Customer;
+import com.hj.wxmp.mobile.entity.ProjCustRef;
 import com.hj.wxmp.mobile.entity.SysItemRole;
 import com.hj.wxmp.mobile.entity.SysRole;
 import com.hj.wxmp.mobile.entity.UserCustRef;
@@ -47,6 +52,7 @@ import com.hj.wxmp.mobile.services.AccessRecord02Service;
 import com.hj.wxmp.mobile.services.AccessRecord03Service;
 import com.hj.wxmp.mobile.services.CustomerService;
 import com.hj.wxmp.mobile.services.IKeyGen;
+import com.hj.wxmp.mobile.services.ProjCustRefService;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
 import com.hj.wxmp.mobile.services.ProjectService;
 import com.hj.wxmp.mobile.services.SysRoleService;
@@ -85,6 +91,8 @@ public class CustomerController extends ControllerBase {
 	AccessRecord02Service accessRecord02Service;
 	@Autowired
 	AccessRecord03Service accessRecord03Service;
+	@Autowired
+	ProjCustRefService projCustRefService;
 
 	// 客户列表
 	@RequestMapping(value = "/customer/customerList")
@@ -840,29 +848,29 @@ public class CustomerController extends ControllerBase {
 	
 	//导入客户数据
 	@RequestMapping(value = "/customer/toLead")
-    public String  fileUpload(@RequestParam("file") CommonsMultipartFile file) throws IOException {
+    public String  fileUpload(@RequestParam("file") CommonsMultipartFile file,String userProjId) throws IOException {
         //用来检测程序运行时间
         long  startTime=System.currentTimeMillis();
         System.out.println("fileName："+file.getOriginalFilename());
         try {
             //获取输出流
             InputStream is=file.getInputStream();
-            // 对读取Excel表格标题测试
-            ExcelReader excelReader = new ExcelReader();
-            String[] title = excelReader.readExcelTitle(is);
-            System.out.println("获得Excel表格的标题:");
-            for (String s : title) {
-                System.out.print(s + " ");
-            }
-            // 对读取Excel表格内容测试
-            InputStream is2=file.getInputStream();
-            Map<Integer, String> map = excelReader.readExcelContent(is2);
-            System.out.println("获得Excel表格的内容:");
-            for (int i = 1; i <= map.size(); i++) {
-                System.out.println(map.get(i));
+            HSSFWorkbook workbook=new HSSFWorkbook(is);
+            HSSFSheet sheet=null;
+            for (int i = 0; i < workbook.getNumberOfSheets(); i++) {//获取每个Sheet表
+            	//获取工作溥
+            	sheet = workbook.getSheetAt(i);
+            	String sheetName = sheet.getSheetName();
+            	if(sheetName.equals("来电")){
+            		//来电
+            		incomingTelegram(userProjId,file,i);
+            	}else if(sheetName.equals("来访")){
+            		//来访
+            		comeRound(userProjId,file,i);
+            	}
             }
         }catch(Exception e){
-        	
+        	e.printStackTrace();
         }
         return null; 
     }
@@ -871,13 +879,447 @@ public class CustomerController extends ControllerBase {
 	
 	
 	
+	//来电
+	public Boolean incomingTelegram(String userProjId, CommonsMultipartFile file, int sheetIndex) {
+		Boolean isok = false;
+		// 对读取Excel表格标题测试
+        ExcelReader excelReader = new ExcelReader();
+		try{
+			// 对读取Excel表格内容测试
+            InputStream is2=file.getInputStream();
+            Map<Integer, String> map = excelReader.readExcelContent(is2,sheetIndex);
+            System.out.println("获得Excel表格的内容:");
+            for (int i = 1; i <= map.size(); i++) {
+            	Customer customer = new Customer();
+            	AccessRecord01 accessRecord01 = new AccessRecord01();
+            	//Map<String,Object> parameterMap = new HashMap<String,Object>();
+                System.out.println(map.get(i).length());
+                System.out.println(map.get(i));
+                if(i>1){
+                	String msgs = map.get(i);
+                	String[] split = msgs.split("    ");
+                	int length = split.length;
+                	for(int index=0;index<length;index++){
+                		//年
+                		String year = split[1];
+                		//时间
+                		String time = split[2];
+                		//月
+                		String month = split[3];
+                		//日
+                		String day = split[4];
+                		//最终时间
+                		String dateTime = year+"-"+month+"-"+day+" 00:00:00";
+        				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        				Date parse = formata.parse(dateTime);				
+                		accessRecord01.setReceptime(parse);
+                		if(index==5){
+                			//客户姓名
+                			String custName = split[5];
+                			if(StringUtils.isEmpty(custName)){
+                				customer.setCustname("");
+                				accessRecord01.setCustname("");
+                			}else{
+                				customer.setCustname(custName);
+                				accessRecord01.setCustname(custName);
+                			}
+                		}
+                		if(index==6){
+                			//客户电话
+                			String phoneNum = split[6];
+                			if(StringUtils.isEmpty(phoneNum)){
+                				customer.setPhonenum("");
+                				accessRecord01.setCustphonenum("");
+                			}else {
+                				//查询客户表是否已有该客户
+                    			Integer number = customerService.selectByCustPhoneNum(phoneNum);
+                    			if(number > 0) break;
+                    			customer.setPhonenum(phoneNum);
+                				accessRecord01.setCustphonenum(phoneNum);
+                				//设置主键
+                				String custId = keyGen.getUUIDKey();
+                            	accessRecord01.setId(keyGen.getUUIDKey());
+                            	customer.setId(custId);
+                            	accessRecord01.setProjid(userProjId);
+                            	accessRecord01.setCustid(custId);
+                			}
+                		}
+                		if(index==7){
+                			//顾问姓名
+                			String userName = split[7];
+            				if(StringUtils.isEmpty(userName)){
+                				accessRecord01.setAuthorid("");
+                				accessRecord01.setCreatorid("");
+            				}else{
+            					//查询用户表是否有该顾问
+            					List<UserInfo> userInfos = userInfoService.selectByName(userName);
+            					int size = userInfos.size();
+            					//获取顾问ID
+            					if(size==1){
+            						String id = userInfos.get(0).getId();
+            						accessRecord01.setAuthorid(id);
+            						accessRecord01.setCreatorid(id);
+            					}else{
+            						accessRecord01.setAuthorid("");
+            						accessRecord01.setCreatorid("");
+            					}
+            				}
+                		}
+                		if(index==10){
+                			//客户级别
+                			String custScore = split[10];
+            				if(StringUtils.isEmpty(custScore)){
+                				accessRecord01.setCustscore("");
+                				customer.setCustscore("");
+            				}else{
+            					accessRecord01.setCustscore(custScore);
+            					customer.setCustscore(custScore);
+            				}
+                		}
+                		if(index==11){
+                			//户籍
+                			String huji = split[11];
+            				if(StringUtils.isEmpty(huji)){
+            					
+            				}else{
+            					if(huji.equals("本市")){
+            						if(length>=17){
+            							accessRecord01.setLocalresidence(split[17]);
+                						customer.setLocalresidence(split[17]);
+            						}
+            						if(length>=18){
+            							accessRecord01.setLocalworkarea(split[18]);
+                						customer.setLocalworkarea(split[18]);
+            						}
+            					}else{
+            						if(length>=17){
+            							accessRecord01.setOutresidence(split[17]);
+                						customer.setOutresidence(split[17]);
+            						}
+            						if(length>=18){
+            							accessRecord01.setOutworkarea(split[18]);
+                						customer.setOutworkarea(split[18]);
+            						}
+            					}
+            				}
+                		}
+                		if(index==13){
+                			//意向面积
+                			String attentAcreage = split[13];
+            				if(StringUtils.isEmpty(attentAcreage)){
+                				accessRecord01.setAttentacreage("");
+                				customer.setAttentacreage("");
+            				}else{
+            					accessRecord01.setAttentacreage(attentAcreage);
+                				customer.setAttentacreage(attentAcreage);
+            				}
+                		}
+                		if(index==16){
+                			//意向总价
+                			String priceSection = split[16];
+            				if(StringUtils.isEmpty(priceSection)){
+                				accessRecord01.setPricesection("");
+                				customer.setPricesection("");
+            				}else{
+            					accessRecord01.setPricesection(priceSection);
+                				customer.setPricesection(priceSection);
+            				}
+                		}
+                		if(index==20){
+                			//渠道来源
+                			String knowWay = split[20];
+            				if(StringUtils.isEmpty(knowWay)){
+                				accessRecord01.setKnowway("");
+            				}else{
+            					accessRecord01.setKnowway(knowWay);
+            				}
+                		}
+                	}
+                	addRelationTbl(customer,accessRecord01,userProjId);
+                }
+            }
+            isok=true;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return isok;
+	}
+	
+	//来访
+	public Boolean comeRound(String userProjId, CommonsMultipartFile file,int sheetIndex) {
+		Boolean isok = false;
+		// 对读取Excel表格标题测试
+        ExcelReader excelReader = new ExcelReader();
+		try{
+			// 对读取Excel表格内容测试
+            InputStream is2=file.getInputStream();
+            Map<Integer, String> map = excelReader.readExcelContent(is2,sheetIndex);
+            System.out.println("获得Excel表格的内容:");
+            for (int i = 1; i <= map.size(); i++) {
+            	Customer customer = new Customer();
+            	AccessRecord01 accessRecord01 = new AccessRecord01();
+            	//Map<String,Object> parameterMap = new HashMap<String,Object>();
+                System.out.println(map.get(i).length());
+                System.out.println(map.get(i));
+                if(i>1){
+                	String msgs = map.get(i);
+                	String[] split = msgs.split("    ");
+                	int length = split.length;
+                	for(int index=0;index<length;index++){
+                		//年
+                		String year = split[1];
+                		//时间
+                		String time = split[2];
+                		//月
+                		String month = split[3];
+                		//日
+                		String day = split[4];
+                		//最终时间
+                		String dateTime = year+"-"+month+"-"+day+" 00:00:00";
+        				SimpleDateFormat formata = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        				Date parse = formata.parse(dateTime);				
+                		accessRecord01.setReceptime(parse);
+                		if(index==5){
+                			//客户姓名
+                			String custName = split[5];
+                			if(StringUtils.isEmpty(custName)){
+                				customer.setCustname("");
+                				accessRecord01.setCustname("");
+                			}else{
+                				customer.setCustname(custName);
+                				accessRecord01.setCustname(custName);
+                			}
+                		}
+                		if(index==6){
+                			//客户电话
+                			String phoneNum = split[6];
+                			if(StringUtils.isEmpty(phoneNum)){
+                				customer.setPhonenum("");
+                				accessRecord01.setCustphonenum("");
+                			}else {
+                				//查询客户表是否已有该客户
+                    			Integer number = customerService.selectByCustPhoneNum(phoneNum);
+                    			if(number > 0) break;
+                    			customer.setPhonenum(phoneNum);
+                				accessRecord01.setCustphonenum(phoneNum);
+                				//设置主键
+                				String custId = keyGen.getUUIDKey();
+                            	accessRecord01.setId(keyGen.getUUIDKey());
+                            	customer.setId(custId);
+                            	accessRecord01.setProjid(userProjId);
+                            	accessRecord01.setCustid(custId);
+                			}
+                		}
+                		if(index==7){
+                			//顾问姓名
+                			String userName = split[7];
+            				if(StringUtils.isEmpty(userName)){
+                				accessRecord01.setAuthorid("");
+                				accessRecord01.setCreatorid("");
+            				}else{
+            					//查询用户表是否有该顾问
+            					List<UserInfo> userInfos = userInfoService.selectByName(userName);
+            					int size = userInfos.size();
+            					//获取顾问ID
+            					if(size==1){
+            						String id = userInfos.get(0).getId();
+            						accessRecord01.setAuthorid(id);
+            						accessRecord01.setCreatorid(id);
+            					}else{
+            						accessRecord01.setAuthorid("");
+            						accessRecord01.setCreatorid("");
+            					}
+            				}
+                		}
+                		if(index==10){
+                			//客户级别
+                			String custScore = split[10];
+            				if(StringUtils.isEmpty(custScore)){
+                				accessRecord01.setCustscore("");
+                				customer.setCustscore("");
+            				}else{
+            					accessRecord01.setCustscore(custScore);
+            					customer.setCustscore(custScore);
+            				}
+                		}
+                		if(index==12){
+                			//户籍
+                			String huji = split[12];
+            				if(StringUtils.isEmpty(huji)){
+            					
+            				}else{
+            					if(huji.equals("本市")){
+            						if(length>=29){
+            							accessRecord01.setLocalresidence(split[29]);
+                						customer.setLocalresidence(split[29]);
+            						}
+            						if(length>=30){
+            							accessRecord01.setLocalworkarea(split[30]);
+                						customer.setLocalworkarea(split[30]);
+            						}
+            					}else{
+            						if(length>=29){
+            							accessRecord01.setOutresidence(split[29]);
+                						customer.setOutresidence(split[29]);
+            						}
+            						if(length>=30){
+            							accessRecord01.setOutworkarea(split[30]);
+                						customer.setOutworkarea(split[30]);
+            						}
+            					}
+            				}
+                		}
+                		if(index==14){
+                			//置业目的
+                			String buyPurpose = split[14];
+            				if(StringUtils.isEmpty(buyPurpose)){
+                				accessRecord01.setBuypurpose("");
+                				customer.setBuypurpose("");
+            				}else{
+            					accessRecord01.setBuypurpose(buyPurpose);
+                				customer.setBuypurpose(buyPurpose);
+            				}
+                		}
+                		if(index==19){
+                			//意向面积
+                			String attentAcreage = split[19];
+            				if(StringUtils.isEmpty(attentAcreage)){
+                				accessRecord01.setAttentacreage("");
+                				customer.setAttentacreage("");
+            				}else{
+            					accessRecord01.setAttentacreage(attentAcreage);
+                				customer.setAttentacreage(attentAcreage);
+            				}
+                		}
+                		if(index==22){
+                			//意向总价
+                			String priceSection = split[22];
+            				if(StringUtils.isEmpty(priceSection)){
+                				accessRecord01.setPricesection("");
+                				customer.setPricesection("");
+            				}else{
+            					accessRecord01.setPricesection(priceSection);
+                				customer.setPricesection(priceSection);
+            				}
+                		}
+                		if(index==27){
+                			//渠道来源
+                			String knowWay = split[27];
+            				if(StringUtils.isEmpty(knowWay)){
+                				accessRecord01.setKnowway("");
+            				}else{
+            					accessRecord01.setKnowway(knowWay);
+            				}
+                		}
+                		if(index==32){
+                			//从事行业
+                			String workIndustry = split[32];
+            				if(StringUtils.isEmpty(workIndustry)){
+                				accessRecord01.setWorkindustry("");
+                				customer.setWorkindustry("");
+            				}else{
+            					accessRecord01.setWorkindustry(workIndustry);
+                				customer.setWorkindustry(workIndustry);
+            				}
+                		}
+                		if(index==33){
+                			//行业性质
+                			String enterpriseType = split[33];
+            				if(StringUtils.isEmpty(enterpriseType)){
+                				accessRecord01.setEnterprisetype("");
+                				customer.setEnterprisetype("");
+            				}else{
+            					accessRecord01.setEnterprisetype(enterpriseType);
+                				customer.setEnterprisetype(enterpriseType);
+            				}
+                		}
+                		if(index==35){
+                			//年龄段
+                			String ageGroup = split[35];
+            				if(StringUtils.isEmpty(ageGroup)){
+                				accessRecord01.setAgegroup("");
+                				customer.setAgegroup("");
+            				}else{
+            					accessRecord01.setAgegroup(ageGroup);
+                				customer.setAgegroup(ageGroup);
+            				}
+                		}
+                		if(index==36){
+                			//家族状况
+                			String familyStatus = split[36];
+            				if(StringUtils.isEmpty(familyStatus)){
+                				accessRecord01.setFamilystatus("");
+                				customer.setFamilystatus("");
+            				}else{
+            					accessRecord01.setFamilystatus(familyStatus);
+                				customer.setFamilystatus(familyStatus);
+            				}
+                		}
+                	}
+                	addRelationTbl(customer,accessRecord01,userProjId);
+                }
+            }
+            isok=true;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return isok;
+	}
 	
 	
 	
 	
 	
-	
-	
+	//通用添加关系表
+	public Boolean addRelationTbl(Customer customer, AccessRecord01 accessRecord01, String userProjId){
+		Boolean isok = false;
+		try {
+			//添加
+			if(StringUtils.isNotEmpty(customer.getId())) customerService.insert(customer);
+			if(StringUtils.isNotEmpty(accessRecord01.getId())) accessRecord01Service.insert(accessRecord01);
+			//添加项目客户关系表
+			if(StringUtils.isNotEmpty(customer.getId())){
+				Map<String,Object> data = new HashMap<String,Object>();
+				data.put("projId", userProjId);
+				data.put("custId", customer.getId());
+				ProjCustRef projCustRefMsg = projCustRefService.selectByCusIdAndProjId(data);
+				if(projCustRefMsg==null){
+					ProjCustRef projCustRef = new ProjCustRef();
+					projCustRef.setId(keyGen.getUUIDKey());
+					projCustRef.setProjid(userProjId);
+					projCustRef.setCustid(customer.getId());
+					projCustRef.setKnowway(accessRecord01.getKnowway());
+					projCustRefService.insert(projCustRef);
+				}
+				
+			}
+			//添加客户用户关系表
+			if(StringUtils.isNotEmpty(customer.getId()) && 
+					StringUtils.isNotEmpty(accessRecord01.getAuthorid())){
+				Map<String,Object> data = new HashMap<String,Object>();
+				data.put("projId", userProjId);
+				data.put("custId", customer.getId());
+				data.put("userId", accessRecord01.getAuthorid());
+				UserCustRef userCustRefMsg = userCustRefService.selectByData(data);
+				if(userCustRefMsg==null){
+					UserCustRef userCustRef = new UserCustRef();
+					userCustRef.setId(keyGen.getUUIDKey());
+					userCustRef.setProjid(userProjId);
+					userCustRef.setUserid(accessRecord01.getAuthorid());
+					userCustRef.setCustid(customer.getId());
+					userCustRefService.insert(userCustRef);
+				}
+			}
+			//添加特殊表（未来的客户和顾问关系表）
+			if(StringUtils.isEmpty(accessRecord01.getAuthorid())){
+				
+			}
+			isok = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return isok;
+	}
 	
 	
 	
