@@ -851,7 +851,6 @@ public class CustomerController extends ControllerBase {
 	
 	
 	//导入客户数据
-	@ResponseBody
 	@RequestMapping(value = "/customer/toLead")
     public String  fileUpload(@RequestParam("file") CommonsMultipartFile file,String userProjId) throws IOException {
         Map<String,Object>map=new HashMap<String,Object>();
@@ -875,12 +874,10 @@ public class CustomerController extends ControllerBase {
             		comeRound(userProjId,file,i);
             	}
             }
-            map.put("msg", "100");
         }catch(Exception e){
-        	map.put("msg", "103");
         	e.printStackTrace();
         }
-        return JsonUtils.map2json(map); 
+        return "redirect:customerList";
     }
 	
 	

@@ -207,7 +207,7 @@
 						<h4 class="modal-title" id="modal-title">导入客户数据</h4>
 					</div>
 					<div class="modal-body">
-						<form action="${appRoot}/customer/toLead" method="post" class="form-horizontal"  enctype="multipart/form-data"  role="form" id="toLeadExcelMsg" name="itemForm" >
+						<form method="post" action="${appRoot}/customer/toLead" class="form-horizontal"  enctype="multipart/form-data"  role="form" id="toLeadExcelMsg" name="itemForm" >
 							<input type="hidden" name="projId1" id="projId1">
 							<input type="hidden" name="custId1" id="custId1">
 							<div class="form-group">
@@ -226,7 +226,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-lg-offset-2 col-lg-10">
-									<button onclick="toLeadExcelFile()" class="btn btn-send">确定</button>
+									<button onclick="submit" class="btn btn-send">确定</button>
 								</div>
 							</div>
 						</form>
@@ -363,27 +363,8 @@
 	<!--script for this page only-->
 	<script src="${appRoot}/static/js/dynamic-table.js"></script>
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
+	<script src="${appRoot}/wxfront/js/common.utils.js"></script>
 	<script type="text/javascript">
-	
-	//提交需要导入的文件
-	function toLeadExcelFile(){
-		var datamsg = $("#toLeadExcelMsg").serialize();
-		$.ajax({
-			type:'post',
-			data: datamsg, 
-			url:'${appRoot}/customer/toLead',
-			dataType:'json',
-			success:function(data){
-				if(data.msg==100){
-					windowShow("导入成功","");
-					//var t=setTimeout("location.reload()",5000)
-				}else{
-					windowShow("导入失败","");
-				}
-			}
-		}); 
-		
-	}
 	
 	
 	//导入EXCEL

@@ -159,4 +159,33 @@
       tabId = #{tabid,jdbcType=VARCHAR} and
       refName = #{refname,jdbcType=VARCHAR}
   </delete>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <select id="selectCognitiveCaseChannel" resultMap="BaseResultMap">
+  	select * from plat_TabDict_Ref where refName = '认知本案渠道' and tabName = 'ql_ProjCust_Ref'
+  </select>
+  
+  <select id="selectConcern" resultMap="BaseResultMap">
+  	select * from plat_TabDict_Ref where refName = '本案关注点' and tabName = 'ql_ProjCust_Ref'
+  </select>
+  
+  <select id="leadTime" resultMap="BaseResultMap">
+  	select * from plat_TabDict_Ref where refName = '资金筹备期' and tabName = 'ql_ProjCust_Ref'
+  </select>
+  
+  <select id="selectResistPoint" resultMap="BaseResultMap">
+  	select * from plat_TabDict_Ref where refName = '本案抗拒点' and tabName = 'ql_ProjCust_Ref'
+  </select>
+  
+  
+  
+  
 </mapper>

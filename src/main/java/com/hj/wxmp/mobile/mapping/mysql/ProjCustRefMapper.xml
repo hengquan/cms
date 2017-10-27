@@ -256,4 +256,11 @@
     <include refid="Base_Column_List" />
     from ql_ProjCust_Ref
   </select>
+  
+  <select id="selctByCustId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from ql_ProjCust_Ref where custId = #{tabid}
+  </select>
+  
 </mapper>

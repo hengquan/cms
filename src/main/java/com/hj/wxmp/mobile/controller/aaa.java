@@ -14,6 +14,8 @@ import com.hj.wxmp.mobile.entity.AccessRecord01;
 import com.hj.wxmp.mobile.entity.AccessRecord02;
 import com.hj.wxmp.mobile.entity.AccessRecord03;
 import com.hj.wxmp.mobile.entity.DayRecep;
+import com.hj.wxmp.mobile.entity.ProjCustRef;
+import com.hj.wxmp.mobile.entity.TabDictRef;
 import com.hj.wxmp.mobile.mapping.UserInfoMapper;
 import com.hj.wxmp.mobile.services.AccessRecord01Service;
 import com.hj.wxmp.mobile.services.AccessRecord02Service;
@@ -24,6 +26,7 @@ import com.hj.wxmp.mobile.services.IKeyGen;
 import com.hj.wxmp.mobile.services.ProjCustRefService;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
 import com.hj.wxmp.mobile.services.ProjectService;
+import com.hj.wxmp.mobile.services.TabDictRefService;
 import com.hj.wxmp.mobile.services.UserInfoService;
 
 @Controller
@@ -52,7 +55,89 @@ public class aaa {
 	DayRecepService dayRecepService;
 	@Resource
 	IKeyGen key;
+	@Autowired
+	TabDictRefService tabDictRefService;
 	
+	
+	
+	@RequestMapping("/test/updateErrorData")
+	public void update() {
+		try {
+			//认知本案渠道
+			List<TabDictRef> tabDictRefs = tabDictRefService.selectCognitiveCaseChannel();
+			if(tabDictRefs!=null){
+				for(TabDictRef tabDictRef : tabDictRefs){
+					String tabid = tabDictRef.getTabid();
+					if(tabid!=null){
+						ProjCustRef projCustRef = projCustRefService.selctByCustId(tabid);
+						if(projCustRef!=null){
+							String id = projCustRef.getId();
+							tabDictRef.setTabid(id);
+							tabDictRefService.update(tabDictRef);
+						}
+					}
+				}
+			}
+			//本案关注点
+			List<TabDictRef> tabDictRef1s = tabDictRefService.selectConcern();
+			if(tabDictRefs!=null){
+				for(TabDictRef tabDictRef : tabDictRef1s){
+					String tabid = tabDictRef.getTabid();
+					if(tabid!=null){
+						ProjCustRef projCustRef = projCustRefService.selctByCustId(tabid);
+						if(projCustRef!=null){
+							String id = projCustRef.getId();
+							tabDictRef.setTabid(id);
+							tabDictRefService.update(tabDictRef);
+						}
+					}
+				}
+			}
+			//资金筹备期
+			List<TabDictRef> tabDictRef2s = tabDictRefService.leadTime();
+			if(tabDictRefs!=null){
+				for(TabDictRef tabDictRef : tabDictRef2s){
+					String tabid = tabDictRef.getTabid();
+					if(tabid!=null){
+						ProjCustRef projCustRef = projCustRefService.selctByCustId(tabid);
+						if(projCustRef!=null){
+							String id = projCustRef.getId();
+							tabDictRef.setTabid(id);
+							tabDictRefService.update(tabDictRef);
+						}
+					}
+				}
+			}
+			//本案抗拒点
+			List<TabDictRef> tabDictRef3s = tabDictRefService.selectResistPoint();
+			if(tabDictRefs!=null){
+				for(TabDictRef tabDictRef : tabDictRef3s){
+					String tabid = tabDictRef.getTabid();
+					if(tabid!=null){
+						ProjCustRef projCustRef = projCustRefService.selctByCustId(tabid);
+						if(projCustRef!=null){
+							String id = projCustRef.getId();
+							tabDictRef.setTabid(id);
+							tabDictRefService.update(tabDictRef);
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//统计
 	@RequestMapping("/test/count")
 	@ResponseBody
 	public void count123123(String datetime) {
