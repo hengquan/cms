@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hj.wxmp.mobile.mapping.importMapUserCustMapper" >
+  <resultMap id="BaseResultMap" type="com.hj.wxmp.mobile.entity.importMapUserCust" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="userOldId" property="useroldid" jdbcType="VARCHAR" />
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+    <result column="userPhoneNum" property="userphonenum" jdbcType="VARCHAR" />
+    <result column="custName" property="custname" jdbcType="VARCHAR" />
+    <result column="custPhoneNum" property="custphonenum" jdbcType="VARCHAR" />
+    <result column="reportType" property="reporttype" jdbcType="INTEGER" />
+    <result column="reportId" property="reportid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userOldId, userName, userPhoneNum, custName, custPhoneNum, reportType, reportId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from importMapUserCust
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from importMapUserCust
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.importMapUserCust" >
+    insert into importMapUserCust (id, userOldId, userName, 
+      userPhoneNum, custName, custPhoneNum, 
+      reportType, reportId)
+    values (#{id,jdbcType=VARCHAR}, #{useroldid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{userphonenum,jdbcType=VARCHAR}, #{custname,jdbcType=VARCHAR}, #{custphonenum,jdbcType=VARCHAR}, 
+      #{reporttype,jdbcType=INTEGER}, #{reportid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.importMapUserCust" >
+    insert into importMapUserCust
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="useroldid != null" >
+        userOldId,
+      </if>
+      <if test="username != null" >
+        userName,
+      </if>
+      <if test="userphonenum != null" >
+        userPhoneNum,
+      </if>
+      <if test="custname != null" >
+        custName,
+      </if>
+      <if test="custphonenum != null" >
+        custPhoneNum,
+      </if>
+      <if test="reporttype != null" >
+        reportType,
+      </if>
+      <if test="reportid != null" >
+        reportId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="useroldid != null" >
+        #{useroldid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userphonenum != null" >
+        #{userphonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="custname != null" >
+        #{custname,jdbcType=VARCHAR},
+      </if>
+      <if test="custphonenum != null" >
+        #{custphonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="reporttype != null" >
+        #{reporttype,jdbcType=INTEGER},
+      </if>
+      <if test="reportid != null" >
+        #{reportid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.importMapUserCust" >
+    update importMapUserCust
+    <set >
+      <if test="useroldid != null" >
+        userOldId = #{useroldid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userphonenum != null" >
+        userPhoneNum = #{userphonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="custname != null" >
+        custName = #{custname,jdbcType=VARCHAR},
+      </if>
+      <if test="custphonenum != null" >
+        custPhoneNum = #{custphonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="reporttype != null" >
+        reportType = #{reporttype,jdbcType=INTEGER},
+      </if>
+      <if test="reportid != null" >
+        reportId = #{reportid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.importMapUserCust" >
+    update importMapUserCust
+    set userOldId = #{useroldid,jdbcType=VARCHAR},
+      userName = #{username,jdbcType=VARCHAR},
+      userPhoneNum = #{userphonenum,jdbcType=VARCHAR},
+      custName = #{custname,jdbcType=VARCHAR},
+      custPhoneNum = #{custphonenum,jdbcType=VARCHAR},
+      reportType = #{reporttype,jdbcType=INTEGER},
+      reportId = #{reportid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
