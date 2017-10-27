@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hj.wxmp.mobile.mapping.importMapUserCustMapper" >
-  <resultMap id="BaseResultMap" type="com.hj.wxmp.mobile.entity.importMapUserCust" >
+<mapper namespace="com.hj.wxmp.mobile.mapping.ImportMapUserCustMapper" >
+  <resultMap id="BaseResultMap" type="com.hj.wxmp.mobile.entity.ImportMapUserCust" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="userOldId" property="useroldid" jdbcType="VARCHAR" />
     <result column="userName" property="username" jdbcType="VARCHAR" />
@@ -24,7 +24,7 @@
     delete from importMapUserCust
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.importMapUserCust" >
+  <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.ImportMapUserCust" >
     insert into importMapUserCust (id, userOldId, userName, 
       userPhoneNum, custName, custPhoneNum, 
       reportType, reportId)
@@ -32,7 +32,7 @@
       #{userphonenum,jdbcType=VARCHAR}, #{custname,jdbcType=VARCHAR}, #{custphonenum,jdbcType=VARCHAR}, 
       #{reporttype,jdbcType=INTEGER}, #{reportid,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.importMapUserCust" >
+  <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.ImportMapUserCust" >
     insert into importMapUserCust
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -87,7 +87,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.importMapUserCust" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.ImportMapUserCust" >
     update importMapUserCust
     <set >
       <if test="useroldid != null" >
@@ -114,7 +114,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.importMapUserCust" >
+  <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.ImportMapUserCust" >
     update importMapUserCust
     set userOldId = #{useroldid,jdbcType=VARCHAR},
       userName = #{username,jdbcType=VARCHAR},
@@ -125,4 +125,13 @@
       reportId = #{reportid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  
+  <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from importMapUserCust
+    where userName = #{realname,jdbcType=VARCHAR}
+  </select>
+  
 </mapper>

@@ -226,7 +226,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-lg-offset-2 col-lg-10">
-									<button type="submit" class="btn btn-send">确定</button>
+									<button onclick="toLeadExcelFile()" class="btn btn-send">确定</button>
 								</div>
 							</div>
 						</form>
@@ -364,6 +364,27 @@
 	<script src="${appRoot}/static/js/dynamic-table.js"></script>
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
+	
+	//提交需要导入的文件
+	function toLeadExcelFile(){
+		var datamsg = $("#toLeadExcelMsg").serialize();
+		$.ajax({
+			type:'post',
+			data: datamsg, 
+			url:'${appRoot}/customer/toLead',
+			dataType:'json',
+			success:function(data){
+				if(data.msg==100){
+					windowShow("导入成功","");
+					//var t=setTimeout("location.reload()",5000)
+				}else{
+					windowShow("导入失败","");
+				}
+			}
+		}); 
+		
+	}
+	
 	
 	//导入EXCEL
 	function toLead(){

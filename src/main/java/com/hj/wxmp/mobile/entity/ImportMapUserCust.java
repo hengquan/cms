@@ -1,6 +1,6 @@
 package com.hj.wxmp.mobile.entity;
 
-public class importMapUserCust {
+public class ImportMapUserCust {
     private String id;
 
     private String useroldid;

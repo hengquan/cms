@@ -433,7 +433,7 @@
   <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String">
   	select 
     <include refid="Base_Column_List" />
-    from plat_User where realName = #{userName}
+    from plat_User where realName = #{userName} and isValidate = 1
   </select>
   
   

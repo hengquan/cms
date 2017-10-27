@@ -21,6 +21,11 @@ public class ExcelReader {
     private HSSFWorkbook wb;
     private HSSFSheet sheet;
     private HSSFRow row;
+    
+//    private XSSFWorkbookType xfs;
+//    private XSSFWorkbook xwb;
+//    private XSSFSheet xsheet;
+//    private XSSFRow xrow;
 
     /**
      * 读取Excel表格表头的内容
@@ -71,10 +76,6 @@ public class ExcelReader {
             row = sheet.getRow(i);
             int j = 0;
             while (j < colNum) {
-                // 每个单元格的数据内容用"-"分割开，以后需要时用String类的replace()方法还原数据
-                // 也可以将每个单元格的数据设置到一个javabean的属性中，此时需要新建一个javabean
-                // str += getStringCellValue(row.getCell((short) j)).trim() +
-                // "-";
                 str += getCellFormatValue(row.getCell((short) j)).trim() + "    ";
                 j++;
             }
@@ -161,12 +162,6 @@ public class ExcelReader {
             case HSSFCell.CELL_TYPE_FORMULA: {
                 // 判断当前的cell是否为Date
                 if (HSSFDateUtil.isCellDateFormatted(cell)) {
-                    // 如果是Date类型则，转化为Data格式
-                    
-                    //方法1：这样子的data格式是带时分秒的：2011-10-12 0:00:00
-                    //cellvalue = cell.getDateCellValue().toLocaleString();
-                    
-                    //方法2：这样子的data格式是不带带时分秒的：2011-10-12
                     Date date = cell.getDateCellValue();
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     cellvalue = sdf.format(date);
@@ -175,12 +170,6 @@ public class ExcelReader {
                 // 如果是纯数字
                 else {
                     // 取得当前Cell的数值
-//                	double numericCellValue = cell.getNumericCellValue();
-//                  cellvalue = String.valueOf(numericCellValue);
-                    
-//                	int cellValue_int = (int)cell.getNumericCellValue();
-//                  cellvalue=String.valueOf(cellValue_int);  
-                	
                 	cell.setCellType(HSSFCell.CELL_TYPE_STRING);
                 	cellvalue = cell.toString();
                 }

@@ -41,6 +41,7 @@ import com.hj.wxmp.mobile.common.HashSessions;
 import com.hj.wxmp.mobile.dao.SysItemRoleDao;
 import com.hj.wxmp.mobile.entity.AccessRecord01;
 import com.hj.wxmp.mobile.entity.Customer;
+import com.hj.wxmp.mobile.entity.ImportMapUserCust;
 import com.hj.wxmp.mobile.entity.ProjCustRef;
 import com.hj.wxmp.mobile.entity.SysItemRole;
 import com.hj.wxmp.mobile.entity.SysRole;
@@ -52,6 +53,7 @@ import com.hj.wxmp.mobile.services.AccessRecord02Service;
 import com.hj.wxmp.mobile.services.AccessRecord03Service;
 import com.hj.wxmp.mobile.services.CustomerService;
 import com.hj.wxmp.mobile.services.IKeyGen;
+import com.hj.wxmp.mobile.services.ImportMapUserCustService;
 import com.hj.wxmp.mobile.services.ProjCustRefService;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
 import com.hj.wxmp.mobile.services.ProjectService;
@@ -93,6 +95,8 @@ public class CustomerController extends ControllerBase {
 	AccessRecord03Service accessRecord03Service;
 	@Autowired
 	ProjCustRefService projCustRefService;
+	@Autowired
+	ImportMapUserCustService importMapUserCustService;
 
 	// 客户列表
 	@RequestMapping(value = "/customer/customerList")
@@ -847,9 +851,11 @@ public class CustomerController extends ControllerBase {
 	
 	
 	//导入客户数据
+	@ResponseBody
 	@RequestMapping(value = "/customer/toLead")
     public String  fileUpload(@RequestParam("file") CommonsMultipartFile file,String userProjId) throws IOException {
-        //用来检测程序运行时间
+        Map<String,Object>map=new HashMap<String,Object>();
+		//用来检测程序运行时间
         long  startTime=System.currentTimeMillis();
         System.out.println("fileName："+file.getOriginalFilename());
         try {
@@ -869,10 +875,12 @@ public class CustomerController extends ControllerBase {
             		comeRound(userProjId,file,i);
             	}
             }
+            map.put("msg", "100");
         }catch(Exception e){
+        	map.put("msg", "103");
         	e.printStackTrace();
         }
-        return null; 
+        return JsonUtils.map2json(map); 
     }
 	
 	
@@ -899,6 +907,8 @@ public class CustomerController extends ControllerBase {
                 	String msgs = map.get(i);
                 	String[] split = msgs.split("    ");
                 	int length = split.length;
+                	//顾问姓名
+        			String userName ="";
                 	for(int index=0;index<length;index++){
                 		//年
                 		String year = split[1];
@@ -946,7 +956,7 @@ public class CustomerController extends ControllerBase {
                 		}
                 		if(index==7){
                 			//顾问姓名
-                			String userName = split[7];
+                			userName = split[7];
             				if(StringUtils.isEmpty(userName)){
                 				accessRecord01.setAuthorid("");
                 				accessRecord01.setCreatorid("");
@@ -1035,7 +1045,7 @@ public class CustomerController extends ControllerBase {
             				}
                 		}
                 	}
-                	addRelationTbl(customer,accessRecord01,userProjId);
+                	addRelationTbl(customer,accessRecord01,userProjId,userName);
                 }
             }
             isok=true;
@@ -1065,6 +1075,8 @@ public class CustomerController extends ControllerBase {
                 	String msgs = map.get(i);
                 	String[] split = msgs.split("    ");
                 	int length = split.length;
+                	//顾问姓名
+            		String userName="";
                 	for(int index=0;index<length;index++){
                 		//年
                 		String year = split[1];
@@ -1112,7 +1124,7 @@ public class CustomerController extends ControllerBase {
                 		}
                 		if(index==7){
                 			//顾问姓名
-                			String userName = split[7];
+                			userName = split[7];
             				if(StringUtils.isEmpty(userName)){
                 				accessRecord01.setAuthorid("");
                 				accessRecord01.setCreatorid("");
@@ -1256,7 +1268,7 @@ public class CustomerController extends ControllerBase {
             				}
                 		}
                 	}
-                	addRelationTbl(customer,accessRecord01,userProjId);
+                	addRelationTbl(customer,accessRecord01,userProjId,userName);
                 }
             }
             isok=true;
@@ -1271,7 +1283,7 @@ public class CustomerController extends ControllerBase {
 	
 	
 	//通用添加关系表
-	public Boolean addRelationTbl(Customer customer, AccessRecord01 accessRecord01, String userProjId){
+	public Boolean addRelationTbl(Customer customer, AccessRecord01 accessRecord01, String userProjId, String userName){
 		Boolean isok = false;
 		try {
 			//添加
@@ -1311,8 +1323,19 @@ public class CustomerController extends ControllerBase {
 				}
 			}
 			//添加特殊表（未来的客户和顾问关系表）
-			if(StringUtils.isEmpty(accessRecord01.getAuthorid())){
-				
+			if(StringUtils.isEmpty(accessRecord01.getAuthorid())&&
+					StringUtils.isNotEmpty(accessRecord01.getCustphonenum())&&
+					StringUtils.isNotEmpty(accessRecord01.getCustname())&&
+					StringUtils.isNotEmpty(customer.getPhonenum())){
+				ImportMapUserCust importMapUserCust = new ImportMapUserCust();
+				importMapUserCust.setId(keyGen.getUUIDKey());
+				importMapUserCust.setUsername(userName);
+				importMapUserCust.setUserphonenum(accessRecord01.getCustphonenum());
+				importMapUserCust.setCustname(customer.getCustname());
+				importMapUserCust.setCustphonenum(customer.getPhonenum());
+				importMapUserCust.setReporttype(1);
+				importMapUserCust.setReportid(accessRecord01.getId());
+				importMapUserCustService.insert(importMapUserCust);
 			}
 			isok = true;
 		} catch (Exception e) {
