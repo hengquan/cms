@@ -641,225 +641,234 @@ px
 											<input name="receptimesection" type="radio" value="018005-120分钟以上-120~" <c:if test="${fn:contains(accessRecord02.receptimesection, '120分钟以上')}">checked</c:if> style="width: 1rem">120分钟以上
 										</td>
 									</tr>
-									
-									<tr>
-										<td colspan="3">家庭状况：
-											<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord02.familystatus, '单身')}">checked</c:if> value="005001-单身" _text="单身" style="width: 1rem">单身 
-											<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord02.familystatus, '夫妻')}">checked</c:if> value="005002-夫妻" _text="夫妻" style="width: 1rem">夫妻
-											<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord02.familystatus, '一孩家庭')}">checked</c:if> value="005003-一孩家庭" _text="一孩家庭" style="width: 1rem">一孩家庭 
-											<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord02.familystatus, '俩孩家庭')}">checked</c:if> value="005004-俩孩家庭" _text="俩孩家庭" style="width: 1rem">俩孩家庭 
-											<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord02.familystatus, '三孩及以上家庭')}">checked</c:if> value="005005-三孩及以上家庭" _text="三孩及以上家庭" style="width: 1rem">三孩及以上家庭
-											<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord02.familystatus, '三代同堂')}">checked</c:if> value="005006-三代同堂" _text="三代同堂" style="width: 1rem">三代同堂 
-											<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord02.familystatus, '无法了解')}">checked</c:if> value="005000-无法了解" style="width: 1rem">
-											<span style="color: red">无法了解</span>
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">您的出行方式：
-											<input name="traffictype"type="checkbox" value="006001-自驾车" _text="自驾车" <c:if test="${fn:contains(accessRecord02.traffictype, '自驾车')}">checked</c:if> style="width: 1rem">自驾车 
-											<input name="traffictype" type="checkbox" value="006002-公交" _text="公交" <c:if test="${fn:contains(accessRecord02.traffictype, '公交')}">checked</c:if> style="width: 1rem">公交 
-											<input name="traffictype" type="checkbox" value="006003-地铁" _text="地铁" <c:if test="${fn:contains(accessRecord02.traffictype, '地铁')}">checked</c:if> style="width: 1rem">地铁 
-											<input name="traffictype" type="checkbox" value="006004-步行" _text="步行" <c:if test="${fn:contains(accessRecord02.traffictype, '步行')}">checked</c:if> style="width: 1rem">步行 
-											<input name="traffictype" type="checkbox" value="006005-打车" _text="打车" <c:if test="${fn:contains(accessRecord02.traffictype, '打车')}">checked</c:if> style="width: 1rem">打车 
-											<input name="traffictype" type="checkbox" value="006000-无法了解" _text="无法了解" <c:if test="${fn:contains(accessRecord02.traffictype, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">您的从事行业：
-											<input name="workindustry" type="radio" value="007001-建筑房地产/装修" _text="建筑房地产/装修" <c:if test="${fn:contains(accessRecord02.workindustry, '建筑房地产/装修')}">checked</c:if> style="width: 1rem">建筑房地产/装修 
-											<input name="workindustry" type="radio" value="007002-旅游/文化/媒体" _text="旅游/文化/媒体" <c:if test="${fn:contains(accessRecord02.workindustry, '旅游/文化/媒体')}">checked</c:if> style="width: 1rem">旅游/文化/媒体
-											<input name="workindustry" type="radio" value="007003-能源" _text="能源" <c:if test="${fn:contains(accessRecord02.workindustry, '能源')}">checked</c:if> style="width: 1rem">能源 
-											<input name="workindustry" type="radio" value="007004-IT" <c:if test="${fn:contains(accessRecord02.workindustry, 'IT')}">checked</c:if> style="width: 1rem">IT 
-											<input name="workindustry" type="radio" value="007005-金融投资" <c:if test="${fn:contains(accessRecord02.workindustry, '金融投资')}">checked</c:if> style="width: 1rem">金融投资
-											<input name="workindustry" type="radio" value="007006-外贸" _text="外贸" <c:if test="${fn:contains(accessRecord02.workindustry, '外贸')}">checked</c:if> style="width: 1rem">外贸
-											<input name="workindustry" type="radio" value="007007-交通/物流/零售" _text="交通/物流/零售" <c:if test="${fn:contains(accessRecord02.workindustry, '交通/物流/零售')}">checked</c:if> style="width: 1rem">交通/物流/零售<br>
-											<input name="workindustry" type="radio" value="007008-餐饮" _text="餐饮" <c:if test="${fn:contains(accessRecord02.workindustry, '餐饮')}">checked</c:if> style="width: 1rem; margin-left: 123px">餐饮 
-											<input name="workindustry" type="radio" value="007009-医疗" _text="医疗" <c:if test="${fn:contains(accessRecord02.workindustry, '医疗')}">checked</c:if> style="width: 1rem">医疗
-											<input name="workindustry" type="radio" value="007010-教育" _text="教育" <c:if test="${fn:contains(accessRecord02.workindustry, '教育')}">checked</c:if> style="width: 1rem">教育 
-											<input name="workindustry" type="radio" value="007011-通讯" _text="通讯" <c:if test="${fn:contains(accessRecord02.workindustry, '通讯')}">checked</c:if> style="width: 1rem">通讯 
-											<input name="workindustry" type="radio" value="007012-律师/法务" _text="律师/法务"<c:if test="${fn:contains(accessRecord02.workindustry, '律师/法务')}">checked</c:if> style="width: 1rem">律师/法务
-											<input name="workindustry" type="radio" value="007013-退休" _text="退休"<c:if test="${fn:contains(accessRecord02.workindustry, '退休')}">checked</c:if> style="width: 1rem">退休 
-											<input name="workindustry" type="radio" value="007999-其他" _text="其他" <c:if test="${fn:contains(accessRecord02.workindustry, '其它')}">checked</c:if> style="width: 1rem">其它 
-											<input name="workindustry" type="radio" value="007000-无法了解" _text="无法了解" <c:if test="${fn:contains(accessRecord02.workindustry, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">您的企业性质：
-											<input name="enterprisetype" type="radio" value="008001-国家行政机关及国企" _text="国家行政机关及国企" <c:if test="${fn:contains(accessRecord02.enterprisetype, '国家行政机关及国企')}">checked</c:if> style="width: 1rem">国家行政机关及国企
-											<input name="enterprisetype" type="radio" value="008002-民营企业" _text="民营企业" <c:if test="${fn:contains(accessRecord02.enterprisetype, '民营企业')}">checked</c:if> style="width: 1rem">民营企业
-											<input name="enterprisetype" type="radio" value="008003-外资企业" _text="外资企业" <c:if test="${fn:contains(accessRecord02.enterprisetype, '外贸企业')}">checked</c:if> style="width: 1rem">外资企业 
-											<input name="enterprisetype" type="radio" value="008004-合资企业" _text="合资企业" <c:if test="${fn:contains(accessRecord02.enterprisetype, '合资企业')}">checked</c:if> style="width: 1rem">合资企业 
-											<input name="enterprisetype" type="radio" value="008005-私营" _text="私营" <c:if test="${fn:contains(accessRecord02.enterprisetype, '私营')}">checked</c:if> style="width: 1rem">私营
-											<input name="enterprisetype" type="radio" value="008999-其他" _text="其他" <c:if test="${fn:contains(accessRecord02.enterprisetype, '其它')}">checked</c:if> style="width: 1rem">其它 
-											<input name="enterprisetype" type="radio" value="008000-无法了解" _text="无法了解" <c:if test="${fn:contains(accessRecord02.enterprisetype, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">您关注的产品类型：
-											<span style="margin-left: 20px">别墅</span>
-											（<input name="realtyproducttype" type="checkbox" value="009001001-独栋" _text="独栋" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '独栋')}">checked</c:if> style="width: 1rem">独栋
-											<input name="realtyproducttype" type="checkbox" value="009001002-类独栋" _text="类独栋" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '类独栋')}">checked</c:if> style="width: 1rem">类独栋 
-											<input name="realtyproducttype" type="checkbox" value="009001003-双拼" _text="双拼" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '双拼')}">checked</c:if> style="width: 1rem">双拼 
-											<input name="realtyproducttype" type="checkbox" value="009001004-联排" _text="联排" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '联排')}">checked</c:if> style="width: 1rem">联排
-											<input name="realtyproducttype" type="checkbox" value="009001005-上叠" _text="上叠" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '上叠')}">checked</c:if> style="width: 1rem">上叠 
-											<input name="realtyproducttype" type="checkbox" value="009001006-下叠" _text="下叠" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '下叠')}">checked</c:if> style="width: 1rem">下叠&nbsp;&nbsp;&nbsp;&nbsp;）<br>
-											<span style="margin-left: 145px">平层（</span>
-											<input name="realtyproducttype" type="checkbox" value="009002001-两居及以下" _text="两居及以下"<c:if test="${fn:contains(accessRecord02.realtyproducttype, '两居及以下')}">checked</c:if> style="width: 1rem;">两居及以下 
-											<input name="realtyproducttype" type="checkbox" value="009002002-三居" _text="三居" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '三居')}">checked</c:if> style="width: 1rem">三居 
-											<input name="realtyproducttype" type="checkbox" value="009002003-四居" _text="四居" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '四居')}">checked</c:if> style="width: 1rem">四居
-											<input name="realtyproducttype" type="checkbox" value="009002004-五居及以上叠" _text="五居及以上叠" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '五居及以上叠')}">checked</c:if> style="width: 1rem">五居及以上叠&nbsp;&nbsp;&nbsp;&nbsp;）<br>
-											<input name="realtyproducttype" type="checkbox" value="009003-商业" _text="商业" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '商业')}">checked</c:if> style="width: 1rem; margin-left: 145px">商业 
-											<input name="realtyproducttype" type="checkbox" value="00904-商业办公" _text="商业办公" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '商务办公')}">checked</c:if> style="width: 1rem; margin-left: 16px">商务办公 
-											<input name="realtyproducttype" type="checkbox" value="009999-其他" _text="其他" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '其他')}">checked</c:if> style="width: 1rem">其他
-											<input name="realtyproducttype" type="checkbox" value="009000-无法了解" _text="无法了解" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">您关注区域面积：
-											<input name="attentacreage" type="radio" value="010001-200㎡以下-0~200" _text="200㎡以下" <c:if test="${fn:contains(accessRecord02.attentacreage, '200㎡以下')}">checked</c:if> style="width: 1rem">200㎡以下 
-											<input name="attentacreage" type="radio" value="010002-200~300㎡-200~300" _text="200~300㎡" <c:if test="${fn:contains(accessRecord02.attentacreage, '200~300㎡')}">checked</c:if> style="width: 1rem">200-300㎡ 
-											<input name="attentacreage" type="radio" value="010003-300~400㎡-300~400" _text="300~400㎡" <c:if test="${fn:contains(accessRecord02.attentacreage, '300~400㎡')}">checked</c:if> style="width: 1rem">300-400㎡
-											<input name="attentacreage" type="radio" value="010004-400~500㎡-400~500" _text="400~500㎡" <c:if test="${fn:contains(accessRecord02.attentacreage, '400~500㎡')}">checked</c:if> style="width: 1rem">400-500㎡ 
-											<input name="attentacreage" type="radio" value="010005-500~600㎡-500~600" <c:if test="${fn:contains(accessRecord02.attentacreage, '500~600㎡')}">checked</c:if> style="width: 1rem">500-600㎡<br>
-											<input name="attentacreage" type="radio" value="010006-600~700㎡-600~700" <c:if test="${fn:contains(accessRecord02.attentacreage, '600~700㎡')}">checked</c:if> style="width: 1rem; margin-left: 137px">600-700㎡ 
-											<input name="attentacreage" type="radio" value="010007-700~800㎡-700~800" <c:if test="${fn:contains(accessRecord02.attentacreage, '700~800㎡')}">checked</c:if> style="width: 1rem">700-800㎡ 
-											<input name="attentacreage" type="radio" value="010008-800㎡以上-800~" _text="800㎡以上" <c:if test="${fn:contains(accessRecord02.attentacreage, '800㎡以上')}">checked</c:if> style="width: 1rem">800㎡以上
-											<input name="attentacreage" type="radio" value="010000-无法了解" _text="无法了解" <c:if test="${fn:contains(accessRecord02.attentacreage, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">您接受的总房款：
-											<input name="pricesection" type="radio" value="011001-500万以下-0~500" _text="500万以下" <c:if test="${fn:contains(accessRecord02.pricesection, '500万以下')}">checked</c:if> style="width: 1rem">500万以下
-											<input name="pricesection" type="radio" value="011002-500~1000万-500~1000" _text="500~1000万" <c:if test="${fn:contains(accessRecord02.pricesection, '500~1000万')}">checked</c:if> style="width: 1rem">500-1000万 
-											<input name="pricesection" type="radio" value="011003-1000~1500万-1000~1500" _text="1000~1500万" <c:if test="${fn:contains(accessRecord02.pricesection, '1000~1500万')}">checked</c:if> style="width: 1rem">1000-1500万
-											<input name="pricesection" type="radio" value="011004-1500~2000万-1500~2000" _text="1500~2000万" <c:if test="${fn:contains(accessRecord02.pricesection, '1500~2000万')}">checked</c:if> style="width: 1rem">1500-2000万
-											<input name="pricesection" type="radio" value="011005-2000~3000万-2000~3000" _text="2000~3000万" <c:if test="${fn:contains(accessRecord02.pricesection, '2000~3000万')}">checked</c:if> style="width: 1rem">2000-3000万<br>
-											<input name="pricesection" type="radio" value="011006-3000~4000万-3000~4000" _text="3000~4000万" <c:if test="${fn:contains(accessRecord02.pricesection, '3000~4000万')}">checked</c:if> style="width: 1rem; margin-left: 137px">3000-4000万 
-											<input name="pricesection" type="radio" value="011007-4000~5000万-4000~5000" _text="4000~5000万" <c:if test="${fn:contains(accessRecord02.pricesection, '4000~5000万')}">checked</c:if> style="width: 1rem;">4000-5000万 
-											<input name="pricesection" type="radio" value="011008-5000~6000万-5000~6000" _text="5000~6000万" <c:if test="${fn:contains(accessRecord02.pricesection, '5000~6000万')}">checked</c:if> style="width: 1rem">5000-6000万
-											<input name="pricesection" type="radio" value="011009-6000~8000万-6000~8000" _text="6000~8000万" <c:if test="${fn:contains(accessRecord02.pricesection, '6000~8000万')}">checked</c:if> style="width: 1rem">6000-8000万 
-											<input name="pricesection" type="radio" value="011010-8000万以上-8000~" _text="8000万以上" <c:if test="${fn:contains(accessRecord02.pricesection, '8000万以上')}">checked</c:if> style="width: 1rem">8000万以上
-											<input name="pricesection" type="radio" value="011000-无法了解" _text="无法了解" <c:if test="${fn:contains(accessRecord02.pricesection, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">您的购房目的：
-											<input name="buypurpose" type="radio" value="012001-自住第一居所" <c:if test="${fn:contains(accessRecord02.buypurpose, '自住第一居所')}">checked</c:if> style="width: 1rem">自住第一居所 
-											<input name="buypurpose" type="radio" value="012002-自住第二居所" <c:if test="${fn:contains(accessRecord02.buypurpose, '自住第二居所')}">checked</c:if> style="width: 1rem">自住第二居所
-											<input name="buypurpose" type="radio" value="012003-为子女购房" <c:if test="${fn:contains(accessRecord02.buypurpose, '为子女购房')}">checked</c:if> style="width: 1rem">为子女购房 
-											<input name="buypurpose" type="radio" value="012004-为父母购房" <c:if test="${fn:contains(accessRecord02.buypurpose, '为父母购房')}">checked</c:if> style="width: 1rem">为父母购房 
-											<input name="buypurpose" type="radio" value="012005-自住兼投资" <c:if test="${fn:contains(accessRecord02.buypurpose, '自住兼投资')}">checked</c:if> style="width: 1rem">自住兼投资
-											<input name="buypurpose" type="radio" value="012006-仅投资" <c:if test="${fn:contains(accessRecord02.buypurpose, '仅投资')}">checked</c:if> style="width: 1rem">仅投资 
-											<input name="buypurpose" type="radio" value="012999-其他" <c:if test="${fn:contains(accessRecord02.buypurpose, '其它')}">checked</c:if> style="width: 1rem">其它<br>
-											<input name="buypurpose" type="radio" value="012000-无法了解" <c:if test="${fn:contains(accessRecord02.buypurpose, '无法了解')}">checked</c:if> style="width: 1rem; margin-left: 123px">
-											<span style="color: red">无法了解</span>
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">认知本案渠道：
-											<input name="knowway" type="checkbox" value="013001-户外广告牌" <c:if test="${fn:contains(accessRecord02.knowway, '户外广告牌')}">checked</c:if> style="width: 1rem">户外广告牌&nbsp;
-											<input type="text" name="qudao_guanggao" style="width: 10rem"> 
-											<input name="knowway" type="checkbox" value="013002-网络" <c:if test="${fn:contains(accessRecord02.knowway, '网络')}">checked</c:if> style="width: 1rem">网络
-											<input name="knowway" type="checkbox" value="013003-短信" <c:if test="${fn:contains(accessRecord02.knowway, '短信')}">checked</c:if> style="width: 1rem">短信 
-											<input name="knowway" type="checkbox" value="013004-纸媒" <c:if test="${fn:contains(accessRecord02.knowway, '纸媒')}">checked</c:if> style="width: 1rem">纸媒 
-											<input name="knowway" type="checkbox" value="013005-路过" <c:if test="${fn:contains(accessRecord02.knowway, '路过')}">checked</c:if> style="width: 1rem">路过
-											<input name="knowway" type="checkbox" value="013006-朋友介绍" <c:if test="${fn:contains(accessRecord02.knowway, '朋友介绍')}">checked</c:if> style="width: 1rem">朋友介绍<br> 
-											<input name="knowway" type="checkbox" value="013007-渠道介绍" <c:if test="${fn:contains(accessRecord02.knowway, '渠道介绍')}">checked</c:if> style="width: 1rem; margin-left: 123px;">渠道介绍
-											<input type="text" name="qudao_qudao" style="width: 10rem">公司 
-											<input name="knowway" type="checkbox" value="013008-巡展" <c:if test="${fn:contains(accessRecord02.knowway, '巡展')}">checked</c:if> style="width: 1rem">巡展
-											<input name="knowway" type="checkbox" value="013009-广播" <c:if test="${fn:contains(accessRecord02.knowway, '广播')}">checked</c:if> style="width: 1rem;">广播 
-											<input name="knowway" type="checkbox" value="013010-电CALL"<c:if test="${fn:contains(accessRecord02.knowway, '电CALL')}">checked</c:if> style="width: 1rem">电CALL
-											<input name="knowway" type="checkbox" value="013011-直投"<c:if test="${fn:contains(accessRecord02.knowway, '直投')}">checked</c:if> style="width: 1rem">直投 
-											<input name="knowway" type="checkbox" value="013012-活动"<c:if test="${fn:contains(accessRecord02.knowway, '活动')}">checked</c:if> style="width: 1rem">活动 
-											<input name="knowway" type="checkbox" value="013013-DM单"<c:if test="${fn:contains(accessRecord02.knowway, 'DM单')}">checked</c:if> style="width: 1rem;">DM单 
-											<input name="knowway" type="checkbox" value="013014-外联"<c:if test="${fn:contains(accessRecord02.knowway, '外联')}">checked</c:if> style="width: 1rem">外联<br>
-											<input name="knowway" type="checkbox" value="013015-老带新"<c:if test="${fn:contains(accessRecord02.knowway, '老带新')}">checked</c:if> style="width: 1rem; margin-left: 123px;">老带新 
-											<input name="knowway" type="checkbox" value="013999-其他"<c:if test="${fn:contains(accessRecord02.knowway, '其它')}">checked</c:if> style="width: 1rem;">其它
-											<input name="knowway" type="checkbox" value="013000-无法了解"<c:if test="${fn:contains(accessRecord02.knowway, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">您对本案的关注点：
-											<input name="attentionpoint" type="checkbox" value="014001-位置"<c:if test="${fn:contains(accessRecord02.attentionpoint, '位置')}">checked</c:if> style="width: 1rem">位置 
-											<input name="attentionpoint" type="checkbox" value="014002-产品类型"<c:if test="${fn:contains(accessRecord02.attentionpoint, '产品类型')}">checked</c:if> style="width: 1rem">产品类型 
-											<input name="attentionpoint" type="checkbox" value="014003-交通"<c:if test="${fn:contains(accessRecord02.attentionpoint, '交通')}">checked</c:if> style="width: 1rem">交通 
-											<input name="attentionpoint" type="checkbox" value="014004-区域环境"<c:if test="${fn:contains(accessRecord02.attentionpoint, '区域环境')}">checked</c:if> style="width: 1rem">区域环境 
-											<input name="attentionpoint" type="checkbox" value="014005-价格"<c:if test="${fn:contains(accessRecord02.attentionpoint, '价格')}">checked</c:if> style="width: 1rem">价格 
-											<input name="attentionpoint" type="checkbox" value="014006-户型"<c:if test="${fn:contains(accessRecord02.attentionpoint, '户型')}">checked</c:if> style="width: 1rem">户型 
-											<input name="attentionpoint" type="checkbox" value="014007-花园面积"<c:if test="${fn:contains(accessRecord02.attentionpoint, '花园面积')}">checked</c:if> style="width: 1rem">花园面积<br>
-											<input name="attentionpoint" type="checkbox" value="014008-园林环境"<c:if test="${fn:contains(accessRecord02.attentionpoint, '园林环境')}">checked</c:if> style="width: 1rem; margin-left: 151px">园林环境 
-											<input name="attentionpoint" type="checkbox" value="014009-科技设备"<c:if test="${fn:contains(accessRecord02.attentionpoint, '科技设备')}">checked</c:if> style="width: 1rem">科技设备 
-											<input name="attentionpoint" type="checkbox" value="014010-交房时间"<c:if test="${fn:contains(accessRecord02.attentionpoint, '交房时间')}">checked</c:if> style="width: 1rem">交房时间
-											<input name="attentionpoint" type="checkbox" value="014011-社区配套"<c:if test="${fn:contains(accessRecord02.attentionpoint, '社区配套')}">checked</c:if> style="width: 1rem">社区配套 
-											<input name="attentionpoint" type="checkbox" value="014012-物业服务"<c:if test="${fn:contains(accessRecord02.attentionpoint, '物业服务')}">checked</c:if> style="width: 1rem">物业服务
-											<input name="attentionpoint" type="checkbox" value="014013-教育环境"<c:if test="${fn:contains(accessRecord02.attentionpoint, '教育环境')}">checked</c:if> style="width: 1rem">教育环境 
-											<input name="attentionpoint" type="checkbox" value="014014-开发品牌"<c:if test="${fn:contains(accessRecord02.attentionpoint, '开发品牌')}">checked</c:if> style="width: 1rem">开发品牌<br>
-											<input name="attentionpoint" type="checkbox" value="014015-增值潜力"<c:if test="${fn:contains(accessRecord02.attentionpoint, '增值潜力')}">checked</c:if> style="width: 1rem; margin-left: 151px">增值潜力 
-											<input name="attentionpoint" type="checkbox" value="012999-其他"<c:if test="${fn:contains(accessRecord02.attentionpoint, '其它')}">checked</c:if> style="width: 1rem;">其它 
-											<input name="attentionpoint" type="checkbox" value="012000-无法了解"<c:if test="${fn:contains(accessRecord02.attentionpoint, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">预估身价：
-											<input name="estcustworth" type="radio" value="015001-1千万以下-0~1000"<c:if test="${fn:contains(accessRecord02.estcustworth, '1千万以下')}">checked</c:if> style="width: 1rem">1千万以下 
-											<input name="estcustworth" type="radio" value="015002-1千~5千万-1000~5000"<c:if test="${fn:contains(accessRecord02.estcustworth, '1千~5千万')}">checked</c:if> style="width: 1rem">1千-5千万
-											<input name="estcustworth" type="radio" value="015003-5千万~1亿-5000~10000"<c:if test="${fn:contains(accessRecord02.estcustworth, '5千万~1亿')}">checked</c:if> style="width: 1rem">5千万-1亿 
-											<input name="estcustworth" type="radio" value="015004-1~3亿-10000~30000"<c:if test="${fn:contains(accessRecord02.estcustworth, '1~3亿')}">checked</c:if> style="width: 1rem">1-3亿 
-											<input name="estcustworth" type="radio" value="015005-3亿以上-30000~"<c:if test="${fn:contains(accessRecord02.estcustworth, '3亿以上')}">checked</c:if> style="width: 1rem">3亿以上
-											<input name="estcustworth" type="radio" value="015000-无法了解"<c:if test="${fn:contains(accessRecord02.estcustworth, '无法了解')}">checked</c:if> style="width: 1rem;">
-											<span style="color: red">无法了解</span>
-										</td>
-									</tr>
-	
-	
-	
-	
-									<tr>
-										<td colspan="3">重点投资：
-											<input name="investtype" type="checkbox" value="016001-股票"<c:if test="${fn:contains(accessRecord02.investtype, '股票')}">checked</c:if> style="width: 1rem">股票 
-											<input name="investtype" type="checkbox" value="016002-基金"<c:if test="${fn:contains(accessRecord02.investtype, '基金')}">checked</c:if> style="width: 1rem">基金
-											<input name="investtype" type="checkbox" value="016003-黄金"<c:if test="${fn:contains(accessRecord02.investtype, '黄金')}">checked</c:if> style="width: 1rem">黄金 
-											<input name="investtype" type="checkbox" value="016004-股指期货"<c:if test="${fn:contains(accessRecord02.investtype, '股脂期货')}">checked</c:if> style="width: 1rem">股指期货
-											<input name="investtype" type="checkbox" value="016005-外汇"<c:if test="${fn:contains(accessRecord02.investtype, '外汇')}">checked</c:if> style="width: 1rem">外汇 
-											<input name="investtype" type="checkbox" value="016006-艺术品"<c:if test="${fn:contains(accessRecord02.investtype, '艺术品')}">checked</c:if> style="width: 1rem">艺术品 
-											<input name="investtype" type="checkbox" value="016007-保险"<c:if test="${fn:contains(accessRecord02.investtype, '保险')}">checked</c:if> style="width: 1rem">保险
-											<input name="investtype" type="checkbox" value="016008-民间投资"<c:if test="${fn:contains(accessRecord02.investtype, '民间投资')}">checked</c:if> style="width: 1rem">民间投资 
-											<input name="investtype" type="checkbox" value="016999-其他"<c:if test="${fn:contains(accessRecord02.investtype, '其它')}">checked</c:if> style="width: 1rem">其它 
-											<input name="investtype" type="checkbox" value="016000-无法了解"<c:if test="${fn:contains(accessRecord02.investtype, '无法了解')}">checked</c:if> style="width: 1rem">
-											<span style="color: red">无法了解</span>
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">资金筹备期：
-											<input name="capitalprepsection" type="radio" value="017001-1个月内-0~1"<c:if test="${fn:contains(accessRecord02.capitalprepsection, '1个月内')}">checked</c:if> style="width: 1rem">1个月内 
-											<input name="capitalprepsection" type="radio" value="017002-1~3月-1~3"<c:if test="${fn:contains(accessRecord02.capitalprepsection, '1~3个月')}">checked</c:if> style="width: 1rem">1-3月
-											<input name="capitalprepsection" type="radio" value="017003-3~6月-3~6"<c:if test="${fn:contains(accessRecord02.capitalprepsection, '3~6个月')}">checked</c:if> style="width: 1rem">3-6月 
-											<input name="capitalprepsection" type="radio" value="017004-6~12月-6~12"<c:if test="${fn:contains(accessRecord02.capitalprepsection, '6~12个月')}">checked</c:if> style="width: 1rem">6-12月 
-											<input name="capitalprepsection" type="radio" value="017005-12月以上-12~"<c:if test="${fn:contains(accessRecord02.capitalprepsection, '12月以上')}">checked</c:if> style="width: 1rem">12月以上
-											<input name="capitalprepsection" type="radio" value="017000-无法了解"<c:if test="${fn:contains(accessRecord02.capitalprepsection, '无法了解')}">checked</c:if> style="width: 1rem;">
-											<span style="color: red">无法了解</span>
-										</td>
-									</tr>
-
+									<c:if test="${accessRecord02.familystatus !=null }">
+										<tr>
+											<td colspan="3">家庭状况：
+												<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord02.familystatus, '单身')}">checked</c:if> value="005001-单身" _text="单身" style="width: 1rem">单身 
+												<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord02.familystatus, '夫妻')}">checked</c:if> value="005002-夫妻" _text="夫妻" style="width: 1rem">夫妻
+												<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord02.familystatus, '一孩家庭')}">checked</c:if> value="005003-一孩家庭" _text="一孩家庭" style="width: 1rem">一孩家庭 
+												<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord02.familystatus, '俩孩家庭')}">checked</c:if> value="005004-俩孩家庭" _text="俩孩家庭" style="width: 1rem">俩孩家庭 
+												<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord02.familystatus, '三孩及以上家庭')}">checked</c:if> value="005005-三孩及以上家庭" _text="三孩及以上家庭" style="width: 1rem">三孩及以上家庭
+												<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord02.familystatus, '三代同堂')}">checked</c:if> value="005006-三代同堂" _text="三代同堂" style="width: 1rem">三代同堂 
+												<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord02.familystatus, '无法了解')}">checked</c:if> value="005000-无法了解" style="width: 1rem">
+												<span style="color: red">无法了解</span>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.traffictype !=null }">
+										<tr>
+											<td colspan="3">您的出行方式：
+												<input name="traffictype"type="checkbox" value="006001-自驾车" _text="自驾车" <c:if test="${fn:contains(accessRecord02.traffictype, '自驾车')}">checked</c:if> style="width: 1rem">自驾车 
+												<input name="traffictype" type="checkbox" value="006002-公交" _text="公交" <c:if test="${fn:contains(accessRecord02.traffictype, '公交')}">checked</c:if> style="width: 1rem">公交 
+												<input name="traffictype" type="checkbox" value="006003-地铁" _text="地铁" <c:if test="${fn:contains(accessRecord02.traffictype, '地铁')}">checked</c:if> style="width: 1rem">地铁 
+												<input name="traffictype" type="checkbox" value="006004-步行" _text="步行" <c:if test="${fn:contains(accessRecord02.traffictype, '步行')}">checked</c:if> style="width: 1rem">步行 
+												<input name="traffictype" type="checkbox" value="006005-打车" _text="打车" <c:if test="${fn:contains(accessRecord02.traffictype, '打车')}">checked</c:if> style="width: 1rem">打车 
+												<input name="traffictype" type="checkbox" value="006000-无法了解" _text="无法了解" <c:if test="${fn:contains(accessRecord02.traffictype, '无法了解')}">checked</c:if> style="width: 1rem">
+												<span style="color: red">无法了解</span>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.workindustry !=null }">
+										<tr>
+											<td colspan="3">您的从事行业：
+												<input name="workindustry" type="radio" value="007001-建筑房地产/装修" _text="建筑房地产/装修" <c:if test="${fn:contains(accessRecord02.workindustry, '建筑房地产/装修')}">checked</c:if> style="width: 1rem">建筑房地产/装修 
+												<input name="workindustry" type="radio" value="007002-旅游/文化/媒体" _text="旅游/文化/媒体" <c:if test="${fn:contains(accessRecord02.workindustry, '旅游/文化/媒体')}">checked</c:if> style="width: 1rem">旅游/文化/媒体
+												<input name="workindustry" type="radio" value="007003-能源" _text="能源" <c:if test="${fn:contains(accessRecord02.workindustry, '能源')}">checked</c:if> style="width: 1rem">能源 
+												<input name="workindustry" type="radio" value="007004-IT" <c:if test="${fn:contains(accessRecord02.workindustry, 'IT')}">checked</c:if> style="width: 1rem">IT 
+												<input name="workindustry" type="radio" value="007005-金融投资" <c:if test="${fn:contains(accessRecord02.workindustry, '金融投资')}">checked</c:if> style="width: 1rem">金融投资
+												<input name="workindustry" type="radio" value="007006-外贸" _text="外贸" <c:if test="${fn:contains(accessRecord02.workindustry, '外贸')}">checked</c:if> style="width: 1rem">外贸
+												<input name="workindustry" type="radio" value="007007-交通/物流/零售" _text="交通/物流/零售" <c:if test="${fn:contains(accessRecord02.workindustry, '交通/物流/零售')}">checked</c:if> style="width: 1rem">交通/物流/零售<br>
+												<input name="workindustry" type="radio" value="007008-餐饮" _text="餐饮" <c:if test="${fn:contains(accessRecord02.workindustry, '餐饮')}">checked</c:if> style="width: 1rem; margin-left: 123px">餐饮 
+												<input name="workindustry" type="radio" value="007009-医疗" _text="医疗" <c:if test="${fn:contains(accessRecord02.workindustry, '医疗')}">checked</c:if> style="width: 1rem">医疗
+												<input name="workindustry" type="radio" value="007010-教育" _text="教育" <c:if test="${fn:contains(accessRecord02.workindustry, '教育')}">checked</c:if> style="width: 1rem">教育 
+												<input name="workindustry" type="radio" value="007011-通讯" _text="通讯" <c:if test="${fn:contains(accessRecord02.workindustry, '通讯')}">checked</c:if> style="width: 1rem">通讯 
+												<input name="workindustry" type="radio" value="007012-律师/法务" _text="律师/法务"<c:if test="${fn:contains(accessRecord02.workindustry, '律师/法务')}">checked</c:if> style="width: 1rem">律师/法务
+												<input name="workindustry" type="radio" value="007013-退休" _text="退休"<c:if test="${fn:contains(accessRecord02.workindustry, '退休')}">checked</c:if> style="width: 1rem">退休 
+												<input name="workindustry" type="radio" value="007999-其他" _text="其他" <c:if test="${fn:contains(accessRecord02.workindustry, '其它')}">checked</c:if> style="width: 1rem">其它 
+												<input name="workindustry" type="radio" value="007000-无法了解" _text="无法了解" <c:if test="${fn:contains(accessRecord02.workindustry, '无法了解')}">checked</c:if> style="width: 1rem">
+												<span style="color: red">无法了解</span>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.enterprisetype !=null }">
+										<tr>
+											<td colspan="3">您的企业性质：
+												<input name="enterprisetype" type="radio" value="008001-国家行政机关及国企" _text="国家行政机关及国企" <c:if test="${fn:contains(accessRecord02.enterprisetype, '国家行政机关及国企')}">checked</c:if> style="width: 1rem">国家行政机关及国企
+												<input name="enterprisetype" type="radio" value="008002-民营企业" _text="民营企业" <c:if test="${fn:contains(accessRecord02.enterprisetype, '民营企业')}">checked</c:if> style="width: 1rem">民营企业
+												<input name="enterprisetype" type="radio" value="008003-外资企业" _text="外资企业" <c:if test="${fn:contains(accessRecord02.enterprisetype, '外贸企业')}">checked</c:if> style="width: 1rem">外资企业 
+												<input name="enterprisetype" type="radio" value="008004-合资企业" _text="合资企业" <c:if test="${fn:contains(accessRecord02.enterprisetype, '合资企业')}">checked</c:if> style="width: 1rem">合资企业 
+												<input name="enterprisetype" type="radio" value="008005-私营" _text="私营" <c:if test="${fn:contains(accessRecord02.enterprisetype, '私营')}">checked</c:if> style="width: 1rem">私营
+												<input name="enterprisetype" type="radio" value="008999-其他" _text="其他" <c:if test="${fn:contains(accessRecord02.enterprisetype, '其它')}">checked</c:if> style="width: 1rem">其它 
+												<input name="enterprisetype" type="radio" value="008000-无法了解" _text="无法了解" <c:if test="${fn:contains(accessRecord02.enterprisetype, '无法了解')}">checked</c:if> style="width: 1rem">
+												<span style="color: red">无法了解</span>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.realtyproducttype !=null }">
+										<tr>
+											<td colspan="3">您关注的产品类型：
+												<span style="margin-left: 20px">别墅</span>
+												（<input name="realtyproducttype" type="checkbox" value="009001001-独栋" _text="独栋" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '独栋')}">checked</c:if> style="width: 1rem">独栋
+												<input name="realtyproducttype" type="checkbox" value="009001002-类独栋" _text="类独栋" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '类独栋')}">checked</c:if> style="width: 1rem">类独栋 
+												<input name="realtyproducttype" type="checkbox" value="009001003-双拼" _text="双拼" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '双拼')}">checked</c:if> style="width: 1rem">双拼 
+												<input name="realtyproducttype" type="checkbox" value="009001004-联排" _text="联排" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '联排')}">checked</c:if> style="width: 1rem">联排
+												<input name="realtyproducttype" type="checkbox" value="009001005-上叠" _text="上叠" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '上叠')}">checked</c:if> style="width: 1rem">上叠 
+												<input name="realtyproducttype" type="checkbox" value="009001006-下叠" _text="下叠" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '下叠')}">checked</c:if> style="width: 1rem">下叠&nbsp;&nbsp;&nbsp;&nbsp;）<br>
+												<span style="margin-left: 145px">平层（</span>
+												<input name="realtyproducttype" type="checkbox" value="009002001-两居及以下" _text="两居及以下"<c:if test="${fn:contains(accessRecord02.realtyproducttype, '两居及以下')}">checked</c:if> style="width: 1rem;">两居及以下 
+												<input name="realtyproducttype" type="checkbox" value="009002002-三居" _text="三居" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '三居')}">checked</c:if> style="width: 1rem">三居 
+												<input name="realtyproducttype" type="checkbox" value="009002003-四居" _text="四居" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '四居')}">checked</c:if> style="width: 1rem">四居
+												<input name="realtyproducttype" type="checkbox" value="009002004-五居及以上叠" _text="五居及以上叠" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '五居及以上叠')}">checked</c:if> style="width: 1rem">五居及以上叠&nbsp;&nbsp;&nbsp;&nbsp;）<br>
+												<input name="realtyproducttype" type="checkbox" value="009003-商业" _text="商业" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '商业')}">checked</c:if> style="width: 1rem; margin-left: 145px">商业 
+												<input name="realtyproducttype" type="checkbox" value="00904-商业办公" _text="商业办公" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '商务办公')}">checked</c:if> style="width: 1rem; margin-left: 16px">商务办公 
+												<input name="realtyproducttype" type="checkbox" value="009999-其他" _text="其他" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '其他')}">checked</c:if> style="width: 1rem">其他
+												<input name="realtyproducttype" type="checkbox" value="009000-无法了解" _text="无法了解" <c:if test="${fn:contains(accessRecord02.realtyproducttype, '无法了解')}">checked</c:if> style="width: 1rem">
+												<span style="color: red">无法了解</span>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.attentacreage !=null }">
+										<tr>
+											<td colspan="3">您关注区域面积：
+												<input name="attentacreage" type="radio" value="010001-200㎡以下-0~200" _text="200㎡以下" <c:if test="${fn:contains(accessRecord02.attentacreage, '200㎡以下')}">checked</c:if> style="width: 1rem">200㎡以下 
+												<input name="attentacreage" type="radio" value="010002-200~300㎡-200~300" _text="200~300㎡" <c:if test="${fn:contains(accessRecord02.attentacreage, '200~300㎡')}">checked</c:if> style="width: 1rem">200-300㎡ 
+												<input name="attentacreage" type="radio" value="010003-300~400㎡-300~400" _text="300~400㎡" <c:if test="${fn:contains(accessRecord02.attentacreage, '300~400㎡')}">checked</c:if> style="width: 1rem">300-400㎡
+												<input name="attentacreage" type="radio" value="010004-400~500㎡-400~500" _text="400~500㎡" <c:if test="${fn:contains(accessRecord02.attentacreage, '400~500㎡')}">checked</c:if> style="width: 1rem">400-500㎡ 
+												<input name="attentacreage" type="radio" value="010005-500~600㎡-500~600" <c:if test="${fn:contains(accessRecord02.attentacreage, '500~600㎡')}">checked</c:if> style="width: 1rem">500-600㎡<br>
+												<input name="attentacreage" type="radio" value="010006-600~700㎡-600~700" <c:if test="${fn:contains(accessRecord02.attentacreage, '600~700㎡')}">checked</c:if> style="width: 1rem; margin-left: 137px">600-700㎡ 
+												<input name="attentacreage" type="radio" value="010007-700~800㎡-700~800" <c:if test="${fn:contains(accessRecord02.attentacreage, '700~800㎡')}">checked</c:if> style="width: 1rem">700-800㎡ 
+												<input name="attentacreage" type="radio" value="010008-800㎡以上-800~" _text="800㎡以上" <c:if test="${fn:contains(accessRecord02.attentacreage, '800㎡以上')}">checked</c:if> style="width: 1rem">800㎡以上
+												<input name="attentacreage" type="radio" value="010000-无法了解" _text="无法了解" <c:if test="${fn:contains(accessRecord02.attentacreage, '无法了解')}">checked</c:if> style="width: 1rem">
+												<span style="color: red">无法了解</span>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.pricesection !=null }">
+										<tr>
+											<td colspan="3">您接受的总房款：
+												<input name="pricesection" type="radio" value="011001-500万以下-0~500" _text="500万以下" <c:if test="${fn:contains(accessRecord02.pricesection, '500万以下')}">checked</c:if> style="width: 1rem">500万以下
+												<input name="pricesection" type="radio" value="011002-500~1000万-500~1000" _text="500~1000万" <c:if test="${fn:contains(accessRecord02.pricesection, '500~1000万')}">checked</c:if> style="width: 1rem">500-1000万 
+												<input name="pricesection" type="radio" value="011003-1000~1500万-1000~1500" _text="1000~1500万" <c:if test="${fn:contains(accessRecord02.pricesection, '1000~1500万')}">checked</c:if> style="width: 1rem">1000-1500万
+												<input name="pricesection" type="radio" value="011004-1500~2000万-1500~2000" _text="1500~2000万" <c:if test="${fn:contains(accessRecord02.pricesection, '1500~2000万')}">checked</c:if> style="width: 1rem">1500-2000万
+												<input name="pricesection" type="radio" value="011005-2000~3000万-2000~3000" _text="2000~3000万" <c:if test="${fn:contains(accessRecord02.pricesection, '2000~3000万')}">checked</c:if> style="width: 1rem">2000-3000万<br>
+												<input name="pricesection" type="radio" value="011006-3000~4000万-3000~4000" _text="3000~4000万" <c:if test="${fn:contains(accessRecord02.pricesection, '3000~4000万')}">checked</c:if> style="width: 1rem; margin-left: 137px">3000-4000万 
+												<input name="pricesection" type="radio" value="011007-4000~5000万-4000~5000" _text="4000~5000万" <c:if test="${fn:contains(accessRecord02.pricesection, '4000~5000万')}">checked</c:if> style="width: 1rem;">4000-5000万 
+												<input name="pricesection" type="radio" value="011008-5000~6000万-5000~6000" _text="5000~6000万" <c:if test="${fn:contains(accessRecord02.pricesection, '5000~6000万')}">checked</c:if> style="width: 1rem">5000-6000万
+												<input name="pricesection" type="radio" value="011009-6000~8000万-6000~8000" _text="6000~8000万" <c:if test="${fn:contains(accessRecord02.pricesection, '6000~8000万')}">checked</c:if> style="width: 1rem">6000-8000万 
+												<input name="pricesection" type="radio" value="011010-8000万以上-8000~" _text="8000万以上" <c:if test="${fn:contains(accessRecord02.pricesection, '8000万以上')}">checked</c:if> style="width: 1rem">8000万以上
+												<input name="pricesection" type="radio" value="011000-无法了解" _text="无法了解" <c:if test="${fn:contains(accessRecord02.pricesection, '无法了解')}">checked</c:if> style="width: 1rem">
+												<span style="color: red">无法了解</span>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.buypurpose !=null }">
+										<tr>
+											<td colspan="3">您的购房目的：
+												<input name="buypurpose" type="radio" value="012001-自住第一居所" <c:if test="${fn:contains(accessRecord02.buypurpose, '自住第一居所')}">checked</c:if> style="width: 1rem">自住第一居所 
+												<input name="buypurpose" type="radio" value="012002-自住第二居所" <c:if test="${fn:contains(accessRecord02.buypurpose, '自住第二居所')}">checked</c:if> style="width: 1rem">自住第二居所
+												<input name="buypurpose" type="radio" value="012003-为子女购房" <c:if test="${fn:contains(accessRecord02.buypurpose, '为子女购房')}">checked</c:if> style="width: 1rem">为子女购房 
+												<input name="buypurpose" type="radio" value="012004-为父母购房" <c:if test="${fn:contains(accessRecord02.buypurpose, '为父母购房')}">checked</c:if> style="width: 1rem">为父母购房 
+												<input name="buypurpose" type="radio" value="012005-自住兼投资" <c:if test="${fn:contains(accessRecord02.buypurpose, '自住兼投资')}">checked</c:if> style="width: 1rem">自住兼投资
+												<input name="buypurpose" type="radio" value="012006-仅投资" <c:if test="${fn:contains(accessRecord02.buypurpose, '仅投资')}">checked</c:if> style="width: 1rem">仅投资 
+												<input name="buypurpose" type="radio" value="012999-其他" <c:if test="${fn:contains(accessRecord02.buypurpose, '其它')}">checked</c:if> style="width: 1rem">其它<br>
+												<input name="buypurpose" type="radio" value="012000-无法了解" <c:if test="${fn:contains(accessRecord02.buypurpose, '无法了解')}">checked</c:if> style="width: 1rem; margin-left: 123px">
+												<span style="color: red">无法了解</span>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.knowway !=null }">
+										<tr>
+											<td colspan="3">认知本案渠道：
+												<input name="knowway" type="checkbox" value="013001-户外广告牌" <c:if test="${fn:contains(accessRecord02.knowway, '户外广告牌')}">checked</c:if> style="width: 1rem">户外广告牌&nbsp;
+												<input type="text" name="qudao_guanggao" style="width: 10rem"> 
+												<input name="knowway" type="checkbox" value="013002-网络" <c:if test="${fn:contains(accessRecord02.knowway, '网络')}">checked</c:if> style="width: 1rem">网络
+												<input name="knowway" type="checkbox" value="013003-短信" <c:if test="${fn:contains(accessRecord02.knowway, '短信')}">checked</c:if> style="width: 1rem">短信 
+												<input name="knowway" type="checkbox" value="013004-纸媒" <c:if test="${fn:contains(accessRecord02.knowway, '纸媒')}">checked</c:if> style="width: 1rem">纸媒 
+												<input name="knowway" type="checkbox" value="013005-路过" <c:if test="${fn:contains(accessRecord02.knowway, '路过')}">checked</c:if> style="width: 1rem">路过
+												<input name="knowway" type="checkbox" value="013006-朋友介绍" <c:if test="${fn:contains(accessRecord02.knowway, '朋友介绍')}">checked</c:if> style="width: 1rem">朋友介绍<br> 
+												<input name="knowway" type="checkbox" value="013007-渠道介绍" <c:if test="${fn:contains(accessRecord02.knowway, '渠道介绍')}">checked</c:if> style="width: 1rem; margin-left: 123px;">渠道介绍
+												<input type="text" name="qudao_qudao" style="width: 10rem">公司 
+												<input name="knowway" type="checkbox" value="013008-巡展" <c:if test="${fn:contains(accessRecord02.knowway, '巡展')}">checked</c:if> style="width: 1rem">巡展
+												<input name="knowway" type="checkbox" value="013009-广播" <c:if test="${fn:contains(accessRecord02.knowway, '广播')}">checked</c:if> style="width: 1rem;">广播 
+												<input name="knowway" type="checkbox" value="013010-电CALL"<c:if test="${fn:contains(accessRecord02.knowway, '电CALL')}">checked</c:if> style="width: 1rem">电CALL
+												<input name="knowway" type="checkbox" value="013011-直投"<c:if test="${fn:contains(accessRecord02.knowway, '直投')}">checked</c:if> style="width: 1rem">直投 
+												<input name="knowway" type="checkbox" value="013012-活动"<c:if test="${fn:contains(accessRecord02.knowway, '活动')}">checked</c:if> style="width: 1rem">活动 
+												<input name="knowway" type="checkbox" value="013013-DM单"<c:if test="${fn:contains(accessRecord02.knowway, 'DM单')}">checked</c:if> style="width: 1rem;">DM单 
+												<input name="knowway" type="checkbox" value="013014-外联"<c:if test="${fn:contains(accessRecord02.knowway, '外联')}">checked</c:if> style="width: 1rem">外联<br>
+												<input name="knowway" type="checkbox" value="013015-老带新"<c:if test="${fn:contains(accessRecord02.knowway, '老带新')}">checked</c:if> style="width: 1rem; margin-left: 123px;">老带新 
+												<input name="knowway" type="checkbox" value="013999-其他"<c:if test="${fn:contains(accessRecord02.knowway, '其它')}">checked</c:if> style="width: 1rem;">其它
+												<input name="knowway" type="checkbox" value="013000-无法了解"<c:if test="${fn:contains(accessRecord02.knowway, '无法了解')}">checked</c:if> style="width: 1rem">
+												<span style="color: red">无法了解</span>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.attentionpoint !=null }">
+										<tr>
+											<td colspan="3">您对本案的关注点：
+												<input name="attentionpoint" type="checkbox" value="014001-位置"<c:if test="${fn:contains(accessRecord02.attentionpoint, '位置')}">checked</c:if> style="width: 1rem">位置 
+												<input name="attentionpoint" type="checkbox" value="014002-产品类型"<c:if test="${fn:contains(accessRecord02.attentionpoint, '产品类型')}">checked</c:if> style="width: 1rem">产品类型 
+												<input name="attentionpoint" type="checkbox" value="014003-交通"<c:if test="${fn:contains(accessRecord02.attentionpoint, '交通')}">checked</c:if> style="width: 1rem">交通 
+												<input name="attentionpoint" type="checkbox" value="014004-区域环境"<c:if test="${fn:contains(accessRecord02.attentionpoint, '区域环境')}">checked</c:if> style="width: 1rem">区域环境 
+												<input name="attentionpoint" type="checkbox" value="014005-价格"<c:if test="${fn:contains(accessRecord02.attentionpoint, '价格')}">checked</c:if> style="width: 1rem">价格 
+												<input name="attentionpoint" type="checkbox" value="014006-户型"<c:if test="${fn:contains(accessRecord02.attentionpoint, '户型')}">checked</c:if> style="width: 1rem">户型 
+												<input name="attentionpoint" type="checkbox" value="014007-花园面积"<c:if test="${fn:contains(accessRecord02.attentionpoint, '花园面积')}">checked</c:if> style="width: 1rem">花园面积<br>
+												<input name="attentionpoint" type="checkbox" value="014008-园林环境"<c:if test="${fn:contains(accessRecord02.attentionpoint, '园林环境')}">checked</c:if> style="width: 1rem; margin-left: 151px">园林环境 
+												<input name="attentionpoint" type="checkbox" value="014009-科技设备"<c:if test="${fn:contains(accessRecord02.attentionpoint, '科技设备')}">checked</c:if> style="width: 1rem">科技设备 
+												<input name="attentionpoint" type="checkbox" value="014010-交房时间"<c:if test="${fn:contains(accessRecord02.attentionpoint, '交房时间')}">checked</c:if> style="width: 1rem">交房时间
+												<input name="attentionpoint" type="checkbox" value="014011-社区配套"<c:if test="${fn:contains(accessRecord02.attentionpoint, '社区配套')}">checked</c:if> style="width: 1rem">社区配套 
+												<input name="attentionpoint" type="checkbox" value="014012-物业服务"<c:if test="${fn:contains(accessRecord02.attentionpoint, '物业服务')}">checked</c:if> style="width: 1rem">物业服务
+												<input name="attentionpoint" type="checkbox" value="014013-教育环境"<c:if test="${fn:contains(accessRecord02.attentionpoint, '教育环境')}">checked</c:if> style="width: 1rem">教育环境 
+												<input name="attentionpoint" type="checkbox" value="014014-开发品牌"<c:if test="${fn:contains(accessRecord02.attentionpoint, '开发品牌')}">checked</c:if> style="width: 1rem">开发品牌<br>
+												<input name="attentionpoint" type="checkbox" value="014015-增值潜力"<c:if test="${fn:contains(accessRecord02.attentionpoint, '增值潜力')}">checked</c:if> style="width: 1rem; margin-left: 151px">增值潜力 
+												<input name="attentionpoint" type="checkbox" value="012999-其他"<c:if test="${fn:contains(accessRecord02.attentionpoint, '其它')}">checked</c:if> style="width: 1rem;">其它 
+												<input name="attentionpoint" type="checkbox" value="012000-无法了解"<c:if test="${fn:contains(accessRecord02.attentionpoint, '无法了解')}">checked</c:if> style="width: 1rem">
+												<span style="color: red">无法了解</span>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.estcustworth !=null }">
+										<tr>
+											<td colspan="3">预估身价：
+												<input name="estcustworth" type="radio" value="015001-1千万以下-0~1000"<c:if test="${fn:contains(accessRecord02.estcustworth, '1千万以下')}">checked</c:if> style="width: 1rem">1千万以下 
+												<input name="estcustworth" type="radio" value="015002-1千~5千万-1000~5000"<c:if test="${fn:contains(accessRecord02.estcustworth, '1千~5千万')}">checked</c:if> style="width: 1rem">1千-5千万
+												<input name="estcustworth" type="radio" value="015003-5千万~1亿-5000~10000"<c:if test="${fn:contains(accessRecord02.estcustworth, '5千万~1亿')}">checked</c:if> style="width: 1rem">5千万-1亿 
+												<input name="estcustworth" type="radio" value="015004-1~3亿-10000~30000"<c:if test="${fn:contains(accessRecord02.estcustworth, '1~3亿')}">checked</c:if> style="width: 1rem">1-3亿 
+												<input name="estcustworth" type="radio" value="015005-3亿以上-30000~"<c:if test="${fn:contains(accessRecord02.estcustworth, '3亿以上')}">checked</c:if> style="width: 1rem">3亿以上
+												<input name="estcustworth" type="radio" value="015000-无法了解"<c:if test="${fn:contains(accessRecord02.estcustworth, '无法了解')}">checked</c:if> style="width: 1rem;">
+												<span style="color: red">无法了解</span>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.investtype !=null }">	
+										<tr>
+											<td colspan="3">重点投资：
+												<input name="investtype" type="checkbox" value="016001-股票"<c:if test="${fn:contains(accessRecord02.investtype, '股票')}">checked</c:if> style="width: 1rem">股票 
+												<input name="investtype" type="checkbox" value="016002-基金"<c:if test="${fn:contains(accessRecord02.investtype, '基金')}">checked</c:if> style="width: 1rem">基金
+												<input name="investtype" type="checkbox" value="016003-黄金"<c:if test="${fn:contains(accessRecord02.investtype, '黄金')}">checked</c:if> style="width: 1rem">黄金 
+												<input name="investtype" type="checkbox" value="016004-股指期货"<c:if test="${fn:contains(accessRecord02.investtype, '股脂期货')}">checked</c:if> style="width: 1rem">股指期货
+												<input name="investtype" type="checkbox" value="016005-外汇"<c:if test="${fn:contains(accessRecord02.investtype, '外汇')}">checked</c:if> style="width: 1rem">外汇 
+												<input name="investtype" type="checkbox" value="016006-艺术品"<c:if test="${fn:contains(accessRecord02.investtype, '艺术品')}">checked</c:if> style="width: 1rem">艺术品 
+												<input name="investtype" type="checkbox" value="016007-保险"<c:if test="${fn:contains(accessRecord02.investtype, '保险')}">checked</c:if> style="width: 1rem">保险
+												<input name="investtype" type="checkbox" value="016008-民间投资"<c:if test="${fn:contains(accessRecord02.investtype, '民间投资')}">checked</c:if> style="width: 1rem">民间投资 
+												<input name="investtype" type="checkbox" value="016999-其他"<c:if test="${fn:contains(accessRecord02.investtype, '其它')}">checked</c:if> style="width: 1rem">其它 
+												<input name="investtype" type="checkbox" value="016000-无法了解"<c:if test="${fn:contains(accessRecord02.investtype, '无法了解')}">checked</c:if> style="width: 1rem">
+												<span style="color: red">无法了解</span>
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.capitalprepsection !=null }">
+										<tr>
+											<td colspan="3">资金筹备期：
+												<input name="capitalprepsection" type="radio" value="017001-1个月内-0~1"<c:if test="${fn:contains(accessRecord02.capitalprepsection, '1个月内')}">checked</c:if> style="width: 1rem">1个月内 
+												<input name="capitalprepsection" type="radio" value="017002-1~3月-1~3"<c:if test="${fn:contains(accessRecord02.capitalprepsection, '1~3个月')}">checked</c:if> style="width: 1rem">1-3月
+												<input name="capitalprepsection" type="radio" value="017003-3~6月-3~6"<c:if test="${fn:contains(accessRecord02.capitalprepsection, '3~6个月')}">checked</c:if> style="width: 1rem">3-6月 
+												<input name="capitalprepsection" type="radio" value="017004-6~12月-6~12"<c:if test="${fn:contains(accessRecord02.capitalprepsection, '6~12个月')}">checked</c:if> style="width: 1rem">6-12月 
+												<input name="capitalprepsection" type="radio" value="017005-12月以上-12~"<c:if test="${fn:contains(accessRecord02.capitalprepsection, '12月以上')}">checked</c:if> style="width: 1rem">12月以上
+												<input name="capitalprepsection" type="radio" value="017000-无法了解"<c:if test="${fn:contains(accessRecord02.capitalprepsection, '无法了解')}">checked</c:if> style="width: 1rem;">
+												<span style="color: red">无法了解</span>
+											</td>
+										</tr>
+									</c:if>
 									<tr style="display: none">
 										<td colspan="3">您目前进行比选项目有：<br>
 										<textarea style="width: 800px; height: 100px; margin-left: 0.1rem"

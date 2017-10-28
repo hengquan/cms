@@ -21,16 +21,20 @@ import com.hj.wxmp.mobile.dao.SysItemRoleDao;
 import com.hj.wxmp.mobile.entity.AccessRecord01;
 import com.hj.wxmp.mobile.entity.AccessRecord02;
 import com.hj.wxmp.mobile.entity.AccessRecord03;
+import com.hj.wxmp.mobile.entity.ImportMapUserCust;
 import com.hj.wxmp.mobile.entity.ProjUserRole;
 import com.hj.wxmp.mobile.entity.Project;
 import com.hj.wxmp.mobile.entity.SysItemRole;
 import com.hj.wxmp.mobile.entity.SysRole;
+import com.hj.wxmp.mobile.entity.UserCustRef;
 import com.hj.wxmp.mobile.entity.UserInfo;
 import com.hj.wxmp.mobile.entity.UserRole;
 import com.hj.wxmp.mobile.services.AccessRecord01Service;
 import com.hj.wxmp.mobile.services.AccessRecord02Service;
 import com.hj.wxmp.mobile.services.AccessRecord03Service;
+import com.hj.wxmp.mobile.services.CustomerService;
 import com.hj.wxmp.mobile.services.IKeyGen;
+import com.hj.wxmp.mobile.services.ImportMapUserCustService;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
 import com.hj.wxmp.mobile.services.ProjectService;
 import com.hj.wxmp.mobile.services.SysRoleService;
@@ -84,6 +88,10 @@ public class UserController extends ControllerBase {
 	AccessRecord02Service accessRecord02Service;
 	@Autowired
 	AccessRecord03Service accessRecord03Service;
+	@Autowired
+	ImportMapUserCustService importMapUserCustService;
+	@Autowired
+	CustomerService customerService;
 	
 //	@Autowired
 //	
@@ -462,6 +470,39 @@ public class UserController extends ControllerBase {
 			UserInfo userinfo = userInfoService.findById(userId);
 			userinfo.setIsvalidate(Integer.parseInt(state));
 			userInfoService.update(userinfo);
+			//查特殊关系表是否有该用户的信息
+			//顾问姓名
+			String realname = userinfo.getRealname();
+			List<ImportMapUserCust> importMapUserCusts = importMapUserCustService.selectByUserName(realname);
+			if(importMapUserCusts.size()>=1){
+				for(ImportMapUserCust importMapUserCust : importMapUserCusts){
+					//客户电话
+					String phone = importMapUserCust.getCustphonenum();
+					AccessRecord01 accessRecord01 = accessRecord01Service.selectByPhone(phone);
+					if(accessRecord01!=null) {
+						String projId = accessRecord01.getProjid();
+						//所选项目
+						String[] projids = checkProjIds.split(",");
+						for(String projid : projids){
+							if(projid.equals(projId)){
+								//更新首访表
+								accessRecord01.setAuthorid(userinfo.getId());
+								accessRecord01.setCreatorid(userinfo.getId());
+								accessRecord01Service.update(accessRecord01);
+								//添加用户客户关系表
+								UserCustRef userCustRef = new UserCustRef();
+								userCustRef.setId(keyGen.getUUIDKey());
+								userCustRef.setCustid(accessRecord01.getCustid());
+								userCustRef.setProjid(projid);
+								userCustRef.setUserid(userinfo.getId());
+								userCustRefService.insert(userCustRef);
+								//删除特殊对应关系表
+								importMapUserCustService.delete(importMapUserCust);
+							}
+						}
+					}
+				}
+			}
 			data.put("msg", "100");
 		} catch (Exception e) {
 			data.put("msg", "103");

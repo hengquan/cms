@@ -90,6 +90,14 @@ $(function() {
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
+    	console.log(json);
+    	//console.log(json.userInfo);
+    	var roleName = json.userInfo.roleName;
+    	
+    	
+    	sessionStorage.setItem("roleName",roleName);
+    	var userid = json.userInfo.userid;
+    	sessionStorage.setItem("userid",userid);
         fillPage(json.userInfo);
         $("div[class='main']").show();
       } else {
@@ -118,8 +126,15 @@ $(function() {
 });
 
 function openStat(type) {
+/* 	if(type==1){
+		alert("日统计");
+	}else if(type==2){
+		alert("周统计");
+	}else{
+		alert("月统计");
+	} */
   window.location.href=_URL_BASE+"/wxfront/user/data.html#"+type;
-  
+	
 }
 
 /**
@@ -149,7 +164,6 @@ function fillPage(data) {
   $("#comment").html(pageComment);
   if (userType==1) $("#statArea").show();
   else $("#statArea").hide();
-
   var lPrj=prjNames.split(',');
   prjNames="";
   for (var i=0;i<lPrj.length; i++) if ($.trim(lPrj[i])!='') prjNames+="<br\/>"+$.trim(lPrj[i].substr(lPrj[i].indexOf('-')+1));

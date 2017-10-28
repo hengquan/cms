@@ -1,5 +1,6 @@
 package com.hj.wxmp.mobile.mapping;
 
+import java.util.List;
 import java.util.Map;
 
 import com.hj.wxmp.mobile.entity.TabDictRef;
@@ -20,4 +21,12 @@ public interface TabDictRefMapper {
 	TabDictRef selectCusIdAndTableName(Map<String, Object> map);
 
 	void delete4TabColum(TabDictRef tdr);
+
+	List<TabDictRef> selectCognitiveCaseChannel();
+
+	List<TabDictRef> selectConcern();
+
+	List<TabDictRef> leadTime();
+
+	List<TabDictRef> selectResistPoint();
 }

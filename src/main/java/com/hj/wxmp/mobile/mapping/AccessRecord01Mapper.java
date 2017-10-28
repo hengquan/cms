@@ -43,4 +43,6 @@ public interface AccessRecord01Mapper {
 	Integer selectByCustIdAndProjId(Map<String, Object> parmeterMap);
 
 	List<AccessRecord01> selectByRecepTime(String date);
+
+	AccessRecord01 selectByPhone(String phone);
 }

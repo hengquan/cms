@@ -558,88 +558,97 @@ px
 											<input name="receptimesection" type="text" value="${accessRecord02.receptimesection }" style="width: 70rem">
 										</td>
 									</tr>
-									
-									<tr>
-										<td colspan="3">家庭状况：
-											<input type="text" value="${accessRecord02.familystatus }" style="width: 70rem">
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">您的出行方式：
-											<input type="text" value="${accessRecord02.traffictype }" style="width: 70rem">
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">您的从事行业：
-											<input type="text" value="${accessRecord02.workindustry }" style="width: 70rem">
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">您的企业性质：
-											<input type="text" value="${accessRecord02.enterprisetype }" style="width: 70rem">
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">您关注的产品类型：
-											<input type="text" value="${accessRecord02.realtyproducttype }" style="width: 70rem">
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">您关注区域面积：
-											<input type="text" value="${accessRecord02.attentacreage }" style="width: 70rem">
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">您接受的总房款：
-											<input type="text" value="${accessRecord02.pricesection }" style="width: 70rem">
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">您的购房目的：
-											<input type="text" value="${accessRecord02.buypurpose }" style="width: 70rem">
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">认知本案渠道：
-											<input type="text" value="${accessRecord02.knowway }" style="width: 70rem">
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">您对本案的关注点：
-											<input type="text" value="${accessRecord02.attentionpoint }" style="width: 70rem">
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">预估身价：
-											<input type="text" value="${accessRecord02.estcustworth }" style="width: 70rem">
-										</td>
-									</tr>
-	
-	
-	
-	
-									<tr>
-										<td colspan="3">重点投资：
-											<input type="text" value="${accessRecord02.investtype }" style="width: 70rem">
-										</td>
-									</tr>
-	
-									<tr>
-										<td colspan="3">资金筹备期：
-											<input type="text" value="${accessRecord02.capitalprepsection }" style="width: 70rem">
-										</td>
-									</tr>
-
+									<c:if test="${accessRecord02.familystatus !=null }">
+										<tr>
+											<td colspan="3">家庭状况：
+												<input type="text" value="${accessRecord02.familystatus }" style="width: 70rem">
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.traffictype !=null }">
+										<tr>
+											<td colspan="3">您的出行方式：
+												<input type="text" value="${accessRecord02.traffictype }" style="width: 70rem">
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.workindustry !=null }">
+										<tr>
+											<td colspan="3">您的从事行业：
+												<input type="text" value="${accessRecord02.workindustry }" style="width: 70rem">
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.enterprisetype !=null }">
+										<tr>
+											<td colspan="3">您的企业性质：
+												<input type="text" value="${accessRecord02.enterprisetype }" style="width: 70rem">
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.realtyproducttype !=null }">
+										<tr>
+											<td colspan="3">您关注的产品类型：
+												<input type="text" value="${accessRecord02.realtyproducttype }" style="width: 70rem">
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.attentacreage !=null }">
+										<tr>
+											<td colspan="3">您关注区域面积：
+												<input type="text" value="${accessRecord02.attentacreage }" style="width: 70rem">
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.pricesection !=null }">
+										<tr>
+											<td colspan="3">您接受的总房款：
+												<input type="text" value="${accessRecord02.pricesection }" style="width: 70rem">
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.buypurpose !=null }">
+										<tr>
+											<td colspan="3">您的购房目的：
+												<input type="text" value="${accessRecord02.buypurpose }" style="width: 70rem">
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.knowway !=null }">
+										<tr>
+											<td colspan="3">认知本案渠道：
+												<input type="text" value="${accessRecord02.knowway }" style="width: 70rem">
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.attentionpoint !=null }">
+										<tr>
+											<td colspan="3">您对本案的关注点：
+												<input type="text" value="${accessRecord02.attentionpoint }" style="width: 70rem">
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.estcustworth !=null }">
+										<tr>
+											<td colspan="3">预估身价：
+												<input type="text" value="${accessRecord02.estcustworth }" style="width: 70rem">
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.investtype !=null }">
+										<tr>
+											<td colspan="3">重点投资：
+												<input type="text" value="${accessRecord02.investtype }" style="width: 70rem">
+											</td>
+										</tr>
+									</c:if>
+									<c:if test="${accessRecord02.capitalprepsection !=null }">
+										<tr>
+											<td colspan="3">资金筹备期：
+												<input type="text" value="${accessRecord02.capitalprepsection }" style="width: 70rem">
+											</td>
+										</tr>
+									</c:if>
 									<tr style="display: none">
 										<td colspan="3">您目前进行比选项目有：<br>
 										<textarea style="width: 800px; height: 100px; margin-left: 0.1rem"

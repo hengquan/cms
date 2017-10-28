@@ -948,4 +948,17 @@
     <include refid="Base_Column_List" />
     from ql_Customer
   </select>
+  
+  
+  <!-- 根据电话号码获取用户信息 -->
+  <select id="selectByCustPhoneNum" resultType="java.lang.Integer" parameterType="java.lang.String">
+	SELECT
+		count(1)
+	FROM
+		ql_Customer
+	WHERE
+		phoneNum = #{phoneNum}
+  </select>
+  
+  
 </mapper>

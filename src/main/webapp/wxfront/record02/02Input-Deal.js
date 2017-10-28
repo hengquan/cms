@@ -108,8 +108,10 @@ $(function() {
 function initData(data) {
   //获取人员信息
   var url=_URL_BASE+"/wx/api/personalCenter";
+ 
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
+    
       if (json.msg=='100') {
         initPage(json.userInfo, data);
         $("#step1").show();
@@ -642,6 +644,7 @@ function commitData() {
     if (_uHouseType) retData.housetype=_uHouseType;
     if (_uHouseTypeDesc) retData.housetypedesc=_uHouseTypeDesc;
     if (_uLiveAcreage) retData.liveacreage=_uLiveAcreage;
+    alert("retData.liveacreage="+retData.liveacreage);
     temp=$("input[name='enterpriseName']").val();
     if (temp) retData.enterprisename=temp;
     temp=$("input[name='enterpriseAddress']").val();

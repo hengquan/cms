@@ -221,4 +221,6 @@ public interface UserInfoService {
 	public List<UserInfo> selectAll();
 
 	public List<UserInfo> selectByParentId(String parentId);
+
+	public List<UserInfo> selectByName(String userName);
 }

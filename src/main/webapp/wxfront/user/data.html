@@ -15,7 +15,7 @@
   <script src="../../static/js/jquery.min.js" type="text/javascript"></script>
   <script src="../js/CONSTANT.js" type="text/javascript"></script>
   <script src="../js/common.utils.js" type="text/javascript"></script>
-  <script src="../js/echarts.simple.min.js"></script>
+  <script src="../js/echarts.common.min.js" type="text/javascript"></script>
 
 <style>
 @media (max-width: 767px) {
@@ -67,24 +67,27 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
   <div class="lineBorder">
     <div class="lineDiv"><!--移动的div--></div>
   </div>
+  <input type="hidden" id="beginDate" value="">
+  <input type="hidden" id="endDate" value="">
+  <input type="hidden" id="weekFirstDay" value="">
+  <input type="hidden" id="weekLastDay" value="">
+  <input type="hidden" id="monthFirstDay" value="">
+  <input type="hidden" id="monthLastDay" value="">
   <div class="tabCon">
     <div class="tabBox">
       <div class="tabList">
         <div class="item_sflr row" style="width:100%; border:1px solid #FFFFFF;margin:0;padding:0;" >
           <div class="inputdate02">
-            <button id="preDate" class="btn btn-primary btn-primary-left" onclick="preDay()">前一天</button><input type="date" placeholder="" id="nowDate" value="请输入日期" style="width:60%;"><button id="nextDate" class="btn btn-primary btn-primary-right" onclick="nextDay()">后一天</button>
+            <button id="preDate" class="btn btn-primary btn-primary-left" onclick="preDay()">前一天</button><input type="date" placeholder="" id="nowDate" oninput="OnInput(event)" value="请输入日期" style="width:60%;"><button id="nextDate" class="btn btn-primary btn-primary-right" onclick="nextDay()">后一天</button>
           </div>
         </div>
-        <div style="line-height:4rem;text-align:center;font-size:1.3rem">天成团队8月客户来访日数据统计</div>
+        <div style="line-height:2rem;text-align:center;font-size:1.2rem;padding:0 1.2rem;">天成团队<span id="nowDayText"></span>客户来访日数据统计</div>
         <table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
           <thead>
-            <tr><td>顾问</td><td>日访</td><td>首访</td><td>复访</td><td>成交</td></tr>
+            <tr><td class="roleName"></td><td>日访</td><td>首访</td><td>复访</td><td>成交</td></tr>
           </thead>
           <tbody id="tbl">
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
+
           </tbody>
         </table>
         <div id="dayEcharts" style="width: 100%;height:400px;"></div>
@@ -92,19 +95,16 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
       <div class="tabList">
         <div class="item_sflr row" style="width:100%; border:1px solid #FFFFFF;margin:0;padding:0;">
           <div class="inputdate02">
-            <button id="preWeek" class="btn btn-primary btn-primary-left" onclick="preWeek()">前一周</button><input type="date" placeholder="Birth day" id="nowWeek" value="请输入日期" style="width:60%;"><button id="nextWeek" class="btn btn-primary btn-primary-right" onclick="nextWeek()">后一周</button>
+            <button id="preWeek" class="btn btn-primary btn-primary-left" onclick="preWeek()">前一周</button><input type="date" placeholder="" id="nowWeek" oninput="OnInput(event)" value="请输入日期" style="width:60%;"><button id="nextWeek" class="btn btn-primary btn-primary-right" onclick="nextWeek()">后一周</button>
           </div>
         </div>
-        <div style="line-height:4rem;text-align:center;font-size:1.3rem">天成团队8月客户来访周数据统计</div>
+        <div style="line-height:2rem;text-align:center;font-size:1.2rem;padding:0 1.2rem;">天成团队<span id="nowWeekText"></span>客户来访周数据统计</div>
         <table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
           <thead>
-            <tr><td>顾问</td><td>日访</td><td>首访</td><td>复访</td><td>成交</td></tr>
+            <tr><td class="roleName"></td><td>周访</td><td>首访</td><td>复访</td><td>成交</td></tr>
           </thead>
-          <tbody id="tbl">
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
+          <tbody id="tb2">
+
           </tbody>
         </table>
         <div id="weekEcharts" style="width: 100%;height:400px;"></div>
@@ -112,19 +112,16 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
       <div class="tabList">
         <div class="item_sflr row" style="width:100%; border:1px solid #FFFFFF;margin:0;padding:0;">
           <div class="inputdate02">
-            <button id="preMonth" class="btn btn-primary btn-primary-left" onclick="preMonth()">前一月</button><input type="date" placeholder="Birth day" id="nowMonth" value="2017-09" style="width:60%;"><button id="nextMonth" class="btn btn-primary btn-primary-right" onclick="nextMonth()">后一月</button>
+            <button id="preMonth" class="btn btn-primary btn-primary-left" onclick="preMonth()">前一月</button><input type="month" placeholder="Birth day" oninput="OnInput(event)" id="nowMonth" value="" style="width:60%;"><button id="nextMonth" class="btn btn-primary btn-primary-right" onclick="nextMonth()">后一月</button>
           </div>
         </div>
-        <div style="line-height:4rem;text-align:center;font-size:1.3rem">天成团队8月客户来访月数据统计</div>
+        <div style="line-height:2rem;text-align:center;font-size:1.2rem;padding:0 1.2rem;">天成团队<span id="nowMonthText"></span>客户来访月数据统计</div>
         <table border="0" cellspacing="0" cellpadding="0" class="table-responsive">
           <thead>
-            <tr><td>顾问</td><td>日访</td><td>首访</td><td>复访</td><td>成交</td></tr>
+            <tr><td class="roleName"></td><td>月访</td><td>首访</td><td>复访</td><td>成交</td></tr>
           </thead>
-          <tbody id="tbl">
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
-            <tr><td>池如霞</td><td>4</td><td>4</td><td>5</td><td>6</td></tr>
+          <tbody id="tb3">
+       
           </tbody>
         </table>
         <div id="monthEcharts" style="width: 100%;height:400px;"></div>
@@ -134,7 +131,7 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
 </div>
 
 <script src="datePicker.js"></script>
-<script src="myEchart.js"></script>
+<!-- <script src="myEchart.js"></script> -->
 <script charset="utf-8">
 function xlh(){
   var tbl=document.getElementById("tbl");
@@ -180,8 +177,10 @@ $(function(){
 
   for(var i=0 ;i<tabLi.length; i++ ){
     tabLi[i].start=i;
+    console.log(i);
     tabLi[i].onclick=function(){
       var star=this.start;
+      console.log(star);
       for(var i=0 ;i<tabLi.length; i++ ){
         tabLi[i].className='';
       }
@@ -272,30 +271,315 @@ var init={
   }
 }
 
-
-
-//从后台获取数据并渲染
-function getDaydata(dateBegin,dateEnd,user){  
+  var begin = ""; 
+  var end = "";
+  var userid = sessionStorage.getItem("userid",userid);
+  var roleName = sessionStorage.getItem("roleName",roleName);
+  console.log(roleName);
+  if(roleName === "管理员"){
+	  $(".roleName").html("项目");
+   }else if(roleName === "项目负责人" || roleName === "项目管理人"){
+	  $(".roleName").html("顾问");
+  } else if(roleName === "顾问"){
+	  $(".roleName").html("客户");
+  }
+	  
+  
+//从后台获取每日数据并渲染数据及图表
+function getDaydata(){ 
+  var getbeginDate = $("#beginDate").val();
+  var getendDate = $("#endDate").val();
   var _data={};
-  _data.dateBegin = dateBegin;
-  _data.dateEnd = dateEnd;
-  _data.user = user;
   $.ajax({  
-    type: "GET",  
+    type: "POST",  
     url: _URL_BASE+"/wx/api/getARCount",
-    data: {"dateBegin":dateBegin,"dateEnd":dateEnd,"user":user},  
+    data: {"dateBegin":getbeginDate,"dateEnd":getendDate,"users":userid},  
     dataType:"json",  
     async:true,  
     cache:false,  
-    success: function(data){  
-      console.log(data);
+    success: function(json){ 
+      if (json.msg=='100'){
+    	  var tbody='';
+    	  var dayVisitData = 0;
+    	  var firstVisitData = 0;
+    	  var secondVisitData = 0;
+    	  var completeData = 0;
+    	  for(var i = 0;i<json.datas.length;i++){
+    		  //console.log(json.datas);
+    		  if(roleName === "管理员"){
+    			  var _realName = json.datas[i].projName;
+    			 
+    		   }else if(roleName === "项目负责人" || roleName === "项目管理人"){
+    			  var _realName = json.datas[i].realName;
+    			 
+    		  } else if(roleName === "顾问"){
+    			  var _realName = json.datas[i].custName;
+    			  
+    		  }
+    		  //var _realName = json.datas[i].realName;
+    		  var _ar01Count = json.datas[i].ar01Count;
+    		  firstVisitData += parseInt(json.datas[i].ar01Count);
+    		  var _ar02Count = json.datas[i].ar02Count;
+    		  secondVisitData += parseInt(json.datas[i].ar02Count);
+    		  var _ar03Count = json.datas[i].ar03Count;
+    		  completeData += parseInt(json.datas[i].ar03Count);
+    		  var _allCount = parseInt(_ar01Count) + parseInt(_ar02Count) + parseInt(_ar03Count);
+    		  dayVisitData += _allCount;
+			  tbody += '<tr><td>' + _realName + '</td><td>' +_allCount+ '</td><td>' +_ar01Count+ '</td><td>' +_ar02Count+ '</td><td>' +_ar03Count+ '</td></tr>';
+    	  }
+    	  $("#tbl").html(tbody);
+    	  var dom = document.getElementById("dayEcharts");
+    	  var myChart = echarts.init(dom);
+    	  var app = {};
+    	  option = null;
+    	  function fetchData(getData) {
+    	      // 通过 setTimeout 模拟异步加载
+    	      setTimeout(function () {
+    	    	  getData({
+    	              categories: ["日访","首访","复访","成交"],
+    	              data: [dayVisitData, firstVisitData, secondVisitData, completeData]
+    	          });
+    	      }, 1000);
+    	  }
+    	  // 初始 option
+    	  option = {
+    	      title: {
+    	          text: '客户访问数据统计'
+    	      },
+    	      tooltip: {},
+    	      legend: {
+    	          data:['访问量']
+    	      },
+    	      xAxis: {
+    	          data: []
+    	      },
+    	      yAxis: {},
+    	      series: [{
+    	          name: '访问量',
+    	          type: 'bar',
+    	          data: []
+    	      }]
+    	  };
+
+    	  fetchData(function (data) {
+    	      myChart.setOption({
+    	          xAxis: {
+    	              data: data.categories
+    	          },
+    	          series: [{
+    	              // 根据名字对应到相应的系列
+    	              name: '访问量',
+    	              data: data.data
+    	          }]
+    	      });
+    	  });;
+    	  if (option && typeof option === "object") {
+    	      myChart.setOption(option, true);
+    	  }
+      }	
     },  
     error: function(json){  
        console.log("获取数据失败");
     }  
   });     
 }
-getDaydata();
+
+//从后台获取每周数据并渲染
+function getWeekdata(){ 
+  var getbeginDate = $("#weekFirstDay").val();
+  var getendDate = $("#weekLastDay").val();
+  $("#nowWeekText").html(getbeginDate+"至"+getendDate);
+  //$("#nowWeek").val(getbeginDate+"至"+getendDate);
+  var _data={};
+  $.ajax({  
+    type: "POST",  
+    url: _URL_BASE+"/wx/api/getARCount",
+    data: {"dateBegin":getbeginDate,"dateEnd":getendDate,"users":userid},  
+    dataType:"json",  
+    async:true,  
+    cache:false,  
+    success: function(json){ 
+        if (json.msg=='100'){
+      	  var tbody='';
+      	  var dayVisitData = 0;
+      	  var firstVisitData = 0;
+      	  var secondVisitData = 0;
+      	  var completeData = 0;
+      	  for(var i = 0;i<json.datas.length;i++){
+      		  if(roleName === "管理员"){
+    			  var _realName = json.datas[i].projName;
+    			 
+    		   }else if(roleName === "项目负责人" || roleName === "项目管理人"){
+    			  var _realName = json.datas[i].realName;
+    			 
+    		  } else if(roleName === "顾问"){
+    			  var _realName = json.datas[i].custName;
+    			  
+    		  }
+      		  //var _realName = json.datas[i].realName;
+      		  var _ar01Count = json.datas[i].ar01Count;
+      		  firstVisitData += parseInt(json.datas[i].ar01Count);
+      		  var _ar02Count = json.datas[i].ar02Count;
+      		  secondVisitData += parseInt(json.datas[i].ar02Count);
+      		  var _ar03Count = json.datas[i].ar03Count;
+      		  completeData += parseInt(json.datas[i].ar03Count);
+      		  var _allCount = parseInt(_ar01Count) + parseInt(_ar02Count) + parseInt(_ar03Count);
+      		  dayVisitData += _allCount;
+  			  tbody += '<tr><td>' + _realName + '</td><td>' +_allCount+ '</td><td>' +_ar01Count+ '</td><td>' +_ar02Count+ '</td><td>' +_ar03Count+ '</td></tr>';
+      	  }
+      	  $("#tb2").html(tbody);
+      	  var dom = document.getElementById("weekEcharts");
+      	  var myChart = echarts.init(dom);
+      	  var app = {};
+      	  option = null;
+      	  function fetchData(getData) {
+      	      // 通过 setTimeout 模拟异步加载
+      	      setTimeout(function () {
+      	    	  getData({
+      	              categories: ["周访","首访","复访","成交"],
+      	              data: [dayVisitData, firstVisitData, secondVisitData, completeData]
+      	          });
+      	      }, 1000);
+      	  }
+      	  // 初始 option
+      	  option = {
+      	      title: {
+      	          text: '客户访问数据统计'
+      	      },
+      	      tooltip: {},
+      	      legend: {
+      	          data:['访问量']
+      	      },
+      	      xAxis: {
+      	          data: []
+      	      },
+      	      yAxis: {},
+      	      series: [{
+      	          name: '访问量',
+      	          type: 'bar',
+      	          data: []
+      	      }]
+      	  };
+
+      	  fetchData(function (data) {
+      	      myChart.setOption({
+      	          xAxis: {
+      	              data: data.categories
+      	          },
+      	          series: [{
+      	              // 根据名字对应到相应的系列
+      	              name: '访问量',
+      	              data: data.data
+      	          }]
+      	      });
+      	  });;
+      	  if (option && typeof option === "object") {
+      	      myChart.setOption(option, true);
+      	  }
+        }	
+      },  
+    error: function(json){  
+       console.log("获取数据失败");
+    }  
+  });     
+}
+//从后台获取每月数据并渲染
+function getMonthdata(){ 
+  var getbeginDate = $("#monthFirstDay").val();
+  var getendDate = $("#monthLastDay").val();
+  var _data={};
+  $.ajax({  
+    type: "POST",  
+    url: _URL_BASE+"/wx/api/getARCount",
+    data: {"dateBegin":getbeginDate,"dateEnd":getendDate,"users":userid},  
+    dataType:"json",  
+    async:true,  
+    cache:false,  
+    success: function(json){ 
+        if (json.msg=='100'){
+      	  var tbody='';
+      	  var dayVisitData = 0;
+      	  var firstVisitData = 0;
+      	  var secondVisitData = 0;
+      	  var completeData = 0;
+      	  for(var i = 0;i<json.datas.length;i++){
+      		  if(roleName === "管理员"){
+    			  var _realName = json.datas[i].projName;
+    			 
+    		   }else if(roleName === "项目负责人" || roleName === "项目管理人"){
+    			  var _realName = json.datas[i].realName;
+    			 
+    		  } else if(roleName === "顾问"){
+    			  var _realName = json.datas[i].custName;
+    			  
+    		  }
+      		  //var _realName = json.datas[i].realName;
+      		  var _ar01Count = json.datas[i].ar01Count;
+      		  firstVisitData += parseInt(json.datas[i].ar01Count);
+      		  var _ar02Count = json.datas[i].ar02Count;
+      		  secondVisitData += parseInt(json.datas[i].ar02Count);
+      		  var _ar03Count = json.datas[i].ar03Count;
+      		  completeData += parseInt(json.datas[i].ar03Count);
+      		  var _allCount = parseInt(_ar01Count) + parseInt(_ar02Count) + parseInt(_ar03Count);
+      		  dayVisitData += _allCount;
+  			  tbody += '<tr><td>' + _realName + '</td><td>' +_allCount+ '</td><td>' +_ar01Count+ '</td><td>' +_ar02Count+ '</td><td>' +_ar03Count+ '</td></tr>';
+      	  }
+      	  $("#tb3").html(tbody);
+      	  var dom = document.getElementById("monthEcharts");
+      	  var myChart = echarts.init(dom);
+      	  var app = {};
+      	  option = null;
+      	  function fetchData(getData) {
+      	      // 通过 setTimeout 模拟异步加载
+      	      setTimeout(function () {
+      	    	  getData({
+      	              categories: ["月访","首访","复访","成交"],
+      	              data: [dayVisitData, firstVisitData, secondVisitData, completeData]
+      	          });
+      	      }, 1000);
+      	  }
+      	  // 初始 option
+      	  option = {
+      	      title: {
+      	          text: '客户访问数据统计'
+      	      },
+      	      tooltip: {},
+      	      legend: {
+      	          data:['访问量']
+      	      },
+      	      xAxis: {
+      	          data: []
+      	      },
+      	      yAxis: {},
+      	      series: [{
+      	          name: '访问量',
+      	          type: 'bar',
+      	          data: []
+      	      }]
+      	  };
+
+      	  fetchData(function (data) {
+      	      myChart.setOption({
+      	          xAxis: {
+      	              data: data.categories
+      	          },
+      	          series: [{
+      	              // 根据名字对应到相应的系列
+      	              name: '访问量',
+      	              data: data.data
+      	          }]
+      	      });
+      	  });;
+      	  if (option && typeof option === "object") {
+      	      myChart.setOption(option, true);
+      	  }
+        }	
+      },  
+    error: function(json){  
+       console.log("获取数据失败");
+    }  
+  });     
+}
 
 </script>
 </body>

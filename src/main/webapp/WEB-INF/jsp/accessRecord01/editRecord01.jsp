@@ -294,58 +294,112 @@ rgba
 											<option <c:if test="${accessRecord01.buyqualify == '无法了解'}">selected</c:if> value="004000-无法了解" style="color: red">无法了解</option>
 										</select>
 									</td>
-								
-									
 								</tr>
-								<!-- 本地居住地 -->
-								<input type="hidden" id="localresidence1" name="localresidence1" value="${accessRecord01.localresidence }">
-								<!-- 本地工作地 -->
-								<input type="hidden" id="localworkarea1" name="localworkarea1" value="${accessRecord01.localworkarea }">
-								<!-- 外阜居住地 -->
-								<input type="hidden" id="outresidence1" name="outresidence1" value="${accessRecord01.outresidence }">
-								<!-- 外阜工作地 -->
-								<input type="hidden" id="outworkarea1" name="outworkarea1" value="${accessRecord01.outworkarea }">
+								<!-- 获取数据库的默认值 -->
+								<input type="hidden" value="${accessRecord01.localresidence }" id="bdjz">
+								<input type="hidden" value="${accessRecord01.localworkarea }" id="bdgz">
+								<input type="hidden" value="${accessRecord01.outresidence }" id="wfjz">
+								<input type="hidden" value="${accessRecord01.outworkarea }" id="wfgz">
 								
+								<!-- 提交表单时将数据存在这 -->
+								<input type="hidden" value="" id="localresidence" name="localresidence">
+								<input type="hidden" value="" id="localworkarea" name="localworkarea">
+								<input type="hidden" value="" id="outresidence" name="outresidence">
+								<input type="hidden" value="" id="outworkarea" name="outworkarea">
+								<!-- 将数据库获取出来的值进行拆分并将其改为编码加名称的结构 -->
+								<input type="hidden" value="" id="lastCityId" name="lastCityId">
+								<input type="hidden" value="" id="lastAreaId" name="lastAreaId">
+								<input type="hidden" value="" id="lastCityId1" name="lastCityId1">
+								<input type="hidden" value="" id="lastAreaId1" name="lastAreaId1">
+								<input type="hidden" value="" id="lastOutProvinceId" name="lastOutProvinceId">
+								<input type="hidden" value="" id="lastOutCityId" name="lastOutCityId">
+								<input type="hidden" value="" id="lastOutAreaId" name="lastOutAreaId">
+								<input type="hidden" value="" id="lastOutProvinceId1" name="lastOutProvinceId1">
+								<input type="hidden" value="" id="lastOutCityId1" name="lastOutCityId1">
+								<input type="hidden" value="" id="lastOutAreaId1" name="lastOutAreaId1">
+							
 								<tr>
 									<td colspan="3"><span style="float:left">本地居住：</span>
-									  <div data-toggle="local_distpicker">
-								          <select class="" id="local_province4"></select>
-								          <select class="" id="local_city4"></select>
-								          <select class="" id="local_district4"></select>
+									  <div>
+							          	<select id="city" name="city">
+											<option value="-1">请选择</option>
+										</select>
+								
+										<select name="area" id="area">
+											<option value="-1">请选择</option>
+										</select>
 								      </div>
 									</td>
 								</tr>
 								<tr>
 									<td colspan="3"><span style="float:left">本地工作：</span>
-								      <div data-toggle="local_distpicker">
-								          <select class="" id="local_province3"></select>
-								          <select class="" id="local_city3"></select>
-								          <select class="" id="local_district3"></select>
+								      <div>
+							          	<select id="workCity" name="workCity">
+											<option value="-1">请选择</option>
+										</select>
+								
+										<select name="workArea" id="workArea">
+											<option value="-1">请选择</option>
+										</select>
 								      </div>
-								</tr>
-									<script type="text/javascript" src="${appRoot}/static/js/local_distpicker.js"></script>
-									<script type="text/javascript" src="${appRoot}/static/js/local_distpicker (1).js"></script>
-									<script type="text/javascript" src="${appRoot}/static/js/local_main.js"></script>
-									
+								</tr>		
 								<tr>
 									<td colspan="3"><span style="float:left">外埠居住：</span>
-								      <div data-toggle="distpicker">
-								          <select class="" id="province1"></select>
-								          <select class="" id="city1"></select>
-								          <select class="" id="district1"></select>
+								      <div>
+							            <select id="province3" name="province3">
+											<option value="-1">请选择</option>
+										</select>
+								
+										<select id="city3" name="city3">
+											<option value="-1">请选择</option>
+										</select>
+								
+										<select name="area3" id="area3">
+											<option value="-1">请选择</option>
+										</select>
 								      </div>
 									</td>
 								</tr>
 								<tr>
 									<td colspan="3"><span style="float:left">外埠工作：</span>
-								      <div data-toggle="distpicker" id="distpicker2">
-								          <select class="" id="province2" data-province="---- 选择省 ----"></select>
-								          <select class="" id="city2" data-city="---- 选择市 ----"></select>
-								          <select class="" id="district2" data-district="---- 选择区 ----"></select>
+								      <div>
+							            <select id="province1" name="province1">
+											<option value="-1">请选择</option>
+										</select>
+								
+										<select id="city1" name="city1">
+											<option value="-1">请选择</option>
+										</select>
+								
+										<select name="area1" id="area1">
+											<option value="-1">请选择</option>
+										</select>
 								      </div>
 									</td>
 								</tr>
-								
+								<script>
+									//将数据库获取出的地区拆分为编码和名称
+									var bejz = $("#bdjz").val();
+									var bdjzCity = bejz.split("，");
+									$("#city").find("option").html(bdjzCity[0]);
+									$("#area").find("option").html(bdjzCity[1]);
+									var bdgz = $("#bdgz").val();	
+									var bdgzCity = bdgz.split("，");
+									
+									$("#workCity").find("option").html(bdgzCity[0]);
+									$("#workArea").find("option").html(bdgzCity[1]);
+								 	var wfjz = $("#wfjz").val();
+									var wfjzCity = wfjz.split("，");
+									$("#province3").find("option").html(wfjzCity[0]);
+									$("#city3").find("option").html(wfjzCity[1]);
+									$("#area3").find("option").html(wfjzCity[2]);
+									
+									var wfgz = $("#wfgz").val();
+									var wfgzCity = wfgz.split("，");
+									$("#province1").find("option").html(wfgzCity[0]);
+									$("#city1").find("option").html(wfgzCity[1]);
+									$("#area1").find("option").html(wfgzCity[2]);
+								</script>
 								<tr>
 									<td colspan="3">家庭状况：
 										<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord01.familystatus, '单身')}">checked</c:if> value="005001-单身" _text="单身" style="width: 1rem">单身 
@@ -673,12 +727,21 @@ rgba
 			type="hidden" name="byid" id="byid"> <input type="hidden"
 			name="boxeditId" id="boxeditId">
 	</form>
-
+	<!-- 选择地区数据后存储在这 -->
+	<input type="hidden" value="" id="localCityValue" />
+	<input type="hidden" value="" id="localAreaValue"/>
+	<input type="hidden" value="" id="localCityValue1"/>
+	<input type="hidden" value="" id="localAreaValue1"/>
+	<input type="hidden" value="" id="outerProvinceValue1"/>
+	<input type="hidden" value="" id="outerCityValue1"/>
+	<input type="hidden" value="" id="outerAreaValue1"/>
+	<input type="hidden" value="" id="outerProvinceValue"/>
+	<input type="hidden" value="" id="outerCityValue"/>
+	<input type="hidden" value="" id="outerAreaValue"/>
 	<%@ include file="/WEB-INF/jsp/inc/foot_bootstrap.jsp"%>
-	<script type="text/javascript" src="${appRoot}/static/js/distpicker.js"></script>
-	<script type="text/javascript" src="${appRoot}/static/js/distpicker (1).js"></script>
-	<script type="text/javascript" src="${appRoot}/static/js/main.js"></script>
-
+	<script type="text/javascript" src="${appRoot}/static/js/localArea.js"></script>
+	<script type="text/javascript" src="${appRoot}/static/js/allArea.js"></script>
+	<script type="text/javascript" src="${appRoot}/static/js/foreachArea.js"></script>
 	<script src="${appRoot}/static/js/jquery.sparkline.js"
 		type="text/javascript"></script>
 
@@ -690,46 +753,83 @@ rgba
 	<script src="${appRoot}/static/js/dynamic-table.js"></script>
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
-		$(function() {
-/* 			//本地居住地 
-			var localresidence1 = $("#localresidence1").val();
-			var localworkarea1 = $("#localworkarea1").val();
-			//外阜居住地 
-			var outresidence1 = $("#outresidence1").val();
-			var outworkarea1 = $("#outworkarea1").val();
-			
-			var a = localresidence1.split(',');
-			console.log(a);
-			for(var i=0;i<a.length;i++){
-				if(i==0){
-					var aa = $("#local_city4").find("option")[0];
-					console.log(aa);
-					aa.text = a[i];
-				}
-				if(i==1){
-					var aa = $("#local_district4").find("option")[0];
-					aa.text = a[i];
-				}
-			}
-			var b = localworkarea1.split(',');
-			for(var i=0;i<b.length;i++){
-				if(i==0){
-					var aa = $("#local_city3").find("option")[0];
-					aa.text = a[i];
-				}
-				if(i==1){
-					var aa = $("#local_district3").find("option")[0];
-					aa.text = a[i];
-				}
-			}
-			
-			 */
-			
-			
-		});
 
+
+		
 		//提交表单
 		function checkinput() {
+
+			var lastCityIdValue = $("#localCityValue").val();
+			var lastCityIdArr = lastCityIdValue.split("-");
+			var lastAreaIdValue = $("#localAreaValue").val();
+			var lastAreaIdArr = lastAreaIdValue.split("-");
+			console.log(lastAreaIdArr[0]+"-"+lastCityIdArr[1]+"，"+lastAreaIdArr[1]);
+			
+			var lastCityIdValue1 = $("#localCityValue1").val();
+			var lastCityIdArr1 = lastCityIdValue1.split("-");
+			var lastAreaIdValue1 = $("#localAreaValue1").val();
+			var lastAreaIdArr1 = lastAreaIdValue1.split("-");
+			console.log(lastAreaIdArr1[0]+"-"+lastCityIdArr1[1]+"，"+lastAreaIdArr1[1]);
+			
+			var lastOutProvinceIdValue = $("#outerProvinceValue1").val();
+			var lastOutProvinceIdArr = lastOutProvinceIdValue.split("-");
+			var lastOutCityIdValue = $("#outerCityValue1").val();
+			var lastOutCityIdArr = lastOutCityIdValue.split("-");
+			var lastOutAreaIdValue = $("#outerAreaValue1").val();
+			var lastOutAreaIdArr = lastOutAreaIdValue.split("-");
+			console.log(lastOutAreaIdArr[0]+"-"+lastOutProvinceIdArr[1]+"，"+lastOutCityIdArr[1]+"，"+lastOutAreaIdArr[1]);
+			
+			var lastOutProvinceIdValue1 = $("#outerProvinceValue").val();
+			var lastOutProvinceIdArr1 = lastOutProvinceIdValue1.split("-");
+			var lastOutCityIdValue1 = $("#outerCityValue").val();
+			var lastOutCityIdArr1 = lastOutCityIdValue1.split("-");
+			var lastOutAreaIdValue1 = $("#outerAreaValue").val();
+			var lastOutAreaIdArr1 = lastOutAreaIdValue1.split("-");
+			console.log(lastOutAreaIdArr1[0]+"-"+lastOutProvinceIdArr1[1]+"，"+lastOutCityIdArr1[1]+"，"+lastOutAreaIdArr1[1]);
+			
+			//获取默认数据并转换为地区编码加名称的格式
+			var lastCityIdValue2 = $("#lastCityId").val();
+			var lastCityIdArr2 = lastCityIdValue2.split("-");
+			var lastAreaIdValue2 = $("#lastAreaId").val();
+			var lastAreaIdArr2 = lastAreaIdValue2.split("-");
+			console.log(lastAreaIdArr2[0]+"-"+lastCityIdArr2[1]+"，"+lastAreaIdArr2[1]);
+			
+			var lastCityIdValue22 = $("#lastCityId1").val();
+			var lastCityIdArr22 = lastCityIdValue22.split("-");
+			var lastAreaIdValue22 = $("#lastAreaId1").val();
+			var lastAreaIdArr22 = lastAreaIdValue22.split("-");
+			console.log(lastAreaIdArr22[0]+"-"+lastCityIdArr22[1]+"，"+lastAreaIdArr22[1]);
+			
+			var lastOutProvinceIdValue2 = $("#lastOutProvinceId").val();
+			var lastOutProvinceIdArr2 = lastOutProvinceIdValue2.split("-");
+			var lastOutCityIdValue2 = $("#lastOutCityId").val();
+			var lastOutCityIdArr2 = lastOutCityIdValue2.split("-");
+			var lastOutAreaIdValue2 = $("#lastOutAreaId").val();
+			var lastOutAreaIdArr2 = lastOutAreaIdValue2.split("-");
+			console.log(lastOutAreaIdArr2[0]+"-"+lastOutProvinceIdArr2[1]+"，"+lastOutCityIdArr2[1]+"，"+lastOutAreaIdArr2[1]);
+			
+			var lastOutProvinceIdValue22 = $("#lastOutProvinceId1").val();
+			var lastOutProvinceIdArr22 = lastOutProvinceIdValue22.split("-");
+			var lastOutCityIdValue22 = $("#lastOutCityId1").val();
+			var lastOutCityIdArr22 = lastOutCityIdValue22.split("-");
+			var lastOutAreaIdValue22 = $("#lastOutAreaId1").val();
+			var lastOutAreaIdArr22 = lastOutAreaIdValue22.split("-");
+			console.log(lastOutAreaIdArr22[0]+"-"+lastOutProvinceIdArr22[1]+"，"+lastOutCityIdArr22[1]+"，"+lastOutAreaIdArr22[1]);
+			if(lastCityIdValue == ""){
+				$("#localresidence").val(lastAreaIdArr2[0]+"-"+lastCityIdArr2[1]+"，"+lastAreaIdArr2[1]);
+				$("#localworkarea").val(lastAreaIdArr22[0]+"-"+lastCityIdArr22[1]+"，"+lastAreaIdArr22[1]);
+				$("#outresidence").val(lastOutAreaIdArr2[0]+"-"+lastOutProvinceIdArr2[1]+"，"+lastOutCityIdArr2[1]+"，"+lastOutAreaIdArr2[1]);
+				$("#outworkarea").val(lastOutAreaIdArr22[0]+"-"+lastOutProvinceIdArr22[1]+"，"+lastOutCityIdArr22[1]+"，"+lastOutAreaIdArr22[1]);
+				
+			}else{
+				$("#localresidence").val(lastAreaIdArr[0]+"-"+lastCityIdArr[1]+"，"+lastAreaIdArr[1]);
+				$("#localworkarea").val(lastAreaIdArr1[0]+"-"+lastCityIdArr1[1]+"，"+lastAreaIdArr1[1]);
+				$("#outresidence").val(lastOutAreaIdArr[0]+"-"+lastOutProvinceIdArr[1]+"，"+lastOutCityIdArr[1]+"，"+lastOutAreaIdArr[1]);
+				$("#outworkarea").val(lastOutAreaIdArr1[0]+"-"+lastOutProvinceIdArr1[1]+"，"+lastOutCityIdArr1[1]+"，"+lastOutAreaIdArr1[1]);
+			}
+			
+			
+			
 			var datamsg = $("#theform").serialize();
 			$.ajax({
 				type:'post',
@@ -747,6 +847,7 @@ rgba
 		}
 
 	</script>
+		
 	<input type="hidden" value="" id="adminId" />
 </body>
 </html>

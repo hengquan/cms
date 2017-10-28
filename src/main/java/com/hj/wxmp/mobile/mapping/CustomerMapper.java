@@ -30,4 +30,6 @@ public interface CustomerMapper {
 	CustomerProjs findGeneralMessage(Map<String, Object> map);
 
 	List<Customer> findAll();
+
+	Integer selectByCustPhoneNum(String phoneNum);
 }

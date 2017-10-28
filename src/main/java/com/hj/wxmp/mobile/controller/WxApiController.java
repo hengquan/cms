@@ -788,7 +788,7 @@ public class WxApiController extends ControllerBaseWx {
 			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
 			List<TabDictRef> sexO1=transToDictRefList(dictList, "013", "认知本案渠道", "ql_AccessRecord01", id);
 			if (sexO1!=null) dictRefList.addAll(sexO1);
-			List<TabDictRef> sexCust=transToDictRefList(dictList, "013", "认知本案渠道", "ql_ProjCust_Ref", customerId);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "013", "认知本案渠道", "ql_ProjCust_Ref", projCustRef.getId());
 			if (sexCust!=null) dictRefList.addAll(sexCust);
 		}
 		//认知本案渠道描述
@@ -807,7 +807,7 @@ public class WxApiController extends ControllerBaseWx {
 			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
 			List<TabDictRef> sexO1=transToDictRefList(dictList, "014", "本案关注点", "ql_AccessRecord01", id);
 			if (sexO1!=null) dictRefList.addAll(sexO1);
-			List<TabDictRef> sexCust=transToDictRefList(dictList, "014", "本案关注点", "ql_ProjCust_Ref", customerId);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "014", "本案关注点", "ql_ProjCust_Ref", projCustRef.getId());
 			if (sexCust!=null) dictRefList.addAll(sexCust);
 		}
 		//本案关注点描述
@@ -858,7 +858,7 @@ public class WxApiController extends ControllerBaseWx {
 			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
 			List<TabDictRef> sexO1=transToDictRefList(dictList, "017", "资金筹备期", "ql_AccessRecord01", id);
 			if (sexO1!=null) dictRefList.addAll(sexO1);
-			List<TabDictRef> sexCust=transToDictRefList(dictList, "017", "资金筹备期", "ql_ProjCust_Ref", customerId);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "017", "资金筹备期", "ql_ProjCust_Ref", projCustRef.getId());
 			if (sexCust!=null) dictRefList.addAll(sexCust);
 		}
 		//比较项目
@@ -1340,7 +1340,7 @@ public class WxApiController extends ControllerBaseWx {
 			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
 			List<TabDictRef> cartotalpriceO1=transToDictRefList(dictList, "014", "本案抗拒点", "ql_AccessRecord02", id);
 			if (cartotalpriceO1!=null) dictRefList.addAll(cartotalpriceO1);
-			List<TabDictRef> cartotalpriceCust=transToDictRefList(dictList, "014", "本案抗拒点", "ql_ProjCust_Ref", customerId);
+			List<TabDictRef> cartotalpriceCust=transToDictRefList(dictList, "014", "本案抗拒点", "ql_ProjCust_Ref", projCustRef.getId());
 			if (cartotalpriceCust!=null) dictRefList.addAll(cartotalpriceCust);
 		}
 		//本案抗拒点描述
@@ -1356,7 +1356,7 @@ public class WxApiController extends ControllerBaseWx {
 			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
 			List<TabDictRef> cartotalpriceO1=transToDictRefList(dictList, "014", "本案关注点", "ql_AccessRecord02", id);
 			if (cartotalpriceO1!=null) dictRefList.addAll(cartotalpriceO1);
-			List<TabDictRef> cartotalpriceCust=transToDictRefList(dictList, "014", "本案关注点", "ql_ProjCust_Ref", customerId);
+			List<TabDictRef> cartotalpriceCust=transToDictRefList(dictList, "014", "本案关注点", "ql_ProjCust_Ref", projCustRef.getId());
 			if (cartotalpriceCust!=null) dictRefList.addAll(cartotalpriceCust);
 		}
 		//本案关注点描述
@@ -1537,7 +1537,7 @@ public class WxApiController extends ControllerBaseWx {
 			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
 			List<TabDictRef> sexO1=transToDictRefList(dictList, "013", "认知本案渠道", "ql_AccessRecord02", id);
 			if (sexO1!=null) dictRefList.addAll(sexO1);
-			List<TabDictRef> sexCust=transToDictRefList(dictList, "013", "认知本案渠道", "ql_ProjCust_Ref", customerId);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "013", "认知本案渠道", "ql_ProjCust_Ref", projCustRef.getId());
 			if (sexCust!=null) dictRefList.addAll(sexCust);
 		}
 		//认知本案渠道描述
@@ -1588,7 +1588,7 @@ public class WxApiController extends ControllerBaseWx {
 			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
 			List<TabDictRef> sexO1=transToDictRefList(dictList, "017", "资金筹备期", "ql_AccessRecord02", id);
 			if (sexO1!=null) dictRefList.addAll(sexO1);
-			List<TabDictRef> sexCust=transToDictRefList(dictList, "017", "资金筹备期", "ql_ProjCust_Ref", customerId);
+			List<TabDictRef> sexCust=transToDictRefList(dictList, "017", "资金筹备期", "ql_ProjCust_Ref", projCustRef.getId());
 			if (sexCust!=null) dictRefList.addAll(sexCust);
 		}
 		//关注产品类型描述
@@ -2875,7 +2875,8 @@ public class WxApiController extends ControllerBaseWx {
 		    SysRole role = roleService.findById(roleid);
 		    String roleName = role.getRoleName();
 		    if(roleName.equals("管理员")){
-		    	map.put("userId", null);
+		    	result.put("userId", null);
+		    	results="proj";
 		    }
 		    if(roleName.equals("项目管理人") || roleName.equals("项目负责人")){
 		    	List<Map<String, Object>> projects = projUserRoleService.selectByUserId(userId);
@@ -2891,10 +2892,12 @@ public class WxApiController extends ControllerBaseWx {
 		    		userIds+=","+projUserRole.getUserid();
 		    	}
 		    	userIds=userIds.substring(1);
-		    	map.put("userId", userId);
+		    	result.put("userId", userIds);
+		    	results="user";
 		    }
 		    if(roleName.equals("顾问")){
-		    	map.put("userId", userId);
+		    	result.put("userId", userId);
+		    	results="cust";
 		    }
 			result.put("custId", custs);
 			List<Map<String,Object>> arCountDatas = dayRecepService.selectByTimeAnd(result);
