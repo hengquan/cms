@@ -46,5 +46,7 @@ public interface UserInfoMapper {
 
 	List<UserInfo> selectByName(String userName);
 
+	void deletes(String boxeditId);
+
 	
 }
