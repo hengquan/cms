@@ -498,34 +498,86 @@ public class UserController extends ControllerBase {
 			List<ImportMapUserCust> importMapUserCusts = importMapUserCustService.selectByUserName(realname);
 			if(importMapUserCusts.size()>=1){
 				for(ImportMapUserCust importMapUserCust : importMapUserCusts){
-					//首访ID
-					String reportid = importMapUserCust.getReportid();
-					AccessRecord01 accessRecord01 = accessRecord01Service.findById(reportid);
-					if(accessRecord01!=null) {
-						String authorid = accessRecord01.getAuthorid();
-						if(StringUtils.isEmpty(authorid)){
-							String projId = accessRecord01.getProjid();
-							//所选项目
-							String[] projids = checkProjIds.split(",");
-							for(String projid : projids){
-								if(projid.equals(projId)){
-									//更新首访表
-									accessRecord01.setAuthorid(userinfo.getId());
-									accessRecord01.setCreatorid(userinfo.getId());
-									accessRecord01Service.update(accessRecord01);
-									//添加用户客户关系表
-									UserCustRef userCustRef = new UserCustRef();
-									userCustRef.setId(keyGen.getUUIDKey());
-									userCustRef.setCustid(accessRecord01.getCustid());
-									userCustRef.setProjid(projid);
-									userCustRef.setUserid(userinfo.getId());
-									userCustRefService.insert(userCustRef);
-									//删除特殊对应关系表
-									importMapUserCustService.delete(importMapUserCust);
+					//查看是哪个表
+					Integer reporttype = importMapUserCust.getReporttype();
+					if(reporttype==1){
+						//首访ID
+						String reportid = importMapUserCust.getReportid();
+						AccessRecord01 accessRecord01 = accessRecord01Service.findById(reportid);
+						if(accessRecord01!=null) {
+							String authorid = accessRecord01.getAuthorid();
+							if(StringUtils.isEmpty(authorid)){
+								String projId = accessRecord01.getProjid();
+								//所选项目
+								String[] projids = checkProjIds.split(",");
+								for(String projid : projids){
+									if(projid.equals(projId)){
+										//更新首访表
+										accessRecord01.setAuthorid(userinfo.getId());
+										accessRecord01.setCreatorid(userinfo.getId());
+										accessRecord01Service.update(accessRecord01);
+										//添加用户客户关系表
+										UserCustRef userCustRef = new UserCustRef();
+										userCustRef.setId(keyGen.getUUIDKey());
+										userCustRef.setCustid(accessRecord01.getCustid());
+										userCustRef.setProjid(projid);
+										userCustRef.setUserid(userinfo.getId());
+										userCustRefService.insert(userCustRef);
+										//删除特殊对应关系表
+										importMapUserCustService.delete(importMapUserCust);
+									}
 								}
+							}else{
+								importMapUserCustService.delete(importMapUserCust);
 							}
-						}else{
-							importMapUserCustService.delete(importMapUserCust);
+						}
+					}else if(reporttype==2){
+						//复访ID
+						String reportid = importMapUserCust.getReportid();
+						AccessRecord02 accessRecord02 = accessRecord02Service.findById(reportid);
+						if(accessRecord02!=null) {
+							String authorid = accessRecord02.getAuthorid();
+							if(StringUtils.isEmpty(authorid)){
+								String projId = accessRecord02.getProjid();
+								//所选项目
+								String[] projids = checkProjIds.split(",");
+								for(String projid : projids){
+									if(projid.equals(projId)){
+										//更新复访表
+										accessRecord02.setAuthorid(userinfo.getId());
+										accessRecord02.setCreatorid(userinfo.getId());
+										accessRecord02Service.update(accessRecord02);
+										//删除特殊对应关系表
+										importMapUserCustService.delete(importMapUserCust);
+									}
+								}
+							}else{
+								importMapUserCustService.delete(importMapUserCust);
+							}
+						}
+					}else if(reporttype==3){
+						//成交ID
+						String reportid = importMapUserCust.getReportid();
+						AccessRecord03 accessRecord03 = accessRecord03Service.findById(reportid);
+						if(accessRecord03!=null) {
+							String authorid = accessRecord03.getAuthorid();
+							if(StringUtils.isEmpty(authorid)){
+								String projId = accessRecord03.getProjid();
+								//所选项目
+								String[] projids = checkProjIds.split(",");
+								for(String projid : projids){
+									if(projid.equals(projId)){
+										//更新成交表
+										accessRecord03.setAuthorid(userinfo.getId());
+										accessRecord03.setCreatorid(userinfo.getId());
+										accessRecord03Service.update(accessRecord03);
+										//删除特殊对应关系表
+										importMapUserCustService.delete(importMapUserCust);
+									}
+								}
+							}else{
+								importMapUserCustService.delete(importMapUserCust);
+							}
 						}
 					}
 				}
