@@ -1061,7 +1061,6 @@ function fillData(data) {//填数据
   if (data.custname) $("input[name='custName']").val(data.custname);
   if (data.custphonenum) $("input[name='custPhone']").val(data.custphonenum);
   if (data.custsex) fillSelectField("sex", data.custsex, true);
-
   if (data.firstknowtime.time) {
     var fTime=new Date();
     fTime.setTime(data.firstknowtime.time);
@@ -1077,6 +1076,8 @@ function fillData(data) {//填数据
   if (data.localworkarea) $("input[name='localWorkArea']").val(data.localworkarea);
   if (data.outresidence) $("input[name='outResidence']").val(data.outresidence);
   if (data.outworkarea) $("input[name='outWorkArea']").val(data.outworkarea);
+  if (data.custaddress) $("input[name='custAddress']").val(data.custaddress);
+
   if (data.familystatus) fillSelectField("familyStatus", data.familystatus, true);
   if (data.traffictype) {
     var _temp=data.traffictype;
@@ -1214,7 +1215,9 @@ function initData() {
        }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
       'type': 1, //数据源类型
       'data': localArea.data.children//数据源
+    
     });
+    
     var localWorkArea=new LArea();
     localWorkArea.init({
       'trigger': '#localWorkAreaId', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
@@ -1377,6 +1380,7 @@ function cleanData() {
   cleanArea('localWorkArea');
   cleanArea('outResidence');
   cleanArea('outWorkArea');
+  $("input[name='custAddress']").val("");
   clean('familyStatus');
   clean('trafficType');
   clean('buyQualify');
@@ -1426,7 +1430,7 @@ function step1Next() {//要判断是否应该进行首访录入
   if ($.trim($("#localRedisId").val())) {
     id=$("#localRedisVal").val();
     _uLocalResidence=$.trim(id.substr(id.lastIndexOf(",")+1))+"-"+($.trim($("#localRedisId").val())).replace(/,/g,"，");
-    //alert(_uLocalResidence);
+ 
   }
   if ($.trim($("#localWorkAreaId").val())) {
     id=$("#localWorkAreaVal").val();
@@ -1621,6 +1625,8 @@ function commitData() {
     if (_uLocalWorkArea) retData.localworkarea=_uLocalWorkArea;
     if (_uOutResidence) retData.outresidence=_uOutResidence;
     if (_uOutWorkArea) retData.outworkarea=_uOutWorkArea;
+    temp=$("input[name='custAddress']").val();
+    if (temp) retData.custaddress=temp;
     if (_uFamilyStatus) retData.familystatus=_uFamilyStatus;
     if (_uTrafficType) retData.traffictype=_uTrafficType;
     if (_uWorkIndustry) retData.workindustry=_uWorkIndustry;

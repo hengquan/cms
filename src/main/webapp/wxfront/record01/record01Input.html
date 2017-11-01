@@ -19,7 +19,7 @@
   <script src="../js/LArea.js"></script>
   <script src="../js/allArea.js"></script>
   <script src="../js/localArea.js"></script>
-  
+
 </head>
 <body>
 <!-- 遮罩层 -->
@@ -178,9 +178,30 @@
   </div>
   <div class="item_sflr row">
     <div class="col-title col-title-4">居住区域</div>
-    <div class="col-input-4">
+    <div class="col-input-4 myArea">
       <input type="text" placeholder="" name="localResidence" id="localRedisId" readonly/>
       <input type="hidden" id="localRedisVal"/>
+    </div>
+  </div>
+ 
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">工作区域</div>
+    <div class="col-input-4 myArea">
+      <input type="text" placeholder="" name="localWorkArea" id="localWorkAreaId" readonly/>
+      <input type="hidden" id="localWorkAreaVal"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">外埠居住</div>
+    <div class="col-input-4 myArea">
+      <input type="text" placeholder="" name="outResidence" id="outRedisId" readonly/>
+      <input type="hidden" id="outRedisVal"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-4">详细地址</div>
+    <div class="col-input-7">
+      <input type="text" placeholder="可填写小区名称" name="custAddress"/>
     </div>
   </div>
   <div class="item_sflr row">
@@ -191,15 +212,8 @@
     </div>
   </div>
   <div class="item_sflr row">
-    <div class="col-title col-title-4">外埠居住</div>
-    <div class="col-input-4">
-      <input type="text" placeholder="" name="outResidence" id="outRedisId" readonly/>
-      <input type="hidden" id="outRedisVal"/>
-    </div>
-  </div>
-  <div class="item_sflr row">
     <div class="col-title col-title-4">外埠工作</div>
-    <div class="col-input-4">
+    <div class="col-input-4 myArea">
       <input type="text" placeholder="" name="outWorkArea" id="outWorkAreaId" readonly/>
       <input type="hidden" id="outWorkAreaVal"/>
     </div>
