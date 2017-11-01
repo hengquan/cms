@@ -27,4 +27,6 @@ public interface ProjectMapper {
 	List<Project> findAll();
 
 	Integer getProjectMessgeCount(Map<String, Object> map);
+
+	List<Map<String, Object>> selectAll();
 }

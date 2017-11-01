@@ -73,6 +73,22 @@ public class TabDictRefServiceImpl implements TabDictRefService {
 	public void delete4TabColum(TabDictRef tdr) {
 		dao.delete4TabColum(tdr);
 	}
+	@Override
+	public List<TabDictRef> selectCognitiveCaseChannel() {
+		return dao.selectCognitiveCaseChannel();
+	}
+	@Override
+	public List<TabDictRef> selectConcern() {
+		return dao.selectConcern();
+	}
+	@Override
+	public List<TabDictRef> leadTime() {
+		return dao.leadTime();
+	}
+	@Override
+	public List<TabDictRef> selectResistPoint() {
+		return dao.selectResistPoint();
+	}
 	
 
 }

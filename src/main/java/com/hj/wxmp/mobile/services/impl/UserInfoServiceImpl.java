@@ -50,8 +50,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public void delete(UserInfo entity) throws Exception {
-		// TODO Auto-generated method stub
-		
+		userInfoMapper.deleteByPrimaryKey(entity.getId());
 	}
 
 	@Override
@@ -299,6 +298,16 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Override
 	public List<UserInfo> selectByParentId(String parentId) {
 		return userInfoMapper.selectByParentId(parentId);
+	}
+
+	@Override
+	public List<UserInfo> selectByName(String userName) {
+		return userInfoMapper.selectByName(userName);
+	}
+
+	@Override
+	public void deletes(String boxeditId) {
+		userInfoMapper.deletes(boxeditId);
 	}
 
 

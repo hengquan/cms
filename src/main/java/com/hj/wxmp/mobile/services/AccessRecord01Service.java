@@ -116,5 +116,7 @@ public interface AccessRecord01Service {
 
 	public List<AccessRecord01> selectByRecepTime(String date);
 
+	public AccessRecord01 selectByPhone(String phone);
+
 
 }

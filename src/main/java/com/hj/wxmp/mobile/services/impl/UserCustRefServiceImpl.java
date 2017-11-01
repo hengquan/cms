@@ -100,6 +100,18 @@ public class UserCustRefServiceImpl implements UserCustRefService {
 	public Integer selectZongHeCount(Map<String, Object> map) {
 		return dao.selectZongHeCount(map);
 	}
+	@Override
+	public List<Map<String, Object>> selectBySpecialUserMessge(Map<String, Object> map) {
+		return dao.selectBySpecialUserMessge(map);
+	}
+	@Override
+	public Integer selectBySpecialUserMessgeCount(Map<String, Object> map) {
+		return dao.selectBySpecialUserMessgeCount(map);
+	}
+	@Override
+	public UserCustRef selectByData(Map<String, Object> data) {
+		return dao.selectByData(data);
+	}
 
 	
 

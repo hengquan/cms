@@ -175,4 +175,14 @@
     <include refid="Base_Column_List" />
     from ql_Project
   </select>
+  
+  
+  
+  <!-- 获取所有项目信息 -->
+  <select id="selectAll" resultType="java.util.Map">
+  	select 
+    <include refid="Base_Column_List" />
+    from ql_Project
+  </select>
+  
 </mapper>

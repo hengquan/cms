@@ -104,14 +104,16 @@
 									<a href="javascript:seeCancellationUserMsg();" style="margin-left:20px;" class="btn mini btn-white" id="seeCancellationUserMsg">
 										<c:choose>
 										   <c:when test="${isValidate==null || isValidate==''}">  
-										         查看所有已作废顾问的客户     
+										         查看所有待指定顾问的客户     
 										   </c:when>
 										   <c:otherwise> 
 										         查看所有客户
 										   </c:otherwise>
 										</c:choose>
 									</a>
-									<!-- <a href="javascript:gaojichaxun();" class="btn mini btn-white pull-right" id="gaoji">高级查询</a> -->
+									<a href="javascript:toLead();" style="margin-left:20px;" class="btn mini btn-white" id="toLead">
+									         导入客户数据     
+									</a>
 								</div>
 								<!-- 分页信息 -->
 								<input type="hidden" value="${nowPage}" id="nowPageNumber"
@@ -194,7 +196,44 @@
 
 
 
-
+		<!-- 导入EXCEL -->
+		<div class="modal fade" id="toLeadEXCEL" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="modal-title">导入客户数据</h4>
+					</div>
+					<div class="modal-body">
+						<form method="post" action="${appRoot}/customer/toLead" class="form-horizontal"  enctype="multipart/form-data"  role="form" id="toLeadExcelMsg" name="itemForm" >
+							<input type="hidden" name="projId1" id="projId1">
+							<input type="hidden" name="custId1" id="custId1">
+							<div class="form-group">
+								<label class="col-lg-2 control-label pd-r5">请选择项目<font style="color:red;"></font></label>
+								<div class="col-lg-10">
+									<select class="form-control" name="userProjId" id="userProj">
+										
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label pd-r5">请选择文件<font style="color:red;"></font></label>
+								<div class="col-lg-10">
+									<input class="form-control" type="file" name="file">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-lg-offset-2 col-lg-10">
+									<button onclick="submit" class="btn btn-send">确定</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 
 
 
@@ -231,113 +270,6 @@
 				</div>
 			</div>
 		</div>
-
-
-
-
-
-
-
-
-
-		<div class="modal fade" id="editProblemType" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="modal-title">修改商品</h4>
-					</div>
-					<div class="modal-body">
-						<form action="${appRoot}/anwProduct/edit" method="post" class="form-horizontal"  enctype="multipart/form-data"  role="form" id="updateMessage" name="itemForm" >
-							<input type="hidden" name="editId" id="editId">
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">商品名称<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<input type="text" class="form-control" id="productName1"
-										name="productName" maxlength="4" >
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">商品价格<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<input type="text" class="form-control" id="price1"
-										name="price" maxlength="4" >
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">销量<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<input type="text" class="form-control" id="salesVolume1"
-										name="salesVolume" maxlength="4" >
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">运费<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<input type="text" class="form-control" id="freight1"
-										name="freight" maxlength="4" >
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">商品类型<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<select class="form-control doEditSelect" name="categoryId">
-										<c:forEach items="${categorys}" var="u" varStatus="s">
-											<option value="${u.id }">${u.name }</option>
-										</c:forEach>
-									</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">商品详情<font
-									style="color: red;"></font></label>
-								<div class="col-lg-10">
-									<textarea rows="5" cols="60" class="form-control"
-										id="productDetails1" name="productDetails">
-										
-										</textarea>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">商品图片<font style="color:red;"></font></label>
-								<div class="col-lg-10">
-									<div class="form-group pic_upload clearfix">
-										<ul id="hiddenImgUrl">
-											<li><img src="${appRoot}/static/img/zanwu1.png" style="height: 70px;" id="imgURL2" /></li>
-											<li><input type="file" name="imgfile2" onchange="editImg(this)" /> <i class="glyphicon glyphicon-plus"></i></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-lg-offset-2 col-lg-10">
-									<button type="button" onclick="submitUpdateData();" class="btn btn-send">提交</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -431,7 +363,35 @@
 	<!--script for this page only-->
 	<script src="${appRoot}/static/js/dynamic-table.js"></script>
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
+	<script src="${appRoot}/wxfront/js/common.utils.js"></script>
 	<script type="text/javascript">
+	
+	
+	//导入EXCEL
+	function toLead(){
+		$.ajax({
+			type:'post',
+			url:'${appRoot}/customer/getProj',
+			dataType:'json',
+			success:function(data){
+				if(data.msg==100){
+					var path = data.resultMsg;
+					var htmldata = "";
+					for(var i=0;i<path.length;i++){
+						htmldata += '<option value="'+ path[i].id +'">'+ path[i].projName +'</option>';
+					}
+					$("#userProj").html(htmldata);
+					var $modal = $('#toLeadEXCEL');
+					$modal.modal();
+				}else{
+					windowShow("获取项目失败","");
+				}
+			}
+		}); 
+	}
+	
+	
+	
 	//下载EXCEL
 	function downloadExcel(){
 		var datamsg = $("#selectCheckMessage").serialize();
@@ -443,7 +403,6 @@
 			success:function(data){
 				if(data.msg==100){
 					var path = data.path;
-					alert(path);
 					window.location.href="${appRoot}/customer/downLoadExcel?path="+path;
 				}else{
 					windowShow("导出失败","");

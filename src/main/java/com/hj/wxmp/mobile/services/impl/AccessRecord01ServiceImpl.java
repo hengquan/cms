@@ -116,6 +116,10 @@ public class AccessRecord01ServiceImpl implements AccessRecord01Service {
 	public List<AccessRecord01> selectByRecepTime(String date) {
 		return dao.selectByRecepTime(date);
 	}
+	@Override
+	public AccessRecord01 selectByPhone(String phone) {
+		return dao.selectByPhone(phone);
+	}
 	
 
 }

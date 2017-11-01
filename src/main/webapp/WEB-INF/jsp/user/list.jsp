@@ -49,9 +49,9 @@
 										<a href="javascript:doRefresh();" class="btn mini btn-white" title="刷新"><i class="icon-refresh"></i></a>
 									</div>
 									
-									<!-- <div style="float: left;position: relative;margin-top: 16px;margin-left:20px;">
+									<div style="float: left;position: relative;margin-top: 16px;margin-left:20px;">
 										<a href="javascript:doDelete();" class="btn mini btn-white" title="删除"><i class="icon-trash"></i></a>
-									</div>  -->
+									</div> 
 									
 									<input type="hidden" value="${nowPage}" id="nowPageNumber" name="nowPage">
 									<input type="hidden" value="${totalPageNum }">

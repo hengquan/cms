@@ -101,4 +101,6 @@ public interface ProjectService {
 
 	public Integer getProjectMessgeCount(Map<String, Object> map);
 
+	public List<Map<String, Object>> selectAll();
+
 }

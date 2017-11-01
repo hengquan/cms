@@ -76,6 +76,10 @@ public class ProjCustRefServiceImpl implements ProjCustRefService {
 	public List<Map<String, Object>> selectByProjIdAndCusId(Map<String, Object> result) {
 		return dao.selectByProjIdAndCusId(result);
 	}
+	@Override
+	public ProjCustRef selctByCustId(String tabid) {
+		return dao.selctByCustId(tabid);
+	}
 
 
 }

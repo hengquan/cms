@@ -83,6 +83,10 @@ public class CustomerServiceImpl implements CustomerService {
 	public CustomerProjs findGeneralMessage(Map<String, Object> map) {
 		return dao.findGeneralMessage(map);
 	}
+	@Override
+	public Integer selectByCustPhoneNum(String phoneNum) {
+		return dao.selectByCustPhoneNum(phoneNum);
+	}
 	
 
 

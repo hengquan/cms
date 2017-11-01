@@ -101,4 +101,6 @@ public interface CustomerService {
 
 	public CustomerProjs findGeneralMessage(Map<String, Object> parmeterMap);
 
+	public Integer selectByCustPhoneNum(String phoneNum);
+
 }

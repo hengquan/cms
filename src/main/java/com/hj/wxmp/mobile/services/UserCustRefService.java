@@ -108,4 +108,10 @@ public interface UserCustRefService {
 
 	public Integer selectZongHeCount(Map<String, Object> map);
 
+	public List<Map<String, Object>> selectBySpecialUserMessge(Map<String, Object> map);
+
+	public Integer selectBySpecialUserMessgeCount(Map<String, Object> map);
+
+	public UserCustRef selectByData(Map<String, Object> data);
+
 }

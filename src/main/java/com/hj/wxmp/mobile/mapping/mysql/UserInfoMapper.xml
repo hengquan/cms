@@ -386,6 +386,9 @@
 		<if test="state != null and state != -1 ">     
 			and isValidate = #{state} 
 		</if> 
+		<if test="state == null or state == -1 ">     
+			and (isValidate = 1 or isValidate = 0) 
+		</if> 
 		and realName is not null 
 		and mainPhoneNum is not null 
 		limit #{page},#{pageSize}
@@ -428,5 +431,20 @@
     <include refid="Base_Column_List" />
     from plat_User
   </select>
+  
+  <!-- 根据用户名称查用户信息 -->
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from plat_User where realName = #{userName} and isValidate = 1
+  </select>
+  
+  
+	<update id="deletes" parameterType="java.lang.String" >
+	    update plat_User
+	    set isValidate = 3 
+	    where
+	    instr(#{boxeditId},openid) 
+	</update>    
   
 </mapper>

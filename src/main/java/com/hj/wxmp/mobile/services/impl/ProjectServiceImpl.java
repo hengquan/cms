@@ -81,6 +81,10 @@ public class ProjectServiceImpl implements ProjectService {
 	public Integer getProjectMessgeCount(Map<String, Object> map) {
 		return dao.getProjectMessgeCount(map);
 	}
+	@Override
+	public List<Map<String, Object>> selectAll() {
+		return dao.selectAll();
+	}
 
 
 }

@@ -94,4 +94,12 @@ public interface TabDictRefService {
 
 	public void delete4TabColum(TabDictRef tdr);
 
+	public List<TabDictRef> selectCognitiveCaseChannel();
+
+	public List<TabDictRef> selectConcern();
+
+	public List<TabDictRef> leadTime();
+
+	public List<TabDictRef> selectResistPoint();
+
 }

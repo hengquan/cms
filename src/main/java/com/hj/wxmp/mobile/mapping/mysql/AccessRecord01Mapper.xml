@@ -765,4 +765,14 @@
     <include refid="Base_Column_List" />
     from ql_AccessRecord01
   </select>
+
+  <!-- 根据电话号码获取客户首访信息 -->
+  <select id="selectByPhone" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from ql_AccessRecord01 
+    where custPhoneNum = #{phone}
+  </select>
+  
+  
 </mapper>

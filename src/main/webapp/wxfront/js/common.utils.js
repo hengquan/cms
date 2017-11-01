@@ -10,7 +10,7 @@ function checkMPhone(phone) {
   var _phone=phone.replace(/\s/g,"");
   if (!_phone) return 0;
 
-  var mphone=/^0?1[3|4|5|8][0-9]\d{8}$/;
+  var mphone=/^0?1[3|5|6|7|8][0-9]\d{8}$/;
 
   if (mphone.test(_phone)) return 1;
   return 2;
