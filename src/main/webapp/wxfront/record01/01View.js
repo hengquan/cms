@@ -86,6 +86,7 @@ function fillData(data) {
   if (data.outresidence) $("#outResidence").html(data.outresidence);
   if (data.localworkarea) $("#localWorkArea").html(data.localworkarea);
   if (data.outworkarea) $("#outWorkArea").html(data.outworkarea);
+  if (data.custaddress) $("#custAddress").html(data.custaddress);
   if (data.familystatus) $("#familyStatus").html(data.familystatus);
   if (data.traffictype) {
     var _temp=data.traffictype;

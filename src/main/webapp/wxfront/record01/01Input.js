@@ -1061,7 +1061,6 @@ function fillData(data) {//填数据
   if (data.custname) $("input[name='custName']").val(data.custname);
   if (data.custphonenum) $("input[name='custPhone']").val(data.custphonenum);
   if (data.custsex) fillSelectField("sex", data.custsex, true);
-
   if (data.firstknowtime.time) {
     var fTime=new Date();
     fTime.setTime(data.firstknowtime.time);
@@ -1077,6 +1076,8 @@ function fillData(data) {//填数据
   if (data.localworkarea) $("input[name='localWorkArea']").val(data.localworkarea);
   if (data.outresidence) $("input[name='outResidence']").val(data.outresidence);
   if (data.outworkarea) $("input[name='outWorkArea']").val(data.outworkarea);
+  if (data.custaddress) $("input[name='custAddress']").val(data.custaddress);
+
   if (data.familystatus) fillSelectField("familyStatus", data.familystatus, true);
   if (data.traffictype) {
     var _temp=data.traffictype;
@@ -1379,6 +1380,7 @@ function cleanData() {
   cleanArea('localWorkArea');
   cleanArea('outResidence');
   cleanArea('outWorkArea');
+  $("input[name='custAddress']").val("");
   clean('familyStatus');
   clean('trafficType');
   clean('buyQualify');
@@ -1623,6 +1625,8 @@ function commitData() {
     if (_uLocalWorkArea) retData.localworkarea=_uLocalWorkArea;
     if (_uOutResidence) retData.outresidence=_uOutResidence;
     if (_uOutWorkArea) retData.outworkarea=_uOutWorkArea;
+    temp=$("input[name='custAddress']").val();
+    if (temp) retData.custaddress=temp;
     if (_uFamilyStatus) retData.familystatus=_uFamilyStatus;
     if (_uTrafficType) retData.traffictype=_uTrafficType;
     if (_uWorkIndustry) retData.workindustry=_uWorkIndustry;
