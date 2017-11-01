@@ -28,7 +28,7 @@ public interface UserCustRefMapper {
 
 	Integer selectByUserMessgeCount(Map<String, Object> map);
 
-	void updateByProjIdAndCustId(Map<String, Object> parmeterMap);
+	Integer updateByProjIdAndCustId(Map<String, Object> parmeterMap);
 
 	List<Map<String, Object>> downloadExcel(Map<String, Object> map);
 
@@ -43,4 +43,6 @@ public interface UserCustRefMapper {
 	Integer selectBySpecialUserMessgeCount(Map<String, Object> map);
 
 	UserCustRef selectByData(Map<String, Object> data);
+
+	List<UserCustRef> selectByProjIdAndCustId(Map<String, Object> parmeterMap);
 }

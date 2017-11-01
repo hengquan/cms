@@ -6,8 +6,18 @@ public class CustomerProjs extends ProjCustRef{
 	private String id;
 
     private String custname;
+    
+    private String custaddress;
 
-    private String phonenum;
+    public String getCustaddress() {
+		return custaddress;
+	}
+
+	public void setCustaddress(String custaddress) {
+		this.custaddress = custaddress;
+	}
+
+	private String phonenum;
 
     private String custsex;
 

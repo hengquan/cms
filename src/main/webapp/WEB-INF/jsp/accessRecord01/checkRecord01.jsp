@@ -275,6 +275,12 @@ rgba
 
 									<td></td>
 								</tr>
+								
+								<tr>
+									<td colspan="3">居住详细地址：
+										<input type="text" value="${accessRecord01.custaddress }" style="width: 70rem">
+									</td>
+								</tr>
 
 								<tr>
 									<td colspan="3">家庭状况：

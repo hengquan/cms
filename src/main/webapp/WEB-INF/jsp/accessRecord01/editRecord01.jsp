@@ -400,6 +400,13 @@ rgba
 									$("#city1").find("option").html(wfgzCity[1]);
 									$("#area1").find("option").html(wfgzCity[2]);
 								</script>
+								
+								<tr>
+									<td colspan="3">居住详细地址：
+										<input type="text" value="${accessRecord01.custaddress }" style="width: 70rem" name="custaddress">
+									</td>
+								</tr>
+								
 								<tr>
 									<td colspan="3">家庭状况：
 										<input name="familystatus" type="radio" <c:if test="${fn:contains(accessRecord01.familystatus, '单身')}">checked</c:if> value="005001-单身" _text="单身" style="width: 1rem">单身 
