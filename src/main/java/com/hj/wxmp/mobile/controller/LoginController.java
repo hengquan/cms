@@ -88,7 +88,8 @@ public class LoginController extends ControllerBase {
 	        
 	        
 	        String newpassword = MD5Utils.MD5(password);
-	        if(newpassword.equals(userInfo.getPassword())){
+	        Integer isvalidate = userInfo.getIsvalidate();
+	        if(newpassword.equals(userInfo.getPassword())&&isvalidate==1){
         		successUrl="/accessRecord/hisFirstRecord";
         		successUrl = "redirect:"+successUrl;
 	        }else{

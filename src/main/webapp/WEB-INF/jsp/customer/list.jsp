@@ -104,7 +104,7 @@
 									<a href="javascript:seeCancellationUserMsg();" style="margin-left:20px;" class="btn mini btn-white" id="seeCancellationUserMsg">
 										<c:choose>
 										   <c:when test="${isValidate==null || isValidate==''}">  
-										         查看所有已作废顾问的客户     
+										         查看所有待指定顾问的客户     
 										   </c:when>
 										   <c:otherwise> 
 										         查看所有客户

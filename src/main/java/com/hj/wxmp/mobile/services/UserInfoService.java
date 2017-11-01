@@ -223,4 +223,6 @@ public interface UserInfoService {
 	public List<UserInfo> selectByParentId(String parentId);
 
 	public List<UserInfo> selectByName(String userName);
+
+	public void deletes(String boxeditId);
 }

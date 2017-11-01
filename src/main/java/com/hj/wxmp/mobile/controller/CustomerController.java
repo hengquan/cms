@@ -23,8 +23,11 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.util.StringUtil;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -852,47 +855,66 @@ public class CustomerController extends ControllerBase {
 	
 	//导入客户数据
 	@RequestMapping(value = "/customer/toLead")
-    public String  fileUpload(@RequestParam("file") CommonsMultipartFile file,String userProjId) throws IOException {
+    public String  fileUpload(@RequestParam("file") CommonsMultipartFile file,String userProjId) throws Exception{
         Map<String,Object>map=new HashMap<String,Object>();
-		//用来检测程序运行时间
-        long  startTime=System.currentTimeMillis();
-        System.out.println("fileName："+file.getOriginalFilename());
         try {
-            //获取输出流
+        	//用来检测程序运行时间
+            long  startTime=System.currentTimeMillis();
+            String originalFilename = file.getOriginalFilename();
+            System.out.println("fileName："+originalFilename);
+            //文件流
             InputStream is=file.getInputStream();
-            HSSFWorkbook workbook=new HSSFWorkbook(is);
-            HSSFSheet sheet=null;
-            for (int i = 0; i < workbook.getNumberOfSheets(); i++) {//获取每个Sheet表
-            	//获取工作溥
-            	sheet = workbook.getSheetAt(i);
-            	String sheetName = sheet.getSheetName();
-            	if(sheetName.equals("来电")){
-            		//来电
-            		incomingTelegram(userProjId,file,i);
-            	}else if(sheetName.equals("来访")){
-            		//来访
-            		comeRound(userProjId,file,i);
-            	}
-            }
+            //工作薄
+            Sheet sheet=null;
+            //判断是2003还是2007
+            if (originalFilename != null) {  
+                int index = originalFilename.indexOf(".");  
+                String suffex = originalFilename.substring(index);  
+                if (".xls".equals(suffex)) {  
+                	POIFSFileSystem fs = new POIFSFileSystem(is);  
+                    HSSFWorkbook workbook = new HSSFWorkbook(fs);  
+                    for (int i = 0; i < workbook.getNumberOfSheets(); i++) {//获取每个Sheet表
+                    	//获取工作溥
+                    	sheet = workbook.getSheetAt(i);
+                    	String sheetName = sheet.getSheetName();
+                    	if(sheetName.equals("来电")){
+                    		//来电
+                    		incomingTelegram(userProjId,sheet);
+                    	}else if(sheetName.equals("来访")){
+                    		//来访
+                    		comeRound(userProjId,sheet);
+                    	}
+                    }
+                } else if (".xlsx".equals(suffex)) {  
+                	XSSFWorkbook xwb = new XSSFWorkbook(is);  
+                	for (int i = 0; i < xwb.getNumberOfSheets(); i++) {//获取每个Sheet表
+                    	//获取工作溥
+                    	sheet = xwb.getSheetAt(i);
+                    	String sheetName = sheet.getSheetName();
+                    	if(sheetName.equals("来电")){
+                    		//来电
+                    		incomingTelegram(userProjId,sheet);
+                    	}else if(sheetName.equals("来访")){
+                    		//来访
+                    		comeRound(userProjId,sheet);
+                    	}
+                    }
+                }  
+            }  
         }catch(Exception e){
         	e.printStackTrace();
         }
         return "redirect:customerList";
     }
-	
-	
-	
-	
-	
+
+
 	//来电
-	public Boolean incomingTelegram(String userProjId, CommonsMultipartFile file, int sheetIndex) {
+	public Boolean incomingTelegram(String userProjId,Sheet sheet) {
 		Boolean isok = false;
 		// 对读取Excel表格标题测试
         ExcelReader excelReader = new ExcelReader();
 		try{
-			// 对读取Excel表格内容测试
-            InputStream is2=file.getInputStream();
-            Map<Integer, String> map = excelReader.readExcelContent(is2,sheetIndex);
+            Map<Integer, String> map = excelReader.readExcelContent(sheet);
             System.out.println("获得Excel表格的内容:");
             for (int i = 1; i <= map.size(); i++) {
             	Customer customer = new Customer();
@@ -1042,6 +1064,8 @@ public class CustomerController extends ControllerBase {
             				}
                 		}
                 	}
+                	//状态
+                	accessRecord01.setStatus(2);
                 	addRelationTbl(customer,accessRecord01,userProjId,userName);
                 }
             }
@@ -1053,14 +1077,12 @@ public class CustomerController extends ControllerBase {
 	}
 	
 	//来访
-	public Boolean comeRound(String userProjId, CommonsMultipartFile file,int sheetIndex) {
+	public Boolean comeRound(String userProjId,Sheet sheet) {
 		Boolean isok = false;
 		// 对读取Excel表格标题测试
         ExcelReader excelReader = new ExcelReader();
 		try{
-			// 对读取Excel表格内容测试
-            InputStream is2=file.getInputStream();
-            Map<Integer, String> map = excelReader.readExcelContent(is2,sheetIndex);
+            Map<Integer, String> map = excelReader.readExcelContent(sheet);
             System.out.println("获得Excel表格的内容:");
             for (int i = 1; i <= map.size(); i++) {
             	Customer customer = new Customer();
@@ -1265,6 +1287,8 @@ public class CustomerController extends ControllerBase {
             				}
                 		}
                 	}
+                	//状态
+                	accessRecord01.setStatus(2);
                 	addRelationTbl(customer,accessRecord01,userProjId,userName);
                 }
             }
