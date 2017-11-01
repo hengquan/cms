@@ -358,6 +358,9 @@ window.LArea = (function() {
         },
         clear: function(e) {
         	this.trigger.value="";
+        	this.valueTo.value="";
+        
+        	
         	this.close(e);
         }
     }
