@@ -69,5 +69,13 @@ public class DayTemporaryRecepServiceImpl implements DayTemporaryRecepService {
 	public List<DayTemporaryRecep> selectByprojAndUserAndCust(DayTemporaryRecep dayTemporaryRecep) {
 		return dao.selectByprojAndUserAndCust(dayTemporaryRecep);
 	}
+	@Override
+	public List<Map<String, Object>> selectByTimeAnd(Map<String, Object> result) {
+		return dao.selectByTimeAnd(result);
+	}
+	@Override
+	public void deleteAll() {
+		dao.deleteAll();
+	}
 
 }

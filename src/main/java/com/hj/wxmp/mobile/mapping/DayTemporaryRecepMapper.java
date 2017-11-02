@@ -1,6 +1,7 @@
 package com.hj.wxmp.mobile.mapping;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hj.wxmp.mobile.entity.DayTemporaryRecep;
 
@@ -28,4 +29,8 @@ public interface DayTemporaryRecepMapper {
 	List<DayTemporaryRecep> selectByprojAndCust(DayTemporaryRecep dayTemporaryRecep);
 
 	List<DayTemporaryRecep> selectByprojAndUserAndCust(DayTemporaryRecep dayTemporaryRecep);
+
+	List<Map<String, Object>> selectByTimeAnd(Map<String, Object> result);
+
+	void deleteAll();
 }

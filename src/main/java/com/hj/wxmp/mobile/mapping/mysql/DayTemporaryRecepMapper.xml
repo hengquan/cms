@@ -146,9 +146,9 @@
     select 
     <include refid="Base_Column_List" />
     from ql_dayTemporaryRecep
-    where miiProjId = is null
+    where miiProjId is null
     and miiUserId = #{miiuserid,jdbcType=VARCHAR}
-    and miiCustId = is null
+    and miiCustId is null
   </select>
   
   <!-- 查客户 -->
@@ -156,8 +156,8 @@
     select 
     <include refid="Base_Column_List" />
     from ql_dayTemporaryRecep
-    where miiProjId = is null
-    and miiUserId = is null
+    where miiProjId is null
+    and miiUserId is null
     and miiCustId = #{miicustid,jdbcType=VARCHAR}
   </select>
   
@@ -192,6 +192,53 @@
   </select> 
   
   
+  
+  
+  <select id="selectByTimeAnd" resultType="java.util.Map" parameterType="java.util.Map">
+	SELECT DISTINCT 
+	days.id,
+	sum(days.ar01Count) AS ar01Count,
+	SUM(days.ar02Count) AS ar02Count,
+	SUM(days.ar03Count) AS ar03Count,
+	days.miiCustId,
+	days.miiProjId,
+	days.miiUserId,
+	pro.projName,
+	cust.custName,
+	users.realName
+	FROM
+		ql_dayTemporaryRecep days
+	JOIN ql_Project pro ON `days`.miiProjId = pro.id
+	LEFT JOIN ql_Customer cust ON `days`.miiCustId = cust.id
+	LEFT JOIN plat_User users ON `days`.miiUserId = users.id
+	WHERE
+	days.miiCustId IS NOT NULL
+	AND days.miiProjId IS NOT NULL
+	AND days.miiUserId IS NOT NULL
+	<if test="dateEnd == null" >
+		AND days.dayStr=#{dateBegin}
+	</if>	
+	<if test="dateEnd != null" >
+		AND days.dayStr BETWEEN #{dateBegin}
+		AND #{dateEnd}
+	</if>	
+	<if test="custId != null" >
+		AND INSTR(#{custId}, days.miiCustId)
+	</if>
+	<if test="projId != null" >
+		AND INSTR(#{projId}, days.miiProjId)
+	</if>
+	<if test="userId != null" >
+		AND INSTR(#{userId}, days.miiUserId)
+	</if>
+	GROUP BY
+	users.realName
+  </select>
+  
+  
+  <delete id="deleteAll" >
+    delete from ql_dayTemporaryRecep
+  </delete>
   
   
 </mapper>

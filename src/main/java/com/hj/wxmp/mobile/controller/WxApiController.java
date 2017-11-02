@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hj.utils.DateTimeUtil;
 import com.hj.utils.JsonUtils;
 import com.hj.utils.MD5Utils;
 import com.hj.wxmp.core.WxUser;
@@ -500,17 +501,17 @@ public class WxApiController extends ControllerBaseWx {
 				dayTemporaryRecep.setMiiuserid(userid);
 				dayTemporaryRecep.setMiicustid(custid);
 				//项目首访数量
-				int projNmb = 0;
+				int projNmb = 1;
 				//用户首访数量
-				int userNmb = 0;
+				int userNmb = 1;
 				//客户首访数量
-				int custNmb = 0;
+				int custNmb = 1;
 				//项目用户首访数量
-				int projUserNmb = 0;
+				int projUserNmb = 1;
 				//项目客户数量
-				int projCustNmb = 0;
+				int projCustNmb = 1;
 				//项目用户客户首访数量
-				int projUserCustNmb = 0;
+				int projUserCustNmb = 1;
 				//查项目
 				List<DayTemporaryRecep> dayTemporaryRecepProjs = dayTemporaryRecepService.selectByProj(dayTemporaryRecep);
 				if(dayTemporaryRecepProjs!=null){
@@ -544,36 +545,51 @@ public class WxApiController extends ControllerBaseWx {
 						projUserNmb = ar01count+1;
 					}
 				}
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				//今天
+				String today = format.format(new Date());
 				//添加项目
 				DayTemporaryRecep dayRecepProj = new DayTemporaryRecep();
+				dayRecepProj.setDaystr(today);
+				dayRecepProj.setId(key.getUUIDKey());
 				dayRecepProj.setMiiprojid(projid);
 				dayRecepProj.setAr01count(projNmb);
 				dayTemporaryRecepService.insert(dayRecepProj);
 				//添加用户
 				DayTemporaryRecep dayRecepUser = new DayTemporaryRecep();
+				dayRecepUser.setDaystr(today);
+				dayRecepUser.setId(key.getUUIDKey());
 				dayRecepUser.setMiiuserid(userid);
 				dayRecepUser.setAr01count(userNmb);
 				dayTemporaryRecepService.insert(dayRecepUser);
 				//添加客户
 				DayTemporaryRecep dayRecepCust = new DayTemporaryRecep();
+				dayRecepCust.setDaystr(today);
+				dayRecepCust.setId(key.getUUIDKey());
 				dayRecepCust.setMiicustid(custid);
 				dayRecepCust.setAr01count(custNmb);
 				dayTemporaryRecepService.insert(dayRecepCust);
 				//添加项目用户
 				DayTemporaryRecep dayRecepProjAndUser = new DayTemporaryRecep();
+				dayRecepProjAndUser.setDaystr(today);
+				dayRecepProjAndUser.setId(key.getUUIDKey());
 				dayRecepProjAndUser.setMiiprojid(projid);
 				dayRecepProjAndUser.setMiiuserid(userid);
 				dayRecepProjAndUser.setAr01count(projUserNmb);
 				dayTemporaryRecepService.insert(dayRecepProjAndUser);
 				//添加项目客户
 				DayTemporaryRecep dayRecepProjAndCust = new DayTemporaryRecep();
+				dayRecepProjAndCust.setDaystr(today);
+				dayRecepProjAndCust.setId(key.getUUIDKey());
 				dayRecepProjAndCust.setMiiprojid(projid);
 				dayRecepProjAndCust.setMiicustid(custid);
 				dayRecepProjAndCust.setAr01count(projCustNmb);
 				dayTemporaryRecepService.insert(dayRecepProjAndCust);
 				//添加项目用户客户
 				DayTemporaryRecep dayRecepProjAndUserAndCusts = new DayTemporaryRecep();
-				dayRecepProjAndUserAndCusts.setMiicustid(projid);
+				dayRecepProjAndUserAndCusts.setDaystr(today);
+				dayRecepProjAndUserAndCusts.setId(key.getUUIDKey());
+				dayRecepProjAndUserAndCusts.setMiiprojid(projid);
 				dayRecepProjAndUserAndCusts.setMiiuserid(userid);
 				dayRecepProjAndUserAndCusts.setMiicustid(custid);
 				dayRecepProjAndUserAndCusts.setAr01count(projUserCustNmb);
@@ -2000,17 +2016,17 @@ public class WxApiController extends ControllerBaseWx {
 				dayTemporaryRecep.setMiiuserid(userid);
 				dayTemporaryRecep.setMiicustid(custid);
 				//项目首访数量
-				int projNmb = 0;
+				int projNmb = 1;
 				//用户首访数量
-				int userNmb = 0;
+				int userNmb = 1;
 				//客户首访数量
-				int custNmb = 0;
+				int custNmb = 1;
 				//项目用户首访数量
-				int projUserNmb = 0;
+				int projUserNmb = 1;
 				//项目客户数量
-				int projCustNmb = 0;
+				int projCustNmb = 1;
 				//项目用户客户首访数量
-				int projUserCustNmb = 0;
+				int projUserCustNmb = 1;
 				//查项目
 				List<DayTemporaryRecep> dayTemporaryRecepProjs = dayTemporaryRecepService.selectByProj(dayTemporaryRecep);
 				if(dayTemporaryRecepProjs!=null){
@@ -2041,6 +2057,7 @@ public class WxApiController extends ControllerBaseWx {
 						//更新+1
 						dayTemporaryRecepCust.setAr03count(ar03count+1);
 						dayTemporaryRecepService.update(dayTemporaryRecepCust);
+						custNmb = ar03count + 1;
 					}
 				}
 				//查项目用户
@@ -2062,6 +2079,7 @@ public class WxApiController extends ControllerBaseWx {
 						//更新+1
 						dayTemporaryRecepProjAndCust.setAr03count(ar03count+1);
 						dayTemporaryRecepService.update(dayTemporaryRecepProjAndCust);
+						projCustNmb = ar03count + 1;
 					}
 				}
 				//查项目用户客户
@@ -2072,39 +2090,55 @@ public class WxApiController extends ControllerBaseWx {
 						//更新+1
 						dayTemporaryRecepProjAndUserAndCust.setAr03count(ar03count+1);
 						dayTemporaryRecepService.update(dayTemporaryRecepProjAndUserAndCust);
+						projUserCustNmb = ar03count + 1;
 					}
 				}
 				if(dayTemporaryRecepCusts==null){
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					//今天
+					String today = format.format(new Date());
 					//添加项目
 					DayTemporaryRecep dayRecepProj = new DayTemporaryRecep();
+					dayRecepProj.setDaystr(today);
+					dayRecepProj.setId(key.getUUIDKey());
 					dayRecepProj.setMiiprojid(projid);
 					dayRecepProj.setAr03count(projNmb);
 					dayTemporaryRecepService.insert(dayRecepProj);
 					//添加用户
 					DayTemporaryRecep dayRecepUser = new DayTemporaryRecep();
+					dayRecepUser.setDaystr(today);
+					dayRecepUser.setId(key.getUUIDKey());
 					dayRecepUser.setMiiuserid(userid);
 					dayRecepUser.setAr03count(userNmb);
 					dayTemporaryRecepService.insert(dayRecepUser);
 					//添加客户
 					DayTemporaryRecep dayRecepCust = new DayTemporaryRecep();
+					dayRecepCust.setDaystr(today);
+					dayRecepCust.setId(key.getUUIDKey());
 					dayRecepCust.setMiicustid(custid);
 					dayRecepCust.setAr03count(custNmb);
 					dayTemporaryRecepService.insert(dayRecepCust);
 					//添加项目用户
 					DayTemporaryRecep dayRecepProjAndUser = new DayTemporaryRecep();
+					dayRecepProjAndUser.setDaystr(today);
+					dayRecepProjAndUser.setId(key.getUUIDKey());
 					dayRecepProjAndUser.setMiiprojid(projid);
 					dayRecepProjAndUser.setMiiuserid(userid);
 					dayRecepProjAndUser.setAr03count(projUserNmb);
 					dayTemporaryRecepService.insert(dayRecepProjAndUser);
 					//添加项目客户
 					DayTemporaryRecep dayRecepProjAndCust = new DayTemporaryRecep();
+					dayRecepProjAndCust.setDaystr(today);
+					dayRecepProjAndCust.setId(key.getUUIDKey());
 					dayRecepProjAndCust.setMiiprojid(projid);
 					dayRecepProjAndCust.setMiicustid(custid);
 					dayRecepProjAndCust.setAr03count(projCustNmb);
 					dayTemporaryRecepService.insert(dayRecepProjAndCust);
 					//添加项目用户客户
 					DayTemporaryRecep dayRecepProjAndUserAndCusts = new DayTemporaryRecep();
-					dayRecepProjAndUserAndCusts.setMiicustid(projid);
+					dayRecepProjAndUserAndCusts.setDaystr(today);
+					dayRecepProjAndUserAndCusts.setId(key.getUUIDKey());
+					dayRecepProjAndUserAndCusts.setMiiprojid(projid);
 					dayRecepProjAndUserAndCusts.setMiiuserid(userid);
 					dayRecepProjAndUserAndCusts.setMiicustid(custid);
 					dayRecepProjAndUserAndCusts.setAr03count(projUserCustNmb);
@@ -3199,7 +3233,15 @@ public class WxApiController extends ControllerBaseWx {
 		    	results="cust";
 		    }
 			result.put("custId", custs);
+			//正式数据
 			List<Map<String,Object>> arCountDatas = dayRecepService.selectByTimeAnd(result);
+			//每天的临时数据
+			List<Map<String,Object>> dayTemporaryReceps = dayTemporaryRecepService.selectByTimeAnd(result);
+			if(dayTemporaryReceps!=null){
+				for(Map<String,Object>dayTemporaryRecep : dayTemporaryReceps){
+					arCountDatas.add(dayTemporaryRecep);
+				}
+			}
 			if(results==null){
 				datas = arCountDatas;
 			}else{

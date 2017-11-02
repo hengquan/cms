@@ -18,6 +18,7 @@ import com.hj.wxmp.mobile.services.AccessRecord02Service;
 import com.hj.wxmp.mobile.services.AccessRecord03Service;
 import com.hj.wxmp.mobile.services.CustomerService;
 import com.hj.wxmp.mobile.services.DayRecepService;
+import com.hj.wxmp.mobile.services.DayTemporaryRecepService;
 import com.hj.wxmp.mobile.services.IKeyGen;
 import com.hj.wxmp.mobile.services.ProjCustRefService;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
@@ -52,6 +53,8 @@ public class DoQuarzt {
 	DayRecepService dayRecepService;
 	@Resource
 	IKeyGen key;
+    @Autowired
+    DayTemporaryRecepService dayTemporaryRecepService;
 	
 	
 	public void doWork() {
@@ -71,6 +74,9 @@ public class DoQuarzt {
 			String yesterdayBeFor = format.format(DateTimeUtil.getdate(-3));
 			ManyStatistics x03=new ManyStatistics(yesterdayBeFor,2);
 			x03.start();
+			
+			//清空临时数据表
+			dayTemporaryRecepService.deleteAll();
 		} catch (Exception e) {
 			logger.error(e.toString());
 			e.printStackTrace();

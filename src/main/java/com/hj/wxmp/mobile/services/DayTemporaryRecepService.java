@@ -62,6 +62,10 @@ public interface DayTemporaryRecepService {
 	public List<DayTemporaryRecep> selectByprojAndCust(DayTemporaryRecep dayTemporaryRecep);
 
 	public List<DayTemporaryRecep> selectByprojAndUserAndCust(DayTemporaryRecep dayTemporaryRecep);
+
+	public List<Map<String, Object>> selectByTimeAnd(Map<String, Object> result);
+
+	public void deleteAll();
 	
 
 
