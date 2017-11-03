@@ -10,8 +10,18 @@ public class AccessRecord01 {
     private String custid;
 
     private String custname;
+    
+    private String custaddress;
 
-    private String custphonenum;
+    public String getCustaddress() {
+		return custaddress;
+	}
+
+	public void setCustaddress(String custaddress) {
+		this.custaddress = custaddress;
+	}
+
+	private String custphonenum;
 
     private Date firstknowtime;
 

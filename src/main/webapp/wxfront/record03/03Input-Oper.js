@@ -4,6 +4,7 @@ var _uUserId="";
 var _uUserName="";
 var _uUserRole="";
 var _uSex="";
+var _uBuyerSex="";
 var _uHouseRegiType="";
 var _uPaymentType="";
 var _uPaymentTypeDesc="";
@@ -43,6 +44,7 @@ function selUser() {
       if (oldUserId!=_uUserId) {
         custId="";
         $("input[name='buyerName']").val("");
+        $("input[name='buyerPhone']").val("");
         $("input[name='custName']").val("");
         $("input[name='custPhone']").val("");
       }
@@ -74,6 +76,7 @@ var vueStep1=new Vue({
       fillSelectField('user', "", false);
       custId="";
       $("input[name='buyerName']").val("");
+      $("input[name='buyerPhone']").val("");
       $("input[name='custName']").val("");
       $("input[name='custPhone']").val("");
     },
@@ -93,6 +96,23 @@ var vueStep1=new Vue({
       _uSex="";
       $("#cleanSexBtn").hide();
       fillSelectField('sex', "", false);
+    },
+    selBuyerSex: function() {
+      var choose=document.getElementsByName('buyerSex');
+      for (var i=0; i<choose.length; i++) {
+        if (choose[i].checked) {
+          $("#buyerSex").html(choose[i].getAttribute("_text"));
+          _uBuyerSex=choose[i].value;
+        }
+      }
+      $("#buyerSexModal").modal('hide');
+      if (_uBuyerSex!="") $("#cleanBuyerSexBtn").show();
+    },
+    cleanBuyerSex: function() {
+      $("#buyerSex").html("&nbsp;");
+      _uBuyerSex="";
+      $("#cleanBuyerSexBtn").hide();
+      fillSelectField('buyerSex', "", false);
     },
     selHouseRegiType: function() {
       var choose=document.getElementsByName('houseRegiType');

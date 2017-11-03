@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hj.wxmp.mobile.mapping.DayTemporaryRecepMapper" >
+  <resultMap id="BaseResultMap" type="com.hj.wxmp.mobile.entity.DayTemporaryRecep" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="dayStr" property="daystr" jdbcType="VARCHAR" />
+    <result column="miiProjId" property="miiprojid" jdbcType="VARCHAR" />
+    <result column="miiUserId" property="miiuserid" jdbcType="VARCHAR" />
+    <result column="miiCustId" property="miicustid" jdbcType="VARCHAR" />
+    <result column="ar01Count" property="ar01count" jdbcType="INTEGER" />
+    <result column="ar02Count" property="ar02count" jdbcType="INTEGER" />
+    <result column="ar03Count" property="ar03count" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dayStr, miiProjId, miiUserId, miiCustId, ar01Count, ar02Count, ar03Count
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_dayTemporaryRecep
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ql_dayTemporaryRecep
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hj.wxmp.mobile.entity.DayTemporaryRecep" >
+    insert into ql_dayTemporaryRecep (id, dayStr, miiProjId, 
+      miiUserId, miiCustId, ar01Count, 
+      ar02Count, ar03Count)
+    values (#{id,jdbcType=VARCHAR}, #{daystr,jdbcType=VARCHAR}, #{miiprojid,jdbcType=VARCHAR}, 
+      #{miiuserid,jdbcType=VARCHAR}, #{miicustid,jdbcType=VARCHAR}, #{ar01count,jdbcType=INTEGER}, 
+      #{ar02count,jdbcType=INTEGER}, #{ar03count,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hj.wxmp.mobile.entity.DayTemporaryRecep" >
+    insert into ql_dayTemporaryRecep
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="daystr != null" >
+        dayStr,
+      </if>
+      <if test="miiprojid != null" >
+        miiProjId,
+      </if>
+      <if test="miiuserid != null" >
+        miiUserId,
+      </if>
+      <if test="miicustid != null" >
+        miiCustId,
+      </if>
+      <if test="ar01count != null" >
+        ar01Count,
+      </if>
+      <if test="ar02count != null" >
+        ar02Count,
+      </if>
+      <if test="ar03count != null" >
+        ar03Count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="daystr != null" >
+        #{daystr,jdbcType=VARCHAR},
+      </if>
+      <if test="miiprojid != null" >
+        #{miiprojid,jdbcType=VARCHAR},
+      </if>
+      <if test="miiuserid != null" >
+        #{miiuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="miicustid != null" >
+        #{miicustid,jdbcType=VARCHAR},
+      </if>
+      <if test="ar01count != null" >
+        #{ar01count,jdbcType=INTEGER},
+      </if>
+      <if test="ar02count != null" >
+        #{ar02count,jdbcType=INTEGER},
+      </if>
+      <if test="ar03count != null" >
+        #{ar03count,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.DayTemporaryRecep" >
+    update ql_dayTemporaryRecep
+    <set >
+      <if test="daystr != null" >
+        dayStr = #{daystr,jdbcType=VARCHAR},
+      </if>
+      <if test="miiprojid != null" >
+        miiProjId = #{miiprojid,jdbcType=VARCHAR},
+      </if>
+      <if test="miiuserid != null" >
+        miiUserId = #{miiuserid,jdbcType=VARCHAR},
+      </if>
+      <if test="miicustid != null" >
+        miiCustId = #{miicustid,jdbcType=VARCHAR},
+      </if>
+      <if test="ar01count != null" >
+        ar01Count = #{ar01count,jdbcType=INTEGER},
+      </if>
+      <if test="ar02count != null" >
+        ar02Count = #{ar02count,jdbcType=INTEGER},
+      </if>
+      <if test="ar03count != null" >
+        ar03Count = #{ar03count,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hj.wxmp.mobile.entity.DayTemporaryRecep" >
+    update ql_dayTemporaryRecep
+    set dayStr = #{daystr,jdbcType=VARCHAR},
+      miiProjId = #{miiprojid,jdbcType=VARCHAR},
+      miiUserId = #{miiuserid,jdbcType=VARCHAR},
+      miiCustId = #{miicustid,jdbcType=VARCHAR},
+      ar01Count = #{ar01count,jdbcType=INTEGER},
+      ar02Count = #{ar02count,jdbcType=INTEGER},
+      ar03Count = #{ar03count,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+
+  
+  <!-- 查项目 -->
+  <select id="selectByProj" resultMap="BaseResultMap" parameterType="com.hj.wxmp.mobile.entity.DayTemporaryRecep" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_dayTemporaryRecep
+    where miiProjId = #{miiprojid,jdbcType=VARCHAR}
+    and miiUserId is null
+    and miiCustId is null
+  </select>
+  
+  <!-- 查用户 -->
+  <select id="selectByUser" resultMap="BaseResultMap" parameterType="com.hj.wxmp.mobile.entity.DayTemporaryRecep" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_dayTemporaryRecep
+    where miiProjId is null
+    and miiUserId = #{miiuserid,jdbcType=VARCHAR}
+    and miiCustId is null
+  </select>
+  
+  <!-- 查客户 -->
+  <select id="selectByCust" resultMap="BaseResultMap" parameterType="com.hj.wxmp.mobile.entity.DayTemporaryRecep" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_dayTemporaryRecep
+    where miiProjId is null
+    and miiUserId is null
+    and miiCustId = #{miicustid,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 查项目用户 -->
+  <select id="selectByProjAndUser" resultMap="BaseResultMap" parameterType="com.hj.wxmp.mobile.entity.DayTemporaryRecep" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_dayTemporaryRecep
+    where miiProjId = #{miiprojid,jdbcType=VARCHAR}
+    and miiUserId = #{miiuserid,jdbcType=VARCHAR}
+    and miiCustId is null
+  </select>
+  
+  <!-- 查项目客户 -->
+  <select id="selectByprojAndCust" resultMap="BaseResultMap" parameterType="com.hj.wxmp.mobile.entity.DayTemporaryRecep" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_dayTemporaryRecep
+    where miiProjId = #{miiprojid,jdbcType=VARCHAR}
+    and miiUserId is null
+    and miiCustId = #{miicustid,jdbcType=VARCHAR}
+  </select> 
+  
+  <!-- 查项目用户客户 -->
+  <select id="selectByprojAndUserAndCust" resultMap="BaseResultMap" parameterType="com.hj.wxmp.mobile.entity.DayTemporaryRecep" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_dayTemporaryRecep
+    where miiProjId = #{miiprojid,jdbcType=VARCHAR}
+    and miiUserId = #{miiuserid,jdbcType=VARCHAR}
+    and miiCustId = #{miicustid,jdbcType=VARCHAR}
+  </select> 
+  
+  
+  
+  
+  <select id="selectByTimeAnd" resultType="java.util.Map" parameterType="java.util.Map">
+	SELECT DISTINCT 
+	days.id,
+	sum(days.ar01Count) AS ar01Count,
+	SUM(days.ar02Count) AS ar02Count,
+	SUM(days.ar03Count) AS ar03Count,
+	days.miiCustId,
+	days.miiProjId,
+	days.miiUserId,
+	pro.projName,
+	cust.custName,
+	users.realName
+	FROM
+		ql_dayTemporaryRecep days
+	JOIN ql_Project pro ON `days`.miiProjId = pro.id
+	LEFT JOIN ql_Customer cust ON `days`.miiCustId = cust.id
+	LEFT JOIN plat_User users ON `days`.miiUserId = users.id
+	WHERE
+	days.miiCustId IS NOT NULL
+	AND days.miiProjId IS NOT NULL
+	AND days.miiUserId IS NOT NULL
+	<if test="dateEnd == null" >
+		AND days.dayStr=#{dateBegin}
+	</if>	
+	<if test="dateEnd != null" >
+		AND days.dayStr BETWEEN #{dateBegin}
+		AND #{dateEnd}
+	</if>	
+	<if test="custId != null" >
+		AND INSTR(#{custId}, days.miiCustId)
+	</if>
+	<if test="projId != null" >
+		AND INSTR(#{projId}, days.miiProjId)
+	</if>
+	<if test="userId != null" >
+		AND INSTR(#{userId}, days.miiUserId)
+	</if>
+	GROUP BY
+	users.realName
+  </select>
+  
+  
+  <delete id="deleteAll" >
+    delete from ql_dayTemporaryRecep
+  </delete>
+  
+  
+</mapper>
