@@ -100,18 +100,11 @@
     </div>
   </div>
   <div class="item_sflr row">
-    <div class="col-title col-title-2">电话</div>
+    <div class="col-title col-title-4">客户电话</div>
     <div class="col-input">
       <input type="number" placeholder="" name="custPhone"/>
     </div>
   </div>
-   <div class="item_sflr row">
-    <div class="col-title col-title-7">房屋买受人姓名</div>
-    <div class="col-input-7">
-      <input type="text" placeholder="" name="buyerName"/>
-    </div>
-  </div>
- 
   <a href="" data-toggle="modal" onClick="openSelCust()"><div class="customers">选择<br>客户</div></a> 
   </div>
   <div class="modal fade" id="selectCustomersModal" role="dialog">
@@ -135,7 +128,7 @@
     </div>
   </div>  
   <div class="item_sflr row">
-    <div class="col-title col-title-2">性别</div>
+    <div class="col-title col-title-4">客户性别</div>
     <a href="" data-toggle="modal" data-target="#sexModal">
       <div class="col-input-1">
         <span class="input_style form-group" id="sex">&nbsp;</span>
@@ -147,7 +140,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-          <h4 class="modal-title">性别</h4>
+          <h4 class="modal-title">客户性别</h4>
         </div>
         <div class="modal-body">
           <label><input type="radio" name="sex" value="002001-男" _text="男" @click="selSex()"/> 男 </label>
@@ -156,6 +149,44 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
           <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanSex()" id="cleanSexBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-7">买受人姓名</div>
+    <div class="col-input-7">
+      <input type="text" placeholder="" name="buyerName"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-7">买受人电话</div>
+    <div class="col-input-7">
+      <input type="number" placeholder="" name="buyerPhone"/>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-7">买受人性别</div>
+    <a href="" data-toggle="modal" data-target="#buyerSexModal">
+      <div class="col-input-1">
+        <span class="input_style form-group" id="buyerSex">&nbsp;</span>
+      </div>
+    </a>
+  </div>
+  <div class="modal fade" id="buyerSexModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">买受人性别</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="buyerSex" value="002001-男" _text="男" @click="selBuyerSex()"/> 男 </label>
+          <label><input type="radio" name="buyerSex" value="002001-女" _text="女" @click="selBuyerSex()"/> 女 </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanBuyerSex()" id="cleanBuyerSexBtn" style="display:none;">清除并关闭</button>
         </div>
       </div>
     </div>
