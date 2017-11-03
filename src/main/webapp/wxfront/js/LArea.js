@@ -68,7 +68,8 @@ window.LArea = (function() {
                 _self.gearArea.innerHTML = '<div class="area_ctrl slideInUp">' +
                     '<div class="area_btn_box">' +
                     '<div class="area_btn larea_cancel">取消</div>' +
-                    '<div class="area_btn larea_finish">确定</div>' +
+                    '<div class="area_btn larea_clear">清除</div>' +
+                    '<div class="area_btn larea_finish" style="float:right;">确定</div>' +
                     '</div>' +
                     '<div class="area_roll_mask">' +
                     '<div class="area_roll">' +
@@ -95,6 +96,10 @@ window.LArea = (function() {
                 var larea_cancel = _self.gearArea.querySelector(".larea_cancel");
                 larea_cancel.addEventListener('touchstart', function(e) {
                     _self.close(e);
+                });
+                var larea_clear = _self.gearArea.querySelector(".larea_clear");
+                larea_clear.addEventListener('touchstart', function(e) {
+                    _self.clear(e);
                 });
                 var larea_finish = _self.gearArea.querySelector(".larea_finish");
                 larea_finish.addEventListener('touchstart', function(e) {
@@ -350,6 +355,13 @@ window.LArea = (function() {
             _self.trigger.dispatchEvent(evt);
             document.body.removeChild(_self.gearArea);
             _self.gearArea=null;
+        },
+        clear: function(e) {
+        	this.trigger.value="";
+        	this.valueTo.value="";
+        
+        	
+        	this.close(e);
         }
     }
     return MobileArea;

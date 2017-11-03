@@ -100,7 +100,7 @@ public interface UserCustRefService {
 
 	public Integer selectByUserMessgeCount(Map<String, Object> map);
 
-	public void updateByProjIdAndCustId(Map<String, Object> parmeterMap);
+	public Integer updateByProjIdAndCustId(Map<String, Object> parmeterMap);
 
 	public List<Map<String, Object>> downloadExcel(Map<String, Object> map);
 
@@ -113,5 +113,7 @@ public interface UserCustRefService {
 	public Integer selectBySpecialUserMessgeCount(Map<String, Object> map);
 
 	public UserCustRef selectByData(Map<String, Object> data);
+
+	public List<UserCustRef> selectByProjIdAndCustId(Map<String, Object> parmeterMap);
 
 }

@@ -474,6 +474,7 @@
 			$('#quxiao').click();
 			return false;
 		} 
+		
 		//调用接口
 		$.ajax({
 			type:'post',

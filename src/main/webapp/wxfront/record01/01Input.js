@@ -1215,7 +1215,9 @@ function initData() {
        }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
       'type': 1, //数据源类型
       'data': localArea.data.children//数据源
+    
     });
+    
     var localWorkArea=new LArea();
     localWorkArea.init({
       'trigger': '#localWorkAreaId', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
@@ -1428,7 +1430,7 @@ function step1Next() {//要判断是否应该进行首访录入
   if ($.trim($("#localRedisId").val())) {
     id=$("#localRedisVal").val();
     _uLocalResidence=$.trim(id.substr(id.lastIndexOf(",")+1))+"-"+($.trim($("#localRedisId").val())).replace(/,/g,"，");
-    //alert(_uLocalResidence);
+ 
   }
   if ($.trim($("#localWorkAreaId").val())) {
     id=$("#localWorkAreaVal").val();

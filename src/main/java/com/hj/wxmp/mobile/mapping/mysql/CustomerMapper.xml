@@ -58,6 +58,7 @@
     <result column="houseRegiType" property="houseregitype" jdbcType="VARCHAR" />
     <result column="custScore" property="custscore" jdbcType="VARCHAR" />
     <result column="livingStatus" property="livingstatus" jdbcType="VARCHAR" />
+    <result column="custAddress" property="custaddress" jdbcType="VARCHAR" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -82,7 +83,7 @@
     enterpriseAddress, enterprisePost, loanStatus, fulltimeWifeFlag, outEduWill, nannyFlag, 
     outExperFlag, outExperCity, childOutExperFlag, childOutExperCity, petFlag, houseCount, 
     carFamilyCount, carBrand, carTotalPrice, attentWX, appNames, avocations, loveActivation, 
-    freeTimeSection, addressMail, houseRegiType, custScore, livingStatus, cTime, lmTime
+    freeTimeSection, addressMail, houseRegiType, custScore, livingStatus, cTime, lmTime,custAddress
   </sql>
   <sql id="Blob_Column_List" >
     trafficTypeDesc, workIndustryDesc, enterpriseTypeDesc, realtyProductTypeDesc, buyPurposeDesc, 
@@ -357,6 +358,9 @@
       <if test="housetypedesc != null" >
         houseTypeDesc,
       </if>
+      <if test="custaddress != null" >
+        custAddress,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -563,6 +567,9 @@
       <if test="housetypedesc != null" >
         #{housetypedesc,jdbcType=LONGVARCHAR},
       </if>
+      <if test="custaddress != null" >
+        #{custaddress,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.Customer" >
@@ -768,6 +775,9 @@
       </if>
       <if test="housetypedesc != null" >
         houseTypeDesc = #{housetypedesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="custaddress != null" >
+        custAddress = #{custaddress,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}

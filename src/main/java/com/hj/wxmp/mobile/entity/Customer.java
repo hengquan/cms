@@ -12,8 +12,18 @@ public class Customer {
     private String custsex;
 
     private String agegroup;
+    
+    private String custaddress;
 
-    private String buyqualify;
+    public String getCustaddress() {
+		return custaddress;
+	}
+
+	public void setCustaddress(String custaddress) {
+		this.custaddress = custaddress;
+	}
+
+	private String buyqualify;
 
     private String localresidence;
 

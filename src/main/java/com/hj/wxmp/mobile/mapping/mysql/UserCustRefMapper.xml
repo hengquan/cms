@@ -230,6 +230,7 @@
     <!-- 查询特殊用户客户信息 -->
   <select id="selectBySpecialUserMessge" resultType="java.util.Map" parameterType="java.util.Map">
 	SELECT
+		qa1.id,
 		qc.custName,
 		qc.phoneNum,
 		qc.custSex,
@@ -313,11 +314,18 @@
   
   
   
-  <update id="updateByProjIdAndCustId" parameterType="java.util.Map">
+  <update id="updateByProjIdAndCustId" parameterType="java.util.Map"> 
   	update ql_UserCust_Ref set userId=#{userId} where projId=#{projId} and instr(#{custId},custId)
   </update>
   
   
+  
+  <select id="selectByProjIdAndCustId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from ql_UserCust_Ref
+    where projId=#{projId} and instr(#{custId},custId)
+  </select>
   
   <!-- 导出excel用户信息 -->
   <select id="downloadExcel" resultType="java.util.Map" parameterType="java.util.Map">

@@ -85,8 +85,8 @@ public class UserCustRefServiceImpl implements UserCustRefService {
 		return dao.selectByUserMessgeCount(map);
 	}
 	@Override
-	public void updateByProjIdAndCustId(Map<String, Object> parmeterMap) {
-		dao.updateByProjIdAndCustId(parmeterMap);
+	public Integer updateByProjIdAndCustId(Map<String, Object> parmeterMap) {
+		return dao.updateByProjIdAndCustId(parmeterMap);
 	}
 	@Override
 	public List<Map<String, Object>> downloadExcel(Map<String, Object> map) {
@@ -111,6 +111,10 @@ public class UserCustRefServiceImpl implements UserCustRefService {
 	@Override
 	public UserCustRef selectByData(Map<String, Object> data) {
 		return dao.selectByData(data);
+	}
+	@Override
+	public List<UserCustRef> selectByProjIdAndCustId(Map<String, Object> parmeterMap) {
+		return dao.selectByProjIdAndCustId(parmeterMap);
 	}
 
 	

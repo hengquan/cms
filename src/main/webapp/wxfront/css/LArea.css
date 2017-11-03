@@ -1,9 +1,9 @@
 /**
- * LArea移动端城市选择控件
+ * LArea绉诲姩绔煄甯傞�夋嫨鎺т欢
  * 
  * version:1.7.2
  * 
- * author:黄磊
+ * author:榛勭
  * 
  * git:https://github.com/xfhxbb/LArea
  * 
@@ -11,7 +11,7 @@
  * 
  * Licensed under MIT
  * 
- * 最近修改于： 2016-6-12 16:47:41
+ * 鏈�杩戜慨鏀逛簬锛� 2016-6-12 16:47:41
  */
 .gearArea {
     font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -133,7 +133,8 @@
     font-size: 1.6em;
     line-height: 1em;
     text-align: center;
-    padding: .8em 1em
+    padding: .8em 1em;
+    float:left;
 }
 
 .area_btn_box:before,
@@ -150,10 +151,10 @@
 }
 
 .area_btn_box {
-    display: -webkit-box;
+    /* display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
-    display: flex;
+    display: flex; */
     -webkit-box-pack:justify;
     -webkit-justify-content:space-between;
         -ms-flex-pack:justify;
@@ -163,7 +164,8 @@
         -ms-flex-align: stretch;
             align-items: stretch;
     background-color: #f1f2f4;
-    position: relative
+    position: relative;
+    overflow:hidden;
 }
 
 .area_btn_box:before {

@@ -33,6 +33,7 @@
     <result column="custScore" property="custscore" jdbcType="VARCHAR" />
     <result column="authorId" property="authorid" jdbcType="VARCHAR" />
     <result column="creatorId" property="creatorid" jdbcType="VARCHAR" />
+    <result column="custAddress" property="custaddress" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
@@ -54,7 +55,7 @@
     localResidence, localWorkArea, outResidence, outWorkArea, familyStatus, trafficType, 
     workIndustry, enterpriseType, realtyProductType, attentAcreage, priceSection, buyPurpose, 
     knowWay, attentionPoint, estCustWorth, investType, capitalPrepSection, compareProjs, 
-    recepTimeSection, custScore, authorId, creatorId, status, cTime, lmTime,recepTime
+    recepTimeSection, custScore, authorId, creatorId, status, cTime, lmTime,recepTime,custAddress
   </sql>
   <sql id="Blob_Column_List" >
     trafficTypeDesc, workIndustryDesc, enterpriseTypeDesc, realtyProductTypeDesc, buyPurposeDesc, 
@@ -239,6 +240,9 @@
       <if test="receptime != null" >
         recepTime,
       </if>
+      <if test="custaddress != null" >
+        custAddress,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -373,6 +377,9 @@
       <if test="receptime != null" >
         #{receptime,jdbcType=TIMESTAMP},
       </if>
+      <if test="custaddress != null" >
+        #{custaddress,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.AccessRecord01" >
@@ -506,6 +513,9 @@
       </if>
       <if test="receptime != null" >
         recepTime = #{receptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="custaddress != null" >
+        custAddress = #{custaddress,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}

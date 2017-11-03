@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hj.utils.DateTimeUtil;
 import com.hj.utils.JsonUtils;
 import com.hj.utils.MD5Utils;
 import com.hj.wxmp.core.WxUser;
@@ -38,6 +39,7 @@ import com.hj.wxmp.mobile.entity.AccessRecord03;
 import com.hj.wxmp.mobile.entity.AuditRecord;
 import com.hj.wxmp.mobile.entity.Customer;
 import com.hj.wxmp.mobile.entity.CustomerProjs;
+import com.hj.wxmp.mobile.entity.DayTemporaryRecep;
 import com.hj.wxmp.mobile.entity.ProjCustRef;
 import com.hj.wxmp.mobile.entity.ProjUserRole;
 import com.hj.wxmp.mobile.entity.Project;
@@ -52,6 +54,7 @@ import com.hj.wxmp.mobile.services.AccessRecord03Service;
 import com.hj.wxmp.mobile.services.AuditRecordService;
 import com.hj.wxmp.mobile.services.CustomerService;
 import com.hj.wxmp.mobile.services.DayRecepService;
+import com.hj.wxmp.mobile.services.DayTemporaryRecepService;
 import com.hj.wxmp.mobile.services.IKeyGen;
 import com.hj.wxmp.mobile.services.ProjCustRefService;
 import com.hj.wxmp.mobile.services.ProjUserRoleService;
@@ -116,6 +119,8 @@ public class WxApiController extends ControllerBaseWx {
 	AuditRecordService auditRecordService;
     @Autowired
 	DictService dictService;
+    @Autowired
+    DayTemporaryRecepService dayTemporaryRecepService;
 
 	public UserInfo getCurrentUser() {
 		UserInfo user = hashSession.getCurrentSessionUser(request);
@@ -482,7 +487,114 @@ public class WxApiController extends ControllerBaseWx {
 			}
 			//扫描一次，处理本表，处理客户表，处理客户项目关系表，处理字典表；
 			Object[] resultObjs=scan(record01,0);
-			if (accessRecord01Service.insert((AccessRecord01)resultObjs[0])) {
+			AccessRecord01 accessRecord01 = (AccessRecord01)resultObjs[0];
+			if (accessRecord01Service.insert(accessRecord01)) {
+				//项目ID
+				String projid = accessRecord01.getProjid();
+				//用户ID
+				String userid = accessRecord01.getAuthorid();
+				//客户ID
+				String custid = accessRecord01.getCustid();
+				//每天临时数据统计表
+				DayTemporaryRecep dayTemporaryRecep = new DayTemporaryRecep();
+				dayTemporaryRecep.setMiiprojid(projid);
+				dayTemporaryRecep.setMiiuserid(userid);
+				dayTemporaryRecep.setMiicustid(custid);
+				//项目首访数量
+				int projNmb = 1;
+				//用户首访数量
+				int userNmb = 1;
+				//客户首访数量
+				int custNmb = 1;
+				//项目用户首访数量
+				int projUserNmb = 1;
+				//项目客户数量
+				int projCustNmb = 1;
+				//项目用户客户首访数量
+				int projUserCustNmb = 1;
+				//查项目
+				List<DayTemporaryRecep> dayTemporaryRecepProjs = dayTemporaryRecepService.selectByProj(dayTemporaryRecep);
+				if(dayTemporaryRecepProjs!=null){
+					for(DayTemporaryRecep dayTemporaryRecepProj : dayTemporaryRecepProjs){
+						Integer ar01count = dayTemporaryRecepProj.getAr01count();
+						//更新+1
+						dayTemporaryRecepProj.setAr01count(ar01count+1);
+						dayTemporaryRecepService.update(dayTemporaryRecepProj);
+						projNmb = ar01count+1;
+					}
+				}
+				//查用户
+				List<DayTemporaryRecep> dayTemporaryRecepUsers = dayTemporaryRecepService.selectByUser(dayTemporaryRecep);
+				if(dayTemporaryRecepUsers!=null){
+					for(DayTemporaryRecep dayTemporaryRecepUser : dayTemporaryRecepUsers){
+						Integer ar01count = dayTemporaryRecepUser.getAr01count();
+						//更新+1
+						dayTemporaryRecepUser.setAr01count(ar01count+1);
+						dayTemporaryRecepService.update(dayTemporaryRecepUser);
+						userNmb = ar01count+1;
+					}
+				}
+				//查项目用户
+				List<DayTemporaryRecep> dayTemporaryRecepProjAndUsers = dayTemporaryRecepService.selectByProjAndUser(dayTemporaryRecep);
+				if(dayTemporaryRecepProjAndUsers!=null){
+					for(DayTemporaryRecep dayTemporaryRecepProjAndUser : dayTemporaryRecepProjAndUsers){
+						Integer ar01count = dayTemporaryRecepProjAndUser.getAr01count();
+						//更新+1
+						dayTemporaryRecepProjAndUser.setAr01count(ar01count+1);
+						dayTemporaryRecepService.update(dayTemporaryRecepProjAndUser);
+						projUserNmb = ar01count+1;
+					}
+				}
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				//今天
+				String today = format.format(new Date());
+				//添加项目
+				DayTemporaryRecep dayRecepProj = new DayTemporaryRecep();
+				dayRecepProj.setDaystr(today);
+				dayRecepProj.setId(key.getUUIDKey());
+				dayRecepProj.setMiiprojid(projid);
+				dayRecepProj.setAr01count(projNmb);
+				dayTemporaryRecepService.insert(dayRecepProj);
+				//添加用户
+				DayTemporaryRecep dayRecepUser = new DayTemporaryRecep();
+				dayRecepUser.setDaystr(today);
+				dayRecepUser.setId(key.getUUIDKey());
+				dayRecepUser.setMiiuserid(userid);
+				dayRecepUser.setAr01count(userNmb);
+				dayTemporaryRecepService.insert(dayRecepUser);
+				//添加客户
+				DayTemporaryRecep dayRecepCust = new DayTemporaryRecep();
+				dayRecepCust.setDaystr(today);
+				dayRecepCust.setId(key.getUUIDKey());
+				dayRecepCust.setMiicustid(custid);
+				dayRecepCust.setAr01count(custNmb);
+				dayTemporaryRecepService.insert(dayRecepCust);
+				//添加项目用户
+				DayTemporaryRecep dayRecepProjAndUser = new DayTemporaryRecep();
+				dayRecepProjAndUser.setDaystr(today);
+				dayRecepProjAndUser.setId(key.getUUIDKey());
+				dayRecepProjAndUser.setMiiprojid(projid);
+				dayRecepProjAndUser.setMiiuserid(userid);
+				dayRecepProjAndUser.setAr01count(projUserNmb);
+				dayTemporaryRecepService.insert(dayRecepProjAndUser);
+				//添加项目客户
+				DayTemporaryRecep dayRecepProjAndCust = new DayTemporaryRecep();
+				dayRecepProjAndCust.setDaystr(today);
+				dayRecepProjAndCust.setId(key.getUUIDKey());
+				dayRecepProjAndCust.setMiiprojid(projid);
+				dayRecepProjAndCust.setMiicustid(custid);
+				dayRecepProjAndCust.setAr01count(projCustNmb);
+				dayTemporaryRecepService.insert(dayRecepProjAndCust);
+				//添加项目用户客户
+				DayTemporaryRecep dayRecepProjAndUserAndCusts = new DayTemporaryRecep();
+				dayRecepProjAndUserAndCusts.setDaystr(today);
+				dayRecepProjAndUserAndCusts.setId(key.getUUIDKey());
+				dayRecepProjAndUserAndCusts.setMiiprojid(projid);
+				dayRecepProjAndUserAndCusts.setMiiuserid(userid);
+				dayRecepProjAndUserAndCusts.setMiicustid(custid);
+				dayRecepProjAndUserAndCusts.setAr01count(projUserCustNmb);
+				dayTemporaryRecepService.insert(dayRecepProjAndUserAndCusts);
+				//开始线程
 				Deal01OtherTable d01=new Deal01OtherTable((Customer)resultObjs[1], (ProjCustRef)resultObjs[2], (UserCustRef)resultObjs[3], (List<TabDictRef>)resultObjs[4], 0);
 				d01.start();
 				map.put("msg", "100");
@@ -675,6 +787,12 @@ public class WxApiController extends ControllerBaseWx {
 		if(StringUtils.isNotEmpty(tempStr)){
 			_retR01.setTraffictypedesc(tempStr);
 			cust.setTraffictypedesc(tempStr);
+		}
+		//居住地详细地址
+		tempStr=record01.getCustaddress();
+		if(StringUtils.isNotEmpty(tempStr)){
+			_retR01.setCustaddress(tempStr);
+			cust.setCustaddress(tempStr);
 		}
 		//从事行业
 		tempStr=record01.getWorkindustry();
@@ -1084,6 +1202,79 @@ public class WxApiController extends ControllerBaseWx {
 	    		}
 	    	}
 			if (accessRecord02Service.insert(accessRecord02)) {
+				//添加临时统计表
+				//项目ID
+				String projid = accessRecord02.getProjid();
+				//用户ID
+				String userid = accessRecord02.getAuthorid();
+				//客户ID
+				String custid = accessRecord02.getCustid();
+				//每天临时数据统计表
+				DayTemporaryRecep dayTemporaryRecep = new DayTemporaryRecep();
+				dayTemporaryRecep.setMiiprojid(projid);
+				dayTemporaryRecep.setMiiuserid(userid);
+				dayTemporaryRecep.setMiicustid(custid);
+				//查项目
+				List<DayTemporaryRecep> dayTemporaryRecepProjs = dayTemporaryRecepService.selectByProj(dayTemporaryRecep);
+				if(dayTemporaryRecepProjs!=null){
+					for(DayTemporaryRecep dayTemporaryRecepProj : dayTemporaryRecepProjs){
+						Integer ar02count = dayTemporaryRecepProj.getAr02count();
+						//更新+1
+						dayTemporaryRecepProj.setAr02count(ar02count+1);
+						dayTemporaryRecepService.update(dayTemporaryRecepProj);
+					}
+				}
+				//查用户
+				List<DayTemporaryRecep> dayTemporaryRecepUsers = dayTemporaryRecepService.selectByUser(dayTemporaryRecep);
+				if(dayTemporaryRecepUsers!=null){
+					for(DayTemporaryRecep dayTemporaryRecepUser : dayTemporaryRecepUsers){
+						Integer ar02count = dayTemporaryRecepUser.getAr02count();
+						//更新+1
+						dayTemporaryRecepUser.setAr02count(ar02count+1);
+						dayTemporaryRecepService.update(dayTemporaryRecepUser);
+					}
+				}
+				//查客户
+				List<DayTemporaryRecep> dayTemporaryRecepCusts = dayTemporaryRecepService.selectByCust(dayTemporaryRecep);
+				if(dayTemporaryRecepCusts!=null){
+					for(DayTemporaryRecep dayTemporaryRecepCust : dayTemporaryRecepCusts){
+						Integer ar02count = dayTemporaryRecepCust.getAr02count();
+						//更新+1
+						dayTemporaryRecepCust.setAr02count(ar02count+1);
+						dayTemporaryRecepService.update(dayTemporaryRecepCust);
+					}
+				}
+				//查项目用户
+				List<DayTemporaryRecep> dayTemporaryRecepProjAndUsers = dayTemporaryRecepService.selectByProjAndUser(dayTemporaryRecep);
+				if(dayTemporaryRecepProjAndUsers!=null){
+					for(DayTemporaryRecep dayTemporaryRecepProjAndUser : dayTemporaryRecepProjAndUsers){
+						Integer ar02count = dayTemporaryRecepProjAndUser.getAr02count();
+						//更新+1
+						dayTemporaryRecepProjAndUser.setAr02count(ar02count+1);
+						dayTemporaryRecepService.update(dayTemporaryRecepProjAndUser);
+					}
+				}
+				//查项目客户
+				List<DayTemporaryRecep> dayTemporaryRecepProjAndCusts = dayTemporaryRecepService.selectByprojAndCust(dayTemporaryRecep);
+				if(dayTemporaryRecepProjAndCusts!=null){
+					for(DayTemporaryRecep dayTemporaryRecepProjAndCust : dayTemporaryRecepProjAndCusts){
+						Integer ar02count = dayTemporaryRecepProjAndCust.getAr02count();
+						//更新+1
+						dayTemporaryRecepProjAndCust.setAr02count(ar02count+1);
+						dayTemporaryRecepService.update(dayTemporaryRecepProjAndCust);
+					}
+				}
+				//查项目用户客户
+				List<DayTemporaryRecep> dayTemporaryRecepProjAndUserAndCusts = dayTemporaryRecepService.selectByprojAndUserAndCust(dayTemporaryRecep);
+				if(dayTemporaryRecepProjAndUserAndCusts!=null){
+					for(DayTemporaryRecep dayTemporaryRecepProjAndUserAndCust : dayTemporaryRecepProjAndUserAndCusts){
+						Integer ar02count = dayTemporaryRecepProjAndUserAndCust.getAr02count();
+						//更新+1
+						dayTemporaryRecepProjAndUserAndCust.setAr02count(ar02count+1);
+						dayTemporaryRecepService.update(dayTemporaryRecepProjAndUserAndCust);
+					}
+				}
+				//开始线程
 				Deal01OtherTable d01=new Deal01OtherTable(cust, (ProjCustRef)resultObjs[2], (UserCustRef)resultObjs[3], (List<TabDictRef>)resultObjs[4], 0);
 				d01.start();
 				map.put("msg", "100");
@@ -1812,6 +2003,148 @@ public class WxApiController extends ControllerBaseWx {
 	    		}
 	    	}
 			if (accessRecord03Service.insert(accessRecord03)) {
+				//添加临时统计表
+				//项目ID
+				String projid = accessRecord03.getProjid();
+				//用户ID
+				String userid = accessRecord03.getAuthorid();
+				//客户ID
+				String custid = accessRecord03.getCustid();
+				//每天临时数据统计表
+				DayTemporaryRecep dayTemporaryRecep = new DayTemporaryRecep();
+				dayTemporaryRecep.setMiiprojid(projid);
+				dayTemporaryRecep.setMiiuserid(userid);
+				dayTemporaryRecep.setMiicustid(custid);
+				//项目首访数量
+				int projNmb = 1;
+				//用户首访数量
+				int userNmb = 1;
+				//客户首访数量
+				int custNmb = 1;
+				//项目用户首访数量
+				int projUserNmb = 1;
+				//项目客户数量
+				int projCustNmb = 1;
+				//项目用户客户首访数量
+				int projUserCustNmb = 1;
+				//查项目
+				List<DayTemporaryRecep> dayTemporaryRecepProjs = dayTemporaryRecepService.selectByProj(dayTemporaryRecep);
+				if(dayTemporaryRecepProjs!=null){
+					for(DayTemporaryRecep dayTemporaryRecepProj : dayTemporaryRecepProjs){
+						Integer ar03count = dayTemporaryRecepProj.getAr03count();
+						//更新+1
+						dayTemporaryRecepProj.setAr03count(ar03count+1);
+						dayTemporaryRecepService.update(dayTemporaryRecepProj);
+						projNmb = ar03count+1;
+					}
+				}
+				//查用户
+				List<DayTemporaryRecep> dayTemporaryRecepUsers = dayTemporaryRecepService.selectByUser(dayTemporaryRecep);
+				if(dayTemporaryRecepUsers!=null){
+					for(DayTemporaryRecep dayTemporaryRecepUser : dayTemporaryRecepUsers){
+						Integer ar03count = dayTemporaryRecepUser.getAr03count();
+						//更新+1
+						dayTemporaryRecepUser.setAr03count(ar03count+1);
+						dayTemporaryRecepService.update(dayTemporaryRecepUser);
+						userNmb = ar03count+1;
+					}
+				}
+				//查客户
+				List<DayTemporaryRecep> dayTemporaryRecepCusts = dayTemporaryRecepService.selectByCust(dayTemporaryRecep);
+				if(dayTemporaryRecepCusts!=null){
+					for(DayTemporaryRecep dayTemporaryRecepCust : dayTemporaryRecepCusts){
+						Integer ar03count = dayTemporaryRecepCust.getAr03count();
+						//更新+1
+						dayTemporaryRecepCust.setAr03count(ar03count+1);
+						dayTemporaryRecepService.update(dayTemporaryRecepCust);
+						custNmb = ar03count + 1;
+					}
+				}
+				//查项目用户
+				List<DayTemporaryRecep> dayTemporaryRecepProjAndUsers = dayTemporaryRecepService.selectByProjAndUser(dayTemporaryRecep);
+				if(dayTemporaryRecepProjAndUsers!=null){
+					for(DayTemporaryRecep dayTemporaryRecepProjAndUser : dayTemporaryRecepProjAndUsers){
+						Integer ar03count = dayTemporaryRecepProjAndUser.getAr03count();
+						//更新+1
+						dayTemporaryRecepProjAndUser.setAr03count(ar03count+1);
+						dayTemporaryRecepService.update(dayTemporaryRecepProjAndUser);
+						projUserNmb = ar03count+1;
+					}
+				}
+				//查项目客户
+				List<DayTemporaryRecep> dayTemporaryRecepProjAndCusts = dayTemporaryRecepService.selectByprojAndCust(dayTemporaryRecep);
+				if(dayTemporaryRecepProjAndCusts!=null){
+					for(DayTemporaryRecep dayTemporaryRecepProjAndCust : dayTemporaryRecepProjAndCusts){
+						Integer ar03count = dayTemporaryRecepProjAndCust.getAr03count();
+						//更新+1
+						dayTemporaryRecepProjAndCust.setAr03count(ar03count+1);
+						dayTemporaryRecepService.update(dayTemporaryRecepProjAndCust);
+						projCustNmb = ar03count + 1;
+					}
+				}
+				//查项目用户客户
+				List<DayTemporaryRecep> dayTemporaryRecepProjAndUserAndCusts = dayTemporaryRecepService.selectByprojAndUserAndCust(dayTemporaryRecep);
+				if(dayTemporaryRecepProjAndUserAndCusts!=null){
+					for(DayTemporaryRecep dayTemporaryRecepProjAndUserAndCust : dayTemporaryRecepProjAndUserAndCusts){
+						Integer ar03count = dayTemporaryRecepProjAndUserAndCust.getAr03count();
+						//更新+1
+						dayTemporaryRecepProjAndUserAndCust.setAr03count(ar03count+1);
+						dayTemporaryRecepService.update(dayTemporaryRecepProjAndUserAndCust);
+						projUserCustNmb = ar03count + 1;
+					}
+				}
+				if(dayTemporaryRecepCusts==null){
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					//今天
+					String today = format.format(new Date());
+					//添加项目
+					DayTemporaryRecep dayRecepProj = new DayTemporaryRecep();
+					dayRecepProj.setDaystr(today);
+					dayRecepProj.setId(key.getUUIDKey());
+					dayRecepProj.setMiiprojid(projid);
+					dayRecepProj.setAr03count(projNmb);
+					dayTemporaryRecepService.insert(dayRecepProj);
+					//添加用户
+					DayTemporaryRecep dayRecepUser = new DayTemporaryRecep();
+					dayRecepUser.setDaystr(today);
+					dayRecepUser.setId(key.getUUIDKey());
+					dayRecepUser.setMiiuserid(userid);
+					dayRecepUser.setAr03count(userNmb);
+					dayTemporaryRecepService.insert(dayRecepUser);
+					//添加客户
+					DayTemporaryRecep dayRecepCust = new DayTemporaryRecep();
+					dayRecepCust.setDaystr(today);
+					dayRecepCust.setId(key.getUUIDKey());
+					dayRecepCust.setMiicustid(custid);
+					dayRecepCust.setAr03count(custNmb);
+					dayTemporaryRecepService.insert(dayRecepCust);
+					//添加项目用户
+					DayTemporaryRecep dayRecepProjAndUser = new DayTemporaryRecep();
+					dayRecepProjAndUser.setDaystr(today);
+					dayRecepProjAndUser.setId(key.getUUIDKey());
+					dayRecepProjAndUser.setMiiprojid(projid);
+					dayRecepProjAndUser.setMiiuserid(userid);
+					dayRecepProjAndUser.setAr03count(projUserNmb);
+					dayTemporaryRecepService.insert(dayRecepProjAndUser);
+					//添加项目客户
+					DayTemporaryRecep dayRecepProjAndCust = new DayTemporaryRecep();
+					dayRecepProjAndCust.setDaystr(today);
+					dayRecepProjAndCust.setId(key.getUUIDKey());
+					dayRecepProjAndCust.setMiiprojid(projid);
+					dayRecepProjAndCust.setMiicustid(custid);
+					dayRecepProjAndCust.setAr03count(projCustNmb);
+					dayTemporaryRecepService.insert(dayRecepProjAndCust);
+					//添加项目用户客户
+					DayTemporaryRecep dayRecepProjAndUserAndCusts = new DayTemporaryRecep();
+					dayRecepProjAndUserAndCusts.setDaystr(today);
+					dayRecepProjAndUserAndCusts.setId(key.getUUIDKey());
+					dayRecepProjAndUserAndCusts.setMiiprojid(projid);
+					dayRecepProjAndUserAndCusts.setMiiuserid(userid);
+					dayRecepProjAndUserAndCusts.setMiicustid(custid);
+					dayRecepProjAndUserAndCusts.setAr03count(projUserCustNmb);
+					dayTemporaryRecepService.insert(dayRecepProjAndUserAndCusts);
+				}
+				//开始线程
 				Deal01OtherTable d01=new Deal01OtherTable(customer, (ProjCustRef)resultObjs[2], (UserCustRef)resultObjs[3], (List<TabDictRef>)resultObjs[4], 0);
 				d01.start();
 				map.put("msg", "100");
@@ -2900,7 +3233,15 @@ public class WxApiController extends ControllerBaseWx {
 		    	results="cust";
 		    }
 			result.put("custId", custs);
+			//正式数据
 			List<Map<String,Object>> arCountDatas = dayRecepService.selectByTimeAnd(result);
+			//每天的临时数据
+			List<Map<String,Object>> dayTemporaryReceps = dayTemporaryRecepService.selectByTimeAnd(result);
+			if(dayTemporaryReceps!=null){
+				for(Map<String,Object>dayTemporaryRecep : dayTemporaryReceps){
+					arCountDatas.add(dayTemporaryRecep);
+				}
+			}
 			if(results==null){
 				datas = arCountDatas;
 			}else{
