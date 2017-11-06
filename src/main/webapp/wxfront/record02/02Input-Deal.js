@@ -493,7 +493,7 @@ function step5Prev() {
 }
 function checkStep1() {
   if (!_uSex) return "请选择客户性别!";
-  if (!$("input[name='firstVisitTime']").val()) return "请选择客户!";
+  if (!$("input[name='firstVisitTime']").val()) return "请选择首次到访时间!";
   if (!$("input[name='recpTime']").val()) return "请输入到访时间!";
   if (!_uVisitorCount) return "请选择来访人数!";
   if (!_uDecisionerIn) return "请选择决策人是否到场!";
@@ -878,6 +878,10 @@ function _dealCustomer() {
     rTime.setTime(customer.firstvisittime.time);
     fillTime("firstVisitTime", rTime);
   }
+  if($("input[name='firstVisitTime']").val()==""){
+	  $("input[name='firstVisitTime']").removeAttr("readonly");
+  };
+ 
   if (customer.visitcount) $("input[name='visitCount']").val(customer.visitcount);
   fillSelectField('sex', customer.custsex, true);
   if (customer.compareprojs) $("textarea[name='compareProjs']").val();
