@@ -644,7 +644,7 @@ function commitData() {
     if (_uHouseType) retData.housetype=_uHouseType;
     if (_uHouseTypeDesc) retData.housetypedesc=_uHouseTypeDesc;
     if (_uLiveAcreage) retData.liveacreage=_uLiveAcreage;
-    alert("retData.liveacreage="+retData.liveacreage);
+    //alert("retData.liveacreage="+retData.liveacreage);
     temp=$("input[name='enterpriseName']").val();
     if (temp) retData.enterprisename=temp;
     temp=$("input[name='enterpriseAddress']").val();
