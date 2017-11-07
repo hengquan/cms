@@ -136,7 +136,7 @@
 	FROM
 		ql_Project
 	WHERE
-		INSTR(projName, #{projectName}) 
+		INSTR(projName, #{projectName}) and isValidate=1
 	LIMIT #{page},#{pageSize}
   </select>
   
@@ -147,15 +147,16 @@
 	FROM
 		ql_Project
 	WHERE
-		INSTR(projName, #{projectName}) 
+		INSTR(projName, #{projectName}) and isValidate=1
   </select>
   
   
-  <!-- 删除多个 -->
-  <delete id="deletes" parameterType="java.lang.String">
-  	delete from ql_Project
+  
+  <update id="deletes" parameterType="java.lang.String" >
+    update ql_Project
+    set isValidate = 2
     where instr(#{boxeditId},id)
-  </delete>
+  </update>
   
   
   <!-- 根据具体项目名称查询项目信息 -->
@@ -165,7 +166,7 @@
 	FROM
 		ql_Project
 	WHERE
-		projName = #{pro}
+		projName = #{pro} and isValidate=1
   </select>
   
   
@@ -174,6 +175,7 @@
   	select 
     <include refid="Base_Column_List" />
     from ql_Project
+    where isValidate=1
   </select>
   
   
@@ -182,7 +184,8 @@
   <select id="selectAll" resultType="java.util.Map">
   	select 
     <include refid="Base_Column_List" />
-    from ql_Project
+    from ql_Project 
+    where isValidate=1
   </select>
   
 </mapper>

@@ -146,20 +146,26 @@
   <!-- 根据条件查询用户客记信息 -->
   <select id="selectByUserMessge" resultType="java.util.Map" parameterType="java.util.Map">
 	SELECT
-		qur.*, qc.*, pu.realName,
-		pu.isValidate,proj.projName,pu.isValidate
+		qa1.id,
+		qc.custName,
+		qc.phoneNum,
+		qc.custSex,
+		proj.projName,
+		qc.cTime,
+		user1.realName,
+		qa1.projId,
+		qa1.custId
 	FROM
-		ql_UserCust_Ref qur
-	JOIN ql_Customer qc ON qur.custId = qc.id
-	JOIN plat_User pu ON qur.userId = pu.id
-	join ql_Project proj on qur.projId = proj.id
-	JOIN ql_AccessRecord01 qa1 ON qc.id = qa1.custId
+		ql_Customer qc
+	LEFT JOIN ql_AccessRecord01 qa1 ON qc.id = qa1.custId
+	LEFT JOIN ql_Project proj ON qa1.projId = proj.id
+	LEFT JOIN plat_User user1 ON qa1.authorId = user1.id
 	WHERE 1=1  
 	<if test="name !='' and name !=null">
 		and (instr(qc.custName,#{name})
 		OR instr(proj.projName, #{name})
 		OR instr(qc.phoneNum, #{name})
-		OR instr(pu.realName, #{name}))
+		OR instr(user1.realName, #{name}))
 	</if>
 	<if test="userType==2">
 		<if test="projIds !='' and projIds !=null">
@@ -187,17 +193,16 @@
 	SELECT
 		count(1)
 	FROM
-		ql_UserCust_Ref qur
-	JOIN ql_Customer qc ON qur.custId = qc.id
-	JOIN plat_User pu ON qur.userId = pu.id
-	join ql_Project proj on qur.projId = proj.id
-	JOIN ql_AccessRecord01 qa1 ON qc.id = qa1.custId
+		ql_Customer qc
+	LEFT JOIN ql_AccessRecord01 qa1 ON qc.id = qa1.custId
+	LEFT JOIN ql_Project proj ON qa1.projId = proj.id
+	LEFT JOIN plat_User user1 ON qa1.authorId = user1.id
 	WHERE 1=1  
 	<if test="name !='' and name !=null">
 		and (instr(qc.custName,#{name})
 		OR instr(proj.projName, #{name})
 		OR instr(qc.phoneNum, #{name})
-		OR instr(pu.realName, #{name}))
+		OR instr(user1.realName, #{name}))
 	</if>
 	<if test="userType==2">
 		<if test="projIds !='' and projIds !=null">

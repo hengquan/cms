@@ -10,8 +10,28 @@ public class AccessRecord03 {
     private String custid;
 
     private String custname;
+    
+    private String buyersex;
+    
+    private String buyerphonenum;
 
-    private String custphonenum;
+    public String getBuyersex() {
+		return buyersex;
+	}
+
+	public void setBuyersex(String buyersex) {
+		this.buyersex = buyersex;
+	}
+
+	public String getBuyerphonenum() {
+		return buyerphonenum;
+	}
+
+	public void setBuyerphonenum(String buyerphonenum) {
+		this.buyerphonenum = buyerphonenum;
+	}
+
+	private String custphonenum;
 
     private String custsex;
 

@@ -115,7 +115,7 @@
 									  </button>
 									</div>   -->
 									
-									<a href="javascript:gaoji();" class="btn mini btn-white" id="gaoji">高级查询</a>
+									<a href="javascript:gaoji();" style="margin-left:20px;" class="btn mini btn-white" id="gaoji">高级查询</a>
 									
 								    <div class="modal-dialog modal-lg" id="gaojitiaojian"  style="width:100%;margin-top:-23px;">
 								    <div class="modal-content" style="border-color:#000;border-bottom:2px solid;border-left:2px solid;border-right:2px solid">

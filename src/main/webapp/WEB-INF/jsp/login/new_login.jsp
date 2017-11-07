@@ -24,8 +24,10 @@
 </div>
 
 <div class="loginbox">
-	<div class="carent-logo"><img src="${appRoot}/static/new/img/logo.png" alt="logo"/></div>
-	<div class="login-content">
+	<div class="carent-logo" style="font-family:楷体;font-size:45px;">
+		<b>客户数据中心</b>
+	</div>
+	<div class="login-content" style="margin-top:-20px;">
 		<form action="${appRoot}/login.ky" id="myForm" name="myForm" method="post">
 			
 			<c:if test="${loginFaild !=''}">

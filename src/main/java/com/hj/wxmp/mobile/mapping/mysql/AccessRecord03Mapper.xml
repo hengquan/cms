@@ -27,6 +27,8 @@
     <result column="authorId" property="authorid" jdbcType="VARCHAR" />
     <result column="creatorId" property="creatorid" jdbcType="VARCHAR" />
     <result column="loanBank" property="loanbank" jdbcType="VARCHAR" />
+    <result column="buyerPhoneNum" property="buyerphonenum" jdbcType="VARCHAR" />
+    <result column="buyerSex" property="buyersex" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
@@ -46,7 +48,7 @@
     id, projId, custId, custName, custPhoneNum, custSex, visitCycle, purchaseCycle, signCycle, 
     purchaseDate, signDate, houseNum, houseRegiType, houseAcreage, unitPrice, totalPrice, 
     paymentType, realtyProductType, addressMail, livingStatus, realUseMen, realPayMen, 
-    authorId, creatorId, status, cTime, lmTime,recepTime,loanBank,firstKnowTime
+    authorId, creatorId, status, cTime, lmTime,recepTime,loanBank,firstKnowTime,buyerPhoneNum,buyerSex
   </sql>
   <sql id="Blob_Column_List" >
     realtyProductTypeDesc, suggestion, talkQandS, signQandS, sumDescn,buyerName,paymentTypeDesc
@@ -203,6 +205,12 @@
       <if test="paymenttypedesc != null" >
         paymentTypeDesc,
       </if>
+      <if test="buyerphonenum != null" >
+        buyerPhoneNum,
+      </if>
+      <if test="buyersex != null" >
+        buyerSex,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -316,6 +324,12 @@
       <if test="paymenttypedesc != null" >
         #{paymenttypedesc,jdbcType=LONGVARCHAR},
       </if>
+      <if test="buyerphonenum != null" >
+        #{buyerphonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="buyersex != null" >
+        #{buyersex,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hj.wxmp.mobile.entity.AccessRecord03" >
@@ -428,6 +442,12 @@
       </if>
       <if test="paymenttypedesc != null" >
         paymentTypeDesc = #{paymenttypedesc,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="buyerphonenum != null" >
+        buyerPhoneNum = #{buyerphonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="buyersex != null" >
+        buyerSex = #{buyersex,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}

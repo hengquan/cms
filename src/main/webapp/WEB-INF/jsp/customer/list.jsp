@@ -87,7 +87,7 @@
 							<form action="${appRoot}/customer/customerList" method="post"
 								id="selectCheckMessage" >
 								<div class="panel-heading" style="height: 50px;">
-									<div class="col-lg-2" style="line-height:37px">客户列表</div>
+									<div class="col-lg-1" style="line-height:37px">客户列表</div>
 									<!-- 根据用户昵称查询 -->
 									<div
 										style="float: left; position: relative;">

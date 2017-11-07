@@ -490,6 +490,7 @@
 	
 		//修改项目
 		function editProject(id,proname,areaname,descn){
+			$("#modal-title").val("修改项目");
 			$("#projname").val(proname);
 			$("#areaname").val(areaname);
 			$("#descn").val(descn);

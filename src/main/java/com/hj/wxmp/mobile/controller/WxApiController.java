@@ -2220,6 +2220,20 @@ public class WxApiController extends ControllerBaseWx {
 			List<TabDictRef> cartotalpriceCust=transToDictRefList(dictList, "002", "客户性别", "ql_Customer", customerId);
 			if (cartotalpriceCust!=null) dictRefList.addAll(cartotalpriceCust);
 		}
+		
+		//买受人姓名
+		_retR03.setBuyername(record03.getBuyername());
+		//买受人性别
+		tempStr=record03.getBuyersex();
+		parseResult=parseDictsStr(tempStr);
+		if (parseResult!=null) {
+			tempStr=parseResult.get("storeStr")+"";
+			_retR03.setBuyersex(tempStr);
+			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
+			List<TabDictRef> cartotalpriceO1=transToDictRefList(dictList, "002", "买受人性别", "ql_AccessRecord03", id);
+			if (cartotalpriceO1!=null) dictRefList.addAll(cartotalpriceO1);
+		}
+		
 		//成交周期到访
 		_retR03.setVisitcycle(record03.getVisitcycle());
 		//成交周期认购
