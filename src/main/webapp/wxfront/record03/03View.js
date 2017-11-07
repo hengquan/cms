@@ -81,9 +81,28 @@ function fillData() {
     }
     $("#custPhone").html(phoneHtml.substring(5));
   }
-  if (data03.buyername) $("#buyerName").html(data03.buyername);
   if (customer.custsex) $("#custSex").html(customer.custsex);
-  
+
+  if (data03.buyername) $("#buyerName").html(data03.buyername);
+  if (data03.buyerphonenum) {
+    var phoneHtml="";
+    var _flag=0;
+    var phones=data03.buyerphonenum.split(",");
+    var _check1,_check2;
+    for (var i=0; i<phones.length; i++) {
+      var onePhone=$.trim(phones[i]);
+      _check1=checkMPhone(onePhone);
+      if (_check1==0) continue;
+      _check2=checkDPhone(onePhone);
+      if (_check1==1||_check2==1) {
+        if (_flag++%2==0) phoneHtml+="<br/>";
+        phoneHtml+="<span><a href='tel:"+onePhone+"'>"+onePhone+"</a></span>";
+      }
+    }
+    $("#buyerPhone").html(phoneHtml.substring(5));
+  }
+  if (customer.buyersex) $("#buyerSex").html(customer.buyersex);
+
   if (customer.visitcount) $("#visitCount").html(customer.visitcount);
   if (data03.firstknowtime.time) {
     var rTime=new Date();

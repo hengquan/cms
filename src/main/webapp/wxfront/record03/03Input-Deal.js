@@ -204,6 +204,7 @@ function initData(data) {
       custId=data.custId;
       $("input[name='custName']").val(data.custName);
       $("input[name='custPhone']").val(data.custPhone);
+      $("input[name='buyerPhone']").val(data.custPhone);
     }
   }
 }
@@ -275,6 +276,7 @@ function cleanData(type) {
     _uUserRole="";
   }
   _uSex="";
+  _uBuyerSex="";
   _uHouseRegiType="";
   _uPaymentType="";
   _uPaymentTypeDesc="";
@@ -442,7 +444,10 @@ function commitData() {
     if (temp) retData.custname=temp;
     temp=$("input[name='custPhone']").val();
     if (temp) retData.custphonenum=temp;
+    temp=$("input[name='buyerPhone']").val();
+    if (temp) retData.buyerphonenum=temp;
     if (_uSex) retData.custsex=_uSex;
+    if (_uBuyerSex) retData.buyersex=_uBuyerSex;
     temp=$("input[name='firstKnowTime']").val();
     if (temp) retData.firstknowtime1=temp;
     temp=$("input[name='purchaseDate']").val();
@@ -603,6 +608,7 @@ function openSelCust() {
 }
 function cleanCust() {
   $("input[name='buyerName']").val("");
+  $("input[name='buyerPhone']").val("");
   $("input[name='custName']").val("");
   $("input[name='custPhone']").val("");
   $("input[name='firstVisitTime']").val("");
@@ -627,8 +633,10 @@ function selCust() {
       $("input[name='buyerName']").val(choose[i].getAttribute("_text"));
       $("input[name='custName']").val(choose[i].getAttribute("_text"));
       $("input[name='custPhone']").val(choose[i].getAttribute("_phone"));
+      $("input[name='buyerPhone']").val(choose[i].getAttribute("_phone"));
       $("input[name='custName']").attr("readonly","true");
       $("input[name='custPhone']").attr("readonly","true");
+      $("input[name='buyerPhone']").attr("readonly","true");
       $("input[name='firstKnowTime']").attr("readonly","readonly");
       $("input[name='firstKnowTime']").attr("onFocus","this.blur()");
       custId=choose[i].value;
@@ -637,6 +645,7 @@ function selCust() {
       _uUserId=choose[i].getAttribute("_userId");
       _uUserName=choose[i].getAttribute("_userName");
       fillSelectField('sex', choose[i].getAttribute("_userSex"), true);
+      fillSelectField('buyerSex', choose[i].getAttribute("_userSex"), true);
     }
   }
   $("#selectCustomersModal").modal('hide');
@@ -693,7 +702,9 @@ function fillData(data) {//填数据
   if (data.custname) $("input[name='custName']").val(data.custname);
   if (data.buyername) $("input[name='buyerName']").val(data.buyername);
   if (data.custphonenum) $("input[name='custPhone']").val(data.custphonenum);
+  if (data.buyerphonenum) $("input[name='buyerPhone']").val(data.buyerphonenum);
   if (data.custsex) fillSelectField("sex", data.custsex, true);
+  if (data.buyersex) fillSelectField("buyerSex", data.buyersex, true);
   if (data.firstknowtime.time) {
     var rTime=new Date();
     rTime.setTime(data.firstknowtime.time);
