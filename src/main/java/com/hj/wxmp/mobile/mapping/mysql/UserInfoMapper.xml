@@ -391,6 +391,7 @@
 		</if> 
 		and realName is not null 
 		and mainPhoneNum is not null 
+		and isValidate = 1
 		limit #{page},#{pageSize}
 	</select>
 	
@@ -406,6 +407,7 @@
 		</if> 
 		and realName is not null 
 		and mainPhoneNum is not null 
+		and isValidate = 1
 	</select>
 	
 	  <select id="findByOpenid" resultMap="BaseResultMap" parameterType="java.lang.String" >

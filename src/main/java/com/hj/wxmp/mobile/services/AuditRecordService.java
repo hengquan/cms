@@ -102,4 +102,6 @@ public interface AuditRecordService {
 
 	public AuditRecord findByArId(Map<String,Object> data);
 
+	public AuditRecord selectByRecordId(Map<String, Object> parameter);
+
 }

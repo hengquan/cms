@@ -23,4 +23,6 @@ public interface AuditRecordMapper {
 	List<Map<String, Object>> selectByRecordIdAndType(Map<String, Object> result);
 
 	AuditRecord findByArId(Map<String,Object> data);
+
+	AuditRecord selectByRecordId(Map<String, Object> parameter);
 }

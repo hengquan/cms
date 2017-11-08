@@ -231,8 +231,14 @@
 	<if test="userId != null" >
 		AND INSTR(#{userId}, days.miiUserId)
 	</if>
-	GROUP BY
-	users.realName
+	<if test="userId != null" >
+		GROUP BY
+		users.realName
+	</if>
+	<if test="userId == null" >
+		GROUP BY
+		days.miiProjId
+	</if>
   </select>
   
   
