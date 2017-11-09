@@ -1548,11 +1548,11 @@ public class CustomerController extends ControllerBase {
 		model.addAttribute("name", name);
 		//查询条件
 		model.addAttribute("record01Begin", record01Begin);
-		model.addAttribute("record01Begin", record01Begin);
-		model.addAttribute("record01Begin", record01Begin);
-		model.addAttribute("record01Begin", record01Begin);
-		model.addAttribute("record01Begin", record01Begin);
-		model.addAttribute("record01Begin", record01Begin);
+		model.addAttribute("record01End", record01End);
+		model.addAttribute("record02Begin", record02Begin);
+		model.addAttribute("record02End", record02End);
+		model.addAttribute("record03Begin", record03Begin);
+		model.addAttribute("record03End", record03End);
 		model.addAttribute("agegroup", agegroup);
 		model.addAttribute("knowway", knowway);
 		model.addAttribute("liveacreage", liveacreage);

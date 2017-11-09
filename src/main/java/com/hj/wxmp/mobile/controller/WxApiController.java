@@ -3108,7 +3108,7 @@ public class WxApiController extends ControllerBaseWx {
 			//首次获取时间
 			List<AccessRecord01> accessRecord01s = accessRecord01Service.selectByUserId(parmeterMap);
 			if (accessRecord01s!=null&&!accessRecord01s.isEmpty()) {
-				Date firstknowtime = accessRecord01s.get(0).getFirstknowtime();
+				Date firstknowtime = accessRecord01s.get(0).getReceptime();
 				customer.setFirstvisittime(firstknowtime);
 			}
 			//复访总次数

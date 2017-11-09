@@ -123,7 +123,7 @@
 								   	<label class='selectItem'>
 									   	<label style="margin-left:20px;">首访接待时间:</label>
 										<input type="date" name="record01Begin" class="btn mini btn-white" value="${record01Begin }">至
-										<input type="date" name="record01End" class="btn mini btn-white" value="${record01Begin }">
+										<input type="date" name="record01End" class="btn mini btn-white" value="${record01End }">
 								   	</label>
 									
 									<label class='selectItem'>
