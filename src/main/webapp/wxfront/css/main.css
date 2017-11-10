@@ -57,6 +57,7 @@ icon-search:before{content:"\e61d"}
 .item_inner input,.item_sflr input {width:100%;margin:0.7rem 0; border:1px solid #FFFFFF;padding:0;font-size:1rem;
  border: 0; /* 方法1 */
  -webkit-appearance: none; /* 方法2 */
+ -webkit-user-select: auto;
 }
 .item_inner-2 {
 	width:100%;

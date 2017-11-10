@@ -31,6 +31,8 @@ function initPage(data) {
     success: function(json) {
       if (json.msg=='100') {
         data03=json.data;
+        var ctime = data03.ctime;
+        var auditRecord = json.auditRecord;
         var url=_URL_BASE+"/wx/api/getCustMsg";
         var _data={};
         _data.custId=data03.custid;
@@ -38,7 +40,7 @@ function initPage(data) {
         $.ajax({type:"post", async:true, url:url, data:_data, dataType:"json",
           success: function(json) {
             if (json.msg=='100') customer=json.customer;
-            fillData();
+            fillData(json.data,auditRecord,ctime);
           },
           error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert("获得客户信息时出现系统错误：\nstatu="+XMLHttpRequest.status+"\nreadyState="+XMLHttpRequest.readyState+"\ntext="+textStatus+"\nerrThrown="+errorThrown);
@@ -56,7 +58,7 @@ function initPage(data) {
   });
 }
 
-function fillData() {
+function fillData(data,auditRecord,ctime) {
   var gwmc=decodeURIComponent(getUrlParam(window.location.href, 'GWMC'));
   if (gwmc&&gwmc!='null') {
     $("#authorName").html(gwmc);
@@ -124,6 +126,18 @@ function fillData() {
     rTime.setTime(data03.signdate.time);
     $("#signDate").html(rTime.Format('yyyy-MM-dd'));
   }
+  
+  if (ctime) {
+	    var rTime=new Date();
+	    rTime.setTime(ctime.time);
+	    $("#attentionTime").html(rTime.Format('yyyy-MM-dd'));
+  }
+  if (auditRecord!='') {
+	  var rTime=new Date();
+	  rTime.setTime(auditRecord.ctime.time);
+	  $("#checkTime").html(rTime.Format('yyyy-MM-dd'));
+  }
+    
   if (customer.visitcount) $("#visitCount").html(customer.visitcount);
   if (data03.housenum) $("#houseNum").html(data03.housenum);
   if (data03.houseregitype) $("#houseRegiType").html(data03.houseregitype);

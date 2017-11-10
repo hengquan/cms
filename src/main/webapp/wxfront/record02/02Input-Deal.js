@@ -870,6 +870,7 @@ function selCust() {
     });
   }
 }
+
 //处理客户信息，看是否需要重复录
 function _dealCustomer() {
   //填充必要的信息
@@ -878,9 +879,9 @@ function _dealCustomer() {
     rTime.setTime(customer.firstvisittime.time);
     fillTime("firstVisitTime", rTime);
   }
-  if($("input[name='firstVisitTime']").val()==""){
+ /* if($("input[name='firstVisitTime']").val()==""){
 	  $("input[name='firstVisitTime']").removeAttr("readonly");
-  };
+  };*/
  
   if (customer.visitcount) $("input[name='visitCount']").val(customer.visitcount);
   fillSelectField('sex', customer.custsex, true);
