@@ -2001,6 +2001,8 @@ public class WxApiController extends ControllerBaseWx {
 	    				accessRecord03.setCustphonenum(custphonenum);
 	    			}
 	    		}
+	    	}else{
+	    		custId = key.getUUIDKey();
 	    	}
 			if (accessRecord03Service.insert(accessRecord03)) {
 				//添加临时统计表
@@ -2145,7 +2147,7 @@ public class WxApiController extends ControllerBaseWx {
 					dayTemporaryRecepService.insert(dayRecepProjAndUserAndCusts);
 				}
 				//开始线程
-				Deal01OtherTable d01=new Deal01OtherTable(customer, (ProjCustRef)resultObjs[2], (UserCustRef)resultObjs[3], (List<TabDictRef>)resultObjs[4], 0);
+				Deal01OtherTable d01=new Deal01OtherTable((Customer)resultObjs[1], (ProjCustRef)resultObjs[2], (UserCustRef)resultObjs[3], (List<TabDictRef>)resultObjs[4], 0);
 				d01.start();
 				map.put("msg", "100");
 			} else {
@@ -2172,7 +2174,7 @@ public class WxApiController extends ControllerBaseWx {
 		//项目Id
 		String projId = "";
 		//客户表ID
-		String customerId = "";
+		String customerId = key.getUUIDKey();
 		//临时字符串
 		String tempStr = "";
 		//返回结果
@@ -2191,12 +2193,11 @@ public class WxApiController extends ControllerBaseWx {
 		_retR03.setProjid(projId);
 		projCustRef.setProjid(projId);
 		userCustRef.setProjid(projId);
+		userCustRef.setUserid(record03.getAuthorid());
 		//用户Id
 		String custid = record03.getCustid();
 		if(StringUtils.isNotEmpty(custid)){
 			customerId=custid;
-		}else{
-			customerId=key.getUUIDKey();
 		}
 		_retR03.setCustid(customerId);
 		cust.setId(customerId);
@@ -2204,6 +2205,7 @@ public class WxApiController extends ControllerBaseWx {
 		userCustRef.setCustid(customerId);
 		//买房人姓名
 		_retR03.setCustname(record03.getCustname());
+		cust.setCustname(record03.getCustname());
 		//联系方式
 		_retR03.setCustphonenum(record03.getCustphonenum());
 		cust.setPhonenum(record03.getCustphonenum());
@@ -2531,8 +2533,17 @@ public class WxApiController extends ControllerBaseWx {
 			String recordId=m.get("recordId")==null?null:(String)m.get("recordId");
 			if(recordId != null&&!"".equals(recordId)){
 				AccessRecord01 accessRecord01 = accessRecord01Service.findById(recordId);
+				Map<String,Object> parameter = new HashMap<String,Object>();
+				parameter.put("recordId", recordId);
+				parameter.put("recordType", 1);
+				AuditRecord auditRecord = auditRecordService.selectByRecordId(parameter);
 				map.put("msg", "100");
 				map.put("data", accessRecord01);
+				if(auditRecord==null){
+					map.put("auditRecord", "");
+				}else{
+					map.put("auditRecord", auditRecord);
+				}
 			}else{
 				map.put("msg", "103");
 			}
@@ -2554,8 +2565,17 @@ public class WxApiController extends ControllerBaseWx {
 			String recordId = m.get("recordId")==null?null:m.get("recordId").toString();
 			if(recordId != null && !"".equals(recordId)){
 				AccessRecord02 accessRecord02 = accessRecord02Service.selectById(recordId);
+				Map<String,Object> parameter = new HashMap<String,Object>();
+				parameter.put("recordId", recordId);
+				parameter.put("recordType", 2);
+				AuditRecord auditRecord = auditRecordService.selectByRecordId(parameter);
 				map.put("msg", "100");
 				map.put("data", accessRecord02);
+				if(auditRecord==null){
+					map.put("auditRecord", "");
+				}else{
+					map.put("auditRecord", auditRecord);
+				}
 			}else{
 				map.put("msg", "103");
 			}
@@ -2578,8 +2598,17 @@ public class WxApiController extends ControllerBaseWx {
 			String recordId = m.get("recordId")==null?null:m.get("recordId").toString();
 			if(recordId != null && !"".equals(recordId)){
 				AccessRecord03 accessRecord03 = accessRecord03Service.findById(recordId);
+				Map<String,Object> parameter = new HashMap<String,Object>();
+				parameter.put("recordId", recordId);
+				parameter.put("recordType", 3);
+				AuditRecord auditRecord = auditRecordService.selectByRecordId(parameter);
 				map.put("msg", "100");
 				map.put("data", accessRecord03);
+				if(auditRecord==null){
+					map.put("auditRecord", "");
+				}else{
+					map.put("auditRecord", auditRecord);
+				}
 			}else{
 				map.put("msg", "103");
 			}
@@ -2891,7 +2920,7 @@ public class WxApiController extends ControllerBaseWx {
 			auditRecord.setAudittype(Integer.parseInt(auditType));
 			auditRecord.setReason(auditMsg);
 			auditRecord.setarid(recordId);
-			auditRecord.setAudittype(2);
+			auditRecord.setAudittype(Integer.parseInt(auditType));
 			auditRecordService.insert(auditRecord);
 			//修改状态
 			if(recordType.equals("1")){
@@ -3079,11 +3108,14 @@ public class WxApiController extends ControllerBaseWx {
 			//首次获取时间
 			List<AccessRecord01> accessRecord01s = accessRecord01Service.selectByUserId(parmeterMap);
 			if (accessRecord01s!=null&&!accessRecord01s.isEmpty()) {
-				Date firstknowtime = accessRecord01s.get(0).getFirstknowtime();
+				Date firstknowtime = accessRecord01s.get(0).getReceptime();
 				customer.setFirstvisittime(firstknowtime);
 			}
 			//复访总次数
 			Integer totalRecord02 = accessRecord01Service.selectByCustIdAndProjId(parmeterMap);
+			if(totalRecord02==null){
+				totalRecord02 = 0;
+			}
 			customer.setVisitcount(totalRecord02+1);
 			map.put("customer", customer);
 			map.put("msg", "100");
@@ -3511,7 +3543,13 @@ public class WxApiController extends ControllerBaseWx {
 			try {
 				//处理客户
 			    if (type==0) {
-					customerService.insert(cust);
+					String id = cust.getId();
+					Customer customer = customerService.findById(id);
+					if(customer!=null){
+						customerService.update(customer);
+					}else{
+						customerService.insert(cust);
+					}
 			    }
 			    else customerService.update(cust);
 			    //处理用户客户

@@ -92,5 +92,9 @@ public class AuditRecordServiceImpl implements AuditRecordService {
 	public AuditRecord findByArId(Map<String,Object> data) {
 		return dao.findByArId(data);
 	}
+	@Override
+	public AuditRecord selectByRecordId(Map<String, Object> parameter) {
+		return dao.selectByRecordId(parameter);
+	}
 
 }
