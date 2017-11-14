@@ -31,7 +31,7 @@ function initPage(data) {
   $.ajax({type:"post", async:true, url:url, data:null, dataType:"json",
     success: function(json) {
       if (json.msg=='100') {
-        fillData(json.data);
+        fillData(json.data,json.auditRecord);
         $('body').css("display", "block");
       } else {
         window.location.href=_URL_BASE+"/wxfront/err.html?1000=抱歉<br/>无法获得您的个人信息<br/>禁止录入";
@@ -44,7 +44,7 @@ function initPage(data) {
   });
 }
 
-function fillData(data) {
+function fillData(data,auditRecord) {
   if (!data) return;
   var gwmc=decodeURIComponent(getUrlParam(window.location.href, 'GWMC'));
   if (gwmc&&gwmc!='null') {
@@ -80,6 +80,16 @@ function fillData(data) {
     var rTime=new Date();
     rTime.setTime(data.receptime.time);
     $("#curTime").html(rTime.Format('yyyy-MM-dd'));
+  }
+  if (data.ctime) {
+    var rTime=new Date();
+    rTime.setTime(data.ctime.time);
+    $("#attentionTime").html(rTime.Format('yyyy-MM-dd'));
+  }
+  if (auditRecord!='') {
+	  var rTime=new Date();
+	  rTime.setTime(auditRecord.ctime.time);
+	  $("#checkTime").html(rTime.Format('yyyy-MM-dd'));
   }
   if (data.agegroup) $("#ageGroup").html(data.agegroup);
   if (data.localresidence) $("#localResidence").html(data.localresidence);

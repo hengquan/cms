@@ -168,7 +168,6 @@ $(function(){
   for(var i=0 ;i<tabLi.length; i++ ){
     tabList[i].style.width=windowWidth+"px";
     tabList[i].style.float='left';
-    tabList[i].style.float='left';
     tabList[i].style.padding='0';
     tabList[i].style.margin='0';
     tabList[i].style.verticalAlign='top';
@@ -275,7 +274,6 @@ var init={
   var end = "";
   var userid = sessionStorage.getItem("userid",userid);
   var roleName = sessionStorage.getItem("roleName",roleName);
-  console.log(roleName);
   if(roleName === "管理员"){
 	  $(".roleName").html("项目");
    }else if(roleName === "项目负责人" || roleName === "项目管理人"){
