@@ -66,6 +66,12 @@
     </div>
   </div>
   <div class="line"></div>
+    <div class="item-yhm" id="version">
+    <div class="item-my row" onclick="openVersion()" >
+      <div class="col-pic"><img src="../images/pic_05.png"></div>
+      <div class="col-xm">版本更新</div>
+    </div>
+  </div>
   <div class="xxts" id="comment"></div>
 </div>
 
@@ -134,7 +140,10 @@ function openStat(type) {
 		alert("月统计");
 	} */
   window.location.href=_URL_BASE+"/wxfront/user/data.html#"+type;
-	
+}
+
+function openVersion() {
+  window.location.href=_URL_BASE+"/wxfront/user/version.html";
 }
 
 /**

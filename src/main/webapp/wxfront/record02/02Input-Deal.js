@@ -879,9 +879,9 @@ function _dealCustomer() {
     rTime.setTime(customer.firstvisittime.time);
     fillTime("firstVisitTime", rTime);
   }
- /* if($("input[name='firstVisitTime']").val()==""){
+  if($("input[name='firstVisitTime']").val()==""){
 	  $("input[name='firstVisitTime']").removeAttr("readonly");
-  };*/
+  };
  
   if (customer.visitcount) $("input[name='visitCount']").val(customer.visitcount);
   fillSelectField('sex', customer.custsex, true);
