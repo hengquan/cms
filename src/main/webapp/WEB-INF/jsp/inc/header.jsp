@@ -73,9 +73,10 @@
 			<li class="dropdown">
 				<a data-toggle="dropdown" class="dropdown-toggle" href="#"> 
 					<img alt=""src="${appRoot}/static/img/ql.png" id="headImg" style="width: 30px;height: 30px"> 
-					<span class="username hidden-phone">${currentUser.userName}</span> <b class="caret"></b>
+					<span class="username hidden-phone"></span> <b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu extended">
+					<li><a onclick="" href="#"><i class=" icon-suitcase"></i>&nbsp;&nbsp;版本更新</a></li>
 					<li><a onclick="showPassword();" href="#"><i class=" icon-suitcase"></i>&nbsp;&nbsp;修改密码</a></li>
 					<li><a href="${appRoot}/logout.ky"><i class="icon-key"></i>&nbsp;&nbsp;退出</a></li>
 				</ul>
@@ -135,13 +136,16 @@
 
 		//setInterval("getImg()",5000);//1000为1秒钟	
 		function getImg(){
-			var a = '${appAccessUrl}';
 			$.ajax({
-				type:'POST',
-				url:'<%=request.getContextPath()%>/businesslogo/getimg',
+				type:'post',
+				url:'${appRoot}/loginMsg',
 				dataType:'json',
 				success:function(data){
-					$('#headImg').attr("src",a+"/"+data.headimgurl);
+					if(data.msg == 100){
+						var user = data.userInfo;
+						$(".username").html(user.realname);
+						$("#headImg").attr("src",user.headimgurl);
+					}
 				}
 			});
 		}

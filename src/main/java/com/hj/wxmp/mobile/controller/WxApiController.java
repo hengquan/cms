@@ -1527,6 +1527,7 @@ public class WxApiController extends ControllerBaseWx {
 		if (parseResult!=null) {
 			tempStr=parseResult.get("storeStr")+"";
 			_retR02.setResistpoint(tempStr);
+			projCustRef.setResistpoint(tempStr);
 			if (projCustRef!=null) projCustRef.setResistpoint(tempStr);
 			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
 			List<TabDictRef> cartotalpriceO1=transToDictRefList(dictList, "014", "本案抗拒点", "ql_AccessRecord02", id);
@@ -1536,6 +1537,7 @@ public class WxApiController extends ControllerBaseWx {
 		}
 		//本案抗拒点描述
 		_retR02.setResistpointdesc(record02.getResistpointdesc());
+		projCustRef.setResistpointdesc(record02.getResistpointdesc());
 		if (projCustRef!=null) projCustRef.setResistpointdesc(record02.getResistpointdesc());
 		//本案关注点
 		tempStr=record02.getAttentionpoint();
@@ -1775,6 +1777,7 @@ public class WxApiController extends ControllerBaseWx {
 		if (parseResult!=null) {
 			tempStr=parseResult.get("storeStr")+"";
 			_retR02.setCapitalprepsection(tempStr);
+			projCustRef.setCapitalprepsection(tempStr);
 			if (projCustRef!=null) projCustRef.setCapitalprepsection(tempStr);
 			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
 			List<TabDictRef> sexO1=transToDictRefList(dictList, "017", "资金筹备期", "ql_AccessRecord02", id);
@@ -2295,7 +2298,7 @@ public class WxApiController extends ControllerBaseWx {
 		}
 		//通邮地址
 		_retR03.setAddressmail(record03.getAddressmail());
-		//实际居住人情况
+		//实际居住情况
 		tempStr=record03.getLivingstatus();
 		parseResult=parseDictsStr(tempStr);
 		if (parseResult!=null) {
@@ -2303,9 +2306,9 @@ public class WxApiController extends ControllerBaseWx {
 			_retR03.setLivingstatus(tempStr);
 			cust.setLivingstatus(tempStr);
 			List<Map<String, Object>> dictList=(List<Map<String, Object>>)parseResult.get("dictList");
-			List<TabDictRef> cartotalpriceO1=transToDictRefList(dictList, "005", "实际居住人情况 ", "ql_AccessRecord03", id);
+			List<TabDictRef> cartotalpriceO1=transToDictRefList(dictList, "005", "实际居住情况 ", "ql_AccessRecord03", id);
 			if (cartotalpriceO1!=null) dictRefList.addAll(cartotalpriceO1);
-			List<TabDictRef> cartotalpriceCust=transToDictRefList(dictList, "005", "实际居住人情况", "ql_Customer", customerId);
+			List<TabDictRef> cartotalpriceCust=transToDictRefList(dictList, "005", "实际居住情况", "ql_Customer", customerId);
 			if (cartotalpriceCust!=null) dictRefList.addAll(cartotalpriceCust);
 		}
 		//实际使用人
