@@ -270,6 +270,40 @@ var vueStep2=new Vue({
       _uChildrenNum="";
       var choose=document.getElementsByName('childrenNum');
       for (var i=0; i<choose.length; i++) {
+    	if(choose[0].checked){
+    		$("#childAgeGroup").html("无法了解");
+    		$("#childAgeGroup").parent().parent().parent().css("pointer-events","none");
+    		$("#schoolType").html("无法了解");
+    		$("#schoolType").parent().parent().parent().css("pointer-events","none");
+    		$("input:text[name='schoolName']").val("无法了解");
+    		$("input:text[name='schoolName']").attr("readOnly",true);
+    		$("#childAvocations").html("无法了解");
+    		$("#childAvocations").parent().parent().parent().css("pointer-events","none");
+    		$("#outEduWill").html("无法了解");
+    		$("#outEduWill").parent().parent().parent().css("pointer-events","none");
+    		$("#childOutExperFlag").html("无法了解");
+    		$("#childOutExperFlag").parent().parent().parent().css("pointer-events","none");
+    		$("input:text[name='childOutExperCity']").val("无法了解");
+    		$("input:text[name='childOutExperCity']").attr("readOnly",true);
+    		_uChildAgeGroup ="020000-无法了解";
+		    _uSchoolType ="020000-无法了解";
+			_uChildAvocations ="020000-无法了解";	
+			_uOutEduWill = "-1";
+			_uChildOutExperFlag = "-1";
+    	}else{
+    		$("#childAgeGroup").html("");
+    		$("#schoolType").html("");
+    		$("input:text[name='schoolName']").val("");
+    		$("#childAvocations").html("");
+    		$("#outEduWill").html("");
+    		$("#childOutExperFlag").html("");
+    		$("input:text[name='childOutExperCity']").val("");
+    		$("input:text[name='schoolName']").attr("readOnly",false);
+    		$("input:text[name='childOutExperCity']").attr("readOnly",false);
+    		$(".item_sflr").css("pointer-events","auto");
+    		checkStep2();
+    	}
+    	  
         if (choose[i].checked) {
           $("#childrenNum").html(choose[i].getAttribute("_text"));
           _uChildrenNum=choose[i].value;
