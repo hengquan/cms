@@ -157,7 +157,6 @@
       <input type="date" placeholder="" name="firstVisitTime"/ readonly="readonly"/>
     </div>
   </div>
-   <div class="line"></div>
   <div class="item_sflr row">
     <div class="col-title col-title-6">本次到访时间</div>
     <div class="col-input-6 inputdate">
@@ -410,6 +409,7 @@
           <label><input type="radio" name="outEduWill" value="1" _text="有" @click="selOutEduWill()"/> 有 </label>
           <label><input type="radio" name="outEduWill" value="2" _text="无" @click="selOutEduWill()"/> 无 </label>
           <label class="wflj"><input type="radio" name="outEduWill" value="-1" _text="无法了解" @click="selOutEduWill()"/> 无法了解 </label>
+          <label><input type="radio" name="outEduWill" value="-2" _text="无需填写" @click="selOutEduWill()" style="display:none"/></label>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
