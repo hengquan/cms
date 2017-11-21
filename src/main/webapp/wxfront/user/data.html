@@ -75,7 +75,7 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
   <input type="hidden" id="monthLastDay" value="">
   <div class="tabCon">
     <div class="tabBox">
-      <div class="tabList">
+      <div class="tabList tabList1">
         <div class="item_sflr row" style="width:100%; border:1px solid #FFFFFF;margin:0;padding:0;" >
           <div class="inputdate02">
             <button id="preDate" class="btn btn-primary btn-primary-left" onclick="preDay()">前一天</button><input type="date" placeholder="" id="nowDate" oninput="OnInput(event)" value="请输入日期" style="width:60%;"><button id="nextDate" class="btn btn-primary btn-primary-right" onclick="nextDay()">后一天</button>
@@ -92,7 +92,7 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
         </table>
         <div id="dayEcharts" style="width: 100%;height:400px;"></div>
       </div>
-      <div class="tabList">
+      <div class="tabList tabList2">
         <div class="item_sflr row" style="width:100%; border:1px solid #FFFFFF;margin:0;padding:0;">
           <div class="inputdate02">
             <button id="preWeek" class="btn btn-primary btn-primary-left" onclick="preWeek()">前一周</button><input type="date" placeholder="" id="nowWeek" oninput="OnInput(event)" value="请输入日期" style="width:60%;"><button id="nextWeek" class="btn btn-primary btn-primary-right" onclick="nextWeek()">后一周</button>
@@ -109,7 +109,7 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
         </table>
         <div id="weekEcharts" style="width: 100%;height:400px;"></div>
       </div>
-      <div class="tabList">
+      <div class="tabList tabList3">
         <div class="item_sflr row" style="width:100%; border:1px solid #FFFFFF;margin:0;padding:0;">
           <div class="inputdate02">
             <button id="preMonth" class="btn btn-primary btn-primary-left" onclick="preMonth()">前一月</button><input type="month" placeholder="Birth day" oninput="OnInput(event)" id="nowMonth" value="" style="width:60%;"><button id="nextMonth" class="btn btn-primary btn-primary-right" onclick="nextMonth()">后一月</button>
@@ -180,6 +180,7 @@ $(function(){
     tabLi[i].onclick=function(){
       var star=this.start;
       console.log(star);
+      
       for(var i=0 ;i<tabLi.length; i++ ){
         tabLi[i].className='';
       }
@@ -243,6 +244,18 @@ $(function(){
     var stars=wrap.querySelector('.active').start;
     init.lineAnme(lineDiv,stars*windowWidth/4);
   };
+    //点击日数据，周数据，月数据跳转到不同页面
+	var myType = sessionStorage.getItem("type",myType);
+	if(myType==1){
+		init.lineAnme(lineDiv,windowWidth/tabLi.length*0)
+		init.translate(tabBox,windowWidth,0);
+	}else if(myType==2){
+		init.lineAnme(lineDiv,windowWidth/tabLi.length*1)
+		init.translate(tabBox,windowWidth,1);
+	}else if(myType==3){
+		init.lineAnme(lineDiv,windowWidth/tabLi.length*2)
+		init.translate(tabBox,windowWidth,2);
+	}
 });
   
 var init={
@@ -281,7 +294,7 @@ var init={
   } else if(roleName === "顾问"){
 	  $(".roleName").html("客户");
   }
-	  
+
   
 //从后台获取每日数据并渲染数据及图表
 function getDaydata(){ 

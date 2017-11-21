@@ -132,13 +132,17 @@ $(function() {
 });
 
 function openStat(type) {
-/* 	if(type==1){
-		alert("日统计");
+	sessionStorage.setItem("type",type);
+ 	if(type==1){
+ 		var myType = 1;
+ 		sessionStorage.setItem("type",myType);
 	}else if(type==2){
-		alert("周统计");
+		var myType = 2;
+ 		sessionStorage.setItem("type",myType);
 	}else{
-		alert("月统计");
-	} */
+		var myType = 3;
+ 		sessionStorage.setItem("type",myType);
+	} 
   window.location.href=_URL_BASE+"/wxfront/user/data.html#"+type;
 }
 
