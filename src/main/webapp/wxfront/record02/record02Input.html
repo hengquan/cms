@@ -154,10 +154,9 @@
   <div class="item_sflr row">
     <div class="col-title col-title-6">首次到访时间</div>
     <div class="col-input-6 inputdate">
-      <input type="date" placeholder="" name="firstVisitTime"/>
+      <input type="date" placeholder="" name="firstVisitTime"/ readonly="readonly"/>
     </div>
   </div>
-   <div class="line"></div>
   <div class="item_sflr row">
     <div class="col-title col-title-6">本次到访时间</div>
     <div class="col-input-6 inputdate">
@@ -390,6 +389,68 @@
       </div>
     </div>
   </div>
+
+  <div class="item_sflr row">
+    <div class="col-title col-title-6">国际教育意愿</div>
+    <a href="" data-toggle="modal" data-target="#outEduWillModal">
+    <div class="col-input-6-1">
+      <span class="input_style form-group" id="outEduWill">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="outEduWillModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">国际教育意愿</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="outEduWill" value="1" _text="有" @click="selOutEduWill()"/> 有 </label>
+          <label><input type="radio" name="outEduWill" value="2" _text="无" @click="selOutEduWill()"/> 无 </label>
+          <label class="wflj"><input type="radio" name="outEduWill" value="-1" _text="无法了解" @click="selOutEduWill()"/> 无法了解 </label>
+          <label><input type="radio" name="outEduWill" value="-2" _text="无需填写" @click="selOutEduWill()" style="display:none"/></label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanOutEduWill()" id="cleanOutEduWillBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+   <div class="item_sflr row">
+    <div class="col-title col-title-9">子女是否有海外经历</div>
+    <a href="" data-toggle="modal" data-target="#childOutExperFlagModal">
+    <div class="col-input-9-1">
+      <span class="input_style form-group" id="childOutExperFlag">&nbsp;</span>
+    </div>
+    </a>
+  </div>
+  <div class="modal fade" id="childOutExperFlagModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+          <h4 class="modal-title">子女是否有海外经历</h4>
+        </div>
+        <div class="modal-body">
+          <label><input type="radio" name="childOutExperFlag" value="1" _text="有" @click="selChildOutExperFlag()"/> 有 </label>
+          <label><input type="radio" name="childOutExperFlag" value="2" _text="无" @click="selChildOutExperFlag()"/> 无 </label>
+          <label class="wflj"><input type="radio" name="childOutExperFlag" value="-1" _text="无法了解" @click="selChildOutExperFlag()"/> 无法了解 </label><br/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanChildOutExperFlag()" id="cleanChildOutExperFlagBtn" style="display:none;">清除并关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="item_sflr row">
+    <div class="col-title col-title-8">请填写是哪个城市</div>
+    <div class="col-input-8"><input type="text" placeholder="" name="childOutExperCity"/></div>
+  </div>
+  
   <div class="item_sflr row">
     <div class="col-title col-title-4">全职太太</div>
     <a href="" data-toggle="modal" data-target="#fulltimeWifeFlagModal">
@@ -471,33 +532,7 @@
       </div>
     </div>
   </div>
-  <div class="item_sflr row">
-    <div class="col-title col-title-6">国际教育意愿</div>
-    <a href="" data-toggle="modal" data-target="#outEduWillModal">
-    <div class="col-input-6-1">
-      <span class="input_style form-group" id="outEduWill">&nbsp;</span>
-    </div>
-    </a>
-  </div>
-  <div class="modal fade" id="outEduWillModal" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-          <h4 class="modal-title">国际教育意愿</h4>
-        </div>
-        <div class="modal-body">
-          <label><input type="radio" name="outEduWill" value="1" _text="有" @click="selOutEduWill()"/> 有 </label>
-          <label><input type="radio" name="outEduWill" value="2" _text="无" @click="selOutEduWill()"/> 无 </label>
-          <label class="wflj"><input type="radio" name="outEduWill" value="-1" _text="无法了解" @click="selOutEduWill()"/> 无法了解 </label>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanOutEduWill()" id="cleanOutEduWillBtn" style="display:none;">清除并关闭</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  
   <div class="item_sflr row">
     <div class="col-title col-title-9">业主是否有海外经历</div>
     <a href="" data-toggle="modal" data-target="#outExperFlagModal">
@@ -529,37 +564,7 @@
     <div class="col-title col-title-8">请填写是哪个城市</div>
     <div class="col-input-8"><input type="text" placeholder="" name="outExperCity"/></div>
   </div>
-  <div class="item_sflr row">
-    <div class="col-title col-title-9">子女是否有海外经历</div>
-    <a href="" data-toggle="modal" data-target="#childOutExperFlagModal">
-    <div class="col-input-9-1">
-      <span class="input_style form-group" id="childOutExperFlag">&nbsp;</span>
-    </div>
-    </a>
-  </div>
-  <div class="modal fade" id="childOutExperFlagModal" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-          <h4 class="modal-title">子女是否有海外经历</h4>
-        </div>
-        <div class="modal-body">
-          <label><input type="radio" name="childOutExperFlag" value="1" _text="有" @click="selChildOutExperFlag()"/> 有 </label>
-          <label><input type="radio" name="childOutExperFlag" value="2" _text="无" @click="selChildOutExperFlag()"/> 无 </label>
-          <label class="wflj"><input type="radio" name="childOutExperFlag" value="-1" _text="无法了解" @click="selChildOutExperFlag()"/> 无法了解 </label><br/>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal" @click="cleanChildOutExperFlag()" id="cleanChildOutExperFlagBtn" style="display:none;">清除并关闭</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="item_sflr row">
-    <div class="col-title col-title-8">请填写是哪个城市</div>
-    <div class="col-input-8"><input type="text" placeholder="" name="childOutExperCity"/></div>
-  </div>
+ 
   <div class="row row-link">
     <div class="col-50" style="margin-top:1.5rem;" onClick="step2Prev()" _type="BTN">上一步</div>
     <div class="col-50" style="margin-top:1.5rem;" onClick="step2Next()" _type="BTN">下一步</div>
@@ -740,6 +745,7 @@
           <h4 class="modal-title">家庭已购房产（套）</h4>
         </div>
         <div class="modal-body">
+          <label><input type="radio" name="houseCount" value="0" _text="无" @click="selHouseCount()"/> 无 </label>
           <label><input type="radio" name="houseCount" value="1" _text="一套" @click="selHouseCount()"/> 一套 </label>
           <label><input type="radio" name="houseCount" value="2" _text="两套" @click="selHouseCount()"/> 两套 </label>
           <label><input type="radio" name="houseCount" value="3" _text="三套" @click="selHouseCount()"/> 三套 </label>
@@ -768,6 +774,7 @@
           <h4 class="modal-title">家庭汽车数量（辆）</h4>
         </div>
         <div class="modal-body">
+          <label><input type="radio" name="carFamilyCount" value="0" _text="无" @click="selCarFamilyCount()"/> 无 </label>
           <label><input type="radio" name="carFamilyCount" value="1" _text="一辆" @click="selCarFamilyCount()"/> 一辆 </label>
           <label><input type="radio" name="carFamilyCount" value="2" _text="二辆" @click="selCarFamilyCount()"/> 二辆 </label>
           <label><input type="radio" name="carFamilyCount" value="3" _text="三辆" @click="selCarFamilyCount()"/> 三辆 </label>

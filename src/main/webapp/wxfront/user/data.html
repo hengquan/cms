@@ -75,7 +75,7 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
   <input type="hidden" id="monthLastDay" value="">
   <div class="tabCon">
     <div class="tabBox">
-      <div class="tabList">
+      <div class="tabList tabList1">
         <div class="item_sflr row" style="width:100%; border:1px solid #FFFFFF;margin:0;padding:0;" >
           <div class="inputdate02">
             <button id="preDate" class="btn btn-primary btn-primary-left" onclick="preDay()">前一天</button><input type="date" placeholder="" id="nowDate" oninput="OnInput(event)" value="请输入日期" style="width:60%;"><button id="nextDate" class="btn btn-primary btn-primary-right" onclick="nextDay()">后一天</button>
@@ -92,7 +92,7 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
         </table>
         <div id="dayEcharts" style="width: 100%;height:400px;"></div>
       </div>
-      <div class="tabList">
+      <div class="tabList tabList2">
         <div class="item_sflr row" style="width:100%; border:1px solid #FFFFFF;margin:0;padding:0;">
           <div class="inputdate02">
             <button id="preWeek" class="btn btn-primary btn-primary-left" onclick="preWeek()">前一周</button><input type="date" placeholder="" id="nowWeek" oninput="OnInput(event)" value="请输入日期" style="width:60%;"><button id="nextWeek" class="btn btn-primary btn-primary-right" onclick="nextWeek()">后一周</button>
@@ -109,7 +109,7 @@ li img {width:1rem;height:1rem;margin-top:.8rem;margin-right:.3rem}
         </table>
         <div id="weekEcharts" style="width: 100%;height:400px;"></div>
       </div>
-      <div class="tabList">
+      <div class="tabList tabList3">
         <div class="item_sflr row" style="width:100%; border:1px solid #FFFFFF;margin:0;padding:0;">
           <div class="inputdate02">
             <button id="preMonth" class="btn btn-primary btn-primary-left" onclick="preMonth()">前一月</button><input type="month" placeholder="Birth day" oninput="OnInput(event)" id="nowMonth" value="" style="width:60%;"><button id="nextMonth" class="btn btn-primary btn-primary-right" onclick="nextMonth()">后一月</button>
@@ -142,6 +142,34 @@ function xlh(){
   }
 }
 
+//点击日数据，周数据，月数据跳转到不同页面
+window.onload = function(){
+	var windowWidth=document.body.clientWidth; //window 宽度;
+	var wrap=document.getElementById('wrap');
+	var tabClick=wrap.querySelectorAll('.tabClick')[0];
+	var tabLi=tabClick.getElementsByTagName('li');
+	var tabBox= wrap.querySelectorAll('.tabBox')[0];
+	var tabList=tabBox.querySelectorAll('.tabList');
+	var lineBorder=wrap.querySelectorAll('.lineBorder')[0];
+	var lineDiv=lineBorder.querySelectorAll('.lineDiv')[0];
+	var myType = sessionStorage.getItem("type",myType);
+	for(var i=0 ;i<tabLi.length; i++ ){
+	      tabLi[i].className='';
+	} 
+	 if(myType==1){
+		tabLi[0].className='active';
+		init.lineAnme(lineDiv,windowWidth/tabLi.length*0)
+		init.translate(tabBox,windowWidth,0);
+	}else if(myType==2){
+		tabLi[1].className='active';
+		init.lineAnme(lineDiv,windowWidth/tabLi.length*1)
+		init.translate(tabBox,windowWidth,1);
+	}else if(myType==3){
+		tabLi[2].className='active';
+		init.lineAnme(lineDiv,windowWidth/tabLi.length*2)
+		init.translate(tabBox,windowWidth,2);
+	} 
+}
 $(function(){
   xlh();
   var windowWidth=document.body.clientWidth; //window 宽度;
@@ -162,7 +190,7 @@ $(function(){
   tabBox.style.width=windowWidth*tabList.length+"px";
 
   tabBox.addEventListener('touchstart',chstart,false);
-  tabBox.addEventListener('touchmove',chmove,false);
+  //tabBox.addEventListener('touchmove',chmove,false);
   tabBox.addEventListener('touchend',chend,false);
 
   for(var i=0 ;i<tabLi.length; i++ ){
@@ -176,10 +204,11 @@ $(function(){
 
   for(var i=0 ;i<tabLi.length; i++ ){
     tabLi[i].start=i;
-    console.log(i);
+    //console.log(i);
     tabLi[i].onclick=function(){
       var star=this.start;
-      console.log(star);
+      //console.log(star);
+      
       for(var i=0 ;i<tabLi.length; i++ ){
         tabLi[i].className='';
       }
@@ -189,7 +218,7 @@ $(function(){
       endX= -star*windowWidth;
     }
   }
-  function OnTab(star) {
+   function OnTab(star) {
     if(star<0) star=0;
     else
     if(star>=tabLi.length) star=tabLi.length-1;
@@ -199,7 +228,7 @@ $(function(){
     tabLi[star].className='active';
     init.translate(tabBox,windowWidth,star);
     endX= -star*windowWidth;
-  }
+  } 
   //按下
   function chstart(ev){
     ev.preventDefault;
@@ -209,26 +238,29 @@ $(function(){
     tabBox.style.transition='all 0s ease-in-out';
   };
   //滑动
-  function chmove(ev){
+/*   function chmove(ev){
     var stars=wrap.querySelector('.active').start;
     ev.preventDefault;
     var touch=ev.touches[0];
     var distance=touch.pageX-tar;
     dist=distance;
     init.touchs(tabBox,windowWidth,tar,distance,endX);
-    init.lineAnme(lineDiv,-dist/tabLi.length-endX/4);
-  };
+    init.lineAnme(lineDiv,-dist/tabLi.length-endX/3);
+  }; */
   //离开
   function chend(ev){
     var str= tabBox.style.transform;
+    console.log(str);
     var strs=JSON.stringify(str.split(",",1));  
+    console.log(strs);
     endX=Number(strs.substr(14,strs.length-18)); 
+    console.log(endX);
     if (endX>0) {
        init.back(tabBox,windowWidth,tar,0,0,0.3);
        endX=0
     } else
     if (endX<-windowWidth*tabList.length+windowWidth) {
-      endX=-windowWidth*tabList.length+windowWidth
+      endX=-windowWidth*tabList.length+windowWidth;
       init.back(tabBox,windowWidth,tar,0,endX,0.3);
     } else
     if (dist<-windowWidth/3) {
@@ -237,14 +269,15 @@ $(function(){
     } else
     if (dist>windowWidth/3) {
       OnTab(tabClick.querySelector('.active').start-1);
-    } else {
+    }else {
       OnTab(tabClick.querySelector('.active').start);
     }
     var stars=wrap.querySelector('.active').start;
-    init.lineAnme(lineDiv,stars*windowWidth/4);
-  };
+    init.lineAnme(lineDiv,stars*windowWidth/3);
+  }; 
 });
-  
+
+
 var init={
   translate:function(obj,windowWidth,star){
     obj.style.webkitTransform='translate3d('+-star*windowWidth+'px,0,0)';
@@ -281,8 +314,7 @@ var init={
   } else if(roleName === "顾问"){
 	  $(".roleName").html("客户");
   }
-	  
-  
+
 //从后台获取每日数据并渲染数据及图表
 function getDaydata(){ 
   var getbeginDate = $("#beginDate").val();

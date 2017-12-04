@@ -879,9 +879,9 @@ function _dealCustomer() {
     rTime.setTime(customer.firstvisittime.time);
     fillTime("firstVisitTime", rTime);
   }
- /* if($("input[name='firstVisitTime']").val()==""){
+  if($("input[name='firstVisitTime']").val()==""){
 	  $("input[name='firstVisitTime']").removeAttr("readonly");
-  };*/
+  };
  
   if (customer.visitcount) $("input[name='visitCount']").val(customer.visitcount);
   fillSelectField('sex', customer.custsex, true);
@@ -945,6 +945,7 @@ function fillTime(id, _time) {
   str+=((100+_time.getDate())+"").substr(1);
   $("input[name='"+id+"']").val(str);
 }
+
 function fillData(data) {//填数据，包括所有页面
   if (!data) return;
   if (data.projid) _uProjId=data.projid;
@@ -973,6 +974,7 @@ function fillData(data) {//填数据，包括所有页面
     }
     fillSelectField("visitorRefs", _temp, true);
   }
+  
   if (data.childrennum) fillSelectField("childrenNum", data.childrennum, true);
   if (data.childagegroup) fillSelectField("childAgeGroup", data.childagegroup, true);
   if (data.schooltype) fillSelectField("schoolType", data.schooltype, true);

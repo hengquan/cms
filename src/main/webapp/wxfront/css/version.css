@@ -1,0 +1,52 @@
+﻿@charset 'utf-8';
+/* ---------- reset ---------- */
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%
+}
+html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {margin: 0; padding: 0;}
+body,button,input,textarea,select{font: 12px/1.5 Arial,'microsoft yahei',Helvetica,sans-serif;-webkit-font-smoothing: antialiased;}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {display: block }
+address, caption, cite, code, dfn, em, th, var {font-style: normal; font-weight: 400; }
+table {border-collapse: collapse; border-spacing: 0 }
+ol, ul {list-style: none; }
+img {border: 0 none ;}
+i,em{ font-style: normal; }
+input,select,textarea {font-size: 100%;}
+h1,h2,h3,h4,h5,h6 {font-size: 100%; font-weight: 400 }
+a {cursor: pointer;}
+a:hover {text-decoration: underline;}
+:focus {outline: 0 }
+
+.updata_temp{ margin:0 0;    padding: 0 0 1rem 0;}
+.updata_temp .box{overflow:hidden;margin-top:1rem;}
+.updata_temp .box .item{ float:left; position:relative; width:100%;}
+.updata_temp .box .item .time{ float:left; width:3.4rem; height:1.3rem; line-height:1.3rem; font-size:.8rem; color:#fff; text-align:center; background:url(../images/updata_temp_time.png) no-repeat;     background-size:3.4rem; margin:1rem .4rem 0 .6rem; position:relative;}
+.updata_temp .box .item .time .edition{ position:absolute; font-size:14px; color:#239ffd; width:3.4rem;}
+.updata_temp .box .item .desc{ float:left; width:calc(100% - 7rem); border-left:1px solid #8bcdff; padding:1rem 0 0 1.8rem;}
+.updata_temp .box .item .desc .tit{ font-size:1rem;font-weight: bold;color: #239ffd; }
+.updata_temp .box .item .desc .con p{ font-size:.7rem;  line-height:1.2rem;color:#333;}
+.updata_temp .box .item .lie{ display:block; position:absolute; top:1.2rem; left: 4.194rem; padding:5px 0; background:#fff;}
+.updata_temp .box .item .lie s{ width:8px; height:8px; border-radius:50%; background-color:#239ffd; display:block;}
+.updata_temp .box .item.year{ margin-left:4.4rem;    margin-top: 0;}
+.updata_temp .box .item.year .row{ width:3rem; height:3rem; border:5px solid #d6edff; border-radius:50%; display:block; position:absolute; background-color:#8bcdff; text-align:center; color:#fff; line-height:2.6rem; font-size:.7rem; top:26px; left:-1.8rem; cursor:pointer;}
+.updata_temp .box .item.year .desc{ padding-top:50px; min-height:25px;}
+.updata_temp .box .item.year .row .down{ width:0; height:0; border-top:6px solid #fff; border-left:6px solid transparent; border-right:6px solid transparent; position:absolute; left:1.2rem; bottom:.6rem;}
+.updata_temp .box .item.first-year .row{ top:0;}
+.updata_temp .box .item.first-year .desc{ padding-top:24px;}
+.updata_temp .box .item.first .desc{ padding-top:1.6rem;}
+.updata_temp .box .item.first .time{ margin-top:2rem;}
+.updata_temp .box .item.first .lie{ top:2.2rem;}
+.updata_temp .box .item.last{ margin-left:4.4rem;}
+.updata_temp .box .item.last .lie{ top:0; left:-3px;}
+.updata_temp .box .item.year.down .row .down{ border-bottom:6px solid #fff; border-top:none;}
+.updata_temp .box .item .desc .con p {font-size: 14px;line-height: 30px;}
+.tit-h2{font-size:24px;text-align:center;padding-top:20px;}
+.small-text{font-size:14px;color:#82939e!important;line-height:24px;}
+.small-tit{font-size:14px;color:#333;line-height:26px;};
+
+@media screen and (min-width:1200px){
+   .w1200{width:1200px;margin:0 auto;}
+   .box{margin-top:30px;}
+}
+.big-tit{font-size:16px;color:#333;padding-top:10px;text-align:center;}
