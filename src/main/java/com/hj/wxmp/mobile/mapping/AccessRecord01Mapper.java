@@ -45,4 +45,6 @@ public interface AccessRecord01Mapper {
 	List<AccessRecord01> selectByRecepTime(String date);
 
 	AccessRecord01 selectByPhone(String phone);
+
+	List<AccessRecord01> selectNotInAuditRecord();
 }

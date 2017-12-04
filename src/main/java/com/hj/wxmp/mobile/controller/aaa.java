@@ -1,5 +1,6 @@
 package com.hj.wxmp.mobile.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import com.hj.wxmp.mobile.dao.UserDao;
 import com.hj.wxmp.mobile.entity.AccessRecord01;
 import com.hj.wxmp.mobile.entity.AccessRecord02;
 import com.hj.wxmp.mobile.entity.AccessRecord03;
+import com.hj.wxmp.mobile.entity.AuditRecord;
 import com.hj.wxmp.mobile.entity.DayRecep;
 import com.hj.wxmp.mobile.entity.ProjCustRef;
 import com.hj.wxmp.mobile.entity.TabDictRef;
@@ -20,6 +22,7 @@ import com.hj.wxmp.mobile.mapping.UserInfoMapper;
 import com.hj.wxmp.mobile.services.AccessRecord01Service;
 import com.hj.wxmp.mobile.services.AccessRecord02Service;
 import com.hj.wxmp.mobile.services.AccessRecord03Service;
+import com.hj.wxmp.mobile.services.AuditRecordService;
 import com.hj.wxmp.mobile.services.CustomerService;
 import com.hj.wxmp.mobile.services.DayRecepService;
 import com.hj.wxmp.mobile.services.IKeyGen;
@@ -57,6 +60,34 @@ public class aaa {
 	IKeyGen key;
 	@Autowired
 	TabDictRefService tabDictRefService;
+	@Autowired
+	AuditRecordService auditRecordService;
+	
+	
+	
+	@RequestMapping("/test/updateAuditRecord")
+	public void updateAuditRecord() {
+		try{
+			List<AccessRecord01> accessRecord01s = accessRecord01Service.selectNotInAuditRecord();
+			for(AccessRecord01 accessRecord01:accessRecord01s){
+				String id = accessRecord01.getId();
+				Date ctime = accessRecord01.getCtime();
+				//添加审核信息
+				AuditRecord auditRecord = new AuditRecord();
+				auditRecord.setId(key.getUUIDKey());
+				auditRecord.setAudittype(1);
+				auditRecord.setarid(id);
+				auditRecord.setAudittype(1);
+				auditRecord.setCtime(ctime);
+				auditRecordService.insert(auditRecord);
+			}
+			System.out.println("-------------------");
+			System.out.println("|    THIS IS OK   |");
+			System.out.println("-------------------");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	
 	
 	

@@ -228,7 +228,7 @@
 										<th class="hidden-phone" style="line-height:37px">客户电话</th>
 										<th class="hidden-phone" style="line-height:37px">性别</th>
 										<th class="hidden-phone" style="line-height:37px">项目名称</th>
-										<th class="hidden-phone" style="line-height:37px">关注时间</th>
+										<th class="hidden-phone" style="line-height:37px">到访时间</th>
 										<th class="hidden-phone" style="line-height:37px">顾问姓名</th>
 										<th class="hidden-phone">
 											来访总数(次)
@@ -250,7 +250,7 @@
 											<td class="hidden-phone">${u.custSex}</td>
 											<td class="hidden-phone">${u.projName}</td>
 											<td class="hidden-phone">
-												<fmt:formatDate value="${u.cTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+												<fmt:formatDate value="${u.recepTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 											</td>
 											<td class="hidden-phone">${u.realName}</td>
 											<td class="hidden-phone">${u.total}次</td>

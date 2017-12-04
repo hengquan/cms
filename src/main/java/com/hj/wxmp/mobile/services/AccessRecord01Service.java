@@ -118,5 +118,7 @@ public interface AccessRecord01Service {
 
 	public AccessRecord01 selectByPhone(String phone);
 
+	public List<AccessRecord01> selectNotInAuditRecord();
+
 
 }
