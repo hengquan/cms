@@ -93,13 +93,16 @@ function loadPage() {
       var fTime="<span class='sftime'>首访："+cTime.Format('yyyy-MM-dd')+"</span>";
       //电话号码
       var phone="";
+      var temp="";
       if (oneData.custPhoneNum) {
-        var phones=oneData.custPhoneNum.split(",");
+    	var temp = oneData.custPhoneNum;
+    	temp=temp.replace(new RegExp("，","gm"),",");
+        var phones=temp.split(",");
+        var newPhone=phones.join(",");
         var _check1,_check2;
         for (var j=0; j<phones.length; j++) {
           var onePhone=$.trim(phones[j]);
           _check1=checkMPhone(onePhone);
-          if (_check1==0) continue;
           _check2=checkDPhone(onePhone);
           if (_check1==1||_check2==1) {
             phone=onePhone;
@@ -108,7 +111,7 @@ function loadPage() {
         }
       }
       var _leftDiv="<a href='#'>"+name+"<br/><span>&nbsp;</span><br/>"+fTime+"</a>";
-      if (phone) _leftDiv="<a href='tel:"+phone+"'>"+name+"<br/><span>"+phone+"</span><br/>"+fTime+"</a>";
+      if (newPhone) _leftDiv="<a href='tel:"+newPhone+"'>"+name+"<br/><span class='tel-box'>"+newPhone+"</span>"+fTime+"</a>";
       //顾问
       var _url=_viewUrl+"?recordId="+oneData.id+"&authorName="+encodeURIComponent(oneData.authorName);
       if (oneData.status==1) status="<span class='ysh'>审核中</span>";

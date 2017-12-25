@@ -59,7 +59,7 @@ function fillData(data,auditRecord) {
   if (data) {
     var phoneHtml="";
     var _flag=0;
-    var phones=data.custphonenum.split(",");
+    var phones=data.custphonenum.split("，");
     var _check1,_check2;
     for (var i=0; i<phones.length; i++) {
       var onePhone=$.trim(phones[i]);
@@ -71,7 +71,7 @@ function fillData(data,auditRecord) {
         phoneHtml+="<span><a href='tel:"+onePhone+"'>"+onePhone+"</a></span>";
       }
     }
-    $("#custPhone").html(phoneHtml.substring(5));
+    $("#custPhone").html(phones);
   }
   if (data.custsex) $("#custSex").html(data.custsex);
   if (data.firstknowtime) {

@@ -87,13 +87,16 @@ function loadPage() {
       name=name+"<br/>";
       //电话号码
       var phone="";
+      var temp="";
       if (oneData.custPhoneNum) {
-        var phones=oneData.custPhoneNum.split(",");
+    	var temp = oneData.custPhoneNum;
+    	temp=temp.replace(new RegExp("，","gm"),",");
+        var phones=temp.split(",");
+        var newPhone=phones.join(",");
         var _check1,_check2;
         for (var j=0; j<phones.length; j++) {
           var onePhone=$.trim(phones[j]);
           _check1=checkMPhone(onePhone);
-          if (_check1==0) continue;
           _check2=checkDPhone(onePhone);
           if (_check1==1||_check2==1) {
             phone=onePhone;
@@ -101,8 +104,8 @@ function loadPage() {
           }
         }
       }
-      if (phone) phone="<span><a href='tel:"+phone+"'>"+phone+"</a></span><br/>";
-      else phone="<span><a href='#'>&nbsp;</a></span><br/>";
+      if (newPhone) newPhone="<span><a href='tel:"+newPhone+"'>"+newPhone+"</a></span><br/>";
+      else newPhone="<span><a href='#'>&nbsp;</a></span><br/>";
       var cTime=new Date();
       cTime.setTime(oneData.recepTime.time);
       var fTime="<span class='sftime'>复访："+cTime.Format('yyyy-MM-dd')+"</span>";
@@ -129,7 +132,7 @@ function loadPage() {
       }
       var _total=oneData.total;
       var _CJ=(oneData.isKnockdown&&oneData.isKnockdown==1)?"成交":"未成交";
-      html="<div class='scrollItem row'><div class='col-40 item-name2'>"+name+phone+fTime+"</div>"
+      html="<div class='scrollItem row'><div class='col-40 item-name2'>"+name+newPhone+fTime+"</div>"
         +"<div class='col-60'  onclick=\"openNew('"+_url+"')\"><div class='col-55 item-name' style='margin-left:40%'>"+_GW+"<br>总次："+_total+"次&nbsp;&nbsp;"+_CJ+"<br>"+status+"</div></div></div>";
       $("#list").append(html);
     }
