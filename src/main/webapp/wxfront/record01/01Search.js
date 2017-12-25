@@ -83,6 +83,8 @@ function loadPage() {
       var html="";
       var oneData=data[i];
       //名称
+      console.log(oneData);
+      var GWMC=oneData.authorName;
       var name=oneData.custName;
       if (oneData.custSex) name=name+"("+oneData.custSex+")";
       //接待时间
@@ -108,7 +110,7 @@ function loadPage() {
       var _leftDiv="<a href='#'>"+name+"<br/><span>&nbsp;</span><br/>"+fTime+"</a>";
       if (phone) _leftDiv="<a href='tel:"+phone+"'>"+name+"<br/><span>"+phone+"</span><br/>"+fTime+"</a>";
       //顾问
-      var _url=_viewUrl+"?recordId="+oneData.id;
+      var _url=_viewUrl+"?recordId="+oneData.id+"&authorName="+encodeURIComponent(oneData.authorName);
       if (oneData.status==1) status="<span class='ysh'>审核中</span>";
       if (oneData.status==2) status="<span class='ysh'>已通过</span>";
       if (oneData.status==3) status="<span class='ysh'>已作废</span>";

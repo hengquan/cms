@@ -46,14 +46,17 @@ function initPage(data) {
 
 function fillData(data,auditRecord) {
   if (!data) return;
-  var gwmc=decodeURIComponent(getUrlParam(window.location.href, 'GWMC'));
+  var gwmc=decodeURIComponent(getUrlParam(window.location.href, 'authorName'));  
+  console.log(gwmc);
   if (gwmc&&gwmc!='null') {
     $("#authorName").html(gwmc);
     $("#GW").show();
   } else $("#GW").hide();
+  
   var needAudit=false;//是否需要审核
+  console.log(data);
   if (data.custname) $("#custName").html(data.custname);
-  if (data.custphonenum) {
+  if (data) {
     var phoneHtml="";
     var _flag=0;
     var phones=data.custphonenum.split(",");

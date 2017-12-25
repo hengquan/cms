@@ -108,7 +108,7 @@ function loadPage() {
       var fTime="<span class='sftime'>复访："+cTime.Format('yyyy-MM-dd')+"</span>";
       //顾问
       var status="<span class='ysh'>已审核</span>";
-      var _url=_viewUrl+"?recordId="+oneData.id;
+      var _url=_viewUrl+"?recordId="+oneData.id+"&authorName="+encodeURIComponent(oneData.authorName);
       if (oneData.status==1) status="<span class='ysh'>审核中</span>";
       if (oneData.status==2) status="<span class='ysh'>已通过</span>";
       if (oneData.status==3) status="<span class='ysh'>已作废</span>";

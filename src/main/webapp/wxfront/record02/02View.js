@@ -61,7 +61,7 @@ function initPage(data) {
 function fillData(data,auditRecord,ctime) {
   var data=data02;
   if (!data) return;
-  var gwmc=decodeURIComponent(getUrlParam(window.location.href, 'GWMC'));
+  var gwmc=decodeURIComponent(getUrlParam(window.location.href, 'authorName'));
   if (gwmc&&gwmc!='null') {
     $("#authorName").html(gwmc);
     $("#GW").show();
