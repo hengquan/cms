@@ -37,9 +37,10 @@
 									<div style="float: left;position: relative;margin-top: 16px;margin-left:20px;">
 										<select class="form-control" style="width: 120px;" id="checkMessage" name="state" onchange="seeAllMsg()">
 											<option value="-1" <c:if test="${state==-1}">selected</c:if>>全部</option>
-											<option value="0" <c:if test="${state==1}">selected</c:if>>未审核</option>
-											<option value="1" <c:if test="${state==2}">selected</c:if>>审核通过</option>
-											<option value="2" <c:if test="${state==3}">selected</c:if>>作废</option>
+											<option value="1" <c:if test="${state==1}">selected</c:if>>未审核</option>
+											<option value="2" <c:if test="${state==2}">selected</c:if>>审核通过</option>
+											<option value="3" <c:if test="${state==3}">selected</c:if>>作废</option>
+											<option value="4" <c:if test="${state==4}">selected</c:if>>退回</option>
 										</select>
 									</div>
 									<div style="float: left;position: relative;margin-top: 16px;margin-left:20px;">
@@ -68,7 +69,9 @@
 										<th class="hidden-phone">顾问姓名</th>
 										<th class="hidden-phone">客户姓名</th>
 										<th class="hidden-phone">客户电话</th>
+										<th class="hidden-phone">提交时间</th>
 										<th class="hidden-phone">访问时间</th>
+										<th class="hidden-phone">是否审核通过</th>
 										<th class="hidden-phone">操作</th>
 									</tr>
 								</thead>
@@ -82,6 +85,23 @@
 											<td class="hidden-phone">${u.custPhoneNum}</td>
 											<td class="hidden-phone">
 												<fmt:formatDate value="${u.cTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+											</td>
+											<td class="hidden-phone">
+												<fmt:formatDate value="${u.recepTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+											</td>
+											<td class="hidden-phone">
+												<c:if test="${u.status == 1}">
+													审核中
+												</c:if>
+												<c:if test="${u.status == 2}">
+													审核通过
+												</c:if>
+												<c:if test="${u.status == 3}">
+													作废
+												</c:if>
+												<c:if test="${u.status == 4}">
+													退回
+												</c:if>
 											</td>
 											<td class="hidden-phone">
 											<c:if test="${roleName=='项目负责人' }">

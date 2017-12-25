@@ -785,4 +785,14 @@
   </select>
   
   
+  <!-- 查未在审核信息里面的所有客户和首访的信息（旧系统导新系统） -->
+  <select id="selectNotInAuditRecord" resultMap="BaseResultMap" >
+  	select 
+    <include refid="Base_Column_List" />
+    from ql_AccessRecord01 
+    WHERE
+	id NOT IN (SELECT arId FROM ql_AuditRecord)
+  </select>
+  
+  
 </mapper>
