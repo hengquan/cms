@@ -1,7 +1,9 @@
 package com.hj.wxmp.mobile.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hj.utils.DateTimeUtil;
 import com.hj.wxmp.mobile.dao.UserDao;
 import com.hj.wxmp.mobile.entity.AccessRecord01;
 import com.hj.wxmp.mobile.entity.AccessRecord02;
@@ -173,9 +176,19 @@ public class aaa {
 	@ResponseBody
 	public void count123123(String datetime) {
 		try {
-			System.out.println(datetime);
-			TestCount x01=new TestCount(datetime,1);
-			x01.start();
+			int i = 1;
+			while(1<10){
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				//多线程
+				//今天
+				datetime = format.format(DateTimeUtil.getdate(-i));
+				System.out.println(datetime);
+				TestCount x01=new TestCount(datetime,1);
+				x01.start();
+				if(datetime.equals("2017-10-01"))
+					break;
+				i++;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -193,6 +206,8 @@ public class aaa {
 		@Override
         public synchronized void run() {
 			try{
+				//总纪录
+				List<Map<String,Object>> allRecords = accessRecord01Service.selectAllRecords(date);
 				//当天所有首访记录
 				List<AccessRecord01> accessRecord01s = accessRecord01Service.selectByRecepTime(date);
 				//当天所有复访记录
@@ -203,7 +218,7 @@ public class aaa {
 				
 				
 				//总数据
-				for(AccessRecord01 accessRecord:accessRecord01s){
+				for(Map<String,Object> accessRecord:allRecords){
 					//项目总次数
 					int projRecord01Total = 0;
 					int projRecord02Total = 0;
@@ -228,9 +243,9 @@ public class aaa {
 					int userCustRecord01Total = 0;
 					int userCustRecord02Total = 0;
 					int userCustRecord03Total = 0;
-					String userId = accessRecord.getAuthorid();
-					String custId = accessRecord.getCustid();
-					String projId = accessRecord.getProjid();
+					String userId = accessRecord.get("authorId")==null?"":accessRecord.get("authorId").toString();
+					String custId = accessRecord.get("custId")==null?"":accessRecord.get("custId").toString();
+					String projId = accessRecord.get("projId")==null?"":accessRecord.get("projId").toString();
 					//首访
 					for(AccessRecord01 accessRecord01:accessRecord01s){
 						String record01UserId = accessRecord01.getAuthorid();

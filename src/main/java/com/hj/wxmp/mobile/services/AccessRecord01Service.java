@@ -120,5 +120,7 @@ public interface AccessRecord01Service {
 
 	public List<AccessRecord01> selectNotInAuditRecord();
 
+	public List<Map<String, Object>> selectAllRecords(String date);
+
 
 }

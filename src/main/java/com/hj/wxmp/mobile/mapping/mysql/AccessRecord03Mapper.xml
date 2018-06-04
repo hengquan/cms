@@ -535,6 +535,7 @@
 		and instr(#{userIds},ql3.authorId)
 	</if>
 	and instr(ql3.custName , #{userName})
+	order by cTime desc 
 	limit #{page},#{pageSize}
   </select>
   <!-- 未审核的所有首访记录数量 -->

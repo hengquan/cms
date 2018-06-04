@@ -795,4 +795,12 @@
   </select>
   
   
+  <select id="selectAllRecords" resultType="java.util.Map" parameterType="java.lang.String">
+  	SELECT custId,projId,authorId from ql_AccessRecord01 where INSTR(recepTime,#{date})
+	union 
+	SELECT custId,projId,authorId from ql_AccessRecord02 where INSTR(recepTime,#{date})
+	union 
+	SELECT custId,projId,authorId from ql_AccessRecord03 where INSTR(recepTime,#{date})
+  </select>
+  
 </mapper>

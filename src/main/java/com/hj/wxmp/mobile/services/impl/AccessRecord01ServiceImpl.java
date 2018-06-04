@@ -124,6 +124,10 @@ public class AccessRecord01ServiceImpl implements AccessRecord01Service {
 	public List<AccessRecord01> selectNotInAuditRecord() {
 		return dao.selectNotInAuditRecord();
 	}
+	@Override
+	public List<Map<String, Object>> selectAllRecords(String date) {
+		return dao.selectAllRecords(date);
+	}
 	
 
 }
