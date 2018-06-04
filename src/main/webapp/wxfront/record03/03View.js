@@ -59,7 +59,7 @@ function initPage(data) {
 }
 
 function fillData(data,auditRecord,ctime) {
-  var gwmc=decodeURIComponent(getUrlParam(window.location.href, 'GWMC'));
+  var gwmc=decodeURIComponent(getUrlParam(window.location.href, 'authorName'));
   if (gwmc&&gwmc!='null') {
     $("#authorName").html(gwmc);
     $("#GW").show();
@@ -69,7 +69,7 @@ function fillData(data,auditRecord,ctime) {
   if (data03.custphonenum) {
     var phoneHtml="";
     var _flag=0;
-    var phones=data03.custphonenum.split(",");
+    var phones=data03.custphonenum.split("，");
     var _check1,_check2;
     for (var i=0; i<phones.length; i++) {
       var onePhone=$.trim(phones[i]);
@@ -81,7 +81,7 @@ function fillData(data,auditRecord,ctime) {
         phoneHtml+="<span><a href='tel:"+onePhone+"'>"+onePhone+"</a></span>";
       }
     }
-    $("#custPhone").html(phoneHtml.substring(5));
+    $("#custPhone").html(phones);
   }
   if (customer.custsex) $("#custSex").html(customer.custsex);
 

@@ -46,17 +46,20 @@ function initPage(data) {
 
 function fillData(data,auditRecord) {
   if (!data) return;
-  var gwmc=decodeURIComponent(getUrlParam(window.location.href, 'GWMC'));
+  var gwmc=decodeURIComponent(getUrlParam(window.location.href, 'authorName'));  
+  console.log(gwmc);
   if (gwmc&&gwmc!='null') {
     $("#authorName").html(gwmc);
     $("#GW").show();
   } else $("#GW").hide();
+  
   var needAudit=false;//是否需要审核
+  console.log(data);
   if (data.custname) $("#custName").html(data.custname);
-  if (data.custphonenum) {
+  if (data) {
     var phoneHtml="";
     var _flag=0;
-    var phones=data.custphonenum.split(",");
+    var phones=data.custphonenum.split("，");
     var _check1,_check2;
     for (var i=0; i<phones.length; i++) {
       var onePhone=$.trim(phones[i]);
@@ -68,7 +71,7 @@ function fillData(data,auditRecord) {
         phoneHtml+="<span><a href='tel:"+onePhone+"'>"+onePhone+"</a></span>";
       }
     }
-    $("#custPhone").html(phoneHtml.substring(5));
+    $("#custPhone").html(phones);
   }
   if (data.custsex) $("#custSex").html(data.custsex);
   if (data.firstknowtime) {
