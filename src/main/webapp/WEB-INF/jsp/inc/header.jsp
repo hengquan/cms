@@ -76,7 +76,7 @@
 					<span class="username hidden-phone"></span> <b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu extended">
-					<li><a onclick="" href="http://crm.kylindpc.cn/version/version.html"><i class=" icon-suitcase"></i>&nbsp;&nbsp;版本更新</a></li>
+					<li><a onclick="" href="http://crm.kylindpc.cn/version/version.html"><i class="glyphicon glyphicon-time"></i>&nbsp;&nbsp;版本更新</a></li>
 					<li><a onclick="showPassword();" href="#"><i class=" icon-suitcase"></i>&nbsp;&nbsp;修改密码</a></li>
 					<li><a href="${appRoot}/logout.ky"><i class="icon-key"></i>&nbsp;&nbsp;退出</a></li>
 				</ul>
