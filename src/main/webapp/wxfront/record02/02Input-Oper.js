@@ -271,25 +271,20 @@ var vueStep2=new Vue({
       var choose=document.getElementsByName('childrenNum');
       for (var i=0; i<choose.length; i++) {
     	if(choose[0].checked){
-    		$("#childAgeGroup").html("无法了解");
+    		$("#childAgeGroup").html("无需填写");
     		$("#childAgeGroup").parent().parent().parent().css("pointer-events","none");
-    		$("#schoolType").html("无法了解");
+    		$("#schoolType").html("无需填写");
     		$("#schoolType").parent().parent().parent().css("pointer-events","none");
-    		$("input:text[name='schoolName']").val("无法了解");
+    		$("input:text[name='schoolName']").val("无需填写");
     		$("input:text[name='schoolName']").attr("readOnly",true);
-    		$("#childAvocations").html("无法了解");
+    		$("#childAvocations").html("无需填写");
     		$("#childAvocations").parent().parent().parent().css("pointer-events","none");
-    		$("#outEduWill").html("无法了解");
+    		$("#outEduWill").html("无需填写");
     		$("#outEduWill").parent().parent().parent().css("pointer-events","none");
-    		$("#childOutExperFlag").html("无法了解");
-    		$("#childOutExperFlag").parent().parent().parent().css("pointer-events","none");
-    		$("input:text[name='childOutExperCity']").val("无法了解");
-    		$("input:text[name='childOutExperCity']").attr("readOnly",true);
-    		_uChildAgeGroup ="020000-无法了解";
-		    _uSchoolType ="020000-无法了解";
-			_uChildAvocations ="020000-无法了解";	
-			_uOutEduWill = "-1";
-			_uChildOutExperFlag = "-1";
+    		_uChildAgeGroup ="020000-无需填写";
+		    _uSchoolType ="020000-无需填写";
+			_uChildAvocations ="020000-无需填写";	
+			_uOutEduWill = "-2";
     	}else{
     		$("#childAgeGroup").html("");
     		$("#schoolType").html("");
@@ -881,16 +876,30 @@ var vueStep3=new Vue({
     },
     selCarFamilyCount: function() {
       _uCarFamilyCount="";
+      _uCarTotalPrice="";
       var choose=document.getElementsByName('carFamilyCount');
       for (var i=0; i<choose.length; i++) {
         if (choose[i].checked) {
           $("#carFamilyCount").html(choose[i].getAttribute("_text"));
           _uCarFamilyCount=choose[i].value;
+          if (choose[0].checked) {
+  	        $("input[name='carBrand']").val("无需填写");
+  	        $("input[name='carBrand']").parent().css("pointer-events","none");
+  	        $("#carTotalPrice").html("无需填写");
+  	        $("#carTotalPrice").parent().parent().parent().css("pointer-events","none");
+  	        _uCarTotalPrice="025000-无需填写";
+  	      }else{
+  	    	$("input[name='carBrand']").val(" ");
+  	        $("input[name='carBrand']").parent().css("pointer-events","auto");
+  	        $("#carTotalPrice").html("&nbsp;");
+  	        $("#carTotalPrice").parent().parent().parent().css("pointer-events","auto");
+  	        
+  	      }
         }
       }
       $("#carFamilyCountModal").modal('hide');
       if (_uCarFamilyCount!="") $("#cleanCarFamilyCountBtn").show();
-    },
+    }, 
     cleanCarFamilyCount: function() {
       $("#carFamilyCount").html("&nbsp;");
       _uCarFamilyCount="";

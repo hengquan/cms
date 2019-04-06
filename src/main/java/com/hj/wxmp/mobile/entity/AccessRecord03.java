@@ -49,7 +49,7 @@ public class AccessRecord03 {
 
     private String houseregitype;
 
-    private Integer houseacreage;
+    private Float houseacreage;
 
     private Float unitprice;
 
@@ -281,11 +281,11 @@ public class AccessRecord03 {
         this.houseregitype = houseregitype == null ? null : houseregitype.trim();
     }
 
-    public Integer getHouseacreage() {
+    public Float getHouseacreage() {
         return houseacreage;
     }
 
-    public void setHouseacreage(Integer houseacreage) {
+    public void setHouseacreage(Float houseacreage) {
         this.houseacreage = houseacreage;
     }
 

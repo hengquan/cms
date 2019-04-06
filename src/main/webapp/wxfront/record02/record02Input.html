@@ -16,6 +16,7 @@
   <script src="../js/common.utils.js" type="text/javascript"></script>
   <script src="../js/bootstrap.min.js"></script>
   <script src="../js/vue.js"></script>
+  
 </head>
 <body>
 <!-- 遮罩层 -->
@@ -99,7 +100,7 @@
   <div class="item_sflr row">
     <div class="col-title col-title-2">电话</div>
     <div class="col-input">
-      <input type="number" placeholder="" name="custPhone" readonly="true"/>
+      <input type="text" placeholder="" name="custPhone" readonly="true"/>
     </div>
   </div>
   <a href="" data-toggle="modal" onClick="openSelCust()"><div class="customers">选择<br>客户</div></a> 
@@ -157,7 +158,6 @@
       <input type="date" placeholder="" name="firstVisitTime"/ readonly="readonly"/>
     </div>
   </div>
-   <div class="line"></div>
   <div class="item_sflr row">
     <div class="col-title col-title-6">本次到访时间</div>
     <div class="col-input-6 inputdate">
@@ -410,6 +410,7 @@
           <label><input type="radio" name="outEduWill" value="1" _text="有" @click="selOutEduWill()"/> 有 </label>
           <label><input type="radio" name="outEduWill" value="2" _text="无" @click="selOutEduWill()"/> 无 </label>
           <label class="wflj"><input type="radio" name="outEduWill" value="-1" _text="无法了解" @click="selOutEduWill()"/> 无法了解 </label>
+          <label><input type="radio" name="outEduWill" value="-2" _text="无需填写" @click="selOutEduWill()" style="display:none"/></label>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -745,6 +746,7 @@
           <h4 class="modal-title">家庭已购房产（套）</h4>
         </div>
         <div class="modal-body">
+          <label><input type="radio" name="houseCount" value="0" _text="无" @click="selHouseCount()"/> 无 </label>
           <label><input type="radio" name="houseCount" value="1" _text="一套" @click="selHouseCount()"/> 一套 </label>
           <label><input type="radio" name="houseCount" value="2" _text="两套" @click="selHouseCount()"/> 两套 </label>
           <label><input type="radio" name="houseCount" value="3" _text="三套" @click="selHouseCount()"/> 三套 </label>
@@ -773,6 +775,7 @@
           <h4 class="modal-title">家庭汽车数量（辆）</h4>
         </div>
         <div class="modal-body">
+          <label><input type="radio" name="carFamilyCount" value="0" _text="无" @click="selCarFamilyCount()"/> 无 </label>
           <label><input type="radio" name="carFamilyCount" value="1" _text="一辆" @click="selCarFamilyCount()"/> 一辆 </label>
           <label><input type="radio" name="carFamilyCount" value="2" _text="二辆" @click="selCarFamilyCount()"/> 二辆 </label>
           <label><input type="radio" name="carFamilyCount" value="3" _text="三辆" @click="selCarFamilyCount()"/> 三辆 </label>

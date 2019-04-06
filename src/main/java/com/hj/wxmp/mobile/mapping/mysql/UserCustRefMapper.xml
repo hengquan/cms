@@ -184,6 +184,7 @@
 			UNION SELECT custId FROM ql_AccessRecord03 where authorId = #{userId})
 		</if> 
 	</if> 
+	order by qc.cTime desc
 	limit #{page},#{pageSize}
   </select>
   
@@ -273,6 +274,7 @@
 			OR qa1.authorId not in (select id from plat_User)
 		)
 	</if>  
+	order by qc.cTime desc
 	limit #{page},#{pageSize}
   </select>
   
@@ -345,15 +347,16 @@
 	(
 	  select main.*,r02Count.fCount, cCount  from 
 	  (
-	    select a.*, b.custId, b.projId,c.projName,u.realName,
+	    select a.*, b.custId, b.projId,c.projName,u.realName,ar.arId,ar.cTime as arTime,
 	      r01.recepTime
 	    FROM
 	    ql_Customer a,
 	    ql_UserCust_Ref b,
 	    ql_Project c,
 	    ql_AccessRecord01 r01,
-	    plat_User u
-	    where a.id=b.custId and b.projId=c.id and (r01.custId=b.custId and r01.projId=b.projId) and u.id = b.userId
+	    plat_User u,
+	    ql_AuditRecord ar
+	    where a.id=b.custId and b.projId=c.id and (r01.custId=b.custId and r01.projId=b.projId) and u.id = b.userId and r01.id = ar.arId
 			and (instr(a.custName,#{name})
 			OR instr(c.projName, #{name})
 			OR instr(a.phoneNum, #{name})

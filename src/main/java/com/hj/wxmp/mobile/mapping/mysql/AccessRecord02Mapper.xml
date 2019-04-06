@@ -1047,6 +1047,7 @@
 		and instr(#{userIds},ql2.authorId)
 	</if>
 	and instr(ql2.custName , #{userName})
+	order by cTime desc 
 	limit #{page},#{pageSize}
   </select>
   

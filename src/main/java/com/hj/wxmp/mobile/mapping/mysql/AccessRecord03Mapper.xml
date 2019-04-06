@@ -15,7 +15,7 @@
     <result column="signDate" property="signdate" jdbcType="DATE" />
     <result column="houseNum" property="housenum" jdbcType="VARCHAR" />
     <result column="houseRegiType" property="houseregitype" jdbcType="VARCHAR" />
-    <result column="houseAcreage" property="houseacreage" jdbcType="INTEGER" />
+    <result column="houseAcreage" property="houseacreage" jdbcType="REAL" />
     <result column="unitPrice" property="unitprice" jdbcType="REAL" />
     <result column="totalPrice" property="totalprice" jdbcType="REAL" />
     <result column="paymentType" property="paymenttype" jdbcType="VARCHAR" />
@@ -82,7 +82,7 @@
       #{custname,jdbcType=VARCHAR}, #{custphonenum,jdbcType=VARCHAR}, #{custsex,jdbcType=VARCHAR}, 
       #{visitcycle,jdbcType=INTEGER}, #{purchasecycle,jdbcType=INTEGER}, #{signcycle,jdbcType=INTEGER}, 
       #{purchasedate,jdbcType=DATE}, #{signdate,jdbcType=DATE}, #{housenum,jdbcType=VARCHAR}, 
-      #{houseregitype,jdbcType=VARCHAR}, #{houseacreage,jdbcType=INTEGER}, #{unitprice,jdbcType=REAL}, 
+      #{houseregitype,jdbcType=VARCHAR}, #{houseacreage,jdbcType=REAL}, #{unitprice,jdbcType=REAL}, 
       #{totalprice,jdbcType=REAL}, #{paymenttype,jdbcType=VARCHAR}, #{realtyproducttype,jdbcType=VARCHAR}, 
       #{addressmail,jdbcType=VARCHAR}, #{livingstatus,jdbcType=VARCHAR}, #{realusemen,jdbcType=VARCHAR}, 
       #{realpaymen,jdbcType=VARCHAR}, #{authorid,jdbcType=VARCHAR}, #{creatorid,jdbcType=VARCHAR}, 
@@ -253,7 +253,7 @@
         #{houseregitype,jdbcType=VARCHAR},
       </if>
       <if test="houseacreage != null" >
-        #{houseacreage,jdbcType=INTEGER},
+        #{houseacreage,jdbcType=REAL},
       </if>
       <if test="unitprice != null" >
         #{unitprice,jdbcType=REAL},
@@ -372,7 +372,7 @@
         houseRegiType = #{houseregitype,jdbcType=VARCHAR},
       </if>
       <if test="houseacreage != null" >
-        houseAcreage = #{houseacreage,jdbcType=INTEGER},
+        houseAcreage = #{houseacreage,jdbcType=REAL},
       </if>
       <if test="unitprice != null" >
         unitPrice = #{unitprice,jdbcType=REAL},
@@ -466,7 +466,7 @@
       signDate = #{signdate,jdbcType=DATE},
       houseNum = #{housenum,jdbcType=VARCHAR},
       houseRegiType = #{houseregitype,jdbcType=VARCHAR},
-      houseAcreage = #{houseacreage,jdbcType=INTEGER},
+      houseAcreage = #{houseacreage,jdbcType=REAL},
       unitPrice = #{unitprice,jdbcType=REAL},
       totalPrice = #{totalprice,jdbcType=REAL},
       paymentType = #{paymenttype,jdbcType=VARCHAR},
@@ -501,7 +501,7 @@
       signDate = #{signdate,jdbcType=DATE},
       houseNum = #{housenum,jdbcType=VARCHAR},
       houseRegiType = #{houseregitype,jdbcType=VARCHAR},
-      houseAcreage = #{houseacreage,jdbcType=INTEGER},
+      houseAcreage = #{houseacreage,jdbcType=REAL},
       unitPrice = #{unitprice,jdbcType=REAL},
       totalPrice = #{totalprice,jdbcType=REAL},
       paymentType = #{paymenttype,jdbcType=VARCHAR},
@@ -535,6 +535,7 @@
 		and instr(#{userIds},ql3.authorId)
 	</if>
 	and instr(ql3.custName , #{userName})
+	order by cTime desc 
 	limit #{page},#{pageSize}
   </select>
   <!-- 未审核的所有首访记录数量 -->
