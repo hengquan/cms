@@ -35,5 +35,5 @@
 	
 	
 	<!-- 工作的bean -->
-	<bean id="myJob" class="com.hj.wxmp.mobile.quartzjob.DoQuarzt" />
+	<bean id="myJob" class="com.hj.web.quartzjob.DoQuarzt" />
 </beans>

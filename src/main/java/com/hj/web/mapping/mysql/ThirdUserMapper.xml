@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hj.web.mapping.ThirdUserMapper" >
+  <resultMap id="BaseResultMap" type="com.hj.web.entity.ThirdUser" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="userId" property="userid" jdbcType="VARCHAR" />
+    <result column="thirdUserId" property="thirduserid" jdbcType="VARCHAR" />
+    <result column="thirdSysType" property="thirdsystype" jdbcType="VARCHAR" />
+    <result column="thirdSysId" property="thirdsysid" jdbcType="VARCHAR" />
+    <result column="thirdLoginCount" property="thirdlogincount" jdbcType="INTEGER" />
+    <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="lmTime" property="lmtime" jdbcType="TIMESTAMP" />
+    <result column="thirdUserInfo" property="thirduserinfo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userId, thirdUserId, thirdSysType, thirdSysId, thirdLoginCount, cTime, lmTime, thirdUserInfo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from plat_ThirdUser
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from plat_ThirdUser
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hj.web.entity.ThirdUser" >
+    insert into plat_ThirdUser (id, userId, thirdUserId, 
+      thirdSysType, thirdSysId, thirdLoginCount, 
+      cTime, lmTime, thirdUserInfo
+      )
+    values (#{id,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{thirduserid,jdbcType=VARCHAR}, 
+      #{thirdsystype,jdbcType=VARCHAR}, #{thirdsysid,jdbcType=VARCHAR}, #{thirdlogincount,jdbcType=INTEGER}, 
+      #{ctime,jdbcType=TIMESTAMP}, #{lmtime,jdbcType=TIMESTAMP}, #{thirduserinfo,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hj.web.entity.ThirdUser" >
+    insert into plat_ThirdUser
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="thirduserid != null" >
+        thirdUserId,
+      </if>
+      <if test="thirdsystype != null" >
+        thirdSysType,
+      </if>
+      <if test="thirdsysid != null" >
+        thirdSysId,
+      </if>
+      <if test="thirdlogincount != null" >
+        thirdLoginCount,
+      </if>
+      <if test="ctime != null" >
+        cTime,
+      </if>
+      <if test="lmtime != null" >
+        lmTime,
+      </if>
+      <if test="thirduserinfo != null" >
+        thirdUserInfo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="thirduserid != null" >
+        #{thirduserid,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdsystype != null" >
+        #{thirdsystype,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdsysid != null" >
+        #{thirdsysid,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdlogincount != null" >
+        #{thirdlogincount,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lmtime != null" >
+        #{lmtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thirduserinfo != null" >
+        #{thirduserinfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hj.web.entity.ThirdUser" >
+    update plat_ThirdUser
+    <set >
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="thirduserid != null" >
+        thirdUserId = #{thirduserid,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdsystype != null" >
+        thirdSysType = #{thirdsystype,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdsysid != null" >
+        thirdSysId = #{thirdsysid,jdbcType=VARCHAR},
+      </if>
+      <if test="thirdlogincount != null" >
+        thirdLoginCount = #{thirdlogincount,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null" >
+        cTime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lmtime != null" >
+        lmTime = #{lmtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thirduserinfo != null" >
+        thirdUserInfo = #{thirduserinfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hj.web.entity.ThirdUser" >
+    update plat_ThirdUser
+    set userId = #{userid,jdbcType=VARCHAR},
+      thirdUserId = #{thirduserid,jdbcType=VARCHAR},
+      thirdSysType = #{thirdsystype,jdbcType=VARCHAR},
+      thirdSysId = #{thirdsysid,jdbcType=VARCHAR},
+      thirdLoginCount = #{thirdlogincount,jdbcType=INTEGER},
+      cTime = #{ctime,jdbcType=TIMESTAMP},
+      lmTime = #{lmtime,jdbcType=TIMESTAMP},
+      thirdUserInfo = #{thirduserinfo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hj.web.entity.ThirdUser" >
+    update plat_ThirdUser
+    set userId = #{userid,jdbcType=VARCHAR},
+      thirdUserId = #{thirduserid,jdbcType=VARCHAR},
+      thirdSysType = #{thirdsystype,jdbcType=VARCHAR},
+      thirdSysId = #{thirdsysid,jdbcType=VARCHAR},
+      thirdLoginCount = #{thirdlogincount,jdbcType=INTEGER},
+      cTime = #{ctime,jdbcType=TIMESTAMP},
+      lmTime = #{lmtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

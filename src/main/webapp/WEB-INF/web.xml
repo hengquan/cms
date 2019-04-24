@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
 
-	<display-name>wxmp.ql</display-name>
+	<display-name>cms</display-name>
 
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
@@ -36,19 +36,19 @@
   </listener>
 
 	<servlet>
-		<servlet-name>wxmp-ql</servlet-name>
+		<servlet-name>cms</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-				/WEB-INF/config/wxmp-ql-servlet.xml
+				/WEB-INF/config/cms-servlet.xml
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>wxmp-ql</servlet-name>
+		<servlet-name>cms</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
@@ -59,7 +59,7 @@
     </filter>
     <filter-mapping>
         <filter-name>HiddenHttpMethodFilter</filter-name>
-        <servlet-name>wxmp-ql</servlet-name>
+        <servlet-name>cms</servlet-name>
     </filter-mapping>
 
 	<!-- add by hj spring action -->
@@ -95,23 +95,4 @@
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	
-	<!-- weixin -->
-	<filter>
-    	<filter-name>WeixinFilter</filter-name>
-    	<filter-class>com.hj.web.filter.WeixinFilter</filter-class>
-    </filter>
-    <filter-mapping>
-    	<filter-name>WeixinFilter</filter-name>
-    	<url-pattern>*.az</url-pattern>
-    </filter-mapping>
-    <!-- 微信前端拦截 -->
-	<filter>
-    	<filter-name>QlWeixinMenuFilter</filter-name>
-    	<filter-class>com.hj.web.filter.QlWeixinMenuFilter</filter-class>
-    </filter>
-    <filter-mapping>
-    	<filter-name>QlWeixinMenuFilter</filter-name>
-    	<url-pattern>/wxpage/*</url-pattern>
-    </filter-mapping>
-
 </web-app>

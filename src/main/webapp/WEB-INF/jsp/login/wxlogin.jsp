@@ -1,4 +1,4 @@
-<%@page import="com.hj.wxmp.mobile.common.HashSessions"%>
+<%@page import="com.hj.web.common.HashSessions"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/inc/taglib.jsp"%>
 <!DOCTYPE html>

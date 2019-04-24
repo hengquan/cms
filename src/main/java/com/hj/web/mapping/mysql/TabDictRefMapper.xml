@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hj.web.mapping.TabDictRefMapper" >
+  <resultMap id="BaseResultMap" type="com.hj.web.entity.TabDictRef" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="dmId" property="dmid" jdbcType="VARCHAR" />
+    <result column="ddId" property="ddid" jdbcType="VARCHAR" />
+    <result column="tabName" property="tabname" jdbcType="VARCHAR" />
+    <result column="tabId" property="tabid" jdbcType="VARCHAR" />
+    <result column="refName" property="refname" jdbcType="VARCHAR" />
+    <result column="sectionBegin" property="sectionbegin" jdbcType="REAL" />
+    <result column="sectionEnd" property="sectionend" jdbcType="REAL" />
+    <result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dmId, ddId, tabName, tabId, refName, sectionBegin, sectionEnd, cTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from plat_TabDict_Ref
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from plat_TabDict_Ref
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hj.web.entity.TabDictRef" >
+    insert into plat_TabDict_Ref (id, dmId, ddId, 
+      tabName, tabId, refName, 
+      sectionBegin, sectionEnd, cTime
+      )
+    values (#{id,jdbcType=VARCHAR}, #{dmid,jdbcType=VARCHAR}, #{ddid,jdbcType=VARCHAR}, 
+      #{tabname,jdbcType=VARCHAR}, #{tabid,jdbcType=VARCHAR}, #{refname,jdbcType=VARCHAR}, 
+      #{sectionbegin,jdbcType=REAL}, #{sectionend,jdbcType=REAL}, #{ctime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hj.web.entity.TabDictRef" >
+    insert into plat_TabDict_Ref
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dmid != null" >
+        dmId,
+      </if>
+      <if test="ddid != null" >
+        ddId,
+      </if>
+      <if test="tabname != null" >
+        tabName,
+      </if>
+      <if test="tabid != null" >
+        tabId,
+      </if>
+      <if test="refname != null" >
+        refName,
+      </if>
+      <if test="sectionbegin != null" >
+        sectionBegin,
+      </if>
+      <if test="sectionend != null" >
+        sectionEnd,
+      </if>
+      <if test="ctime != null" >
+        cTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="dmid != null" >
+        #{dmid,jdbcType=VARCHAR},
+      </if>
+      <if test="ddid != null" >
+        #{ddid,jdbcType=VARCHAR},
+      </if>
+      <if test="tabname != null" >
+        #{tabname,jdbcType=VARCHAR},
+      </if>
+      <if test="tabid != null" >
+        #{tabid,jdbcType=VARCHAR},
+      </if>
+      <if test="refname != null" >
+        #{refname,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionbegin != null" >
+        #{sectionbegin,jdbcType=REAL},
+      </if>
+      <if test="sectionend != null" >
+        #{sectionend,jdbcType=REAL},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hj.web.entity.TabDictRef" >
+    update plat_TabDict_Ref
+    <set >
+      <if test="dmid != null" >
+        dmId = #{dmid,jdbcType=VARCHAR},
+      </if>
+      <if test="ddid != null" >
+        ddId = #{ddid,jdbcType=VARCHAR},
+      </if>
+      <if test="tabname != null" >
+        tabName = #{tabname,jdbcType=VARCHAR},
+      </if>
+      <if test="tabid != null" >
+        tabId = #{tabid,jdbcType=VARCHAR},
+      </if>
+      <if test="refname != null" >
+        refName = #{refname,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionbegin != null" >
+        sectionBegin = #{sectionbegin,jdbcType=REAL},
+      </if>
+      <if test="sectionend != null" >
+        sectionEnd = #{sectionend,jdbcType=REAL},
+      </if>
+      <if test="ctime != null" >
+        cTime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hj.web.entity.TabDictRef" >
+    update plat_TabDict_Ref
+    set dmId = #{dmid,jdbcType=VARCHAR},
+      ddId = #{ddid,jdbcType=VARCHAR},
+      tabName = #{tabname,jdbcType=VARCHAR},
+      tabId = #{tabid,jdbcType=VARCHAR},
+      refName = #{refname,jdbcType=VARCHAR},
+      sectionBegin = #{sectionbegin,jdbcType=REAL},
+      sectionEnd = #{sectionend,jdbcType=REAL},
+      cTime = #{ctime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <!-- 查找字典表是否有相同记录 -->
+  <select id="selectCusIdAndTableName" resultMap="BaseResultMap" parameterType="java.util.Map">
+	SELECT
+		*
+	FROM
+		plat_TabDict_Ref
+	WHERE
+		tabName = #{tableName}
+	AND tabId = #{tableId}
+	AND refName = #{refName}
+  </select>
+  
+  
+  <delete id="delete4TabColum" parameterType="com.hj.web.entity.TabDictRef">
+  	delete from plat_TabDict_Ref
+    where  tabName = #{tabname,jdbcType=VARCHAR} and
+      tabId = #{tabid,jdbcType=VARCHAR} and
+      refName = #{refname,jdbcType=VARCHAR}
+  </delete>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <select id="selectCognitiveCaseChannel" resultMap="BaseResultMap">
+  	select * from plat_TabDict_Ref where refName = '认知本案渠道' and tabName = 'ql_ProjCust_Ref'
+  </select>
+  
+  <select id="selectConcern" resultMap="BaseResultMap">
+  	select * from plat_TabDict_Ref where refName = '本案关注点' and tabName = 'ql_ProjCust_Ref'
+  </select>
+  
+  <select id="leadTime" resultMap="BaseResultMap">
+  	select * from plat_TabDict_Ref where refName = '资金筹备期' and tabName = 'ql_ProjCust_Ref'
+  </select>
+  
+  <select id="selectResistPoint" resultMap="BaseResultMap">
+  	select * from plat_TabDict_Ref where refName = '本案抗拒点' and tabName = 'ql_ProjCust_Ref'
+  </select>
+  
+  
+  
+  
+</mapper>

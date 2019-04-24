@@ -45,14 +45,14 @@
     </property>
   </bean>
 
-  <bean id="authcFilter" class="com.hj.web.shiro.AyasAuthenticationFilter"/>
-  <bean id="userFilter" class="com.hj.web.shiro.AyasUserFilter"/>
-  <bean id="logoutFilter" class="com.hj.web.shiro.AyasLogoutFilter"/>
+  <bean id="authcFilter" class="com.hj.common.shiro.AyasAuthenticationFilter"/>
+  <bean id="userFilter" class="com.hj.common.shiro.AyasUserFilter"/>
+  <bean id="logoutFilter" class="com.hj.common.shiro.AyasLogoutFilter"/>
   <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
     <property name="realm" ref="authorizingRealm" />
     <!-- <property name="cacheManager" ref="shiroEhcacheManager"/> -->
   </bean>
-  <bean id="authorizingRealm" class="com.hj.web.shiro.AyasAuthorizingRealm">
+  <bean id="authorizingRealm" class="com.hj.common.shiro.AyasAuthorizingRealm">
     <property name="credentialsMatcher">
        <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
          <property name="hashAlgorithmName" value="MD5"/>

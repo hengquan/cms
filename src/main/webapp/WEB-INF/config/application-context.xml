@@ -13,7 +13,7 @@
 
       <description>Spring公共配置 </description>
 	
-		<context:component-scan base-package="com.hj.wxmp.mobile">
+		<context:component-scan base-package="com.hj.web">
 			<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 			<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 		</context:component-scan>
@@ -44,19 +44,19 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="datasource" />
 		<!-- 自动扫描mapping.xml文件 -->
-		<property name="mapperLocations" value="classpath:com/hj/wxmp/mobile/mapping/mysql/*.xml"></property>
+		<property name="mapperLocations" value="classpath:com/hj/web/mapping/mysql/*.xml"></property>
 		<!-- 自动扫描实体 -->
-		<property name="typeAliasesPackage" value="com.hj.wxmp.mobile.entity" />
+		<property name="typeAliasesPackage" value="com.hj.web.entity" />
 	</bean>
 	
 	<!-- mapping接口所在包名，Spring会自动查找其下的类 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.hj.wxmp.mobile.mapping"/>
+		<property name="basePackage" value="com.hj.web.mapping"/>
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>
 	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
 	<!-- <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.hj.wxmp.mobile.dao" />
+		<property name="basePackage" value="com.hj.web.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean> -->
 	
@@ -83,33 +83,5 @@
   <bean id="transactionManager2" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
     <property name="dataSource" ref="dataSource2"/>
   </bean>
-  <bean id="sqlSessionFactory2" class="com.spiritdata.framework.ext.spring.mybatis.MySqlSessionFactoryBean">
-    <property name="configLocations">
-      <list merge="default">
-        <value>classpath:com/spirit/mybatisConfig/*.mappers.cfg.xml</value>
-      </list>
-    </property>
-    <property name="databaseType" value="MySql"/>
-    <property name="dataSource" ref="dataSource2"/>
-    <property name="transactionFactory">
-      <bean class="org.apache.ibatis.transaction.managed.ManagedTransactionFactory"/>
-    </property>
-  </bean>
-  <bean id="defaultDAO" class="com.spiritdata.framework.core.dao.mybatis.MybatisDAO" scope="prototype" init-method="initialize">
-    <property name="sqlSessionFactory" ref="sqlSessionFactory2"/>
-  </bean>
 
-  <!-- 平台缓存池 -->
-  <bean id="cacheDictCLU" class="com.spirit.web.DictCLU"/>
-  <bean id="cachePool" class="com.spiritdata.framework.core.cache.CachePool">
-    <property name="caches">
-      <map>
-        <entry key="1" value-ref="cacheDictCLU"/>
-      </map>
-    </property>
-  </bean>
-  <!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 -->
-  <context:component-scan base-package="com.spirit" use-default-filters="false">
-    <context:include-filter type="regex" expression=".*.service.*Service" />
-  </context:component-scan>
 </beans>

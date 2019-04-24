@@ -1,4 +1,3 @@
-<script src="${appRoot}/static/js/jquery.js"></script>
 <script src="${appRoot}/static/js/bootstrap.min.js"></script>
 <script src="${appRoot}/static/js/jquery.scrollTo.min.js"></script>
 <script src="${appRoot}/static/js/jquery.nicescroll.js" type="text/javascript"></script>
