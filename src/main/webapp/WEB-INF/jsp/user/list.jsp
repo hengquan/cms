@@ -11,17 +11,18 @@
 <link href="${appRoot}/static/css/style.css" rel="stylesheet">
 <link href="${appRoot}/static/css/style-responsive.css" rel="stylesheet" />
 <script src="${appRoot}/static/js/jquery.js" type="text/javascript"></script>
-
 <title>${appTitle}</title>
 </head>
 <body>
 	<section id="container" class="">
 		<%@ include file="/WEB-INF/jsp/inc/header.jsp"%>
 		<%@ include file="/WEB-INF/jsp/inc/sidebar.jsp"%>
+		<%-- <section style="position: fixed;margin-top:70px;margin-left:190px;">
+			<%@ include file="/WEB-INF/jsp/inc/zTree.jsp"%>
+		</section> --%>
 		<!--main content start-->
 		<section id="main-content">
 			<section class="wrapper">
-			<%@ include file="/WEB-INF/jsp/inc/zTree.jsp"%>
 				<!-- page start-->
 				<div class="row">
 					<div class="col-lg-12">

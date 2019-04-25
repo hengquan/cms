@@ -11,7 +11,13 @@
 ul.treeDemo {
 	margin-top: 60px;
 }
+#thisTree {
+	width: 300px;
+	height: 100%;
+	position: fixed;
+	border:1px solid #333c48;
+}
 </style>
-<div>
+<div id="thisTree">
 	<ul id="treeDemo" class="ztree"></ul>
 </div>
