@@ -7,7 +7,9 @@
 <head>
 <%@ include file="/WEB-INF/jsp/inc/head_bootstrap.jsp"%>
 
-<link href="${appRoot}/static/assets/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" type="text/css">
+<link
+	href="${appRoot}/static/assets/jquery-file-upload/css/jquery.fileupload-ui.css"
+	rel="stylesheet" type="text/css">
 <link href="${appRoot}/static/css/style.css" rel="stylesheet">
 <link href="${appRoot}/static/css/style-responsive.css" rel="stylesheet" />
 <script src="${appRoot}/static/js/jquery.js" type="text/javascript"></script>
@@ -27,7 +29,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<section class="panel">
-							<header class="panel-heading">用户列表123</header>
+							<header class="panel-heading">用户列表</header>
 							<form action="${appRoot}/user/userList" method="post"
 								id="selectCheckMessage">
 								<!-- 选择不同的排行类型 -->
@@ -47,11 +49,16 @@
 									</span>
 								</div>
 
-
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<a href="javascript:doRefresh();" class="btn mini btn-white"
 										title="刷新"><i class="icon-refresh"></i></a>
+								</div>
+
+								<div
+									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
+									<a href="javascript:doAdd();" class="btn mini btn-white"><i
+										class="icon-plus"></i></a>
 								</div>
 
 								<div
@@ -71,42 +78,39 @@
 										<th style="width: 8px;"><input type="checkbox" name="box"
 											class="group-checkable" data-set="#sample_1 .checkboxes"
 											value="" /></th>
-										<th class="hidden-phone">微信头像</th>
-										<th class="hidden-phone">姓名/昵称</th>
-										<th class="hidden-phone">用户类型</th>
-										<th class="hidden-phone">性别</th>
-										<th class="hidden-phone">电话</th>
+										<th class="hidden-phone">用户头像</th>
+										<th class="hidden-phone">用户姓名</th>
+										<th class="hidden-phone">用户性别</th>
+										<th class="hidden-phone">用户年龄</th>
+										<th class="hidden-phone">联系方式</th>
+										<th class="hidden-phone">用户权限</th>
+										<th class="hidden-phone">区域语言</th>
+										<th class="hidden-phone">所在地区</th>
+										<th class="hidden-phone">详细地址</th>
 										<th class="hidden-phone">操作</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach items="${userList}" var="u" varStatus="s">
-										<c:if test="${!empty u.nickname }">
+										<c:if test="${!empty u.realname }">
 											<tr class="odd gradeX">
-												<td><input type="checkbox" name="box"
-													class="checkboxes" value="${u.openid}" /></td>
-												<td class="hidden-phone"><img src="${u.headimgurl}"
-													height="50" width=""></td>
-												<td class="hidden-phone"><c:choose>
-														<c:when
-															test="${u.realname== '' || u.realname== undefined}">  
-													${u.nickname}							   	
-											   </c:when>
-														<c:otherwise> 
-											   		${u.realname}
-											   </c:otherwise>
-													</c:choose></td>
+												<td><input type="checkbox" name="box" class="checkboxes" value="${u.id}" /></td>
+												<td class="hidden-phone"><img src="${u.headimgurl}" height="50" width=""></td>
+												<td class="hidden-phone">${u.realname}</td>
+												<td class="hidden-phone">
+												  <c:if test="${u.sex==1}">男</c:if>
+													<c:if test="${u.sex==2}">女</c:if>
+												</td>
+												<td class="hidden-phone">${u.age}</td>
+												<td class="hidden-phone">${u.phone}</td>
 												<td class="hidden-phone">${u.userRole.role_name}</td>
-												<td class="hidden-phone"><c:if test="${u.sex==1}">男</c:if>
-													<c:if test="${u.sex==2}">女</c:if></td>
-												<td class="hidden-phone">${u.mainphonenum}</td>
-												<td><button type="button" class="btn btn-send"
-														onclick="sellAllProject('${u.id}')">查看所属项目</button> <%-- <button type="button" class="btn btn-send"
-													onclick="seeAllKeHu('${u.id}')">查看所有用户</button> --%> <c:if
-														test="${roleName=='管理员' }">
+												<td class="hidden-phone">${u.language}</td>
+												<td class="hidden-phone">${u.district}</td>
+												<td class="hidden-phone">${u.address}</td>
+												<td>
 														<button type="button" class="btn btn-send"
-															onclick="updateUserMsg('${u.id}','${u.userRole.role_name}')">更改用户信息</button>
-													</c:if></td>
+															onclick="doUpdate('${u.id}','${u.userRole.role_name}')">修改</button>
+												</td>
 											</tr>
 										</c:if>
 									</c:forEach>
@@ -142,30 +146,139 @@
 				<!-- page end-->
 			</section>
 		</section>
-
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="modal-title">所属项目列表</h4>
-					</div>
-					<div class="modal-body">
-						<form class="form-horizontal" role="form" id="itemForm"
-							name="itemForm">
-							<input type="hidden" name="editId" id="editId">
-							<div class="form-group" id="userProjectMsg"></div>
-						</form>
-					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal-dialog -->
-		</div>
-		<!-- /.modal -->
 	</section>
+
+
+
+	<div class="modal fade" id="addPage" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="userTitle">添加用户</h4>
+				</div>
+				<div class="modal-body">
+					<form action="${appRoot}/user/save" method="post"
+					 class="form-horizontal" enctype="multipart/form-data" id="addUserData" name="addUserData">
+						<input type="hidden" name="id" id="userinfoId">
+						<div class="form-group">
+							<label class="col-lg-2 control-label pd-r5">登入帐号<font
+								style="color: red;"></font></label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" id="loginname"
+									name="loginname">
+							</div>
+						</div>
+						<div class="form-group">
+              <label class="col-lg-2 control-label pd-r5">用户权限<font
+                style="color: red;"></font></label>
+              <div class="col-lg-10">
+                <select class="form-control" id="userRoleId" name="userRoleId">
+                </select>
+              </div>
+            </div>
+						<div class="form-group">
+              <label class="col-lg-2 control-label pd-r5">用户头像<font
+                style="color: red;"></font></label>
+              <div class="col-lg-10">
+								<input type="file" name="headFile" id="headFile">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label pd-r5">用户姓名<font
+                style="color: red;"></font></label>
+              <div class="col-lg-10">
+                <input type="text" class="form-control" id="realname"
+                  name="realname">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label pd-r5">用户性别<font
+                style="color: red;"></font></label>
+              <div class="col-lg-10">
+                <select class="form-control" id="sex" name="sex">
+                  <option value="1">男</option>
+                  <option value="2">女</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label pd-r5">用户年龄<font
+                style="color: red;"></font></label>
+              <div class="col-lg-10">
+                <input type="count" class="form-control" id="age"
+                  name="age">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label pd-r5">联系方式<font
+                style="color: red;"></font></label>
+              <div class="col-lg-10">
+                <input type="text" class="form-control" id="phone"
+                  name="phone">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label pd-r5">所在地区<font
+                style="color: red;"></font></label>
+              <div class="col-lg-10">
+                <input type="text" class="form-control" id="district"
+                  name="district">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label pd-r5">详细地址<font
+                style="color: red;"></font></label>
+              <div class="col-lg-10">
+                <input type="text" class="form-control" id="address"
+                  name="address">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label pd-r5">区域语言<font
+                style="color: red;"></font></label>
+              <div class="col-lg-10">
+                <input type="text" class="form-control" id="language"
+                  name="language">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label pd-r5">相关项目<font
+                style="color: red;"></font></label>
+              <div class="col-lg-10">
+                <input type="text" class="form-control" id="selfprojauth"
+                  name="selfprojauth">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label pd-r5">用户描述<font
+                style="color: red;"></font></label>
+              <div class="col-lg-10">
+                <textarea rows="5" cols="60" class="form-control" id="descn"
+                  name="descn"></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label pd-r5">备注信息<font
+                style="color: red;"></font></label>
+              <div class="col-lg-10">
+                <textarea rows="5" cols="60" class="form-control" id="remark"
+                  name="remark"></textarea>
+              </div>
+            </div>
+						<div class="form-group">
+							<div class="col-lg-offset-2 col-lg-10">
+								<button type="button" onclick="submitData();"
+									class="btn btn-send">提交</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 
@@ -214,78 +327,6 @@
 	</div>
 	<!-- modal -->
 
-
-	<div class="modal fade" id="isCheckState" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="modal-title">更改用户信息</h4>
-				</div>
-				<div class="modal-body">
-					<form action="${appRoot}/anwStock/edit" method="post"
-						class="form-horizontal" enctype="multipart/form-data" role="form"
-						id="updateMessage" name="itemForm">
-						<input type="hidden" name="editId" id="editId"> <input
-							type="hidden" name="userSelectProjIds" id="userSelectProjIds">
-						<input type="hidden" name="yesSubCheckMessage"
-							id="yesSubCheckMessage"> <input type="hidden"
-							name="thisUserId" id="thisUserId">
-						<div class="form-group">
-							<label class="col-lg-3 control-label pd-r5">登录名<font
-								style="color: red;"></font></label>
-							<div class="col-lg-9">
-								<input type="text" class="form-control" name="loginName"
-									id="loginName" maxlength="10">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-lg-3 control-label pd-r5">手机号<font
-								style="color: red;"></font></label>
-							<div class="col-lg-9">
-								<input type="text" class="form-control" name="phone" id="phone"
-									maxlength="10">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-lg-3 control-label pd-r5">真实姓名<font
-								style="color: red;"></font></label>
-							<div class="col-lg-9">
-								<input type="text" class="form-control" name="rename"
-									id="rename" maxlength="10">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-lg-3 control-label pd-r5">角色<font
-								style="color: red;"></font></label>
-							<div class="col-lg-9">
-								<select class="form-control" name="userRole" id="userRole"
-									maxlength="10">
-
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-lg-3 control-label pd-r5">审核确认项目<font
-								style="color: red;"></font></label>
-							<div class="col-lg-9" id="projectMsg"></div>
-						</div>
-						<hr />
-						<div class="form-group">
-							<div class="col-lg-offset-2 col-lg-10">
-								<button type="button" onclick="subUserStateMessage()"
-									class="btn btn-send">提交</button>
-								<button data-dismiss="modal" class="btn btn-default"
-									type="button" id="quxiao">取消</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
 
 	<div class="panel-body">
 		<!-- Modal -->
@@ -348,7 +389,7 @@
 	</form>
 
 
-  <%@ include file="/WEB-INF/jsp/inc/foot_bootstrap.jsp"%>
+	<%@ include file="/WEB-INF/jsp/inc/foot_bootstrap.jsp"%>
 
 	<script src="${appRoot}/static/js/jquery.sparkline.js"
 		type="text/javascript"></script>
@@ -361,154 +402,10 @@
 	<script src="${appRoot}/static/js/dynamic-table.js"></script>
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
-		//是否提交审核结果
-		function updateUserMsg(id, rolename) {
-			//获取待审核人的信息，所有项目信息，所有权限信息
-			$
-					.ajax({
-						type : 'post',
-						data : {
-							"id" : id
-						},
-						url : '${appRoot}/user/getRoleAndProjectMsg',
-						dataType : 'json',
-						success : function(data) {
-							console.log(data);
-							if (data.msg == 100) {
-								var roles = data.roles;
-								var projects = data.projects;
-								var projUserRoleIds = data.projUserRoleIds;
-								console.log(projects);
-								console.log(projUserRoleIds);
-								var projectHtml = '';
-								for (var i = 0; i < projects.length; i++) {
-									var projId = projects[i].id;
-									var index = projUserRoleIds.indexOf(projId);
-									if (index >= 0) {
-										projectHtml += '<input type="checkbox" name="projbox" checked value="'+projects[i].id+'">'
-												+ projects[i].projname
-												+ '&nbsp&nbsp;&nbsp&nbsp';
-									} else {
-										projectHtml += '<input type="checkbox" name="projbox" value="'+projects[i].id+'">'
-												+ projects[i].projname
-												+ '&nbsp&nbsp;&nbsp&nbsp';
-									}
-								}
-								$("#projectMsg").html(projectHtml);
-								var userRoleHtml = '';
-								for (var i = 0; i < roles.length; i++) {
-									if (rolename == roles[i].roleName) {
-										userRoleHtml += '<option value="'+ roles[i].id +'" selected>'
-												+ roles[i].roleName
-												+ '</option>';
-									} else {
-										userRoleHtml += '<option value="'+ roles[i].id +'">'
-												+ roles[i].roleName
-												+ '</option>';
-									}
-								}
-								$("#userRole").html(userRoleHtml);
-								//赋值
-								$("#loginName").val(data.loginname);
-								$("#phone").val(data.mainphonenum);
-								$("#rename").val(data.realname);
-								$("#yesSubCheckMessage").val(id);
-								$("#thisUserId").val(id);
-								var $modal = $('#isCheckState');
-								$modal.modal();
-							} else {
-								windowShow("提交失败", "");
-							}
-						}
-					});
-		}
-
-		//设置审核的状态---确认提交
-		function subUserStateMessage() {
-			//用户ID
-			var userId = $("#thisUserId").val();
-			//权限ID
-			var userRole = $("#userRole").val();
-			//用户审核所选定的项目列表
-			var str = document.getElementsByName("projbox");
-			var objarray = str.length;
-			var checkProjIds = "";
-			var jy = false;
-			for (i = 0; i < objarray; i++) {
-				if (str[i].checked == true) {
-					jy = true;
-					checkProjIds += str[i].value + ",";
-				}
-			}
-			//需要传递的数据
-			var datas = {
-				"userId" : userId,
-				"userRole" : userRole,
-				"checkProjIds" : checkProjIds
-			}
-			$.ajax({
-				type : 'post',
-				data : datas,
-				url : '${appRoot}/user/updateUserMsg',
-				dataType : 'json',
-				success : function(data) {
-					if (data.msg == 100) {
-						windowShow("提交成功", "");
-						seeAllMsg();
-					} else {
-						windowShow("提交失败", "");
-					}
-				}
-			});
-
-		}
-
-		//查看该用户所有对应的项目
-		function sellAllProject(userId) {
-			window.location.href = "${appRoot}/user/belongToProj?userId="
-					+ userId;
-		}
-
-		//查看所有客户
-		function seeAllKeHu(userId) {
-
-			window.location.href = "${appRoot}/user/allkehu?userId=" + userId;
-		}
-
-		//选择不同的类型
-		function selectState(num) {
-			$("#selectState").val(num);
-			seeAllMsg();
-		}
 		//选择不同的页数
 		function doPanation(number) {
 			$("#nowPageNumber").val(number);
 			seeAllMsg();
-		}
-
-		//根据选择查看信息
-		function seeAllMsg() {
-			$("#selectCheckMessage").submit();
-		}
-
-		//查看更多信息
-		function manyMessage(userInfoId) {
-			$.ajax({
-				type : 'post',
-				data : {
-					"id" : userInfoId
-				},
-				url : '${appRoot}/user/singleMessage',
-				dataType : 'json',
-				success : function(data) {
-					if (data.msg == 0) {
-						var $modal = $('#myModal');
-						$modal.modal();
-					} else {
-						windowShow("操作失败", "");
-					}
-				}
-			});
 		}
 
 		$(function() {
@@ -558,15 +455,6 @@
 			$("#deleForm").submit();
 		}
 
-		//专家降级为普通用户
-		function doDemotionUser() {
-			var flag = checkboxUser();
-			if (flag) {
-				var $modal = $('#myModal3');
-				$modal.modal();
-			}
-		}
-
 		function checkboxUser() {
 			var str = document.getElementsByName("box");
 			var objarray = str.length;
@@ -588,19 +476,6 @@
 			}
 		}
 
-		function queDing() {
-			$("#demotionUser").submit();
-		}
-
-		//设置专家
-		function doSelectUser() {
-			var flag = checkUserBox();
-			if (flag) {
-				var $modal = $('#myModal1');
-				$modal.modal();
-			}
-		}
-
 		function setExpert() {
 			$("#checkExpert").submit();
 		}
@@ -608,8 +483,77 @@
 		function Delete() {
 			$("#deleForm").submit();
 		}
+
+		//弹出添加用户页面
+		function doAdd() {
+			$("#userTitle").html("添加用户信息");
+			addRolePage('');
+		}
+		//提交添加用户请求
+		function submitData(){
+			$("#addUserData").submit();
+		}
+		//打开修改页面
+		function doUpdate(id,rolename){
+			$("#userTitle").html("修改用户信息");
+			$.ajax({
+        type : 'post',
+        data : {"id":id},
+        url : '${appRoot}/user/getData',
+        dataType : 'json',
+        success : function(data) {
+          if (data.msg == 0) {
+            var userInfo = data.Data;
+            console.log(userInfo);
+            //填充信息
+            $("#userinfoId").val(userInfo.id);
+            $("#loginname").val(userInfo.loginname);
+            $("#realname").val(userInfo.realname);
+            $("#age").val(userInfo.age);
+            $("#sex").val(userInfo.sex);
+            $("#phone").val(userInfo.phone);
+            $("#district").val(userInfo.district);
+            $("#address").val(userInfo.address);
+            $("#language").val(userInfo.language);
+            $("#descn").text(userInfo.descn);
+            $("#remark").text(userInfo.remark);
+            $("#selfprojauth").val(userInfo.selfprojauth);
+          } else {
+            windowShow("获取用户信息失败", "");
+          }
+        }
+      });
+			//填充
+      addRolePage(rolename);
+		}
+		//填充权限页面
+		function addRolePage(rolename){
+			$.ajax({
+        type : 'post',
+        data : "",
+        url : '${appRoot}/role/getAllList',
+        dataType : 'json',
+        success : function(data) {
+          if (data.msg == 0) {
+            var html;
+            var roleList = data.roleList;
+            for(var i=0;i<roleList.length;i++){
+            	if(roleList[i].roleName == rolename){
+            		html += '<option value="'+ roleList[i].id +'" selected>'+ roleList[i].roleName +'</option>'
+            	}else{
+                html += '<option value="'+ roleList[i].id +'">'+ roleList[i].roleName +'</option>'
+            	}
+            }
+            $("#userRoleId").html(html);
+            var $modal = $('#addPage');
+            $modal.modal();
+          } else {
+            windowShow("获取权限列表失败", "");
+          }
+        }
+      });
+		}
 	</script>
-	<input type="hidden" value="" id="adminId" />
 </body>
 </html>
 

@@ -1,271 +1,187 @@
 package com.hj.web.entity;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSON;
-import net.sf.json.JSONObject;
-
 public class UserInfo {
-    private String id;
+	private String id;
 
-    private String loginname;
+  private String loginname;
 
-    private String password;
+  private String password;
 
-    private String salt;
+  private String realname;
 
-    private Integer isvalidate;
+  private Integer age;
 
-    private String realname;
+  private String sex;
 
-    private String selfprojauth;
+  private String phone;
 
-    private String mainphonenum;
+  private String headimgurl;
 
-    private Date ctime;
+  private String district;
 
-    private Date lmtime;
+  private String address;
 
-    private String signature;
+  private String language;
 
-    private Integer subscribe;
+  private String selfprojauth;
 
-    private String openid;
+  private Date ctime;
 
-    private String nickname;
+  private Integer isvalidate;
 
-    private String sex;
+  private String remark;
 
-    private String city;
+  private String descn;
+  
+	//用户所对应角色信息
+  private Map<String,Object> userRole;
+  
+  private String userRoleId;
 
-    private String country;
+  public String getUserRoleId() {
+		return userRoleId;
+	}
 
-    private String province;
+	public void setUserRoleId(String userRoleId) {
+		this.userRoleId = userRoleId;
+	}
 
-    private String language;
-
-    private String headimgurl;
-
-    private String subscribeTime;
-
-    private String unionid;
-
-    private String groupid;
-
-    private String remark;
-
-    private String descn;
-    
-    //用户所对应角色信息
-    private Map<String,Object> userRole;
-
-    public Map<String,Object> getUserRole() {
+	public Map<String, Object> getUserRole() {
 		return userRole;
 	}
 
-	public void setUserRole(Map<String,Object> userRole) {
+	public void setUserRole(Map<String, Object> userRole) {
 		this.userRole = userRole;
 	}
 
 	public String getId() {
-        return id;
-    }
+      return id;
+  }
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+  public void setId(String id) {
+      this.id = id == null ? null : id.trim();
+  }
 
-    public String getLoginname() {
-        return loginname;
-    }
+  public String getLoginname() {
+      return loginname;
+  }
 
-    public void setLoginname(String loginname) {
-        this.loginname = loginname == null ? null : loginname.trim();
-    }
+  public void setLoginname(String loginname) {
+      this.loginname = loginname == null ? null : loginname.trim();
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public String getPassword() {
+      return password;
+  }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
+  public void setPassword(String password) {
+      this.password = password == null ? null : password.trim();
+  }
 
-    public String getSalt() {
-        return salt;
-    }
+  public String getRealname() {
+      return realname;
+  }
 
-    public void setSalt(String salt) {
-        this.salt = salt == null ? null : salt.trim();
-    }
+  public void setRealname(String realname) {
+      this.realname = realname == null ? null : realname.trim();
+  }
 
-    public Integer getIsvalidate() {
-        return isvalidate;
-    }
+  public Integer getAge() {
+      return age;
+  }
 
-    public void setIsvalidate(Integer isvalidate) {
-        this.isvalidate = isvalidate;
-    }
+  public void setAge(Integer age) {
+      this.age = age;
+  }
 
-    public String getRealname() {
-        return realname;
-    }
+  public String getSex() {
+      return sex;
+  }
 
-    public void setRealname(String realname) {
-        this.realname = realname == null ? null : realname.trim();
-    }
+  public void setSex(String sex) {
+      this.sex = sex == null ? null : sex.trim();
+  }
 
-    public String getSelfprojauth() {
-        return selfprojauth;
-    }
+  public String getPhone() {
+      return phone;
+  }
 
-    public void setSelfprojauth(String selfprojauth) {
-        this.selfprojauth = selfprojauth == null ? null : selfprojauth.trim();
-    }
+  public void setPhone(String phone) {
+      this.phone = phone == null ? null : phone.trim();
+  }
 
-    public String getMainphonenum() {
-        return mainphonenum;
-    }
+  public String getHeadimgurl() {
+      return headimgurl;
+  }
 
-    public void setMainphonenum(String mainphonenum) {
-        this.mainphonenum = mainphonenum == null ? null : mainphonenum.trim();
-    }
+  public void setHeadimgurl(String headimgurl) {
+      this.headimgurl = headimgurl == null ? null : headimgurl.trim();
+  }
 
-    public Date getCtime() {
-        return ctime;
-    }
+  public String getDistrict() {
+      return district;
+  }
 
-    public void setCtime(Date ctime) {
-        this.ctime = ctime;
-    }
+  public void setDistrict(String district) {
+      this.district = district == null ? null : district.trim();
+  }
 
-    public Date getLmtime() {
-        return lmtime;
-    }
+  public String getAddress() {
+      return address;
+  }
 
-    public void setLmtime(Date lmtime) {
-        this.lmtime = lmtime;
-    }
+  public void setAddress(String address) {
+      this.address = address == null ? null : address.trim();
+  }
 
-    public String getSignature() {
-        return signature;
-    }
+  public String getLanguage() {
+      return language;
+  }
 
-    public void setSignature(String signature) {
-        this.signature = signature == null ? null : signature.trim();
-    }
+  public void setLanguage(String language) {
+      this.language = language == null ? null : language.trim();
+  }
 
-    public Integer getSubscribe() {
-        return subscribe;
-    }
+  public String getSelfprojauth() {
+      return selfprojauth;
+  }
 
-    public void setSubscribe(Integer subscribe) {
-        this.subscribe = subscribe;
-    }
+  public void setSelfprojauth(String selfprojauth) {
+      this.selfprojauth = selfprojauth == null ? null : selfprojauth.trim();
+  }
 
-    public String getOpenid() {
-        return openid;
-    }
+  public Date getCtime() {
+      return ctime;
+  }
 
-    public void setOpenid(String openid) {
-        this.openid = openid == null ? null : openid.trim();
-    }
+  public void setCtime(Date ctime) {
+      this.ctime = ctime;
+  }
 
-    public String getNickname() {
-        return nickname;
-    }
+  public Integer getIsvalidate() {
+      return isvalidate;
+  }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : nickname.trim();
-    }
+  public void setIsvalidate(Integer isvalidate) {
+      this.isvalidate = isvalidate;
+  }
 
-    public String getSex() {
-        return sex;
-    }
+  public String getRemark() {
+      return remark;
+  }
 
-    public void setSex(String sex) {
-        this.sex = sex == null ? null : sex.trim();
-    }
+  public void setRemark(String remark) {
+      this.remark = remark == null ? null : remark.trim();
+  }
 
-    public String getCity() {
-        return city;
-    }
+  public String getDescn() {
+      return descn;
+  }
 
-    public void setCity(String city) {
-        this.city = city == null ? null : city.trim();
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country == null ? null : country.trim();
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province == null ? null : province.trim();
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language == null ? null : language.trim();
-    }
-
-    public String getHeadimgurl() {
-        return headimgurl;
-    }
-
-    public void setHeadimgurl(String headimgurl) {
-        this.headimgurl = headimgurl == null ? null : headimgurl.trim();
-    }
-
-    public String getSubscribeTime() {
-        return subscribeTime;
-    }
-
-    public void setSubscribeTime(String subscribeTime) {
-        this.subscribeTime = subscribeTime == null ? null : subscribeTime.trim();
-    }
-
-    public String getUnionid() {
-        return unionid;
-    }
-
-    public void setUnionid(String unionid) {
-        this.unionid = unionid == null ? null : unionid.trim();
-    }
-
-    public String getGroupid() {
-        return groupid;
-    }
-
-    public void setGroupid(String groupid) {
-        this.groupid = groupid == null ? null : groupid.trim();
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
-
-    public String getDescn() {
-        return descn;
-    }
-
-    public void setDescn(String descn) {
-        this.descn = descn == null ? null : descn.trim();
-    }
+  public void setDescn(String descn) {
+      this.descn = descn == null ? null : descn.trim();
+  }
 }

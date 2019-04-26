@@ -1,6 +1,5 @@
 package com.hj.web.controller;
 
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hj.common.ControllerBase;
-import com.hj.utils.ApiUrls;
-import com.hj.utils.Configurations;
 import com.hj.utils.HashSessions;
 import com.hj.utils.JsonUtils;
 import com.hj.utils.MD5Utils;
@@ -53,14 +50,6 @@ public class LoginController extends ControllerBase {
 
 	@RequestMapping(value = "/login.ky", method = RequestMethod.GET)
 	public String login(ModelMap map) {
-		try {
-			map.put("appid", Configurations.getAppId());
-			map.put("weixinCodeUrl", ApiUrls.WEIXIN_CODE_URL);
-			map.put("redirect_uri", URLEncoder.encode(Configurations.getOpenIdRedirectUri(), "UTF-8"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		return "login/new_login";
 	}
 
@@ -123,19 +112,6 @@ public class LoginController extends ControllerBase {
 		return "redirect:login.ky";
 	}
 
-	@RequestMapping(value = "/wx/login.ky", method = RequestMethod.GET)
-	public String wxlogin(ModelMap map) {
-		try {
-			map.put("appid", Configurations.getAppId());
-			map.put("weixinCodeUrl", ApiUrls.WEIXIN_CODE_URL);
-			map.put("redirect_uri", URLEncoder.encode(Configurations.getOpenIdRedirectUri(), "UTF-8"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		logger.debug("map---Msg{}", map);
-		return "login/wxlogin";
-	}
-
 	@RequestMapping(value = "/loginMsg")
 	@ResponseBody
 	public String loginMsg() {
@@ -143,7 +119,7 @@ public class LoginController extends ControllerBase {
 		try {
 			// 用户角色权限信息
 			String id = hashSession.getCurrentAdmin(request).getId();
-			UserInfo userInfo = userInfoService.findById(id);
+			UserInfo userInfo = userInfoService.get(id);
 			map.put("msg", "100");
 			map.put("userInfo", userInfo);
 		} catch (Exception e) {

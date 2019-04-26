@@ -6,47 +6,21 @@ import java.util.Map;
 import com.hj.web.entity.UserInfo;
 
 public interface UserInfoMapper {
-    int deleteByPrimaryKey(String id);
+    int del(String id);
 
     int insert(UserInfo record);
 
-    int insertSelective(UserInfo record);
+    UserInfo get(String id);
 
-    UserInfo selectByPrimaryKey(String id);
+    int update(UserInfo record);
 
-    int updateByPrimaryKeySelective(UserInfo record);
+		List<UserInfo> findAll();
 
-    int updateByPrimaryKey(UserInfo record);
-    
-    //根据openid查找相当信息
-	UserInfo selectByOpenid(String openid);
-	
-	//查找所有用户的信息
-	List<UserInfo> selectAll();
-	
-	//分页查询所有会员信息
-	List<UserInfo> getMessge(Map<String, Object> map);
-	
-	//分页查询所有会员信息-总记录
-	Integer getMessgeCount(Map<String, Object> map);
+		List<UserInfo> getDataList(Map<String, Object> map);
 
-	List<UserInfo> getMostOnlineMessge(Map<String, Object> map);
+		Integer getDataListCount(Map<String, Object> map);
 
-	Integer getMostOnlineMessgeCount(Map<String, Object> map);
+		void deletes(String boxeditId);
 
-	List<UserInfo> selectParentId(String openid);
-
-	UserInfo findByOpenid(String openid);
-
-	List<UserInfo> selectByParentId(String parentId);
-
-	UserInfo selectByLoginId(String loginId);
-
-	List<UserInfo> findAll();
-
-	List<UserInfo> selectByName(String userName);
-
-	void deletes(String boxeditId);
-
-	
+		UserInfo selectByLoginId(String loginId);
 }

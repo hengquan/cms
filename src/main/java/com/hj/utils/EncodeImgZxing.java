@@ -115,35 +115,4 @@ public final class EncodeImgZxing {
 		  
 		  return image;
 	}
-	
-	
-	public static BufferedImage getFinishQrCode(String code,HttpServletRequest request){
-		BufferedImage twodimensioncode = null;
-		try {
-			Object obj = request.getSession().getAttribute("adminSession");
-			if (null != obj) {
-				 UserInfo admin = (UserInfo) obj;
-				 twodimensioncode = EncodeImgZxing.encodeImg(Configurations.getQrcodeUrl()+"?"+"code="+code+"&"+"wxmBusinessId="+admin.getId());
-				 Graphics2D g = twodimensioncode.createGraphics();
-				 BufferedImage logo = getBufferedImage(code);
-		         int logoWidth = logo.getWidth(null) > twodimensioncode.getWidth()*2 /10 ? (twodimensioncode.getWidth()*2 /10) : logo.getWidth(null);  
-		         int logoHeight = logo.getHeight(null) > twodimensioncode.getHeight()*2 /10 ? (twodimensioncode.getHeight()*2 /10) : logo.getHeight(null);  
-		         int x = (twodimensioncode.getWidth() - logoWidth) / 2;  
-		         int y = (twodimensioncode.getHeight() - logoHeight) / 2;  
-		         g.drawImage(logo, x, y, logoWidth, logoHeight, null);  
-		         g.drawRoundRect(x, y, logoWidth, logoHeight, 15 ,15);  
-		         g.setStroke(new BasicStroke(2));  
-		         g.setColor(Color.WHITE);  
-		         g.drawRect(x, y, logoWidth, logoHeight);  
-		         g.dispose();  
-		         logo.flush();  
-		         twodimensioncode.flush();  
-			}
-		}catch(Exception e){
-			System.out.println("生成二维码失败");
-		}
-		 
-         return twodimensioncode;  
- 
-	}
 }

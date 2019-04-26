@@ -9,20 +9,18 @@ import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hj.common.ControllerBase;
-import com.hj.utils.HashSessions;
+import com.hj.utils.JsonUtils;
 import com.hj.utils.MD5Utils;
+import com.hj.utils.UploadUtils;
 import com.hj.web.dao.SysItemRoleDao;
-import com.hj.web.entity.SysItemRole;
-import com.hj.web.entity.SysRole;
 import com.hj.web.entity.UserInfo;
-import com.hj.web.entity.UserRole;
 import com.hj.web.services.IKeyGen;
 import com.hj.web.services.SysRoleService;
 import com.hj.web.services.UserInfoService;
@@ -43,8 +41,6 @@ public class UserController extends ControllerBase {
 	private IKeyGen keyGen;
 	@Autowired
 	private UserInfoService userInfoService;
-
-	private HashSessions hashSession = HashSessions.getInstance();
 
 	@Autowired
 	SysItemRoleDao sysItemRoleDao;
@@ -106,27 +102,6 @@ public class UserController extends ControllerBase {
 		return "admin/update_pwd";
 	}
 
-	/**
-	 * 查询所有用户
-	 * 
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping("/user/list")
-	public String list(Model model) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		try {
-			List<UserInfo> userList = userInfoService.listEntity(map);
-			model.addAttribute("userList", userList);
-			model.addAttribute("activeFlag", "usermanager");
-			model.addAttribute("subActiveFlag", "userinfo");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return "user/index";
-	}
-
 	// 用户列表
 	@RequestMapping(value = "/user/userList")
 	public String userList(@RequestParam(value = "nowPage", defaultValue = "1") int nowPage,
@@ -145,7 +120,7 @@ public class UserController extends ControllerBase {
 		map.put("pageSize", pageSize);
 		try {
 			// 获取用户所有的信息
-			List<UserInfo> selectList = userInfoService.getMessge(map);
+			List<UserInfo> selectList = userInfoService.getDataList(map);
 			// 获取用户所对应项目的信息和角色信息
 			for (UserInfo userinfo : selectList) {
 				String userId = userinfo.getId();
@@ -153,7 +128,7 @@ public class UserController extends ControllerBase {
 				Map<String, Object> userRole = userRoleService.findByUserId(userId);
 				userinfo.setUserRole(userRole);
 			}
-			listMessgeCount = userInfoService.getMessgeCount(map);
+			listMessgeCount = userInfoService.getDataListCount(map);
 			Integer totalCount = listMessgeCount % pageSize;
 			Integer totalPageNum = 0;
 			if (totalCount == 0) {
@@ -170,24 +145,24 @@ public class UserController extends ControllerBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		UserRole userRole = userRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
-		if(userRole!=null){
-			List<SysItemRole> lst = sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
-			List<SysItemRole> item = sysItemRoleDao.selectItemByPId(userRole.getRoleid());
-			model.addAttribute("itemNamesss", item);
-			model.addAttribute("lst", lst);
-			String itemId = super.getTrimParameter("itemId");
-			String id = super.getTrimParameter("id");
-			model.addAttribute("itemId", itemId);
-			model.addAttribute("id", id);
-			// 权限
-			String roleid = userRole.getRoleid();
-			SysRole role = roleService.findById(roleid);
-			model.addAttribute("roleName", role.getRoleName());
-			return pageUrl;
-		}else{
-			return "login/new_login";
+		pageUrl = super.userIRoleItem(model, pageUrl);
+		return pageUrl;
+	}
+
+	// 添加项目
+	@RequestMapping(value = "/user/save")
+	public String addUser(ModelMap model, UserInfo userInfo,
+			@RequestParam(value = "headFile", required = false) MultipartFile headFile) {
+		try {
+			if (headFile != null && headFile.getSize() > 0) {
+				String src = UploadUtils.upload(headFile, request);
+				userInfo.setHeadimgurl(src);
+			}
+			userInfoService.save(userInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return "redirect:userList";
 	}
 
 	// 删除项目
@@ -195,10 +170,10 @@ public class UserController extends ControllerBase {
 	public String deleteUser(ModelMap model) {
 		try {
 			String byid = getTrimParameter("byid");
-			UserInfo userInfo = userInfoService.findById(byid);
+			UserInfo userInfo = userInfoService.get(byid);
 			String boxeditId = getTrimParameter("boxeditId");
 			if (StringUtils.isNotEmpty(byid)) {
-				userInfoService.delete(userInfo);
+				userInfoService.del(userInfo);
 			} else {
 				userInfoService.deletes(boxeditId);
 			}
@@ -206,6 +181,23 @@ public class UserController extends ControllerBase {
 			e.printStackTrace();
 		}
 		return "redirect:userList";
+	}
+
+	// 根据ID获取用户信息
+	@RequestMapping(value = "/user/getData")
+	@ResponseBody
+	public String getData(ModelMap model, UserInfo userInfo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			userInfo = userInfoService.get(userInfo);
+			if (userInfo != null) {
+				map.put("msg", "0");
+				map.put("Data", userInfo);
+			}
+		} catch (Exception e) {
+			map.put("msg", "1");
+		}
+		return JsonUtils.map2json(map);
 	}
 
 }

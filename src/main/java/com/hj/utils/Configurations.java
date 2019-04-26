@@ -14,7 +14,7 @@ import java.util.Properties;
  *
  */
 public class Configurations {
-	static final String CONFIG_FILE = "wx.app.properties";
+	static final String CONFIG_FILE = "aplication.properties";
 
 	private static Properties properties = null;
 
@@ -64,29 +64,6 @@ public class Configurations {
 	}
 
 	// ------获取具体值-------
-	public static String getToken() {
-		return getConfig("token");
-	}
-	
-	public static String getSPlatformYield() {
-		return getConfig("static_platform_yield");
-	}
-
-	public static String getAppId() {
-		return getConfig("appId");
-	}
-
-	public static String getAppSecret() {
-		return getConfig("appSecret");
-	}
-
-	public static String getOpenIdRedirectUri() {
-		return getConfig("wx.openid_redirect_uri");
-	}
-
-	public static String getAppTitle() {
-		return getConfig("app.title");
-	}
 
 	public static String getFileRepository() {
 		String val = getConfig("STREAM_FILE_REPOSITORY");
@@ -95,54 +72,12 @@ public class Configurations {
 		return val;
 	}
 
-	public static boolean isDeleteFinished() {
-		return getBoolean("STREAM_DELETE_FINISH");
+	public static String getPassWord() {
+		return getConfig("PASS_WORD");
 	}
 
 	public static String getAccessUrl() {
 		return getConfig("ACCESSURL");
 	}
 
-	public static String getQrcodeUrl() {
-		return getConfig("WX_QRCODE_URL");
-	}
-
-	// 微信公众号－－微信支付分配的商户ID
-	public static String getMchId() {
-		return getConfig("mch_id");
-	}
-
-	public static String getNotifyUrl() {
-		return getConfig("notify_url");
-	}
-
-	public static String getPayKey() {
-		return getConfig("pay_key");
-	}
-
-	public static boolean isCallApi() {
-		if("1".equals(getConfig("call_api_flag"))){
-			return true;
-		}
-			
-		return false;
-	}
-	
-	public static String getCdnSite() {
-		return getConfig("cdnSite");
-	}
-	
-	public static String getHotLine() {
-		return getConfig("hotline");
-	}
-	
-	
-	public static String getSiteName() {
-		return getConfig("siteName");
-	}
-	
-	public static String getSVersion() {
-		//return getConfig("static_version");
-		return String.valueOf(Math.random());
-	}
 }

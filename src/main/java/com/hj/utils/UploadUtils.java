@@ -42,41 +42,43 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 
-* @ClassName: UploadUtils
-* @Description: TODO(这里用一句话描述这个类的作用)
-* @author 王志勇
-* @date 2016年5月17日 上午10:02:09
-*
+ * @ClassName: UploadUtils
+ * @Description: TODO(这里用一句话描述这个类的作用)
+ * @author 王志勇
+ * @date 2016年5月17日 上午10:02:09
+ *
  */
 public class UploadUtils {
-	
+
 	/**
-	 * @param place 要储存的文件所在的文件夹
-	 * @param file 上传的文件
-	 * @param request 
+	 * @param place
+	 *          要储存的文件所在的文件夹
+	 * @param file
+	 *          上传的文件
+	 * @param request
 	 * @return 数据库储存的位置，用于读取文件
 	 */
-	public static String upload(MultipartFile file,HttpServletRequest request){
+	public static String upload(MultipartFile file, HttpServletRequest request) {
 		String filename = null;
 		ServletContext sc = null;
-	     try {
-		    if(file != null && file.getSize() > 0){
-		    	 String oldname = file.getOriginalFilename();    //得到上传时的文件名
-			     int i = oldname.lastIndexOf(".");
-			     filename = System.currentTimeMillis()+oldname.trim().substring(i, oldname.length());
-			     sc = request.getSession().getServletContext();
-			     String dir = Configurations.getFileRepository();
-				 FileUtils.writeByteArrayToFile(new File(dir,filename), file.getBytes());
-	    	 }else{
-	    		 new RuntimeException("上传参数错误，请检查!");
-	    		 return null;
-	    	 }
+		try {
+			if (file != null && file.getSize() > 0) {
+				String oldname = file.getOriginalFilename(); // 得到上传时的文件名
+				int i = oldname.lastIndexOf(".");
+				filename = System.currentTimeMillis() + oldname.trim().substring(i, oldname.length());
+				sc = request.getSession().getServletContext();
+				String dir = Configurations.getFileRepository();
+				FileUtils.writeByteArrayToFile(new File(dir, filename), file.getBytes());
+			} else {
+				new RuntimeException("上传参数错误，请检查!");
+				return null;
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    //return sc.getContextPath()+"/"+place+"/"+filename;
-	    return filename;
+		// return sc.getContextPath()+"/"+place+"/"+filename;
+		return filename;
 	}
 
 }

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hj.web.mapping.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.hj.web.entity.Article" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="articleName" property="articleName" jdbcType="VARCHAR" />
+    <result column="articleType" property="articleType" jdbcType="INTEGER" />
+    <result column="detail" property="detail" jdbcType="VARCHAR" />
+    <result column="isPush" property="isPush" jdbcType="INTEGER" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="INTEGER" />
+    <result column="picUrl" property="picUrl" jdbcType="VARCHAR" />
+    <result column="isComment" property="isComment" jdbcType="INTEGER" />
+    <result column="keyword" property="keyword" jdbcType="VARCHAR" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+    <result column="collectionNum" property="collectionNum" jdbcType="INTEGER" />
+    <result column="discussNum" property="discussNum" jdbcType="INTEGER" />
+    <result column="isAudite" property="isAudite" jdbcType="INTEGER" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="partakeNum" property="partakeNum" jdbcType="INTEGER" />
+    <result column="top" property="top" jdbcType="INTEGER" />
+    <result column="views" property="views" jdbcType="INTEGER" />
+    <result column="videoUrl" property="videoUrl" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="article" property="article" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, articleName, articleType, detail, isPush, source, userId, picUrl, isComment, 
+    keyword, language, collectionNum, discussNum, isAudite, userName, partakeNum, top, 
+    views, videoUrl, createTime, updateTime,article
+  </sql>
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from cms_article
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="del" parameterType="java.lang.String" >
+    delete from cms_article
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hj.web.entity.Article" >
+    insert into cms_article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="articleName != null" >
+        articleName,
+      </if>
+      <if test="articleType != null" >
+        articleType,
+      </if>
+      <if test="detail != null" >
+        detail,
+      </if>
+      <if test="isPush != null" >
+        isPush,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="picUrl != null" >
+        picUrl,
+      </if>
+      <if test="isComment != null" >
+        isComment,
+      </if>
+      <if test="keyword != null" >
+        keyword,
+      </if>
+      <if test="language != null" >
+        language,
+      </if>
+      <if test="collectionNum != null" >
+        collectionNum,
+      </if>
+      <if test="discussNum != null" >
+        discussNum,
+      </if>
+      <if test="isAudite != null" >
+        isAudite,
+      </if>
+      <if test="userName != null" >
+        userName,
+      </if>
+      <if test="partakeNum != null" >
+        partakeNum,
+      </if>
+      <if test="top != null" >
+        top,
+      </if>
+      <if test="views != null" >
+        views,
+      </if>
+      <if test="videoUrl != null" >
+        videoUrl,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+      <if test="article != null" >
+        article,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="articleName != null" >
+        #{articleName,jdbcType=VARCHAR},
+      </if>
+      <if test="articleType != null" >
+        #{articleType,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="isPush != null" >
+        #{isPush,jdbcType=INTEGER},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isComment != null" >
+        #{isComment,jdbcType=INTEGER},
+      </if>
+      <if test="keyword != null" >
+        #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null" >
+        #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="collectionNum != null" >
+        #{collectionNum,jdbcType=INTEGER},
+      </if>
+      <if test="discussNum != null" >
+        #{discussNum,jdbcType=INTEGER},
+      </if>
+      <if test="isAudite != null" >
+        #{isAudite,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="partakeNum != null" >
+        #{partakeNum,jdbcType=INTEGER},
+      </if>
+      <if test="top != null" >
+        #{top,jdbcType=INTEGER},
+      </if>
+      <if test="views != null" >
+        #{views,jdbcType=INTEGER},
+      </if>
+      <if test="videoUrl != null" >
+        #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="article != null" >
+        #{article,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.hj.web.entity.Article" >
+    update cms_article
+    <set >
+      <if test="articleName != null" >
+        articleName = #{articleName,jdbcType=VARCHAR},
+      </if>
+      <if test="articleType != null" >
+        articleType = #{articleType,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null" >
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="isPush != null" >
+        isPush = #{isPush,jdbcType=INTEGER},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="picUrl != null" >
+        picUrl = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isComment != null" >
+        isComment = #{isComment,jdbcType=INTEGER},
+      </if>
+      <if test="keyword != null" >
+        keyword = #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null" >
+        language = #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="collectionNum != null" >
+        collectionNum = #{collectionNum,jdbcType=INTEGER},
+      </if>
+      <if test="discussNum != null" >
+        discussNum = #{discussNum,jdbcType=INTEGER},
+      </if>
+      <if test="isAudite != null" >
+        isAudite = #{isAudite,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        userName = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="partakeNum != null" >
+        partakeNum = #{partakeNum,jdbcType=INTEGER},
+      </if>
+      <if test="top != null" >
+        top = #{top,jdbcType=INTEGER},
+      </if>
+      <if test="views != null" >
+        views = #{views,jdbcType=INTEGER},
+      </if>
+      <if test="videoUrl != null" >
+        videoUrl = #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="article != null" >
+        article = #{article,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

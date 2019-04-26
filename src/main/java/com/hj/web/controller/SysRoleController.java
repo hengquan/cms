@@ -74,17 +74,17 @@ public class SysRoleController extends ControllerBase {
 	public String list(Model model) {
 		List<SysRole> roleList = sysRoleDao.findAll();
 		model.addAttribute("roleList", roleList);
-		//model.addAttribute("itemNamesss",hashSession.getItemRole("itemNamesss"));
-	    //model.addAttribute("lst",hashSession.getItemRole("lst"));
+		// model.addAttribute("itemNamesss",hashSession.getItemRole("itemNamesss"));
+		// model.addAttribute("lst",hashSession.getItemRole("lst"));
 		String itemId = super.getTrimParameter("itemId");
-	    String id = super.getTrimParameter("id");
-	    UserRole userRole=sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
-	    List<SysItemRole> lst =sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
-	    List<SysItemRole> item=sysItemRoleDao.selectItemByPId(userRole.getRoleid());
-	    model.addAttribute("itemNamesss", item);
+		String id = super.getTrimParameter("id");
+		UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+		List<SysItemRole> lst = sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
+		List<SysItemRole> item = sysItemRoleDao.selectItemByPId(userRole.getRoleid());
+		model.addAttribute("itemNamesss", item);
 		model.addAttribute("lst", lst);
-		model.addAttribute("itemId",itemId);
-	    model.addAttribute("id",id);
+		model.addAttribute("itemId", itemId);
+		model.addAttribute("id", id);
 		logger.info("查询所有角色信息");
 		return "role/list";
 	}
@@ -97,20 +97,20 @@ public class SysRoleController extends ControllerBase {
 	@ResponseBody
 	@RequestMapping("/addAndUpdate")
 	public String addAndUpdate() {
-		Map<String,Object> result = new HashMap<String,Object>();
+		Map<String, Object> result = new HashMap<String, Object>();
 		String editId = StringUtils.trimToEmpty(getTrimParameter("editId"));
 		SysRole sysRole = new SysRole();
 		String roleName = StringUtils.trim(getTrimParameter("roleName"));
 		String pinyin = StringUtils.trim(getTrimParameter("pinyin"));
 		String logogram = StringUtils.trim(getTrimParameter("logogram"));
 		String remark = StringUtils.trim(getTrimParameter("remark"));
-		
+
 		boolean isSave = true;
-		if(isSave){
+		if (isSave) {
 			if (editId == null || editId.equals("")) {
-				//根据角色名称查询是否存在
-				SysRole sr=sysRoleDao.findByRoleName(roleName);
-				if("".equals(sr) || sr==null){
+				// 根据角色名称查询是否存在
+				SysRole sr = sysRoleDao.findByRoleName(roleName);
+				if ("".equals(sr) || sr == null) {
 					sysRole.setId(key.getUUIDKey());
 					sysRole.setRoleName(roleName);
 					sysRole.setPinyin(pinyin);
@@ -118,10 +118,10 @@ public class SysRoleController extends ControllerBase {
 					sysRole.setRemark(remark);
 					sysRoleDao.add(sysRole);
 					logger.info("添加角色成功");
-					result.put("msg","isc");
-				}else{
-					//添加角色失败，该角色名称已存在
-					result.put("msg","iscz");
+					result.put("msg", "isc");
+				} else {
+					// 添加角色失败，该角色名称已存在
+					result.put("msg", "iscz");
 				}
 			} else {
 				sysRole.setId(editId);
@@ -131,10 +131,10 @@ public class SysRoleController extends ControllerBase {
 				sysRole.setRemark(remark);
 				sysRoleDao.update(sysRole);
 				logger.info("修改角色成功");
-				result.put("msg","isupdate");
+				result.put("msg", "isupdate");
 			}
-		}else{
-			result.put("msg","error");
+		} else {
+			result.put("msg", "error");
 		}
 
 		logger.info("===========添加或修改角色失败=============");
@@ -164,6 +164,20 @@ public class SysRoleController extends ControllerBase {
 			sysRoleDao.dels(strs);
 		}
 		return "redirect:/role/list";
+	}
+
+	@RequestMapping("/getAllList")
+	@ResponseBody
+	public String getAllList(Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<SysRole> roleList = sysRoleDao.findAll();
+		if(roleList!=null && roleList.size()>0){
+			map.put("roleList", roleList);
+			map.put("msg", "0");
+		}else{
+			map.put("msg", "1");
+		}
+		return JsonUtils.map2json(map);
 	}
 
 }

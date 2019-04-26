@@ -38,6 +38,15 @@
 		</property>
 	</bean>
 	
+	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+    <!-- 国际化信息所在的文件名,根据ResourceBundleMessageSource类加载资源文件.\src\main\resources\messages\messages_en_US.properties -->                     
+    <property name="basename" value="messages/messages" />   
+    <!-- 如果在国际化资源文件中找不到对应代码的信息，就用这个代码作为名称  -->               
+    <property name="useCodeAsDefaultMessage" value="true" />           
+  </bean>
+	
+	
 	<!-- 对静态资源文件的访问 不支持访问WEB-INF目录 -->
     <mvc:default-servlet-handler />
     <mvc:resources mapping="/static/**" location="/static/"/>

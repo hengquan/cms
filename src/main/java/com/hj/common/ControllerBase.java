@@ -23,7 +23,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hj.utils.HashSessions;
 import com.hj.web.dao.SysItemRoleDao;
 import com.hj.web.entity.SysItemRole;
+import com.hj.web.entity.SysRole;
 import com.hj.web.entity.UserRole;
+import com.hj.web.services.SysRoleService;
 import com.hj.web.services.UserRoleService;
 
 public class ControllerBase {
@@ -34,6 +36,8 @@ public class ControllerBase {
 	SysItemRoleDao sysItemRoleDao;
 	@Autowired
 	UserRoleService sysUserRoleService;
+	@Autowired
+	SysRoleService roleService;
 
 	/**
 	 * @description 参数集合
@@ -260,7 +264,7 @@ public class ControllerBase {
 		return jsonMapper.json2List(json);
 	}
 
-	//统一返回权限列表菜单
+	// 统一返回权限列表菜单
 	public String userIRoleItem(ModelMap model, String pageUrl) {
 		try {
 			UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
@@ -272,6 +276,10 @@ public class ControllerBase {
 			String id = this.getTrimParameter("id");
 			model.addAttribute("itemId", itemId);
 			model.addAttribute("id", id);
+			// 权限
+			String roleid = userRole.getRoleid();
+			SysRole role = roleService.findById(roleid);
+			model.addAttribute("roleName", role.getRoleName());
 		} catch (Exception e) {
 			pageUrl = "login/new_login";
 		}
