@@ -29,7 +29,7 @@ public class Article {
 
     private Integer discussNum;
 
-    private Integer isAudite;
+    private Integer isValidate;
 
     private String userName;
 
@@ -47,7 +47,15 @@ public class Article {
 
     private String article;
 
-    public String getId() {
+    public Integer getIsValidate() {
+			return isValidate;
+		}
+
+		public void setIsValidate(Integer isValidate) {
+			this.isValidate = isValidate;
+		}
+
+		public String getId() {
         return id;
     }
 
@@ -149,14 +157,6 @@ public class Article {
 
     public void setDiscussNum(Integer discussNum) {
         this.discussNum = discussNum;
-    }
-
-    public Integer getIsAudite() {
-        return isAudite;
-    }
-
-    public void setIsAudite(Integer isAudite) {
-        this.isAudite = isAudite;
     }
 
     public String getUserName() {

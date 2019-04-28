@@ -22,6 +22,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public boolean insert(Article entity) throws Exception {
+		entity.setId(keyGen.getUUIDKey());
 		return dao.insert(entity) > 0 ? true : false;
 	}
 

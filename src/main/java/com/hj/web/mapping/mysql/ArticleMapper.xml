@@ -15,7 +15,7 @@
     <result column="language" property="language" jdbcType="VARCHAR" />
     <result column="collectionNum" property="collectionNum" jdbcType="INTEGER" />
     <result column="discussNum" property="discussNum" jdbcType="INTEGER" />
-    <result column="isAudite" property="isAudite" jdbcType="INTEGER" />
+    <result column="isValidate" property="isValidate" jdbcType="INTEGER" />
     <result column="userName" property="userName" jdbcType="VARCHAR" />
     <result column="partakeNum" property="partakeNum" jdbcType="INTEGER" />
     <result column="top" property="top" jdbcType="INTEGER" />
@@ -27,7 +27,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, articleName, articleType, detail, isPush, source, userId, picUrl, isComment, 
-    keyword, language, collectionNum, discussNum, isAudite, userName, partakeNum, top, 
+    keyword, language, collectionNum, discussNum, isValidate, userName, partakeNum, top, 
     views, videoUrl, createTime, updateTime,article
   </sql>
   <select id="get" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -82,8 +82,8 @@
       <if test="discussNum != null" >
         discussNum,
       </if>
-      <if test="isAudite != null" >
-        isAudite,
+      <if test="isValidate != null" >
+        isValidate,
       </if>
       <if test="userName != null" >
         userName,
@@ -150,8 +150,8 @@
       <if test="discussNum != null" >
         #{discussNum,jdbcType=INTEGER},
       </if>
-      <if test="isAudite != null" >
-        #{isAudite,jdbcType=INTEGER},
+      <if test="isValidate != null" >
+        #{isValidate,jdbcType=INTEGER},
       </if>
       <if test="userName != null" >
         #{userName,jdbcType=VARCHAR},
@@ -218,8 +218,8 @@
       <if test="discussNum != null" >
         discussNum = #{discussNum,jdbcType=INTEGER},
       </if>
-      <if test="isAudite != null" >
-        isAudite = #{isAudite,jdbcType=INTEGER},
+      <if test="isValidate != null" >
+        isValidate = #{isValidate,jdbcType=INTEGER},
       </if>
       <if test="userName != null" >
         userName = #{userName,jdbcType=VARCHAR},

@@ -22,6 +22,7 @@ public class ChannelServiceImpl implements ChannelService {
 	
 	@Override
 	public boolean insert(Channel entity) throws Exception {
+		entity.setId(keyGen.getUUIDKey());
 		return dao.insert(entity)>0?true:false;
 	}
 	@Override
