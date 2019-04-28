@@ -102,4 +102,8 @@ public interface ChannelService {
 
 	public List<Map<String, Object>> selectAll();
 
+	public List<Channel> getAllData();
+
+	public Channel get(String articleType);
+
 }

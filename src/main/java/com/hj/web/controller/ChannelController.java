@@ -3,15 +3,19 @@ package com.hj.web.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.hj.common.ControllerBase;
+import com.hj.utils.JsonUtils;
 import com.hj.web.entity.Channel;
 import com.hj.web.services.ChannelService;
+import com.hj.web.services.PageService;
 
 //频道管理
 @Controller
@@ -19,20 +23,18 @@ public class ChannelController extends ControllerBase {
 
 	@Autowired
 	ChannelService channelService;
+	@Autowired
+	PageService pageService;
 
 	// 频道列表
 	@RequestMapping(value = "/channel/getDataList")
-	public String userList(@RequestParam(value = "nowPage", defaultValue = "1") int nowPage,
-			@RequestParam(value = "pageSize", defaultValue = "10") int pageSize, ModelMap model) {
+	public String userList(PageService page, ModelMap model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String pageUrl = "channel/list";
-		// 纪录总数
-		Integer listMessgeCount = 0;
 		String channelname = getTrimParameter("channelname");
-		Integer start = ((nowPage - 1) * pageSize);
-		map.put("page", start);
-		map.put("pageSize", pageSize);
 		try {
+			// 存页面起始位置信息
+			pageService.getPageLocation(page, map);
 			if (channelname == null) {
 				map.put("channelname", "");
 			} else {
@@ -40,21 +42,10 @@ public class ChannelController extends ControllerBase {
 			}
 			// 获取所有频道信息
 			List<Channel> selectList = channelService.getProjectMessge(map);
-			for (Channel pro : selectList) {
-				String proId = pro.getId();
-				map.put("proId", proId);
-			}
 			// 所有信息数量
-			listMessgeCount = channelService.getProjectMessgeCount(map);
-			Integer totalCount = listMessgeCount % pageSize;
-			Integer totalPageNum = 0;
-			if (totalCount == 0) {
-				totalPageNum = listMessgeCount / pageSize;
-			} else {
-				totalPageNum = (listMessgeCount / pageSize) + 1;
-			}
-			model.put("nowPage", nowPage);
-			model.put("totalPageNum", totalPageNum);
+			int listMessgeCount = channelService.getProjectMessgeCount(map);
+			// 获取页面信息
+			pageService.getPageData(listMessgeCount, model, page);
 			model.put("channelname", channelname);
 			model.addAttribute("selectList", selectList);
 		} catch (Exception e) {
@@ -100,5 +91,24 @@ public class ChannelController extends ControllerBase {
 			e.printStackTrace();
 		}
 		return "redirect:getDataList";
+	}
+
+	// 获取所有频道
+	@RequestMapping(value = "/channel/getAllData")
+	@ResponseBody
+	public String getAllData() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<Channel> channelList = channelService.getAllData();
+			if (channelList != null && channelList.size() > 0) {
+				map.put("dataList", channelList);
+				map.put("msg", "0");
+			} else {
+				map.put("msg", "1");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
 	}
 }

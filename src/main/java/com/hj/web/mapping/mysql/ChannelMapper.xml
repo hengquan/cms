@@ -125,6 +125,13 @@
 	</select>
 
 	<update id="deletes">
-		update cms_channel set isValidate = 0 where instr(#{boxeditId},id)
+		update cms_channel set isValidate = 0 where
+		instr(#{boxeditId},id)
 	</update>
+
+	<select id="getAllData" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cms_channel
+	</select>
 </mapper>

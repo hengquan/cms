@@ -69,92 +69,95 @@
 <body>
 
 	<section id="container" class="">
-		<!--header start-->
 		<%@ include file="/WEB-INF/jsp/inc/header.jsp"%>
-		<!--header end-->
-
-		<!--sidebar start-->
 		<%@ include file="/WEB-INF/jsp/inc/sidebar.jsp"%>
-		<!--sidebar end-->
 
-		<!--main content start-->
 		<section id="main-content">
 			<section class="wrapper">
 				<!-- page start-->
 				<div class="row">
 					<div class="col-lg-12">
 						<section class="panel">
-							<header class="panel-heading">库存统计管理</header>
-							<form action="${appRoot}/anwStock/stat" method="post"
+							<header class="panel-heading">${sourceName }文章</header>
+							<form action="${appRoot}/article/getDataList" method="post"
 								id="selectCheckMessage">
+								<input type="hidden" name="sourceName" value="${sourceName }">
 								<!-- 根据用户昵称查询 -->
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<input type="text" class="btn"
 										style="width: 500px; border: 1px solid #ddd; text-align: left;"
-										placeholder="请输入姓名或电话号码" name="userName1" value="${mingzi }"><span>
+										placeholder="请输入文章标题" name="keyword"
+										value="${keyword }"><span>
 										<button class="btn sr-btn-imp" style="float: right"
-											onclick="seeAllMsg()">
+											onclick="selectDataList()">
 											<i class="icon-search"></i>
 										</button>
 									</span>
 								</div>
-
-
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<a href="javascript:doRefresh();" class="btn mini btn-white"><i
 										class="icon-refresh"></i></a>
 								</div>
-<!-- 
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<a href="javascript:doAdd();" class="btn mini btn-white"><i
 										class="icon-plus"></i></a>
 								</div>
-
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<a href="javascript:doDelete();" class="btn mini btn-white"><i
 										class="icon-trash"></i></a>
-								</div> -->
-
-
-
+								</div>
 								<input type="hidden" value="${nowPage}" id="nowPageNumber"
 									name="nowPage"> <input type="hidden"
 									value="${totalPageNum }">
 							</form>
-
 							<div style="clear: both"></div>
-
 							<table class="table table-striped border-top" id="sample_1">
 								<thead>
 									<tr>
 										<th style="width: 8px;"><input type="checkbox" name="box"
 											class="group-checkable" data-set="#sample_1 .checkboxes"
 											value="" /></th>
-										<th class="hidden-phone">站点</th>
-										<th class="hidden-phone">商品名称</th>
-										<th class="hidden-phone">库存量(应入库)</th>
-										<th class="hidden-phone">库存量(已入库)</th>
-										<th class="hidden-phone">库存量(未入库)</th>
-										<th class="hidden-phone">付款金额</th>
-										<th class="hidden-phone">入库时间</th>
+										<th class="hidden-phone">封面图</th>
+										<th class="hidden-phone">标题</th>
+										<th class="hidden-phone">频道</th>
+										<th class="hidden-phone">语言</th>
+										<th class="hidden-phone">作者</th>
+										<th class="hidden-phone">状态</th>
+										<th class="hidden-phone">浏览量</th>
+										<th class="hidden-phone">创建时间</th>
+										<th class="hidden-phone">操作</th>
 									</tr>
 								</thead>
 								<tbody id="theTbody">
-									<c:forEach items="${userList}" var="u" varStatus="s">
+									<c:forEach items="${dataList}" var="u" varStatus="s">
 										<tr class="odd gradeX theTr">
 											<td><input type="checkbox" name="box" class="checkboxes"
 												value="${u.id}" /></td>
-											<td class="hidden-phone">${u.name}</td>
-											<td class="hidden-phone">${u.product_name}  ${u.standardName }</td>
-											<td class="hidden-phone">${u.unstockCount}</td>
-											<td class="hidden-phone">${u.stockCount}</td>
-											<td class="hidden-phone">${u.unstockCount - u.stockCount}</td>
-											<td class="hidden-phone">${u.unstockCount * u.price}</td>
-											<td class="hidden-phone">${u.update_time}</td>
+											<td class="hidden-phone">
+                        <img src="${u.picUrl }">
+                      </td>
+											<td class="hidden-phone">${u.articleName}</td>
+											<td class="hidden-phone">${u.setArticleTypeName}</td>
+											<td class="hidden-phone">${u.language}</td>
+											<td class="hidden-phone">${u.userName}</td>
+											<td class="hidden-phone">
+											 <c:if test="${u.isValidate == 0}">草稿</c:if>
+											 <c:if test="${u.isValidate == 1}">审核中</c:if>
+											 <c:if test="${u.isValidate == 2}">已发布</c:if>
+											 <c:if test="${u.isValidate == 3}">审核未通过</c:if>
+											 <c:if test="${u.isValidate == 4}">作废</c:if>
+											</td>
+											<td class="hidden-phone">${u.views}</td>
+											<td class="hidden-phone">
+											   <fmt:formatDate value="${u.createTime}" pattern="yyyy-MM-dd HH:mm:ss" />
+											</td>
+											<td class="hidden-phone">
+												<button type="button" onclick="edit('${u.id}','${u.setArticleTypeName }')" class="btn btn-send">修改</button> 
+											</td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -193,71 +196,6 @@
 	</section>
 
 
-
-
-
-
-
-	<div class="modal fade" id="addProblemType" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="modal-title">确认收货</h4>
-				</div>
-				<div class="modal-body">
-					<form action="${appRoot}/anwStock/updateMsg" method="post"
-						class="form-horizontal" enctype="multipart/form-data" role="form"
-						id="addMessage" name="itemForm">
-						<input type="hidden" name="editId1" id="editId1">
-						<div class="form-group">
-							<label class="col-lg-2 control-label pd-r5">送货人姓名<font
-								style="color: red;"></font></label>
-							<div class="col-lg-10">
-								<input type="text" class="form-control" name="deliveryMan" id="deliveryMan" maxlength="10">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-lg-2 control-label pd-r5">电话<font
-								style="color: red;"></font></label>
-							<div class="col-lg-10">
-								<input type="text" class="form-control" name="mobile" id="mobile" maxlength="10">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-lg-2 control-label pd-r5">入库数量<font
-								style="color: red;"></font></label>
-							<div class="col-lg-10">
-								<input type="number" class="form-control" id="stock" name="stock" maxlength="10">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-lg-2 control-label pd-r5">原因<font
-								style="color: red;"></font></label>
-							<div class="col-lg-10">
-								<textarea class="form-control" rows="5" cols="5" id="cause" name="cause"></textarea>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-lg-offset-2 col-lg-10">
-								<button type="button" onclick="submitData();"
-									class="btn btn-send">提交</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-
-
-
-
-
 	<!-- Modal -->
 	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
@@ -273,30 +211,6 @@
 					<button data-dismiss="modal" class="btn btn-default" type="button"
 						id="quxiao">取消</button>
 					<button class="btn btn-warning" type="button" onclick="Delete()">确定</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- modal -->
-
-	<div class="panel-body">
-		<!-- Modal -->
-		<div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-hidden="true">&times;</button>
-						<h4 class="modal-title">设置专家警告</h4>
-					</div>
-					<div class="modal-body">是否确定要将选中用户设置成专家？</div>
-					<div class="modal-footer">
-						<button data-dismiss="modal" class="btn btn-default" type="button"
-							id="quxiao">取消</button>
-						<button class="btn btn-warning" type="button"
-							onclick="setExpert()">确定</button>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -325,10 +239,9 @@
 		</div>
 	</div>
 
-	<form action="${appRoot}/anwStock/del" method="post" id="deleForm"
+	<form action="${appRoot}/article/del" method="post" id="deleForm"
 		name="deleForm">
-		<input type="hidden" name="byid" id="byid"> <input
-			type="hidden" name="boxeditId" id="boxeditId">
+		<input type="hidden" name="boxeditId" id="boxeditId">
 	</form>
 
 	<form action="${appRoot}/user/setExpert" method="post" id="checkExpert"
@@ -349,39 +262,34 @@
 	<script src="${appRoot}/static/js/dynamic-table.js"></script>
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
-	
-		//确认收货
-		function updateMsg(id,name,mobile,stock,cause){
-			$("#deliveryMan").val(name);
-			$("#mobile").val(mobile);
-			$("#stock").val(stock);
-			$("#cause").val(cause);
-			$("#editId1").val(id);
-			var $modal = $('#addProblemType');
-			$modal.modal();
-		}
-	
-	
-	
-		//添加提交
-		function submitData() {
-			/* var deliveryMan = $("#deliveryMan").val();
-			if (deliveryMan == '' || deliveryMan == undefined) {
-				windowShow("收货人姓名不允许为空！", "");
-				return;
-			} */
-			$("#addMessage").submit();
-		}
-
 		//选择不同的页数
 		function doPanation(number) {
 			$("#nowPageNumber").val(number);
-			seeAllMsg();
+			selectDataList();
+		}
+
+		function selectDataList() {
+			$("#selectCheckMessage").submit();
+		}
+		
+		//添加菜单
+		function doAdd() {
+			window.location.href="${appRoot}/article/addPage?sourceName="+'${sourceName}'; 
+		}
+
+		//修改频道
+		function edit(id, channelname) {
+			window.location.href="${appRoot}/article/editPage?id="+id+"&channelname="+channelname+"&sourceName="+'${sourceName}'; 
+		}
+
+		//添加提交
+		function submitData() {
+			$("#addMessage").submit();
 		}
 
 		//更新数据
 		function submitUpdateData() {
-			$("#updateMessage").submit();
+			$("#editMessage").submit();
 		}
 
 		$(function() {
@@ -392,7 +300,6 @@
 			$("#sample_1_length .js-add").hide();
 			$("#sample_1_length .js-ref").hide();
 			$("#sample_1_length .js-del").hide();
-
 		});
 
 		function doRefresh() {
@@ -420,37 +327,6 @@
 			}
 		}
 
-		//根据选择查看信息
-		function seeAllMsg() {
-			$("#selectCheckMessage").submit();
-		}
-
-		//添加菜单
-		function doAdd() {
-			var $modal = $('#addProblemType');
-			$modal.modal();
-		}
-
-		//查看未入库件是啥原因
-		function seeCause(msg){
-			$("#thiscause").html(msg);
-			var $modal = $('#thecause');
-			$modal.modal();
-		}
-		
-		
-		//修改菜单
-		function doEdit(id,userName,productId,storeroomId,stock,unreceivedStock) {
-			$(".doEditSelect1").find("option[value="+storeroomId+"]").attr("selected","selected")
-			$(".doEditSelect2").find("option[value="+productId+"]").attr("selected","selected")
-			$("#editId").val(id);
-			$("#userName1").val(userName);
-			$("#unreceivedStock1").val(unreceivedStock);
-			
-			
-			var $modal = $('#editProblemType');
-			$modal.modal();
-		}
 
 		function doDelete() {
 			var flag = checkbox();
@@ -462,10 +338,6 @@
 
 		function Del() {
 			$("#deleForm").submit();
-		}
-
-		function setExpert() {
-			$("#checkExpert").submit();
 		}
 
 		function Delete() {

@@ -29,7 +29,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<section class="panel">
-							<header class="panel-heading">用户列表</header>
+							<header class="panel-heading">用户管理--用户列表</header>
 							<form action="${appRoot}/user/userList" method="post"
 								id="selectCheckMessage">
 								<!-- 选择不同的排行类型 -->
@@ -408,6 +408,10 @@
 			seeAllMsg();
 		}
 
+		function seeAllMsg(){
+			$("#selectCheckMessage").submit();
+		}
+		
 		$(function() {
 			$('.input-group').hide();
 			$('#sample_1_info').hide();

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hj.web.entity.Article;
+import com.hj.web.entity.UserInfo;
 
 public interface ArticleService {
 
@@ -15,9 +16,9 @@ public interface ArticleService {
 
 	public void del(String id);
 
-	public Boolean save(Article entity) throws Exception;
+	public Boolean save(Article entity, UserInfo userInfo) throws Exception;
 
-	public Article get(String id) throws Exception;
+	public Article get(String id);
 
 	public Article get(Article entity);
 

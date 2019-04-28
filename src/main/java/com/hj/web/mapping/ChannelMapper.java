@@ -20,4 +20,6 @@ public interface ChannelMapper {
 
 	Integer getProjectMessgeCount(Map<String, Object> map);
 
+	List<Channel> getAllData();
+
 }

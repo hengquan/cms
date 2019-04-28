@@ -1,13 +1,16 @@
 package com.hj.web.services.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import com.hj.web.entity.Article;
+import com.hj.web.entity.UserInfo;
 import com.hj.web.mapping.ArticleMapper;
 import com.hj.web.services.ArticleService;
 import com.hj.web.services.IKeyGen;
@@ -23,11 +26,13 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public boolean insert(Article entity) throws Exception {
 		entity.setId(keyGen.getUUIDKey());
+		entity.setUpdateTime(new Date());
 		return dao.insert(entity) > 0 ? true : false;
 	}
 
 	@Override
 	public boolean update(Article entity) throws Exception {
+		entity.setUpdateTime(new Date());
 		return dao.update(entity) > 0 ? true : false;
 	}
 
@@ -42,12 +47,30 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public Boolean save(Article entity) throws Exception {
-		return null;
+	public Boolean save(Article entity, UserInfo userInfo) throws Exception {
+		Boolean result = false;
+		String id = entity.getId();
+		if (userInfo != null) {
+			String userId = userInfo.getId();
+			String userName = userInfo.getRealname();
+			if (StringUtils.isNotEmpty(userId))
+				entity.setUserId(userId);
+			if (StringUtils.isNotEmpty(userName))
+				entity.setUserName(userName);
+		}
+		if (StringUtils.isNotEmpty(id)) {
+			entity.setUpdateTime(new Date());
+			result = dao.update(entity) > 0 ? true : false;
+		} else {
+			entity.setId(keyGen.getUUIDKey());
+			entity.setUpdateTime(new Date());
+			result = dao.insert(entity) > 0 ? true : false;
+		}
+		return result;
 	}
 
 	@Override
-	public Article get(String id) throws Exception {
+	public Article get(String id) {
 		return dao.get(id);
 	}
 
@@ -58,17 +81,17 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public List<Article> findAll() {
-		return null;
+		return dao.findAll();
 	}
 
 	@Override
 	public List<Article> getDataList(Map<String, Object> map) {
-		return null;
+		return dao.getDataList(map);
 	}
 
 	@Override
 	public Integer getDataListCount(Map<String, Object> map) {
-		return null;
+		return dao.getDataListCount(map);
 	}
 
 	@Override
