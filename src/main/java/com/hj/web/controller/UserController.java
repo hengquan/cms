@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hj.common.ControllerBase;
+import com.hj.utils.Configurations;
 import com.hj.utils.JsonUtils;
 import com.hj.utils.MD5Utils;
 import com.hj.utils.UploadUtils;
 import com.hj.web.dao.SysItemRoleDao;
 import com.hj.web.entity.UserInfo;
+import com.hj.web.services.FileService;
 import com.hj.web.services.IKeyGen;
 import com.hj.web.services.SysRoleService;
 import com.hj.web.services.UserInfoService;
@@ -48,6 +50,8 @@ public class UserController extends ControllerBase {
 	UserRoleService userRoleService;
 	@Autowired
 	SysRoleService roleService;
+	@Autowired
+	FileService fileService;
 
 	/**
 	 * 主页
@@ -123,6 +127,9 @@ public class UserController extends ControllerBase {
 			List<UserInfo> selectList = userInfoService.getDataList(map);
 			// 获取用户所对应项目的信息和角色信息
 			for (UserInfo userinfo : selectList) {
+				// 处理图片
+				userinfo = urlManage(userinfo);
+				//
 				String userId = userinfo.getId();
 				// 用户所对应的角色
 				Map<String, Object> userRole = userRoleService.findByUserId(userId);
@@ -155,8 +162,13 @@ public class UserController extends ControllerBase {
 			@RequestParam(value = "headFile", required = false) MultipartFile headFile) {
 		try {
 			if (headFile != null && headFile.getSize() > 0) {
-				String src = UploadUtils.upload(headFile, request);
-				userInfo.setHeadimgurl(src);
+				String filePath = fileService.getFilePath(request);
+				Map<String, Object> mapData = UploadUtils.upload(headFile, request, filePath);
+				if (mapData != null) {
+					String fileName = mapData.get("fileName") == null ? "" : mapData.get("fileName").toString();
+					if (StringUtils.isNotEmpty(fileName))
+						userInfo.setHeadimgurl(fileName);
+				}
 			}
 			userInfoService.save(userInfo);
 		} catch (Exception e) {
@@ -190,6 +202,7 @@ public class UserController extends ControllerBase {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			userInfo = userInfoService.get(userInfo);
+			userInfo = urlManage(userInfo);
 			if (userInfo != null) {
 				map.put("msg", "0");
 				map.put("Data", userInfo);
@@ -198,6 +211,21 @@ public class UserController extends ControllerBase {
 			map.put("msg", "1");
 		}
 		return JsonUtils.map2json(map);
+	}
+
+	// 处理图片访问地址
+	public UserInfo urlManage(UserInfo userInfo) {
+		if (userInfo != null) {
+			String headimgurl = userInfo.getHeadimgurl();
+			if (StringUtils.isNotEmpty(headimgurl)) {
+				String path = Configurations.getAccessUrl();
+				if (StringUtils.isNotEmpty(path)) {
+					headimgurl = path + headimgurl;
+					userInfo.setHeadimgurl(headimgurl);
+				}
+			}
+		}
+		return userInfo;
 	}
 
 }

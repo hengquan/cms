@@ -12,7 +12,11 @@
 	rel="stylesheet" type="text/css">
 <link href="${appRoot}/static/css/style.css" rel="stylesheet">
 <link href="${appRoot}/static/css/style-responsive.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="${appRoot}/static/js/css/layui.css">
+
 <script src="${appRoot}/static/js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8" src="${appRoot}/static/js/layui.all.js"></script>
+<script type="text/javascript" charset="utf-8" src="${appRoot}/static/js/layui.js"></script>
 <title>${appTitle}</title>
 </head>
 <body>
@@ -78,11 +82,11 @@
 										<th style="width: 8px;"><input type="checkbox" name="box"
 											class="group-checkable" data-set="#sample_1 .checkboxes"
 											value="" /></th>
-										<th class="hidden-phone">用户头像</th>
-										<th class="hidden-phone">用户姓名</th>
-										<th class="hidden-phone">用户性别</th>
-										<th class="hidden-phone">用户年龄</th>
-										<th class="hidden-phone">联系方式</th>
+										<th class="hidden-phone">头像</th>
+										<th class="hidden-phone">姓名</th>
+										<th class="hidden-phone">性别</th>
+										<th class="hidden-phone">年龄</th>
+										<th class="hidden-phone">电话</th>
 										<th class="hidden-phone">用户权限</th>
 										<th class="hidden-phone">区域语言</th>
 										<th class="hidden-phone">所在地区</th>
@@ -95,13 +99,22 @@
 										<c:if test="${!empty u.realname }">
 											<tr class="odd gradeX">
 												<td><input type="checkbox" name="box" class="checkboxes" value="${u.id}" /></td>
-												<td class="hidden-phone"><img src="${u.headimgurl}" height="50" width=""></td>
-												<td class="hidden-phone">${u.realname}</td>
 												<td class="hidden-phone">
+	                        <c:choose>
+	                          <c:when test="${empty u.headimgurl }">
+	                            <img src="${appRoot }/static/img/zanwu1.png" style="height: 50px;">
+	                          </c:when>
+	                          <c:otherwise>
+	                            <img src="${u.headimgurl }" style="height: 50px;" onerror="excptionUrl(this)">
+	                          </c:otherwise>
+	                        </c:choose>
+	                      </td>
+												<td class="hidden-phone">${u.realname}</td>
+												<td class="hidden-phone"  style="width:60px">
 												  <c:if test="${u.sex==1}">男</c:if>
 													<c:if test="${u.sex==2}">女</c:if>
 												</td>
-												<td class="hidden-phone">${u.age}</td>
+												<td class="hidden-phone"  style="width:60px">${u.age}</td>
 												<td class="hidden-phone">${u.phone}</td>
 												<td class="hidden-phone">${u.userRole.role_name}</td>
 												<td class="hidden-phone">${u.language}</td>
@@ -179,13 +192,19 @@
                 </select>
               </div>
             </div>
-						<div class="form-group">
-              <label class="col-lg-2 control-label pd-r5">用户头像<font
-                style="color: red;"></font></label>
+            <div style="form-group">
+              <label class="col-lg-2 control-label pd-r5" style="margin-left: -15px;">用户头像<font
+                style="color: red;"></font></label> 
               <div class="col-lg-10">
-								<input type="file" name="headFile" id="headFile">
+                <div>
+	                <img class="my-img form-control btn" id="imgDJZS"
+	                 style="float:left;width: 219px; height: 150px;margin-left: -6px;border:0px;margin-bottom: 14px;" onerror="excptionUrl(this)" />
+                </div>
+                <div id="titleDJZS" style="float: left;margin-top:122px;"><b>上传100*200缩略图,1M以内</b></div>
               </div>
+              <input type="hidden" id="headimgurl" name="headimgurl" />
             </div>
+            <div style="clear:both"></div>
             <div class="form-group">
               <label class="col-lg-2 control-label pd-r5">用户姓名<font
                 style="color: red;"></font></label>
@@ -490,6 +509,8 @@
 
 		//弹出添加用户页面
 		function doAdd() {
+			document.getElementById("addUserData").reset();
+			$("#imgDJZS").attr("src",'${appRoot}/static/img/zanwu1.png');
 			$("#userTitle").html("添加用户信息");
 			addRolePage('');
 		}
@@ -499,6 +520,8 @@
 		}
 		//打开修改页面
 		function doUpdate(id,rolename){
+			document.getElementById("addUserData").reset();
+			$("#imgDJZS").attr("src",'');
 			$("#userTitle").html("修改用户信息");
 			$.ajax({
         type : 'post',
@@ -522,6 +545,11 @@
             $("#descn").text(userInfo.descn);
             $("#remark").text(userInfo.remark);
             $("#selfprojauth").val(userInfo.selfprojauth);
+            var headimgurl = userInfo.headimgurl;
+            $("#headimgurl").val(userInfo.headimgurl);
+            if(headimgurl !=null && headimgurl != ''){
+            	$("#imgDJZS").attr("src",headimgurl);
+            }
           } else {
             windowShow("获取用户信息失败", "");
           }
@@ -557,6 +585,41 @@
         }
       });
 		}
+		
+    //layui处理文件上传
+    layui.use(['form', 'upload'], function(){
+       form = layui.form;
+       upload = layui.upload;
+       initImgForGroup();
+       form.render();
+     });
+        
+    function initImgForGroup() {
+      upload.render({
+        elem: '#imgDJZS,#titleDJZS', //绑定元素
+        url: '${appRoot}/apply/uploadFile' ,//上传接口
+        size:'1024',
+        before: function(obj){
+          console.log(obj);
+          //预读本地文件示例，不支持ie8
+          obj.preview(function(index, file, result){
+            $('#imgDJZS').attr('src', result); //图片链接（base64）
+          });
+          $("#imgDJZS").attr("title", "点击更换缩略图");
+        },
+        data:{"tableName":"hl_kj","fileType":"主图片"},
+        done: function(res) {
+        console.log(res);
+          var fileName = res.fileName;
+          $("#headimgurl").val(fileName);
+        }
+      });
+    }
+    
+    function excptionUrl(obj){
+    	var obj = $(obj);
+    	obj.attr("src",'${appRoot}/static/img/zanwu1.png');
+    }
 	</script>
 </body>
 </html>

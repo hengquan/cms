@@ -25,6 +25,8 @@
 		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
 		<result column="article" property="article" jdbcType="LONGVARCHAR" />
+		<result column="relevancyId" property="relevancyId" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, articleName, articleType, detail, isPush, source,
@@ -34,7 +36,7 @@
 		isValidate, userName,
 		partakeNum, top,
 		views, videoUrl, createTime,
-		updateTime,article
+		updateTime,article,relevancyId,sort
 	</sql>
 	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
@@ -116,6 +118,12 @@
 			<if test="article != null">
 				article,
 			</if>
+			<if test="relevancyId != null">
+				relevancyId,
+			</if>
+			<if test="sort != null">
+				sort,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -184,6 +192,12 @@
 			<if test="article != null">
 				#{article,jdbcType=LONGVARCHAR},
 			</if>
+			<if test="relevancyId != null">
+				#{relevancyId,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null">
+				#{sort,jdbcType=INTEGER},
+			</if>
 		</trim>
 	</insert>
 	<update id="update" parameterType="com.hj.web.entity.Article">
@@ -251,6 +265,12 @@
 			</if>
 			<if test="article != null">
 				article = #{article,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="relevancyId != null">
+				relevancyId = #{relevancyId,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null">
+				sort = #{sort,jdbcType=INTEGER},
 			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}

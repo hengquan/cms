@@ -9,9 +9,10 @@
 		<result column="descn" property="descn" jdbcType="VARCHAR" />
 		<result column="isValidate" property="isvalidate" jdbcType="INTEGER" />
 		<result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="channelType" property="channeltype" jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, channelName, areaName, sort, descn, isValidate, cTime
+		id, channelName, areaName, sort, descn, isValidate, cTime,channelType
 	</sql>
 	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
@@ -49,6 +50,9 @@
 			<if test="ctime != null">
 				cTime,
 			</if>
+			<if test="channeltype != null">
+				channelType,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -72,6 +76,9 @@
 			<if test="ctime != null">
 				#{ctime,jdbcType=TIMESTAMP},
 			</if>
+			<if test="channeltype != null">
+				#{channeltype,jdbcType=INTEGER},
+			</if>
 		</trim>
 	</insert>
 	<update id="update" parameterType="com.hj.web.entity.Channel">
@@ -94,6 +101,9 @@
 			</if>
 			<if test="ctime != null">
 				cTime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="channeltype != null">
+				channelType = #{channeltype,jdbcType=INTEGER},
 			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}

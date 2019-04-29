@@ -16,8 +16,18 @@ public class Channel {
     private Integer isvalidate;
 
     private Date ctime;
+    
+    private Integer channelType;
 
-    public String getChannelname() {
+    public Integer getChannelType() {
+			return channelType;
+		}
+
+		public void setChannelType(Integer channelType) {
+			this.channelType = channelType;
+		}
+
+		public String getChannelname() {
 			return channelname;
 		}
 

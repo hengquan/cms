@@ -2,11 +2,13 @@ package com.hj.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 // 	 				 _ooOoo_ 
@@ -56,29 +58,29 @@ public class UploadUtils {
 	 * @param file
 	 *          上传的文件
 	 * @param request
+	 * @param filePath
 	 * @return 数据库储存的位置，用于读取文件
 	 */
-	public static String upload(MultipartFile file, HttpServletRequest request) {
-		String filename = null;
-		ServletContext sc = null;
+	public static Map<String, Object> upload(MultipartFile file, HttpServletRequest request, String filePath) {
+		Map<String, Object> mapData = new HashMap<String, Object>();
 		try {
 			if (file != null && file.getSize() > 0) {
 				String oldname = file.getOriginalFilename(); // 得到上传时的文件名
 				int i = oldname.lastIndexOf(".");
-				filename = System.currentTimeMillis() + oldname.trim().substring(i, oldname.length());
-				sc = request.getSession().getServletContext();
-				String dir = Configurations.getFileRepository();
-				FileUtils.writeByteArrayToFile(new File(dir, filename), file.getBytes());
+				String fileName = System.currentTimeMillis() + oldname.trim().substring(i, oldname.length());
+				if (StringUtils.isEmpty(fileName))
+					filePath = Configurations.getFileRepository();
+				FileUtils.writeByteArrayToFile(new File(filePath, fileName), file.getBytes());
+				mapData.put("fileName", fileName);
+				mapData.put("filePath", filePath);
 			} else {
 				new RuntimeException("上传参数错误，请检查!");
 				return null;
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// return sc.getContextPath()+"/"+place+"/"+filename;
-		return filename;
+		return mapData;
 	}
 
 }

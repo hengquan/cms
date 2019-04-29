@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hj.common.ControllerBase;
+import com.hj.utils.Configurations;
 import com.hj.web.entity.Article;
 import com.hj.web.entity.Channel;
 import com.hj.web.entity.UserInfo;
@@ -49,6 +50,9 @@ public class ArticleController extends ControllerBase {
 			List<Article> articleList = articleService.getDataList(map);
 			if (articleList != null && articleList.size() > 0) {
 				for (Article article : articleList) {
+					// 处理图片路径
+					urlManage(article);
+					// 处理频道
 					String articleType = article.getArticleType();
 					if (StringUtils.isNotEmpty(articleType)) {
 						Channel channel = channelService.get(articleType);
@@ -91,6 +95,7 @@ public class ArticleController extends ControllerBase {
 		String id = article.getId();
 		if (StringUtils.isNotEmpty(id))
 			article = articleService.get(id);
+		urlManage(article);
 		model.addAttribute("channelName", channelName);
 		model.addAttribute("article", article);
 		model.addAttribute("editOperation", "editOperation");
@@ -100,7 +105,7 @@ public class ArticleController extends ControllerBase {
 		return pageUrl;
 	}
 
-	// 添加文章
+	// 编辑文章
 	@RequestMapping(value = "/article/save")
 	public String addArticle(ModelMap model, Article article) {
 		try {
@@ -129,5 +134,20 @@ public class ArticleController extends ControllerBase {
 			e.printStackTrace();
 		}
 		return "redirect:getDataList";
+	}
+
+	// 处理图片访问地址
+	public Article urlManage(Article article) {
+		if (article != null) {
+			String picUrl = article.getPicUrl();
+			if (StringUtils.isNotEmpty(picUrl)) {
+				String path = Configurations.getAccessUrl();
+				if (StringUtils.isNotEmpty(path)){
+					picUrl = path + picUrl;
+					article.setPicUrl(picUrl);
+				}
+			}
+		}
+		return article;
 	}
 }

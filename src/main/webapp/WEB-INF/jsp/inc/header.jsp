@@ -72,7 +72,7 @@
 			<!-- user login dropdown start-->
 			<li class="dropdown">
 				<a data-toggle="dropdown" class="dropdown-toggle" href="#"> 
-					<img alt=""src="${appRoot}/static/img/ql.png" id="headImg" style="width: 30px;height: 30px"> 
+					<img alt=""src="" id="headImg" style="width: 30px;height: 30px"> 
 					<span class="username hidden-phone"></span> <b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu extended">
@@ -144,7 +144,11 @@
 					if(data.msg == 100){
 						var user = data.userInfo;
 						$(".username").html(user.realname);
-						$("#headImg").attr("src",user.headimgurl);
+						if(user.headimgurl!=null && user.headimgurl!=''){
+							$("#headImg").attr("src",user.headimgurl);
+						}else{
+							$("#headImg").attr("src",'${appRoot}/static/img/zanwu1.png');
+						}
 					}
 				}
 			});

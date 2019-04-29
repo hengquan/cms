@@ -138,7 +138,14 @@
 											<td><input type="checkbox" name="box" class="checkboxes"
 												value="${u.id}" /></td>
 											<td class="hidden-phone">
-                        <img src="${u.picUrl }">
+											  <c:choose>
+	                        <c:when test="${empty u.picUrl }">
+	                          <img src="${appRoot }/static/img/zanwu1.png" style="height: 50px;">
+	                        </c:when>
+	                        <c:otherwise>
+	                          <img src="${u.picUrl }" style="height: 50px;">
+	                        </c:otherwise>
+											  </c:choose>
                       </td>
 											<td class="hidden-phone">${u.articleName}</td>
 											<td class="hidden-phone">${u.setArticleTypeName}</td>

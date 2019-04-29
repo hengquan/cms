@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hj.common.ControllerBase;
+import com.hj.utils.Configurations;
 import com.hj.utils.HashSessions;
 import com.hj.utils.JsonUtils;
 import com.hj.utils.MD5Utils;
@@ -120,6 +122,16 @@ public class LoginController extends ControllerBase {
 			// 用户角色权限信息
 			String id = hashSession.getCurrentAdmin(request).getId();
 			UserInfo userInfo = userInfoService.get(id);
+			if (userInfo != null) {
+				String headimgurl = userInfo.getHeadimgurl();
+				if (StringUtils.isNotEmpty(headimgurl)) {
+					String path = Configurations.getAccessUrl();
+					if (StringUtils.isNotEmpty(path)) {
+						headimgurl = path + headimgurl;
+						userInfo.setHeadimgurl(headimgurl);
+					}
+				}
+			}
 			map.put("msg", "100");
 			map.put("userInfo", userInfo);
 		} catch (Exception e) {

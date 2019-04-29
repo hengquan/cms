@@ -48,6 +48,26 @@ public class Article {
 	private Date updateTime;
 
 	private String article;
+	
+	private String relevancyId;
+	
+	private Integer sort;
+
+	public String getRelevancyId() {
+		return relevancyId;
+	}
+
+	public Integer getSort() {
+		return sort;
+	}
+
+	public void setRelevancyId(String relevancyId) {
+		this.relevancyId = relevancyId;
+	}
+
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
 
 	public String getSetArticleTypeName() {
 		return setArticleTypeName;
