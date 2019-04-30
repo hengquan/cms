@@ -22,4 +22,6 @@ public interface ChannelMapper {
 
 	List<Channel> getAllData();
 
+	List<Channel> getDataByType(int channeltype);
+
 }

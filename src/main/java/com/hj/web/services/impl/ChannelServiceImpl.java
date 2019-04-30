@@ -114,4 +114,9 @@ public class ChannelServiceImpl implements ChannelService {
 	public Channel get(String id) {
 		return dao.get(id);
 	}
+
+	@Override
+	public List<Channel> getDataByType(int channeltype) {
+		return dao.getDataByType(channeltype);
+	}
 }

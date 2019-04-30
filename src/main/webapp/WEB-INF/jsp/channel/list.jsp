@@ -87,6 +87,7 @@
 							<header class="panel-heading">频道管理--频道列表</header>
 							<form action="${appRoot}/channel/getDataList" method="post"
 								id="selectCheckMessage">
+								<input type="hidden" name="channeltype" value="${channeltype }">
 								<!-- 根据用户昵称查询 -->
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
@@ -138,7 +139,9 @@
 										<tr class="odd gradeX theTr">
 											<td><input type="checkbox" name="box" class="checkboxes"
 												value="${u.id}" /></td>
-											<td class="hidden-phone">${u.channelname}</td>
+											<td class="hidden-phone">
+											   <a href="#" onclick="doArticleList('${u.id}','${channeltype }')">${u.channelname}</a>
+											</td>
 											<td class="hidden-phone">${u.areaname}</td>
 											<td class="hidden-phone">${u.descn}</td>
 											<td class="hidden-phone"><fmt:formatDate
@@ -210,6 +213,7 @@
 						class="form-horizontal" enctype="multipart/form-data" role="form"
 						id="addMessage" name="itemForm">
 						<input type="hidden" name="editId1" id="editId1">
+						<input type="hidden" name="channeltype" value="${channeltype }">
 						<div class="form-group">
 							<label class="col-lg-2 control-label pd-r5">频道名称<font
 								style="color: red;"></font></label>
@@ -263,12 +267,13 @@
 						class="form-horizontal" enctype="multipart/form-data" role="form"
 						id="editMessage" name="itemForm">
 						<input type="hidden" name="editId" id="editId">
+						<input type="hidden" name="channeltype" value="${channeltype }">
 						<div class="form-group">
 							<label class="col-lg-2 control-label pd-r5">频道名称<font
 								style="color: red;"></font></label>
 							<div class="col-lg-10">
 								<input type="text" class="form-control" id="channelname"
-									name="channelname" maxlength="4">
+									name="channelname">
 							</div>
 						</div>
 						<div class="form-group">
@@ -298,37 +303,6 @@
 			</div>
 		</div>
 	</div>
-
-
-
-
-
-
-
-	<!-- 该频道中所有的人 -->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="modal-title">所属频道列表</h4>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal" role="form" id="itemForm"
-						name="itemForm">
-						<input type="hidden" name="editId" id="editId">
-						<div class="form-group" id="userProjectMsg"></div>
-					</form>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-
-
 
 
 
@@ -381,6 +355,7 @@
 
 	<form action="${appRoot}/channel/del" method="post" id="deleForm"
 		name="deleForm">
+		<input type="hidden" name="channeltype" value="${channeltype }">
 		<input type="hidden" name="boxeditId" id="boxeditId">
 	</form>
 
@@ -488,6 +463,10 @@
 
 		function Delete() {
 			$("#deleForm").submit();
+		}
+		
+		function doArticleList(channelId,channelType){
+			window.location.href="${appRoot }/article/getDataList?articleType="+channelId+"&channelType="+channelType;
 		}
 	</script>
 	<input type="hidden" value="" id="adminId" />

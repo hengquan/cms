@@ -36,10 +36,8 @@
 							<header class="panel-heading">用户管理--用户列表</header>
 							<form action="${appRoot}/user/userList" method="post"
 								id="selectCheckMessage">
-								<!-- 选择不同的排行类型 -->
-								<input type="hidden" id="selectState" name="selectState"
-									value="${state}">
-								<!-- 根据用户昵称查询 -->
+								<input type="hidden" name="itemId" value="${itemId }"> 
+                <input type="hidden" name="positionId" value="${positionId }">
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<input type="text" class="btn"
@@ -52,13 +50,11 @@
 										</button>
 									</span>
 								</div>
-
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<a href="javascript:doRefresh();" class="btn mini btn-white"
 										title="刷新"><i class="icon-refresh"></i></a>
 								</div>
-
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<a href="javascript:doAdd();" class="btn mini btn-white"><i
@@ -176,6 +172,8 @@
 					<form action="${appRoot}/user/save" method="post"
 					 class="form-horizontal" enctype="multipart/form-data" id="addUserData" name="addUserData">
 						<input type="hidden" name="id" id="userinfoId">
+						<input type="hidden" name="itemId" value="${itemId }"> 
+            <input type="hidden" name="positionId" value="${positionId }">
 						<div class="form-group">
 							<label class="col-lg-2 control-label pd-r5">登入帐号<font
 								style="color: red;"></font></label>
@@ -396,8 +394,10 @@
 
 	<form action="${appRoot}/user/del" method="post" id="deleForm"
 		name="deleForm">
-		<input type="hidden" name="byid" id="byid"> <input
-			type="hidden" name="boxeditId" id="boxeditId">
+		<input type="hidden" name="itemId" value="${itemId }"> 
+    <input type="hidden" name="positionId" value="${positionId }">
+		<input type="hidden" name="byid" id="byid"> 
+		<input type="hidden" name="boxeditId" id="boxeditId">
 	</form>
 
 

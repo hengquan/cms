@@ -36,8 +36,10 @@ public class ArticleController extends ControllerBase {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String pageUrl = "article/list";
 		String keyword = getTrimParameter("keyword");
-		// 来源名称
-		String sourceName = getTrimParameter("sourceName");
+		//频道ID
+		String articleType = getTrimParameter("articleType");
+		//渠道名称
+		String channelType = getTrimParameter("channelType");
 		try {
 			// 存页面起始位置信息
 			pageService.getPageLocation(page, map);
@@ -46,6 +48,11 @@ public class ArticleController extends ControllerBase {
 			} else {
 				map.put("keyword", "");
 			}
+			if (StringUtils.isNotEmpty(articleType)) {
+				map.put("articleType", articleType);
+			} else {
+				map.put("articleType", "");
+			}
 			// 获取所有文章信息
 			List<Article> articleList = articleService.getDataList(map);
 			if (articleList != null && articleList.size() > 0) {
@@ -53,9 +60,9 @@ public class ArticleController extends ControllerBase {
 					// 处理图片路径
 					urlManage(article);
 					// 处理频道
-					String articleType = article.getArticleType();
-					if (StringUtils.isNotEmpty(articleType)) {
-						Channel channel = channelService.get(articleType);
+					String channelId = article.getArticleType();
+					if (StringUtils.isNotEmpty(channelId)) {
+						Channel channel = channelService.get(channelId);
 						if (channel != null && StringUtils.isNotEmpty(channel.getChannelname()))
 							article.setSetArticleTypeName(channel.getChannelname());
 					}
@@ -67,7 +74,8 @@ public class ArticleController extends ControllerBase {
 			pageService.getPageData(listMessgeCount, model, page);
 			model.put("keyword", keyword);
 			model.addAttribute("dataList", articleList);
-			model.addAttribute("sourceName", sourceName);
+			model.addAttribute("articleType", articleType);
+			model.addAttribute("channelType", channelType);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -78,28 +86,28 @@ public class ArticleController extends ControllerBase {
 	// 打开添加文章页面
 	@RequestMapping(value = "/article/addPage")
 	public String addPage(ModelMap model) {
+		String articleType = getTrimParameter("articleType");
+		String channelType = getTrimParameter("channelType");
 		String pageUrl = "article/edit";
-		// 来源名称
-		String sourceName = getTrimParameter("sourceName");
 		super.userIRoleItem(model, pageUrl);
-		model.addAttribute("sourceName", sourceName);
+		model.addAttribute("articleType", articleType);
+		model.addAttribute("channelType", channelType);
 		return pageUrl;
 	}
 
 	// 打开修改文章页面
 	@RequestMapping(value = "/article/editPage")
 	public String editPage(ModelMap model, Article article) {
-		// 来源名称
-		String sourceName = getTrimParameter("sourceName");
-		String channelName = getTrimParameter("channelname");
+		String articleType = "";
 		String id = article.getId();
 		if (StringUtils.isNotEmpty(id))
 			article = articleService.get(id);
+		if(article!=null && StringUtils.isNotEmpty(article.getArticleType()))
+			articleType = article.getArticleType();
 		urlManage(article);
-		model.addAttribute("channelName", channelName);
+		model.addAttribute("articleType", articleType);
 		model.addAttribute("article", article);
 		model.addAttribute("editOperation", "editOperation");
-		model.addAttribute("sourceName", sourceName);
 		String pageUrl = "article/edit";
 		super.userIRoleItem(model, pageUrl);
 		return pageUrl;
@@ -108,6 +116,8 @@ public class ArticleController extends ControllerBase {
 	// 编辑文章
 	@RequestMapping(value = "/article/save")
 	public String addArticle(ModelMap model, Article article) {
+		String channelType = getTrimParameter("channelType");
+		String articleType = article.getArticleType();
 		try {
 			Object obj = request.getSession().getAttribute("adminSession");
 			if (null != obj) {
@@ -119,12 +129,16 @@ public class ArticleController extends ControllerBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		model.addAttribute("channelType", channelType);
+		model.addAttribute("articleType", articleType);
 		return "redirect:getDataList";
 	}
 
 	// 删除文章
 	@RequestMapping(value = "/article/del")
 	public String delArticle(ModelMap model, Channel project) {
+		String channelType = getTrimParameter("channelType");
+		String articleType = getTrimParameter("articleType");
 		try {
 			String boxeditId = getTrimParameter("boxeditId");
 			if (StringUtils.isNotEmpty(boxeditId)) {
@@ -133,6 +147,8 @@ public class ArticleController extends ControllerBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		model.addAttribute("channelType", channelType);
+		model.addAttribute("articleType", articleType);
 		return "redirect:getDataList";
 	}
 

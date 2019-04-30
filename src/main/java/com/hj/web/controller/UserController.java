@@ -24,6 +24,7 @@ import com.hj.web.dao.SysItemRoleDao;
 import com.hj.web.entity.UserInfo;
 import com.hj.web.services.FileService;
 import com.hj.web.services.IKeyGen;
+import com.hj.web.services.PageService;
 import com.hj.web.services.SysRoleService;
 import com.hj.web.services.UserInfoService;
 import com.hj.web.services.UserRoleService;
@@ -52,6 +53,8 @@ public class UserController extends ControllerBase {
 	SysRoleService roleService;
 	@Autowired
 	FileService fileService;
+	@Autowired
+	PageService pageService;
 
 	/**
 	 * 主页
@@ -108,8 +111,7 @@ public class UserController extends ControllerBase {
 
 	// 用户列表
 	@RequestMapping(value = "/user/userList")
-	public String userList(@RequestParam(value = "nowPage", defaultValue = "1") int nowPage,
-			@RequestParam(value = "pageSize", defaultValue = "10") int pageSize, ModelMap model) throws Exception {
+	public String userList(PageService page, ModelMap model) throws Exception {
 		String pageUrl = "user/list";
 		// 纪录总数
 		Integer listMessgeCount = 0;
@@ -119,9 +121,8 @@ public class UserController extends ControllerBase {
 		state = "1";
 		map.put("state", state);
 		map.put("userName", userName);
-		Integer start = ((nowPage - 1) * pageSize);
-		map.put("page", start);
-		map.put("pageSize", pageSize);
+		// 存页面起始位置信息
+		pageService.getPageLocation(page, map);
 		try {
 			// 获取用户所有的信息
 			List<UserInfo> selectList = userInfoService.getDataList(map);
@@ -136,18 +137,10 @@ public class UserController extends ControllerBase {
 				userinfo.setUserRole(userRole);
 			}
 			listMessgeCount = userInfoService.getDataListCount(map);
-			Integer totalCount = listMessgeCount % pageSize;
-			Integer totalPageNum = 0;
-			if (totalCount == 0) {
-				totalPageNum = listMessgeCount / pageSize;
-			} else {
-				totalPageNum = (listMessgeCount / pageSize) + 1;
-			}
+			// 获取页面信息
+			pageService.getPageData(listMessgeCount, model, page);
 			model.put("userName", userName);
-			model.put("nowPage", nowPage);
-			model.put("totalPageNum", totalPageNum);
 			model.addAttribute("userList", selectList);
-			model.put("pageSize", pageSize);
 			model.put("state", state);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -174,6 +167,10 @@ public class UserController extends ControllerBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		String itemId = getTrimParameter("itemId");
+		String positionId = getTrimParameter("positionId");
+		model.addAttribute("itemId", itemId);
+		model.addAttribute("positionId", positionId);
 		return "redirect:userList";
 	}
 
@@ -192,6 +189,10 @@ public class UserController extends ControllerBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		String itemId = getTrimParameter("itemId");
+		String positionId = getTrimParameter("positionId");
+		model.addAttribute("itemId", itemId);
+		model.addAttribute("positionId", positionId);
 		return "redirect:userList";
 	}
 

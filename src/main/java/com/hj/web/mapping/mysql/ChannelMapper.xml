@@ -119,6 +119,9 @@
 		WHERE
 		INSTR(channelName,
 		#{channelname}) and isValidate=1
+		<if test="channeltype != null and channeltype != 0">
+			and channelType = #{channeltype,jdbcType=INTEGER}
+		</if>
 		LIMIT #{page},#{pageSize}
 	</select>
 
@@ -143,5 +146,12 @@
 		select
 		<include refid="Base_Column_List" />
 		from cms_channel
+	</select>
+
+	<select id="getDataByType" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cms_channel
+		where 1=1 
 	</select>
 </mapper>

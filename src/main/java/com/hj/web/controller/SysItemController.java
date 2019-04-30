@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,9 +19,7 @@ import com.hj.utils.JsonUtils;
 import com.hj.web.dao.SysItemDao;
 import com.hj.web.dao.SysItemRoleDao;
 import com.hj.web.entity.SysItem;
-import com.hj.web.entity.SysItemRole;
 import com.hj.web.entity.UserInfo;
-import com.hj.web.entity.UserRole;
 import com.hj.web.mapping.SysItemMapper;
 import com.hj.web.services.IKeyGen;
 import com.hj.web.services.UserRoleService;
@@ -73,31 +71,16 @@ public class SysItemController extends ControllerBase {
 	 * @return
 	 */
 	@RequestMapping("/list")
-	public String list(Model model) {
+	public String list(ModelMap model) {
+		String pageUrl = "item/list";
 		List<SysItem> itemList = sysItemDao.findAllByPa("");
-		// List<SysItem> itemList = sysItemDao.findAll();
 		for (SysItem s : itemList) {
 			List<SysItem> list = sysItemDao.findAllByPa(s.getId());
 			s.setChildList(list);
 		}
 		model.addAttribute("itemList", itemList);
-		// model.addAttribute("itemNamesss",hashSession.getItemRole("itemNamesss"));
-		// model.addAttribute("lst",hashSession.getItemRole("lst"));
-		String itemId = super.getTrimParameter("itemId");
-		String id = super.getTrimParameter("id");
-		UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
-		if (userRole != null) {
-			List<SysItemRole> lst = sysItemRoleDao.selectItemByRoleId(userRole.getRoleid());
-			List<SysItemRole> item = sysItemRoleDao.selectItemByPId(userRole.getRoleid());
-			model.addAttribute("itemNamesss", item);
-			model.addAttribute("lst", lst);
-			model.addAttribute("itemId", itemId);
-			model.addAttribute("id", id);
-			logger.info("查询所有菜单信息");
-			return "item/list";
-		} else {
-			return "login/new_login";
-		}
+		pageUrl = super.userIRoleItem(model, pageUrl);
+		return pageUrl;
 	}
 
 	/**

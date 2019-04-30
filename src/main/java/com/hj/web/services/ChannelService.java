@@ -106,4 +106,6 @@ public interface ChannelService {
 
 	public Channel get(String articleType);
 
+	public List<Channel> getDataByType(int channeltype);
+
 }

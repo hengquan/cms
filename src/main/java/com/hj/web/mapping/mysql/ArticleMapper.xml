@@ -281,6 +281,9 @@
 		<include refid="Base_Column_List" />
 		from cms_article
 		where instr(articleName,#{keyword}) and isValidate in (0,1,2,3)
+		<if test="articleType != null and articleType != ''">
+      and articleType = #{articleType,jdbcType=VARCHAR}
+    </if>
 		order by createTime
 		desc
 		limit #{page},#{pageSize}
@@ -292,6 +295,9 @@
 		from
 		cms_article
 		where instr(articleName,#{keyword}) and isValidate in (0,1,2,3)
+		<if test="articleType != null and articleType != ''">
+      and articleType = #{articleType,jdbcType=VARCHAR}
+    </if>
 		order by createTime
 	</select>
 

@@ -273,9 +273,9 @@ public class ControllerBase {
 			model.addAttribute("itemNamesss", item);
 			model.addAttribute("lst", lst);
 			String itemId = this.getTrimParameter("itemId");
-			String id = this.getTrimParameter("id");
+			String positionId = this.getTrimParameter("positionId");
 			model.addAttribute("itemId", itemId);
-			model.addAttribute("id", id);
+			model.addAttribute("positionId", positionId);
 			// 权限
 			String roleid = userRole.getRoleid();
 			SysRole role = roleService.findById(roleid);

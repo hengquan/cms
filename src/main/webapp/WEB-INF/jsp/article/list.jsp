@@ -13,58 +13,7 @@
 <!-- Custom styles for this template -->
 <link href="${appRoot}/static/css/style.css" rel="stylesheet">
 <link href="${appRoot}/static/css/style-responsive.css" rel="stylesheet" />
-
 <title>${appTitle}</title>
-
-<style>
-.pic_upload ul {
-	list-style: none;
-	overflow: hidden;
-	padding: 0;
-}
-
-.pic_upload ul li {
-	float: left;
-	line-height: 70px;
-	position: relative;
-	margin-right: 10px;
-}
-
-.pic_upload ul li i {
-	font-size: 20px;
-	color: #9D9D9D;
-	border: 1px solid #9d9d9d;
-	border-radius: 5px;
-	width: 120px;
-	height: 70px;
-	text-align: center;
-	line-height: 70px;
-	cursor: pointer;
-	position: relative;
-	z-index: 0;
-}
-
-.pic_upload ul li input[type=file] {
-	width: 120px;
-	height: 70px;
-	font-size: 100px;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 2;
-	opacity: 0;
-	filter: Alpha(opacity = 0);
-}
-
-.form-group:first-child {
-	margin: 50px auto 20px;
-}
-
-.tr {
-	text-align: center
-}
-</style>
-
 </head>
 <body>
 
@@ -78,17 +27,17 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<section class="panel">
-							<header class="panel-heading">${sourceName }文章</header>
+							<header class="panel-heading">文章</header>
 							<form action="${appRoot}/article/getDataList" method="post"
 								id="selectCheckMessage">
-								<input type="hidden" name="sourceName" value="${sourceName }">
+								<input type="hidden" name="itemId" value="${itemId }"> 
+								<input type="hidden" name="positionId" value="${positionId }">
 								<!-- 根据用户昵称查询 -->
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<input type="text" class="btn"
 										style="width: 500px; border: 1px solid #ddd; text-align: left;"
-										placeholder="请输入文章标题" name="keyword"
-										value="${keyword }"><span>
+										placeholder="请输入文章标题" name="keyword" value="${keyword }"><span>
 										<button class="btn sr-btn-imp" style="float: right"
 											onclick="selectDataList()">
 											<i class="icon-search"></i>
@@ -102,8 +51,9 @@
 								</div>
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
-									<a href="javascript:doAdd();" class="btn mini btn-white"><i
-										class="icon-plus"></i></a>
+									<a
+										href="javascript:doAdd('${articleType }','${channelType }');"
+										class="btn mini btn-white"><i class="icon-plus"></i></a>
 								</div>
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
@@ -137,33 +87,32 @@
 										<tr class="odd gradeX theTr">
 											<td><input type="checkbox" name="box" class="checkboxes"
 												value="${u.id}" /></td>
-											<td class="hidden-phone">
-											  <c:choose>
-	                        <c:when test="${empty u.picUrl }">
-	                          <img src="${appRoot }/static/img/zanwu1.png" style="height: 50px;">
-	                        </c:when>
-	                        <c:otherwise>
-	                          <img src="${u.picUrl }" style="height: 50px;">
-	                        </c:otherwise>
-											  </c:choose>
-                      </td>
+											<td class="hidden-phone"><c:choose>
+													<c:when test="${empty u.picUrl }">
+														<img src="${appRoot }/static/img/zanwu1.png"
+															style="height: 50px;">
+													</c:when>
+													<c:otherwise>
+														<img src="${u.picUrl }" style="height: 50px;">
+													</c:otherwise>
+												</c:choose></td>
 											<td class="hidden-phone">${u.articleName}</td>
 											<td class="hidden-phone">${u.setArticleTypeName}</td>
 											<td class="hidden-phone">${u.language}</td>
 											<td class="hidden-phone">${u.userName}</td>
-											<td class="hidden-phone">
-											 <c:if test="${u.isValidate == 0}">草稿</c:if>
-											 <c:if test="${u.isValidate == 1}">审核中</c:if>
-											 <c:if test="${u.isValidate == 2}">已发布</c:if>
-											 <c:if test="${u.isValidate == 3}">审核未通过</c:if>
-											 <c:if test="${u.isValidate == 4}">作废</c:if>
-											</td>
+											<td class="hidden-phone"><c:if
+													test="${u.isValidate == 0}">草稿</c:if> <c:if
+													test="${u.isValidate == 1}">审核中</c:if> <c:if
+													test="${u.isValidate == 2}">已发布</c:if> <c:if
+													test="${u.isValidate == 3}">审核未通过</c:if> <c:if
+													test="${u.isValidate == 4}">作废</c:if></td>
 											<td class="hidden-phone">${u.views}</td>
+											<td class="hidden-phone"><fmt:formatDate
+													value="${u.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 											<td class="hidden-phone">
-											   <fmt:formatDate value="${u.createTime}" pattern="yyyy-MM-dd HH:mm:ss" />
-											</td>
-											<td class="hidden-phone">
-												<button type="button" onclick="edit('${u.id}','${u.setArticleTypeName }')" class="btn btn-send">修改</button> 
+												<button type="button"
+													onclick="edit('${u.id}','${u.articleType }','${channelType }')"
+													class="btn btn-send">修改</button>
 											</td>
 										</tr>
 									</c:forEach>
@@ -248,7 +197,10 @@
 
 	<form action="${appRoot}/article/del" method="post" id="deleForm"
 		name="deleForm">
-		<input type="hidden" name="boxeditId" id="boxeditId">
+		<input type="hidden" name="boxeditId" id="boxeditId"> <input
+			type="hidden" name="articleType" id="articleType"
+			value="${articleType }"> <input type="hidden"
+			name="channelType" id="channelType" value="${channelType }">
 	</form>
 
 	<form action="${appRoot}/user/setExpert" method="post" id="checkExpert"
@@ -278,15 +230,20 @@
 		function selectDataList() {
 			$("#selectCheckMessage").submit();
 		}
-		
+
 		//添加菜单
-		function doAdd() {
-			window.location.href="${appRoot}/article/addPage?sourceName="+'${sourceName}'; 
+		function doAdd(articleType, channelType) {
+			window.location.href = "${appRoot}/article/addPage?articleType="
+					+ articleType + "&channelType=" + channelType + "&itemId="
+					+ '${itemId}' + "&positionId=" + '${positionId}';
 		}
 
 		//修改频道
-		function edit(id, channelname) {
-			window.location.href="${appRoot}/article/editPage?id="+id+"&channelname="+channelname+"&sourceName="+'${sourceName}'; 
+		function edit(id, articleType, channelType) {
+			window.location.href = "${appRoot}/article/editPage?id=" + id
+					+ "&articleType=" + articleType + "&channelType="
+					+ channelType + "&itemId=" + '${itemId}' + "&positionId="
+					+ '${positionId}';
 		}
 
 		//添加提交
@@ -333,7 +290,6 @@
 				return true;
 			}
 		}
-
 
 		function doDelete() {
 			var flag = checkbox();

@@ -17,14 +17,14 @@ public class Channel {
 
     private Date ctime;
     
-    private Integer channelType;
+    private Integer channeltype;
 
-    public Integer getChannelType() {
-			return channelType;
+		public Integer getChanneltype() {
+			return channeltype;
 		}
 
-		public void setChannelType(Integer channelType) {
-			this.channelType = channelType;
+		public void setChanneltype(Integer channeltype) {
+			this.channeltype = channeltype;
 		}
 
 		public String getChannelname() {

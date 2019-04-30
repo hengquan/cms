@@ -33,11 +33,14 @@
 				<!-- page start-->
 				<div class="col-lg-12">
 					<section class="panel">
-						<header class="panel-heading" id="articleTitle">${sourceName }文章--添加</header>
+						<header class="panel-heading" id="articleTitle">文章--添加</header>
 						<form action="${appRoot}/article/save" method="post"
 							id="articleForm">
 							<input type="hidden" name="id" id="articleId" value="${article.id }">
+							<input type="hidden" name="channelType" id="channelType" value="${channelType}">
 							<input type="hidden" name="isValidate" id="isValidate" value="${article.isValidate }">
+							<input type="hidden" name="itemId" value="${itemId }">
+              <input type="hidden" name="positionId" value="${positionId }">
 							<div style="margin-top: 16px; margin-left: 20px;" class="row">
 								<label class="btn col-lg-1">选择频道：</label> 
 								<select class="btn col-lg-10" style="border: 1px solid #ddd;"
@@ -123,14 +126,16 @@
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
 	  //频道名称
-	  var channelName = '${channelName}';
+	  var articleType = '${articleType}';
+	  //渠道名称
+	  var channelType = '${channelType}';
 	  //判断是添加还是修改
 	  if('${editOperation}'){
-		  $("#articleTitle").html('${sourceName}'+"文章--修改");
+		  $("#articleTitle").html("文章--修改");
 		  //处理图片中的提示语
       $("#titleDJZS").html("");
 	  }else{
-		  $("#articleTitle").html('${sourceName}'+"文章--添加");
+		  $("#articleTitle").html("文章--添加");
 	  }
 	  
 		//添加提交
@@ -147,15 +152,15 @@
 			var ue = UE.getEditor('article');
 			$.ajax({
         type : 'post',
-        data : "",
-        url : '${appRoot}/channel/getAllData',
+        data : {"channelType":channelType},
+        url : '${appRoot}/channel/getDataByType',
         dataType : 'json',
         success : function(data) {
           if (data.msg == 0) {
             var html;
             var channelList = data.dataList;
             for(var i=0;i<channelList.length;i++){
-              if(channelList[i].channelname == channelName){
+              if(channelList[i].id == articleType){
                 html += '<option value="'+ channelList[i].id +'" selected>'+ channelList[i].channelname +'</option>'
               }else{
                 html += '<option value="'+ channelList[i].id +'">'+ channelList[i].channelname +'</option>'
@@ -163,7 +168,7 @@
             }
             $("#articleType").html(html);
           } else {
-            windowShow("获取权限列表失败", "");
+            windowShow("获取频道列表失败", "");
           }
         }
       });
