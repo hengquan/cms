@@ -99,4 +99,14 @@ public class ArticleServiceImpl implements ArticleService {
 		dao.deletes(ids);
 	}
 
+	@Override
+	public List<Article> getDataListByRelevancyId(String id) {
+		return dao.getDataListByRelevancyId(id);
+	}
+
+	@Override
+	public List<Article> getArticleParentDataList(Article article) {
+		return dao.getArticleParentDataList(article);
+	}
+
 }

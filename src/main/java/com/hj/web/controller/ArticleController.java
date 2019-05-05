@@ -1,5 +1,6 @@
 package com.hj.web.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hj.common.ControllerBase;
 import com.hj.utils.Configurations;
@@ -36,9 +38,9 @@ public class ArticleController extends ControllerBase {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String pageUrl = "article/list";
 		String keyword = getTrimParameter("keyword");
-		//频道ID
+		// 频道ID
 		String articleType = getTrimParameter("articleType");
-		//渠道名称
+		// 渠道名称
 		String channelType = getTrimParameter("channelType");
 		try {
 			// 存页面起始位置信息
@@ -98,18 +100,30 @@ public class ArticleController extends ControllerBase {
 	// 打开修改文章页面
 	@RequestMapping(value = "/article/editPage")
 	public String editPage(ModelMap model, Article article) {
+		String language = getTrimParameter("language");
 		String articleType = "";
 		String id = article.getId();
 		if (StringUtils.isNotEmpty(id))
 			article = articleService.get(id);
-		if(article!=null && StringUtils.isNotEmpty(article.getArticleType()))
+		if (article != null && StringUtils.isNotEmpty(article.getArticleType())) {
 			articleType = article.getArticleType();
+			if (StringUtils.isEmpty(language))
+				language = article.getLanguage();
+		}
 		urlManage(article);
 		model.addAttribute("articleType", articleType);
 		model.addAttribute("article", article);
 		model.addAttribute("editOperation", "editOperation");
+		model.addAttribute("language", language);
 		String pageUrl = "article/edit";
 		super.userIRoleItem(model, pageUrl);
+		//判断状态是查看还是修改
+		String type = getTrimParameter("type");
+		model.addAttribute("type", type);
+		// 获取所有相关的文章
+		List<Article> articleList = new ArrayList<Article>();
+		articleList = getCorrelationData(articleList, article);
+		model.addAttribute("dataList", articleList);
 		return pageUrl;
 	}
 
@@ -131,6 +145,10 @@ public class ArticleController extends ControllerBase {
 		}
 		model.addAttribute("channelType", channelType);
 		model.addAttribute("articleType", articleType);
+		String itemId = getTrimParameter("itemId");
+		String positionId = getTrimParameter("positionId");
+		model.addAttribute("itemId", itemId);
+		model.addAttribute("positionId", positionId);
 		return "redirect:getDataList";
 	}
 
@@ -149,6 +167,10 @@ public class ArticleController extends ControllerBase {
 		}
 		model.addAttribute("channelType", channelType);
 		model.addAttribute("articleType", articleType);
+		String itemId = getTrimParameter("itemId");
+		String positionId = getTrimParameter("positionId");
+		model.addAttribute("itemId", itemId);
+		model.addAttribute("positionId", positionId);
 		return "redirect:getDataList";
 	}
 
@@ -158,12 +180,42 @@ public class ArticleController extends ControllerBase {
 			String picUrl = article.getPicUrl();
 			if (StringUtils.isNotEmpty(picUrl)) {
 				String path = Configurations.getAccessUrl();
-				if (StringUtils.isNotEmpty(path)){
+				if (StringUtils.isNotEmpty(path)) {
 					picUrl = path + picUrl;
 					article.setPicUrl(picUrl);
 				}
 			}
 		}
 		return article;
+	}
+
+	// 获取所有文章相关的文章
+	private List<Article> getCorrelationData(List<Article> articleList, Article article) {
+		if (article != null) {
+			String relevancyId = article.getRelevancyId();
+			if (StringUtils.isNotEmpty(relevancyId) && !relevancyId.equals("0")) {
+				article = articleService.get(relevancyId);
+			}
+			articleList.add(article);
+			List<Article> dataList = articleService.getDataListByRelevancyId(article.getId());
+			if (dataList != null && dataList.size() > 0) {
+				articleList.addAll(dataList);
+			}
+		}
+		return articleList;
+	}
+
+	@RequestMapping(value = "/article/getArticleParentDataList")
+	@ResponseBody
+	private Map<String, Object> getArticleParentDataList(Article article) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<Article> articleList = articleService.getArticleParentDataList(article);
+		if (articleList != null && articleList.size() > 0) {
+			result.put("dataList", articleList);
+			result.put("msg", "0");
+		} else {
+			result.put("msg", "1");
+		}
+		return result;
 	}
 }

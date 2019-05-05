@@ -29,4 +29,8 @@ public interface ArticleService {
 	public Integer getDataListCount(Map<String, Object> map);
 
 	public void deletes(String ids);
+
+	public List<Article> getDataListByRelevancyId(String id);
+
+	public List<Article> getArticleParentDataList(Article article);
 }

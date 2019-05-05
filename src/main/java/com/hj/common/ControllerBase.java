@@ -279,11 +279,24 @@ public class ControllerBase {
 			// 权限
 			String roleid = userRole.getRoleid();
 			SysRole role = roleService.findById(roleid);
-			model.addAttribute("roleName", role.getRoleName());
+			model.addAttribute("role", role);
 		} catch (Exception e) {
 			pageUrl = "login/new_login";
 		}
 		return pageUrl;
 	}
 
+	// 获取用户权限
+	public SysRole getUserRole() throws Exception {
+		SysRole role = new SysRole();
+		// 获取用户权限
+		UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+		if (userRole != null) {
+			String roleid = userRole.getRoleid();
+			if (StringUtils.isNotEmpty(roleid)) {
+				role = roleService.findById(roleid);
+			}
+		}
+		return role;
+	}
 }

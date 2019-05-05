@@ -33,7 +33,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<section class="panel">
-							<header class="panel-heading">用户管理--用户列表</header>
+							<header class="panel-heading">用户列表</header>
 							<form action="${appRoot}/user/userList" method="post"
 								id="selectCheckMessage">
 								<input type="hidden" name="itemId" value="${itemId }"> 
@@ -546,7 +546,6 @@
             $("#remark").text(userInfo.remark);
             $("#selfprojauth").val(userInfo.selfprojauth);
             var headimgurl = userInfo.headimgurl;
-            $("#headimgurl").val(userInfo.headimgurl);
             if(headimgurl !=null && headimgurl != ''){
             	$("#imgDJZS").attr("src",headimgurl);
             }

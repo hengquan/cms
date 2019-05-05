@@ -27,7 +27,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<section class="panel">
-							<header class="panel-heading">文章</header>
+							<header class="panel-heading">文章列表</header>
 							<form action="${appRoot}/article/getDataList" method="post"
 								id="selectCheckMessage">
 								<input type="hidden" name="itemId" value="${itemId }"> 
@@ -113,6 +113,9 @@
 												<button type="button"
 													onclick="edit('${u.id}','${u.articleType }','${channelType }')"
 													class="btn btn-send">修改</button>
+												<button type="button"
+													onclick="see('${u.id}','${u.articleType }','${channelType }')"
+													class="btn btn-send">查看</button>
 											</td>
 										</tr>
 									</c:forEach>
@@ -197,10 +200,11 @@
 
 	<form action="${appRoot}/article/del" method="post" id="deleForm"
 		name="deleForm">
-		<input type="hidden" name="boxeditId" id="boxeditId"> <input
-			type="hidden" name="articleType" id="articleType"
-			value="${articleType }"> <input type="hidden"
-			name="channelType" id="channelType" value="${channelType }">
+		<input type="hidden" name="itemId" value="${itemId }"> 
+    <input type="hidden" name="positionId" value="${positionId }">
+		<input type="hidden" name="boxeditId" id="boxeditId"> 
+		<input type="hidden" name="articleType" id="articleType" value="${articleType }"> 
+		<input type="hidden" name="channelType" id="channelType" value="${channelType }">
 	</form>
 
 	<form action="${appRoot}/user/setExpert" method="post" id="checkExpert"
@@ -231,19 +235,27 @@
 			$("#selectCheckMessage").submit();
 		}
 
-		//添加菜单
+		//添加文章
 		function doAdd(articleType, channelType) {
 			window.location.href = "${appRoot}/article/addPage?articleType="
 					+ articleType + "&channelType=" + channelType + "&itemId="
 					+ '${itemId}' + "&positionId=" + '${positionId}';
 		}
 
-		//修改频道
+		//修改文章
 		function edit(id, articleType, channelType) {
 			window.location.href = "${appRoot}/article/editPage?id=" + id
 					+ "&articleType=" + articleType + "&channelType="
 					+ channelType + "&itemId=" + '${itemId}' + "&positionId="
 					+ '${positionId}';
+		}
+		
+		//查看文章
+		function see(id, articleType, channelType) {
+			window.location.href = "${appRoot}/article/editPage?id=" + id
+					+ "&articleType=" + articleType + "&channelType="
+					+ channelType + "&itemId=" + '${itemId}' + "&positionId="
+					+ '${positionId}'+'&type=see';
 		}
 
 		//添加提交

@@ -1,5 +1,7 @@
 package com.hj.web.entity;
 
+import java.util.List;
+
 public class SysRole {
     private String id;
 
@@ -12,8 +14,18 @@ public class SysRole {
     private Integer sort;
 
     private String remark;
+    
+    private List<SysRole> roleList;
 
-    public String getId() {
+    public List<SysRole> getRoleList() {
+			return roleList;
+		}
+
+		public void setRoleList(List<SysRole> roleList) {
+			this.roleList = roleList;
+		}
+
+		public String getId() {
         return id;
     }
 

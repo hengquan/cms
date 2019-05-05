@@ -161,7 +161,7 @@
 			<if test="phone != null">
 				phone = #{phone,jdbcType=VARCHAR},
 			</if>
-			<if test="headimgurl != null">
+			<if test="headimgurl != null and headimgurl != ''">
 				headimgurl = #{headimgurl,jdbcType=VARCHAR},
 			</if>
 			<if test="district != null">

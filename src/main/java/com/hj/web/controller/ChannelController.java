@@ -72,6 +72,10 @@ public class ChannelController extends ControllerBase {
 			e.printStackTrace();
 		}
 		model.addAttribute("channelType", project.getChanneltype());
+		String itemId = getTrimParameter("itemId");
+		String positionId = getTrimParameter("positionId");
+		model.addAttribute("itemId", itemId);
+		model.addAttribute("positionId", positionId);
 		return "redirect:getDataList";
 	}
 
@@ -86,6 +90,10 @@ public class ChannelController extends ControllerBase {
 			e.printStackTrace();
 		}
 		model.addAttribute("channelType", project.getChanneltype());
+		String itemId = getTrimParameter("itemId");
+		String positionId = getTrimParameter("positionId");
+		model.addAttribute("itemId", itemId);
+		model.addAttribute("positionId", positionId);
 		return "redirect:getDataList";
 	}
 
@@ -101,6 +109,10 @@ public class ChannelController extends ControllerBase {
 			e.printStackTrace();
 		}
 		model.addAttribute("channelType", project.getChanneltype());
+		String itemId = getTrimParameter("itemId");
+		String positionId = getTrimParameter("positionId");
+		model.addAttribute("itemId", itemId);
+		model.addAttribute("positionId", positionId);
 		return "redirect:getDataList";
 	}
 

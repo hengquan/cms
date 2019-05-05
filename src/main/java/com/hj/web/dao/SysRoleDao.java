@@ -108,16 +108,15 @@ public class SysRoleDao {
 	 * @param sysRole
 	 */
 	public void update(final SysRole sysRole){
-		String sql = "update sys_role set role_name=?,pinyin=?,logogram=?,remark=? where id=?";
+		String sql = "update sys_role set role_name=?,pinyin=?,remark=? where id=?";
 		this.jdbcTemplate.update(sql,new PreparedStatementSetter() {
 			
 			@Override
 			public void setValues(PreparedStatement ps) throws SQLException {
 				ps.setString(1, sysRole.getRoleName());
 				ps.setString(2, sysRole.getPinyin());
-				ps.setString(3, sysRole.getLogogram());
-				ps.setString(4, sysRole.getRemark());
-				ps.setString(5, sysRole.getId());
+				ps.setString(3, sysRole.getRemark());
+				ps.setString(4, sysRole.getId());
 			}
 		});
 	}
@@ -130,5 +129,14 @@ public class SysRoleDao {
 			return null;
 		}
 	}
-	
+
+	public List<SysRole> findParentById(String id) {
+		String sql = "select * from sys_role where logogram = ?";
+		return this.jdbcTemplate.query(sql, new SysRoleMapper(),id);
+	}
+
+	public List<SysRole> findParentList() {
+		String sql = "select * from sys_role where logogram in ('0','1')";
+		return this.jdbcTemplate.query(sql, new SysRoleMapper());
+	}
 }

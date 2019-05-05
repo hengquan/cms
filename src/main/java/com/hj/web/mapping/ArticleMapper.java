@@ -21,4 +21,8 @@ public interface ArticleMapper {
 		Integer getDataListCount(Map<String, Object> map);
 
 		void deletes(String ids);
+
+		List<Article> getDataListByRelevancyId(String id);
+
+		List<Article> getArticleParentDataList(Article article);
 }

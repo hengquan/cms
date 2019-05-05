@@ -1,5 +1,6 @@
 package com.hj.web.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +22,10 @@ import com.hj.web.dao.SysItemRoleDao;
 import com.hj.web.dao.SysRoleDao;
 import com.hj.web.entity.SysRole;
 import com.hj.web.entity.UserInfo;
+import com.hj.web.entity.UserRole;
 import com.hj.web.mapping.SysRoleMapper;
 import com.hj.web.services.IKeyGen;
+import com.hj.web.services.SysRoleService;
 import com.hj.web.services.UserRoleService;
 
 /**
@@ -49,6 +52,8 @@ public class SysRoleController extends ControllerBase {
 	UserRoleService sysUserRoleService;
 	@Autowired
 	SysItemRoleDao sysItemRoleDao;
+	@Autowired
+	SysRoleService roleService;
 
 	public String Userid() {
 		try {
@@ -72,9 +77,28 @@ public class SysRoleController extends ControllerBase {
 	@RequestMapping("/list")
 	public String list(ModelMap model) {
 		String pageUrl = "role/list";
-		List<SysRole> roleList = sysRoleDao.findAll();
-		model.addAttribute("roleList", roleList);
+		List<SysRole> roleList = new ArrayList<SysRole>();
 		pageUrl = super.userIRoleItem(model, pageUrl);
+		SysRole role = (SysRole) model.get("role");
+		if (role != null) {
+			String logogram = role.getLogogram();
+			String id = role.getId();
+			if (StringUtils.isNotEmpty(logogram) && logogram.equals("0")) {
+				roleList = sysRoleDao.findParentList();
+			} else {
+				roleList = sysRoleDao.findParentById(id);
+			}
+			if (roleList != null && roleList.size() > 0) {
+				for (SysRole sysRole : roleList) {
+					String roleId = sysRole.getId();
+					List<SysRole> dataList = sysRoleDao.findParentById(roleId);
+					if (dataList != null && dataList.size() > 0) {
+						sysRole.setRoleList(dataList);
+					}
+				}
+			}
+		}
+		model.addAttribute("roleList", roleList);
 		return "role/list";
 	}
 
@@ -82,28 +106,51 @@ public class SysRoleController extends ControllerBase {
 	 * 添加管理员
 	 * 
 	 * @return
+	 * @throws Exception
 	 */
 	@ResponseBody
 	@RequestMapping("/addAndUpdate")
-	public String addAndUpdate() {
+	public String addAndUpdate() throws Exception {
+		String logogram = "";
+		String roleid = "";
+		SysRole loginRole = super.getUserRole();
+		if (loginRole != null) {
+			logogram = loginRole.getLogogram();
+			roleid = loginRole.getId();
+		}
+		// 获取用户权限
+		UserRole userRole = sysUserRoleService.selectByUserId(hashSession.getCurrentAdmin(request).getId());
+		if (userRole != null) {
+			roleid = userRole.getRoleid();
+			if (StringUtils.isNotEmpty(roleid)) {
+				SysRole role = roleService.findById(roleid);
+				if (role != null) {
+					logogram = role.getLogogram();
+				}
+			}
+		}
+		// 获取数据
 		Map<String, Object> result = new HashMap<String, Object>();
 		String editId = StringUtils.trimToEmpty(getTrimParameter("editId"));
 		SysRole sysRole = new SysRole();
 		String roleName = StringUtils.trim(getTrimParameter("roleName"));
 		String pinyin = StringUtils.trim(getTrimParameter("pinyin"));
-		String logogram = StringUtils.trim(getTrimParameter("logogram"));
 		String remark = StringUtils.trim(getTrimParameter("remark"));
 
 		boolean isSave = true;
 		if (isSave) {
-			if (editId == null || editId.equals("")) {
+			if (StringUtils.isEmpty(editId)) {
 				// 根据角色名称查询是否存在
 				SysRole sr = sysRoleDao.findByRoleName(roleName);
 				if ("".equals(sr) || sr == null) {
-					sysRole.setId(key.getUUIDKey());
+					String uuid = key.getUUIDKey();
+					sysRole.setId(uuid);
 					sysRole.setRoleName(roleName);
 					sysRole.setPinyin(pinyin);
-					sysRole.setLogogram(logogram);
+					if (StringUtils.isNotEmpty(logogram) && logogram.equals("0"))
+						sysRole.setLogogram("1");
+					else
+						sysRole.setLogogram(roleid);
 					sysRole.setRemark(remark);
 					sysRoleDao.add(sysRole);
 					logger.info("添加角色成功");
@@ -116,7 +163,6 @@ public class SysRoleController extends ControllerBase {
 				sysRole.setId(editId);
 				sysRole.setRoleName(roleName);
 				sysRole.setPinyin(pinyin);
-				sysRole.setLogogram(logogram);
 				sysRole.setRemark(remark);
 				sysRoleDao.update(sysRole);
 				logger.info("修改角色成功");
@@ -160,10 +206,10 @@ public class SysRoleController extends ControllerBase {
 	public String getAllList(Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<SysRole> roleList = sysRoleDao.findAll();
-		if(roleList!=null && roleList.size()>0){
+		if (roleList != null && roleList.size() > 0) {
 			map.put("roleList", roleList);
 			map.put("msg", "0");
-		}else{
+		} else {
 			map.put("msg", "1");
 		}
 		return JsonUtils.map2json(map);

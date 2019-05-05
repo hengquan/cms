@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/inc/taglib.jsp"%>
 <%@ include file="/WEB-INF/jsp/inc/sessions.jsp"%>
 <!DOCTYPE html>
@@ -6,7 +7,9 @@
 <head>
 <%@ include file="/WEB-INF/jsp/inc/head_bootstrap.jsp"%>
 
-<link href="${appRoot}/static/assets/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" type="text/css">
+<link
+	href="${appRoot}/static/assets/jquery-file-upload/css/jquery.fileupload-ui.css"
+	rel="stylesheet" type="text/css">
 <!-- Custom styles for this template -->
 <link href="${appRoot}/static/css/style.css" rel="stylesheet">
 <link href="${appRoot}/static/css/style-responsive.css" rel="stylesheet" />
@@ -31,38 +34,64 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<section class="panel">
-							<header class="panel-heading">系统管理--角色信息管理 </header>
+							<header class="panel-heading">站点管理 </header>
 							<table class="table table-striped border-top" id="sample_1">
 								<thead>
 									<tr>
-										<th style="width: 8px;"><input type="checkbox" name="box" class="group-checkable" data-set="#sample_1 .checkboxes" value="" /></th>
-										<th>角色名称</th>
+										<th style="width: 8px;"><input type="checkbox" name="box"
+											class="group-checkable" data-set="#sample_1 .checkboxes"
+											value="" /></th>
+										<th>站点名称</th>
 										<th class="hidden-phone">拼音</th>
-										<th class="hidden-phone">简拼</th>
-										<!-- <th class="hidden-phone">创建时间</th> -->
 										<th class="hidden-phone">操作</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach items="${roleList}" var="info" varStatus="s">
 										<tr class="odd gradeX">
-											<td><input type="checkbox" name="box" class="checkboxes" value="${info.id}" /></td>
+											<td><input type="checkbox" name="box" class="checkboxes"
+												value="${info.id}" /></td>
 											<td>${info.roleName}</td>
 											<td class="hidden-phone">${info.pinyin}</td>
-											<td class="hidden-phone">${info.logogram}</td>
-										<%-- 	<td class="hidden-phone"><fmt:formatDate value="" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td> --%><%-- ${info.createTime} --%>
 											<td class="hidden-phone">
-												<button class="btn btn-primary btn-xs" onclick="doEdit('${info.id}','${info.roleName}','${info.pinyin}','${info.logogram}','${info.remark}')">
+												<button class="btn btn-primary btn-xs"
+													onclick="doEdit('${info.id}','${info.roleName}','${info.pinyin}','${info.remark}')">
 													<i class="icon-pencil"></i>
 												</button> &nbsp;
-												<button class="btn btn-danger btn-xs" onclick="doDel('${info.id}')">
+												<button class="btn btn-danger btn-xs"
+													onclick="doDel('${info.id}')">
 													<i class="icon-trash"></i>
-												</button> &nbsp;
-												<a href="${appRoot}/roleItem/listItem?roleId=${info.id}&roleName=${info.roleName}&itemId=${itemId}&id=${id}">
-												<button class="btn btn-danger btn-xs"><i class="icon-eye-open">查看角色权限</i></button>
-												</a>
+												</button> &nbsp; <a
+												href="${appRoot}/roleItem/listItem?roleId=${info.id}&roleName=${info.roleName}&itemId=${itemId}&id=${positionId}">
+													<button class="btn btn-danger btn-xs">
+														<i class="icon-eye-open">查看站点权限</i>
+													</button>
+											</a>
 											</td>
 										</tr>
+										<c:forEach items="${info.roleList}" var="role" varStatus="s">
+                    <tr class="odd gradeX">
+                      <td><input type="checkbox" name="box" class="checkboxes"
+                        value="${role.id}" /></td>
+                      <td>----${role.roleName}</td>
+                      <td class="hidden-phone">${role.pinyin}</td>
+                      <td class="hidden-phone">
+                        <button class="btn btn-primary btn-xs"
+                          onclick="doEdit('${role.id}','${role.roleName}','${role.pinyin}','${role.remark}')">
+                          <i class="icon-pencil"></i>
+                        </button> &nbsp;
+                        <button class="btn btn-danger btn-xs"
+                          onclick="doDel('${role.id}')">
+                          <i class="icon-trash"></i>
+                        </button> &nbsp; <a
+                        href="${appRoot}/roleItem/listItem?roleId=${role.id}&roleName=${role.roleName}&itemId=${itemId}&id=${positionId}">
+                          <button class="btn btn-danger btn-xs">
+                            <i class="icon-eye-open">查看站点权限</i>
+                          </button>
+                      </a>
+                      </td>
+                    </tr>
+                  </c:forEach>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -72,7 +101,7 @@
 				<!-- page end-->
 			</section>
 		</section>
-		
+
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -80,40 +109,40 @@
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"
 							aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="modal-title">添加管理员</h4>
+						<h4 class="modal-title" id="modal-title">添加站点</h4>
 					</div>
 					<div class="modal-body">
-						<form class="form-horizontal" role="form" id="roleForm" name="roleForm" >
+						<form class="form-horizontal" role="form" id="roleForm"
+							name="roleForm">
 							<input type="hidden" name="editId" id="editId">
 							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">角色名称<font style="color:red;">*</font></label>
+								<label class="col-lg-2 control-label pd-r5">站点名称<font
+									style="color: red;">*</font></label>
 								<div class="col-lg-10">
 									<input type="text" class="form-control" id="roleName"
-										name="roleName" placeholder="请输入角色名称">
+										name="roleName" placeholder="请输入站点名称">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-2 control-label pd-r5">角色拼音<font style="color:red;">*</font></label>
+								<label class="col-lg-2 control-label pd-r5">站点拼音<font
+									style="color: red;">*</font></label>
 								<div class="col-lg-10">
 									<input type="text" class="form-control" id="pinyin"
-										name="pinyin" placeholder="请输入角色拼音">
+										name="pinyin" placeholder="请输入站点拼音">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-lg-2 control-label">角色简拼<font style="color:red;">*</font></label>
+								<label class="col-lg-2 control-label pd-r5">备注<font
+									style="color: red;"></font></label>
 								<div class="col-lg-10">
-									<input type="text" class="form-control" id="logogram" name="logogram" placeholder="请输入角色简拼">
+									<input type="text" class="form-control" id="remark"
+										name="remark" placeholder="请输入备注">
 								</div>
 							</div>
-							 <div class="form-group">
-                                      <label class="col-lg-2 control-label pd-r5">备注<font style="color:red;"></font></label>
-                                      <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
-                                      </div>
-                             </div>
 							<div class="form-group">
 								<div class="col-lg-offset-2 col-lg-10">
-									<button type="button" onclick="submitData();" class="btn btn-send">提交</button>
+									<button type="button" onclick="submitData();"
+										class="btn btn-send">提交</button>
 								</div>
 							</div>
 						</form>
@@ -129,16 +158,19 @@
 
 
 	<!-- Modal -->
-	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
 					<h4 class="modal-title">删除警告</h4>
 				</div>
 				<div class="modal-body">确定删除？</div>
 				<div class="modal-footer">
-					<button data-dismiss="modal" class="btn btn-default" type="button" id="quxiao">取消</button>
+					<button data-dismiss="modal" class="btn btn-default" type="button"
+						id="quxiao">取消</button>
 					<button class="btn btn-warning" type="button" onclick="Delete()">确定</button>
 				</div>
 			</div>
@@ -148,16 +180,19 @@
 
 	<div class="panel-body">
 		<!-- Modal -->
-		<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
 						<h4 class="modal-title">删除警告</h4>
 					</div>
 					<div class="modal-body">确定删除？</div>
 					<div class="modal-footer">
-						<button data-dismiss="modal" class="btn btn-default" type="button" id="quxiao">取消</button>
+						<button data-dismiss="modal" class="btn btn-default" type="button"
+							id="quxiao">取消</button>
 						<button class="btn btn-warning" type="button" onclick="Del()">确定</button>
 					</div>
 				</div>
@@ -165,121 +200,104 @@
 		</div>
 	</div>
 	<!-- modal -->
-	
-	<div class="modal fade" id="myModalUpdatePwd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+	<div class="modal fade" id="myModalUpdatePwd" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
 					<h4 class="modal-title">重置警告</h4>
 				</div>
-				<div class="modal-body">确定重置管理员密码？</br>重置后密码为:123456</div>
+				<div class="modal-body">
+					确定重置站点密码？</br>重置后密码为:123456
+				</div>
 				<div class="modal-footer">
-					<button data-dismiss="modal" class="btn btn-default" type="button" id="quxiao">取消</button>
-					<button class="btn btn-warning" type="button" onclick="resetPassword()">确定</button>
+					<button data-dismiss="modal" class="btn btn-default" type="button"
+						id="quxiao">取消</button>
+					<button class="btn btn-warning" type="button"
+						onclick="resetPassword()">确定</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	<form action="${appRoot}/role/del" method="post" id="deleForm" name="deleForm">
-		<input type="hidden" name="byid" id="byid">
-	    <input type="hidden" name="boxeditId" id="boxeditId">
+
+	<form action="${appRoot}/role/del" method="post" id="deleForm"
+		name="deleForm">
+		<input type="hidden" name="byid" id="byid"> <input
+			type="hidden" name="boxeditId" id="boxeditId">
 	</form>
 
 
 	<%@ include file="/WEB-INF/jsp/inc/foot_bootstrap.jsp"%>
-	<script src="${appRoot}/static/js/jquery.sparkline.js" type="text/javascript"></script>
+	<script src="${appRoot}/static/js/jquery.sparkline.js"
+		type="text/javascript"></script>
 
-	<script type="text/javascript" src="${appRoot}/static/assets/data-tables/jquery.dataTables.js"></script>
-	<script type="text/javascript" src="${appRoot}/static/assets/data-tables/DT_bootstrap.js"></script>
+	<script type="text/javascript"
+		src="${appRoot}/static/assets/data-tables/jquery.dataTables.js"></script>
+	<script type="text/javascript"
+		src="${appRoot}/static/assets/data-tables/DT_bootstrap.js"></script>
 	<!--script for this page only-->
 	<script src="${appRoot}/static/js/dynamic-table.js"></script>
-    <script src="${appRoot}/static/js/dialog_alert.js"></script>
+	<script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
-	
-/* 	function validateForm(){
-		if($('#roleName').val() == null || $('#roleName').val() == ''){
-			windowShow("角色名称不能为空","");
-			return false;
-		}
-		if($('#pinyin').val() == null || $('#pinyin').val() == ''){
-			windowShow("角色拼音不能为空","");
-			return false;
-		}
-		if($('#logogram').val() == null || $('#logogram').val() == ''){
-			windowShow("角色简音不能为空","");
-			return false;
-		}
-	}
-	 */
-	
-	
-	
 		function doAdd() {
 			$("#editId").val('');
 			$('#roleName').val('');
 			$('#pinyin').val('');
-			$('#logogram').val('');
 			$('#remark').val('');
-			//$('#userType').val('');
 			var $modal = $('#myModal');
 			$modal.modal();
 		}
-		
-		function doEdit(id,roleName,pinyin,logogram,remark) {
+
+		function doEdit(id, roleName, pinyin, remark) {
 			$('#editId').val(id);
 			$('#roleName').val(roleName);
 			$('#pinyin').val(pinyin);
-			$('#logogram').val(logogram);
 			$('#remark').val(remark);
 			var $modal = $('#myModal');
-			$('#modal-title').text("修改角色信息");
-			$modal.modal(); 
+			$('#modal-title').text("修改站点信息");
+			$modal.modal();
 		}
-		
-		function submitData(){
+
+		function submitData() {
 			//$('#roleForm').submit();
-			
-			if($('#roleName').val() == null || $('#roleName').val() == ''){
-				windowShow("角色名称不能为空","");
+
+			if ($('#roleName').val() == null || $('#roleName').val() == '') {
+				windowShow("站点名称不能为空", "");
 				return false;
-			}else{
-				if($('#pinyin').val() == null || $('#pinyin').val() == ''){
-				windowShow("角色拼音不能为空","");
-				return false;
-				}else{
-					if($('#logogram').val() == null || $('#logogram').val() == ''){
-						windowShow("角色简音不能为空","");
-						return false;
-					}else{
-						$.ajax({
-							type:'post',
-							data:$('#roleForm').serialize(),
-							url:'${appRoot}/role/addAndUpdate',
-							dataType:'json',
-							success:function(data){
-								if(data.msg=="iscz"){
-									windowShow("该角色名称已存在!请重新输入角色名称","");
-									return false;
-								}else if(data.msg=="isc"){
-									$('#myModal').modal('hide');
-									windowShow("添加角色成功","");
-									location.reload();
-								}else if(data.msg=="isupdate"){
-									$('#myModal').modal('hide');
-									windowShow("修改角色成功","");
-									location.reload();
-								}else{
-									$('#myModal').modal('hide');
-									windowShow("操作失败","");
-								}
-							},
-							error:function(data){
-								windowShow("操作失败","");
+			} else {
+				if ($('#pinyin').val() == null || $('#pinyin').val() == '') {
+					windowShow("站点拼音不能为空", "");
+					return false;
+				} else {
+					$.ajax({
+						type : 'post',
+						data : $('#roleForm').serialize(),
+						url : '${appRoot}/role/addAndUpdate',
+						dataType : 'json',
+						success : function(data) {
+							if (data.msg == "iscz") {
+								windowShow("该站点名称已存在!请重新输入站点名称", "");
+								return false;
+							} else if (data.msg == "isc") {
+								$('#myModal').modal('hide');
+								windowShow("添加站点成功", "");
+								location.reload();
+							} else if (data.msg == "isupdate") {
+								$('#myModal').modal('hide');
+								windowShow("修改站点成功", "");
+								location.reload();
+							} else {
+								$('#myModal').modal('hide');
+								windowShow("操作失败", "");
 							}
-						});
-					}
+						},
+						error : function(data) {
+							windowShow("操作失败", "");
+						}
+					});
 				}
 			}
 			//$('#roleForm').submit();
@@ -307,10 +325,10 @@
 		}
 
 		function doDelete() {
-			var flag=checkbox();
-			if(flag){
-			  var $modal = $('#myModal2');
-			  $modal.modal();
+			var flag = checkbox();
+			if (flag) {
+				var $modal = $('#myModal2');
+				$modal.modal();
 			}
 		}
 
@@ -325,10 +343,9 @@
 		}
 
 		function Delete() {
-				$("#deleForm").submit();
+			$("#deleForm").submit();
 		}
-		
 	</script>
-	<input type="hidden" value="" id="adminId"/>
+	<input type="hidden" value="" id="adminId" />
 </body>
 </html>

@@ -26,7 +26,7 @@
 		<result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
 		<result column="article" property="article" jdbcType="LONGVARCHAR" />
 		<result column="relevancyId" property="relevancyId" jdbcType="VARCHAR" />
-    <result column="sort" property="sort" jdbcType="INTEGER" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, articleName, articleType, detail, isPush, source,
@@ -221,7 +221,7 @@
 			<if test="userId != null">
 				userId = #{userId,jdbcType=VARCHAR},
 			</if>
-			<if test="picUrl != null">
+			<if test="picUrl != null and picUrl != ''">
 				picUrl = #{picUrl,jdbcType=VARCHAR},
 			</if>
 			<if test="isComment != null">
@@ -280,10 +280,11 @@
 		select
 		<include refid="Base_Column_List" />
 		from cms_article
-		where instr(articleName,#{keyword}) and isValidate in (0,1,2,3)
+		where instr(articleName,#{keyword}) and isValidate in
+		(0,1,2,3)
 		<if test="articleType != null and articleType != ''">
-      and articleType = #{articleType,jdbcType=VARCHAR}
-    </if>
+			and articleType = #{articleType,jdbcType=VARCHAR}
+		</if>
 		order by createTime
 		desc
 		limit #{page},#{pageSize}
@@ -294,10 +295,11 @@
 		count(1)
 		from
 		cms_article
-		where instr(articleName,#{keyword}) and isValidate in (0,1,2,3)
+		where instr(articleName,#{keyword}) and
+		isValidate in (0,1,2,3)
 		<if test="articleType != null and articleType != ''">
-      and articleType = #{articleType,jdbcType=VARCHAR}
-    </if>
+			and articleType = #{articleType,jdbcType=VARCHAR}
+		</if>
 		order by createTime
 	</select>
 
@@ -305,6 +307,29 @@
 		select
 		<include refid="Base_Column_List" />
 		from cms_article
+		where
+		isValidate in (0,1,2,3)
+	</select>
+
+	<select id="getDataListByRelevancyId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cms_article
+		where relevancyId = #{id,jdbcType=VARCHAR}
+		and
+		isValidate in (0,1,2,3)
+	</select>
+
+	<select id="getArticleParentDataList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cms_article
+		where
+		relevancyId = '0' and
+		isValidate in (0,1,2,3)
+		<if test="articleType != null">
+			and articleType = #{articleType,jdbcType=VARCHAR}
+		</if>
 	</select>
 
 	<update id="deletes">

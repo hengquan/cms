@@ -31,7 +31,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<section class="panel">
-							<header class="panel-heading">系统管理--菜单信息管理</header>
+							<header class="panel-heading">菜单信息管理</header>
 							<table class="table table-striped border-top" id="sample_1">
 								<thead>
 									<tr>

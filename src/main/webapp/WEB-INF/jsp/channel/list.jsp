@@ -84,10 +84,12 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<section class="panel">
-							<header class="panel-heading">频道管理--频道列表</header>
+							<header class="panel-heading">频道列表</header>
 							<form action="${appRoot}/channel/getDataList" method="post"
 								id="selectCheckMessage">
 								<input type="hidden" name="channeltype" value="${channeltype }">
+								<input type="hidden" name="itemId" value="${itemId }"> <input
+									type="hidden" name="positionId" value="${positionId }">
 								<!-- 根据用户昵称查询 -->
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
@@ -128,6 +130,7 @@
 											class="group-checkable" data-set="#sample_1 .checkboxes"
 											value="" /></th>
 										<th class="hidden-phone">频道名称</th>
+										<th class="hidden-phone">所属渠道</th>
 										<th class="hidden-phone">所属地区</th>
 										<th class="hidden-phone">频道描述</th>
 										<th class="hidden-phone">创建时间</th>
@@ -139,8 +142,15 @@
 										<tr class="odd gradeX theTr">
 											<td><input type="checkbox" name="box" class="checkboxes"
 												value="${u.id}" /></td>
+											<td class="hidden-phone"><a href="#"
+												onclick="doArticleList('${u.id}','${channeltype }')">${u.channelname}</a>
+											</td>
 											<td class="hidden-phone">
-											   <a href="#" onclick="doArticleList('${u.id}','${channeltype }')">${u.channelname}</a>
+											   <c:if test="${u.channeltype == 0}">暂无</c:if>
+											   <c:if test="${u.channeltype == 1}">APP</c:if>
+											   <c:if test="${u.channeltype == 2}">H5</c:if>
+											   <c:if test="${u.channeltype == 3}">触摸板</c:if>
+											   <c:if test="${u.channeltype == 4}">APP视频</c:if>
 											</td>
 											<td class="hidden-phone">${u.areaname}</td>
 											<td class="hidden-phone">${u.descn}</td>
@@ -149,10 +159,9 @@
 											<td class="hidden-phone">
 												<button type="button"
 													onclick="edit('${u.id}','${u.channelname}','${u.areaname}','${u.descn}')"
-													class="btn btn-send">修改</button> <%-- <button type="button" onclick="sellAllUser('${u.id}')" 
-												class="btn btn-send">该频道工作人员</button>
-												<button type="button" onclick="seeKeHuMsg('${u.id}')" 
-												class="btn btn-send">该频道客户信息</button> --%>
+													class="btn btn-send">修改频道</button> <a
+												href="javascript:doAddArticle('${u.id }','${channeltype }');"
+												class="btn btn-send">添加文章</a>
 											</td>
 										</tr>
 									</c:forEach>
@@ -212,8 +221,10 @@
 					<form action="${appRoot}/channel/add" method="post"
 						class="form-horizontal" enctype="multipart/form-data" role="form"
 						id="addMessage" name="itemForm">
-						<input type="hidden" name="editId1" id="editId1">
-						<input type="hidden" name="channeltype" value="${channeltype }">
+						<input type="hidden" name="editId1" id="editId1"> <input
+							type="hidden" name="channeltype" value="${channeltype }">
+						<input type="hidden" name="itemId" value="${itemId }"> <input
+							type="hidden" name="positionId" value="${positionId }">
 						<div class="form-group">
 							<label class="col-lg-2 control-label pd-r5">频道名称<font
 								style="color: red;"></font></label>
@@ -253,8 +264,8 @@
 
 
 	<!-- 更新信息 -->
-	<div class="modal fade" id="editPage" tabindex="-1"
-		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade" id="editPage" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -266,8 +277,10 @@
 					<form action="${appRoot}/channel/edit" method="post"
 						class="form-horizontal" enctype="multipart/form-data" role="form"
 						id="editMessage" name="itemForm">
-						<input type="hidden" name="editId" id="editId">
-						<input type="hidden" name="channeltype" value="${channeltype }">
+						<input type="hidden" name="editId" id="editId"> <input
+							type="hidden" name="channeltype" value="${channeltype }">
+						<input type="hidden" name="itemId" value="${itemId }"> <input
+							type="hidden" name="positionId" value="${positionId }">
 						<div class="form-group">
 							<label class="col-lg-2 control-label pd-r5">频道名称<font
 								style="color: red;"></font></label>
@@ -355,8 +368,10 @@
 
 	<form action="${appRoot}/channel/del" method="post" id="deleForm"
 		name="deleForm">
-		<input type="hidden" name="channeltype" value="${channeltype }">
-		<input type="hidden" name="boxeditId" id="boxeditId">
+		<input type="hidden" name="itemId" value="${itemId }"> <input
+			type="hidden" name="positionId" value="${positionId }"> <input
+			type="hidden" name="channeltype" value="${channeltype }"> <input
+			type="hidden" name="boxeditId" id="boxeditId">
 	</form>
 
 	<form action="${appRoot}/user/setExpert" method="post" id="checkExpert"
@@ -464,9 +479,21 @@
 		function Delete() {
 			$("#deleForm").submit();
 		}
+
+		function doArticleList(channelId, channelType) {
+			window.location.href = "${appRoot }/article/getDataList?articleType="
+					+ channelId
+					+ "&channelType="
+					+ channelType
+					+ "&itemId="
+					+ '${itemId}' + "&positionId=" + '${positionId}';
+		}
 		
-		function doArticleList(channelId,channelType){
-			window.location.href="${appRoot }/article/getDataList?articleType="+channelId+"&channelType="+channelType;
+		//添加相关文章
+		function doAddArticle(articleType,channelType){
+			window.location.href = "${appRoot}/article/addPage?articleType="
+		          + articleType + "&channelType=" + channelType + "&itemId="
+		          + '${itemId}' + "&positionId=" + '${positionId}';
 		}
 	</script>
 	<input type="hidden" value="" id="adminId" />
