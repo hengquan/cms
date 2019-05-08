@@ -50,6 +50,9 @@
 										</button>
 									</span>
 								</div>
+								<div style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
+									<select name="roleId" id="roleId" class="btn" style="border:1px solid #ddd" onchange="seeAllMsg()"></select>
+								</div>
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<a href="javascript:doRefresh();" class="btn mini btn-white"
@@ -112,16 +115,48 @@
 												</td>
 												<td class="hidden-phone"  style="width:60px">${u.age}</td>
 												<td class="hidden-phone">${u.phone}</td>
-												<td class="hidden-phone">${u.userRole.role_name}</td>
+												<td class="hidden-phone">${u.roleName}</td>
 												<td class="hidden-phone">${u.language}</td>
 												<td class="hidden-phone">${u.district}</td>
 												<td class="hidden-phone">${u.address}</td>
 												<td>
 														<button type="button" class="btn btn-send"
-															onclick="doUpdate('${u.id}','${u.userRole.role_name}')">修改</button>
+															onclick="doUpdate('${u.id}','${u.roleName}')">修改</button>
 												</td>
 											</tr>
 										</c:if>
+											<c:forEach items="${u.userList}" var="user" varStatus="s">
+	                    <c:if test="${!empty user.realname }">
+	                      <tr class="odd gradeX">
+	                        <td><input type="checkbox" name="box" class="checkboxes" value="${user.id}" /></td>
+	                        <td class="hidden-phone">
+	                          <c:choose>
+	                            <c:when test="${empty user.headimgurl }">
+	                              <img src="${appRoot }/static/img/zanwu1.png" style="height: 50px;">
+	                            </c:when>
+	                            <c:otherwise>
+	                              <img src="${user.headimgurl }" style="height: 50px;" onerror="excptionUrl(this)">
+	                            </c:otherwise>
+	                          </c:choose>
+	                        </td>
+	                        <td class="hidden-phone">----${user.realname}</td>
+	                        <td class="hidden-phone"  style="width:60px">
+	                          <c:if test="${user.sex==1}">男</c:if>
+	                          <c:if test="${user.sex==2}">女</c:if>
+	                        </td>
+	                        <td class="hidden-phone"  style="width:60px">${user.age}</td>
+	                        <td class="hidden-phone">${user.phone}</td>
+	                        <td class="hidden-phone">${user.roleName}</td>
+	                        <td class="hidden-phone">${user.language}</td>
+	                        <td class="hidden-phone">${user.district}</td>
+	                        <td class="hidden-phone">${user.address}</td>
+	                        <td>
+	                            <button type="button" class="btn btn-send"
+	                              onclick="delOne('${user.id}')">删除</button>
+	                        </td>
+	                      </tr>
+	                    </c:if>
+	                  </c:forEach>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -439,8 +474,33 @@
 			$("#sample_1_length .js-add").hide();
 			$("#sample_1_length .js-ref").hide();
 			$("#sample_1_length .js-del").hide();
+			//增加站点筛选条件
+			addUserRole();
 		});
 
+		function addUserRole(){
+			$.ajax({
+        type : 'post',
+        data : "",
+        url : '${appRoot}/role/getAllList',
+        dataType : 'json',
+        success : function(data) {
+          if (data.msg == 0) {
+            var html = '<option value="">全部站点</option>';
+            var roleList = data.roleList;
+            for(var i=0;i<roleList.length;i++){
+            	if(roleList[i].id == '${roleId}'){
+	         	    html += '<option value="'+ roleList[i].id +'"  selected>'+ roleList[i].roleName +'</option>'
+            	}else{
+           	    html += '<option value="'+ roleList[i].id +'">'+ roleList[i].roleName +'</option>'
+            	}
+            }
+          } 
+          $("#roleId").html(html);
+        }
+      });
+		}
+		
 		function doRefresh() {
 			location.reload();
 		}
@@ -472,6 +532,12 @@
 				var $modal = $('#myModal2');
 				$modal.modal();
 			}
+		}
+		
+		function delOne(id){
+			$("#boxeditId").val(id);
+			var $modal = $('#myModal2');
+      $modal.modal();
 		}
 
 		function Del() {
@@ -510,6 +576,7 @@
 		//弹出添加用户页面
 		function doAdd() {
 			document.getElementById("addUserData").reset();
+			$("#userinfoId").val("");
 			$("#imgDJZS").attr("src",'${appRoot}/static/img/zanwu1.png');
 			$("#userTitle").html("添加用户信息");
 			addRolePage('');
@@ -561,7 +628,7 @@
 		function addRolePage(rolename){
 			$.ajax({
         type : 'post',
-        data : "",
+        data : {"type":"1"},
         url : '${appRoot}/role/getAllList',
         dataType : 'json',
         success : function(data) {
@@ -578,7 +645,9 @@
             $("#userRoleId").html(html);
             var $modal = $('#addPage');
             $modal.modal();
-          } else {
+          } else if(data.msg == 1){
+            windowShow("您不是该站点负责人", "");
+          }else{
             windowShow("获取权限列表失败", "");
           }
         }

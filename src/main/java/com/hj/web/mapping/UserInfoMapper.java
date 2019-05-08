@@ -23,4 +23,6 @@ public interface UserInfoMapper {
 		void deletes(String boxeditId);
 
 		UserInfo selectByLoginId(String loginId);
+
+		List<UserInfo> getParentId(String parentId);
 }

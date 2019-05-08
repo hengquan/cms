@@ -7,12 +7,14 @@
 		<result column="areaName" property="areaname" jdbcType="VARCHAR" />
 		<result column="sort" property="sort" jdbcType="INTEGER" />
 		<result column="descn" property="descn" jdbcType="VARCHAR" />
+		<result column="roleId" property="roleId" jdbcType="VARCHAR" />
 		<result column="isValidate" property="isvalidate" jdbcType="INTEGER" />
 		<result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
 		<result column="channelType" property="channeltype" jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, channelName, areaName, sort, descn, isValidate, cTime,channelType
+		id, channelName, areaName, sort, descn,roleId, isValidate,
+		cTime,channelType
 	</sql>
 	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
@@ -44,6 +46,9 @@
 			<if test="descn != null">
 				descn,
 			</if>
+			<if test="roleId != null">
+				roleId,
+			</if>
 			<if test="isvalidate != null">
 				isValidate,
 			</if>
@@ -69,6 +74,9 @@
 			</if>
 			<if test="descn != null">
 				#{descn,jdbcType=VARCHAR},
+			</if>
+			<if test="roleId != null">
+				#{roleId,jdbcType=VARCHAR},
 			</if>
 			<if test="isvalidate != null">
 				#{isvalidate,jdbcType=INTEGER},
@@ -96,6 +104,9 @@
 			<if test="descn != null">
 				descn = #{descn,jdbcType=VARCHAR},
 			</if>
+			<if test="roleId != null">
+				roleId = #{roleId,jdbcType=VARCHAR},
+			</if>
 			<if test="isvalidate != null">
 				isValidate = #{isvalidate,jdbcType=INTEGER},
 			</if>
@@ -113,14 +124,20 @@
 	<select id="getProjectMessge" resultMap="BaseResultMap"
 		parameterType="java.util.Map">
 		SELECT
-		*
+		a.*, b.role_name roleName
 		FROM
-		cms_channel
+		cms_channel a
+		JOIN sys_role b ON
+		a.roleId = b.id
 		WHERE
-		INSTR(channelName,
-		#{channelname}) and isValidate=1
+		INSTR(a.channelName, #{channelname})
+		and
+		a.isValidate=1
 		<if test="channeltype != null and channeltype != 0">
-			and channelType = #{channeltype,jdbcType=INTEGER}
+			and a.channelType = #{channeltype,jdbcType=INTEGER}
+		</if>
+		<if test="roleId != null and roleId != ''">
+			and a.roleId = #{roleId}
 		</if>
 		LIMIT #{page},#{pageSize}
 	</select>
@@ -131,10 +148,19 @@
 		SELECT
 		count(1)
 		FROM
-		cms_channel
+		cms_channel a
+		JOIN sys_role b ON
+		a.roleId = b.id
 		WHERE
-		INSTR(channelName,
-		#{channelname}) and isValidate=1
+		INSTR(a.channelName, #{channelname})
+		and
+		a.isValidate=1
+		<if test="channeltype != null and channeltype != 0">
+			and a.channelType = #{channeltype,jdbcType=INTEGER}
+		</if>
+		<if test="roleId != null and roleId != ''">
+			and a.roleId = #{roleId}
+		</if>
 	</select>
 
 	<update id="deletes">
@@ -152,6 +178,12 @@
 		select
 		<include refid="Base_Column_List" />
 		from cms_channel
-		where 1=1 
+		where 1=1
+		<if test="channeltype != null and channeltype != 0">
+      and channelType = #{channeltype}
+    </if>
+		<if test="roleId != null and roleId != ''">
+      and roleId = #{roleId}
+    </if>
 	</select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.hj.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -157,18 +158,17 @@ public class SysItemRoleController extends ControllerBase {
 	 * @author deng.hemei
 	 * @description
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 * @updateDate 2016年6月20日
 	 */
 	@RequestMapping("/listItem")
 	public String selectByRoleId(Model model) throws Exception {
 		String logogram = "";
-		String roleid = "";
 		SysRole loginRole = super.getUserRole();
 		if (loginRole != null) {
 			logogram = loginRole.getLogogram();
-			roleid = loginRole.getId();
 		}
+		SysRole role = super.getUserRole();
 		// 获取数据
 		String roleId = StringUtils.trim(getTrimParameter("roleId"));
 		String roleName = StringUtils.trim(getTrimParameter("roleName"));
@@ -176,23 +176,39 @@ public class SysItemRoleController extends ControllerBase {
 		String id = StringUtils.trim(getTrimParameter("id"));
 		List<SysItemRole> lst = sysItemRoleDao.selectItemByRoleId(roleId);
 		List<SysItemRole> ls = sysItemRoleDao.selectItemByPId(roleId);
-
-		List<SysItem> itemList = sysItemDao.findAllByParent("");
-		for (SysItem sysItem : itemList) {
-			List<SysItem> childList = sysItemDao.findAllByParent(sysItem.getId());
-			if (childList != null && childList.size() > 0) {
-				for(SysItem item : childList){
-					if(StringUtils.isNotEmpty("logogram") && !logogram.equals("0")){
-						String itemName = item.getItemName();
-						if(StringUtils.isNotEmpty(itemName) && itemName.equals("菜单管理")){
-							childList.remove(item);
-						}
+		// 获取当前用户所有的权限项
+		// 所有的数据
+		List<SysItem> itemAll = new ArrayList<SysItem>();
+		// 父级数据
+		List<SysItem> itemList = new ArrayList<SysItem>();
+		if (StringUtils.isNotEmpty("logogram") && logogram.equals("0")) {
+			itemAll = sysItemDao.findAll();
+		} else {
+			itemAll = sysItemDao.findAllByRoleId(role.getId());
+		}
+		// 取父
+		if (itemAll != null && itemAll.size() > 0) {
+			for (SysItem item : itemAll) {
+				String parentId = item.getParentId();
+				if (StringUtils.isEmpty(parentId))
+					itemList.add(item);
+			}
+		}
+		// 取子
+		if (itemList != null && itemList.size() > 0) {
+			for (SysItem sysItem : itemList) {
+				List<SysItem> childList = new ArrayList<SysItem>();
+				String itemid = sysItem.getId();
+				if (itemAll != null && itemAll.size() > 0) {
+					for (SysItem item : itemAll) {
+						String parentId = item.getParentId();
+						if (parentId.equals(itemid))
+							childList.add(item);
 					}
 				}
+				sysItem.setChildList(childList);
 			}
-			sysItem.setChildList(childList);
 		}
-
 		model.addAttribute("list", lst);
 		model.addAttribute("ls", ls);
 		model.addAttribute("roleName", roleName);

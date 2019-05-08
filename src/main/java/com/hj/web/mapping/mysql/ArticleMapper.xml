@@ -277,30 +277,50 @@
 	</update>
 
 	<select id="getDataList" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from cms_article
-		where instr(articleName,#{keyword}) and isValidate in
+		SELECT
+		a.*, c.role_name roleName,c.id roleId
+		FROM
+		cms_article a
+		JOIN cms_channel b ON
+		a.articleType = b.id
+		JOIN sys_role c ON b.roleId = c.id
+		where
+		relevancyId = 0 and 
+		instr(a.articleName,#{keyword}) and
+		a.isValidate in
 		(0,1,2,3)
 		<if test="articleType != null and articleType != ''">
-			and articleType = #{articleType,jdbcType=VARCHAR}
+			and a.articleType = #{articleType,jdbcType=VARCHAR}
 		</if>
-		order by createTime
+		<if test="roleId != null and roleId != ''">
+			and c.id = #{roleId,jdbcType=VARCHAR}
+			or c.logogram = #{roleId,jdbcType=VARCHAR}
+		</if>
+		order by a.sort desc,a.createTime
 		desc
 		limit #{page},#{pageSize}
 	</select>
 
 	<select id="getDataListCount" resultType="java.lang.Integer">
-		select
+		SELECT
 		count(1)
-		from
-		cms_article
-		where instr(articleName,#{keyword}) and
-		isValidate in (0,1,2,3)
+		FROM
+		cms_article a
+		JOIN cms_channel b ON
+		a.articleType = b.id
+		JOIN sys_role c ON b.roleId = c.id
+		where 
+		relevancyId = 0 and 
+		instr(a.articleName,#{keyword}) and
+		a.isValidate in
+		(0,1,2,3)
 		<if test="articleType != null and articleType != ''">
-			and articleType = #{articleType,jdbcType=VARCHAR}
+			and a.articleType = #{articleType,jdbcType=VARCHAR}
 		</if>
-		order by createTime
+		<if test="roleId != null and roleId != ''">
+			and c.id = #{roleId,jdbcType=VARCHAR} 
+			or c.logogram = #{roleId,jdbcType=VARCHAR}
+		</if>
 	</select>
 
 	<select id="findAll" resultMap="BaseResultMap">
@@ -327,9 +347,20 @@
 		where
 		relevancyId = '0' and
 		isValidate in (0,1,2,3)
-		<if test="articleType != null">
+		<if test="articleType != null and articleType != ''">
 			and articleType = #{articleType,jdbcType=VARCHAR}
 		</if>
+		<if test="id != null and id != ''">
+			and id != #{id,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<select id="getParentDataList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cms_article
+		where
+		relevancyId = #{id}
 	</select>
 
 	<update id="deletes">

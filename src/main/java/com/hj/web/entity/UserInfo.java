@@ -1,7 +1,7 @@
 package com.hj.web.entity;
 
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
 
 public class UserInfo {
 	private String id;
@@ -36,25 +36,44 @@ public class UserInfo {
 
   private String descn;
   
-	//用户所对应角色信息
-  private Map<String,Object> userRole;
-  
   private String userRoleId;
+  
+  private String roleName;
+  
+  private String parentId;
+  
+  private List<UserInfo> userList;
 
-  public String getUserRoleId() {
+  public List<UserInfo> getUserList() {
+		return userList;
+	}
+
+	public void setUserList(List<UserInfo> userList) {
+		this.userList = userList;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
+	public String getUserRoleId() {
 		return userRoleId;
 	}
 
 	public void setUserRoleId(String userRoleId) {
 		this.userRoleId = userRoleId;
-	}
-
-	public Map<String, Object> getUserRole() {
-		return userRole;
-	}
-
-	public void setUserRole(Map<String, Object> userRole) {
-		this.userRole = userRole;
 	}
 
 	public String getId() {

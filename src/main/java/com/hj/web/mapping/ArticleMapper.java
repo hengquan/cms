@@ -25,4 +25,6 @@ public interface ArticleMapper {
 		List<Article> getDataListByRelevancyId(String id);
 
 		List<Article> getArticleParentDataList(Article article);
+
+		List<Article> getParentDataList(String id);
 }

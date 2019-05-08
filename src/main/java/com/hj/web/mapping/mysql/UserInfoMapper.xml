@@ -18,13 +18,14 @@
 		<result column="isValidate" property="isvalidate" jdbcType="INTEGER" />
 		<result column="remark" property="remark" jdbcType="VARCHAR" />
 		<result column="descn" property="descn" jdbcType="LONGVARCHAR" />
+		<result column="parentId" property="parentId" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, loginName, password, realName, age, sex, phone,
 		headimgurl, district,
 		address,
 		language, selfProjAuth, cTime,
-		isValidate, remark,descn
+		isValidate, remark,descn,parentId
 	</sql>
 	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
@@ -88,6 +89,9 @@
 			<if test="descn != null">
 				descn,
 			</if>
+			<if test="parentId != null">
+				parentId,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -137,6 +141,9 @@
 			</if>
 			<if test="descn != null">
 				#{descn,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -188,6 +195,9 @@
 			<if test="descn != null">
 				descn = #{descn,jdbcType=LONGVARCHAR},
 			</if>
+			<if test="parentId != null">
+				parentId = #{parentId,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
@@ -202,36 +212,53 @@
 	<!-- 按条件查找所有的用户分页 -->
 	<select id="getDataList" resultMap="BaseResultMap"
 		parameterType="map">
-		select * from plat_User where 1 = 1
+		SELECT
+		a.*,
+		c.role_name roleName
+		FROM
+		plat_user a
+		JOIN cms_userrole b ON
+		a.id = b.userId
+		JOIN sys_role c ON b.roleId = c.id
+		WHERE
+		a.isValidate=1
 		<if test="userName != null and userName != '' ">
-			and realName LIKE CONCAT(CONCAT('%', #{userName}),'%')
-			or phone LIKE
-			CONCAT(CONCAT('%', #{userName}),'%')
+			and instr(a.realName ,#{userName})
+			or instr(a.phone
+			,#{userName})
 		</if>
-		<if test="state != null and state != -1 ">
-			and isValidate = #{state}
+		<if test="parentId != null and parentId != '' ">
+			and a.parentId = #{parentId}
 		</if>
-		<if test="state == null or state == -1 ">
-			and (isValidate = 1 or isValidate = 0)
+		<if test="parentId == null or parentId == '' ">
+			and a.parentId = '1'
 		</if>
-		and realName is not null
-		and phone is not null
+		<if test="roleId != null and roleId != '' ">
+			and c.id = #{roleId}
+		</if>
 		limit #{page},#{pageSize}
 	</select>
 
 	<select id="getDataListCount" resultType="int" parameterType="map">
-		select count(1) from plat_User where 1 = 1
+		SELECT
+		count(1)
+		FROM
+		plat_user a
+		JOIN cms_userrole b ON a.id = b.userId
+		JOIN sys_role c ON b.roleId = c.id
+		WHERE
+		a.isValidate=1
 		<if test="userName != null and userName != '' ">
-			and realName LIKE CONCAT(CONCAT('%', #{userName}),'%')
-			or phone LIKE
-			CONCAT(CONCAT('%', #{userName}),'%')
+			and instr(a.realName ,#{userName})
+			or instr(a.phone
+			,#{userName})
 		</if>
-		<if test="state != null and state != -1 ">
-			and isValidate = #{state}
+		<if test="parentId != null and parentId != '' ">
+			and a.parentId = #{parentId}
 		</if>
-		and realName is not null
-		and phone is not null
-		and isValidate = 1
+		<if test="roleId != null and roleId != '' ">
+			and c.id = #{roleId}
+		</if>
 	</select>
 
 	<!-- 根据登入帐号查询信息 -->
@@ -247,6 +274,20 @@
 		select
 		<include refid="Base_Column_List" />
 		from plat_User
+	</select>
+
+	<select id="getParentId" resultMap="BaseResultMap">
+		SELECT
+		a.*,
+		c.role_name
+		roleName
+		FROM
+		plat_user a
+		JOIN cms_userrole b ON a.id = b.userId
+		JOIN
+		sys_role c ON b.roleId = c.id
+		WHERE parentId = #{parentId} and
+		a.isValidate=1
 	</select>
 
 	<update id="deletes" parameterType="java.lang.String">

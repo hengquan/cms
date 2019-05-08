@@ -30,8 +30,8 @@
 							<header class="panel-heading">文章列表</header>
 							<form action="${appRoot}/article/getDataList" method="post"
 								id="selectCheckMessage">
-								<input type="hidden" name="itemId" value="${itemId }"> 
-								<input type="hidden" name="positionId" value="${positionId }">
+								<input type="hidden" name="itemId" value="${itemId }"> <input
+									type="hidden" name="positionId" value="${positionId }">
 								<!-- 根据用户昵称查询 -->
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
@@ -45,6 +45,12 @@
 									</span>
 								</div>
 								<div
+									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;"
+									id="thisRole">
+									<select name="roleId" id="roleId" class="btn"
+										style="border: 1px solid #ddd" onchange="selectDataList()"></select>
+								</div>
+								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<a href="javascript:doRefresh();" class="btn mini btn-white"><i
 										class="icon-refresh"></i></a>
@@ -52,7 +58,7 @@
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<a
-										href="javascript:doAdd('${articleType }','${channelType }');"
+										href="javascript:doAdd('${articleType }','${channelType }','${roleId }','');"
 										class="btn mini btn-white"><i class="icon-plus"></i></a>
 								</div>
 								<div
@@ -73,8 +79,10 @@
 											value="" /></th>
 										<th class="hidden-phone">封面图</th>
 										<th class="hidden-phone">标题</th>
+										<th class="hidden-phone">站点</th>
 										<th class="hidden-phone">频道</th>
 										<th class="hidden-phone">语言</th>
+										<th class="hidden-phone">排序</th>
 										<th class="hidden-phone">作者</th>
 										<th class="hidden-phone">状态</th>
 										<th class="hidden-phone">浏览量</th>
@@ -97,8 +105,14 @@
 													</c:otherwise>
 												</c:choose></td>
 											<td class="hidden-phone">${u.articleName}</td>
+											<td class="hidden-phone">${u.roleName}</td>
 											<td class="hidden-phone">${u.setArticleTypeName}</td>
 											<td class="hidden-phone">${u.language}</td>
+											<td class="hidden-phone"><input type="number"
+												class="btn"
+												style="width: 100px; border: 1px solid #ddd; text-align: left;"
+												value="${u.sort }"
+												wzid="${u.id }" articleType="${u.articleType }" onchange="updateSort(this)"></td>
 											<td class="hidden-phone">${u.userName}</td>
 											<td class="hidden-phone"><c:if
 													test="${u.isValidate == 0}">草稿</c:if> <c:if
@@ -111,11 +125,14 @@
 													value="${u.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 											<td class="hidden-phone">
 												<button type="button"
-													onclick="edit('${u.id}','${u.articleType }','${channelType }')"
+													onclick="edit('${u.id}','${u.articleType }','${channelType }','${u.roleId }')"
 													class="btn btn-send">修改</button>
 												<button type="button"
-													onclick="see('${u.id}','${u.articleType }','${channelType }')"
+													onclick="see('${u.id}','${u.articleType }','${channelType }','${u.roleId }')"
 													class="btn btn-send">查看</button>
+												<button type="button"
+													onclick="doAdd('${articleType }','${channelType }','${roleId }','${u.id }');"
+													class="btn btn-send">添加相关文章</button>
 											</td>
 										</tr>
 									</c:forEach>
@@ -200,11 +217,12 @@
 
 	<form action="${appRoot}/article/del" method="post" id="deleForm"
 		name="deleForm">
-		<input type="hidden" name="itemId" value="${itemId }"> 
-    <input type="hidden" name="positionId" value="${positionId }">
-		<input type="hidden" name="boxeditId" id="boxeditId"> 
-		<input type="hidden" name="articleType" id="articleType" value="${articleType }"> 
-		<input type="hidden" name="channelType" id="channelType" value="${channelType }">
+		<input type="hidden" name="itemId" value="${itemId }"> <input
+			type="hidden" name="positionId" value="${positionId }"> <input
+			type="hidden" name="boxeditId" id="boxeditId"> <input
+			type="hidden" name="articleType" id="articleType"
+			value="${articleType }"> <input type="hidden"
+			name="channelType" id="channelType" value="${channelType }">
 	</form>
 
 	<form action="${appRoot}/user/setExpert" method="post" id="checkExpert"
@@ -236,26 +254,27 @@
 		}
 
 		//添加文章
-		function doAdd(articleType, channelType) {
+		function doAdd(articleType, channelType, roleId, articleId) {
 			window.location.href = "${appRoot}/article/addPage?articleType="
 					+ articleType + "&channelType=" + channelType + "&itemId="
-					+ '${itemId}' + "&positionId=" + '${positionId}';
+					+ '${itemId}' + "&positionId=" + '${positionId}'
+					+ "&roleId=" + roleId + "&articleId=" + articleId;
 		}
 
 		//修改文章
-		function edit(id, articleType, channelType) {
+		function edit(id, articleType, channelType, roleId) {
 			window.location.href = "${appRoot}/article/editPage?id=" + id
 					+ "&articleType=" + articleType + "&channelType="
 					+ channelType + "&itemId=" + '${itemId}' + "&positionId="
-					+ '${positionId}';
+					+ '${positionId}' + "&roleId=" + roleId;
 		}
-		
+
 		//查看文章
-		function see(id, articleType, channelType) {
+		function see(id, articleType, channelType, roleId) {
 			window.location.href = "${appRoot}/article/editPage?id=" + id
 					+ "&articleType=" + articleType + "&channelType="
 					+ channelType + "&itemId=" + '${itemId}' + "&positionId="
-					+ '${positionId}'+'&type=see';
+					+ '${positionId}' + '&type=see' + "&roleId=" + roleId;
 		}
 
 		//添加提交
@@ -276,6 +295,11 @@
 			$("#sample_1_length .js-add").hide();
 			$("#sample_1_length .js-ref").hide();
 			$("#sample_1_length .js-del").hide();
+			addUserRole();
+			//隐藏一些东西
+			if ('${role.logogram }' != '0') {
+				$("#thisRole").hide();
+			}
 		});
 
 		function doRefresh() {
@@ -318,8 +342,46 @@
 		function Delete() {
 			$("#deleForm").submit();
 		}
+
+		function addUserRole() {
+			$.ajax({
+				type : 'post',
+				data : "",
+				url : '${appRoot}/role/getAllList',
+				dataType : 'json',
+				success : function(data) {
+					if (data.msg == 0) {
+						var html = '<option value="">全部站点</option>';
+						var roleList = data.roleList;
+						for (var i = 0; i < roleList.length; i++) {
+							if (roleList[i].id == '${roleId}') {
+								html += '<option value="'+ roleList[i].id +'"  selected>'
+										+ roleList[i].roleName
+										+ '</option>'
+							} else {
+								html += '<option value="'+ roleList[i].id +'">'
+										+ roleList[i].roleName
+										+ '</option>'
+							}
+						}
+					}
+					$("#roleId").html(html);
+				}
+			});
+		}
+
+		function updateSort(obj) {
+			var obj = $(obj);
+			var id = obj.attr("wzid");
+			var articleType = obj.attr("articleType");
+			var sort = obj.val();
+			var channelType = '${channelType}';
+			window.location.href = "${appRoot }/article/save?articleType="
+					+ articleType + "&channelType=" + channelType + "&itemId="
+					+ '${itemId}' + "&positionId=" + '${positionId}' + "&id="
+					+ id + "&sort=" + sort;
+		}
 	</script>
-	<input type="hidden" value="" id="adminId" />
 </body>
 </html>
 

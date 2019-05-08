@@ -73,9 +73,10 @@ public class SysRoleController extends ControllerBase {
 	 * 
 	 * @param model
 	 * @return
+	 * @throws Exception
 	 */
 	@RequestMapping("/list")
-	public String list(ModelMap model) {
+	public String list(ModelMap model) throws Exception {
 		String pageUrl = "role/list";
 		List<SysRole> roleList = new ArrayList<SysRole>();
 		pageUrl = super.userIRoleItem(model, pageUrl);
@@ -84,8 +85,9 @@ public class SysRoleController extends ControllerBase {
 			String logogram = role.getLogogram();
 			String id = role.getId();
 			if (StringUtils.isNotEmpty(logogram) && logogram.equals("0")) {
-				roleList = sysRoleDao.findParentList();
+				roleList = sysRoleDao.findMeAndParentList();
 			} else {
+				role = super.getParentRoleData(role);
 				roleList = sysRoleDao.findParentById(id);
 			}
 			if (roleList != null && roleList.size() > 0) {
@@ -201,16 +203,36 @@ public class SysRoleController extends ControllerBase {
 		return "redirect:/role/list";
 	}
 
+	/**
+	 * type类型1-获取顶级权限下所有的权限列表不包含自己,否则获取顶级数据自己的数据
+	 * 
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/getAllList")
 	@ResponseBody
-	public String getAllList(Model model) {
+	public String getAllList(Model model) throws Exception {
+		String type = getTrimParameter("type");
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<SysRole> roleList = sysRoleDao.findAll();
-		if (roleList != null && roleList.size() > 0) {
-			map.put("roleList", roleList);
-			map.put("msg", "0");
-		} else {
-			map.put("msg", "1");
+		List<SysRole> roleList = new ArrayList<SysRole>();
+		SysRole role = super.getUserRole();
+		if (role != null) {
+			String logogram = role.getLogogram();
+			if (StringUtils.isNotEmpty(logogram) && logogram.equals("0")) {
+				roleList = sysRoleDao.findParentList();
+			} else {
+				if (StringUtils.isNotEmpty(type) && type.equals("1")) {
+					roleList = sysRoleDao.findParentById(role.getId());
+				} else {
+					role = super.getParentRoleData(role);
+					roleList.add(role);
+				}
+			}
+			if (roleList != null && roleList.size() > 0) {
+				map.put("roleList", roleList);
+				map.put("msg", "0");
+			}
 		}
 		return JsonUtils.map2json(map);
 	}

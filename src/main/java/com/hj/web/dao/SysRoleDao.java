@@ -136,6 +136,11 @@ public class SysRoleDao {
 	}
 
 	public List<SysRole> findParentList() {
+		String sql = "select * from sys_role where logogram in ('1')";
+		return this.jdbcTemplate.query(sql, new SysRoleMapper());
+	}
+
+	public List<SysRole> findMeAndParentList() {
 		String sql = "select * from sys_role where logogram in ('0','1')";
 		return this.jdbcTemplate.query(sql, new SysRoleMapper());
 	}

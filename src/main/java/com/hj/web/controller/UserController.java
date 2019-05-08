@@ -116,11 +116,23 @@ public class UserController extends ControllerBase {
 		// 纪录总数
 		Integer listMessgeCount = 0;
 		Map<String, Object> map = new HashMap<String, Object>();
-		String state = getTrimParameter("selectState");
 		String userName = getTrimParameter("userName");
-		state = "1";
-		map.put("state", state);
+		String roleId = getTrimParameter("roleId");
+		String userId = "";
 		map.put("userName", userName);
+		map.put("roleId", roleId);
+		// 获取用户顶级上司数据
+		UserInfo userData = super.getUserInfo();
+		if (userData != null) {
+			String parentId = userData.getParentId();
+			if (parentId.equals("0")) {
+				map.put("parentId", "");
+			} else {
+				userData = super.getParentUserData(userData);
+				userId = userData.getId();
+				map.put("parentId", userId);
+			}
+		}
 		// 存页面起始位置信息
 		pageService.getPageLocation(page, map);
 		try {
@@ -130,18 +142,23 @@ public class UserController extends ControllerBase {
 			for (UserInfo userinfo : selectList) {
 				// 处理图片
 				userinfo = urlManage(userinfo);
-				//
-				String userId = userinfo.getId();
-				// 用户所对应的角色
-				Map<String, Object> userRole = userRoleService.findByUserId(userId);
-				userinfo.setUserRole(userRole);
+				// 处理子级
+				String parentId = userinfo.getId();
+				List<UserInfo> userList = userInfoService.getParentId(parentId);
+				if (userList != null && userList.size() > 0) {
+					for (UserInfo user : userList) {
+						// 处理图片
+						user = urlManage(user);
+					}
+					userinfo.setUserList(userList);
+				}
 			}
 			listMessgeCount = userInfoService.getDataListCount(map);
 			// 获取页面信息
 			pageService.getPageData(listMessgeCount, model, page);
 			model.put("userName", userName);
 			model.addAttribute("userList", selectList);
-			model.put("state", state);
+			model.put("roleId", roleId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -161,6 +178,16 @@ public class UserController extends ControllerBase {
 					String fileName = mapData.get("fileName") == null ? "" : mapData.get("fileName").toString();
 					if (StringUtils.isNotEmpty(fileName))
 						userInfo.setHeadimgurl(fileName);
+				}
+			}
+			UserInfo userData = super.getUserInfo();
+			if (userData != null) {
+				String parentId = userData.getParentId();
+				if (StringUtils.isNotEmpty(parentId)) {
+					if (parentId.equals("0"))
+						userInfo.setParentId("1");
+					else
+						userInfo.setParentId(userData.getId());
 				}
 			}
 			userInfoService.save(userInfo);

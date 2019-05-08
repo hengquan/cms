@@ -24,8 +24,10 @@ import com.hj.utils.HashSessions;
 import com.hj.web.dao.SysItemRoleDao;
 import com.hj.web.entity.SysItemRole;
 import com.hj.web.entity.SysRole;
+import com.hj.web.entity.UserInfo;
 import com.hj.web.entity.UserRole;
 import com.hj.web.services.SysRoleService;
+import com.hj.web.services.UserInfoService;
 import com.hj.web.services.UserRoleService;
 
 public class ControllerBase {
@@ -38,6 +40,8 @@ public class ControllerBase {
 	UserRoleService sysUserRoleService;
 	@Autowired
 	SysRoleService roleService;
+	@Autowired
+	UserInfoService userInfoService;
 
 	/**
 	 * @description 参数集合
@@ -295,6 +299,44 @@ public class ControllerBase {
 			String roleid = userRole.getRoleid();
 			if (StringUtils.isNotEmpty(roleid)) {
 				role = roleService.findById(roleid);
+			}
+		}
+		return role;
+	}
+
+	// 获取用户信息
+	public UserInfo getUserInfo() throws Exception {
+		UserInfo userInfo = new UserInfo();
+		Object obj = request.getSession().getAttribute("adminSession");
+		if (obj != null) {
+			userInfo = (UserInfo) obj;
+		}
+		return userInfo;
+	}
+
+	// 获取用户顶级上司用户数据
+	public UserInfo getParentUserData(UserInfo userInfo) throws Exception {
+		if (userInfo != null) {
+			String parentId = userInfo.getParentId();
+			if (parentId.equals("1")) {
+				return userInfo;
+			} else {
+				userInfo = userInfoService.get(parentId);
+				getParentUserData(userInfo);
+			}
+		}
+		return userInfo;
+	}
+
+	// 获取用户顶级上司用户数据
+	public SysRole getParentRoleData(SysRole role) throws Exception {
+		if (role != null) {
+			String parentId = role.getLogogram();
+			if (parentId.equals("1")) {
+				return role;
+			} else {
+				role = roleService.findById(parentId);
+				getParentRoleData(role);
 			}
 		}
 		return role;

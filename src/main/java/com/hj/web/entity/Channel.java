@@ -12,12 +12,32 @@ public class Channel {
     private Integer sort;
 
     private String descn;
+    
+    private String roleId;
+    
+    private String roleName;
 
     private Integer isvalidate;
 
     private Date ctime;
     
     private Integer channeltype;
+
+		public String getRoleName() {
+			return roleName;
+		}
+
+		public void setRoleName(String roleName) {
+			this.roleName = roleName;
+		}
+
+		public String getRoleId() {
+			return roleId;
+		}
+
+		public void setRoleId(String roleId) {
+			this.roleId = roleId;
+		}
 
 		public Integer getChanneltype() {
 			return channeltype;

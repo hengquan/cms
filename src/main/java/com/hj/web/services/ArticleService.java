@@ -33,4 +33,6 @@ public interface ArticleService {
 	public List<Article> getDataListByRelevancyId(String id);
 
 	public List<Article> getArticleParentDataList(Article article);
+
+	public List<Article> getParentDataList(String id);
 }

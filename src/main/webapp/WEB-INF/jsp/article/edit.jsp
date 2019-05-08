@@ -42,7 +42,7 @@
 								<c:forEach items="${dataList}" var="u" varStatus="s">
 									<li
 										<c:if test="${u.language == language }">class="active"</c:if>><a
-										href="#" onclick="selLanguage('${u.id}','${u.language }')">${u.language }</a></li>
+										href="#" onclick="selLanguage('${u.id}','${u.language }','${roleId }')">${u.language }</a></li>
 								</c:forEach>
 							</ul>
 						</div>
@@ -55,6 +55,11 @@
 								value="${article.isValidate }"> <input type="hidden"
 								name="itemId" value="${itemId }"> <input type="hidden"
 								name="positionId" value="${positionId }">
+							<div style="margin-top: 16px; margin-left: 20px;" class="row">
+								<label class="btn col-lg-1">选择站点：</label> <select
+									class="btn col-lg-10" style="border: 1px solid #ddd;"
+									name="roleId" id="roleId" onchange="selRole(this)"></select>
+							</div>
 							<div style="margin-top: 16px; margin-left: 20px;" class="row">
 								<label class="btn col-lg-1">选择频道：</label> <select
 									class="btn col-lg-10" style="border: 1px solid #ddd;"
@@ -130,6 +135,8 @@
 								<button class="btn btn-send" onclick="toSubmit(0)">保存为草稿</button>
 								<button class="btn btn-send" onclick="toSubmit(2)">保存并发布</button>
 								<button class="btn btn-send"
+									onclick="doArticleList('${articleType}','${channelType }')">返回文章列表</button>
+								<button class="btn btn-send"
 									onclick="javascript :history.back(-1);">返回</button>
 							</div>
 						</nav>
@@ -177,42 +184,42 @@
 
 		$(function() {
 			var ue = UE.getEditor('article');
-			$.ajax({
-				type : 'post',
-				data : {
-					"channelType" : channelType
-				},
-				url : '${appRoot}/channel/getDataByType',
-				dataType : 'json',
-				success : function(data) {
-					if (data.msg == 0) {
-						var html;
-						var channelList = data.dataList;
-						for (var i = 0; i < channelList.length; i++) {
-							if (channelList[i].id == articleType) {
-								html += '<option value="'+ channelList[i].id +'" selected>'
-										+ channelList[i].channelname
-										+ '</option>'
-							} else {
-								html += '<option value="'+ channelList[i].id +'">'
-										+ channelList[i].channelname
-										+ '</option>'
-							}
-						}
-						$("#articleType").html(html);
-					} else {
-						windowShow("获取频道列表失败", "");
-					}
-				}
-			});
 			//根据状态判断是否要显示底部按钮
 			if('${type}'){
 				$(".clearfix").hide();
 			}
 			//获取该频道下所有顶级文章列表
-			getArticleParentDataList();
+      getArticleParentDataList();
+			//获取所有一级站点
+			addUserRole();
+			if('${roleId}'){
+				selChannel('${roleId}');
+			}
 		});
 
+    function addUserRole(){
+       $.ajax({
+         type : 'post',
+         data : "",
+         url : '${appRoot}/role/getAllList',
+         dataType : 'json',
+         success : function(data) {
+           if (data.msg == 0) {
+             var html = '<option value="">--请选择站点--</option>';
+             var roleList = data.roleList;
+             for(var i=0;i<roleList.length;i++){
+               if(roleList[i].id == '${roleId}'){
+                 html += '<option value="'+ roleList[i].id +'"  selected>'+ roleList[i].roleName +'</option>'
+               }else{
+                 html += '<option value="'+ roleList[i].id +'">'+ roleList[i].roleName +'</option>'
+               }
+             }
+           } 
+           $("#roleId").html(html);
+         }
+       });
+     }
+		
 		function doRefresh() {
 			location.reload();
 		}
@@ -257,17 +264,18 @@
 		}
 
 		//选择不同语言的文章
-		function selLanguage(id, language) {
+		function selLanguage(id, language,roleId) {
 			window.location.href = "${appRoot}/article/editPage?id=" + id
 					+ "&language=" + language + "&articleType=" + articleType
 					+ "&channelType=" + channelType + "&itemId=" + '${itemId}'
-					+ "&positionId=" + '${positionId}' + "&type=type";
+					+ "&positionId=" + '${positionId}' + "&type=type" + "&roleId=" + roleId;
 		}
 		
 		//获取该频道下所有顶级文章列表
     function getArticleParentDataList(){
 			var data = {
-				"articleType" : articleType
+				"articleType" : articleType,
+				"id" : $("#articleId").val()
 			};
     	$.ajax({
         type : 'post',
@@ -294,6 +302,55 @@
         }
       });
 		}
+		
+		function selRole(obj){
+			$("#articleType").html();
+			var obj = $(obj);
+			var roleId = obj.val();
+			//获取该频道下所有顶级文章列表
+      selChannel(roleId);
+		}
+		
+		function selChannel(roleId){
+			$.ajax({
+        type : 'post',
+        data : {
+          "channelType" : channelType,
+          "roleId" : roleId
+        },
+        url : '${appRoot}/channel/getDataByType',
+        dataType : 'json',
+        success : function(data) {
+          if (data.msg == 0) {
+            var html;
+            var channelList = data.dataList;
+            for (var i = 0; i < channelList.length; i++) {
+              if (channelList[i].id == articleType) {
+                html += '<option value="'+ channelList[i].id +'" selected>'
+                    + channelList[i].channelname
+                    + '</option>'
+              } else {
+                html += '<option value="'+ channelList[i].id +'">'
+                    + channelList[i].channelname
+                    + '</option>'
+              }
+            }
+            $("#articleType").html(html);
+          } else {
+            windowShow("获取频道列表失败", "");
+          }
+        }
+      });
+		}
+		
+    function doArticleList(articleType, channelType) {
+       window.location.href = "${appRoot }/article/getDataList?articleType="
+           + articleType
+           + "&channelType="
+           + channelType
+           + "&itemId="
+           + '${itemId}' + "&positionId=" + '${positionId}';
+     }
 	</script>
 </body>
 </html>

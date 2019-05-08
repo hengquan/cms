@@ -17,9 +17,11 @@ import com.hj.utils.Configurations;
 import com.hj.web.entity.Article;
 import com.hj.web.entity.Channel;
 import com.hj.web.entity.UserInfo;
+import com.hj.web.entity.UserRole;
 import com.hj.web.services.ArticleService;
 import com.hj.web.services.ChannelService;
 import com.hj.web.services.PageService;
+import com.hj.web.services.UserRoleService;
 
 //文章管理
 @Controller
@@ -31,10 +33,12 @@ public class ArticleController extends ControllerBase {
 	ChannelService channelService;
 	@Autowired
 	PageService pageService;
+	@Autowired
+	UserRoleService userRoleService;
 
 	// 文章列表
 	@RequestMapping(value = "/article/getDataList")
-	public String getDataList(PageService page, ModelMap model) {
+	public String getDataList(PageService page, ModelMap model) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String pageUrl = "article/list";
 		String keyword = getTrimParameter("keyword");
@@ -42,6 +46,28 @@ public class ArticleController extends ControllerBase {
 		String articleType = getTrimParameter("articleType");
 		// 渠道名称
 		String channelType = getTrimParameter("channelType");
+		// 站点ID
+		String roleId = getTrimParameter("roleId");
+		// 判断当前用户是啥级别的
+		UserInfo userInfo = super.getUserInfo();
+		if (userInfo != null) {
+			String parentId = userInfo.getParentId();
+			if (StringUtils.isNotEmpty(parentId)) {
+				if (!parentId.equals("0")) {
+					userInfo = super.getParentUserData(userInfo);
+					if (userInfo != null) {
+						String userId = userInfo.getId();
+						if (StringUtils.isNotEmpty(userId)) {
+							UserRole userRole = userRoleService.selectByUserId(userId);
+							if (userRole != null) {
+								roleId = userRole.getRoleid();
+							}
+						}
+					}
+				}
+			}
+		}
+		map.put("roleId", roleId);
 		try {
 			// 存页面起始位置信息
 			pageService.getPageLocation(page, map);
@@ -78,6 +104,7 @@ public class ArticleController extends ControllerBase {
 			model.addAttribute("dataList", articleList);
 			model.addAttribute("articleType", articleType);
 			model.addAttribute("channelType", channelType);
+			model.addAttribute("roleId", roleId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -90,10 +117,17 @@ public class ArticleController extends ControllerBase {
 	public String addPage(ModelMap model) {
 		String articleType = getTrimParameter("articleType");
 		String channelType = getTrimParameter("channelType");
+		String roleId = getTrimParameter("roleId");
 		String pageUrl = "article/edit";
 		super.userIRoleItem(model, pageUrl);
 		model.addAttribute("articleType", articleType);
 		model.addAttribute("channelType", channelType);
+		model.addAttribute("roleId", roleId);
+		// 获取相关文章
+		Article article = new Article();
+		String articleId = getTrimParameter("articleId");
+		article.setRelevancyId(articleId);
+		model.addAttribute("article", article);
 		return pageUrl;
 	}
 
@@ -101,6 +135,7 @@ public class ArticleController extends ControllerBase {
 	@RequestMapping(value = "/article/editPage")
 	public String editPage(ModelMap model, Article article) {
 		String language = getTrimParameter("language");
+		String roleId = getTrimParameter("roleId");
 		String articleType = "";
 		String id = article.getId();
 		if (StringUtils.isNotEmpty(id))
@@ -113,11 +148,12 @@ public class ArticleController extends ControllerBase {
 		urlManage(article);
 		model.addAttribute("articleType", articleType);
 		model.addAttribute("article", article);
+		model.addAttribute("roleId", roleId);
 		model.addAttribute("editOperation", "editOperation");
 		model.addAttribute("language", language);
 		String pageUrl = "article/edit";
 		super.userIRoleItem(model, pageUrl);
-		//判断状态是查看还是修改
+		// 判断状态是查看还是修改
 		String type = getTrimParameter("type");
 		model.addAttribute("type", type);
 		// 获取所有相关的文章
@@ -209,13 +245,15 @@ public class ArticleController extends ControllerBase {
 	@ResponseBody
 	private Map<String, Object> getArticleParentDataList(Article article) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		List<Article> articleList = articleService.getArticleParentDataList(article);
-		if (articleList != null && articleList.size() > 0) {
-			result.put("dataList", articleList);
-			result.put("msg", "0");
-		} else {
-			result.put("msg", "1");
+		// 查看该文章下面是否还有其他相关文章如果有的话不允许其成为其他的下级
+		String id = article.getId();
+		List<Article> parentDataList = articleService.getParentDataList(id);
+		List<Article> articleList = new ArrayList<Article>();
+		if (parentDataList == null || parentDataList.size() <= 0) {
+			articleList = articleService.getArticleParentDataList(article);
 		}
+		result.put("dataList", articleList);
+		result.put("msg", "0");
 		return result;
 	}
 }

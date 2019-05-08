@@ -28,4 +28,6 @@ public interface UserInfoService {
 	public Integer getDataListCount(Map<String, Object> map);
 
 	public void deletes(String boxeditId);
+
+	public List<UserInfo> getParentId(String parentId);
 }

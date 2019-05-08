@@ -50,20 +50,20 @@ public class ArticleServiceImpl implements ArticleService {
 	public Boolean save(Article entity, UserInfo userInfo) throws Exception {
 		Boolean result = false;
 		String id = entity.getId();
-		if (userInfo != null) {
-			String userId = userInfo.getId();
-			String userName = userInfo.getRealname();
-			if (StringUtils.isNotEmpty(userId))
-				entity.setUserId(userId);
-			if (StringUtils.isNotEmpty(userName))
-				entity.setUserName(userName);
-		}
 		if (StringUtils.isNotEmpty(id)) {
 			entity.setUpdateTime(new Date());
 			result = dao.update(entity) > 0 ? true : false;
 		} else {
 			entity.setId(keyGen.getUUIDKey());
 			entity.setUpdateTime(new Date());
+			if (userInfo != null) {
+				String userId = userInfo.getId();
+				String userName = userInfo.getRealname();
+				if (StringUtils.isNotEmpty(userId))
+					entity.setUserId(userId);
+				if (StringUtils.isNotEmpty(userName))
+					entity.setUserName(userName);
+			}
 			result = dao.insert(entity) > 0 ? true : false;
 		}
 		return result;
@@ -107,6 +107,11 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public List<Article> getArticleParentDataList(Article article) {
 		return dao.getArticleParentDataList(article);
+	}
+
+	@Override
+	public List<Article> getParentDataList(String id) {
+		return dao.getParentDataList(id);
 	}
 
 }

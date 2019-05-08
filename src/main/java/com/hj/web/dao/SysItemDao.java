@@ -15,21 +15,21 @@ import org.springframework.stereotype.Repository;
 import com.hj.web.entity.SysItem;
 
 /**
-* @author denghemei
-* @date 创建时间：2016年6月17日 上午11:57:19
-* @version 1.0 
-* @parameter  
-* @since  
-* @return  
-*/
+ * @author denghemei
+ * @date 创建时间：2016年6月17日 上午11:57:19
+ * @version 1.0
+ * @parameter
+ * @since
+ * @return
+ */
 
 @Repository
 public class SysItemDao {
-	
+
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
-	private final class SysItemMapper implements RowMapper<SysItem>{
+	private final class SysItemMapper implements RowMapper<SysItem> {
 
 		@Override
 		public SysItem mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -47,52 +47,56 @@ public class SysItemDao {
 			s.setRemark(rs.getString("remark"));
 			return s;
 		}
-		
+
 	}
-	
+
 	/**
 	 * 查询所有菜单
 	 */
-	public List<SysItem> findAll(){
-		String sql = "select * from sys_item order by seq_num";//CAST(seq_num AS int) ASC
+	public List<SysItem> findAll() {
+		String sql = "select * from sys_item order by seq_num";// CAST(seq_num AS
+																														// int) ASC
 		return this.jdbcTemplate.query(sql, new SysItemMapper());
 	}
-	
-	public List<SysItem> findAllByParent(String parentId){
-		String sql = "select * from sys_item where parent_id='"+parentId+"' and visible_flag=1 order by seq_num asc" ;
+
+	public List<SysItem> findAllByRoleId(String parentId) {
+		String sql = "SELECT a.* FROM sys_item a JOIN sys_item_role b ON b.item_id = a.id JOIN sys_role c ON b.role_id = c.id WHERE a.visible_flag = 1 AND b.role_id = '"
+				+ parentId + "' ORDER BY a.seq_num ASC";
 		return this.jdbcTemplate.query(sql, new SysItemMapper());
 	}
-	
-	public List<SysItem> findAllByPa(String parentId){
-		String sql = "select * from sys_item where parent_id='"+parentId+"' order by seq_num ASC" ;
+
+	public List<SysItem> findAllByPa(String parentId) {
+		String sql = "select * from sys_item where parent_id='" + parentId + "' order by seq_num ASC";
 		return this.jdbcTemplate.query(sql, new SysItemMapper());
 	}
-	
+
 	/**
 	 * 根据菜单名称查询是否存在
+	 * 
 	 * @author deng.hemei
-	 * @description 
-	 * @return 
+	 * @description
+	 * @return
 	 * @updateDate 2016年7月13日
 	 */
-	public SysItem selectByItemName(String itemName){
+	public SysItem selectByItemName(String itemName) {
 		String sql = "select * from sys_item where item_name=?";
 		try {
-			return this.jdbcTemplate.queryForObject(sql, new SysItemMapper(),itemName);
+			return this.jdbcTemplate.queryForObject(sql, new SysItemMapper(), itemName);
 		} catch (DataAccessException e) {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * 添加菜单
+	 * 
 	 * @param sysItem
 	 */
-	 
-	public void add(final SysItem sysItem){
+
+	public void add(final SysItem sysItem) {
 		String sql = "insert into sys_item(id,item_name,item_url,parent_id,is_leaf,leaf_level,is_grade,icon_img,visible_flag,seq_num,remark) values(?,?,?,?,?,?,?,?,?,?,?)";
-		jdbcTemplate.update(sql,new PreparedStatementSetter() {
-			
+		jdbcTemplate.update(sql, new PreparedStatementSetter() {
+
 			@Override
 			public void setValues(PreparedStatement ps) throws SQLException {
 				ps.setString(1, sysItem.getId());
@@ -109,34 +113,36 @@ public class SysItemDao {
 			}
 		});
 	}
-	
+
 	/**
 	 * 根据id删除菜单
+	 * 
 	 * @param id
 	 */
-	public void del(String id){
+	public void del(String id) {
 		String sql = "delete from sys_item where id=?";
-		this.jdbcTemplate.update(sql,id);
+		this.jdbcTemplate.update(sql, id);
 	}
-	
+
 	/**
 	 * 根据id删除多个菜单
+	 * 
 	 * @param id
 	 */
-	public void dels(String id){
-		String sql = "delete from sys_item where id in("+id+")";
+	public void dels(String id) {
+		String sql = "delete from sys_item where id in(" + id + ")";
 		this.jdbcTemplate.update(sql);
 	}
-	
-	
+
 	/**
 	 * 修改菜单信息
+	 * 
 	 * @param sysItem
 	 */
-	public void update(final SysItem sysItem){
+	public void update(final SysItem sysItem) {
 		String sql = "update sys_item set item_name=?,item_url=?,parent_id=?,is_leaf=?,leaf_level=?,is_grade=?,icon_img=?,visible_flag=?,seq_num=?,remark=? where id=?";
-		this.jdbcTemplate.update(sql,new PreparedStatementSetter() {
-			
+		this.jdbcTemplate.update(sql, new PreparedStatementSetter() {
+
 			@Override
 			public void setValues(PreparedStatement ps) throws SQLException {
 				ps.setString(1, sysItem.getItemName());
@@ -153,14 +159,14 @@ public class SysItemDao {
 			}
 		});
 	}
-	
-	public SysItem getSysItemById(String id){
+
+	public SysItem getSysItemById(String id) {
 		String sql = "select * from sys_item where id=?";
 		try {
-			return this.jdbcTemplate.queryForObject(sql, new SysItemMapper(),id);
+			return this.jdbcTemplate.queryForObject(sql, new SysItemMapper(), id);
 		} catch (DataAccessException e) {
 			return null;
 		}
 	}
-	
+
 }

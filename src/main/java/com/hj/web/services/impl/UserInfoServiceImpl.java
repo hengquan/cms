@@ -116,4 +116,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return result;
 	}
 
+	@Override
+	public List<UserInfo> getParentId(String parentId) {
+		return userInfoMapper.getParentId(parentId);
+	}
+
 }

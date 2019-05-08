@@ -13,58 +13,7 @@
 <!-- Custom styles for this template -->
 <link href="${appRoot}/static/css/style.css" rel="stylesheet">
 <link href="${appRoot}/static/css/style-responsive.css" rel="stylesheet" />
-
 <title>${appTitle}</title>
-
-<style>
-.pic_upload ul {
-	list-style: none;
-	overflow: hidden;
-	padding: 0;
-}
-
-.pic_upload ul li {
-	float: left;
-	line-height: 70px;
-	position: relative;
-	margin-right: 10px;
-}
-
-.pic_upload ul li i {
-	font-size: 20px;
-	color: #9D9D9D;
-	border: 1px solid #9d9d9d;
-	border-radius: 5px;
-	width: 120px;
-	height: 70px;
-	text-align: center;
-	line-height: 70px;
-	cursor: pointer;
-	position: relative;
-	z-index: 0;
-}
-
-.pic_upload ul li input[type=file] {
-	width: 120px;
-	height: 70px;
-	font-size: 100px;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 2;
-	opacity: 0;
-	filter: Alpha(opacity = 0);
-}
-
-.form-group:first-child {
-	margin: 50px auto 20px;
-}
-
-.tr {
-	text-align: center
-}
-</style>
-
 </head>
 <body>
 
@@ -103,6 +52,9 @@
 										</button>
 									</span>
 								</div>
+								<div style="float: left; position: relative; margin-top: 16px; margin-left: 20px;" id="thisRole">
+                  <select name="roleId" id="roleId" class="btn" style="border:1px solid #ddd" onchange="selectDataList()"></select>
+                </div>
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<a href="javascript:doRefresh();" class="btn mini btn-white"><i
@@ -130,6 +82,7 @@
 											class="group-checkable" data-set="#sample_1 .checkboxes"
 											value="" /></th>
 										<th class="hidden-phone">频道名称</th>
+										<th class="hidden-phone">所属站点</th>
 										<th class="hidden-phone">所属渠道</th>
 										<th class="hidden-phone">所属地区</th>
 										<th class="hidden-phone">频道描述</th>
@@ -145,6 +98,7 @@
 											<td class="hidden-phone"><a href="#"
 												onclick="doArticleList('${u.id}','${channeltype }')">${u.channelname}</a>
 											</td>
+											<td class="hidden-phone">${u.roleName}</td>
 											<td class="hidden-phone">
 											   <c:if test="${u.channeltype == 0}">暂无</c:if>
 											   <c:if test="${u.channeltype == 1}">APP</c:if>
@@ -158,9 +112,9 @@
 													value="${u.ctime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 											<td class="hidden-phone">
 												<button type="button"
-													onclick="edit('${u.id}','${u.channelname}','${u.areaname}','${u.descn}')"
-													class="btn btn-send">修改频道</button> <a
-												href="javascript:doAddArticle('${u.id }','${channeltype }');"
+													onclick="edit('${u.id}','${u.channelname}','${u.areaname}','${u.descn}','${u.roleId }')"
+													class="btn btn-send thisEdit">修改频道</button> <a
+												href="javascript:doAddArticle('${u.id }','${channeltype }','${u.roleId }');"
 												class="btn btn-send">添加文章</a>
 											</td>
 										</tr>
@@ -221,16 +175,34 @@
 					<form action="${appRoot}/channel/add" method="post"
 						class="form-horizontal" enctype="multipart/form-data" role="form"
 						id="addMessage" name="itemForm">
-						<input type="hidden" name="editId1" id="editId1"> <input
-							type="hidden" name="channeltype" value="${channeltype }">
+						<input type="hidden" name="editId1" id="editId1">
 						<input type="hidden" name="itemId" value="${itemId }"> <input
 							type="hidden" name="positionId" value="${positionId }">
+						<div class="form-group">
+							<label class="col-lg-2 control-label pd-r5">所属渠道<font
+								style="color: red;"></font></label>
+							<div class="col-lg-10">
+								<select class="form-control" name="channeltype">
+								  <option value="1" <c:if test="${channeltype == 1}">selected</c:if> >APP</option>
+								  <option value="2" <c:if test="${channeltype == 2}">selected</c:if> >H5</option>
+								  <option value="3" <c:if test="${channeltype == 3}">selected</c:if> >触摸板</option>
+								  <option value="4" <c:if test="${channeltype == 4}">selected</c:if> >APP视频</option>
+								</select>
+							</div>
+						</div>
 						<div class="form-group">
 							<label class="col-lg-2 control-label pd-r5">频道名称<font
 								style="color: red;"></font></label>
 							<div class="col-lg-10">
 								<input type="text" class="form-control" id="channelname1"
 									name="channelname">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label pd-r5">所属站点<font
+								style="color: red;"></font></label>
+							<div class="col-lg-10">
+								<select id="roleId1" name="roleId" class="form-control"></select>
 							</div>
 						</div>
 						<div class="form-group">
@@ -271,16 +243,27 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="modal-title">添加频道</h4>
+					<h4 class="modal-title" id="modal-title">修改频道</h4>
 				</div>
 				<div class="modal-body">
 					<form action="${appRoot}/channel/edit" method="post"
 						class="form-horizontal" enctype="multipart/form-data" role="form"
 						id="editMessage" name="itemForm">
-						<input type="hidden" name="editId" id="editId"> <input
-							type="hidden" name="channeltype" value="${channeltype }">
+						<input type="hidden" name="editId" id="editId"> 
 						<input type="hidden" name="itemId" value="${itemId }"> <input
 							type="hidden" name="positionId" value="${positionId }">
+						<div class="form-group">
+              <label class="col-lg-2 control-label pd-r5">所属渠道<font
+                style="color: red;"></font></label>
+              <div class="col-lg-10">
+                <select class="form-control" name="channeltype">
+                  <option value="1" <c:if test="${channeltype == 1}">selected</c:if> >APP</option>
+                  <option value="2" <c:if test="${channeltype == 2}">selected</c:if> >H5</option>
+                  <option value="3" <c:if test="${channeltype == 3}">selected</c:if> >触摸板</option>
+                  <option value="4" <c:if test="${channeltype == 4}">selected</c:if> >APP视频</option>
+                </select>
+              </div>
+            </div>
 						<div class="form-group">
 							<label class="col-lg-2 control-label pd-r5">频道名称<font
 								style="color: red;"></font></label>
@@ -289,6 +272,13 @@
 									name="channelname">
 							</div>
 						</div>
+						<div class="form-group">
+              <label class="col-lg-2 control-label pd-r5">所属站点<font
+                style="color: red;"></font></label>
+              <div class="col-lg-10">
+                <select id="roleId" name="roleId" class="form-control"></select>
+              </div>
+            </div>
 						<div class="form-group">
 							<label class="col-lg-2 control-label pd-r5">所属地区<font
 								style="color: red;"></font></label>
@@ -403,14 +393,13 @@
 		}
 
 		//修改频道
-		function edit(id, channelname, areaname, descn) {
+		function edit(id, channelname, areaname, descn,roleId) {
 			$("#modal-title").val("修改频道");
 			$("#channelname").val(channelname);
 			$("#areaname").val(areaname);
 			$("#descn").val(descn);
 			$("#editId").val(id);
-			var $modal = $('#editPage');
-			$modal.modal();
+			addRolePage(roleId,2);
 		}
 
 		//添加提交
@@ -431,7 +420,38 @@
 			$("#sample_1_length .js-add").hide();
 			$("#sample_1_length .js-ref").hide();
 			$("#sample_1_length .js-del").hide();
+			//
+			addUserRole();
+			//隐藏一些东西
+			if('${role.logogram }' != '0'){
+				$("#thisRole").hide();
+				$(".thisEdit").hide();
+			}
+			
 		});
+		
+		function addUserRole(){
+      $.ajax({
+        type : 'post',
+        data : "",
+        url : '${appRoot}/role/getAllList',
+        dataType : 'json',
+        success : function(data) {
+          if (data.msg == 0) {
+            var html = '<option value="">全部站点</option>';
+            var roleList = data.roleList;
+            for(var i=0;i<roleList.length;i++){
+              if(roleList[i].id == '${roleId}'){
+                html += '<option value="'+ roleList[i].id +'"  selected>'+ roleList[i].roleName +'</option>'
+              }else{
+                html += '<option value="'+ roleList[i].id +'">'+ roleList[i].roleName +'</option>'
+              }
+            }
+          } 
+          $("#roleId").html(html);
+        }
+      });
+    }
 
 		function doRefresh() {
 			location.reload();
@@ -460,8 +480,7 @@
 
 		//添加菜单
 		function doAdd() {
-			var $modal = $('#addPage');
-			$modal.modal();
+			addRolePage('',1);
 		}
 
 		function doDelete() {
@@ -490,13 +509,48 @@
 		}
 		
 		//添加相关文章
-		function doAddArticle(articleType,channelType){
+		function doAddArticle(articleType,channelType,roleId){
 			window.location.href = "${appRoot}/article/addPage?articleType="
 		          + articleType + "&channelType=" + channelType + "&itemId="
-		          + '${itemId}' + "&positionId=" + '${positionId}';
+		          + '${itemId}' + "&positionId=" + '${positionId}' + "&roleId=" + roleId;
 		}
+		
+		//填充权限页面(type:1添加，2修改)
+    function addRolePage(roleId,type){
+      $.ajax({
+        type : 'post',
+        data : "",
+        url : '${appRoot}/role/getAllList',
+        dataType : 'json',
+        success : function(data) {
+          if (data.msg == 0) {
+            var html;
+            var roleList = data.roleList;
+            for(var i=0;i<roleList.length;i++){
+              if(roleList[i].id == roleId){
+                html += '<option value="'+ roleList[i].id +'" selected>'+ roleList[i].roleName +'</option>'
+              }else{
+                html += '<option value="'+ roleList[i].id +'">'+ roleList[i].roleName +'</option>'
+              }
+            }
+            if(type==1){
+	            $("#roleId1").html(html);
+	            var $modal = $('#addPage');
+	            $modal.modal();
+            }else{
+	            $("#editPage").find("#roleId").html(html);
+	            var $modal = $('#editPage');
+	            $modal.modal();
+            }
+          } else if(data.msg == 1){
+            windowShow("您不是该站点负责人", "");
+          }else{
+            windowShow("获取权限列表失败", "");
+          }
+        }
+      });
+    }
 	</script>
-	<input type="hidden" value="" id="adminId" />
 </body>
 </html>
 

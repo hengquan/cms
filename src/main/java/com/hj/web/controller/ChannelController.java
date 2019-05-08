@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hj.common.ControllerBase;
 import com.hj.utils.JsonUtils;
 import com.hj.web.entity.Channel;
+import com.hj.web.entity.UserInfo;
+import com.hj.web.entity.UserRole;
 import com.hj.web.services.ChannelService;
 import com.hj.web.services.PageService;
+import com.hj.web.services.UserRoleService;
 
 //频道管理
 @Controller
@@ -25,15 +28,38 @@ public class ChannelController extends ControllerBase {
 	ChannelService channelService;
 	@Autowired
 	PageService pageService;
+	@Autowired
+	UserRoleService userRoleService;
 
 	// 频道列表
 	@RequestMapping(value = "/channel/getDataList")
-	public String userList(PageService page, ModelMap model) {
+	public String userList(PageService page, ModelMap model) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String pageUrl = "channel/list";
 		String channelname = getTrimParameter("channelname");
 		// 判断所属类型
 		String channeltype = getTrimParameter("channelType");
+		String roleId = getTrimParameter("roleId");
+		// 判断当前用户是啥级别的
+		UserInfo userInfo = super.getUserInfo();
+		if (userInfo != null) {
+			String parentId = userInfo.getParentId();
+			if (StringUtils.isNotEmpty(parentId)) {
+				if (!parentId.equals("0")) {
+					userInfo = super.getParentUserData(userInfo);
+					if (userInfo != null) {
+						String userId = userInfo.getId();
+						if (StringUtils.isNotEmpty(userId)) {
+							UserRole userRole = userRoleService.selectByUserId(userId);
+							if (userRole != null) {
+								roleId = userRole.getRoleid();
+							}
+						}
+					}
+				}
+			}
+		}
+		map.put("roleId", roleId);
 		try {
 			// 存页面起始位置信息
 			pageService.getPageLocation(page, map);
@@ -55,6 +81,7 @@ public class ChannelController extends ControllerBase {
 			pageService.getPageData(listMessgeCount, model, page);
 			model.put("channelname", channelname);
 			model.put("channeltype", channeltype);
+			model.put("roleId", roleId);
 			model.addAttribute("selectList", selectList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -135,18 +162,22 @@ public class ChannelController extends ControllerBase {
 		return JsonUtils.map2json(map);
 	}
 
-	// 获取所有频道根据渠道类型
+	// 获取所有频道根据渠道类型根据相关权限
 	@RequestMapping(value = "/channel/getDataByType")
 	@ResponseBody
 	public String getDataByType() {
 		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> param = new HashMap<String, Object>();
 		String channelType = getTrimParameter("channelType");
+		String roleId = getTrimParameter("roleId");
 		int channeltype = 0;
 		try {
 			if (StringUtils.isNotEmpty(channelType)) {
 				channeltype = Integer.parseInt(channelType);
 			}
-			List<Channel> channelList = channelService.getDataByType(channeltype);
+			param.put("channeltype", channeltype);
+			param.put("roleId", roleId);
+			List<Channel> channelList = channelService.getDataByType(param);
 			if (channelList != null && channelList.size() > 0) {
 				map.put("dataList", channelList);
 				map.put("msg", "0");
