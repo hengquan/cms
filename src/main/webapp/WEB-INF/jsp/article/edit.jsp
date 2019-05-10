@@ -36,18 +36,21 @@
 				<!-- page start-->
 				<div class="col-lg-12">
 					<section class="panel">
-						<header class="panel-heading" id="articleTitle">添加文章</header>
-						<div>
+						<header class="panel-heading" id="articleTitle">编辑文章</header>
+						<div id="allLanguages">
 							<ul class="nav nav-tabs">
-								<c:forEach items="${dataList}" var="u" varStatus="s">
+								<c:forEach items="${languageList}" var="u" varStatus="s">
 									<li
-										<c:if test="${u.language == language }">class="active"</c:if>><a
-										href="#" onclick="selLanguage('${u.id}','${u.language }','${roleId }')">${u.language }</a></li>
+										<c:if test="${u.tab eq languageTab }">class="active"</c:if>>
+										<input type="hidden" class="parentIdAndlanguageTab" languageTab = "${u.tab }" parentId="${articleId }">
+										<a href="#" onclick="selLanguage('${articleId}','${u.tab }','${roleId }')">${u.name }</a></li>
 								</c:forEach>
 							</ul>
 						</div>
 						<form action="${appRoot}/article/save" method="post"
 							id="articleForm">
+							<input type="hidden" name="language" id="language" value="${article.language }">
+							<input type="hidden" name="relevancyId" id="relevancyId" value="${article.relevancyId }"> 
 							<input type="hidden" name="id" id="articleId"
 								value="${article.id }"> <input type="hidden"
 								name="channelType" id="channelType" value="${channelType}">
@@ -66,11 +69,6 @@
 									name="articleType" id="articleType"></select>
 							</div>
 							<div style="margin-top: 16px; margin-left: 20px;" class="row">
-								<label class="btn col-lg-1">相关文章：</label> <select
-									class="btn col-lg-10" style="border: 1px solid #ddd;"
-									name="relevancyId" id="relevancyId"></select>
-							</div>
-							<div style="margin-top: 16px; margin-left: 20px;" class="row">
 								<label class="btn col-lg-1">文章标题：</label> <input type="text"
 									class="btn col-lg-10"
 									style="border: 1px solid #ddd; text-align: left;"
@@ -81,13 +79,6 @@
 								<label class="btn col-lg-1">文章摘要：</label>
 								<textarea rows="5" class="btn col-lg-10" name="detail"
 									id="detail" style="border: 1px solid #ddd; text-align: left;">${article.detail }</textarea>
-							</div>
-							<div style="margin-top: 16px; margin-left: 20px;" class="row">
-								<label class="btn col-lg-1">区域语言：</label> <input type="text"
-									class="btn col-lg-10"
-									style="border: 1px solid #ddd; text-align: left;"
-									placeholder="请输入区域语言" name="language" id="language"
-									value="${article.language }">
 							</div>
 							<div style="margin-top: 16px; margin-left: 20px;" class="row">
 								<label class="btn col-lg-1">视频地址：</label> <input type="text"
@@ -165,11 +156,8 @@
 		var channelType = '${channelType}';
 		//判断是添加还是修改
 		if ('${editOperation}') {
-			$("#articleTitle").html("修改文章");
 			//处理图片中的提示语
 			$("#titleDJZS").html("");
-		} else {
-			$("#articleTitle").html("添加文章");
 		}
 
 		//添加提交
@@ -184,12 +172,6 @@
 
 		$(function() {
 			var ue = UE.getEditor('article');
-			//根据状态判断是否要显示底部按钮
-			if('${type}'){
-				$(".clearfix").hide();
-			}
-			//获取该频道下所有顶级文章列表
-      getArticleParentDataList();
 			//获取所有一级站点
 			addUserRole();
 			if('${roleId}'){
@@ -225,6 +207,18 @@
 		}
 
 		function toSubmit(isValidate) {
+			//取语言和相关文章ID
+			$("#allLanguages .active .parentIdAndlanguageTab").each(function(index,obj){
+				var relevancyId = $(obj).attr("parentId");
+				if(relevancyId == ''){
+					relevancyId = '0';
+					$("#relevancyId").val(relevancyId);
+				}else if(relevancyId != '${article.id}'){
+					$("#relevancyId").val(relevancyId);
+				}
+				var languageTab = $(obj).attr("languageTab");
+				$("#language").val(languageTab);
+			})
 			$("#isValidate").val(isValidate);
 			$("#articleForm").submit();
 		}
@@ -264,43 +258,10 @@
 		}
 
 		//选择不同语言的文章
-		function selLanguage(id, language,roleId) {
-			window.location.href = "${appRoot}/article/editPage?id=" + id
-					+ "&language=" + language + "&articleType=" + articleType
+		function selLanguage(id, languageTab,roleId) {
+			window.location.href = "${appRoot}/article/editPage?languageTab=" + languageTab + "&articleType=" + articleType
 					+ "&channelType=" + channelType + "&itemId=" + '${itemId}'
-					+ "&positionId=" + '${positionId}' + "&type=type" + "&roleId=" + roleId;
-		}
-		
-		//获取该频道下所有顶级文章列表
-    function getArticleParentDataList(){
-			var data = {
-				"articleType" : articleType,
-				"id" : $("#articleId").val()
-			};
-    	$.ajax({
-        type : 'post',
-        data :data,
-        url : '${appRoot}/article/getArticleParentDataList',
-        dataType : 'json',
-        success : function(data) {
-          var html = '<option value="0">暂无相关文章</option>';
-          if (data.msg == 0) {
-            var dataList = data.dataList;
-            for (var i = 0; i < dataList.length; i++) {
-            	if('${article.relevancyId }'== dataList[i].id){
-            		html += '<option value="'+ dataList[i].id +'" selected>'
-                    + dataList[i].articleName
-                    + '</option>'
-            	}else{
-            		html += '<option value="'+ dataList[i].id +'">'
-                    + dataList[i].articleName
-                    + '</option>'
-            	}
-            }
-          }
-          $("#relevancyId").html(html);
-        }
-      });
+					+ "&positionId=" + '${positionId}' + "&roleId=" + roleId + "&id=" + id;
 		}
 		
 		function selRole(obj){

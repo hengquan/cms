@@ -5,17 +5,17 @@ import java.util.List;
 import com.hj.web.entity.SysRole;
 
 public interface SysRoleMapper {
-    int deleteByPrimaryKey(String id);
+	int del(String id);
 
-    int insert(SysRole record);
+	int insert(SysRole record);
 
-    int insertSelective(SysRole record);
+	SysRole get(String id);
 
-    SysRole selectByPrimaryKey(String id);
-
-    int updateByPrimaryKeySelective(SysRole record);
-
-    int updateByPrimaryKey(SysRole record);
+	int update(SysRole record);
 
 	List<SysRole> selectAllMsg();
+
+	List<SysRole> findMeAndParentList();
+
+	List<SysRole> findParentById(String id);
 }

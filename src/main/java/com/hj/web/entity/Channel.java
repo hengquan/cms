@@ -22,6 +22,16 @@ public class Channel {
     private Date ctime;
     
     private Integer channeltype;
+    
+    private String languages;
+
+		public String getLanguages() {
+			return languages;
+		}
+
+		public void setLanguages(String languages) {
+			this.languages = languages;
+		}
 
 		public String getRoleName() {
 			return roleName;

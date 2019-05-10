@@ -43,6 +43,7 @@
 											value="" /></th>
 										<th>站点名称</th>
 										<th class="hidden-phone">拼音</th>
+										<th class="hidden-phone">站点语言</th>
 										<th class="hidden-phone">操作</th>
 									</tr>
 								</thead>
@@ -53,9 +54,10 @@
 												value="${info.id}" /></td>
 											<td>${info.roleName}</td>
 											<td class="hidden-phone">${info.pinyin}</td>
+											<td class="hidden-phone">${info.languageName }</td>
 											<td class="hidden-phone">
 												<button class="btn btn-primary btn-xs"
-													onclick="doEdit('${info.id}','${info.roleName}','${info.pinyin}','${info.remark}')">
+													onclick="doEdit('${info.id}','${info.roleName}','${info.pinyin}','${info.remark}','${info.languageId }')">
 													<i class="icon-pencil"></i>
 												</button> &nbsp;
 												<button class="btn btn-danger btn-xs"
@@ -75,9 +77,10 @@
                         value="${role.id}" /></td>
                       <td>----${role.roleName}</td>
                       <td class="hidden-phone">${role.pinyin}</td>
+                      <td class="hidden-phone">${role.languageName }</td>
                       <td class="hidden-phone">
                         <button class="btn btn-primary btn-xs"
-                          onclick="doEdit('${role.id}','${role.roleName}','${role.pinyin}','${role.remark}')">
+                          onclick="doEdit('${role.id}','${role.roleName}','${role.pinyin}','${role.remark}','${role.languageId }')">
                           <i class="icon-pencil"></i>
                         </button> &nbsp;
                         <button class="btn btn-danger btn-xs"
@@ -115,6 +118,7 @@
 						<form class="form-horizontal" role="form" id="roleForm"
 							name="roleForm">
 							<input type="hidden" name="editId" id="editId">
+							<input type="hidden" name="languageId" id="languageId"> 
 							<div class="form-group">
 								<label class="col-lg-2 control-label pd-r5">站点名称<font
 									style="color: red;">*</font></label>
@@ -137,6 +141,12 @@
 								<div class="col-lg-10">
 									<input type="text" class="form-control" id="remark"
 										name="remark" placeholder="请输入备注">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-2 control-label pd-r5">站点语言<font
+									style="color: red;"></font></label>
+								<div class="col-lg-10" id="thisChannelLanguage">
 								</div>
 							</div>
 							<div class="form-group">
@@ -243,6 +253,9 @@
 	<script src="${appRoot}/static/js/dialog_alert.js"></script>
 	<script type="text/javascript">
 		function doAdd() {
+			$("#thisChannelLanguage").html();
+			addLanguage();
+			//添加
 			$("#editId").val('');
 			$('#roleName').val('');
 			$('#pinyin').val('');
@@ -251,56 +264,88 @@
 			$modal.modal();
 		}
 
-		function doEdit(id, roleName, pinyin, remark) {
-			$('#editId').val(id);
-			$('#roleName').val(roleName);
-			$('#pinyin').val(pinyin);
-			$('#remark').val(remark);
-			var $modal = $('#myModal');
-			$('#modal-title').text("修改站点信息");
-			$modal.modal();
+		function doEdit(id, roleName, pinyin, remark,languageId) {
+			$("#thisChannelLanguage").html();
+			$.ajax({
+        type : 'post',
+        data : "",
+        url : '${appRoot}/language/getAllData',
+        dataType : 'json',
+        success : function(data) {
+          if (data.msg == "0") {
+           var html = '';
+           var dataList = data.dataList;
+           for(var i=0;i<dataList.length;i++){
+             if(languageId.indexOf(dataList[i].id) != -1){
+               html += '<span class="btn"><input type="checkbox" checked="true" class="languageIds" value="123'+ dataList[i].id +'"><label>' + dataList[i].name + '</label></span>';
+             }else{
+               html += '<span class="btn"><input type="checkbox" class="languageIds" value="456'+ dataList[i].id +'"><label>' + dataList[i].name + '</label></span>';
+             }
+           }
+           $("#thisChannelLanguage").html(html);
+           $('#editId').val(id);
+           $('#roleName').val(roleName);
+           $('#pinyin').val(pinyin);
+           $('#remark').val(remark);
+           var $modal = $('#myModal');
+           $('#modal-title').text("修改站点信息");
+           $modal.modal();
+          } else {
+            windowShow("语言列表为空");
+          }
+        },
+        error : function(data) {
+          windowShow("获取语言列表信息失败", "");
+        }
+      });
 		}
 
 		function submitData() {
-			//$('#roleForm').submit();
-
 			if ($('#roleName').val() == null || $('#roleName').val() == '') {
 				windowShow("站点名称不能为空", "");
 				return false;
-			} else {
-				if ($('#pinyin').val() == null || $('#pinyin').val() == '') {
-					windowShow("站点拼音不能为空", "");
-					return false;
-				} else {
-					$.ajax({
-						type : 'post',
-						data : $('#roleForm').serialize(),
-						url : '${appRoot}/role/addAndUpdate',
-						dataType : 'json',
-						success : function(data) {
-							if (data.msg == "iscz") {
-								windowShow("该站点名称已存在!请重新输入站点名称", "");
-								return false;
-							} else if (data.msg == "isc") {
-								$('#myModal').modal('hide');
-								windowShow("添加站点成功", "");
-								location.reload();
-							} else if (data.msg == "isupdate") {
-								$('#myModal').modal('hide');
-								windowShow("修改站点成功", "");
-								location.reload();
-							} else {
-								$('#myModal').modal('hide');
-								windowShow("操作失败", "");
-							}
-						},
-						error : function(data) {
-							windowShow("操作失败", "");
-						}
-					});
-				}
 			}
-			//$('#roleForm').submit();
+			if ($('#pinyin').val() == null || $('#pinyin').val() == '') {
+				windowShow("站点拼音不能为空", "");
+				return false;
+			}
+			var languages = "";
+			$("#thisChannelLanguage").find(".languageIds").each(function (index,obj){
+				if (obj.checked == true) {
+					var language = obj.value;
+					languages += "," + language;
+        }
+			})
+			if(languages != "") 
+				languages = languages.substr(1);
+			$("#languageId").val(languages);
+			//开始提交
+			$.ajax({
+        type : 'post',
+        data : $('#roleForm').serialize(),
+        url : '${appRoot}/role/addAndUpdate',
+        dataType : 'json',
+        success : function(data) {
+          if (data.msg == "iscz") {
+            windowShow("该站点名称已存在!请重新输入站点名称", "");
+            return false;
+          } else if (data.msg == "isc") {
+            $('#myModal').modal('hide');
+            windowShow("添加站点成功", "");
+            location.reload();
+          } else if (data.msg == "isupdate") {
+            $('#myModal').modal('hide');
+            windowShow("修改站点成功", "");
+            location.reload();
+          } else {
+            $('#myModal').modal('hide');
+            windowShow("操作失败", "");
+          }
+        },
+        error : function(data) {
+          windowShow("操作失败", "");
+        }
+      });
 		}
 
 		function checkbox() {
@@ -345,7 +390,35 @@
 		function Delete() {
 			$("#deleForm").submit();
 		}
+		
+		$(function(){
+			console.log('${roleList}')
+			//addLanguage();
+		})
+		
+		function addLanguage(){
+			$.ajax({
+        type : 'post',
+        data : "",
+        url : '${appRoot}/language/getAllData',
+        dataType : 'json',
+        success : function(data) {
+          if (data.msg == "0") {
+        	 var html = '';
+           var dataList = data.dataList;
+           for(var i=0;i<dataList.length;i++){
+        	   html += '<span class="btn"><input type="checkbox" class="languageIds" value="'+ dataList[i].id +'"><label>' + dataList[i].name + '</label></span>';
+           }
+					 $("#thisChannelLanguage").html(html);
+          } else {
+            windowShow("语言列表为空");
+          }
+        },
+        error : function(data) {
+          windowShow("获取语言列表信息失败", "");
+        }
+      });
+		}
 	</script>
-	<input type="hidden" value="" id="adminId" />
 </body>
 </html>

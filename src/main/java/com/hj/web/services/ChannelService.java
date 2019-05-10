@@ -108,4 +108,6 @@ public interface ChannelService {
 
 	public List<Channel> getDataByType(Map<String,Object> param);
 
+	public Boolean save(Channel project);
+
 }

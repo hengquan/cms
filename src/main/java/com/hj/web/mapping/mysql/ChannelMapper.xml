@@ -8,12 +8,13 @@
 		<result column="sort" property="sort" jdbcType="INTEGER" />
 		<result column="descn" property="descn" jdbcType="VARCHAR" />
 		<result column="roleId" property="roleId" jdbcType="VARCHAR" />
+		<result column="languages" property="languages" jdbcType="VARCHAR" />
 		<result column="isValidate" property="isvalidate" jdbcType="INTEGER" />
 		<result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
 		<result column="channelType" property="channeltype" jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, channelName, areaName, sort, descn,roleId, isValidate,
+		id, channelName, areaName, sort, descn,roleId,languages, isValidate,
 		cTime,channelType
 	</sql>
 	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
@@ -49,6 +50,9 @@
 			<if test="roleId != null">
 				roleId,
 			</if>
+			<if test="languages != null">
+				languages,
+			</if>
 			<if test="isvalidate != null">
 				isValidate,
 			</if>
@@ -77,6 +81,9 @@
 			</if>
 			<if test="roleId != null">
 				#{roleId,jdbcType=VARCHAR},
+			</if>
+			<if test="languages != null">
+				#{languages,jdbcType=VARCHAR},
 			</if>
 			<if test="isvalidate != null">
 				#{isvalidate,jdbcType=INTEGER},
@@ -107,6 +114,9 @@
 			<if test="roleId != null">
 				roleId = #{roleId,jdbcType=VARCHAR},
 			</if>
+			<if test="languages != null">
+				languages = #{languages,jdbcType=VARCHAR},
+			</if>
 			<if test="isvalidate != null">
 				isValidate = #{isvalidate,jdbcType=INTEGER},
 			</if>
@@ -124,7 +134,7 @@
 	<select id="getProjectMessge" resultMap="BaseResultMap"
 		parameterType="java.util.Map">
 		SELECT
-		a.*, b.role_name roleName
+		a.*, b.role_name roleName 
 		FROM
 		cms_channel a
 		JOIN sys_role b ON

@@ -16,11 +16,15 @@ import com.hj.common.ControllerBase;
 import com.hj.utils.Configurations;
 import com.hj.web.entity.Article;
 import com.hj.web.entity.Channel;
+import com.hj.web.entity.Language;
+import com.hj.web.entity.SysRole;
 import com.hj.web.entity.UserInfo;
 import com.hj.web.entity.UserRole;
 import com.hj.web.services.ArticleService;
 import com.hj.web.services.ChannelService;
+import com.hj.web.services.LanguageService;
 import com.hj.web.services.PageService;
+import com.hj.web.services.SysRoleService;
 import com.hj.web.services.UserRoleService;
 
 //文章管理
@@ -35,6 +39,10 @@ public class ArticleController extends ControllerBase {
 	PageService pageService;
 	@Autowired
 	UserRoleService userRoleService;
+	@Autowired
+	SysRoleService roleService;
+	@Autowired
+	LanguageService languageService;
 
 	// 文章列表
 	@RequestMapping(value = "/article/getDataList")
@@ -114,7 +122,7 @@ public class ArticleController extends ControllerBase {
 
 	// 打开添加文章页面
 	@RequestMapping(value = "/article/addPage")
-	public String addPage(ModelMap model) {
+	public String addPage(ModelMap model) throws Exception {
 		String articleType = getTrimParameter("articleType");
 		String channelType = getTrimParameter("channelType");
 		String roleId = getTrimParameter("roleId");
@@ -123,39 +131,82 @@ public class ArticleController extends ControllerBase {
 		model.addAttribute("articleType", articleType);
 		model.addAttribute("channelType", channelType);
 		model.addAttribute("roleId", roleId);
+		// 获取站点信息
+		List<Language> languageList = new ArrayList<Language>();
+		SysRole role = roleService.findById(roleId);
+		if (role != null) {
+			String languageId = role.getLanguageId();
+			languageList = languageService.getByIds(languageId);
+		}
+		model.addAttribute("languageList", languageList);
+		// 获取语言标识
+		String languageTab = getTrimParameter("languageTab");
+		if (StringUtils.isEmpty(languageTab))
+			languageTab = "ZH_CN";
+		model.addAttribute("languageTab", languageTab);
 		// 获取相关文章
 		Article article = new Article();
 		String articleId = getTrimParameter("articleId");
-		article.setRelevancyId(articleId);
 		model.addAttribute("article", article);
+		model.addAttribute("articleId", articleId);
 		return pageUrl;
 	}
 
 	// 打开修改文章页面
 	@RequestMapping(value = "/article/editPage")
-	public String editPage(ModelMap model, Article article) {
-		String language = getTrimParameter("language");
+	public String editPage(ModelMap model, Article article) throws Exception {
+		String languageTab = getTrimParameter("languageTab");
 		String roleId = getTrimParameter("roleId");
+		String channelType = getTrimParameter("channelType");
 		String articleType = "";
 		String id = article.getId();
-		if (StringUtils.isNotEmpty(id))
+		model.addAttribute("articleId",id);
+		if (StringUtils.isNotEmpty(id)) {
 			article = articleService.get(id);
+			// 对比ID和语言
+			String language = article.getLanguage();
+			if (StringUtils.isEmpty(languageTab) || StringUtils.isEmpty(language) || !languageTab.equals(language)) {
+				List<Article> articles = articleService.getDataListByRelevancyId(article.getId());
+				if (articles != null && articles.size() > 0) {
+					boolean result = false;
+					for (Article data : articles) {
+						String dataLanguage = data.getLanguage();
+						if (dataLanguage.equals(languageTab)) {
+							article = data;
+							result = true;
+							break;
+						}
+					}
+					if (!result)
+						article = new Article();
+				} else {
+					article = new Article();
+				}
+			}
+		}
 		if (article != null && StringUtils.isNotEmpty(article.getArticleType())) {
 			articleType = article.getArticleType();
-			if (StringUtils.isEmpty(language))
-				language = article.getLanguage();
+			if (StringUtils.isEmpty(languageTab))
+				languageTab = article.getLanguage();
 		}
 		urlManage(article);
+		// 获取站点信息
+		List<Language> languageList = new ArrayList<Language>();
+		SysRole role = roleService.findById(roleId);
+		if (role != null) {
+			String languageId = role.getLanguageId();
+			languageList = languageService.getByIds(languageId);
+		}
+		model.addAttribute("languageList", languageList);
+		// 添加其他
 		model.addAttribute("articleType", articleType);
 		model.addAttribute("article", article);
 		model.addAttribute("roleId", roleId);
 		model.addAttribute("editOperation", "editOperation");
-		model.addAttribute("language", language);
+		model.addAttribute("languageTab", languageTab);
+		model.addAttribute("channelType", channelType);
 		String pageUrl = "article/edit";
 		super.userIRoleItem(model, pageUrl);
-		// 判断状态是查看还是修改
-		String type = getTrimParameter("type");
-		model.addAttribute("type", type);
 		// 获取所有相关的文章
 		List<Article> articleList = new ArrayList<Article>();
 		articleList = getCorrelationData(articleList, article);
@@ -185,6 +236,8 @@ public class ArticleController extends ControllerBase {
 		String positionId = getTrimParameter("positionId");
 		model.addAttribute("itemId", itemId);
 		model.addAttribute("positionId", positionId);
+		String roleId = getTrimParameter("roleId");
+		model.addAttribute("roleId", roleId);
 		return "redirect:getDataList";
 	}
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hj.common.ControllerBase;
 import com.hj.utils.JsonUtils;
 import com.hj.web.entity.Channel;
+import com.hj.web.entity.SysRole;
 import com.hj.web.entity.UserInfo;
 import com.hj.web.entity.UserRole;
 import com.hj.web.services.ChannelService;
@@ -39,7 +40,8 @@ public class ChannelController extends ControllerBase {
 		String channelname = getTrimParameter("channelname");
 		// 判断所属类型
 		String channeltype = getTrimParameter("channelType");
-		String roleId = getTrimParameter("roleId");
+		SysRole role = super.getUserRole();
+		String roleId = role.getId();
 		// 判断当前用户是啥级别的
 		UserInfo userInfo = super.getUserInfo();
 		if (userInfo != null) {
@@ -56,6 +58,8 @@ public class ChannelController extends ControllerBase {
 							}
 						}
 					}
+				} else {
+					roleId = "";
 				}
 			}
 		}
@@ -90,29 +94,11 @@ public class ChannelController extends ControllerBase {
 		return pageUrl;
 	}
 
-	// 添加频道
-	@RequestMapping(value = "/channel/add")
-	public String addProject(ModelMap model, Channel project) {
+	// 保存频道
+	@RequestMapping(value = "/channel/save")
+	public String saveProject(ModelMap model, Channel project) {
 		try {
-			channelService.insert(project);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		model.addAttribute("channelType", project.getChanneltype());
-		String itemId = getTrimParameter("itemId");
-		String positionId = getTrimParameter("positionId");
-		model.addAttribute("itemId", itemId);
-		model.addAttribute("positionId", positionId);
-		return "redirect:getDataList";
-	}
-
-	// 修改频道
-	@RequestMapping(value = "/channel/edit")
-	public String editProject(ModelMap model, Channel project) {
-		String editId = getTrimParameter("editId");
-		try {
-			project.setId(editId);
-			channelService.update(project);
+			channelService.save(project);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

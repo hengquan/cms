@@ -52,9 +52,12 @@
 										</button>
 									</span>
 								</div>
-								<div style="float: left; position: relative; margin-top: 16px; margin-left: 20px;" id="thisRole">
-                  <select name="roleId" id="roleId" class="btn" style="border:1px solid #ddd" onchange="selectDataList()"></select>
-                </div>
+								<div
+									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;"
+									id="thisRole">
+									<select name="roleId" id="roleId" class="btn"
+										style="border: 1px solid #ddd" onchange="selectDataList()"></select>
+								</div>
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<a href="javascript:doRefresh();" class="btn mini btn-white"><i
@@ -96,23 +99,22 @@
 											<td><input type="checkbox" name="box" class="checkboxes"
 												value="${u.id}" /></td>
 											<td class="hidden-phone"><a href="#"
-												onclick="doArticleList('${u.id}','${channeltype }')">${u.channelname}</a>
+												onclick="doArticleList('${u.id}','${channeltype }','${u.roleId }')">${u.channelname}</a>
 											</td>
 											<td class="hidden-phone">${u.roleName}</td>
-											<td class="hidden-phone">
-											   <c:if test="${u.channeltype == 0}">暂无</c:if>
-											   <c:if test="${u.channeltype == 1}">APP</c:if>
-											   <c:if test="${u.channeltype == 2}">H5</c:if>
-											   <c:if test="${u.channeltype == 3}">触摸板</c:if>
-											   <c:if test="${u.channeltype == 4}">APP视频</c:if>
-											</td>
+											<td class="hidden-phone"><c:if
+													test="${u.channeltype == 0}">暂无</c:if> <c:if
+													test="${u.channeltype == 1}">APP</c:if> <c:if
+													test="${u.channeltype == 2}">H5</c:if> <c:if
+													test="${u.channeltype == 3}">触摸板</c:if> <c:if
+													test="${u.channeltype == 4}">APP视频</c:if></td>
 											<td class="hidden-phone">${u.areaname}</td>
 											<td class="hidden-phone">${u.descn}</td>
 											<td class="hidden-phone"><fmt:formatDate
 													value="${u.ctime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 											<td class="hidden-phone">
 												<button type="button"
-													onclick="edit('${u.id}','${u.channelname}','${u.areaname}','${u.descn}','${u.roleId }')"
+													onclick="edit('${u.id}','${u.channelname}','${u.areaname}','${u.descn}','${u.roleId }','${u.languages }')"
 													class="btn btn-send thisEdit">修改频道</button> <a
 												href="javascript:doAddArticle('${u.id }','${channeltype }','${u.roleId }');"
 												class="btn btn-send">添加文章</a>
@@ -160,8 +162,7 @@
 
 
 
-
-
+	<!-- 更新信息 -->
 	<div class="modal fade" id="addPage" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -172,113 +173,45 @@
 					<h4 class="modal-title" id="modal-title">添加频道</h4>
 				</div>
 				<div class="modal-body">
-					<form action="${appRoot}/channel/add" method="post"
+					<form action="${appRoot}/channel/save" method="post"
 						class="form-horizontal" enctype="multipart/form-data" role="form"
 						id="addMessage" name="itemForm">
-						<input type="hidden" name="editId1" id="editId1">
-						<input type="hidden" name="itemId" value="${itemId }"> <input
-							type="hidden" name="positionId" value="${positionId }">
+						<input type="hidden" name="id" id="editId"> 
+						<input type="hidden" name="itemId" value="${itemId }"> 
+						<input type="hidden" name="positionId" value="${positionId }"> 
+						<input type="hidden" name="languages" id="languages">
 						<div class="form-group">
 							<label class="col-lg-2 control-label pd-r5">所属渠道<font
 								style="color: red;"></font></label>
 							<div class="col-lg-10">
 								<select class="form-control" name="channeltype">
-								  <option value="1" <c:if test="${channeltype == 1}">selected</c:if> >APP</option>
-								  <option value="2" <c:if test="${channeltype == 2}">selected</c:if> >H5</option>
-								  <option value="3" <c:if test="${channeltype == 3}">selected</c:if> >触摸板</option>
-								  <option value="4" <c:if test="${channeltype == 4}">selected</c:if> >APP视频</option>
+									<option value="1"
+										<c:if test="${channeltype == 1}">selected</c:if>>APP</option>
+									<option value="2"
+										<c:if test="${channeltype == 2}">selected</c:if>>H5</option>
+									<option value="3"
+										<c:if test="${channeltype == 3}">selected</c:if>>触摸板</option>
+									<option value="4"
+										<c:if test="${channeltype == 4}">selected</c:if>>APP视频</option>
 								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-lg-2 control-label pd-r5">频道名称<font
-								style="color: red;"></font></label>
-							<div class="col-lg-10">
-								<input type="text" class="form-control" id="channelname1"
-									name="channelname">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-lg-2 control-label pd-r5">所属站点<font
 								style="color: red;"></font></label>
 							<div class="col-lg-10">
-								<select id="roleId1" name="roleId" class="form-control"></select>
+								<select id="roleId" name="roleId" class="form-control" onchange="selLanguage(this)"></select>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-lg-2 control-label pd-r5">所属地区<font
-								style="color: red;"></font></label>
-							<div class="col-lg-10">
-								<input type="text" class="form-control" id="areaname1"
-									name="areaname">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-lg-2 control-label pd-r5">频道描述<font
-								style="color: red;"></font></label>
-							<div class="col-lg-10">
-								<textarea rows="5" cols="60" class="form-control" id="descn1"
-									name="descn"></textarea>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-lg-offset-2 col-lg-10">
-								<button type="button" onclick="submitData();"
-									class="btn btn-send">提交</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-
-	<!-- 更新信息 -->
-	<div class="modal fade" id="editPage" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="modal-title">修改频道</h4>
-				</div>
-				<div class="modal-body">
-					<form action="${appRoot}/channel/edit" method="post"
-						class="form-horizontal" enctype="multipart/form-data" role="form"
-						id="editMessage" name="itemForm">
-						<input type="hidden" name="editId" id="editId"> 
-						<input type="hidden" name="itemId" value="${itemId }"> <input
-							type="hidden" name="positionId" value="${positionId }">
-						<div class="form-group">
-              <label class="col-lg-2 control-label pd-r5">所属渠道<font
-                style="color: red;"></font></label>
-              <div class="col-lg-10">
-                <select class="form-control" name="channeltype">
-                  <option value="1" <c:if test="${channeltype == 1}">selected</c:if> >APP</option>
-                  <option value="2" <c:if test="${channeltype == 2}">selected</c:if> >H5</option>
-                  <option value="3" <c:if test="${channeltype == 3}">selected</c:if> >触摸板</option>
-                  <option value="4" <c:if test="${channeltype == 4}">selected</c:if> >APP视频</option>
-                </select>
-              </div>
-            </div>
-						<div class="form-group">
-							<label class="col-lg-2 control-label pd-r5">频道名称<font
+							<label class="col-lg-2 control-label pd-r5">默认名称<font
 								style="color: red;"></font></label>
 							<div class="col-lg-10">
 								<input type="text" class="form-control" id="channelname"
 									name="channelname">
 							</div>
 						</div>
-						<div class="form-group">
-              <label class="col-lg-2 control-label pd-r5">所属站点<font
-                style="color: red;"></font></label>
-              <div class="col-lg-10">
-                <select id="roleId" name="roleId" class="form-control"></select>
-              </div>
-            </div>
+						<div id="thisChannelLanguage"></div>
 						<div class="form-group">
 							<label class="col-lg-2 control-label pd-r5">所属地区<font
 								style="color: red;"></font></label>
@@ -297,7 +230,7 @@
 						</div>
 						<div class="form-group">
 							<div class="col-lg-offset-2 col-lg-10">
-								<button type="button" onclick="submitUpdateData();"
+								<button type="button" onclick="submitData();"
 									class="btn btn-send">提交</button>
 							</div>
 						</div>
@@ -393,23 +326,39 @@
 		}
 
 		//修改频道
-		function edit(id, channelname, areaname, descn,roleId) {
+		function edit(id, channelname, areaname, descn, roleId, languages) {
+			$("#thisChannelLanguage").html("");
 			$("#modal-title").val("修改频道");
 			$("#channelname").val(channelname);
 			$("#areaname").val(areaname);
 			$("#descn").val(descn);
 			$("#editId").val(id);
-			addRolePage(roleId,2);
+			$("#languages").val(languages);
+			//处理多语言
+			addLanguage(languages);
+			//处理显示
+			addRolePage(roleId);
 		}
 
-		//添加提交
+		//更新提交
 		function submitData() {
+			//组串串json
+			var rows = "";
+			$("#thisChannelLanguage .form-group").each(
+					function(index, obj) {
+						var relatedLanguage = $(obj).find(".relatedLanguage")
+								.val();
+						var relatedTab = $(obj).find(".relatedTab").val();
+						var relatedName = $(obj).find(".relatedName").val();
+						var row = relatedLanguage + ":" + relatedTab + ":"
+								+ relatedName;
+						rows += "," + row;
+					})
+			if (rows != "")
+				rows = rows.substr(1);
+			$("#languages").val(rows);
+			//提交
 			$("#addMessage").submit();
-		}
-
-		//更新数据
-		function submitUpdateData() {
-			$("#editMessage").submit();
 		}
 
 		$(function() {
@@ -423,35 +372,39 @@
 			//
 			addUserRole();
 			//隐藏一些东西
-			if('${role.logogram }' != '0'){
+			if ('${role.logogram }' != '0') {
 				$("#thisRole").hide();
 				$(".thisEdit").hide();
 			}
-			
+
 		});
-		
-		function addUserRole(){
-      $.ajax({
-        type : 'post',
-        data : "",
-        url : '${appRoot}/role/getAllList',
-        dataType : 'json',
-        success : function(data) {
-          if (data.msg == 0) {
-            var html = '<option value="">全部站点</option>';
-            var roleList = data.roleList;
-            for(var i=0;i<roleList.length;i++){
-              if(roleList[i].id == '${roleId}'){
-                html += '<option value="'+ roleList[i].id +'"  selected>'+ roleList[i].roleName +'</option>'
-              }else{
-                html += '<option value="'+ roleList[i].id +'">'+ roleList[i].roleName +'</option>'
-              }
-            }
-          } 
-          $("#roleId").html(html);
-        }
-      });
-    }
+
+		function addUserRole() {
+			$.ajax({
+				type : 'post',
+				data : "",
+				url : '${appRoot}/role/getAllList',
+				dataType : 'json',
+				success : function(data) {
+					if (data.msg == 0) {
+						var html = '<option value="">全部站点</option>';
+						var roleList = data.roleList;
+						for (var i = 0; i < roleList.length; i++) {
+							if (roleList[i].id == '${roleId}') {
+								html += '<option value="'+ roleList[i].id +'"  selected>'
+										+ roleList[i].roleName
+										+ '</option>'
+							} else {
+								html += '<option value="'+ roleList[i].id +'">'
+										+ roleList[i].roleName
+										+ '</option>'
+							}
+						}
+					}
+					$("#roleId").html(html);
+				}
+			});
+		}
 
 		function doRefresh() {
 			location.reload();
@@ -480,7 +433,9 @@
 
 		//添加菜单
 		function doAdd() {
-			addRolePage('',1);
+			document.getElementById("addMessage").reset();
+			$("#thisChannelLanguage").html("");
+			addRolePage('');
 		}
 
 		function doDelete() {
@@ -499,57 +454,116 @@
 			$("#deleForm").submit();
 		}
 
-		function doArticleList(channelId, channelType) {
+		function doArticleList(channelId, channelType,roleId) {
 			window.location.href = "${appRoot }/article/getDataList?articleType="
 					+ channelId
 					+ "&channelType="
 					+ channelType
 					+ "&itemId="
-					+ '${itemId}' + "&positionId=" + '${positionId}';
+					+ '${itemId}' + "&positionId=" + '${positionId}' + "&roleId=" + roleId;
 		}
-		
+
 		//添加相关文章
-		function doAddArticle(articleType,channelType,roleId){
+		function doAddArticle(articleType, channelType, roleId) {
 			window.location.href = "${appRoot}/article/addPage?articleType="
-		          + articleType + "&channelType=" + channelType + "&itemId="
-		          + '${itemId}' + "&positionId=" + '${positionId}' + "&roleId=" + roleId;
+					+ articleType + "&channelType=" + channelType + "&itemId="
+					+ '${itemId}' + "&positionId=" + '${positionId}'
+					+ "&roleId=" + roleId;
 		}
-		
-		//填充权限页面(type:1添加，2修改)
-    function addRolePage(roleId,type){
-      $.ajax({
-        type : 'post',
-        data : "",
-        url : '${appRoot}/role/getAllList',
-        dataType : 'json',
-        success : function(data) {
-          if (data.msg == 0) {
-            var html;
-            var roleList = data.roleList;
-            for(var i=0;i<roleList.length;i++){
-              if(roleList[i].id == roleId){
-                html += '<option value="'+ roleList[i].id +'" selected>'+ roleList[i].roleName +'</option>'
-              }else{
-                html += '<option value="'+ roleList[i].id +'">'+ roleList[i].roleName +'</option>'
-              }
-            }
-            if(type==1){
-	            $("#roleId1").html(html);
-	            var $modal = $('#addPage');
-	            $modal.modal();
-            }else{
-	            $("#editPage").find("#roleId").html(html);
-	            var $modal = $('#editPage');
-	            $modal.modal();
-            }
-          } else if(data.msg == 1){
-            windowShow("您不是该站点负责人", "");
-          }else{
-            windowShow("获取权限列表失败", "");
-          }
-        }
-      });
-    }
+
+		//填充权限页面
+		function addRolePage(roleId) {
+			$.ajax({
+				type : 'post',
+				data : "",
+				url : '${appRoot}/role/getAllList',
+				dataType : 'json',
+				success : function(data) {
+					if (data.msg == 0) {
+						var html = '<option value="0">--请选择站点--</option>';
+						var roleList = data.roleList;
+						for (var i = 0; i < roleList.length; i++) {
+							if (roleList[i].id == roleId) {
+								html += '<option value="'+ roleList[i].id +'" selected>'
+										+ roleList[i].roleName
+										+ '</option>'
+							} else {
+								html += '<option value="'+ roleList[i].id +'">'
+										+ roleList[i].roleName
+										+ '</option>'
+							}
+						}
+						$("#addPage #roleId").html(html);
+						var $modal = $('#addPage');
+						$modal.modal();
+					} else if (data.msg == 1) {
+						windowShow("您不是该站点负责人", "");
+					} else {
+						windowShow("获取权限列表失败", "");
+					}
+				}
+			});
+		}
+
+		//添加时选择语言
+		function selLanguage(obj) {
+			$("#thisChannelLanguage").html("");
+			var obj = $(obj);
+			var roleId = obj.val();
+			$.ajax({
+				type : 'post',
+				data : {
+					"roleId" : roleId
+				},
+				url : '${appRoot}/role/getLanguageData',
+				dataType : 'json',
+				success : function(data) {
+					var html = '';
+					var dataList = data.dataList;
+					if (dataList != null) {
+						for (var i = 0; i < dataList.length; i++) {
+							html += '<div class="form-group">'
+									+ '<label class="col-lg-2 control-label pd-r5">'
+									+ dataList[i].name
+									+ '名称'
+									+ '</label>'
+									+ '<div class="col-lg-10 message">'
+									+ '<input type="hidden" class="form-control relatedLanguage" value="'+ dataList[i].name +'">'
+									+ '<input type="hidden" class="form-control relatedTab" value="'+ dataList[i].tab +'">'
+									+ '<input type="text" class="form-control relatedName">'
+									+ '</div>' + '</div>';
+						}
+						$("#thisChannelLanguage").html(html);
+					}
+				}
+			});
+		}
+		//修改时选择语言
+		function addLanguage(languages) {
+			$("#thisChannelLanguage").html("");
+			if (languages != "") {
+				var languageList = languages.split(",");
+				var html = '';
+				for (var i = 0; i < languageList.length; i++) {
+					var languageMap = languageList[i];
+					var result = languageMap.split(":");
+					var language = result[0];
+					var tab = result[1];
+					var name = result[2];
+					html += '<div class="form-group">'
+							+ '<label class="col-lg-2 control-label pd-r5">'
+							+ language
+							+ '名称'
+							+ '</label>'
+							+ '<div class="col-lg-10 message">'
+							+ '<input type="hidden" class="form-control relatedLanguage" value="'+ language +'">'
+							+ '<input type="hidden" class="form-control relatedTab" value="'+ tab +'">'
+							+ '<input type="text" class="form-control relatedName" value="'+ name +'">'
+							+ '</div>' + '</div>';
+				}
+				$("#thisChannelLanguage").html(html);
+			}
+		}
 	</script>
 </body>
 </html>

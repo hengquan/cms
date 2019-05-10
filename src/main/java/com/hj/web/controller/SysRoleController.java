@@ -20,11 +20,13 @@ import com.hj.utils.HashSessions;
 import com.hj.utils.JsonUtils;
 import com.hj.web.dao.SysItemRoleDao;
 import com.hj.web.dao.SysRoleDao;
+import com.hj.web.entity.Language;
 import com.hj.web.entity.SysRole;
 import com.hj.web.entity.UserInfo;
 import com.hj.web.entity.UserRole;
 import com.hj.web.mapping.SysRoleMapper;
 import com.hj.web.services.IKeyGen;
+import com.hj.web.services.LanguageService;
 import com.hj.web.services.SysRoleService;
 import com.hj.web.services.UserRoleService;
 
@@ -54,6 +56,8 @@ public class SysRoleController extends ControllerBase {
 	SysItemRoleDao sysItemRoleDao;
 	@Autowired
 	SysRoleService roleService;
+	@Autowired
+	LanguageService languageService;
 
 	public String Userid() {
 		try {
@@ -85,16 +89,22 @@ public class SysRoleController extends ControllerBase {
 			String logogram = role.getLogogram();
 			String id = role.getId();
 			if (StringUtils.isNotEmpty(logogram) && logogram.equals("0")) {
-				roleList = sysRoleDao.findMeAndParentList();
+				roleList = roleService.findMeAndParentList();
 			} else {
 				role = super.getParentRoleData(role);
-				roleList = sysRoleDao.findParentById(id);
+				roleList = roleService.findParentById(id);
 			}
 			if (roleList != null && roleList.size() > 0) {
 				for (SysRole sysRole : roleList) {
+					// 处理语言
+					sysRole = manage(sysRole);
 					String roleId = sysRole.getId();
-					List<SysRole> dataList = sysRoleDao.findParentById(roleId);
+					List<SysRole> dataList = roleService.findParentById(roleId);
 					if (dataList != null && dataList.size() > 0) {
+						for (SysRole ziRole : dataList) {
+							// 处理语言
+							ziRole = manage(ziRole);
+						}
 						sysRole.setRoleList(dataList);
 					}
 				}
@@ -102,6 +112,22 @@ public class SysRoleController extends ControllerBase {
 		}
 		model.addAttribute("roleList", roleList);
 		return "role/list";
+	}
+
+	private SysRole manage(SysRole sysRole) {
+		String languageNames = "";
+		String languageId = sysRole.getLanguageId();
+		List<Language> languageList = languageService.getByIds(languageId);
+		if (languageList != null && languageList.size() > 0) {
+			for (Language language : languageList) {
+				String name = language.getName();
+				if (StringUtils.isNotEmpty(name))
+					languageNames += " " + name;
+			}
+		}
+		if (StringUtils.isNotEmpty(languageNames))
+			sysRole.setLanguageName(languageNames);
+		return sysRole;
 	}
 
 	/**
@@ -138,6 +164,7 @@ public class SysRoleController extends ControllerBase {
 		String roleName = StringUtils.trim(getTrimParameter("roleName"));
 		String pinyin = StringUtils.trim(getTrimParameter("pinyin"));
 		String remark = StringUtils.trim(getTrimParameter("remark"));
+		String languageId = StringUtils.trim(getTrimParameter("languageId"));
 
 		boolean isSave = true;
 		if (isSave) {
@@ -154,6 +181,7 @@ public class SysRoleController extends ControllerBase {
 					else
 						sysRole.setLogogram(roleid);
 					sysRole.setRemark(remark);
+					sysRole.setLanguageId(languageId);
 					sysRoleDao.add(sysRole);
 					logger.info("添加角色成功");
 					result.put("msg", "isc");
@@ -166,6 +194,7 @@ public class SysRoleController extends ControllerBase {
 				sysRole.setRoleName(roleName);
 				sysRole.setPinyin(pinyin);
 				sysRole.setRemark(remark);
+				sysRole.setLanguageId(languageId);
 				sysRoleDao.update(sysRole);
 				logger.info("修改角色成功");
 				result.put("msg", "isupdate");
@@ -237,4 +266,21 @@ public class SysRoleController extends ControllerBase {
 		return JsonUtils.map2json(map);
 	}
 
+	@RequestMapping("/getLanguageData")
+	@ResponseBody
+	private Map<String, Object> getLanguageData() throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String roleId = getTrimParameter("roleId");
+		if (StringUtils.isNotEmpty(roleId)) {
+			SysRole sysRole = roleService.findById(roleId);
+			if (sysRole != null) {
+				String languageId = sysRole.getLanguageId();
+				List<Language> languageList = languageService.getByIds(languageId);
+				if (languageList != null && languageList.size() > 0) {
+					map.put("dataList", languageList);
+				}
+			}
+		}
+		return map;
+	}
 }

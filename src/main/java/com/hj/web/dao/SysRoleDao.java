@@ -70,7 +70,7 @@ public class SysRoleDao {
 	 */
 	 
 	public void add(final SysRole sysRole){
-		String sql = "insert into sys_role(id,role_name,pinyin,logogram,remark) values(?,?,?,?,?)";
+		String sql = "insert into sys_role(id,role_name,pinyin,logogram,remark,languageId) values(?,?,?,?,?,?)";
 		jdbcTemplate.update(sql,new PreparedStatementSetter() {
 			
 			@Override
@@ -80,6 +80,7 @@ public class SysRoleDao {
 				ps.setString(3, sysRole.getPinyin());
 				ps.setString(4, sysRole.getLogogram());
 				ps.setString(5, sysRole.getRemark());
+				ps.setString(6, sysRole.getLanguageId());
 			}
 		});
 	}
@@ -108,7 +109,7 @@ public class SysRoleDao {
 	 * @param sysRole
 	 */
 	public void update(final SysRole sysRole){
-		String sql = "update sys_role set role_name=?,pinyin=?,remark=? where id=?";
+		String sql = "update sys_role set role_name=?,pinyin=?,remark=?,languageId=? where id=?";
 		this.jdbcTemplate.update(sql,new PreparedStatementSetter() {
 			
 			@Override
@@ -116,7 +117,8 @@ public class SysRoleDao {
 				ps.setString(1, sysRole.getRoleName());
 				ps.setString(2, sysRole.getPinyin());
 				ps.setString(3, sysRole.getRemark());
-				ps.setString(4, sysRole.getId());
+				ps.setString(4, sysRole.getLanguageId());
+				ps.setString(5, sysRole.getId());
 			}
 		});
 	}

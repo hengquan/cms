@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import com.hj.web.entity.Channel;
@@ -116,7 +117,20 @@ public class ChannelServiceImpl implements ChannelService {
 	}
 
 	@Override
-	public List<Channel> getDataByType(Map<String,Object> param) {
+	public List<Channel> getDataByType(Map<String, Object> param) {
 		return dao.getDataByType(param);
+	}
+
+	@Override
+	public Boolean save(Channel project) {
+		Boolean result = false;
+		String id = project.getId();
+		if (StringUtils.isNotEmpty(id)) {
+			result = dao.update(project) > 0 ? true : false;
+		} else {
+			project.setId(keyGen.getUUIDKey());
+			result = dao.insert(project) > 0 ? true : false;
+		}
+		return result;
 	}
 }

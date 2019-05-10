@@ -125,11 +125,8 @@
 													value="${u.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 											<td class="hidden-phone">
 												<button type="button"
-													onclick="edit('${u.id}','${u.articleType }','${channelType }','${u.roleId }')"
+													onclick="edit('${u.id}','${u.articleType }','${channelType }','${u.roleId }','${u.language }')"
 													class="btn btn-send">修改</button>
-												<button type="button"
-													onclick="see('${u.id}','${u.articleType }','${channelType }','${u.roleId }')"
-													class="btn btn-send">查看</button>
 												<button type="button"
 													onclick="doAdd('${articleType }','${channelType }','${roleId }','${u.id }');"
 													class="btn btn-send">添加相关文章</button>
@@ -262,19 +259,11 @@
 		}
 
 		//修改文章
-		function edit(id, articleType, channelType, roleId) {
+		function edit(id, articleType, channelType, roleId,languageTab) {
 			window.location.href = "${appRoot}/article/editPage?id=" + id
 					+ "&articleType=" + articleType + "&channelType="
 					+ channelType + "&itemId=" + '${itemId}' + "&positionId="
-					+ '${positionId}' + "&roleId=" + roleId;
-		}
-
-		//查看文章
-		function see(id, articleType, channelType, roleId) {
-			window.location.href = "${appRoot}/article/editPage?id=" + id
-					+ "&articleType=" + articleType + "&channelType="
-					+ channelType + "&itemId=" + '${itemId}' + "&positionId="
-					+ '${positionId}' + '&type=see' + "&roleId=" + roleId;
+					+ '${positionId}' + "&roleId=" + roleId + "&languageTab=" + languageTab;
 		}
 
 		//添加提交

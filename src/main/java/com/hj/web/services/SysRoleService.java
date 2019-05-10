@@ -92,4 +92,8 @@ public interface SysRoleService {
 
 	public List<SysRole> selectAllMsg();
 
+	public List<SysRole> findMeAndParentList();
+
+	public List<SysRole> findParentById(String id);
+
 }

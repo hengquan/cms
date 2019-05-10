@@ -10,14 +10,34 @@ public class SysRole {
     private String pinyin;
 
     private String logogram;
+ 
+    private String languageId;
 
     private Integer sort;
 
     private String remark;
     
     private List<SysRole> roleList;
+    
+    private String languageName;
 
-    public List<SysRole> getRoleList() {
+    public String getLanguageName() {
+			return languageName;
+		}
+
+		public void setLanguageName(String languageName) {
+			this.languageName = languageName;
+		}
+
+		public String getLanguageId() {
+			return languageId;
+		}
+
+		public void setLanguageId(String languageId) {
+			this.languageId = languageId;
+		}
+
+		public List<SysRole> getRoleList() {
 			return roleList;
 		}
 
