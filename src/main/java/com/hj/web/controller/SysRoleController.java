@@ -270,16 +270,29 @@ public class SysRoleController extends ControllerBase {
 	@ResponseBody
 	private Map<String, Object> getLanguageData() throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
+		List<Language> languageList = new ArrayList<Language>();
 		String roleId = getTrimParameter("roleId");
 		if (StringUtils.isNotEmpty(roleId)) {
 			SysRole sysRole = roleService.findById(roleId);
 			if (sysRole != null) {
 				String languageId = sysRole.getLanguageId();
-				List<Language> languageList = languageService.getByIds(languageId);
-				if (languageList != null && languageList.size() > 0) {
-					map.put("dataList", languageList);
+				languageList = languageService.getByIds(languageId);
+			}
+		} else {
+			SysRole userRole = super.getUserRole();
+			if (userRole != null) {
+				String logogram = userRole.getLogogram();
+				if (logogram.equals("0")) {
+					languageList = languageService.getAllData();
+				} else {
+					String languageId = userRole.getLanguageId();
+					languageList = languageService.getByIds(languageId);
 				}
 			}
+		}
+		if (languageList != null && languageList.size() > 0) {
+			map.put("msg", "0");
+			map.put("dataList", languageList);
 		}
 		return map;
 	}

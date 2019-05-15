@@ -285,7 +285,7 @@
 		a.articleType = b.id
 		JOIN sys_role c ON b.roleId = c.id
 		where
-		relevancyId = 0 and 
+		a.relevancyId = '0' and 
 		instr(a.articleName,#{keyword}) and
 		a.isValidate in
 		(0,1,2,3)
@@ -310,7 +310,7 @@
 		a.articleType = b.id
 		JOIN sys_role c ON b.roleId = c.id
 		where 
-		relevancyId = 0 and 
+		a.relevancyId = '0' and 
 		instr(a.articleName,#{keyword}) and
 		a.isValidate in
 		(0,1,2,3)

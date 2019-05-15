@@ -269,7 +269,7 @@
 			$.ajax({
         type : 'post',
         data : "",
-        url : '${appRoot}/language/getAllData',
+        url : '${appRoot}/role/getLanguageData',
         dataType : 'json',
         success : function(data) {
           if (data.msg == "0") {
@@ -400,7 +400,7 @@
 			$.ajax({
         type : 'post',
         data : "",
-        url : '${appRoot}/language/getAllData',
+        url : '${appRoot}/role/getLanguageData',
         dataType : 'json',
         success : function(data) {
           if (data.msg == "0") {

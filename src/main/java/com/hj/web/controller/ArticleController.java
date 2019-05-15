@@ -260,6 +260,8 @@ public class ArticleController extends ControllerBase {
 		String positionId = getTrimParameter("positionId");
 		model.addAttribute("itemId", itemId);
 		model.addAttribute("positionId", positionId);
+		String roleId = getTrimParameter("roleId");
+		model.addAttribute("roleId", roleId);
 		return "redirect:getDataList";
 	}
 

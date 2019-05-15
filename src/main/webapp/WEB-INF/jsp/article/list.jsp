@@ -220,6 +220,7 @@
 			type="hidden" name="articleType" id="articleType"
 			value="${articleType }"> <input type="hidden"
 			name="channelType" id="channelType" value="${channelType }">
+			<input type="hidden" name="roleId" value="${roleId }">
 	</form>
 
 	<form action="${appRoot}/user/setExpert" method="post" id="checkExpert"
