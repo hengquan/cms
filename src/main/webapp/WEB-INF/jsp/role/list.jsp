@@ -57,7 +57,7 @@
 											<td class="hidden-phone">${info.languageName }</td>
 											<td class="hidden-phone">
 												<button class="btn btn-primary btn-xs"
-													onclick="doEdit('${info.id}','${info.roleName}','${info.pinyin}','${info.remark}','${info.languageId }')">
+													onclick="doEdit('${info.id}','${info.roleName}','${info.pinyin}','${info.remark}','${info.languageId }','${info.languages }')">
 													<i class="icon-pencil"></i>
 												</button> &nbsp;
 												<button class="btn btn-danger btn-xs"
@@ -80,7 +80,7 @@
                       <td class="hidden-phone">${role.languageName }</td>
                       <td class="hidden-phone">
                         <button class="btn btn-primary btn-xs"
-                          onclick="doEdit('${role.id}','${role.roleName}','${role.pinyin}','${role.remark}','${role.languageId }')">
+                          onclick="doEdit('${role.id}','${role.roleName}','${role.pinyin}','${role.remark}','${role.languageId }','${role.languages }')">
                           <i class="icon-pencil"></i>
                         </button> &nbsp;
                         <button class="btn btn-danger btn-xs"
@@ -119,6 +119,7 @@
 							name="roleForm">
 							<input type="hidden" name="editId" id="editId">
 							<input type="hidden" name="languageId" id="languageId"> 
+							<input type="hidden" name="languages" id="languages"> 
 							<div class="form-group">
 								<label class="col-lg-2 control-label pd-r5">站点名称<font
 									style="color: red;">*</font></label>
@@ -264,7 +265,7 @@
 			$modal.modal();
 		}
 
-		function doEdit(id, roleName, pinyin, remark,languageId) {
+		function doEdit(id, roleName, pinyin, remark,languageId,languages) {
 			$("#thisChannelLanguage").html();
 			$.ajax({
         type : 'post',
@@ -277,9 +278,33 @@
            var dataList = data.dataList;
            for(var i=0;i<dataList.length;i++){
              if(languageId.indexOf(dataList[i].id) != -1){
-               html += '<span class="btn"><input type="checkbox" checked="true" class="languageIds" value="123'+ dataList[i].id +'"><label>' + dataList[i].name + '</label></span>';
+               html += '<span class="btn thisLanguageArea">'
+               +'<input type="checkbox" checked="true" class="languageIds btn" value="'+ dataList[i].id +'"><label class="btn">' + dataList[i].name + '</label>'
+               +'<input type="hidden" class="languageTab" value="'+ dataList[i].tab +'">'
+               +'<input type="hidden" class="languageName" value="'+ dataList[i].name +'">';
+               if(languages!=""){
+	               var languageList = languages.split(",");
+	               for(var y=0; y<languageList.length; y++){
+	                 var zu = languageList[y];
+	                 var xiang = zu.split(":");
+	                 var xiangTab = xiang[1];
+	                 var xiangName = xiang[2];
+	                 if(xiangTab == dataList[i].tab){
+	                	 html += '<input type="text" style="text-align:center" class="form-control roleLanguageName" value="'+ xiangName +'" placeholder="请输入'+ dataList[i].name +'名称">'
+	                   +'</span>';
+	                 }
+	               }
+               }else{
+            	   html += '<input type="text" style="text-align:center" class="form-control roleLanguageName" placeholder="请输入'+ dataList[i].name +'名称">'
+                 +'</span>';
+               }
              }else{
-               html += '<span class="btn"><input type="checkbox" class="languageIds" value="456'+ dataList[i].id +'"><label>' + dataList[i].name + '</label></span>';
+               html += '<span class="btn thisLanguageArea">'
+                   +'<input type="checkbox" class="languageIds btn" value="'+ dataList[i].id +'"><label class="btn">' + dataList[i].name + '</label>'
+                   +'<input type="hidden" class="languageTab" value="'+ dataList[i].tab +'">'
+                   +'<input type="hidden" class="languageName" value="'+ dataList[i].name +'">'
+                   +'<input type="text" style="text-align:center" class="form-control roleLanguageName" placeholder="请输入'+ dataList[i].name +'名称">'
+                   +'</span>';
              }
            }
            $("#thisChannelLanguage").html(html);
@@ -310,15 +335,25 @@
 				return false;
 			}
 			var languages = "";
-			$("#thisChannelLanguage").find(".languageIds").each(function (index,obj){
-				if (obj.checked == true) {
-					var language = obj.value;
-					languages += "," + language;
+			var languageId = "";
+			$("#thisChannelLanguage").find(".thisLanguageArea").each(function (index,obj){
+				var languageIds = $(obj).find(".languageIds");
+				if (languageIds.is(':checked')) {
+					var language = languageIds.val();
+					languageId += "," + language;
+					//组串串
+					var languageName = $(obj).find(".languageName").val();
+					var languageTab = $(obj).find(".languageTab").val();
+					var roleLanguageName = $(obj).find(".roleLanguageName").val();
+					languages += ","+languageName+":"+languageTab+":"+roleLanguageName;
         }
 			})
+			if(languageId != "") 
+				languageId = languageId.substr(1);
+			$("#languageId").val(languageId);
 			if(languages != "") 
 				languages = languages.substr(1);
-			$("#languageId").val(languages);
+      $("#languages").val(languages);
 			//开始提交
 			$.ajax({
         type : 'post',
@@ -407,7 +442,12 @@
         	 var html = '';
            var dataList = data.dataList;
            for(var i=0;i<dataList.length;i++){
-        	   html += '<span class="btn"><input type="checkbox" class="languageIds" value="'+ dataList[i].id +'"><label>' + dataList[i].name + '</label></span>';
+        	   html += '<span class="btn thisLanguageArea">'
+        	   +'<input type="checkbox" class="languageIds btn" value="'+ dataList[i].id +'"><label class="btn">' + dataList[i].name + '</label>'
+        	   +'<input type="hidden" class="languageTab" value="'+ dataList[i].tab +'">'
+        	   +'<input type="hidden" class="languageName" value="'+ dataList[i].name +'">'
+        	   +'<input type="text" style="text-align:center" class="form-control roleLanguageName" placeholder="请输入'+ dataList[i].name +'名称">'
+        	   +'</span>';
            }
 					 $("#thisChannelLanguage").html(html);
           } else {

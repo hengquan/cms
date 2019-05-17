@@ -24,6 +24,16 @@ public class Channel {
     private Integer channeltype;
     
     private String languages;
+    
+    private String picUrl;
+
+		public String getPicUrl() {
+			return picUrl;
+		}
+
+		public void setPicUrl(String picUrl) {
+			this.picUrl = picUrl;
+		}
 
 		public String getLanguages() {
 			return languages;

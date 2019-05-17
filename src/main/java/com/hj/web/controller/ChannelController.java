@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hj.common.ControllerBase;
+import com.hj.utils.Configurations;
 import com.hj.utils.JsonUtils;
 import com.hj.web.entity.Channel;
 import com.hj.web.entity.SysRole;
@@ -79,6 +80,11 @@ public class ChannelController extends ControllerBase {
 			}
 			// 获取所有频道信息
 			List<Channel> selectList = channelService.getProjectMessge(map);
+			if (selectList != null && selectList.size() > 0) {
+				for (Channel channel : selectList) {
+					urlManage(channel);
+				}
+			}
 			// 所有信息数量
 			int listMessgeCount = channelService.getProjectMessgeCount(map);
 			// 获取页面信息
@@ -137,6 +143,9 @@ public class ChannelController extends ControllerBase {
 		try {
 			List<Channel> channelList = channelService.getAllData();
 			if (channelList != null && channelList.size() > 0) {
+				for (Channel channel : channelList) {
+					urlManage(channel);
+				}
 				map.put("dataList", channelList);
 				map.put("msg", "0");
 			} else {
@@ -174,5 +183,20 @@ public class ChannelController extends ControllerBase {
 			e.printStackTrace();
 		}
 		return JsonUtils.map2json(map);
+	}
+
+	// 处理图片访问地址
+	public Channel urlManage(Channel channel) {
+		if (channel != null) {
+			String picUrl = channel.getPicUrl();
+			if (StringUtils.isNotEmpty(picUrl)) {
+				String path = Configurations.getAccessUrl();
+				if (StringUtils.isNotEmpty(path)) {
+					picUrl = path + picUrl;
+					channel.setPicUrl(picUrl);
+				}
+			}
+		}
+		return channel;
 	}
 }

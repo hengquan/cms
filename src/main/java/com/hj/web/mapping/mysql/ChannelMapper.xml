@@ -9,13 +9,14 @@
 		<result column="descn" property="descn" jdbcType="VARCHAR" />
 		<result column="roleId" property="roleId" jdbcType="VARCHAR" />
 		<result column="languages" property="languages" jdbcType="VARCHAR" />
+		<result column="picUrl" property="picUrl" jdbcType="VARCHAR" />
 		<result column="isValidate" property="isvalidate" jdbcType="INTEGER" />
 		<result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
 		<result column="channelType" property="channeltype" jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, channelName, areaName, sort, descn,roleId,languages, isValidate,
-		cTime,channelType
+		cTime,channelType,picUrl
 	</sql>
 	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
@@ -62,6 +63,9 @@
 			<if test="channeltype != null">
 				channelType,
 			</if>
+			<if test="picUrl != null">
+				picUrl,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -94,6 +98,9 @@
 			<if test="channeltype != null">
 				#{channeltype,jdbcType=INTEGER},
 			</if>
+			<if test="picUrl != null">
+				#{picUrl,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 	<update id="update" parameterType="com.hj.web.entity.Channel">
@@ -125,6 +132,9 @@
 			</if>
 			<if test="channeltype != null">
 				channelType = #{channeltype,jdbcType=INTEGER},
+			</if>
+			<if test="picUrl != null">
+				picUrl = #{picUrl,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}

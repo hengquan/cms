@@ -9,9 +9,10 @@
 		<result column="languageId" property="languageId" jdbcType="VARCHAR" />
 		<result column="sort" property="sort" jdbcType="INTEGER" />
 		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="languages" property="languages" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, role_name, pinyin, logogram, sort, remark,languageId
+		id, role_name, pinyin, logogram, sort, remark,languageId,languages
 	</sql>
 	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
@@ -48,6 +49,9 @@
 			<if test="remark != null">
 				remark,
 			</if>
+			<if test="languages != null">
+				languages,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -71,6 +75,9 @@
 			<if test="remark != null">
 				#{remark,jdbcType=VARCHAR},
 			</if>
+			<if test="languages != null">
+				#{languages,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 	<update id="update" parameterType="com.hj.web.entity.SysRole">
@@ -93,6 +100,9 @@
 			</if>
 			<if test="remark != null">
 				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="languages != null">
+				languages = #{languages,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}

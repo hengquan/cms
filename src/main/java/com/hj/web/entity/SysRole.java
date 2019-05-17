@@ -17,11 +17,21 @@ public class SysRole {
 
     private String remark;
     
+    private String languages;
+    
     private List<SysRole> roleList;
     
     private String languageName;
 
-    public String getLanguageName() {
+    public String getLanguages() {
+			return languages;
+		}
+
+		public void setLanguages(String languages) {
+			this.languages = languages;
+		}
+
+		public String getLanguageName() {
 			return languageName;
 		}
 

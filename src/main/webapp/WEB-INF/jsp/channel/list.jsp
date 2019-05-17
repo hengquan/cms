@@ -13,6 +13,10 @@
 <!-- Custom styles for this template -->
 <link href="${appRoot}/static/css/style.css" rel="stylesheet">
 <link href="${appRoot}/static/css/style-responsive.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="${appRoot}/static/js/css/layui.css">
+<script src="${appRoot}/static/js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8" src="${appRoot}/static/js/layui.all.js"></script>
+<script type="text/javascript" charset="utf-8" src="${appRoot}/static/js/layui.js"></script>
 <title>${appTitle}</title>
 </head>
 <body>
@@ -84,6 +88,7 @@
 										<th style="width: 8px;"><input type="checkbox" name="box"
 											class="group-checkable" data-set="#sample_1 .checkboxes"
 											value="" /></th>
+										<th class="hidden-phone">封面图片</th>
 										<th class="hidden-phone">频道名称</th>
 										<th class="hidden-phone">所属站点</th>
 										<th class="hidden-phone">所属渠道</th>
@@ -98,6 +103,16 @@
 										<tr class="odd gradeX theTr">
 											<td><input type="checkbox" name="box" class="checkboxes"
 												value="${u.id}" /></td>
+											<td class="hidden-phone">
+                        <c:choose>
+                          <c:when test="${empty u.picUrl }">
+                            <img src="${appRoot }/static/img/zanwu1.png" style="height: 50px;">
+                          </c:when>
+                          <c:otherwise>
+                            <img src="${u.picUrl }" style="height: 50px;" onerror="excptionUrl(this)">
+                          </c:otherwise>
+                        </c:choose>
+                      </td>
 											<td class="hidden-phone"><a href="#"
 												onclick="doArticleList('${u.id}','${channeltype }','${u.roleId }')">${u.channelname}</a>
 											</td>
@@ -114,7 +129,7 @@
 													value="${u.ctime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 											<td class="hidden-phone">
 												<button type="button"
-													onclick="edit('${u.id}','${u.channelname}','${u.areaname}','${u.descn}','${u.roleId }','${u.languages }')"
+													onclick="edit('${u.id}','${u.channelname}','${u.areaname}','${u.descn}','${u.roleId }','${u.languages }','${u.picUrl }')"
 													class="btn btn-send thisEdit">修改频道</button> <a
 												href="javascript:doAddArticle('${u.id }','${channeltype }','${u.roleId }');"
 												class="btn btn-send">添加文章</a>
@@ -220,6 +235,19 @@
 									name="areaname">
 							</div>
 						</div>
+						<div style="form-group">
+              <label class="col-lg-2 control-label pd-r5" style="margin-left: -15px;">封面图<font
+                style="color: red;"></font></label> 
+              <div class="col-lg-10">
+                <div>
+                  <img class="my-img form-control btn" id="imgDJZS"
+                   style="float:left;width: 219px; height: 150px;margin-left: -6px;border:0px;margin-bottom: 14px;" onerror="excptionUrl(this)" />
+                </div>
+                <div id="titleDJZS" style="float: left;margin-top:122px;"><b>上传100*200缩略图,1M以内</b></div>
+              </div>
+              <input type="hidden" id=picUrl name="picUrl" />
+            </div>
+            <div style="clear:both"></div>
 						<div class="form-group">
 							<label class="col-lg-2 control-label pd-r5">频道描述<font
 								style="color: red;"></font></label>
@@ -326,7 +354,7 @@
 		}
 
 		//修改频道
-		function edit(id, channelname, areaname, descn, roleId, languages) {
+		function edit(id, channelname, areaname, descn, roleId, languages,picUrl) {
 			$("#thisChannelLanguage").html("");
 			$("#modal-title").val("修改频道");
 			$("#channelname").val(channelname);
@@ -334,6 +362,9 @@
 			$("#descn").val(descn);
 			$("#editId").val(id);
 			$("#languages").val(languages);
+      if(picUrl !=null && picUrl != ''){
+        $("#imgDJZS").attr("src",picUrl);
+      }
 			//处理多语言
 			addLanguage(languages);
 			//处理显示
@@ -564,6 +595,41 @@
 				$("#thisChannelLanguage").html(html);
 			}
 		}
+		
+    //layui处理文件上传
+    layui.use(['form', 'upload'], function(){
+       form = layui.form;
+       upload = layui.upload;
+       initImgForGroup();
+       form.render();
+     });
+        
+    function initImgForGroup() {
+      upload.render({
+        elem: '#imgDJZS,#titleDJZS', //绑定元素
+        url: '${appRoot}/apply/uploadFile' ,//上传接口
+        size:'1024',
+        before: function(obj){
+          console.log(obj);
+          //预读本地文件示例，不支持ie8
+          obj.preview(function(index, file, result){
+            $('#imgDJZS').attr('src', result); //图片链接（base64）
+          });
+          $("#picUrl").attr("title", "点击封面图");
+        },
+        data:{"tableName":"hl_kj","fileType":"主图片"},
+        done: function(res) {
+        console.log(res);
+          var fileName = res.fileName;
+          $("#picUrl").val(fileName);
+        }
+      });
+    }
+    
+    function excptionUrl(obj){
+      var obj = $(obj);
+      obj.attr("src",'${appRoot}/static/img/zanwu1.png');
+    }
 	</script>
 </body>
 </html>

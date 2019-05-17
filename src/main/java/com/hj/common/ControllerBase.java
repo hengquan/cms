@@ -247,10 +247,9 @@ public class ControllerBase {
 	}
 
 	public String getTrimParameter(String name) {
-		String v = request.getParameter(name);
-		if (null == v)
-			return null;
-		v = v.trim();
+		String v = request.getParameter(name) == null ? "" : request.getParameter(name).toString();
+		if (StringUtils.isNotEmpty(v))
+			v = v.trim();
 		return v;
 	}
 

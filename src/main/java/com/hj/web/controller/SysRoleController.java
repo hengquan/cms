@@ -165,6 +165,7 @@ public class SysRoleController extends ControllerBase {
 		String pinyin = StringUtils.trim(getTrimParameter("pinyin"));
 		String remark = StringUtils.trim(getTrimParameter("remark"));
 		String languageId = StringUtils.trim(getTrimParameter("languageId"));
+		String languages = StringUtils.trim(getTrimParameter("languages"));
 
 		boolean isSave = true;
 		if (isSave) {
@@ -182,6 +183,7 @@ public class SysRoleController extends ControllerBase {
 						sysRole.setLogogram(roleid);
 					sysRole.setRemark(remark);
 					sysRole.setLanguageId(languageId);
+					sysRole.setLanguages(languages);
 					sysRoleDao.add(sysRole);
 					logger.info("添加角色成功");
 					result.put("msg", "isc");
@@ -195,6 +197,7 @@ public class SysRoleController extends ControllerBase {
 				sysRole.setPinyin(pinyin);
 				sysRole.setRemark(remark);
 				sysRole.setLanguageId(languageId);
+				sysRole.setLanguages(languages);
 				sysRoleDao.update(sysRole);
 				logger.info("修改角色成功");
 				result.put("msg", "isupdate");
