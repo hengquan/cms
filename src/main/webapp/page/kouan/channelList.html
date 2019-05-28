@@ -126,8 +126,46 @@
 </body>
 <script type="text/javascript">
 	$(function() {
+		getChannelList();
 	})
 
+	//获取该站点下所有的频道列表
+	function getChannelList(){
+		$.ajax({
+      type : 'post',
+      data : {
+        "language" : language,
+        "channelId" : channelId,
+        "pageSize" : articleNumber
+      },
+      url : '../../api/getArticleList',
+      dataType : 'json',
+      async : false,
+      success : function(data) {
+        if (data.code == "200") {
+          //渲染首页频道列表
+          var html = "";
+          var dataList = data.dataList;
+          for (var i = 0; i < dataList.length; i++) {
+            if ((index + 1) % 2 == 0) {
+              html += '<span class="col-xs-4 col-lg-4 col-md-4" style="padding-right: 2px;padding-left: 2px;">'
+              +'<a href="#" onclick=openArticleContent("'+dataList[i].id+'")>'
+              +'<img src="'+ dataList[i].picUrl +'" width="100%" alt="" onerror="excptionUrl(this)"><br>'
+              +'<div class="imgText">'+ dataList[i].articleName +'</div>'
+              +'</a>'
+              +'</span>';
+            } else {
+              html += '<li><a href="#" onclick=openArticleContent("'+dataList[i].id+'")>'+ dataList[i].articleName +'</a></li>';
+            }
+          }
+          theChannelList.html(html);
+        } else {
+          alert(data.msg);
+        }
+      }
+    });
+	}
+	
 	//处理访问不到的图片给个默认图
 	function excptionUrl(obj) {
 		var obj = $(obj);

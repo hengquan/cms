@@ -220,6 +220,8 @@
 		<include refid="Base_Column_List" />
 		from cms_channel
 		where roleId = #{roleId}
-		limit #{number}
+		<if test="number > 0 and number!=null ">
+			limit #{number}
+		</if>
 	</select>
 </mapper>

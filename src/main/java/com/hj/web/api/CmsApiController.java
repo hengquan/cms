@@ -186,7 +186,7 @@ public class CmsApiController extends ControllerBase {
 		try {
 			String channelNumber = request.getParameter("channelNumber") == null ? ""
 					: request.getParameter("channelNumber").toString();
-			int number = 3;
+			Integer number = 3;
 			if (StringUtils.isNotEmpty(channelNumber)) {
 				number = Integer.parseInt(channelNumber);
 			}
@@ -265,22 +265,59 @@ public class CmsApiController extends ControllerBase {
 		// 返回信息
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			String articlelId = getTrimParameter("articlelId");
+			String articleId = getTrimParameter("articleId");
 			// 语言标识
 			String language = getTrimParameter("language");
 			if (StringUtils.isEmpty(language)) {
 				language = "ZH_CN";
 			}
-			if (StringUtils.isNotEmpty(articlelId)) {
+			if (StringUtils.isNotEmpty(articleId)) {
 				// 存页面起始位置信息
-				result.put("articlelId", articlelId);
+				result.put("articlelId", articleId);
 				result.put("language", language);
-				Article article = articleService.get(articlelId);
+				Article article = articleService.get(articleId);
 				result.put("code", "200");
 				result.put("data", article);
 			} else {
 				result.put("code", "201");
 				result.put("msg", "获取文章内容信息失败！");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("code", "500");
+			result.put("msg", "系统错误,请联系管理员！");
+		}
+		return result;
+	}
+
+	/**
+	 * 获取所有的频道列表
+	 * 
+	 * @author zhq
+	 * @param language-语言、roleId-站点ID
+	 * @return
+	 */
+	@RequestMapping("/getChannelList")
+	@ResponseBody
+	public Map<String, Object> getChannelList() {
+		// 返回信息
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			String roleId = getTrimParameter("roleId");
+			// 语言标识
+			String language = getTrimParameter("language");
+			if (StringUtils.isEmpty(language)) {
+				language = "ZH_CN";
+			}
+			if (StringUtils.isNotEmpty(roleId)) {
+				Map<String, Object> param = new HashMap<String, Object>();
+				param.put("roleId", roleId);
+				List<Channel> channelList = channelService.selectDataByRoleId(param);
+				result.put("code", "200");
+				result.put("channelList", channelList);
+			} else {
+				result.put("code", "201");
+				result.put("msg", "获取站点信息失败！");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
