@@ -15,7 +15,8 @@
 		<result column="channelType" property="channeltype" jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, channelName, areaName, sort, descn,roleId,languages, isValidate,
+		id, channelName, areaName, sort, descn,roleId,languages,
+		isValidate,
 		cTime,channelType,picUrl
 	</sql>
 	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
@@ -144,7 +145,7 @@
 	<select id="getProjectMessge" resultMap="BaseResultMap"
 		parameterType="java.util.Map">
 		SELECT
-		a.*, b.role_name roleName 
+		a.*, b.role_name roleName
 		FROM
 		cms_channel a
 		JOIN sys_role b ON
@@ -200,10 +201,25 @@
 		from cms_channel
 		where 1=1
 		<if test="channeltype != null and channeltype != 0">
-      and channelType = #{channeltype}
-    </if>
+			and channelType = #{channeltype}
+		</if>
 		<if test="roleId != null and roleId != ''">
-      and roleId = #{roleId}
-    </if>
+			and roleId = #{roleId}
+		</if>
+	</select>
+
+	<select id="getDataByRoleId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cms_channel
+		where roleId = #{roleId}
+	</select>
+
+	<select id="selectDataByRoleId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cms_channel
+		where roleId = #{roleId}
+		limit #{number}
 	</select>
 </mapper>

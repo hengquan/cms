@@ -91,4 +91,9 @@ public class SysRoleServiceImpl implements SysRoleService {
 		return dao.findParentById(id);
 	}
 
+	@Override
+	public SysRole findByPinYin(String tab) {
+		return dao.findByPinYin(tab);
+	}
+
 }

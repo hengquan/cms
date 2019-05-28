@@ -96,4 +96,6 @@ public interface SysRoleService {
 
 	public List<SysRole> findParentById(String id);
 
+	public SysRole findByPinYin(String tab);
+
 }

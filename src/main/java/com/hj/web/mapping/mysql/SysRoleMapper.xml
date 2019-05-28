@@ -130,4 +130,13 @@
 		where
 		logogram = #{id}
 	</select>
+	
+	<select id="findByPinYin" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+		where
+		pinyin = #{tab}
+		limit 1
+	</select>
 </mapper>

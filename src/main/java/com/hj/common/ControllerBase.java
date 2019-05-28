@@ -20,6 +20,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hj.utils.Configurations;
 import com.hj.utils.HashSessions;
 import com.hj.web.dao.SysItemRoleDao;
 import com.hj.web.entity.SysItemRole;
@@ -57,6 +58,7 @@ public class ControllerBase {
 	protected HttpServletResponse response;
 	protected Locale locale;
 	static JsonMapper jsonMapper = new JsonMapper();
+	protected String path = Configurations.getAccessUrl();
 
 	@ModelAttribute
 	public void setReqAndRes(HttpServletRequest request, HttpServletResponse response, Locale locale) {

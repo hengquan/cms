@@ -114,4 +114,19 @@ public class ArticleServiceImpl implements ArticleService {
 		return dao.getParentDataList(id);
 	}
 
+	@Override
+	public List<Article> getArticlePicUrlList(Map<String, Object> param) {
+		return dao.getArticlePicUrlList(param);
+	}
+
+	@Override
+	public List<Article> getDataListByChannelIdAndLanguage(Map<String, Object> result) {
+		return dao.getDataListByChannelIdAndLanguage(result);
+	}
+
+	@Override
+	public int getDataListByChannelIdAndLanguageCount(Map<String, Object> result) {
+		return dao.getDataListByChannelIdAndLanguageCount(result);
+	}
+
 }

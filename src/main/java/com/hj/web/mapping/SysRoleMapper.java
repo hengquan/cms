@@ -18,4 +18,6 @@ public interface SysRoleMapper {
 	List<SysRole> findMeAndParentList();
 
 	List<SysRole> findParentById(String id);
+
+	SysRole findByPinYin(String tab);
 }

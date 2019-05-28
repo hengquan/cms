@@ -127,9 +127,9 @@
 												<button type="button"
 													onclick="edit('${u.id}','${u.articleType }','${channelType }','${u.roleId }','${u.language }')"
 													class="btn btn-send">修改</button>
-												<button type="button"
+												<%-- <button type="button"
 													onclick="doAdd('${articleType }','${channelType }','${roleId }','${u.id }');"
-													class="btn btn-send">添加相关文章</button>
+													class="btn btn-send">添加相关文章</button> --%>
 											</td>
 										</tr>
 									</c:forEach>

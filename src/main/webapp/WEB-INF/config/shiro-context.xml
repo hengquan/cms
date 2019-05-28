@@ -34,7 +34,7 @@
         /pay/** = anon
         /mapi/** = anon 
         /ueditor/** = anon 
-        /wxfront/** = anon 
+        /page/** = anon 
         /wxpage/** = anon 
         /service/** = anon 
         /** = user

@@ -24,4 +24,8 @@ public interface ChannelMapper {
 
 	List<Channel> getDataByType(Map<String, Object> param);
 
+	List<Channel> getDataByRoleId(String roleId);
+
+	List<Channel> selectDataByRoleId(Map<String, Object> param);
+
 }

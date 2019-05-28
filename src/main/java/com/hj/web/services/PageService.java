@@ -48,4 +48,18 @@ public class PageService {
 		model.put("totalPageNum", totalPageNum);
 	}
 
+	// 获取数据总数量
+	public void getPageData(int totalCount, Map<String, Object> model, PageService page) {
+		Integer residueCount = totalCount % pageSize;
+		Integer totalPageNum = 0;
+		if (residueCount == 0) {
+			totalPageNum = totalCount / pageSize;
+		} else {
+			totalPageNum = (totalCount / pageSize) + 1;
+		}
+		model.put("nowPage", page.getNowPage());
+		model.put("pageSize", page.getPageSize());
+		model.put("totalPageNum", totalPageNum);
+	}
+
 }

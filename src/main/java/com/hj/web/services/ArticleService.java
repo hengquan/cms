@@ -35,4 +35,10 @@ public interface ArticleService {
 	public List<Article> getArticleParentDataList(Article article);
 
 	public List<Article> getParentDataList(String id);
+
+	public List<Article> getArticlePicUrlList(Map<String, Object> param);
+
+	public List<Article> getDataListByChannelIdAndLanguage(Map<String, Object> result);
+
+	public int getDataListByChannelIdAndLanguageCount(Map<String, Object> result);
 }

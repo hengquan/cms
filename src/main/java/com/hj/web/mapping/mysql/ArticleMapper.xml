@@ -281,11 +281,12 @@
 		a.*, c.role_name roleName,c.id roleId
 		FROM
 		cms_article a
-		JOIN cms_channel b ON
+		JOIN
+		cms_channel b ON
 		a.articleType = b.id
 		JOIN sys_role c ON b.roleId = c.id
 		where
-		a.relevancyId = '0' and 
+		a.relevancyId = '0' and
 		instr(a.articleName,#{keyword}) and
 		a.isValidate in
 		(0,1,2,3)
@@ -294,7 +295,8 @@
 		</if>
 		<if test="roleId != null and roleId != ''">
 			and c.id = #{roleId,jdbcType=VARCHAR}
-			or c.logogram = #{roleId,jdbcType=VARCHAR}
+			or c.logogram =
+			#{roleId,jdbcType=VARCHAR}
 		</if>
 		order by a.sort desc,a.createTime
 		desc
@@ -307,10 +309,11 @@
 		FROM
 		cms_article a
 		JOIN cms_channel b ON
-		a.articleType = b.id
+		a.articleType =
+		b.id
 		JOIN sys_role c ON b.roleId = c.id
-		where 
-		a.relevancyId = '0' and 
+		where
+		a.relevancyId = '0' and
 		instr(a.articleName,#{keyword}) and
 		a.isValidate in
 		(0,1,2,3)
@@ -318,8 +321,9 @@
 			and a.articleType = #{articleType,jdbcType=VARCHAR}
 		</if>
 		<if test="roleId != null and roleId != ''">
-			and c.id = #{roleId,jdbcType=VARCHAR} 
-			or c.logogram = #{roleId,jdbcType=VARCHAR}
+			and c.id = #{roleId,jdbcType=VARCHAR}
+			or c.logogram =
+			#{roleId,jdbcType=VARCHAR}
 		</if>
 	</select>
 
@@ -354,7 +358,7 @@
 			and id != #{id,jdbcType=VARCHAR}
 		</if>
 	</select>
-	
+
 	<select id="getParentDataList" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
@@ -363,8 +367,51 @@
 		relevancyId = #{id}
 	</select>
 
+	<select id="getArticlePicUrlList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cms_article
+		where
+		picUrl is not null
+		and picUrl != ""
+		and
+		instr(#{channelIds},articleType)
+		order by sort desc
+		limit
+		#{number}
+	</select>
+
 	<update id="deletes">
 		update cms_article set isValidate = 4 where
 		instr(#{ids},id)
 	</update>
+
+	<select id="getDataListByChannelIdAndLanguage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cms_article
+		where isValidate in (0,1,2,3)
+		<if test="channelId != null and channelId != ''">
+			and articleType = #{channelId,jdbcType=VARCHAR}
+		</if>
+		<if test="channelId != null and channelId != ''">
+			and language = #{language,jdbcType=VARCHAR}
+		</if>
+		order by sort desc,createTime desc
+		limit #{page},#{pageSize}
+	</select>
+	
+	 <select id="getDataListByChannelIdAndLanguageCount" resultType="java.lang.Integer">
+    select
+    count(1) 
+    from cms_article
+    where isValidate in (0,1,2,3)
+    <if test="channelId != null and channelId != ''">
+      and articleType = #{channelId,jdbcType=VARCHAR}
+    </if>
+    <if test="channelId != null and channelId != ''">
+      and language = #{language,jdbcType=VARCHAR}
+    </if>
+    order by sort desc,createTime desc
+  </select>
 </mapper>
