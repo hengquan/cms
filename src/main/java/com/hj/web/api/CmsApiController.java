@@ -314,7 +314,7 @@ public class CmsApiController extends ControllerBase {
 				param.put("roleId", roleId);
 				List<Channel> channelList = channelService.selectDataByRoleId(param);
 				result.put("code", "200");
-				result.put("channelList", channelList);
+				result.put("dataList", channelList);
 			} else {
 				result.put("code", "201");
 				result.put("msg", "获取站点信息失败！");
