@@ -333,11 +333,11 @@ function getChannelList() {
 	var roleId = window.sessionStorage.getItem("roleId");
 	var language = window.sessionStorage.getItem("language");
 	//父频道名称
-	var parentName = getQueryString("parentName");
+	var moduleId = getQueryString("moduleId");
 	$.ajax({
 		type : 'post',
 		data : {
-			"parentName" : parentName,
+			"moduleId" : moduleId,
 			"language" : language,
 			"roleId" : roleId
 		},

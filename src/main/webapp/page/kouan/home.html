@@ -25,8 +25,8 @@
 }
 
 #main_icon img {
-	width: 64px;
-	height: 64px;
+	width: 100%;
+	height: 100%;
 	padding: 5px;
 }
 
@@ -93,8 +93,7 @@
 		</div>
 		<div style="clear: both;"></div>
 		<div class="row" id="main_icon" style="background: #fefefe">
-			<input type="hidden" id="channelNumber" value="3"> <span
-				class="col-xs-3 col-lg-3 col-md-3"> <a href="#"
+			<span class="col-xs-3 col-lg-3 col-md-3"> <a href="#"
 				onclick="gotoChannelPage(this)"> <img src="../img/1-1.png"
 					alt=""><br> <label>大美中国</label>
 			</a>
@@ -129,6 +128,7 @@
 			</span>
 		</div>
 		<div style="clear: both;"></div>
+		<input type="hidden" id="channelNumber" value="3">
 		<div id="channelListData"></div>
 		<div class="row"
 			style="background: #444; text-align: center; color: #fefefe; margin-top: 10px">
@@ -146,17 +146,44 @@
 		$("#myCarousel").carousel('cycle');
 		//轮播图
 		getHomePicUrl();
+		//获取该站点的模块列表
+		getModuleList();
 		//获取首面的频道列表
 		getHomeChannelList();
 		//处理首页频道下面显示的文章
 		getHomeArticleList();
 	})
 
-	function gotoChannelPage(obj) {
-		var obj = $(obj);
-		var parentName = obj.find("label").html();
-		parentName = decodeURI(parentName);
-		window.location.href = "./channelList.html?parentName=" + parentName;
+	function getModuleList() {
+		var roleId = window.sessionStorage.getItem("roleId");
+		$.ajax({
+			type : 'post',
+			data : {
+				"roleId" : roleId
+			},
+			url : '../../api/getModuleList',
+			dataType : 'json',
+			async : false,
+			success : function(data) {
+				if (data.code == "200") {
+					var html = "";
+					var dataList = data.dataList;
+					for (var i = 0; i < dataList.length; i++) {
+						html += '<span class="col-xs-3 col-lg-3 col-md-3">'
+						+'<a href="#" onclick=gotoChannelPage("'+dataList[i].id+'")>'
+						+'<img src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label>'+dataList[i].moduleName+'</label>'
+					  +'</a></span>';
+					}
+					$("#main_icon").html(html);
+				} else {
+					alert(data.msg);
+				}
+			}
+		});
+	}
+
+	function gotoChannelPage(moduleId) {
+		window.location.href = "./channelList.html?moduleId=" + moduleId;
 	}
 </script>
 </html>

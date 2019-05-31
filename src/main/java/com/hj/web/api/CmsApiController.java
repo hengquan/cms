@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -15,10 +16,12 @@ import com.hj.common.ControllerBase;
 import com.hj.web.entity.Article;
 import com.hj.web.entity.Channel;
 import com.hj.web.entity.Language;
+import com.hj.web.entity.Module;
 import com.hj.web.entity.SysRole;
 import com.hj.web.services.ArticleService;
 import com.hj.web.services.ChannelService;
 import com.hj.web.services.LanguageService;
+import com.hj.web.services.ModuleService;
 import com.hj.web.services.PageService;
 import com.hj.web.services.SysRoleService;
 
@@ -36,6 +39,8 @@ public class CmsApiController extends ControllerBase {
 	SysRoleService roleService;
 	@Autowired
 	PageService pageService;
+	@Autowired
+	ModuleService moduleService;
 
 	/**
 	 * 获取主页信息(站点名称、站点所有的语言)
@@ -305,7 +310,7 @@ public class CmsApiController extends ControllerBase {
 		try {
 			String roleId = getTrimParameter("roleId");
 			//父频道名称
-			String parentName = getTrimParameter("parentName");
+			String moduleId = getTrimParameter("moduleId");
 			// 语言标识
 			String language = getTrimParameter("language");
 			if (StringUtils.isEmpty(language)) {
@@ -314,7 +319,7 @@ public class CmsApiController extends ControllerBase {
 			if (StringUtils.isNotEmpty(roleId)) {
 				Map<String, Object> param = new HashMap<String, Object>();
 				param.put("roleId", roleId);
-				param.put("parentName", parentName);
+				param.put("moduleId", moduleId);
 				List<Channel> channelList = channelService.selectDataByRoleId(param);
 				result.put("code", "200");
 				result.put("dataList", channelList);
@@ -330,4 +335,26 @@ public class CmsApiController extends ControllerBase {
 		return result;
 	}
 
+	// 获取站点下所有的模块
+	@RequestMapping(value = "/getModuleList")
+	@ResponseBody
+	public Map<String, Object> getModuleList(ModelMap model) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		String roleId = getTrimParameter("roleId");
+		try {
+			if (StringUtils.isNotEmpty(roleId)) {
+				List<Module> moduleList = moduleService.getDataByRoleId(roleId);
+				resultMap.put("code", "200");
+				resultMap.put("dataList", moduleList);
+			} else {
+				resultMap.put("code", "201");
+				resultMap.put("msg", "获取站点信息失败！");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("code", "500");
+			resultMap.put("msg", "系统错误请联系管理员");
+		}
+		return resultMap;
+	}
 }
