@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hj.web.mapping.ModuleMapper">
+	<resultMap id="BaseResultMap" type="com.hj.web.entity.Module">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="moduleName" property="moduleName" jdbcType="VARCHAR" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+		<result column="roleId" property="roleId" jdbcType="VARCHAR" />
+		<result column="isValidate" property="isValidate" jdbcType="INTEGER" />
+		<result column="cTime" property="cTime" jdbcType="TIMESTAMP" />
+		<result column="languages" property="languages" jdbcType="VARCHAR" />
+		<result column="picUrl" property="picUrl" jdbcType="VARCHAR" />
+		<result column="hrefUrl" property="hrefUrl" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, moduleName, sort, roleId, isValidate, cTime, languages,
+		picUrl,
+		hrefUrl
+	</sql>
+	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from cms_module
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="del" parameterType="java.lang.String">
+		delete from cms_module
+		where id =
+		#{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.hj.web.entity.Module">
+		insert into cms_module
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="moduleName != null">
+				moduleName,
+			</if>
+			<if test="sort != null">
+				sort,
+			</if>
+			<if test="roleId != null">
+				roleId,
+			</if>
+			<if test="isValidate != null">
+				isValidate,
+			</if>
+			<if test="cTime != null">
+				cTime,
+			</if>
+			<if test="languages != null">
+				languages,
+			</if>
+			<if test="picUrl != null">
+				picUrl,
+			</if>
+			<if test="hrefUrl != null">
+				hrefUrl,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="moduleName != null">
+				#{moduleName,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null">
+				#{sort,jdbcType=INTEGER},
+			</if>
+			<if test="roleId != null">
+				#{roleId,jdbcType=VARCHAR},
+			</if>
+			<if test="isValidate != null">
+				#{isValidate,jdbcType=INTEGER},
+			</if>
+			<if test="cTime != null">
+				#{cTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="languages != null">
+				#{languages,jdbcType=VARCHAR},
+			</if>
+			<if test="picUrl != null">
+				#{picUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="hrefUrl != null">
+				#{hrefUrl,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.hj.web.entity.Module">
+		update cms_module
+		<set>
+			<if test="moduleName != null">
+				moduleName = #{moduleName,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null">
+				sort = #{sort,jdbcType=INTEGER},
+			</if>
+			<if test="roleId != null">
+				roleId = #{roleId,jdbcType=VARCHAR},
+			</if>
+			<if test="isValidate != null">
+				isValidate = #{isValidate,jdbcType=INTEGER},
+			</if>
+			<if test="cTime != null">
+				cTime = #{cTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="languages != null">
+				languages = #{languages,jdbcType=VARCHAR},
+			</if>
+			<if test="picUrl != null">
+				picUrl = #{picUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="hrefUrl != null">
+				hrefUrl = #{hrefUrl,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<select id="getDataMessge" resultMap="BaseResultMap">
+		SELECT
+		a.*, b.role_name roleName
+		FROM
+		cms_module a
+		JOIN sys_role b ON
+		a.roleId = b.id
+		where a.isValidate = 1
+		<if test="roleId !='' and roleId != null">
+			and a.roleId = #{roleId}
+		</if>
+		<if test="moduleName !='' and moduleName != null">
+			and instr(a.moduleName,#{moduleName})
+		</if>
+		order by cTime desc
+		limit #{page},#{pageSize}
+	</select>
+
+	<select id="getDataMessgeCount" resultType="java.lang.Integer">
+		SELECT
+		count(1)
+		FROM
+		cms_module a
+		JOIN sys_role b ON a.roleId = b.id
+		where
+		a.isValidate = 1
+		<if test="roleId !='' and roleId != null">
+			and a.roleId = #{roleId}
+		</if>
+		<if test="moduleName !='' and moduleName != null">
+			and instr(a.moduleName,#{moduleName})
+		</if>
+	</select>
+
+	<select id="getDataByRoleId" resultMap="BaseResultMap">
+		select * from cms_module where roleId = #{roleId}
+	</select>
+</mapper>

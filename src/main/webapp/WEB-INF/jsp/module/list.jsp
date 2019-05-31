@@ -37,10 +37,9 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<section class="panel">
-							<header class="panel-heading">频道列表</header>
-							<form action="${appRoot}/channel/getDataList" method="post"
+							<header class="panel-heading">模块列表</header>
+							<form action="${appRoot}/module/getDataList" method="post"
 								id="selectCheckMessage">
-								<input type="hidden" name="channeltype" value="${channeltype }">
 								<input type="hidden" name="itemId" value="${itemId }"> <input
 									type="hidden" name="positionId" value="${positionId }">
 								<!-- 根据用户昵称查询 -->
@@ -48,8 +47,8 @@
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<input type="text" class="btn"
 										style="width: 500px; border: 1px solid #ddd; text-align: left;"
-										placeholder="请输入频道名称" name="channelname"
-										value="${channelname }"><span>
+										placeholder="请输入模块名称" name="moduleName"
+										value="${moduleName }"><span>
 										<button class="btn sr-btn-imp" style="float: right"
 											onclick="selectDataList()">
 											<i class="icon-search"></i>
@@ -89,18 +88,16 @@
 											class="group-checkable" data-set="#sample_1 .checkboxes"
 											value="" /></th>
 										<th class="hidden-phone">封面图片</th>
-										<th class="hidden-phone">频道名称</th>
+										<th class="hidden-phone">模块名称</th>
 										<th class="hidden-phone">所属站点</th>
-										<th class="hidden-phone">所属渠道</th>
-										<th class="hidden-phone">所属地区</th>
-										<th class="hidden-phone">父级名称</th>
+										<th class="hidden-phone">排序(大者靠前)</th>
 										<th class="hidden-phone">外链地址</th>
 										<th class="hidden-phone">创建时间</th>
 										<th class="hidden-phone">操作</th>
 									</tr>
 								</thead>
 								<tbody id="theTbody">
-									<c:forEach items="${selectList}" var="u" varStatus="s">
+									<c:forEach items="${moduleList}" var="u" varStatus="s">
 										<tr class="odd gradeX theTr">
 											<td><input type="checkbox" name="box" class="checkboxes"
 												value="${u.id}" /></td>
@@ -114,27 +111,16 @@
                           </c:otherwise>
                         </c:choose>
                       </td>
-											<td class="hidden-phone"><a href="#"
-												onclick="doArticleList('${u.id}','${channeltype }','${u.roleId }')">${u.channelname}</a>
-											</td>
-											<td class="hidden-phone">${u.roleName}</td>
-											<td class="hidden-phone"><c:if
-													test="${u.channeltype == 0}">暂无</c:if> <c:if
-													test="${u.channeltype == 1}">APP</c:if> <c:if
-													test="${u.channeltype == 2}">H5</c:if> <c:if
-													test="${u.channeltype == 3}">触摸板</c:if> <c:if
-													test="${u.channeltype == 4}">APP视频</c:if></td>
-											<td class="hidden-phone">${u.areaname}</td>
 											<td class="hidden-phone">${u.moduleName}</td>
+											<td class="hidden-phone">${u.roleName}</td>
+											<td class="hidden-phone">${u.sort}</td>
 											<td class="hidden-phone">${u.hrefUrl}</td>
 											<td class="hidden-phone"><fmt:formatDate
-													value="${u.ctime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+													value="${u.cTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 											<td class="hidden-phone">
 												<button type="button"
-													onclick="edit('${u.id}','${u.channelname}','${u.areaname}','${u.descn}','${u.roleId }','${u.languages }','${u.picUrl }','${u.moduleId }','${u.hrefUrl }')"
-													class="btn btn-send thisEdit">修改频道</button> <a
-												href="javascript:doAddArticle('${u.id }','${channeltype }','${u.roleId }');"
-												class="btn btn-send">添加文章</a>
+													onclick="edit('${u.id}','${u.moduleName}','${u.roleId }','${u.languages }','${u.picUrl }','${u.hrefUrl }','${u.sort }')"
+													class="btn btn-send thisEdit">修改模块</button> 
 											</td>
 										</tr>
 									</c:forEach>
@@ -187,10 +173,10 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="modal-title">添加频道</h4>
+					<h4 class="modal-title" id="modal-title">添加模块</h4>
 				</div>
 				<div class="modal-body">
-					<form action="${appRoot}/channel/save" method="post"
+					<form action="${appRoot}/module/save" method="post"
 						class="form-horizontal" enctype="multipart/form-data" role="form"
 						id="addMessage" name="itemForm">
 						<input type="hidden" name="id" id="editId"> 
@@ -198,55 +184,21 @@
 						<input type="hidden" name="positionId" value="${positionId }"> 
 						<input type="hidden" name="languages" id="languages">
 						<div class="form-group">
-							<label class="col-lg-2 control-label pd-r5">所属渠道<font
-								style="color: red;"></font></label>
-							<div class="col-lg-10">
-								<select class="form-control" name="channeltype">
-									<option value="1"
-										<c:if test="${channeltype == 1}">selected</c:if>>APP</option>
-									<option value="2"
-										<c:if test="${channeltype == 2}">selected</c:if>>H5</option>
-									<option value="3"
-										<c:if test="${channeltype == 3}">selected</c:if>>触摸板</option>
-									<option value="4"
-										<c:if test="${channeltype == 4}">selected</c:if>>APP视频</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
 							<label class="col-lg-2 control-label pd-r5">所属站点<font
 								style="color: red;"></font></label>
 							<div class="col-lg-10">
-								<select id="roleId" name="roleId" class="form-control" onchange="eventHandling(this)"></select>
+								<select id="roleId" name="roleId" class="form-control" onchange="selLanguage(this)"></select>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-lg-2 control-label pd-r5">默认名称<font
 								style="color: red;"></font></label>
 							<div class="col-lg-10">
-								<input type="text" class="form-control" id="channelname"
-									name="channelname">
+								<input type="text" class="form-control" id="moduleName"
+									name="moduleName">
 							</div>
 						</div>
 						<div id="thisChannelLanguage"></div>
-						<div class="form-group">
-							<label class="col-lg-2 control-label pd-r5">所属地区<font
-								style="color: red;"></font></label>
-							<div class="col-lg-10">
-								<input type="text" class="form-control" id="areaname"
-									name="areaname">
-							</div>
-						</div>
-						<div class="form-group">
-              <label class="col-lg-2 control-label pd-r5">外链地址<font
-                style="color: red;"></font></label>
-              <div class="col-lg-10">
-                <input type="text" class="form-control" id="hrefUrl"
-                  name="hrefUrl" placeholder="请输入外链址,仅供前端使用">
-              </div>
-            </div>
-            <div id="selModule"></div>
-            <input type="hidden" name="moduleId" id="moduleId">
 						<div style="form-group">
               <label class="col-lg-2 control-label pd-r5" style="margin-left: -15px;">封面图片<font
                 style="color: red;"></font></label> 
@@ -260,14 +212,22 @@
               <input type="hidden" id=picUrl name="picUrl" />
             </div>
             <div style="clear:both"></div>
-						<div class="form-group">
-							<label class="col-lg-2 control-label pd-r5">频道描述<font
-								style="color: red;"></font></label>
-							<div class="col-lg-10">
-								<textarea rows="5" cols="60" class="form-control" id="descn"
-									name="descn"></textarea>
-							</div>
-						</div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label pd-r5">排序字段<font
+                style="color: red;"></font></label>
+              <div class="col-lg-10">
+                <input type="number" class="form-control" id="sort"
+                  name="sort" placeholder="请输入排序值，大者靠前">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label pd-r5">外链地址<font
+                style="color: red;"></font></label>
+              <div class="col-lg-10">
+                <input type="text" class="form-control" id="hrefUrl"
+                  name="hrefUrl" placeholder="请输入外链地址,备用">
+              </div>
+            </div>
 						<div class="form-group">
 							<div class="col-lg-offset-2 col-lg-10">
 								<button type="button" onclick="submitData();"
@@ -329,7 +289,7 @@
 		</div>
 	</div>
 
-	<form action="${appRoot}/channel/del" method="post" id="deleForm"
+	<form action="${appRoot}/module/del" method="post" id="deleForm"
 		name="deleForm">
 		<input type="hidden" name="itemId" value="${itemId }"> <input
 			type="hidden" name="positionId" value="${positionId }"> <input
@@ -365,26 +325,21 @@
 			$("#selectCheckMessage").submit();
 		}
 
-		//修改频道
-		function edit(id, channelname, areaname, descn, roleId, languages,picUrl,moduleId,hrefUrl) {
+		//修改模块
+		function edit(id,moduleName,roleId,languages,picUrl,hrefUrl,sort){
 			$("#thisChannelLanguage").html("");
-			$("#modal-title").val("修改频道");
-			$("#channelname").val(channelname);
-			$("#areaname").val(areaname);
-			$("#descn").val(descn);
+			$("#modal-title").val("修改模块");
+			$("#moduleName").val(moduleName);
 			$("#editId").val(id);
 			$("#languages").val(languages);
       if(picUrl !=null && picUrl != ''){
         $("#imgDJZS").attr("src",picUrl);
       }
-      $("#moduleId").val(moduleId);
       $("#hrefUrl").val(hrefUrl);
 			//处理多语言
 			addLanguage(languages);
 			//处理显示
 			addRolePage(roleId);
-			//处理所属模块
-			channelInModule(roleId);
 		}
 
 		//更新提交
@@ -404,17 +359,6 @@
 			if (rows != "")
 				rows = rows.substr(1);
 			$("#languages").val(rows);
-			//组所有模块的ID
-			var moduleId = "";
-			$("#selModule .selModuleId").each(function(index,obj){
-				var object = $(obj);
-				if (object.is(':checked')) {
-					moduleId += "," + object.val();
-				}
-			})
-			if(moduleId != "")
-				moduleId = moduleId.substr(1);
-			$("#moduleId").val(moduleId);
 			//提交
 			$("#addMessage").submit();
 		}
@@ -494,41 +438,7 @@
 			document.getElementById("addMessage").reset();
 			$("#editId").val("");
 			$("#thisChannelLanguage").html("");
-			//处理权限
 			addRolePage('');
-		}
-		
-		//处理该频道属于哪个模块
-		function channelInModule(roleId){
-			$.ajax({
-        type : 'post',
-        data : {"roleId" : roleId},
-        url : '${appRoot}/module/getDataByRoleId',
-        dataType : 'json',
-        success : function(data) {
-        	var parentIds = $("#moduleId").val();
-        	var code = data.code;
-          if (code == "200") {
-        	  var dataList = data.moduleList;
-        	  console.log(dataList);
-        	  var html = '<div class="form-group">'
-              +'<label class="col-lg-2 control-label pd-r5">所属模块<font style="color: red;"></font></label>'
-              +'<div class="col-lg-10 control-label pd-r5">';
-        	  for(var i=0;i<dataList.length;i++){
-        		  var moduleName = dataList[i].moduleName;
-        		  var moduleId = dataList[i].id;
-        		  if(parentIds.indexOf(moduleId) != -1){
-	        		  html += '<input type="checkbox" checked class="selModuleId" value="'+moduleId+'">&nbsp;<b>'+moduleName+'</b>&nbsp;';
-        		  }else{
-	        		  html += '<input type="checkbox" class="selModuleId" value="'+moduleId+'">&nbsp;<b>'+moduleName+'</b>&nbsp;';
-        		  }
-        	  }
-        	  html += '</div></div>';
-        	  if(dataList.length>0)
-        		  $("#selModule").html(html);
-          }
-        }
-      });
 		}
 
 		function doDelete() {
@@ -598,19 +508,11 @@
 			});
 		}
 
-		function eventHandling(obj){
-			$("#thisChannelLanguage").html("");
-			$("#selModule").html("");
-      var obj = $(obj);
-      var roleId = obj.val();
-      //处理语言
-      selLanguage(roleId);
-      //处理所属模块
-      channelInModule(roleId);
-		}
-		
 		//添加时选择语言
-		function selLanguage(roleId) {
+		function selLanguage(obj) {
+			$("#thisChannelLanguage").html("");
+			var obj = $(obj);
+			var roleId = obj.val();
 			$.ajax({
 				type : 'post',
 				data : {

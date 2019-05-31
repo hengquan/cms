@@ -13,11 +13,13 @@
 		<result column="isValidate" property="isvalidate" jdbcType="INTEGER" />
 		<result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
 		<result column="channelType" property="channeltype" jdbcType="INTEGER" />
+		<result column="moduleId" property="moduleId" jdbcType="VARCHAR" />
+		<result column="hrefUrl" property="hrefUrl" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, channelName, areaName, sort, descn,roleId,languages,
 		isValidate,
-		cTime,channelType,picUrl
+		cTime,channelType,picUrl,moduleId,hrefUrl
 	</sql>
 	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
@@ -67,6 +69,12 @@
 			<if test="picUrl != null">
 				picUrl,
 			</if>
+			<if test="moduleId != null">
+				moduleId,
+			</if>
+			<if test="hrefUrl != null">
+				hrefUrl,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -102,6 +110,12 @@
 			<if test="picUrl != null">
 				#{picUrl,jdbcType=VARCHAR},
 			</if>
+			<if test="moduleId != null">
+				#{moduleId,jdbcType=VARCHAR},
+			</if>
+			<if test="hrefUrl != null">
+				#{hrefUrl,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 	<update id="update" parameterType="com.hj.web.entity.Channel">
@@ -136,6 +150,12 @@
 			</if>
 			<if test="picUrl != null">
 				picUrl = #{picUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="moduleId != null">
+				moduleId = #{moduleId,jdbcType=VARCHAR},
+			</if>
+			<if test="hrefUrl != null">
+				hrefUrl = #{hrefUrl,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}
@@ -220,6 +240,9 @@
 		<include refid="Base_Column_List" />
 		from cms_channel
 		where roleId = #{roleId}
+		<if test="moduleId != '' and moduleId!=null ">
+			and instr(#{moduleId},moduleId)
+		</if>
 		<if test="number > 0 and number!=null ">
 			limit #{number}
 		</if>

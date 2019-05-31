@@ -15,10 +15,11 @@ import com.hj.common.ControllerBase;
 import com.hj.utils.Configurations;
 import com.hj.utils.JsonUtils;
 import com.hj.web.entity.Channel;
-import com.hj.web.entity.SysRole;
+import com.hj.web.entity.Module;
 import com.hj.web.entity.UserInfo;
 import com.hj.web.entity.UserRole;
 import com.hj.web.services.ChannelService;
+import com.hj.web.services.ModuleService;
 import com.hj.web.services.PageService;
 import com.hj.web.services.UserRoleService;
 
@@ -32,6 +33,8 @@ public class ChannelController extends ControllerBase {
 	PageService pageService;
 	@Autowired
 	UserRoleService userRoleService;
+	@Autowired
+	ModuleService moduleService;
 
 	// 频道列表
 	@RequestMapping(value = "/channel/getDataList")
@@ -41,8 +44,7 @@ public class ChannelController extends ControllerBase {
 		String channelname = getTrimParameter("channelname");
 		// 判断所属类型
 		String channeltype = getTrimParameter("channelType");
-		SysRole role = super.getUserRole();
-		String roleId = role.getId();
+		String roleId = getTrimParameter("roleId");
 		// 判断当前用户是啥级别的
 		UserInfo userInfo = super.getUserInfo();
 		if (userInfo != null) {
@@ -59,8 +61,6 @@ public class ChannelController extends ControllerBase {
 							}
 						}
 					}
-				} else {
-					roleId = "";
 				}
 			}
 		}
@@ -82,6 +82,24 @@ public class ChannelController extends ControllerBase {
 			List<Channel> selectList = channelService.getProjectMessge(map);
 			if (selectList != null && selectList.size() > 0) {
 				for (Channel channel : selectList) {
+					String moduleIds = channel.getModuleId();
+					if (StringUtils.isNotEmpty(moduleIds)) {
+						String[] moduleIdList = moduleIds.split(",");
+						if (moduleIdList.length > 0) {
+							String moduleNames = "";
+							for (String moduleId : moduleIdList) {
+								Module module = moduleService.get(moduleId);
+								if (module != null) {
+									String moduleName = module.getModuleName();
+									moduleNames += "," + moduleName;
+								}
+							}
+							if (StringUtils.isNotEmpty(moduleNames)) {
+								moduleNames = moduleNames.substring(1);
+								channel.setModuleName(moduleNames);
+							}
+						}
+					}
 					urlManage(channel);
 				}
 			}

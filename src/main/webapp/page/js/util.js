@@ -176,7 +176,7 @@ function getHomeChannelList() {
 							+ '</b></label> '
 							+ '<label class="col-md-6 pull-right btn"><b><a href="#" onclick=openArticleList("'
 							+ dataList[i].id
-							+ '")>更多>></a></b></label>' + '</div>';
+							+ '","")>更多>></a></b></label>' + '</div>';
 					if ((i + 1) % 2 == 0) {
 						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left; margin-top: 20px;">'
 								+ '<input type="hidden" class="channelId" value="'
@@ -263,10 +263,14 @@ function excptionUrl(obj) {
 }
 
 // 打开文章列表页
-function openArticleList(channelId) {
-	var language = $("#selLanguage").val();
-	window.location.href = "./articleList.html?channelId=" + channelId
-			+ "&language=" + language;
+function openArticleList(channelId,hrefUrl) {
+	if(hrefUrl !=null && hrefUrl != ""){
+		window.location.href = hrefUrl;
+	}else{
+		var language = $("#selLanguage").val();
+		window.location.href = "./articleList.html?channelId=" + channelId
+		+ "&language=" + language;
+	}
 }
 
 // 打开文章
@@ -328,9 +332,12 @@ function getArticleList() {
 function getChannelList() {
 	var roleId = window.sessionStorage.getItem("roleId");
 	var language = window.sessionStorage.getItem("language");
+	//父频道名称
+	var parentName = getQueryString("parentName");
 	$.ajax({
 		type : 'post',
 		data : {
+			"parentName" : parentName,
 			"language" : language,
 			"roleId" : roleId
 		},
@@ -343,7 +350,7 @@ function getChannelList() {
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
 					html += '<div class="col-xs-12 col-lg-12 col-md-12">'
-							+ '<a href="#" onclick=openArticleList("'+dataList[i].id+'")>'
+							+ '<a href="#" onclick=openArticleList("'+dataList[i].id+'","'+dataList[i].hrefUrl+'")>'
 							+ '<img src="'+dataList[i].picUrl+'" alt="" onerror="excptionUrl(this)"><br> <label>'+dataList[i].channelname+'</label>'
 							+ '</a>' + '</div>';
 				}

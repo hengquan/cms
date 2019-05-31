@@ -304,6 +304,8 @@ public class CmsApiController extends ControllerBase {
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			String roleId = getTrimParameter("roleId");
+			//父频道名称
+			String parentName = getTrimParameter("parentName");
 			// 语言标识
 			String language = getTrimParameter("language");
 			if (StringUtils.isEmpty(language)) {
@@ -312,6 +314,7 @@ public class CmsApiController extends ControllerBase {
 			if (StringUtils.isNotEmpty(roleId)) {
 				Map<String, Object> param = new HashMap<String, Object>();
 				param.put("roleId", roleId);
+				param.put("parentName", parentName);
 				List<Channel> channelList = channelService.selectDataByRoleId(param);
 				result.put("code", "200");
 				result.put("dataList", channelList);

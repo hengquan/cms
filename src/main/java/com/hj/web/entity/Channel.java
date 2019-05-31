@@ -26,6 +26,36 @@ public class Channel {
     private String languages;
     
     private String picUrl;
+    
+    private String moduleId;
+    
+    private String moduleName;
+    
+    private String hrefUrl;
+
+		public String getModuleName() {
+			return moduleName;
+		}
+
+		public void setModuleName(String moduleName) {
+			this.moduleName = moduleName;
+		}
+
+		public String getModuleId() {
+			return moduleId;
+		}
+
+		public void setModuleId(String moduleId) {
+			this.moduleId = moduleId;
+		}
+
+		public String getHrefUrl() {
+			return hrefUrl;
+		}
+
+		public void setHrefUrl(String hrefUrl) {
+			this.hrefUrl = hrefUrl;
+		}
 
 		public String getPicUrl() {
 			return picUrl;
