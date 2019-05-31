@@ -31,7 +31,12 @@ public class PageService {
 	public void getPageLocation(PageService page, Map<String, Object> map) {
 		Integer start = ((page.getNowPage() - 1) * pageSize);
 		map.put("page", start);
-		map.put("pageSize", pageSize);
+		Integer thisPageSize = page.getPageSize();
+		if (thisPageSize != null && thisPageSize != 0) {
+			map.put("pageSize", thisPageSize);
+		} else {
+			map.put("pageSize", pageSize);
+		}
 	}
 
 	// 获取数据总数量

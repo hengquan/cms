@@ -189,7 +189,7 @@ function getHomeChannelList() {
 								+ '<input type="hidden" class="channelId" value="'
 								+ dataList[i].id
 								+ '">'
-								+ '<input type="hidden" class="channelId" value="3">'
+								+ '<input type="hidden" class="articleNumber" value="3">'
 								+ '<div class="theChannelList"></div>'
 								+ '</div></div>';
 					} else {
@@ -197,7 +197,7 @@ function getHomeChannelList() {
 								+ '<input type="hidden" class="channelId" value="'
 								+ dataList[i].id
 								+ '">'
-								+ '<input type="hidden" class="channelNumber" value="3">'
+								+ '<input type="hidden" class="articleNumber" value="3">'
 								+ '<ul class="theChannelList"></ul>'
 								+ '</div></div>';
 					}
