@@ -126,23 +126,30 @@ function getHomePicUrl() {
 				var imgJiaodian = "";
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
-					imgHtml += '<div class="item active">'
+					if (i == 0) {
+						imgJiaodian += '<li data-target="#myCarousel" data-slide-to="'
+								+ i + '" class="active"></li>';
+						imgHtml += '<div class="item active">'
 							+ '<img width="100%" height="100%" onclick=openArticleContent("'
 							+ dataList[i].id
 							+ '") src="'
 							+ dataList[i].picUrl
 							+ '" alt="First slide" onerror="excptionUrl(this)">'
 							+ '</div>';
-					if (i == 0) {
-						imgJiaodian += '<li data-target="#myCarousel" data-slide-to="'
-								+ i + '" class="active"></li>';
 					} else {
 						imgJiaodian += '<li data-target="#myCarousel" data-slide-to="'
 								+ i + '"></li>';
+						imgHtml += '<div class="item">'
+							+ '<img width="100%" height="100%" onclick=openArticleContent("'
+							+ dataList[i].id
+							+ '") src="'
+							+ dataList[i].picUrl
+							+ '" alt="First slide" onerror="excptionUrl(this)">'
+							+ '</div>';
 					}
 				}
-				$(".carousel-inner").html(imgHtml);
 				$(".carousel-indicators").html(imgJiaodian);
+				$(".carousel-inner").html(imgHtml);
 			} else {
 				alert(data.msg);
 			}
@@ -284,8 +291,11 @@ function openArticleContent(articleId) {
 function getArticleList() {
 	var nowPage = $("#nowPage").val();
 	var pageSize = $("#pageSize").val();
+	var channelId = $("#channelId").val();
 	var language = window.sessionStorage.getItem("language");
-	var channelId = getQueryString("channelId");
+	if(channelId == null || channelId == "" || channelId == undefined)
+		channelId = getQueryString("channelId");
+	$("#channelId").val(channelId);
 	//请求数据
 	var data = {
 		"language" : language,
@@ -300,6 +310,7 @@ function getArticleList() {
 		dataType : 'json',
 		async : false,
 		success : function(data) {
+			console.log(data);
 			if (data.code == "200") {
 				//渲染首页频道列表
 				var html = "";
@@ -321,11 +332,70 @@ function getArticleList() {
 							+ '</div>';
 				}
 				$(".articleContent").html(html);
+				//组分页
+				compoundPage(data);
 			} else {
 				alert(data.msg);
 			}
 		}
 	});
+}
+
+//组分页
+function compoundPage(data){
+	//当前页数
+	var nowPage = data.nowPage;
+	$("#nowPage").val(nowPage);
+	//页面条数
+	var pageSize = data.pageSize;
+	$("#pageSize").val(pageSize);
+	//总页数
+	var totalPageNum = data.totalPageNum;
+	$("#totalPageNum").val(totalPageNum);
+	var html = "";
+	html += '<li><a href="#" onclick=doAppointPage("1")>首页</a></li>'
+		+'<li><a href="#" onclick=doUpPage("'+nowPage+'","'+totalPageNum+'")>上翻</a></li>';
+	//组中间页数
+	//之间的差值
+	var begin = nowPage;
+	var errand = totalPageNum - nowPage;
+	if(errand < 3){
+		errand = 3 - errand;
+		begin = nowPage - errand < 1 ? 1 : nowPage - errand;
+	}
+	var end = nowPage+3>totalPageNum?totalPageNum:nowPage+3;
+	for(begin;begin<=end;begin++){
+		if(nowPage == begin){
+			html += '<li class="active"><a href="#" onclick=doAppointPage("'+begin+'")>'+begin+'</a></li>';
+		}else{
+			html += '<li><a href="#" onclick=doAppointPage("'+begin+'")>'+begin+'</a></li>';
+		}
+	}
+	//组尾页面
+	html += '<li><a href="#" onclick=doNextPage("'+nowPage+'","'+totalPageNum+'")>下翻</a></li>'
+	+'<li><a href="#" onclick=doAppointPage("'+totalPageNum+'")>尾页</a></li>';
+	//填充页面
+	$(".pagination").html(html);
+}
+
+//上翻
+function doUpPage(nowPage,totalPageNum){
+	nowPage = nowPage - 1 < 1 ? 1 : nowPage - 1;
+	$("#nowPage").val(nowPage);
+	getArticleList();
+}
+
+//下翻
+function doNextPage(nowPage,totalPageNum){
+	nowPage = parseInt(nowPage + 1) > totalPageNum ? totalPageNum : parseInt(nowPage + 1);
+	$("#nowPage").val(nowPage);
+	getArticleList();
+}
+
+//跳转指定页面
+function doAppointPage(nowPage){
+	$("#nowPage").val(nowPage);
+	getArticleList();
 }
 
 //获取该站点下所有的频道列表
