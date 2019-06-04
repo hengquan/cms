@@ -5,9 +5,10 @@
 		<id column="id" property="id" jdbcType="VARCHAR" />
 		<result column="tab" property="tab" jdbcType="VARCHAR" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="picUrl" property="picUrl" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, tab, name
+		id, tab, name, picUrl
 	</sql>
 	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
@@ -32,6 +33,9 @@
 			<if test="name != null">
 				name,
 			</if>
+			<if test="picUrl != null">
+				picUrl,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -43,6 +47,9 @@
 			<if test="name != null">
 				#{name,jdbcType=VARCHAR},
 			</if>
+			<if test="picUrl != null">
+				#{picUrl,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 	<update id="update" parameterType="com.hj.web.entity.Language">
@@ -53,6 +60,9 @@
 			</if>
 			<if test="name != null">
 				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="picUrl != null">
+				picUrl = #{picUrl,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}

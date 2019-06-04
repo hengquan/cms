@@ -394,7 +394,7 @@
 		<if test="channelId != null and channelId != ''">
 			and articleType = #{channelId,jdbcType=VARCHAR}
 		</if>
-		<if test="channelId != null and channelId != ''">
+		<if test="language != null and language != ''">
 			and language = #{language,jdbcType=VARCHAR}
 		</if>
 		order by sort desc,createTime desc

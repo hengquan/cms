@@ -196,11 +196,21 @@ public class CmsApiController extends ControllerBase {
 				number = Integer.parseInt(channelNumber);
 			}
 			String roleId = getTrimParameter("roleId");
+			String language = getTrimParameter("language");
 			if (StringUtils.isNotEmpty(roleId)) {
 				Map<String, Object> param = new HashMap<String, Object>();
 				param.put("number", number);
 				param.put("roleId", roleId);
 				List<Channel> channelList = channelService.selectDataByRoleId(param);
+				if (channelList != null && channelList.size() > 0) {
+					for (Channel channel : channelList) {
+						String languages = channel.getLanguages();
+						if (StringUtils.isNotEmpty(languages) && StringUtils.isNotEmpty(language)) {
+							String name = getCorrespondingLanguage(language, languages);
+							channel.setChannelname(name);
+						}
+					}
+				}
 				result.put("code", "200");
 				result.put("channelList", channelList);
 			} else {
@@ -309,7 +319,7 @@ public class CmsApiController extends ControllerBase {
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			String roleId = getTrimParameter("roleId");
-			//父频道名称
+			// 父频道名称
 			String moduleId = getTrimParameter("moduleId");
 			// 语言标识
 			String language = getTrimParameter("language");
@@ -341,9 +351,22 @@ public class CmsApiController extends ControllerBase {
 	public Map<String, Object> getModuleList(ModelMap model) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		String roleId = getTrimParameter("roleId");
+		String language = getTrimParameter("language");
+		if (StringUtils.isEmpty(language)) {
+			language = "ZH_CN";
+		}
 		try {
 			if (StringUtils.isNotEmpty(roleId)) {
 				List<Module> moduleList = moduleService.getDataByRoleId(roleId);
+				if (moduleList != null && moduleList.size() > 0) {
+					for (Module module : moduleList) {
+						String languages = module.getLanguages();
+						if (StringUtils.isNotEmpty(languages) && StringUtils.isNotEmpty(language)) {
+							String name = getCorrespondingLanguage(language, languages);
+							module.setModuleName(name);
+						}
+					}
+				}
 				resultMap.put("code", "200");
 				resultMap.put("dataList", moduleList);
 			} else {
@@ -356,5 +379,25 @@ public class CmsApiController extends ControllerBase {
 			resultMap.put("msg", "系统错误请联系管理员");
 		}
 		return resultMap;
+	}
+
+	// 根据选择获取不同的语言
+	public String getCorrespondingLanguage(String language, String languages) {
+		String name = "";
+		String[] languageZu = languages.split(",");
+		if (languageZu.length > 0) {
+			for (String languageXiang : languageZu) {
+				if (StringUtils.isNotEmpty(languageXiang)) {
+					String[] split = languageXiang.split(":");
+					if (split.length >= 3) {
+						String tabName = split[1];
+						if (tabName.equals(language)) {
+							name = split[2];
+						}
+					}
+				}
+			}
+		}
+		return name;
 	}
 }

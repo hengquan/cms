@@ -17,6 +17,17 @@ function crtTimeFtt(millisecond) {
 	}
 }
 
+function openHome() {
+	//判断站点信息
+	isOkRole();
+	//获取该站点的模块列表
+	getModuleList();
+	//获取首面的频道列表
+	getHomeChannelList();
+	//处理首页频道下面显示的文章
+	getHomeArticleList();
+}
+
 // 获取站点信息
 function getRoleData(tab, selLanguage) {
 	// 站点名称
@@ -29,7 +40,7 @@ function getRoleData(tab, selLanguage) {
 	var languageList = window.sessionStorage.getItem("languageList");
 	if (languageList != "" || languageList != null || languageList != undefined) {
 		// 渲染语言列表
-		$(".head-language").html(languageList);
+		$("#nationalFlag").html(languageList);
 	}
 	// 站点ID
 	var roleId = window.sessionStorage.getItem("roleId");
@@ -63,15 +74,15 @@ function getHomeData(tab, language) {
 				var languageHtml = "";
 				var languageList = data.languageList;
 				for (var i = 0; i < languageList.length; i++) {
-					languageHtml += '&nbsp;&nbsp;<span onclick="selLanguage('
-							+ languageList[i].tab + ')">['
-							+ languageList[i].name + ']</span>'
+					languageHtml += '&nbsp;<img width="40px" height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
 				}
-				$(".head-language").html(languageHtml);
+				$("#nationalFlag").html(languageHtml);
 				// 渲染口岸名称
 				$("#roleName").html(data.roleName);
 				// 存session--站点名称
 				window.sessionStorage.setItem("roleName", data.roleName);
+				// 存session--站点标识
+				window.sessionStorage.setItem("tab", tab);
 				// 存session--站点所属语言列表
 				window.sessionStorage.setItem("languageList", languageHtml);
 				// 存session--口岸ID
@@ -83,6 +94,14 @@ function getHomeData(tab, language) {
 			}
 		}
 	});
+}
+
+function selLanguage(selLanguage){
+	var tab = window.sessionStorage.getItem("tab");
+	//获取站点和语言信息
+	getHomeData(tab, selLanguage);
+	//打开其他信息
+	openHome();
 }
 
 // 判断站点信息是否为空-空的话去主页重新刷新站点信息
@@ -101,7 +120,7 @@ function isOkRole() {
 		var languageList = window.sessionStorage.getItem("languageList");
 		if (languageList != "" || languageList != null || languageList != undefined) {
 			// 渲染语言列表
-			$(".head-language").html(languageList);
+			$("#nationalFlag").html(languageList);
 		}
 	}
 }
@@ -161,10 +180,12 @@ function getHomePicUrl() {
 function getHomeChannelList() {
 	var channelNumber = $("#channelNumber").val();
 	var roleId = window.sessionStorage.getItem("roleId");
+	var language = window.sessionStorage.getItem("language");
 	$.ajax({
 		type : 'post',
 		data : {
 			"channelNumber" : channelNumber,
+			"language" : language,
 			"roleId" : roleId
 		},
 		url : '../../api/getHomeChannelList',
@@ -216,7 +237,7 @@ function getHomeArticleList() {
 		var theChannelList = $(obj).find(".theChannelList");
 		var channelId = $(obj).find(".channelId").val();
 		var articleNumber = $(obj).find(".articleNumber").val();
-		var language = $("#selLanguage").val();
+		var language = window.sessionStorage.getItem("language");
 		$.ajax({
 			type : 'post',
 			data : {
@@ -465,3 +486,40 @@ function getArticle() {
 		}
 	});
 }
+
+//获取站点下所有的模块
+function getModuleList() {
+	var roleId = window.sessionStorage.getItem("roleId");
+	var language = window.sessionStorage.getItem("language");
+	$.ajax({
+		type : 'post',
+		data : {
+			"roleId" : roleId,
+			"language" : language
+		},
+		url : '../../api/getModuleList',
+		dataType : 'json',
+		async : false,
+		success : function(data) {
+			if (data.code == "200") {
+				var html = "";
+				var dataList = data.dataList;
+				for (var i = 0; i < dataList.length; i++) {
+					html += '<span class="col-xs-3 col-lg-3 col-md-3">'
+					+'<a href="#" onclick=gotoChannelPage("'+dataList[i].id+'")>'
+					+'<img src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label>'+dataList[i].moduleName+'</label>'
+				  +'</a></span>';
+				}
+				$("#main_icon").html(html);
+			} else {
+				alert(data.msg);
+			}
+		}
+	});
+}
+
+//打开频道列表
+function gotoChannelPage(moduleId) {
+	window.location.href = "./channelList.html?moduleId=" + moduleId;
+}
+

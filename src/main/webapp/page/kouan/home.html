@@ -13,15 +13,13 @@
 <script src="../js/util.js"></script>
 
 <style type="text/css">
-.head-language {
+.head-role {
+	font-size: 22px;
 	color: #fefefe;
-	text-align: right;
-	font-size: 20px;
 }
 
-.head-role {
-	font-size: 20px;
-	color: #fefefe;
+#nationalFlag {
+	padding: 3px;
 }
 
 #main_icon img {
@@ -54,9 +52,9 @@
 	<div class="container-fluid">
 		<div id="heard">
 			<div class="row" style="background: #4169E1;">
-				<div class="col-md-6 pull-right head-language">[中文]</div>
-				<div class="col-md-6 head-role">
-					<b id="roleName">咖啡口岸</b>
+				<div class="col-md-12">
+					<span id="roleName" class="head-role">咖啡口岸</span> <span
+						class="pull-right" id="nationalFlag"></span>
 				</div>
 			</div>
 		</div>
@@ -138,52 +136,16 @@
 </body>
 <script type="text/javascript">
 	$(function() {
-		//获取站点和语言信息
-		getRoleData("manzhouli", "ZH_CN");
 		//判断站点信息
 		isOkRole();
+		//获取站点和语言信息
+		getRoleData("manzhouli", "ZH_CN");
 		//轮播图
 		getHomePicUrl();
 		// 初始化轮播旋转
 		$("#myCarousel").carousel('cycle');
-		//获取该站点的模块列表
-		getModuleList();
-		//获取首面的频道列表
-		getHomeChannelList();
-		//处理首页频道下面显示的文章
-		getHomeArticleList();
+		//打开其他信息
+		openHome();
 	})
-
-	function getModuleList() {
-		var roleId = window.sessionStorage.getItem("roleId");
-		$.ajax({
-			type : 'post',
-			data : {
-				"roleId" : roleId
-			},
-			url : '../../api/getModuleList',
-			dataType : 'json',
-			async : false,
-			success : function(data) {
-				if (data.code == "200") {
-					var html = "";
-					var dataList = data.dataList;
-					for (var i = 0; i < dataList.length; i++) {
-						html += '<span class="col-xs-3 col-lg-3 col-md-3">'
-						+'<a href="#" onclick=gotoChannelPage("'+dataList[i].id+'")>'
-						+'<img src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label>'+dataList[i].moduleName+'</label>'
-					  +'</a></span>';
-					}
-					$("#main_icon").html(html);
-				} else {
-					alert(data.msg);
-				}
-			}
-		});
-	}
-
-	function gotoChannelPage(moduleId) {
-		window.location.href = "./channelList.html?moduleId=" + moduleId;
-	}
 </script>
 </html>

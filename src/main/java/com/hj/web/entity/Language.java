@@ -6,8 +6,18 @@ public class Language {
     private String tab;
 
     private String name;
+    
+    private String picUrl;
 
-    public String getId() {
+    public String getPicUrl() {
+			return picUrl;
+		}
+
+		public void setPicUrl(String picUrl) {
+			this.picUrl = picUrl;
+		}
+
+		public String getId() {
         return id;
     }
 
