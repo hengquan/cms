@@ -129,10 +129,14 @@ function isOkRole() {
 function getHomePicUrl() {
 	var imgNumber = $("#imgNumber").val();
 	var roleId = window.sessionStorage.getItem("roleId");
+	var language = window.sessionStorage.getItem("language");
+	var channelType = window.sessionStorage.getItem("channelType");
 	$.ajax({
 		type : 'post',
 		data : {
 			"imgNumber" : imgNumber,
+			"channelType" : channelType,
+			"language" : language,
 			"roleId" : roleId
 		},
 		url : '../../api/getArticlePicUrlList',
@@ -154,6 +158,7 @@ function getHomePicUrl() {
 							+ '") src="'
 							+ dataList[i].picUrl
 							+ '" alt="First slide" onerror="excptionUrl(this)">'
+							+ '<div id="contentTitle">'+dataList[i].articleName+'</div>'
 							+ '</div>';
 					} else {
 						imgJiaodian += '<li data-target="#myCarousel" data-slide-to="'
@@ -164,6 +169,7 @@ function getHomePicUrl() {
 							+ '") src="'
 							+ dataList[i].picUrl
 							+ '" alt="First slide" onerror="excptionUrl(this)">'
+							+ '<div id="contentTitle">'+dataList[i].articleName+'</div>'
 							+ '</div>';
 					}
 				}
@@ -181,10 +187,12 @@ function getHomeChannelList() {
 	var channelNumber = $("#channelNumber").val();
 	var roleId = window.sessionStorage.getItem("roleId");
 	var language = window.sessionStorage.getItem("language");
+	var channelType = window.sessionStorage.getItem("channelType");
 	$.ajax({
 		type : 'post',
 		data : {
 			"channelNumber" : channelNumber,
+			"channelType" : channelType,
 			"language" : language,
 			"roleId" : roleId
 		},
@@ -423,12 +431,14 @@ function doAppointPage(nowPage){
 function getChannelList() {
 	var roleId = window.sessionStorage.getItem("roleId");
 	var language = window.sessionStorage.getItem("language");
+	var channelType = window.sessionStorage.getItem("channelType");
 	//父频道名称
 	var moduleId = getQueryString("moduleId");
 	$.ajax({
 		type : 'post',
 		data : {
 			"moduleId" : moduleId,
+			"channelType" : channelType,
 			"language" : language,
 			"roleId" : roleId
 		},

@@ -63,11 +63,8 @@
 									class="btn col-lg-10" style="border: 1px solid #ddd;"
 									name="roleId" id="roleId" onchange="selRole(this)"></select>
 							</div>
-							<div style="margin-top: 16px; margin-left: 20px;" class="row">
-								<label class="btn col-lg-1">选择频道：</label> <select
-									class="btn col-lg-10" style="border: 1px solid #ddd;"
-									name="articleType" id="articleType"></select>
-							</div>
+							<input type="hidden" name="articleType" id="articleType" value="${articleType }">
+							<div id="manyTypeAndChannel"></div>
 							<div style="margin-top: 16px; margin-left: 20px;" class="row">
 								<label class="btn col-lg-1">文章标题：</label> <input type="text"
 									class="btn col-lg-10"
@@ -220,6 +217,19 @@
 				$("#language").val(languageTab);
 			})
 			$("#isValidate").val(isValidate);
+			//获取多个不同类型下的站点
+			var channelIds = "";
+			$("#manyTypeAndChannel .channelIds").each(function(index,object){
+				var obj = $(object);
+				var channelId = obj.val();
+				if(channelId != "" && channelId != null){
+					channelIds += "," + channelId;
+				}
+			})
+			if(channelIds != "")
+         channelIds = channelIds.substr(1);
+			$("#articleType").val(channelIds);
+			//提交
 			$("#articleForm").submit();
 		}
 
@@ -273,30 +283,83 @@
 		}
 		
 		function selChannel(roleId){
+			var channelIds = $("#articleType").val();
 			$.ajax({
         type : 'post',
         data : {
           "channelType" : channelType,
           "roleId" : roleId
         },
-        url : '${appRoot}/channel/getDataByType',
+        url : '${appRoot}/channel/getDataByUrserRole',
         dataType : 'json',
         success : function(data) {
           if (data.msg == 0) {
-            var html;
-            var channelList = data.dataList;
-            for (var i = 0; i < channelList.length; i++) {
-              if (channelList[i].id == articleType) {
-                html += '<option value="'+ channelList[i].id +'" selected>'
-                    + channelList[i].channelname
-                    + '</option>'
-              } else {
-                html += '<option value="'+ channelList[i].id +'">'
-                    + channelList[i].channelname
-                    + '</option>'
+            var html = "";
+            var app = data.app;
+            var appVideo = data.appVideo;
+            var chumo = data.chumo;
+            var h5 = data.h5;
+            if(h5 != null && h5 != undefined && h5.length>0){
+            	 html += '<div style="margin-top: 16px; margin-left: 20px;" class="row">'
+                    +'<label class="btn col-lg-1">H5：</label>'
+                    +'<select  class="btn col-lg-10 channelIds" style="border: 1px solid #ddd;">'
+                    +'<option value="">--请选择频道--</option>';
+               for(var i=0;i<h5.length;i++){
+            	   var channelId = h5[i].id;
+            	   if(channelIds.indexOf(channelId) != -1){
+	                 html += '<option value="'+h5[i].id+'" selected>'+h5[i].channelname+'</option>';
+            	   }else{
+	                 html += '<option value="'+h5[i].id+'">'+h5[i].channelname+'</option>';
+            	   }
+               }
+               html += '</select></div>';
+             }
+            if(app != null && app != undefined && app.length>0){
+            	  html += '<div style="margin-top: 16px; margin-left: 20px;" class="row">'
+                    +'<label class="btn col-lg-1">APP：</label>'
+                    +'<select  class="btn col-lg-10 channelIds" style="border: 1px solid #ddd;">'
+                    +'<option value="">--请选择频道--</option>';
+                for(var i=0;i<app.length;i++){
+                	var channelId = app[i].id;
+                  if(channelIds.indexOf(channelId) != -1){
+                	  html += '<option value="'+app[i].id+'" selected>'+app[i].channelname+'</option>';
+                  }else{
+                	  html += '<option value="'+app[i].id+'">'+app[i].channelname+'</option>';
+                  }
+                }
+                html += '</select></div>';
               }
-            }
-            $("#articleType").html(html);
+            if(chumo != null && chumo != undefined && chumo.length>0){
+            	  html += '<div style="margin-top: 16px; margin-left: 20px;" class="row">'
+                    +'<label class="btn col-lg-1">触摸板：</label>'
+                    +'<select  class="btn col-lg-10 channelIds" style="border: 1px solid #ddd;">'
+                    +'<option value="">--请选择频道--</option>';
+                for(var i=0;i<chumo.length;i++){
+                	var channelId = chumo[i].id;
+                  if(channelIds.indexOf(channelId) != -1){
+	                	html += '<option value="'+chumo[i].id+'" selected>'+chumo[i].channelname+'</option>';
+                  }else{
+	                	html += '<option value="'+chumo[i].id+'">'+chumo[i].channelname+'</option>';
+                  }
+                }
+                html += '</select></div>';
+              }
+            if(appVideo != null && appVideo != undefined && appVideo.length>0){
+                html += '<div style="margin-top: 16px; margin-left: 20px;" class="row">'
+                  +'<label class="btn col-lg-1">APP视频：</label>'
+                  +'<select  class="btn col-lg-10 channelIds" style="border: 1px solid #ddd;">'
+                  +'<option value="">--请选择频道--</option>';
+                for(var i=0;i<appVideo.length;i++){
+                	var channelId = appVideo[i].id;
+                  if(channelIds.indexOf(channelId) != -1){
+	                	html += '<option value="'+appVideo[i].id+'" selected>'+appVideo[i].channelname+'</option>';
+                  }else{
+	                	html += '<option value="'+appVideo[i].id+'">'+appVideo[i].channelname+'</option>';
+                  }
+                }
+                html += '</select></div>';
+              }
+            $("#manyTypeAndChannel").html(html);
           } else {
             windowShow("获取频道列表失败", "");
           }

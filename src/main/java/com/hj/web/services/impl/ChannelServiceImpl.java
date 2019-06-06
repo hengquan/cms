@@ -135,12 +135,17 @@ public class ChannelServiceImpl implements ChannelService {
 	}
 
 	@Override
-	public List<Channel> getDataByRoleId(String roleId) {
-		return dao.getDataByRoleId(roleId);
+	public List<Channel> getDataByRoleId(Map<String,Object> map) {
+		return dao.getDataByRoleId(map);
 	}
 
 	@Override
 	public List<Channel> selectDataByRoleId(Map<String, Object> param) {
 		return dao.selectDataByRoleId(param);
+	}
+
+	@Override
+	public List<Channel> getByIds(String channelIds) {
+		return dao.getByIds(channelIds);
 	}
 }

@@ -155,6 +155,11 @@
 	</select>
 
 	<select id="getDataByRoleId" resultMap="BaseResultMap">
-		select * from cms_module where roleId = #{roleId}
+		select * from cms_module
+		where roleId = #{roleId} and isValidate = 1
 	</select>
+
+	<update id="deletes">
+		update cms_module set isValidate = 0 where instr(#{boxeditId},id)
+	</update>
 </mapper>

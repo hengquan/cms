@@ -46,6 +46,13 @@
 	opacity: 0.75;
 	width: 100%;
 }
+
+#contentTitle {
+	position: absolute;
+	bottom: 0px;
+	left: 20px;
+	color: #fff;
+}
 </style>
 </head>
 <body style="background: #eeeeee;">
@@ -138,6 +145,12 @@
 	$(function() {
 		//判断站点信息
 		isOkRole();
+		//设置获取的数据源;0-暂无，1-APP，2-H5，3-触摸板，4-APP视频
+		var channelType = window.sessionStorage.getItem("channelType");
+		if (channelType == null || channelType == ""
+				|| channelType == undefined) {
+			window.sessionStorage.setItem("channelType", "2");
+		}
 		//获取站点和语言信息
 		getRoleData("manzhouli", "ZH_CN");
 		//轮播图

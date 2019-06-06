@@ -278,25 +278,16 @@
 
 	<select id="getDataList" resultMap="BaseResultMap">
 		SELECT
-		a.*, c.role_name roleName,c.id roleId
+		a.*
 		FROM
 		cms_article a
-		JOIN
-		cms_channel b ON
-		a.articleType = b.id
-		JOIN sys_role c ON b.roleId = c.id
 		where
 		a.relevancyId = '0' and
 		instr(a.articleName,#{keyword}) and
 		a.isValidate in
 		(0,1,2,3)
 		<if test="articleType != null and articleType != ''">
-			and a.articleType = #{articleType,jdbcType=VARCHAR}
-		</if>
-		<if test="roleId != null and roleId != ''">
-			and c.id = #{roleId,jdbcType=VARCHAR}
-			or c.logogram =
-			#{roleId,jdbcType=VARCHAR}
+			and instr(a.articleType,#{articleType,jdbcType=VARCHAR})
 		</if>
 		order by a.sort desc,a.createTime
 		desc
@@ -308,22 +299,13 @@
 		count(1)
 		FROM
 		cms_article a
-		JOIN cms_channel b ON
-		a.articleType =
-		b.id
-		JOIN sys_role c ON b.roleId = c.id
 		where
 		a.relevancyId = '0' and
 		instr(a.articleName,#{keyword}) and
 		a.isValidate in
 		(0,1,2,3)
 		<if test="articleType != null and articleType != ''">
-			and a.articleType = #{articleType,jdbcType=VARCHAR}
-		</if>
-		<if test="roleId != null and roleId != ''">
-			and c.id = #{roleId,jdbcType=VARCHAR}
-			or c.logogram =
-			#{roleId,jdbcType=VARCHAR}
+			and instr(a.articleType,#{articleType,jdbcType=VARCHAR})
 		</if>
 	</select>
 
@@ -352,7 +334,7 @@
 		relevancyId = '0' and
 		isValidate in (0,1,2,3)
 		<if test="articleType != null and articleType != ''">
-			and articleType = #{articleType,jdbcType=VARCHAR}
+			and instr(articleType,#{articleType,jdbcType=VARCHAR})
 		</if>
 		<if test="id != null and id != ''">
 			and id != #{id,jdbcType=VARCHAR}
@@ -376,6 +358,8 @@
 		and picUrl != ""
 		and
 		instr(#{channelIds},articleType)
+		and 
+		language = #{language}
 		order by sort desc
 		limit
 		#{number}
@@ -392,7 +376,7 @@
 		from cms_article
 		where isValidate in (0,1,2,3)
 		<if test="channelId != null and channelId != ''">
-			and articleType = #{channelId,jdbcType=VARCHAR}
+			and instr(articleType, #{channelId,jdbcType=VARCHAR})
 		</if>
 		<if test="language != null and language != ''">
 			and language = #{language,jdbcType=VARCHAR}
@@ -407,7 +391,7 @@
     from cms_article
     where isValidate in (0,1,2,3)
     <if test="channelId != null and channelId != ''">
-      and articleType = #{channelId,jdbcType=VARCHAR}
+      and instr(articleType, #{channelId,jdbcType=VARCHAR})
     </if>
     <if test="channelId != null and channelId != ''">
       and language = #{language,jdbcType=VARCHAR}

@@ -110,8 +110,10 @@ public interface ChannelService {
 
 	public Boolean save(Channel project);
 
-	public List<Channel> getDataByRoleId(String roleId);
+	public List<Channel> getDataByRoleId(Map<String, Object> map);
 
 	public List<Channel> selectDataByRoleId(Map<String, Object> param);
+
+	public List<Channel> getByIds(String channelIds);
 
 }

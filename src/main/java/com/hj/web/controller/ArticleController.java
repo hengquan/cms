@@ -93,14 +93,35 @@ public class ArticleController extends ControllerBase {
 			List<Article> articleList = articleService.getDataList(map);
 			if (articleList != null && articleList.size() > 0) {
 				for (Article article : articleList) {
+					// 处理站点
+					if (StringUtils.isNotEmpty(roleId)) {
+						SysRole role = roleService.findById(roleId);
+						if (role != null) {
+							String roleName = role.getRoleName();
+							if (StringUtils.isNotEmpty(roleName)) {
+								article.setRoleId(roleId);
+								article.setRoleName(roleName);
+							}
+						}
+					}
 					// 处理图片路径
 					urlManage(article);
 					// 处理频道
-					String channelId = article.getArticleType();
-					if (StringUtils.isNotEmpty(channelId)) {
-						Channel channel = channelService.get(channelId);
-						if (channel != null && StringUtils.isNotEmpty(channel.getChannelname()))
-							article.setSetArticleTypeName(channel.getChannelname());
+					String channelIds = article.getArticleType();
+					if (StringUtils.isNotEmpty(channelIds)) {
+						List<Channel> channelList = channelService.getByIds(channelIds);
+						if (channelList != null && channelList.size() > 0) {
+							String channelNames = "";
+							for (Channel channel : channelList) {
+								if (channel != null && StringUtils.isNotEmpty(channel.getChannelname())) {
+									channelNames += "，" + channel.getChannelname();
+								}
+							}
+							if (StringUtils.isNotEmpty(channelNames)) {
+								channelNames = channelNames.substring(1);
+								article.setSetArticleTypeName(channelNames);
+							}
+						}
 					}
 				}
 			}
@@ -160,7 +181,7 @@ public class ArticleController extends ControllerBase {
 		String channelType = getTrimParameter("channelType");
 		String articleType = "";
 		String id = article.getId();
-		model.addAttribute("articleId",id);
+		model.addAttribute("articleId", id);
 		if (StringUtils.isNotEmpty(id)) {
 			article = articleService.get(id);
 			// 对比ID和语言

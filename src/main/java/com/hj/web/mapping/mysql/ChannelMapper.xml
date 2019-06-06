@@ -213,16 +213,15 @@
 		select
 		<include refid="Base_Column_List" />
 		from cms_channel
+		where isValidate=1
 	</select>
 
 	<select id="getDataByType" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from cms_channel
-		where 1=1
-		<if test="channeltype != null and channeltype != 0">
-			and channelType = #{channeltype}
-		</if>
+	from cms_channel
+	where isValidate=1
+	and instr(#{channeltype},channelType)
 		<if test="roleId != null and roleId != ''">
 			and roleId = #{roleId}
 		</if>
@@ -232,19 +231,27 @@
 		select
 		<include refid="Base_Column_List" />
 		from cms_channel
-		where roleId = #{roleId}
+		where roleId = #{roleId} and isValidate=1 and
+		channelType=#{channelType}
 	</select>
 
 	<select id="selectDataByRoleId" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from cms_channel
-		where roleId = #{roleId}
+		where roleId = #{roleId} and isValidate=1
 		<if test="moduleId != '' and moduleId!=null ">
 			and instr(#{moduleId},moduleId)
+		</if>
+		<if test="channelType != '' and channelType!=null ">
+			and channelType = #{channelType}
 		</if>
 		<if test="number > 0 and number!=null ">
 			limit #{number}
 		</if>
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	   select * from cms_channel where instr(#{channelIds},id)
 	</select>
 </mapper>

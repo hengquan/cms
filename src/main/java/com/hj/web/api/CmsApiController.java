@@ -131,11 +131,19 @@ public class CmsApiController extends ControllerBase {
 				number = Integer.parseInt(imgNumber);
 			}
 			String roleId = getTrimParameter("roleId");
+			String language = getTrimParameter("language");
+			String channelType = getTrimParameter("channelType");
+			if (StringUtils.isEmpty(language)) {
+				language = "ZH_CN";
+			}
 			// 获取某站点下前几篇有封面图的文章
 			List<Article> articleList = new ArrayList<Article>();
 			if (roleId != null) {
+				Map<String,Object> map = new HashMap<String,Object>();
+				map.put("roleId", roleId);
+				map.put("channelType", channelType);
 				// NO.1获取该站点所有的频道
-				List<Channel> channelList = channelService.getDataByRoleId(roleId);
+				List<Channel> channelList = channelService.getDataByRoleId(map);
 				if (channelList != null && channelList.size() > 0) {
 					String channelIds = "";
 					for (Channel channel : channelList) {
@@ -147,6 +155,7 @@ public class CmsApiController extends ControllerBase {
 						channelIds = channelIds.substring(1);
 					Map<String, Object> param = new HashMap<String, Object>();
 					param.put("channelIds", channelIds);
+					param.put("language", language);
 					param.put("number", number);
 					articleList = articleService.getArticlePicUrlList(param);
 					if (articleList != null && articleList.size() > 0) {
@@ -196,11 +205,13 @@ public class CmsApiController extends ControllerBase {
 				number = Integer.parseInt(channelNumber);
 			}
 			String roleId = getTrimParameter("roleId");
+			String channelType = getTrimParameter("channelType");
 			String language = getTrimParameter("language");
 			if (StringUtils.isNotEmpty(roleId)) {
 				Map<String, Object> param = new HashMap<String, Object>();
 				param.put("number", number);
 				param.put("roleId", roleId);
+				param.put("channelType", channelType);
 				List<Channel> channelList = channelService.selectDataByRoleId(param);
 				if (channelList != null && channelList.size() > 0) {
 					for (Channel channel : channelList) {
@@ -319,6 +330,7 @@ public class CmsApiController extends ControllerBase {
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			String roleId = getTrimParameter("roleId");
+			String channelType = getTrimParameter("channelType");
 			// 父频道名称
 			String moduleId = getTrimParameter("moduleId");
 			// 语言标识
@@ -329,6 +341,7 @@ public class CmsApiController extends ControllerBase {
 			if (StringUtils.isNotEmpty(roleId)) {
 				Map<String, Object> param = new HashMap<String, Object>();
 				param.put("roleId", roleId);
+				param.put("channelType", channelType);
 				param.put("moduleId", moduleId);
 				List<Channel> channelList = channelService.selectDataByRoleId(param);
 				result.put("code", "200");
@@ -364,6 +377,9 @@ public class CmsApiController extends ControllerBase {
 						if (StringUtils.isNotEmpty(languages) && StringUtils.isNotEmpty(language)) {
 							String name = getCorrespondingLanguage(language, languages);
 							module.setModuleName(name);
+							String picUrl = module.getPicUrl();
+							if (StringUtils.isNotEmpty(picUrl))
+								module.setPicUrl(path + picUrl);
 						}
 					}
 				}

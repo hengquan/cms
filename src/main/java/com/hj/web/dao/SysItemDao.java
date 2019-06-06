@@ -169,4 +169,9 @@ public class SysItemDao {
 		}
 	}
 
+	public List<SysItem> selDataByIds(String itemIds) {
+		String sql = "select * from sys_item where instr('" + itemIds + "',id)";
+		return this.jdbcTemplate.query(sql, new SysItemMapper());
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.hj.web.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.hj.common.ControllerBase;
 import com.hj.utils.Configurations;
 import com.hj.utils.JsonUtils;
+import com.hj.web.dao.SysItemDao;
+import com.hj.web.dao.SysItemRoleDao;
 import com.hj.web.entity.Channel;
 import com.hj.web.entity.Module;
+import com.hj.web.entity.SysItem;
+import com.hj.web.entity.SysItemRole;
 import com.hj.web.entity.UserInfo;
 import com.hj.web.entity.UserRole;
 import com.hj.web.services.ChannelService;
@@ -35,6 +40,10 @@ public class ChannelController extends ControllerBase {
 	UserRoleService userRoleService;
 	@Autowired
 	ModuleService moduleService;
+	@Autowired
+	SysItemRoleDao sysItemRoleDao;
+	@Autowired
+	SysItemDao sysItemDao;
 
 	// 频道列表
 	@RequestMapping(value = "/channel/getDataList")
@@ -199,6 +208,85 @@ public class ChannelController extends ControllerBase {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		return JsonUtils.map2json(map);
+	}
+
+	// 获取所有频道根据渠道类型根据相关权限
+	@RequestMapping(value = "/channel/getDataByUrserRole")
+	@ResponseBody
+	public String getDataByUrserRole() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> param = new HashMap<String, Object>();
+		String roleId = getTrimParameter("roleId");
+		try {
+			// 菜单ID组
+			String itemIds = "";
+			// 获取该权限的菜单列表
+			List<SysItemRole> itemRoleList = sysItemRoleDao.selectItemByRoleId(roleId);
+			if (itemRoleList != null && itemRoleList.size() > 0) {
+				for (SysItemRole itemRole : itemRoleList) {
+					String itemId = itemRole.getItemId();
+					if (StringUtils.isNotEmpty(itemId)) {
+						itemIds += "," + itemId;
+					}
+				}
+			}
+			if (StringUtils.isNotEmpty(itemIds))
+				itemIds = itemIds.substring(1);
+			List<SysItem> sysItemList = sysItemDao.selDataByIds(itemIds);
+			String channelType = "";
+			if (sysItemList != null && sysItemList.size() > 0) {
+				for (SysItem item : sysItemList) {
+					String moduleName = item.getItemName();
+					if (StringUtils.isNotEmpty(moduleName)) {
+						if (moduleName.equals("APP")) {
+							channelType += "," + "1";
+						} else if (moduleName.equals("H5")) {
+							channelType += "," + "2";
+						} else if (moduleName.equals("触摸板") || moduleName.equals("触摸版")) {
+							channelType += "," + "3";
+						} else if (moduleName.equals("APP视频")) {
+							channelType += "," + "4";
+						}
+					}
+				}
+			}
+			param.put("roleId", roleId);
+			if (StringUtils.isNotEmpty(channelType))
+				channelType = channelType.substring(1);
+			param.put("channeltype", channelType);
+			List<Channel> app = new ArrayList<Channel>();
+			List<Channel> h5 = new ArrayList<Channel>();
+			List<Channel> chumo = new ArrayList<Channel>();
+			List<Channel> appVideo = new ArrayList<Channel>();
+			List<Channel> channelList = channelService.getDataByType(param);
+			if (channelList != null && channelList.size() > 0) {
+				for (Channel channel : channelList) {
+					Integer type = channel.getChanneltype();
+					if (type == 1) {
+						app.add(channel);
+					} else if (type == 2) {
+						h5.add(channel);
+					} else if (type == 3) {
+						chumo.add(channel);
+					} else if (type == 4) {
+						appVideo.add(channel);
+					}
+				}
+			}
+			if (app != null && app.size() > 0)
+				map.put("app", app);
+			if (h5 != null && app.size() > 0)
+				map.put("h5", h5);
+			if (chumo != null && app.size() > 0)
+				map.put("chumo", chumo);
+			if (appVideo != null && app.size() > 0)
+				map.put("appVideo", appVideo);
+			map.put("msg", "0");
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("msg", "1");
 		}
 		return JsonUtils.map2json(map);
 	}
