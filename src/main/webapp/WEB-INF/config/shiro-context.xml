@@ -35,6 +35,10 @@
         /mapi/** = anon 
         /ueditor/** = anon 
         /page/** = anon 
+        /app/** = anon 
+        /chumo/** = anon 
+        /h5/** = anon 
+        /appVideo/** = anon 
         /wxpage/** = anon 
         /service/** = anon 
         /** = user
