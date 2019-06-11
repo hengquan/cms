@@ -501,11 +501,13 @@ function getArticle() {
 function getModuleList() {
 	var roleId = window.sessionStorage.getItem("roleId");
 	var language = window.sessionStorage.getItem("language");
+	var channelType = window.sessionStorage.getItem("channelType");
 	$.ajax({
 		type : 'post',
 		data : {
 			"roleId" : roleId,
-			"language" : language
+			"language" : language,
+			"channelType" : channelType
 		},
 		url : '../../api/getModuleList',
 		dataType : 'json',

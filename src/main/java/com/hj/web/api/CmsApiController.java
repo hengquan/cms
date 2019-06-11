@@ -139,7 +139,7 @@ public class CmsApiController extends ControllerBase {
 			// 获取某站点下前几篇有封面图的文章
 			List<Article> articleList = new ArrayList<Article>();
 			if (roleId != null) {
-				Map<String,Object> map = new HashMap<String,Object>();
+				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("roleId", roleId);
 				map.put("channelType", channelType);
 				// NO.1获取该站点所有的频道
@@ -365,12 +365,28 @@ public class CmsApiController extends ControllerBase {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		String roleId = getTrimParameter("roleId");
 		String language = getTrimParameter("language");
+		String channelType = getTrimParameter("channelType");
+		String moduleType = "";
+		if (StringUtils.isNotEmpty(channelType)) {
+			if (channelType.equals("1")) {
+				moduleType = "APP";
+			} else if (channelType.equals("2")) {
+				moduleType = "H5";
+			} else if (channelType.equals("3")) {
+				moduleType = "触摸板";
+			} else if (channelType.equals("4")) {
+				moduleType = "APP视频";
+			}
+		}
 		if (StringUtils.isEmpty(language)) {
 			language = "ZH_CN";
 		}
 		try {
 			if (StringUtils.isNotEmpty(roleId)) {
-				List<Module> moduleList = moduleService.getDataByRoleId(roleId);
+				Map<String,Object> param = new HashMap<String,Object>();
+				param.put("roleId", roleId);
+				param.put("moduleType", moduleType);
+				List<Module> moduleList = moduleService.getDataByRoleId(param);
 				if (moduleList != null && moduleList.size() > 0) {
 					for (Module module : moduleList) {
 						String languages = module.getLanguages();

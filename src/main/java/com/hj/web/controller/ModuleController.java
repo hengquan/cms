@@ -145,10 +145,14 @@ public class ModuleController extends ControllerBase {
 	@ResponseBody
 	public Map<String, Object> getDataByRoleId(ModelMap model) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Map<String, Object> param = new HashMap<String, Object>();
 		String roleId = getTrimParameter("roleId");
+		String moduleType = getTrimParameter("moduleType");
 		try {
 			if (StringUtils.isNotEmpty(roleId)) {
-				List<Module> moduleList = moduleService.getDataByRoleId(roleId);
+				param.put("roleId", roleId);
+				param.put("moduleType", moduleType);
+				List<Module> moduleList = moduleService.getDataByRoleId(param);
 				resultMap.put("code", "200");
 				resultMap.put("moduleList", moduleList);
 			} else {

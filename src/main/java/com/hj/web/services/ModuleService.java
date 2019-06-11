@@ -55,5 +55,5 @@ public interface ModuleService {
 
 	public Boolean deletes(String boxeditId);
 
-	public List<Module> getDataByRoleId(String roleId);
+	public List<Module> getDataByRoleId(Map<String, Object> param);
 }

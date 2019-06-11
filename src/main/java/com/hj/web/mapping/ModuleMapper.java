@@ -20,5 +20,5 @@ public interface ModuleMapper {
 
 		Integer deletes(String boxeditId);
 
-		List<Module> getDataByRoleId(String roleId);
+		List<Module> getDataByRoleId(Map<String, Object> param);
 }

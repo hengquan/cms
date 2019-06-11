@@ -71,8 +71,8 @@ public class ModuleServiceImpl implements ModuleService {
 	}
 
 	@Override
-	public List<Module> getDataByRoleId(String roleId) {
-		return dao.getDataByRoleId(roleId);
+	public List<Module> getDataByRoleId(Map<String, Object> param) {
+		return dao.getDataByRoleId(param);
 	}
 
 }

@@ -11,9 +11,10 @@
 		<result column="languages" property="languages" jdbcType="VARCHAR" />
 		<result column="picUrl" property="picUrl" jdbcType="VARCHAR" />
 		<result column="hrefUrl" property="hrefUrl" jdbcType="VARCHAR" />
+		<result column="moduleType" property="moduleType" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, moduleName, sort, roleId, isValidate, cTime, languages,
+		id, moduleName, sort, roleId, isValidate, cTime, languages,moduleType,
 		picUrl,
 		hrefUrl
 	</sql>
@@ -58,6 +59,9 @@
 			<if test="hrefUrl != null">
 				hrefUrl,
 			</if>
+			<if test="moduleType != null">
+				moduleType,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -87,6 +91,9 @@
 			<if test="hrefUrl != null">
 				#{hrefUrl,jdbcType=VARCHAR},
 			</if>
+			<if test="moduleType != null">
+				#{moduleType,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 	<update id="update" parameterType="com.hj.web.entity.Module">
@@ -115,6 +122,9 @@
 			</if>
 			<if test="hrefUrl != null">
 				hrefUrl = #{hrefUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="moduleType != null">
+				moduleType = #{moduleType,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}
@@ -156,7 +166,7 @@
 
 	<select id="getDataByRoleId" resultMap="BaseResultMap">
 		select * from cms_module
-		where roleId = #{roleId} and isValidate = 1
+		where roleId = #{roleId} and isValidate = 1 and instr(moduleType,#{moduleType})
 	</select>
 
 	<update id="deletes">

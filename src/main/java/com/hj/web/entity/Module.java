@@ -22,8 +22,18 @@ public class Module {
     private String picUrl;
 
     private String hrefUrl;
+    
+    private String moduleType;
 
-    public String getRoleName() {
+    public String getModuleType() {
+			return moduleType;
+		}
+
+		public void setModuleType(String moduleType) {
+			this.moduleType = moduleType;
+		}
+
+		public String getRoleName() {
 			return roleName;
 		}
 
