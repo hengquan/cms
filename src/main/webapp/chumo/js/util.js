@@ -17,15 +17,42 @@ function crtTimeFtt(millisecond) {
 	}
 }
 
+//初始化页面信息
 function openHome() {
 	//判断站点信息
 	isOkRole();
 	//获取该站点的模块列表
 	getModuleList();
-	//获取首面的频道列表
-	getHomeChannelList();
-	//处理首页频道下面显示的文章
-	getHomeArticleList();
+	//给页面控制高度范围
+	disposeHeight();
+	//首页大图
+	getHomePicUrl();
+	//显示和隐藏
+	$("#otherPageContent").hide();
+	$("#homePage").show();
+}
+
+//处理高度自适应
+function disposeHeight() {
+	//获取头部高度
+	var topTitle = $("#topTitle").height();
+	//alert("头" + topTitle);
+	//获取底部高度
+	var bottomHeight = $("#bottomTitle").height();
+	//alert("底" + bottomHeight);
+	//获取屏幕高度
+	var middleHeight = $(window).height() - (bottomHeight + 4)
+			- (topTitle + 4);
+	//alert("中间" + middleHeight);
+	//首页图片内容区
+	document.getElementById("homePageImg").style.height = (middleHeight / 3 * 2)
+			+ "px";
+	//左侧导航
+	document.getElementById("leftDaoHang").style.height = middleHeight
+			+ "px";
+	//右侧内容
+	document.getElementById("rightContent").style.height = middleHeight
+			+ "px";
 }
 
 // 获取站点信息
@@ -146,150 +173,19 @@ function getHomePicUrl() {
 			if (data.code == "200") {
 				// 渲染站点轮播图
 				var imgHtml = "";
-				var imgJiaodian = "";
+				var textHtml = "";
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
-					if (i == 0) {
-						imgJiaodian += '<li data-target="#myCarousel" data-slide-to="'
-								+ i + '" class="active"></li>';
-						imgHtml += '<div class="item active">'
-							+ '<img width="100%" height="100%" onclick=openArticleContent("'
-							+ dataList[i].id
-							+ '") src="'
-							+ dataList[i].picUrl
-							+ '" alt="First slide" onerror="excptionUrl(this)">'
-							+ '<div id="contentTitle">'+dataList[i].articleName+'</div>'
-							+ '</div>';
-					} else {
-						imgJiaodian += '<li data-target="#myCarousel" data-slide-to="'
-								+ i + '"></li>';
-						imgHtml += '<div class="item">'
-							+ '<img width="100%" height="100%" onclick=openArticleContent("'
-							+ dataList[i].id
-							+ '") src="'
-							+ dataList[i].picUrl
-							+ '" alt="First slide" onerror="excptionUrl(this)">'
-							+ '<div id="contentTitle">'+dataList[i].articleName+'</div>'
-							+ '</div>';
-					}
+					imgHtml = '<img src="'+dataList[i].picUrl+'" width="100%" height="100%" onerror="excptionUrl(this)">';
+					textHtml = dataList[i].detail;
 				}
-				$(".carousel-indicators").html(imgJiaodian);
-				$(".carousel-inner").html(imgHtml);
+				$("#homePageImg").html(imgHtml);
+				$("#homePageDetail").html(textHtml);
 			} else {
 				alert(data.msg);
 			}
 		}
 	});
-}
-
-// 获取首面的频道列表
-function getHomeChannelList() {
-	var channelNumber = $("#channelNumber").val();
-	var roleId = window.sessionStorage.getItem("roleId");
-	var language = window.sessionStorage.getItem("language");
-	var channelType = window.sessionStorage.getItem("channelType");
-	$.ajax({
-		type : 'post',
-		data : {
-			"channelNumber" : channelNumber,
-			"channelType" : channelType,
-			"language" : language,
-			"roleId" : roleId
-		},
-		url : '../../api/getHomeChannelList',
-		dataType : 'json',
-		async : false,
-		success : function(data) {
-			if (data.code == "200") {
-				// 渲染首页频道列表
-				var channelHtml = "";
-				var dataList = data.channelList;
-				for (var i = 0; i < dataList.length; i++) {
-					channelHtml += '<div class="row" style="background: #fefefe; margin-top: 5px">'
-							+ '<div class="col-md-12" style="border: 1px solid #eeeeee">'
-							+ '<label class="col-md-6 btn"><b>'
-							+ dataList[i].channelname
-							+ '</b></label> '
-							+ '<label class="col-md-6 pull-right btn"><b><a href="#" onclick=openArticleList("'
-							+ dataList[i].id
-							+ '","")>更多>></a></b></label>' + '</div>';
-					if ((i + 1) % 2 == 0) {
-						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left; margin-top: 20px;">'
-								+ '<input type="hidden" class="channelId" value="'
-								+ dataList[i].id
-								+ '">'
-								+ '<input type="hidden" class="articleNumber" value="3">'
-								+ '<div class="theChannelList"></div>'
-								+ '</div></div>';
-					} else {
-						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left; margin-top: 5px;">'
-								+ '<input type="hidden" class="channelId" value="'
-								+ dataList[i].id
-								+ '">'
-								+ '<input type="hidden" class="articleNumber" value="3">'
-								+ '<ul class="theChannelList"></ul>'
-								+ '</div></div>';
-					}
-				}
-				$("#channelListData").html(channelHtml);
-			} else {
-				alert(data.msg);
-			}
-		}
-	});
-}
-
-// 处理首页频道下面显示的文章
-function getHomeArticleList() {
-	$("#channelListData .row").each(function(index, obj) {
-		var theChannelList = $(obj).find(".theChannelList");
-		var channelId = $(obj).find(".channelId").val();
-		var articleNumber = $(obj).find(".articleNumber").val();
-		var language = window.sessionStorage.getItem("language");
-		$.ajax({
-			type : 'post',
-			data : {
-				"language" : language,
-				"channelId" : channelId,
-				"pageSize" : articleNumber
-			},
-			url : '../../api/getArticleList',
-			dataType : 'json',
-			async : false,
-			success : function(data) {
-				if (data.code == "200") {
-					// 渲染首页频道列表
-					var html = "";
-					var dataList = data.dataList;
-					for (var i = 0; i < dataList.length; i++) {
-						if ((index + 1) % 2 == 0) {
-							html += '<span class="col-xs-4 col-lg-4 col-md-4" style="padding-right: 2px;padding-left: 2px;">'
-									+ '<a href="#" onclick=openArticleContent("'
-									+ dataList[i].id
-									+ '")>'
-									+ '<img src="'
-									+ dataList[i].picUrl
-									+ '" width="100%" alt="" onerror="excptionUrl(this)"><br>'
-									+ '<div class="imgText">'
-									+ dataList[i].articleName
-									+ '</div>'
-									+ '</a>'
-									+ '</span>';
-						} else {
-							html += '<li><a href="#" onclick=openArticleContent("'
-									+ dataList[i].id
-									+ '")>'
-									+ dataList[i].articleName
-									+ '</a></li>';
-						}
-					}
-					theChannelList.html(html);
-				} else {
-					alert(data.msg);
-				}
-			}
-		});
-	})
 }
 
 // 处理访问不到的图片给个默认图
@@ -298,39 +194,25 @@ function excptionUrl(obj) {
 	obj.attr("src", '../img/1.jpg');
 }
 
-// 打开文章列表页
-function openArticleList(channelId,hrefUrl) {
-	if(hrefUrl !=null && hrefUrl != ""){
-		window.location.href = hrefUrl;
-	}else{
-		var language = $("#selLanguage").val();
-		window.location.href = "./articleList.html?channelId=" + channelId
-		+ "&language=" + language;
-	}
-}
-
-// 打开文章
-function openArticleContent(articleId) {
-	var language = $("#selLanguage").val();
-	window.location.href = "./content.html?articleId=" + articleId
-			+ "&language=" + language;
+// 处理访问不到的图片小图。。。
+function excptionUrl1(obj) {
+	var obj = $(obj);
+	obj.attr("src", '../img/zanwu.jpg');
 }
 
 //获取文章列表根据频道ID
-function getArticleList() {
+function getArticleList(channelId,channelName) {
 	var nowPage = $("#nowPage").val();
 	var pageSize = $("#pageSize").val();
-	var channelId = $("#channelId").val();
 	var language = window.sessionStorage.getItem("language");
-	if(channelId == null || channelId == "" || channelId == undefined)
-		channelId = getQueryString("channelId");
-	$("#channelId").val(channelId);
+	//给返回页赋值
+	$("#goBeforePage").attr("onclick","getArticleList('"+channelId+"','"+channelName+"')");
 	//请求数据
 	var data = {
 		"language" : language,
 		"channelId" : channelId,
 		"nowPage" : nowPage,
-		"pageSize" : pageSize
+		"pageSize" : "1000"
 	};
 	$.ajax({
 		type : 'post',
@@ -341,28 +223,20 @@ function getArticleList() {
 		success : function(data) {
 			console.log(data);
 			if (data.code == "200") {
+				//渲染标题
+				$(".channelTitle").html(channelName);
 				//渲染首页频道列表
 				var html = "";
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
-					var createTime = crtTimeFtt(dataList[i].createTime);
-					html += '<div class="oneArticle" onclick=openArticleContent("'
-							+ dataList[i].id
-							+ '")>'
-							+ '<div class="col-md-12" style="font-size: 24px;">'
-							+ dataList[i].articleName
-							+ '</div>'
-							+ '<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'
-							+ createTime
-							+ '</div>'
-							+ '<div class="col-md-12" style="font-size: 16px;">'
-							+ dataList[i].detail
-							+ '</div>'
-							+ '</div>';
+					html += '<div class="col-md-3" style="padding-top: 5px; padding-bottom: 5px; text-align: center">'
+						+'<img width="100%" height="100%" onclick=getArticle("'+dataList[i].id+'","'+dataList[i].articleName+'") src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br>' 
+						+'<label style="margin-top: 10px;">'+dataList[i].articleName+'</label>'
+						+'</div>';
 				}
-				$(".articleContent").html(html);
-				//组分页
-				compoundPage(data);
+				$("#articleList").html(html);
+				//暂时不组分页
+				//compoundPage(data);
 			} else {
 				alert(data.msg);
 			}
@@ -428,45 +302,71 @@ function doAppointPage(nowPage){
 }
 
 //获取该站点下所有的频道列表
-function getChannelList() {
-	var roleId = window.sessionStorage.getItem("roleId");
-	var language = window.sessionStorage.getItem("language");
-	var channelType = window.sessionStorage.getItem("channelType");
-	//父频道名称
-	var moduleId = getQueryString("moduleId");
-	$.ajax({
-		type : 'post',
-		data : {
-			"moduleId" : moduleId,
-			"channelType" : channelType,
-			"language" : language,
-			"roleId" : roleId
-		},
-		url : '../../api/getChannelList',
-		dataType : 'json',
-		async : false,
-		success : function(data) {
-			if (data.code == "200") {
-				var html = "";
-				var dataList = data.dataList;
-				for (var i = 0; i < dataList.length; i++) {
-					html += '<div class="col-xs-12 col-lg-12 col-md-12">'
-							+ '<a href="#" onclick=openArticleList("'+dataList[i].id+'","'+dataList[i].hrefUrl+'")>'
-							+ '<img src="'+dataList[i].picUrl+'" alt="" onerror="excptionUrl(this)"><br> <label>'+dataList[i].channelname+'</label>'
-							+ '</a>' + '</div>';
+function getChannelList(object) {
+	var obj = $(object);
+	//如果这个按钮不等于返回上一页在操作。
+	if(obj.attr("id") != "goBeforePage"){
+		//移动到当前模块
+		var model = obj.parent();
+		model.find("li").each(function(index, liObj) {
+			$(liObj).attr("class", "");
+		})
+		obj.attr("class", "active");
+		//切换到模块页
+		var moduleId = obj.attr("moduleId");
+		if (moduleId == "goHomePage") {
+			$("#otherPageContent").hide();
+			$("#homePage").show();
+		}else{
+			//模块名字
+			var moduleName = obj.attr("moduleName");
+			//请求数据
+			var roleId = window.sessionStorage.getItem("roleId");
+			var language = window.sessionStorage.getItem("language");
+			var channelType = window.sessionStorage.getItem("channelType");
+			$.ajax({
+				type : 'post',
+				data : {
+					"moduleId" : moduleId,
+					"channelType" : channelType,
+					"language" : language,
+					"roleId" : roleId
+				},
+				url : '../../api/getChannelList',
+				dataType : 'json',
+				async : false,
+				success : function(data) {
+					if (data.code == "200") {
+						var html = '<label class="btn" style="color: #fefefe; font-size: 22px;"><b>'+moduleName+'</b></label>'
+						+'<ul class="nav nav-pills nav-stacked">';
+						var dataList = data.dataList;
+						console.log(dataList);
+						var firstChannelId = "";
+						var firstChannelName = "";
+						if(dataList.length>0){
+							firstChannelId = dataList[0].id;
+							firstChannelName = dataList[0].channelname;
+						}
+						for (var i = 0; i < dataList.length; i++) {
+							html += '<li role="presentation" onclick=getArticleList("'+dataList[i].id+'","'+dataList[i].channelname+'") class="active"><a href="#">'+dataList[i].channelname+'</a></li>';
+						}
+						html += '</ul>';
+						$("#leftDaoHang").html(html);
+						//默认取第一个频道下的文章列表
+						getArticleList(firstChannelId,firstChannelName);
+					} else {
+						alert(data.msg);
+					}
 				}
-				$("#main_icon").html(html);
-			} else {
-				alert(data.msg);
-			}
+			});
+			$("#otherPageContent").show();
+			$("#homePage").hide();
 		}
-	});
+	}
 }
 
 //获取文章内容根据文章ID
-function getArticle() {
-	//文章ID
-	var articleId = getQueryString("articleId");
+function getArticle(articleId,articleName) {
 	var language = window.sessionStorage.getItem("language");
 	//请求数据
 	var data = {
@@ -484,12 +384,10 @@ function getArticle() {
 				//渲染首页频道列表
 				var html = "";
 				var data = data.data;
-				var createTime = crtTimeFtt(data.createTime);
-				html += '<div class="col-md-12" style="font-size: 24px;">'+data.articleName+'</div>'
-	      +'<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'+createTime+'&emsp;&emsp;分类:某某频道</div>'
-	      +'<hr>'
-	      +'<div class="col-md-12" style="font-size: 18px;">'+data.article+'</div>';
-				$(".articleContent").html(html);
+				html += '<div class="col-md-12" style="font-size: 18px;">'+data.article+'</div>';
+				$("#articleList").html(html);
+				//赋值标题
+				$(".channelTitle").html(articleName);
 			} else {
 				alert(data.msg);
 			}
@@ -501,35 +399,36 @@ function getArticle() {
 function getModuleList() {
 	var roleId = window.sessionStorage.getItem("roleId");
 	var language = window.sessionStorage.getItem("language");
+	var channelType = window.sessionStorage.getItem("channelType");
 	$.ajax({
 		type : 'post',
 		data : {
 			"roleId" : roleId,
-			"language" : language
+			"language" : language,
+			"channelType" : channelType
 		},
 		url : '../../api/getModuleList',
 		dataType : 'json',
 		async : false,
 		success : function(data) {
 			if (data.code == "200") {
-				var html = "";
+				var html = '<li role="presentation" class="active" moduleId="goHomePage"'
+					+'onclick="getChannelList(this)"><a href="#">'
+					+'<img height="35px" src="../img/home.jpg" alt=""><br> <label>返回首页</label></a></li>';
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
-					html += '<span class="col-xs-3 col-lg-3 col-md-3">'
-					+'<a href="#" onclick=gotoChannelPage("'+dataList[i].id+'")>'
-					+'<img src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label>'+dataList[i].moduleName+'</label>'
-				  +'</a></span>';
+					html += '<li role="presentation" class="" moduleId="'+dataList[i].id+'" moduleName="'+dataList[i].moduleName+'"'
+						+'onclick="getChannelList(this)"><a href="#">'
+						+'<img height="35px" src="'+dataList[i].picUrl+'" onerror="excptionUrl1(this)"><br> <label>'+dataList[i].moduleName+'</label></a></li>';
 				}
-				$("#main_icon").html(html);
+				html += '<li role="presentation" class="" moduleId="goBeforePage" id="goBeforePage"'
+					+'onclick="getChannelList(this)">'
+					+'<img height="35px" src="../img/return.jpg" alt=""><br> <label>返回上页</label></li>';
+				$("#moduleList").html(html);
 			} else {
 				alert(data.msg);
 			}
 		}
 	});
-}
-
-//打开频道列表
-function gotoChannelPage(moduleId) {
-	window.location.href = "./channelList.html?moduleId=" + moduleId;
 }
 

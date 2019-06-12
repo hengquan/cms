@@ -241,7 +241,7 @@
 		from cms_channel
 		where roleId = #{roleId} and isValidate=1
 		<if test="moduleId != '' and moduleId!=null ">
-			and instr(#{moduleId},moduleId)
+			and instr(moduleId,#{moduleId})
 		</if>
 		<if test="channelType != '' and channelType!=null ">
 			and channelType = #{channelType}
