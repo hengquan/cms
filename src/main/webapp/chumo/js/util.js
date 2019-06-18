@@ -36,14 +36,14 @@ function openHome() {
 function disposeHeight() {
 	//获取头部高度
 	var topTitle = $("#topTitle").height();
-	//alert("头" + topTitle);
+	//console.log("头" + topTitle);
 	//获取底部高度
 	var bottomHeight = $("#bottomTitle").height();
-	//alert("底" + bottomHeight);
+	//console.log("底" + bottomHeight);
 	//获取屏幕高度
 	var middleHeight = $(window).height() - (bottomHeight + 4)
 			- (topTitle + 4);
-	//alert("中间" + middleHeight);
+	//console.log("中间" + middleHeight);
 	//首页图片内容区
 	document.getElementById("homePageImg").style.height = (middleHeight / 3 * 2)
 			+ "px";
@@ -117,7 +117,7 @@ function getHomeData(tab, language) {
 				// 存session--语言
 				window.sessionStorage.setItem("language", data.language);
 			} else {
-				alert(data.msg);
+				console.log(data.msg);
 			}
 		}
 	});
@@ -182,7 +182,7 @@ function getHomePicUrl() {
 				$("#homePageImg").html(imgHtml);
 				$("#homePageDetail").html(textHtml);
 			} else {
-				alert(data.msg);
+				console.log(data.msg);
 			}
 		}
 	});
@@ -238,7 +238,7 @@ function getArticleList(channelId,channelName) {
 				//暂时不组分页
 				//compoundPage(data);
 			} else {
-				alert(data.msg);
+				console.log(data.msg);
 			}
 		}
 	});
@@ -355,7 +355,7 @@ function getChannelList(object) {
 						//默认取第一个频道下的文章列表
 						getArticleList(firstChannelId,firstChannelName);
 					} else {
-						alert(data.msg);
+						console.log(data.msg);
 					}
 				}
 			});
@@ -389,7 +389,7 @@ function getArticle(articleId,articleName) {
 				//赋值标题
 				$(".channelTitle").html(articleName);
 			} else {
-				alert(data.msg);
+				console.log(data.msg);
 			}
 		}
 	});
@@ -426,7 +426,7 @@ function getModuleList() {
 					+'<img height="35px" src="../img/return.jpg" alt=""><br> <label>返回上页</label></li>';
 				$("#moduleList").html(html);
 			} else {
-				alert(data.msg);
+				console.log(data.msg);
 			}
 		}
 	});

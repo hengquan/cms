@@ -90,7 +90,7 @@ function getHomeData(tab, language) {
 				// 存session--语言
 				window.sessionStorage.setItem("language", data.language);
 			} else {
-				alert(data.msg);
+				console.log(data.msg);
 			}
 		}
 	});
@@ -176,7 +176,7 @@ function getHomePicUrl() {
 				$(".carousel-indicators").html(imgJiaodian);
 				$(".carousel-inner").html(imgHtml);
 			} else {
-				alert(data.msg);
+				console.log(data.msg);
 			}
 		}
 	});
@@ -233,7 +233,7 @@ function getHomeChannelList() {
 				}
 				$("#channelListData").html(channelHtml);
 			} else {
-				alert(data.msg);
+				console.log(data.msg);
 			}
 		}
 	});
@@ -285,7 +285,7 @@ function getHomeArticleList() {
 					}
 					theChannelList.html(html);
 				} else {
-					alert(data.msg);
+					console.log(data.msg);
 				}
 			}
 		});
@@ -364,7 +364,7 @@ function getArticleList() {
 				//组分页
 				compoundPage(data);
 			} else {
-				alert(data.msg);
+				console.log(data.msg);
 			}
 		}
 	});
@@ -457,7 +457,7 @@ function getChannelList() {
 				}
 				$("#main_icon").html(html);
 			} else {
-				alert(data.msg);
+				console.log(data.msg);
 			}
 		}
 	});
@@ -491,7 +491,7 @@ function getArticle() {
 	      +'<div class="col-md-12" style="font-size: 18px;">'+data.article+'</div>';
 				$(".articleContent").html(html);
 			} else {
-				alert(data.msg);
+				console.log(data.msg);
 			}
 		}
 	});
@@ -524,7 +524,7 @@ function getModuleList() {
 				}
 				$("#main_icon").html(html);
 			} else {
-				alert(data.msg);
+				console.log(data.msg);
 			}
 		}
 	});
