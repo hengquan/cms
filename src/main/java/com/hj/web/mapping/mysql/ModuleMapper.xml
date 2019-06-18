@@ -117,7 +117,7 @@
 			<if test="languages != null">
 				languages = #{languages,jdbcType=VARCHAR},
 			</if>
-			<if test="picUrl != null">
+			<if test="picUrl != null and picUrl != ''">
 				picUrl = #{picUrl,jdbcType=VARCHAR},
 			</if>
 			<if test="hrefUrl != null">
@@ -144,7 +144,7 @@
 		<if test="moduleName !='' and moduleName != null">
 			and instr(a.moduleName,#{moduleName})
 		</if>
-		order by cTime desc
+		order by sort desc,cTime desc
 		limit #{page},#{pageSize}
 	</select>
 

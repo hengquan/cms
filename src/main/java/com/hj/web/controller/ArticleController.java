@@ -163,7 +163,7 @@ public class ArticleController extends ControllerBase {
 		// 获取语言标识
 		String languageTab = getTrimParameter("languageTab");
 		if (StringUtils.isEmpty(languageTab))
-			languageTab = "ZH_CN";
+			languageTab = "Chinese";
 		model.addAttribute("languageTab", languageTab);
 		// 获取相关文章
 		Article article = new Article();

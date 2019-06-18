@@ -63,7 +63,7 @@ public class CmsApiController extends ControllerBase {
 		// 语言标识
 		String language = getTrimParameter("language");
 		if (StringUtils.isEmpty(language)) {
-			language = "ZH_CN";
+			language = "Chinese";
 		}
 		try {
 			if (StringUtils.isNotEmpty(tab)) {
@@ -134,7 +134,7 @@ public class CmsApiController extends ControllerBase {
 			String language = getTrimParameter("language");
 			String channelType = getTrimParameter("channelType");
 			if (StringUtils.isEmpty(language)) {
-				language = "ZH_CN";
+				language = "Chinese";
 			}
 			// 获取某站点下前几篇有封面图的文章
 			List<Article> articleList = new ArrayList<Article>();
@@ -253,7 +253,7 @@ public class CmsApiController extends ControllerBase {
 			// 语言标识
 			String language = getTrimParameter("language");
 			if (StringUtils.isEmpty(language)) {
-				language = "ZH_CN";
+				language = "Chinese";
 			}
 			if (StringUtils.isNotEmpty(channelId)) {
 				// 存页面起始位置信息
@@ -295,7 +295,7 @@ public class CmsApiController extends ControllerBase {
 			// 语言标识
 			String language = getTrimParameter("language");
 			if (StringUtils.isEmpty(language)) {
-				language = "ZH_CN";
+				language = "Chinese";
 			}
 			if (StringUtils.isNotEmpty(articleId)) {
 				// 存页面起始位置信息
@@ -336,7 +336,7 @@ public class CmsApiController extends ControllerBase {
 			// 语言标识
 			String language = getTrimParameter("language");
 			if (StringUtils.isEmpty(language)) {
-				language = "ZH_CN";
+				language = "Chinese";
 			}
 			if (StringUtils.isNotEmpty(roleId)) {
 				Map<String, Object> param = new HashMap<String, Object>();
@@ -379,7 +379,7 @@ public class CmsApiController extends ControllerBase {
 			}
 		}
 		if (StringUtils.isEmpty(language)) {
-			language = "ZH_CN";
+			language = "Chinese";
 		}
 		try {
 			if (StringUtils.isNotEmpty(roleId)) {
