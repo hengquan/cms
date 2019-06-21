@@ -91,6 +91,7 @@ function getHomeData(tab, language) {
 				window.sessionStorage.setItem("language", data.language);
 			} else {
 				console.log(data.msg);
+				return;
 			}
 		}
 	});

@@ -226,9 +226,10 @@
 					channelIds += "," + channelId;
 				}
 			})
-			if(channelIds != "")
-         channelIds = channelIds.substr(1);
-			$("#articleType").val(channelIds);
+			if(channelIds != ""){
+        channelIds = channelIds.substr(1);
+				$("#articleType").val(channelIds);
+			}
 			//提交
 			$("#articleForm").submit();
 		}

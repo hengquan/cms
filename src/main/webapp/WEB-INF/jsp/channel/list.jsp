@@ -93,7 +93,7 @@
 										<th class="hidden-phone">所属站点</th>
 										<th class="hidden-phone">所属渠道</th>
 										<th class="hidden-phone">所属地区</th>
-										<th class="hidden-phone">父级名称</th>
+										<th class="hidden-phone">所属模块</th>
 										<th class="hidden-phone">外链地址</th>
 										<th class="hidden-phone">创建时间</th>
 										<th class="hidden-phone">操作</th>
@@ -131,12 +131,50 @@
 													value="${u.ctime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 											<td class="hidden-phone">
 												<button type="button"
-													onclick="edit('${u.id}','${u.channelname}','${u.areaname}','${u.descn}','${u.roleId }','${u.languages }','${u.picUrl }','${u.moduleId }','${u.hrefUrl }')"
+													onclick="edit('${u.id}','${u.channelname}','${u.areaname}','${u.descn}','${u.roleId }','${u.languages }','${u.picUrl }','${u.moduleId }','${u.hrefUrl }','${u.parentId }')"
 													class="btn btn-send thisEdit">修改频道</button> <a
 												href="javascript:doAddArticle('${u.id }','${channeltype }','${u.roleId }');"
 												class="btn btn-send">添加文章</a>
 											</td>
 										</tr>
+										<c:forEach items="${u.channelList}" var="newu" varStatus="s">
+                    <tr class="odd gradeX theTr">
+                      <td><input type="checkbox" name="box" class="checkboxes"
+                        value="${newu.id}" /></td>
+                      <td class="hidden-phone">
+                        <c:choose>
+                          <c:when test="${empty newu.picUrl }">
+                            <img src="${appRoot }/static/img/zanwu1.png" style="height: 50px;">
+                          </c:when>
+                          <c:otherwise>
+                            <img src="${newu.picUrl }" style="height: 50px;" onerror="excptionUrl(this)">
+                          </c:otherwise>
+                        </c:choose>
+                      </td>
+                      <td class="hidden-phone"><a href="#"
+                        onclick="doArticleList('${newu.id}','${channeltype }','${newu.roleId }')">----${newu.channelname}</a>
+                      </td>
+                      <td class="hidden-phone">${newu.roleName}</td>
+                      <td class="hidden-phone"><c:if
+                          test="${newu.channeltype == 0}">暂无</c:if> <c:if
+                          test="${newu.channeltype == 1}">APP</c:if> <c:if
+                          test="${newu.channeltype == 2}">H5</c:if> <c:if
+                          test="${newu.channeltype == 3}">触摸板</c:if> <c:if
+                          test="${newu.channeltype == 4}">APP视频</c:if></td>
+                      <td class="hidden-phone">${newu.areaname}</td>
+                      <td class="hidden-phone">${newu.moduleName}</td>
+                      <td class="hidden-phone">${newu.hrefUrl}</td>
+                      <td class="hidden-phone"><fmt:formatDate
+                          value="${newu.ctime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                      <td class="hidden-phone">
+                        <button type="button"
+                          onclick="edit('${newu.id}','${newu.channelname}','${newu.areaname}','${newu.descn}','${newu.roleId }','${newu.languages }','${newu.picUrl }','${newu.moduleId }','${newu.hrefUrl }','${newu.parentId }')"
+                          class="btn btn-send thisEdit">修改频道</button> <a
+                        href="javascript:doAddArticle('${newu.id }','${channeltype }','${newu.roleId }');"
+                        class="btn btn-send">添加文章</a>
+                      </td>
+                    </tr>
+                  </c:forEach>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -201,7 +239,7 @@
 							<label class="col-lg-2 control-label pd-r5">所属渠道<font
 								style="color: red;"></font></label>
 							<div class="col-lg-10">
-								<select class="form-control" name="channeltype">
+								<select class="form-control" id="selChanneltype" name="channeltype" onchange="putChannelList('')">
 									<option value="1"
 										<c:if test="${channeltype == 1}">selected</c:if>>APP</option>
 									<option value="2"
@@ -217,7 +255,16 @@
 							<label class="col-lg-2 control-label pd-r5">所属站点<font
 								style="color: red;"></font></label>
 							<div class="col-lg-10">
-								<select id="roleId" name="roleId" class="form-control" onchange="eventHandling(this)"></select>
+								<select id="roleId" name="roleId" class="form-control selRoleId" onchange="eventHandling(this)"></select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label pd-r5">所属频道<font
+								style="color: red;"></font></label>
+							<div class="col-lg-10">
+								<select id="parentId" name="parentId" class="form-control">
+								  <option value="0">暂无</option>
+								</select>
 							</div>
 						</div>
 						<div class="form-group">
@@ -366,7 +413,7 @@
 		}
 
 		//修改频道
-		function edit(id, channelname, areaname, descn, roleId, languages,picUrl,moduleId,hrefUrl) {
+		function edit(id, channelname, areaname, descn, roleId, languages,picUrl,moduleId,hrefUrl,parentId) {
 			$("#thisChannelLanguage").html("");
 			$("#modal-title").val("修改频道");
 			$("#channelname").val(channelname);
@@ -379,6 +426,8 @@
       }
       $("#moduleId").val(moduleId);
       $("#hrefUrl").val(hrefUrl);
+      //处理父级频道
+      putChannelList(parentId);
 			//处理多语言
 			addLanguage(languages);
 			//处理显示
@@ -607,6 +656,8 @@
       selLanguage(roleId);
       //处理所属模块
       channelInModule(roleId);
+      //放置频道
+      putChannelList('');
 		}
 		
 		//添加时选择语言
@@ -699,6 +750,38 @@
     function excptionUrl(obj){
       var obj = $(obj);
       obj.attr("src",'${appRoot}/static/img/zanwu1.png');
+    }
+    
+    function putChannelList(parentId){
+    	var selChanneltype = $("#selChanneltype").val();
+    	var selRoleId = $(".selRoleId").val();
+    	$.ajax({
+        type : 'post',
+        data : {
+          "roleId" : selRoleId,
+          "channelType" : selChanneltype,
+          "parentId" : "0"
+        },
+        url : '${appRoot}/channel/getDataByType',
+        dataType : 'json',
+        success : function(data) {
+          var html = '<option value="0">暂无</option>';
+          var msg = data.msg;
+          if(msg == "0"){
+        	  var dataList = data.dataList;
+            if (dataList != null) {
+              for (var i = 0; i < dataList.length; i++) {
+            	  if(parentId == dataList[i].id){
+	            	  html += '<option value="'+dataList[i].id+'" selected>'+dataList[i].channelname+'</option>';
+            	  }else{
+	            	  html += '<option value="'+dataList[i].id+'">'+dataList[i].channelname+'</option>';
+            	  }
+              }
+              $("#parentId").html(html);
+            }
+          }
+        }
+      });
     }
 	</script>
 </body>

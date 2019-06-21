@@ -326,13 +326,9 @@
 		}
 
 		function submitData() {
-			if ($('#roleName').val() == null || $('#roleName').val() == '') {
-				windowShow("站点名称不能为空", "");
-				return false;
-			}
-			if ($('#pinyin').val() == null || $('#pinyin').val() == '') {
-				windowShow("站点拼音不能为空", "");
-				return false;
+			var result = yanZheng();
+			if(!result){
+				return;
 			}
 			var languages = "";
 			var languageId = "";
@@ -458,6 +454,34 @@
           windowShow("获取语言列表信息失败", "");
         }
       });
+		}
+		
+		//验证
+		function yanZheng(){
+			var result = true;
+      var result1 = true;
+			if ($('#roleName').val() == null || $('#roleName').val() == '') {
+        windowShow("站点名称不能为空", "");
+        result = false;
+      }
+      if ($('#pinyin').val() == null || $('#pinyin').val() == '') {
+        windowShow("站点拼音不能为空", "");
+        result = false;
+      }
+      $("#thisChannelLanguage").find(".thisLanguageArea").each(function (index,obj){
+        var languageIds = $(obj).find(".languageIds");
+        if (languageIds.is(':checked')) {
+          var languageName = $(obj).find(".languageName").val();
+          var languageTab = $(obj).find(".languageTab").val();
+          var roleLanguageName = $(obj).find(".roleLanguageName").val();
+          if (languageName == null || languageName == '' || languageTab == null || languageTab == '' || roleLanguageName == null || roleLanguageName == '') {
+            result1 = false;
+          }
+        }
+      })
+      if(!result1)
+    	  windowShow("站点语言不允许为空，请仔细检查！", "");
+      return result && result1;
 		}
 	</script>
 </body>

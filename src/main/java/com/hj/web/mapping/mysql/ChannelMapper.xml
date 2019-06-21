@@ -15,11 +15,12 @@
 		<result column="channelType" property="channeltype" jdbcType="INTEGER" />
 		<result column="moduleId" property="moduleId" jdbcType="VARCHAR" />
 		<result column="hrefUrl" property="hrefUrl" jdbcType="VARCHAR" />
+		<result column="parentId" property="parentId" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, channelName, areaName, sort, descn,roleId,languages,
 		isValidate,
-		cTime,channelType,picUrl,moduleId,hrefUrl
+		cTime,channelType,picUrl,moduleId,hrefUrl,parentId
 	</sql>
 	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
@@ -75,6 +76,9 @@
 			<if test="hrefUrl != null">
 				hrefUrl,
 			</if>
+			<if test="parentId != null">
+				parentId,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -115,6 +119,9 @@
 			</if>
 			<if test="hrefUrl != null">
 				#{hrefUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -157,6 +164,9 @@
 			<if test="hrefUrl != null">
 				hrefUrl = #{hrefUrl,jdbcType=VARCHAR},
 			</if>
+			<if test="parentId != null">
+				parentId = #{parentId,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
@@ -174,6 +184,8 @@
 		INSTR(a.channelName, #{channelname})
 		and
 		a.isValidate=1
+		and 
+		a.parentId = 0 
 		<if test="channeltype != null and channeltype != 0">
 			and a.channelType = #{channeltype,jdbcType=INTEGER}
 		</if>
@@ -196,6 +208,8 @@
 		INSTR(a.channelName, #{channelname})
 		and
 		a.isValidate=1
+		and 
+    a.parentId = 0 
 		<if test="channeltype != null and channeltype != 0">
 			and a.channelType = #{channeltype,jdbcType=INTEGER}
 		</if>
@@ -219,11 +233,15 @@
 	<select id="getDataByType" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-	from cms_channel
-	where isValidate=1
-	and instr(#{channeltype},channelType)
+		from cms_channel
+		where isValidate=1 
+		and
+		instr(#{channeltype},channelType)
 		<if test="roleId != null and roleId != ''">
 			and roleId = #{roleId}
+		</if>
+		<if test="parentId != null and parentId != ''">
+			and parentId = 0
 		</if>
 	</select>
 
@@ -239,7 +257,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from cms_channel
-		where roleId = #{roleId} and isValidate=1
+		where roleId = #{roleId} and isValidate=1 and parentId = 0 
 		<if test="moduleId != '' and moduleId!=null ">
 			and instr(moduleId,#{moduleId})
 		</if>
@@ -250,8 +268,13 @@
 			limit #{number}
 		</if>
 	</select>
-	
+
 	<select id="getByIds" resultMap="BaseResultMap">
-	   select * from cms_channel where instr(#{channelIds},id)
+		select * from cms_channel where
+		instr(#{channelIds},id)
+	</select>
+	
+	<select id="getByParentId" resultMap="BaseResultMap">
+		select * from cms_channel where parentId = #{id}
 	</select>
 </mapper>

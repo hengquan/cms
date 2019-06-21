@@ -147,9 +147,12 @@ public class CmsApiController extends ControllerBase {
 				if (channelList != null && channelList.size() > 0) {
 					String channelIds = "";
 					for (Channel channel : channelList) {
-						String id = channel.getId();
-						if (StringUtils.isNotEmpty(id))
-							channelIds += "," + id;
+						String channelname = channel.getChannelname();
+						if (StringUtils.isNotEmpty(channelname) && channelname.equals("轮播图频道")) {
+							String id = channel.getId();
+							if (StringUtils.isNotEmpty(id))
+								channelIds += "," + id;
+						}
 					}
 					if (StringUtils.isNotEmpty(channelIds))
 						channelIds = channelIds.substring(1);
@@ -212,6 +215,7 @@ public class CmsApiController extends ControllerBase {
 				param.put("number", number);
 				param.put("roleId", roleId);
 				param.put("channelType", channelType);
+				List<Channel> dataList = new ArrayList<Channel>();
 				List<Channel> channelList = channelService.selectDataByRoleId(param);
 				if (channelList != null && channelList.size() > 0) {
 					for (Channel channel : channelList) {
@@ -219,11 +223,16 @@ public class CmsApiController extends ControllerBase {
 						if (StringUtils.isNotEmpty(languages) && StringUtils.isNotEmpty(language)) {
 							String name = getCorrespondingLanguage(language, languages);
 							channel.setChannelname(name);
+							// 获取频道名称
+							String channelname = channel.getChannelname();
+							if (StringUtils.isNotEmpty(channelname) && channelname.equals("轮播图频道")) {
+								dataList.add(channel);
+							}
 						}
 					}
 				}
 				result.put("code", "200");
-				result.put("channelList", channelList);
+				result.put("channelList", dataList);
 			} else {
 				result.put("code", "201");
 				result.put("msg", "获取站点信息失败！");
@@ -344,6 +353,15 @@ public class CmsApiController extends ControllerBase {
 				param.put("channelType", channelType);
 				param.put("moduleId", moduleId);
 				List<Channel> channelList = channelService.selectDataByRoleId(param);
+				if (channelList != null && channelList.size() > 0) {
+					for (Channel channel : channelList) {
+						String id = channel.getId();
+						List<Channel> ziChannelList = channelService.getByParentId(id);
+						if (ziChannelList != null && ziChannelList.size() > 0) {
+							channel.setChannelList(ziChannelList);
+						}
+					}
+				}
 				result.put("code", "200");
 				result.put("dataList", channelList);
 			} else {
@@ -383,7 +401,7 @@ public class CmsApiController extends ControllerBase {
 		}
 		try {
 			if (StringUtils.isNotEmpty(roleId)) {
-				Map<String,Object> param = new HashMap<String,Object>();
+				Map<String, Object> param = new HashMap<String, Object>();
 				param.put("roleId", roleId);
 				param.put("moduleType", moduleType);
 				List<Module> moduleList = moduleService.getDataByRoleId(param);

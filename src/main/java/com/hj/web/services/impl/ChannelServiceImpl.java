@@ -148,4 +148,9 @@ public class ChannelServiceImpl implements ChannelService {
 	public List<Channel> getByIds(String channelIds) {
 		return dao.getByIds(channelIds);
 	}
+
+	@Override
+	public List<Channel> getByParentId(String id) {
+		return dao.getByParentId(id);
+	}
 }

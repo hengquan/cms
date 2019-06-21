@@ -30,4 +30,6 @@ public interface ChannelMapper {
 
 	List<Channel> getByIds(String channelIds);
 
+	List<Channel> getByParentId(String id);
+
 }

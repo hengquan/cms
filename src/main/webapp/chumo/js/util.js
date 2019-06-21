@@ -118,6 +118,7 @@ function getHomeData(tab, language) {
 				window.sessionStorage.setItem("language", data.language);
 			} else {
 				console.log(data.msg);
+				return;
 			}
 		}
 	});
@@ -337,18 +338,27 @@ function getChannelList(object) {
 				async : false,
 				success : function(data) {
 					if (data.code == "200") {
-						var html = '<label class="btn" style="color: #fefefe; font-size: 22px;"><b>'+moduleName+'</b></label>'
-						+'<ul class="nav nav-pills nav-stacked">';
+						var html = "";
 						var dataList = data.dataList;
 						console.log(dataList);
 						var firstChannelId = "";
 						var firstChannelName = "";
 						if(dataList.length>0){
-							firstChannelId = dataList[0].id;
-							firstChannelName = dataList[0].channelname;
+							var thisChannelList = dataList[0].channelList;
+							if(thisChannelList.length>0){
+								firstChannelId = thisChannelList[0].id;
+								firstChannelName = thisChannelList[0].channelname;
+							}
 						}
 						for (var i = 0; i < dataList.length; i++) {
-							html += '<li role="presentation" onclick=getArticleList("'+dataList[i].id+'","'+dataList[i].channelname+'") class="active"><a href="#">'+dataList[i].channelname+'</a></li>';
+							html += '<label class="btn" style="color: #fefefe; font-size: 22px;"><b>'+dataList[i].channelname+'</b></label>'
+							+'<ul class="nav nav-pills nav-stacked">';
+							var ziChannelList = dataList[i].channelList;
+							if(ziChannelList != null){
+								for (var y = 0; y < ziChannelList.length; y++){
+									html += '<li role="presentation" onclick=getArticleList("'+ziChannelList[y].id+'","'+ziChannelList[y].channelname+'") class="active"><a href="#">'+ziChannelList[y].channelname+'</a></li>';
+								}
+							}
 						}
 						html += '</ul>';
 						$("#leftDaoHang").html(html);

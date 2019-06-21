@@ -116,4 +116,6 @@ public interface ChannelService {
 
 	public List<Channel> getByIds(String channelIds);
 
+	public List<Channel> getByParentId(String id);
+
 }

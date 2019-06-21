@@ -1,6 +1,7 @@
 package com.hj.web.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class Channel {
     private String id;
@@ -32,6 +33,26 @@ public class Channel {
     private String moduleName;
     
     private String hrefUrl;
+    
+    private String parentId;
+    
+    private List<Channel> channelList;
+
+		public List<Channel> getChannelList() {
+			return channelList;
+		}
+
+		public void setChannelList(List<Channel> channelList) {
+			this.channelList = channelList;
+		}
+
+		public String getParentId() {
+			return parentId;
+		}
+
+		public void setParentId(String parentId) {
+			this.parentId = parentId;
+		}
 
 		public String getModuleName() {
 			return moduleName;

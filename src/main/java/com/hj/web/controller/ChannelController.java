@@ -89,27 +89,21 @@ public class ChannelController extends ControllerBase {
 			}
 			// 获取所有频道信息
 			List<Channel> selectList = channelService.getProjectMessge(map);
+			// 获取该频道子级信息
+			List<Channel> ziChannelList = new ArrayList<Channel>();
 			if (selectList != null && selectList.size() > 0) {
 				for (Channel channel : selectList) {
-					String moduleIds = channel.getModuleId();
-					if (StringUtils.isNotEmpty(moduleIds)) {
-						String[] moduleIdList = moduleIds.split(",");
-						if (moduleIdList.length > 0) {
-							String moduleNames = "";
-							for (String moduleId : moduleIdList) {
-								Module module = moduleService.get(moduleId);
-								if (module != null) {
-									String moduleName = module.getModuleName();
-									moduleNames += "," + moduleName;
-								}
+					languageGroup(channel);
+					String id = channel.getId();
+					if (StringUtils.isNotEmpty(id)) {
+						ziChannelList = channelService.getByParentId(id);
+						if (ziChannelList != null && ziChannelList.size() > 0) {
+							for (Channel oneChannel : ziChannelList) {
+								languageGroup(oneChannel);
 							}
-							if (StringUtils.isNotEmpty(moduleNames)) {
-								moduleNames = moduleNames.substring(1);
-								channel.setModuleName(moduleNames);
-							}
+							channel.setChannelList(ziChannelList);
 						}
 					}
-					urlManage(channel);
 				}
 			}
 			// 所有信息数量
@@ -125,6 +119,28 @@ public class ChannelController extends ControllerBase {
 		}
 		pageUrl = super.userIRoleItem(model, pageUrl);
 		return pageUrl;
+	}
+
+	public void languageGroup(Channel channel) throws Exception {
+		String moduleIds = channel.getModuleId();
+		if (StringUtils.isNotEmpty(moduleIds)) {
+			String[] moduleIdList = moduleIds.split(",");
+			if (moduleIdList.length > 0) {
+				String moduleNames = "";
+				for (String moduleId : moduleIdList) {
+					Module module = moduleService.get(moduleId);
+					if (module != null) {
+						String moduleName = module.getModuleName();
+						moduleNames += "," + moduleName;
+					}
+				}
+				if (StringUtils.isNotEmpty(moduleNames)) {
+					moduleNames = moduleNames.substring(1);
+					channel.setModuleName(moduleNames);
+				}
+			}
+		}
+		urlManage(channel);
 	}
 
 	// 保存频道
@@ -192,6 +208,7 @@ public class ChannelController extends ControllerBase {
 		Map<String, Object> param = new HashMap<String, Object>();
 		String channelType = getTrimParameter("channelType");
 		String roleId = getTrimParameter("roleId");
+		String parentId = getTrimParameter("parentId");
 		int channeltype = 0;
 		try {
 			if (StringUtils.isNotEmpty(channelType)) {
@@ -199,6 +216,7 @@ public class ChannelController extends ControllerBase {
 			}
 			param.put("channeltype", channeltype);
 			param.put("roleId", roleId);
+			param.put("parentId", parentId);
 			List<Channel> channelList = channelService.getDataByType(param);
 			if (channelList != null && channelList.size() > 0) {
 				map.put("dataList", channelList);
