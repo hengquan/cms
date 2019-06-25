@@ -213,7 +213,7 @@ function getHomeChannelList() {
 							+ '</b></label> '
 							+ '<label class="col-md-6 pull-right btn"><b><a href="#" onclick=openArticleList("'
 							+ dataList[i].id
-							+ '","")>更多>></a></b></label>' + '</div>';
+							+ '","")>>></a></b></label>' + '</div>';
 					if ((i + 1) % 2 == 0) {
 						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left; margin-top: 20px;">'
 								+ '<input type="hidden" class="channelId" value="'

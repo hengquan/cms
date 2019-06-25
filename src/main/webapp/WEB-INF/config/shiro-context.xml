@@ -38,6 +38,7 @@
         /app/** = anon 
         /chumo/** = anon 
         /h5/** = anon 
+        /upload/** = anon 
         /appVideo/** = anon 
         /wxpage/** = anon 
         /service/** = anon 
