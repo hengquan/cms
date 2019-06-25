@@ -225,7 +225,7 @@ public class CmsApiController extends ControllerBase {
 							channel.setChannelname(name);
 							// 获取频道名称
 							String channelname = channel.getChannelname();
-							if (StringUtils.isNotEmpty(channelname) && channelname.equals("轮播图频道")) {
+							if (StringUtils.isNotEmpty(channelname) && !channelname.equals("轮播图频道")) {
 								dataList.add(channel);
 							}
 						}
