@@ -270,6 +270,13 @@ public class CmsApiController extends ControllerBase {
 				result.put("channelId", channelId);
 				result.put("language", language);
 				List<Article> articleList = articleService.getDataListByChannelIdAndLanguage(result);
+				if (articleList != null && articleList.size() > 0) {
+					for (Article article : articleList) {
+						String picUrl = article.getPicUrl();
+						if (StringUtils.isNotEmpty(picUrl))
+							article.setPicUrl(path + picUrl);
+					}
+				}
 				int articleListCount = articleService.getDataListByChannelIdAndLanguageCount(result);
 				// 获取页面信息
 				pageService.getPageData(articleListCount, result, page);
@@ -355,6 +362,31 @@ public class CmsApiController extends ControllerBase {
 				List<Channel> channelList = channelService.selectDataByRoleId(param);
 				if (channelList != null && channelList.size() > 0) {
 					for (Channel channel : channelList) {
+						// 处理图片
+						String picUrl = channel.getPicUrl();
+						if (StringUtils.isNotEmpty(picUrl))
+							channel.setPicUrl(path + picUrl);
+						// 切换语言
+						String channelName = "";
+						String languages = channel.getLanguages();
+						String[] languageZu = languages.split(",");
+						if (languageZu != null && languageZu.length > 0) {
+							for (String languageStr : languageZu) {
+								String[] oneLanguage = languageStr.split(":");
+								if (oneLanguage != null && oneLanguage.length > 0) {
+									String str1 = oneLanguage[1];
+									String str2 = oneLanguage[2];
+									if (str1.equals(language)) {
+										channelName = str2;
+									}
+								}
+							}
+							if (StringUtils.isEmpty(channelName)) {
+								channelName = languageZu[0].split(":")[2];
+							}
+						}
+						channel.setChannelname(channelName);
+						// 获取子级频道
 						String id = channel.getId();
 						List<Channel> ziChannelList = channelService.getByParentId(id);
 						if (ziChannelList != null && ziChannelList.size() > 0) {

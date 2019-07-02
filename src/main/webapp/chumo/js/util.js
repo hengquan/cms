@@ -203,6 +203,8 @@ function excptionUrl1(obj) {
 
 //获取文章列表根据频道ID
 function getArticleList(channelId,channelName) {
+	$("#articleList").html("");
+	$(".channelTitle").html("");
 	var nowPage = $("#nowPage").val();
 	var pageSize = $("#pageSize").val();
 	var language = window.sessionStorage.getItem("language");
@@ -341,15 +343,6 @@ function getChannelList(object) {
 						var html = "";
 						var dataList = data.dataList;
 						console.log(dataList);
-						var firstChannelId = "";
-						var firstChannelName = "";
-						if(dataList.length>0){
-							var thisChannelList = dataList[0].channelList;
-							if(thisChannelList.length>0){
-								firstChannelId = thisChannelList[0].id;
-								firstChannelName = thisChannelList[0].channelname;
-							}
-						}
 						for (var i = 0; i < dataList.length; i++) {
 							html += '<label class="btn" style="color: #fefefe; font-size: 22px;"><b>'+dataList[i].channelname+'</b></label>'
 							+'<ul class="nav nav-pills nav-stacked">';
@@ -362,6 +355,15 @@ function getChannelList(object) {
 						}
 						html += '</ul>';
 						$("#leftDaoHang").html(html);
+						var firstChannelId = "";
+						var firstChannelName = "";
+						if(dataList.length>0){
+							var thisChannelList = dataList[0].channelList;
+							if(thisChannelList != null && thisChannelList.length>0){
+								firstChannelId = thisChannelList[0].id;
+								firstChannelName = thisChannelList[0].channelname;
+							}
+						}
 						//默认取第一个频道下的文章列表
 						getArticleList(firstChannelId,firstChannelName);
 					} else {

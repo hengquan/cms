@@ -185,7 +185,7 @@
 		and
 		a.isValidate=1
 		and 
-		a.parentId = 0 
+		a.parentId = '0'
 		<if test="channeltype != null and channeltype != 0">
 			and a.channelType = #{channeltype,jdbcType=INTEGER}
 		</if>
@@ -209,7 +209,7 @@
 		and
 		a.isValidate=1
 		and 
-    a.parentId = 0 
+    a.parentId = '0'
 		<if test="channeltype != null and channeltype != 0">
 			and a.channelType = #{channeltype,jdbcType=INTEGER}
 		</if>
