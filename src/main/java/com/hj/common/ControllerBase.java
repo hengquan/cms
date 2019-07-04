@@ -59,6 +59,7 @@ public class ControllerBase {
 	protected Locale locale;
 	static JsonMapper jsonMapper = new JsonMapper();
 	protected String path = Configurations.getAccessUrl();
+	protected String serverPath = Configurations.getServerPath();
 
 	@ModelAttribute
 	public void setReqAndRes(HttpServletRequest request, HttpServletResponse response, Locale locale) {

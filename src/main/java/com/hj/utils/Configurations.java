@@ -80,4 +80,8 @@ public class Configurations {
 		return getConfig("ACCESSURL");
 	}
 
+	public static String getServerPath() {
+		return getConfig("SERVERPATH");
+	}
+
 }

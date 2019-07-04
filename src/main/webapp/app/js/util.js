@@ -99,7 +99,6 @@ function getHomeData(tab, language) {
 
 function selLanguage(selLanguage){
 	var requestUrl = window.location.href;
-	//alert(requestUrl);
 	var tab = window.sessionStorage.getItem("tab");
 	//获取站点和语言信息
 	getHomeData(tab, selLanguage);
@@ -523,7 +522,7 @@ function getModuleList() {
 				for (var i = 0; i < dataList.length; i++) {
 					html += '<span class="col-xs-3 col-lg-3 col-md-3">'
 					+'<a href="#" onclick=gotoChannelPage("'+dataList[i].id+'")>'
-					+'<img src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label>'+dataList[i].moduleName+'</label>'
+					+'<img style="border-radius:50%" src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label>'+dataList[i].moduleName+'</label>'
 				  +'</a></span>';
 				}
 				$("#main_icon").html(html);

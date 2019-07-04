@@ -40,7 +40,7 @@
 							<header class="panel-heading">频道列表</header>
 							<form action="${appRoot}/channel/getDataList" method="post"
 								id="selectCheckMessage">
-								<input type="hidden" name="channeltype" value="${channeltype }">
+								<input type="hidden" name="channelType" value="${channeltype }">
 								<input type="hidden" name="itemId" value="${itemId }"> <input
 									type="hidden" name="positionId" value="${positionId }">
 								<!-- 根据用户昵称查询 -->

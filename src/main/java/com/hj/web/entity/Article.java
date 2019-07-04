@@ -1,6 +1,7 @@
 package com.hj.web.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class Article {
 	private String id;
@@ -56,6 +57,16 @@ public class Article {
 	private String roleId;
 	
 	private String roleName;
+	
+	private List<String> contentImg;
+
+	public List<String> getContentImg() {
+		return contentImg;
+	}
+
+	public void setContentImg(List<String> contentImg) {
+		this.contentImg = contentImg;
+	}
 
 	public String getRoleId() {
 		return roleId;

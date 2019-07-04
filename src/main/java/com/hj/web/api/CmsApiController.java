@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -275,6 +277,10 @@ public class CmsApiController extends ControllerBase {
 						String picUrl = article.getPicUrl();
 						if (StringUtils.isNotEmpty(picUrl))
 							article.setPicUrl(path + picUrl);
+						// 获取内容中的图片
+						List<String> contentImgList = article.getContentImg();
+						contentImgList = getContentImg(article.getArticle());
+						article.setContentImg(contentImgList);
 					}
 				}
 				int articleListCount = articleService.getDataListByChannelIdAndLanguageCount(result);
@@ -374,8 +380,14 @@ public class CmsApiController extends ControllerBase {
 							for (String languageStr : languageZu) {
 								String[] oneLanguage = languageStr.split(":");
 								if (oneLanguage != null && oneLanguage.length > 0) {
-									String str1 = oneLanguage[1];
-									String str2 = oneLanguage[2];
+									String str1 = "";
+									if (oneLanguage.length > 2 && StringUtils.isNotEmpty(oneLanguage[1])) {
+										str1 = oneLanguage[1];
+									}
+									String str2 = "";
+									if (oneLanguage.length > 3 && StringUtils.isNotEmpty(oneLanguage[2])) {
+										str2 = oneLanguage[2];
+									}
 									if (str1.equals(language)) {
 										channelName = str2;
 									}
@@ -482,4 +494,26 @@ public class CmsApiController extends ControllerBase {
 		}
 		return name;
 	}
+
+	public List<String> getContentImg(String content) {
+		List<String> contentImgList = new ArrayList<String>();
+		String start = "src=\"";
+		String end = "\"";
+		String reg = start + ".*?" + end;
+		// 利用正则表达式定义规则，a开头中间除了a任意都获取，b结尾
+		Pattern p = Pattern.compile(reg);
+		Matcher m = p.matcher(content);
+		while (m.find()) {
+			String contentImg = m.group().substring(5).substring(0, m.group().substring(5).length() - 1);
+			if (StringUtils.isNotEmpty(contentImg)) {
+				contentImg = contentImg.replace("/..", serverPath);
+				contentImgList.add(contentImg);
+			}
+			System.out.println("----------------------------------------------");
+			System.out.println(contentImg);
+			System.out.println("----------------------------------------------");
+		}
+		return contentImgList;
+	}
+
 }

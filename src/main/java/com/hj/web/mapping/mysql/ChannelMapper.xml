@@ -155,7 +155,7 @@
 			<if test="channeltype != null">
 				channelType = #{channeltype,jdbcType=INTEGER},
 			</if>
-			<if test="picUrl != null">
+			<if test="picUrl != null and picUrl != ''">
 				picUrl = #{picUrl,jdbcType=VARCHAR},
 			</if>
 			<if test="moduleId != null">
