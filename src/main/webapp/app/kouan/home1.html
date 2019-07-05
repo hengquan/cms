@@ -80,10 +80,10 @@
 		//判断站点信息
     isOkRole();
 		//获取文章列表
-		getHome1ArticleList();
+		getHome1ArticleList(language,channelId);
 	})
 	
-	//获取文章列表根据频道ID
+//获取文章列表根据频道ID
 function getHome1ArticleList() {
   var nowPage = 1;
   var pageSize = 100;
@@ -108,7 +108,7 @@ function getHome1ArticleList() {
         var dataList = data.dataList;
         for (var i = 0; i < dataList.length; i++) {
           html += '<div>'
-	        +'<a href="#" onclick=openArticleList("","")>'
+	        +'<a href="#" onclick=openArticleContent("'+dataList[i].id+'")>'
 	        +'<label class="col-xs-12 col-lg-12 col-md-12" style="padding-right: 2px; padding-left: 2px;">'+dataList[i].articleName+'</label><br>';
 	        var contentImgList = dataList[i].contentImg;
 	        if(contentImgList !=null && contentImgList.length > 0){

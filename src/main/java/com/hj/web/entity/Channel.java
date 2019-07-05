@@ -37,6 +37,16 @@ public class Channel {
     private String parentId;
     
     private List<Channel> channelList;
+    
+    private List<Article> articleList;
+
+		public List<Article> getArticleList() {
+			return articleList;
+		}
+
+		public void setArticleList(List<Article> articleList) {
+			this.articleList = articleList;
+		}
 
 		public List<Channel> getChannelList() {
 			return channelList;

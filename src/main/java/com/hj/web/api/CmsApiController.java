@@ -420,6 +420,87 @@ public class CmsApiController extends ControllerBase {
 		return result;
 	}
 
+	/**
+	 * 获取指定频道下面的频道列表
+	 * 
+	 * @author zhq
+	 * @param language-语言、channelId-频道ID
+	 * @return
+	 */
+	@RequestMapping("/getSonChannelList")
+	@ResponseBody
+	public Map<String, Object> getSonChannelList() {
+		// 返回信息
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			// 父频道名称
+			String channelId = getTrimParameter("channelId");
+			// 语言标识
+			String language = getTrimParameter("language");
+			if (StringUtils.isEmpty(language)) {
+				language = "Chinese";
+			}
+			List<Channel> channelList = channelService.getByParentId(channelId);
+			if (channelList != null && channelList.size() > 0) {
+				for (Channel channel : channelList) {
+					// 存相关文章的信息
+					String id = channel.getId();
+					Map<String, Object> param = new HashMap<String, Object>();
+					param.put("channelId", id);
+					param.put("language", language);
+					param.put("page", 1);
+					param.put("pageSize", 100);
+					List<Article> articleList = articleService.getDataListByChannelIdAndLanguage(param);
+					if (articleList != null && articleList.size() > 0) {
+						for (Article article : articleList) {
+							String picUrl = article.getPicUrl();
+							if (StringUtils.isNotEmpty(picUrl))
+								article.setPicUrl(path + picUrl);
+						}
+					}
+					channel.setArticleList(articleList);
+					// 处理图片
+					String picUrl = channel.getPicUrl();
+					if (StringUtils.isNotEmpty(picUrl))
+						channel.setPicUrl(path + picUrl);
+					// 切换语言
+					String channelName = "";
+					String languages = channel.getLanguages();
+					String[] languageZu = languages.split(",");
+					if (languageZu != null && languageZu.length > 0) {
+						for (String languageStr : languageZu) {
+							String[] oneLanguage = languageStr.split(":");
+							if (oneLanguage != null && oneLanguage.length > 0) {
+								String str1 = "";
+								if (oneLanguage.length > 2 && StringUtils.isNotEmpty(oneLanguage[1])) {
+									str1 = oneLanguage[1];
+								}
+								String str2 = "";
+								if (oneLanguage.length > 3 && StringUtils.isNotEmpty(oneLanguage[2])) {
+									str2 = oneLanguage[2];
+								}
+								if (str1.equals(language)) {
+									channelName = str2;
+								}
+							}
+						}
+						if (StringUtils.isEmpty(channelName)) {
+							channelName = languageZu[0].split(":")[2];
+						}
+					}
+					channel.setChannelname(channelName);
+				}
+			}
+			result.put("code", "200");
+			result.put("dataList", channelList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("code", "500");
+			result.put("msg", "系统错误,请联系管理员！");
+		}
+		return result;
+	}
+
 	// 获取站点下所有的模块
 	@RequestMapping(value = "/getModuleList")
 	@ResponseBody
@@ -516,4 +597,71 @@ public class CmsApiController extends ControllerBase {
 		return contentImgList;
 	}
 
+	/**
+	 * 外部调用接口
+	 * 
+	 * @author zhq
+	 * @param channelType-频道所属类型（0-暂无，1-APP，2-H5，3-触摸板，4-APP视频）
+	 * @param tab-站点标识
+	 * @param language-语言标识
+	 * @return
+	 */
+	@RequestMapping("/getHomePageList")
+	@ResponseBody
+	public Map<String, Object> getHomePageList() {
+		// 站点标识
+		String tab = getTrimParameter("tab");
+		// 站点ID
+		String roleId = "";
+		String channelType = getTrimParameter("channelType");
+		String language = getTrimParameter("language");
+		if (StringUtils.isEmpty(language)) {
+			language = "Chinese";
+		}
+		if (StringUtils.isNotEmpty(tab)) {
+			SysRole role = roleService.findByPinYin(tab);
+			roleId = role.getId();
+		}
+		// 返回信息
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			if (StringUtils.isNotEmpty(roleId)) {
+				Map<String, Object> param = new HashMap<String, Object>();
+				param.put("number", 100);
+				param.put("roleId", roleId);
+				param.put("channelType", channelType);
+				List<Map<String, Object>> dataList = new ArrayList<Map<String, Object>>();
+				List<Channel> channelList = channelService.selectDataByRoleId(param);
+				if (channelList != null && channelList.size() > 0) {
+					for (Channel channel : channelList) {
+						String languages = channel.getLanguages();
+						if (StringUtils.isNotEmpty(languages) && StringUtils.isNotEmpty(language)) {
+							// 获取频道名称
+							String channelname = channel.getChannelname();
+							// 获取频道描述
+							String descn = channel.getDescn();
+							if (StringUtils.isNotEmpty(channelname) && !channelname.equals("轮播图频道") && descn.equals("APP导航页")) {
+								Map<String, Object> map = new HashMap<String, Object>();
+								String allLanguage = channel.getLanguages();
+								String hrefUrl = channel.getHrefUrl();
+								map.put("homeChannelName", allLanguage);
+								map.put("homeChannelUrl", hrefUrl);
+								dataList.add(map);
+							}
+						}
+					}
+				}
+				result.put("code", "200");
+				result.put("channelList", dataList);
+			} else {
+				result.put("code", "201");
+				result.put("msg", "获取站点信息失败！");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("code", "500");
+			result.put("msg", "系统错误,请联系管理员！");
+		}
+		return result;
+	}
 }

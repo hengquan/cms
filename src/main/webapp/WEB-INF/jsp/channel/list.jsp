@@ -95,6 +95,7 @@
 										<th class="hidden-phone">所属地区</th>
 										<th class="hidden-phone">所属模块</th>
 										<th class="hidden-phone">外链地址</th>
+										<th class="hidden-phone">排序</th>
 										<th class="hidden-phone">创建时间</th>
 										<th class="hidden-phone">操作</th>
 									</tr>
@@ -127,6 +128,9 @@
 											<td class="hidden-phone">${u.areaname}</td>
 											<td class="hidden-phone">${u.moduleName}</td>
 											<td class="hidden-phone">${u.hrefUrl}</td>
+										  <td class="hidden-phone">
+										   <input type="number" class="btn" style="width: 100px; border: 1px solid #ddd; text-align: left;" value="${u.sort }" wzid="${u.id }"  onchange="updateSort(this)">
+										  </td>
 											<td class="hidden-phone"><fmt:formatDate
 													value="${u.ctime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 											<td class="hidden-phone">
@@ -782,6 +786,17 @@
           }
         }
       });
+    }
+    
+    function updateSort(obj) {
+      var obj = $(obj);
+      var id = obj.attr("wzid");
+      var sort = obj.val();
+      var channelType = '${channeltype}';
+      var url = "${appRoot }/channel/save?channeltype=" + channelType + "&itemId="
+          + '${itemId}' + "&positionId=" + '${positionId}' + "&id="
+          + id + "&sort=" + sort;
+      window.location.href = url;
     }
 	</script>
 </body>

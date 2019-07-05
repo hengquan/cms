@@ -264,6 +264,7 @@
 		<if test="channelType != '' and channelType!=null ">
 			and channelType = #{channelType}
 		</if>
+		order by sort desc
 		<if test="number > 0 and number!=null ">
 			limit #{number}
 		</if>

@@ -104,6 +104,8 @@ function selLanguage(selLanguage){
 	getHomeData(tab, selLanguage);
 	//打开其他信息
 	window.location.href = requestUrl;
+	//通知安卓改变底部导航页
+	window.kouan.jsSetTabLanguage(selLanguage);
 	//openHome();
 }
 
