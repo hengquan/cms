@@ -324,6 +324,20 @@ public class CmsApiController extends ControllerBase {
 				result.put("articlelId", articleId);
 				result.put("language", language);
 				Article article = articleService.get(articleId);
+				String relevancyId = article.getRelevancyId();
+				if(StringUtils.isEmpty(relevancyId)){
+					relevancyId = article.getId();
+				}
+				if (StringUtils.isNotEmpty(relevancyId)) {
+					List<Article> articleList = articleService.getDataListByRelevancyIdAndMeId(relevancyId);
+					if (articleList != null && articleList.size() > 0) {
+						for (Article one : articleList) {
+							String oneLanguage = one.getLanguage();
+							if (oneLanguage.equals(language))
+								article = one;
+						}
+					}
+				}
 				result.put("code", "200");
 				result.put("data", article);
 			} else {
@@ -385,7 +399,7 @@ public class CmsApiController extends ControllerBase {
 										str1 = oneLanguage[1];
 									}
 									String str2 = "";
-									if (oneLanguage.length > 3 && StringUtils.isNotEmpty(oneLanguage[2])) {
+									if (oneLanguage.length > 2 && StringUtils.isNotEmpty(oneLanguage[2])) {
 										str2 = oneLanguage[2];
 									}
 									if (str1.equals(language)) {

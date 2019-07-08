@@ -33,4 +33,6 @@ public interface ArticleMapper {
 	List<Article> getDataListByChannelIdAndLanguage(Map<String, Object> result);
 
 	int getDataListByChannelIdAndLanguageCount(Map<String, Object> result);
+
+	List<Article> getDataListByRelevancyIdAndMeId(String relevancyId);
 }

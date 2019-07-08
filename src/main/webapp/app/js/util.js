@@ -104,8 +104,6 @@ function selLanguage(selLanguage){
 	getHomeData(tab, selLanguage);
 	//打开其他信息
 	window.location.href = requestUrl;
-	//通知安卓改变底部导航页
-	window.kouan.jsSetTabLanguage(selLanguage);
 	//openHome();
 }
 
@@ -316,9 +314,7 @@ function openArticleList(channelId,hrefUrl) {
 
 // 打开文章
 function openArticleContent(articleId) {
-	var language = $("#selLanguage").val();
-	window.location.href = "./content.html?articleId=" + articleId
-			+ "&language=" + language;
+	window.location.href = "./content.html?articleId=" + articleId;
 }
 
 //获取文章列表根据频道ID
@@ -524,7 +520,7 @@ function getModuleList() {
 				for (var i = 0; i < dataList.length; i++) {
 					html += '<span class="col-xs-3 col-lg-3 col-md-3">'
 					+'<a href="#" onclick=gotoChannelPage("'+dataList[i].id+'")>'
-					+'<img style="border-radius:50%" src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label>'+dataList[i].moduleName+'</label>'
+					+'<img src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label>'+dataList[i].moduleName+'</label>'
 				  +'</a></span>';
 				}
 				$("#main_icon").html(html);

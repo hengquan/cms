@@ -99,7 +99,6 @@ function getHomeData(tab, language) {
 
 function selLanguage(selLanguage){
 	var requestUrl = window.location.href;
-	//alert(requestUrl);
 	var tab = window.sessionStorage.getItem("tab");
 	//获取站点和语言信息
 	getHomeData(tab, selLanguage);
@@ -315,9 +314,7 @@ function openArticleList(channelId,hrefUrl) {
 
 // 打开文章
 function openArticleContent(articleId) {
-	var language = $("#selLanguage").val();
-	window.location.href = "./content.html?articleId=" + articleId
-			+ "&language=" + language;
+	window.location.href = "./content.html?articleId=" + articleId;
 }
 
 //获取文章列表根据频道ID

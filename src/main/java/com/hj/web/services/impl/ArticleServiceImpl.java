@@ -129,4 +129,9 @@ public class ArticleServiceImpl implements ArticleService {
 		return dao.getDataListByChannelIdAndLanguageCount(result);
 	}
 
+	@Override
+	public List<Article> getDataListByRelevancyIdAndMeId(String relevancyId) {
+		return dao.getDataListByRelevancyIdAndMeId(relevancyId);
+	}
+
 }

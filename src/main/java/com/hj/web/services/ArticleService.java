@@ -41,4 +41,6 @@ public interface ArticleService {
 	public List<Article> getDataListByChannelIdAndLanguage(Map<String, Object> result);
 
 	public int getDataListByChannelIdAndLanguageCount(Map<String, Object> result);
+
+	public List<Article> getDataListByRelevancyIdAndMeId(String relevancyId);
 }

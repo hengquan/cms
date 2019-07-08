@@ -323,7 +323,16 @@
 		from cms_article
 		where relevancyId = #{id,jdbcType=VARCHAR}
 		and
-		isValidate in (0,1,2,3)
+		isValidate in ('0','1','2','3')
+	</select>
+	
+	<select id="getDataListByRelevancyIdAndMeId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cms_article
+		where (relevancyId = #{id,jdbcType=VARCHAR} or id = #{id})
+		and
+		isValidate in ('0','1','2','3')
 	</select>
 
 	<select id="getArticleParentDataList" resultMap="BaseResultMap">
