@@ -98,6 +98,10 @@ function getHomeData(tab, language) {
 }
 
 function selLanguage(selLanguage){
+	//遮罩层
+    var loadIndex = layer.load(0, {
+      shade: [0.1,'#fff'] //0.1透明度的白色背景
+    });
 	var requestUrl = window.location.href;
 	var tab = window.sessionStorage.getItem("tab");
 	//获取站点和语言信息
@@ -105,6 +109,8 @@ function selLanguage(selLanguage){
 	//打开其他信息
 	window.location.href = requestUrl;
 	//openHome();
+	//关闭遮罩
+    layer.close(loadIndex);
 }
 
 // 判断站点信息是否为空-空的话去主页重新刷新站点信息

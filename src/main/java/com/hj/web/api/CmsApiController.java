@@ -325,7 +325,7 @@ public class CmsApiController extends ControllerBase {
 				result.put("language", language);
 				Article article = articleService.get(articleId);
 				String relevancyId = article.getRelevancyId();
-				if(StringUtils.isEmpty(relevancyId)){
+				if (StringUtils.isNotEmpty(relevancyId) && relevancyId.equals("0")) {
 					relevancyId = article.getId();
 				}
 				if (StringUtils.isNotEmpty(relevancyId)) {
