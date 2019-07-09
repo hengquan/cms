@@ -108,7 +108,8 @@ function selLanguage(selLanguage){
 	getHomeData(tab, selLanguage);
 	//打开其他信息
 	window.location.href = requestUrl;
-	//openHome();
+	if(requestUrl.indexOf("home.html") != -1 )
+	  openHome();
 	//关闭遮罩
     layer.close(loadIndex);
 }
