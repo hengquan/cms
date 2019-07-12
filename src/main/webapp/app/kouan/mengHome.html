@@ -23,7 +23,6 @@
 }
 
 .content{
-    width: 36px;  
     transform:rotate(90deg);  
     -ms-transform:rotate(90deg);    /* IE 9 */  
     -moz-transform:rotate(90deg);   /* Firefox */  
@@ -142,6 +141,18 @@
 		$("#myCarousel").carousel('cycle');
 		//打开其他信息
 		openHome();
+		//判断是否是蒙文如果是的话做适配
+    var channelType = window.sessionStorage.getItem("language");
+		if(channelType == 'Russian'){
+			$("#main_icon").addClass("content");
+			$("#channelListData").addClass("content");
+	/* 		$("#main_icon label").each(function(index,obj){
+				$(obj).addClass("content");
+			})
+			$("#channelListData .thisHomeChannelName").each(function(index,obj){
+				$(obj).addClass("content");
+			}) */
+		}
 	})
 </script>
 </html>

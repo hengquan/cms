@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>文章内容</title>
+<!-- Bootstrap -->
+<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="../js/jquery.min.js"></script>
+<script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/ueditor.all.js"></script>
+<script src="../js/util.js"></script>
+
+<style type="text/css">
+@font-face {
+	font-family: mFont;
+	src: url('../fonts/MNR8102.ttf');
+}
+
+#content{
+    margin: 150px auto;  
+    width: 500px;  
+    font-size: 30px;   
+    line-height: 24px;  
+    transform:rotate(90deg);  
+    -ms-transform:rotate(90deg);    /* IE 9 */  
+    -moz-transform:rotate(90deg);   /* Firefox */  
+    -webkit-transform:rotate(90deg); /* Safari 和 Chrome */  
+    -o-transform:rotate(90deg);     /* Opera */  
+}
+.container-fluid {
+	text-align: center;
+}
+</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<textarea rows="10" cols="100" style="font-family: mFont;" id="a"></textarea>
+		</div>
+		<div class="row">
+			<button onclick="saveAndSee()">保存并转换</button>
+		</div>
+		<div class="row" id="content" style="font-family: mFont;">
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	$(function() {
+	})
+	function saveAndSee(){
+		var a = $("#a").val();
+		$.ajax({
+	    type : 'post',
+	    data : {
+	      "channelname" : a
+	    },
+	    url : '../../api/channelSave',
+	    dataType : 'json',
+	    async : false,
+	    success : function(data) {
+	    	var data = data.data;
+	    	var channelname = data.channelname;
+	    	$("#content").html(channelname);
+	    	console.log(data);
+	    }
+	  });
+	}
+</script>
+</html>

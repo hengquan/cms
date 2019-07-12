@@ -678,4 +678,22 @@ public class CmsApiController extends ControllerBase {
 		}
 		return result;
 	}
+	
+	// 保存频道
+	@RequestMapping(value = "/channelSave")
+	@ResponseBody
+	public Map<String, Object> saveProject(Channel project) {
+		// 返回信息
+		Map<String, Object> result = new HashMap<String, Object>();
+		String id = "abcdefghikasldf123";
+		try {
+			project.setId(id);
+			channelService.save(project);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Channel channel = channelService.get(id);
+		result.put("data", channel);
+		return result;
+	}
 }

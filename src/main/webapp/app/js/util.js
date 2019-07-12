@@ -217,9 +217,9 @@ function getHomeChannelList() {
 				for (var i = 0; i < dataList.length; i++) {
 					channelHtml += '<div class="row" style="background: #fefefe; margin-top: 5px">'
 							+ '<div class="col-md-12" style="border: 1px solid #eeeeee">'
-							+ '<label class="col-md-6 btn"><b>'
+							+ '<label class="col-md-6 btn thisHomeChannelName" style="font-weight:bold;font-family: mFont;">'
 							+ dataList[i].channelname
-							+ '</b></label> '
+							+ '</label> '
 							+ '<label class="col-md-6 pull-right btn"><b><a href="#" onclick=openArticleList("'
 							+ dataList[i].id
 							+ '","")>>></a></b></label>' + '</div>';
@@ -527,7 +527,7 @@ function getModuleList() {
 				for (var i = 0; i < dataList.length; i++) {
 					html += '<span class="col-xs-3 col-lg-3 col-md-3">'
 					+'<a href="#" onclick=gotoChannelPage("'+dataList[i].id+'")>'
-					+'<img src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label>'+dataList[i].moduleName+'</label>'
+					+'<img src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label style="font-family: mFont;">'+dataList[i].moduleName+'</label>'
 				  +'</a></span>';
 				}
 				$("#main_icon").html(html);

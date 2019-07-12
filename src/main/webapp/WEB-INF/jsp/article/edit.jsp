@@ -23,6 +23,12 @@
 <script type="text/javascript" charset="utf-8"
 	src="${appRoot}/static/js/layui.js"></script>
 <title>${appTitle}</title>
+<style type="text/css">
+  @font-face {
+    font-family: mFont;
+    src: url('${appRoot}/static/fonts/MNR8102.ttf');
+  }
+</style>
 </head>
 <body>
 
@@ -72,10 +78,10 @@
 									placeholder="请输入文章标题" name="articleName" id="articleName"
 									value="${article.articleName }">
 							</div>
-							<div style="margin-top: 16px; margin-left: 20px;" class="row">
+						  <div style="margin-top: 16px; margin-left: 20px;" class="row">
 								<label class="btn col-lg-1">文章摘要：</label>
 								<textarea rows="5" class="btn col-lg-10" name="detail"
-									id="detail" style="border: 1px solid #ddd; text-align: left;">${article.detail }</textarea>
+									id="detail" style="border: 1px solid #ddd; text-align: left;font-family: mFont">${article.detail }</textarea>
 							</div>
 							<div style="margin-top: 16px; margin-left: 20px;" class="row">
 								<label class="btn col-lg-1">视频地址：</label> <input type="text"
@@ -112,7 +118,7 @@
 							<div style="margin-top: 16px; margin-left: 20px;" class="row">
 								<label class="btn col-lg-1">文章内容：</label>
 								<textarea class="col-lg-10" name="article" id="article"
-									style="margin-left: -15px; border: 0px;">${article.article }</textarea>
+									style="margin-left: -15px; border: 0px;font-family: mFont">${article.article }</textarea>
 							</div>
 						</form>
 						<div style="clear: both"></div>
