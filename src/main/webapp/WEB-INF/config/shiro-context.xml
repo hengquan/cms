@@ -38,6 +38,7 @@
         /app/** = anon 
         /appm/** = anon 
         /chumo/** = anon 
+        /chumom/** = anon 
         /h5/** = anon 
         /upload/** = anon 
         /appVideo/** = anon 

@@ -9,12 +9,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
 import org.springframework.ui.ModelMap;
 
 public class PageUtil {
 	
-		private final Logger logger = Logger.getLogger(PageUtil.class);
 		// 每页显示条数， 默认是每页10条，具体根据传入的参数决定 
 		private Integer count; 
 		

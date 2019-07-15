@@ -13,6 +13,36 @@
 <script src="../js/util.js"></script>
 
 <style type="text/css">
+@font-face {
+	font-family: mFont;
+	src: url('../fonts/MNR8102.ttf');
+}
+
+.content {
+	transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	-o-transform: rotate(90deg);
+	position: relative;
+}
+
+.content1 {
+	/* writing-mode:vertical-lr; */
+	-webkit-animation: clockwiseRotate 2s infinite;
+	transform-origin: 0 0;
+	transform: rotate(90deg);
+	position: relative;
+}
+
+.content2 {
+	writing-mode: vertical-lr;
+	text-orientation: sideways-right;
+	white-space: normal;
+	word-break: keep-all;
+	text-align: justify;
+}
+
 #myCarousel img {
 	height: 300px;
 }
@@ -74,7 +104,7 @@
 }
 
 .channelTitle {
-  height: 30px;
+	height: 30px;
 	display: inline-block;
 	color: #FFFFFF;
 	font-weight: bold;
@@ -96,8 +126,8 @@
 	background-color: #7495F2;
 }
 
-.pagination{
-
+.pagination {
+	
 }
 </style>
 </head>
@@ -107,8 +137,9 @@
 			style="background-color: transparent;">
 			<div class="row" style="background: #5273D2;">
 				<div class="col-md-12">
-					<span id="roleName" class="head-role"></span> <span
-						class="pull-right" id="nationalFlag"></span>
+					<span id="roleName" class="head-role content2"
+						style="font-family: mFont;height:30px"></span> <span class="pull-right"
+						id="nationalFlag"></span>
 				</div>
 			</div>
 		</nav>
@@ -118,18 +149,17 @@
 				<input type="hidden" id="imgNumber" value="1">
 				<div class="item active" id="homePageImg"></div>
 				<div id="homePageDetail"
-					style="padding: 40px 0; font-size: 14px; line-height: 40px; width: 80%; margin: 0 auto;"></div>
+					style="padding: 40px 0; font-size: 14px; line-height: 40px; width: 80%; margin: 0 auto; font-family: mFont;"></div>
 			</div>
 			<div class="row" id="otherPageContent">
 				<div class="col-md-2" id="leftDaoHang"
-					style="background: #5273D2; overflow-y: auto; overflow-x: hidden;">
+					style="margin-top: 3px;background: #5273D2; overflow-y: auto; overflow-x: hidden;">
 				</div>
 				<div class="col-md-10" id="rightContent"
 					style="background: #ffffff; overflow-y: auto; overflow-x: hidden;">
-					<div class="col-md-12 channelTitle"></div>
+					<div class="col-md-12 channelTitle content2" style="height:100px"></div>
 					<div style="clear: both"></div>
-					<div id="articleList">
-					</div>
+					<div id="articleList"></div>
 					<div style="clear: both"></div>
 					<div class="pagination"></div>
 				</div>
@@ -152,9 +182,14 @@
 			window.sessionStorage.setItem("channelType", "3");
 		}
 		//获取站点和语言信息
-		getRoleData("manzhouli", "Chinese");
+		getRoleData("ganqimaodu", "Mongolian");
 		//打开其他信息
 		openHome();
+		//判断是否是蒙文如果是的话做适配
+		var channelType = window.sessionStorage.getItem("language");
+		if (channelType == 'Mongolian') {
+
+		}
 	})
 </script>
 </html>

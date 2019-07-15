@@ -184,24 +184,28 @@ public class ArticleController extends ControllerBase {
 		model.addAttribute("articleId", id);
 		if (StringUtils.isNotEmpty(id)) {
 			article = articleService.get(id);
-			// 对比ID和语言
-			String language = article.getLanguage();
-			if (StringUtils.isEmpty(languageTab) || StringUtils.isEmpty(language) || !languageTab.equals(language)) {
-				List<Article> articles = articleService.getDataListByRelevancyId(article.getId());
-				if (articles != null && articles.size() > 0) {
-					boolean result = false;
-					for (Article data : articles) {
-						String dataLanguage = data.getLanguage();
-						if (dataLanguage.equals(languageTab)) {
-							article = data;
-							result = true;
-							break;
+			if (article != null) {
+				articleType = article.getArticleType();
+				// 对比ID和语言
+				String language = article.getLanguage();
+				if (StringUtils.isEmpty(languageTab) || StringUtils.isEmpty(language)
+						|| !languageTab.equals(language)) {
+					List<Article> articles = articleService.getDataListByRelevancyId(article.getId());
+					if (articles != null && articles.size() > 0) {
+						boolean result = false;
+						for (Article data : articles) {
+							String dataLanguage = data.getLanguage();
+							if (dataLanguage.equals(languageTab)) {
+								article = data;
+								result = true;
+								break;
+							}
 						}
-					}
-					if (!result)
+						if (!result)
+							article = new Article();
+					} else {
 						article = new Article();
-				} else {
-					article = new Article();
+					}
 				}
 			}
 		}

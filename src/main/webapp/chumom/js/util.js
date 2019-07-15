@@ -1,3 +1,4 @@
+var homeContentHeight = 0;
 //html获取链接上面的参数
 function getQueryString(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -47,6 +48,8 @@ function disposeHeight() {
 	//首页图片内容区
 	document.getElementById("homePageImg").style.height = (middleHeight / 3 * 2)
 			+ "px";
+	//给详情赋值高度
+	homeContentHeight = (middleHeight / 4)+"px";
 	//左侧导航
 	document.getElementById("leftDaoHang").style.height = middleHeight
 			+ "px";
@@ -61,7 +64,7 @@ function getRoleData(tab, selLanguage) {
 	var roleName = window.sessionStorage.getItem("roleName");
 	if (roleName != "" || roleName != null || roleName != undefined) {
 		// 渲染口岸名称
-		$("#roleName").html(roleName);
+		//$("#roleName").html(roleName);
 	}
 	// 站点所属所有语言列表
 	var languageList = window.sessionStorage.getItem("languageList");
@@ -78,6 +81,10 @@ function getRoleData(tab, selLanguage) {
 		// 口岸标识
 		var tab = tab;
 		// 所选语言
+		language = getQueryString("language");
+		if(language == "" || language == null || language == undefined){
+			
+		}
 		var selLanguage = selLanguage;
 		// 初始化口岸名称和语言
 		getHomeData(tab, selLanguage);
@@ -105,7 +112,7 @@ function getHomeData(tab, language) {
 				}
 				$("#nationalFlag").html(languageHtml);
 				// 渲染口岸名称
-				$("#roleName").html(data.roleName);
+				//$("#roleName").html(data.roleName);
 				// 存session--站点名称
 				window.sessionStorage.setItem("roleName", data.roleName);
 				// 存session--站点标识
@@ -142,7 +149,7 @@ function isOkRole() {
 		var roleName = window.sessionStorage.getItem("roleName");
 		if (roleName != "" || roleName != null || roleName != undefined) {
 			// 渲染口岸名称
-			$("#roleName").html(roleName);
+			//$("#roleName").html(roleName);
 		}
 		// 站点所属所有语言列表
 		var languageList = window.sessionStorage.getItem("languageList");
@@ -181,6 +188,7 @@ function getHomePicUrl() {
 					textHtml = dataList[i].detail;
 				}
 				$("#homePageImg").html(imgHtml);
+				textHtml = '<div class="content2" style="font-family: mFont;height:'+homeContentHeight+'">'+textHtml+'</div>';
 				$("#homePageDetail").html(textHtml);
 			} else {
 				console.log(data.msg);
@@ -202,14 +210,17 @@ function excptionUrl1(obj) {
 }
 
 //获取文章列表根据频道ID
-function getArticleList(channelId,channelName) {
+function getArticleList(channelId,channelName,paramObj) {
+	if(channelName == "" && paramObj != null){
+		channelName = $(paramObj).attr("theChannelName");
+	}
 	$("#articleList").html("");
 	$(".channelTitle").html("");
 	var nowPage = $("#nowPage").val();
 	var pageSize = $("#pageSize").val();
 	var language = window.sessionStorage.getItem("language");
 	//给返回页赋值
-	$("#goBeforePage").attr("onclick","getArticleList('"+channelId+"','"+channelName+"')");
+	$("#goBeforePage").attr("onclick","getArticleList('"+channelId+"','"+channelName+"',"+paramObj+")");
 	//请求数据
 	var data = {
 		"language" : language,
@@ -227,14 +238,16 @@ function getArticleList(channelId,channelName) {
 			console.log(data);
 			if (data.code == "200") {
 				//渲染标题
-				$(".channelTitle").html(channelName);
+				$(".channelTitle").html('<div style="font-family: mFont;">'+channelName+'</div>');
 				//渲染首页频道列表
 				var html = "";
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
+					var articleId = dataList[i].id;
+					var articleName = dataList[i].articleName;
 					html += '<div class="col-md-3" style="padding-top: 5px; padding-bottom: 5px; text-align: center">'
-						+'<img width="100%" height="100%" onclick=getArticle("'+dataList[i].id+'","'+dataList[i].articleName+'") src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br>' 
-						+'<label style="margin-top: 10px;">'+dataList[i].articleName+'</label>'
+						+'<img width="100%" height="100%" articleName="'+articleName+'" articleId="'+articleId+'" onclick=getArticle(this) src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)">' 
+						+'<label class="content2" style="height:50px;margin-top: 10px;font-family: mFont;">'+dataList[i].articleName+'</label>'
 						+'</div>';
 				}
 				$("#articleList").html(html);
@@ -344,28 +357,36 @@ function getChannelList(object) {
 						var dataList = data.dataList;
 						console.log(dataList);
 						for (var i = 0; i < dataList.length; i++) {
-							html += '<label class="btn" style="color: #fefefe; font-size: 22px;"><b>'+dataList[i].channelname+'</b></label>'
-							+'<ul class="nav nav-pills nav-stacked">';
+							html += '<div class="channelListDiv">';
+							html += '<ul class="nav nav-pills nav-stacked">';
 							var ziChannelList = dataList[i].channelList;
 							if(ziChannelList != null){
 								for (var y = 0; y < ziChannelList.length; y++){
-									html += '<li role="presentation" onclick=getArticleList("'+ziChannelList[y].id+'","'+ziChannelList[y].channelname+'") class="active"><a href="#">'+ziChannelList[y].channelname+'</a></li>';
+									var oneChannel = {
+										"id" : ziChannelList[y].id,
+										"channelname" : ziChannelList[y].channelname
+									}
+									html += '<li theChannelName = "'+oneChannel.channelname+'" role="presentation" onclick=getArticleList("'+oneChannel.id+'","",this) class="active"><a href="#" style="font-family: mFont;">'+ziChannelList[y].channelname+'</a></li>';
 								}
 							}
+							html += '</ul>';
+							html += '<label class="btn" style="color: #fefefe; font-size: 22px;"><b style="font-family: mFont;">'+dataList[i].channelname+'</b></label>'
+							html += '</div>';
+							html += '<div style="clear:both"></div>';
 						}
-						html += '</ul>';
 						$("#leftDaoHang").html(html);
-						var firstChannelId = "";
-						var firstChannelName = "";
+						//处理子频道
+						var paramChannel;
 						if(dataList.length>0){
 							var thisChannelList = dataList[0].channelList;
 							if(thisChannelList != null && thisChannelList.length>0){
-								firstChannelId = thisChannelList[0].id;
-								firstChannelName = thisChannelList[0].channelname;
+								paramChannel = thisChannelList[0];
 							}
 						}
 						//默认取第一个频道下的文章列表
-						getArticleList(firstChannelId,firstChannelName);
+						if(paramChannel != null && paramChannel != ''){
+							getArticleList(paramChannel.id,paramChannel.channelname,null);
+						}
 					} else {
 						console.log(data.msg);
 					}
@@ -373,12 +394,32 @@ function getChannelList(object) {
 			});
 			$("#otherPageContent").show();
 			$("#homePage").hide();
+			//计算距离
+			chuliDistance()
 		}
 	}
 }
 
+var divHeight = 0;
+//计算距离
+function chuliDistance(){
+	//左侧频道列表
+	$("#leftDaoHang .channelListDiv").each(function(index,obj){
+		var height = $(obj).height();
+		var width = $(obj).width();
+		$(obj).css("left", height);
+		if(index != 0)
+			$(obj).css("margin-top", divHeight+"px");
+		$(obj).addClass("content1");
+		divHeight = height;
+	})
+	$("#leftDaoHang").html($("#leftDaoHang").html());
+}
+
 //获取文章内容根据文章ID
-function getArticle(articleId,articleName) {
+function getArticle(obj) {
+	var articleId = $(obj).attr("articleId");
+	var articleName = $(obj).attr("articleName");
 	var language = window.sessionStorage.getItem("language");
 	//请求数据
 	var data = {
@@ -396,15 +437,33 @@ function getArticle(articleId,articleName) {
 				//渲染首页频道列表
 				var html = "";
 				var data = data.data;
-				html += '<div class="col-md-12" style="font-size: 18px;">'+data.article+'</div>';
+				html += '<div class="col-md-12" style="font-size: 18px;font-family: mFont;">'+data.article+'</div>';
 				$("#articleList").html(html);
 				//赋值标题
+				articleName = '<div style="font-family: mFont;">'+articleName+'</div>';
 				$(".channelTitle").html(articleName);
 			} else {
 				console.log(data.msg);
 			}
 		}
 	});
+	//处理蒙文
+	chuliMeng();
+}
+
+//处理蒙文
+function chuliMeng(){
+	//适配蒙文
+	$("#articleList span").each(function(index,obj){
+		$(obj).css("font-family","mFont");  
+	})
+	//适配蒙文
+	$("#articleList p").each(function(index,obj){
+		$(obj).css("font-family","mFont");  
+	})
+	//var height = $("#articleList .content1").height();
+	//var width = $("#articleList .content1").width();
+	//$("#articleList .content1").css("left", height);
 }
 
 //获取站点下所有的模块
@@ -426,16 +485,16 @@ function getModuleList() {
 			if (data.code == "200") {
 				var html = '<li role="presentation" class="active" moduleId="goHomePage"'
 					+'onclick="getChannelList(this)"><a href="#">'
-					+'<img height="35px" src="../img/home.jpg" alt=""><br> <label>返回首页</label></a></li>';
+					+'<img height="35px" src="../img/home.jpg" alt=""></a></li>';
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
 					html += '<li role="presentation" class="" moduleId="'+dataList[i].id+'" moduleName="'+dataList[i].moduleName+'"'
 						+'onclick="getChannelList(this)"><a href="#">'
-						+'<img height="35px" src="'+dataList[i].picUrl+'" onerror="excptionUrl1(this)"><br> <label>'+dataList[i].moduleName+'</label></a></li>';
+						+'<img height="35px" src="'+dataList[i].picUrl+'" onerror="excptionUrl1(this)"><br> <label class="content2" style="font-family: mFont;">'+dataList[i].moduleName+'</label></a></li>';
 				}
 				html += '<li role="presentation" class="" moduleId="goBeforePage" id="goBeforePage"'
 					+'onclick="getChannelList(this)">'
-					+'<img height="35px" src="../img/return.jpg" alt=""><br> <label>返回上页</label></li>';
+					+'<img height="35px" src="../img/return.jpg" alt=""></li>';
 				$("#moduleList").html(html);
 			} else {
 				console.log(data.msg);

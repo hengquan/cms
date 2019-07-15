@@ -416,6 +416,34 @@ public class CmsApiController extends ControllerBase {
 						String id = channel.getId();
 						List<Channel> ziChannelList = channelService.getByParentId(id);
 						if (ziChannelList != null && ziChannelList.size() > 0) {
+							for (Channel ziChannel : ziChannelList) {
+								// 切换语言
+								String ziChannelName = "";
+								String ziLanguages = ziChannel.getLanguages();
+								String[] ziLanguageZu = ziLanguages.split(",");
+								if (ziLanguageZu != null && ziLanguageZu.length > 0) {
+									for (String languageStr : ziLanguageZu) {
+										String[] oneLanguage = languageStr.split(":");
+										if (oneLanguage != null && oneLanguage.length > 0) {
+											String str1 = "";
+											if (oneLanguage.length > 2 && StringUtils.isNotEmpty(oneLanguage[1])) {
+												str1 = oneLanguage[1];
+											}
+											String str2 = "";
+											if (oneLanguage.length > 2 && StringUtils.isNotEmpty(oneLanguage[2])) {
+												str2 = oneLanguage[2];
+											}
+											if (str1.equals(language)) {
+												ziChannelName = str2;
+											}
+										}
+									}
+									if (StringUtils.isEmpty(ziChannelName)) {
+										ziChannelName = ziLanguageZu[0].split(":")[2];
+									}
+								}
+								ziChannel.setChannelname(ziChannelName);
+							}
 							channel.setChannelList(ziChannelList);
 						}
 					}

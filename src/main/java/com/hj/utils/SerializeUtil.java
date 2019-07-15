@@ -7,7 +7,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
 
 /**
 * @author WangZhiYong
@@ -19,8 +18,6 @@ import org.apache.log4j.Logger;
 */
 
 public class SerializeUtil <M extends Serializable>{
-	
-	protected static Logger logger = Logger.getLogger(SerializeUtil.class);
 	
 	public static byte[] objectSerialize(Object value) throws IOException {  
         if (value == null) {  

@@ -69,7 +69,7 @@
 									class="btn col-lg-10" style="border: 1px solid #ddd;"
 									name="roleId" id="roleId" onchange="selRole(this)"></select>
 							</div>
-							<input type="hidden" name="articleType" id="articleType" value="${articleType }">
+							<input type="text" name="articleType" id="articleType" value="${articleType }">
 							<div id="manyTypeAndChannel"></div>
 							<div style="margin-top: 16px; margin-left: 20px;" class="row">
 								<label class="btn col-lg-1">文章标题：</label> <input type="text"

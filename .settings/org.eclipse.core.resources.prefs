@@ -5,6 +5,7 @@ encoding//src/main/resources/aplication.properties=UTF-8
 encoding//src/main/resources/jdbc.properties=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/inc/alertWindow.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/inc/header.jsp=UTF-8
+encoding//src/main/webapp/static/assets/ueditor/jsp/config.json=UTF-8
 encoding//src/main/webapp/static/css/app.css=UTF-8
 encoding//src/main/webapp/static/css/style.css=UTF-8
 encoding//src/test/java=UTF-8
