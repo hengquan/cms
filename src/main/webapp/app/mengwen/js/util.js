@@ -215,22 +215,15 @@ function getHomeChannelList() {
 				var channelHtml = "";
 				var dataList = data.channelList;
 				for (var i = 0; i < dataList.length; i++) {
-					channelHtml += '<div class="row" style="background: #fefefe; margin-top: 5px">'
-							+ '<div class="col-md-12" style="border: 1px solid #eeeeee">'
-							+ '<label class="col-md-6 btn thisHomeChannelName" style="font-weight:bold;font-family: mFont;">'
-							+ dataList[i].channelname
-							+ '</label> '
-							+ '<label class="col-md-6 pull-right btn"><b><a href="#" onclick=openArticleList("'
-							+ dataList[i].id
-							+ '","")>>></a></b></label>' + '</div>';
+					channelHtml += '<div class="row" style="background: #fefefe; margin-top: 5px">';
 					if ((i + 1) % 2 == 0) {
-						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left; margin-top: 20px;">'
+						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left;">'
 								+ '<input type="hidden" class="channelId" value="'
 								+ dataList[i].id
 								+ '">'
 								+ '<input type="hidden" class="articleNumber" value="3">'
 								+ '<div class="theChannelList"></div>'
-								+ '</div></div>';
+								+ '</div>';
 					} else {
 						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left; margin-top: 5px;">'
 								+ '<input type="hidden" class="channelId" value="'
@@ -238,8 +231,15 @@ function getHomeChannelList() {
 								+ '">'
 								+ '<input type="hidden" class="articleNumber" value="3">'
 								+ '<ul class="theChannelList"></ul>'
-								+ '</div></div>';
+								+ '</div>';
 					}
+					channelHtml += '<div class="col-md-12" style="border: 1px solid #eeeeee">'
+					+ '<label class="col-md-6 btn thisHomeChannelName" style="font-weight:bold;font-family: mFont;">'
+					+ dataList[i].channelname
+					+ '</label> '
+					+ '<label class="col-md-6 pull-right btn"><b><a href="#" onclick=openArticleList("'
+					+ dataList[i].id
+					+ '","")>>></a></b></label>' + '</div></div>';
 				}
 				$("#channelListData").html(channelHtml);
 			} else {
@@ -273,14 +273,14 @@ function getHomeArticleList() {
 					var dataList = data.dataList;
 					for (var i = 0; i < dataList.length; i++) {
 						if ((index + 1) % 2 == 0) {
-							html += '<span class="col-xs-4 col-lg-4 col-md-4" style="padding-right: 2px;padding-left: 2px;">'
+							html += '<span class="col-xs-4 col-lg-4 col-md-4 content" style="padding-right: 2px;padding-left: 2px;">'
 							+ '<a href="#" onclick=openArticleContent("'
 							+ dataList[i].id
 							+ '")>'
 							+ '<img src="'
 							+ dataList[i].picUrl
-							+ '" width="100%" alt="" onerror="excptionUrl(this)"><br>'
-							+ '<div class="imgText" style="font-family: mFont;">'
+							+ '" width="100%" alt="" onerror="excptionUrl(this)">'
+							+ '<div class="imgText content2" style="font-family: mFont;height:55px">'
 							+ dataList[i].articleName
 							+ '</div>'
 							+ '</a>'
@@ -305,7 +305,7 @@ function getHomeArticleList() {
 // 处理访问不到的图片给个默认图
 function excptionUrl(obj) {
 	var obj = $(obj);
-	obj.attr("src", '../img/1.jpg');
+	obj.attr("src", 'img/1.jpg');
 }
 
 // 打开文章列表页
