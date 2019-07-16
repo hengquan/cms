@@ -78,8 +78,14 @@ public class CmsApiController extends ControllerBase {
 						for (String languageStr : languageZu) {
 							String[] oneLanguage = languageStr.split(":");
 							if (oneLanguage != null && oneLanguage.length > 0) {
-								String str1 = oneLanguage[1];
-								String str2 = oneLanguage[2];
+								String str1 = "";
+								if (oneLanguage.length > 1) {
+									str1 = oneLanguage[1];
+								}
+								String str2 = "";
+								if (oneLanguage.length > 2) {
+									str2 = oneLanguage[2];
+								}
 								if (str1.equals(language)) {
 									roleName = str2;
 								}
@@ -127,7 +133,8 @@ public class CmsApiController extends ControllerBase {
 		// 返回信息
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			String imgNumber = request.getParameter("imgNumber") == null ? "" : request.getParameter("imgNumber").toString();
+			String imgNumber = request.getParameter("imgNumber") == null ? ""
+					: request.getParameter("imgNumber").toString();
 			int number = 3;
 			if (StringUtils.isNotEmpty(imgNumber)) {
 				number = Integer.parseInt(imgNumber);
@@ -682,7 +689,8 @@ public class CmsApiController extends ControllerBase {
 							String channelname = channel.getChannelname();
 							// 获取频道描述
 							String descn = channel.getDescn();
-							if (StringUtils.isNotEmpty(channelname) && !channelname.equals("轮播图频道") && descn.equals("APP导航页")) {
+							if (StringUtils.isNotEmpty(channelname) && !channelname.equals("轮播图频道")
+									&& descn.equals("APP导航页")) {
 								Map<String, Object> map = new HashMap<String, Object>();
 								String allLanguage = channel.getLanguages();
 								String hrefUrl = channel.getHrefUrl();
@@ -706,7 +714,7 @@ public class CmsApiController extends ControllerBase {
 		}
 		return result;
 	}
-	
+
 	// 保存频道
 	@RequestMapping(value = "/channelSave")
 	@ResponseBody

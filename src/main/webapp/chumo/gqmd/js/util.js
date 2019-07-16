@@ -137,7 +137,7 @@ function selLanguage(selLanguage){
 		//打开其他信息
 		openHome();
 	}else{
-		window.location.href="../../chumom/kouan/home.html?language="+selLanguage;
+		window.location.href="../mengwen/home.html?language="+selLanguage;
 	}
 }
 
@@ -435,7 +435,7 @@ function getModuleList() {
 			if (data.code == "200") {
 				var html = '<li role="presentation" class="active" moduleId="goHomePage"'
 					+'onclick="getChannelList(this)"><a href="#">'
-					+'<img height="35px" src="../img/home.jpg" alt=""><br> <label>返回首页</label></a></li>';
+					+'<img height="35px" src="img/home.jpg" alt=""><br> <label>返回首页</label></a></li>';
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
 					html += '<li role="presentation" class="" moduleId="'+dataList[i].id+'" moduleName="'+dataList[i].moduleName+'"'
@@ -444,7 +444,7 @@ function getModuleList() {
 				}
 				html += '<li role="presentation" class="" moduleId="goBeforePage" id="goBeforePage"'
 					+'onclick="getChannelList(this)">'
-					+'<img height="35px" src="../img/return.jpg" alt=""><br> <label>返回上页</label></li>';
+					+'<img height="35px" src="img/return.jpg" alt=""><br> <label>返回上页</label></li>';
 				$("#moduleList").html(html);
 			} else {
 				console.log(data.msg);

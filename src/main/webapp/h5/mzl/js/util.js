@@ -299,7 +299,7 @@ function getHomeArticleList() {
 // 处理访问不到的图片给个默认图
 function excptionUrl(obj) {
 	var obj = $(obj);
-	obj.attr("src", '../img/1.jpg');
+	obj.attr("src", 'img/1.jpg');
 }
 
 // 打开文章列表页
