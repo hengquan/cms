@@ -83,11 +83,12 @@ function getRoleData(tab, selLanguage) {
 		// 所选语言
 		language = getQueryString("language");
 		if(language == "" || language == null || language == undefined){
-			
+			// 初始化口岸名称和语言
+			getHomeData(tab, selLanguage);
+		}else{
+			// 初始化口岸名称和语言
+			getHomeData(tab, language);
 		}
-		var selLanguage = selLanguage;
-		// 初始化口岸名称和语言
-		getHomeData(tab, selLanguage);
 	}
 }
 
@@ -135,8 +136,12 @@ function selLanguage(selLanguage){
 	var tab = window.sessionStorage.getItem("tab");
 	//获取站点和语言信息
 	getHomeData(tab, selLanguage);
-	//打开其他信息
-	openHome();
+	if (selLanguage == 'Mongolian') {
+		//打开其他信息
+		openHome();
+	}else{
+		window.location.href="../../chumo/kouan/home.html?language="+selLanguage;
+	}
 }
 
 // 判断站点信息是否为空-空的话去主页重新刷新站点信息
