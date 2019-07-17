@@ -401,8 +401,8 @@
 	<script src="${appRoot}/static/js/jquery.sparkline.js"
 		type="text/javascript"></script>
 
-	<script type="text/javascript"
-		src="${appRoot}/static/assets/data-tables/jquery.dataTables.js"></script>
+	<%-- <script type="text/javascript"
+		src="${appRoot}/static/assets/data-tables/jquery.dataTables.js"></script> --%>
 	<script type="text/javascript"
 		src="${appRoot}/static/assets/data-tables/DT_bootstrap.js"></script>
 	<!--script for this page only-->
