@@ -450,7 +450,7 @@ function getArticle(obj) {
 				//渲染首页频道列表
 				var html = "";
 				var data = data.data;
-				html += '<div class="col-md-12" style="font-size: 18px;font-family: mFont;">'+data.article+'</div>';
+				html += '<div class="col-md-12 content2" style="font-size: 18px;font-family: mFont;overflow-x:auto;overflow-y:auto">'+data.article+'</div>';
 				$("#articleList").html(html);
 				//赋值标题
 				articleName = '<div style="font-family: mFont;">'+articleName+'</div>';
@@ -498,7 +498,7 @@ function getModuleList() {
 			if (data.code == "200") {
 				var html = '<li role="presentation" class="active" moduleId="goHomePage"'
 					+'onclick="getChannelList(this)"><a href="#">'
-					+'<img height="35px" src="img/123.gif" alt=""></a></li>';
+					+'<img height="35px" src="img/home.jpg" alt=""></a></li>';
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
 					html += '<li role="presentation" class="" moduleId="'+dataList[i].id+'" moduleName="'+dataList[i].moduleName+'"'
@@ -507,7 +507,7 @@ function getModuleList() {
 				}
 				html += '<li role="presentation" class="" moduleId="goBeforePage" id="goBeforePage"'
 					+'onclick="getChannelList(this)">'
-					+'<img height="35px" src="img/123.gif" alt=""></li>';
+					+'<img height="35px" src="img/return.jpg" alt=""></li>';
 				$("#moduleList").html(html);
 			} else {
 				console.log(data.msg);

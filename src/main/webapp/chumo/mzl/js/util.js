@@ -213,14 +213,17 @@ function excptionUrl1(obj) {
 }
 
 //获取文章列表根据频道ID
-function getArticleList(channelId,channelName,channelHrefUrl) {
+function getArticleList(channelId,channelName,channelHrefUrl,paramChannel) {
+	if(channelName == "" && paramChannel != null){
+		channelName = paramChannel.channelName;
+	}
 	$("#articleList").html("");
 	$(".channelTitle").html("");
 	var nowPage = $("#nowPage").val();
 	var pageSize = $("#pageSize").val();
 	var language = window.sessionStorage.getItem("language");
 	//给返回页赋值
-	$("#goBeforePage").attr("onclick","getArticleList('"+channelId+"','"+channelName+"','"+channelHrefUrl+"')");
+	$("#goBeforePage").attr("onclick","getArticleList('"+channelId+"','"+channelName+"','"+channelHrefUrl+"',"+paramChannel+")");
 	//渲染标题
 	$(".channelTitle").html(channelName);
 	//判断外链是否为空;不为空跳转，为空显示其下的文章列表
@@ -366,7 +369,9 @@ function getChannelList(object) {
 							var ziChannelList = dataList[i].channelList;
 							if(ziChannelList != null){
 								for (var y = 0; y < ziChannelList.length; y++){
-									html += '<li role="presentation" onclick=getArticleList("'+ziChannelList[y].id+'","'+ziChannelList[y].channelname+'","'+ziChannelList[y].hrefUrl+'") class="active"><a href="#">'+ziChannelList[y].channelname+'</a></li>';
+									var ziChannelId = ziChannelList[y].id;
+									var ziChannelName = ziChannelList[y].channelname;
+									html += '<li ChannelName="'+ziChannelName+'" role="presentation" onclick=getArticleList("'+ziChannelId+'","","'+ziChannelList[y].hrefUrl+'",this) class="active"><a href="#">'+ziChannelList[y].channelname+'</a></li>';
 								}
 							}
 						}
@@ -384,7 +389,7 @@ function getChannelList(object) {
 							}
 						}
 						//默认取第一个频道下的文章列表
-						getArticleList(firstChannelId,firstChannelName,firstChannelHrefUrl);
+						getArticleList(firstChannelId,firstChannelName,firstChannelHrefUrl,null);
 					} else {
 						console.log(data.msg);
 					}
