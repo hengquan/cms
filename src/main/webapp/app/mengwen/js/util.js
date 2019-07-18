@@ -217,7 +217,7 @@ function getHomeChannelList() {
 				for (var i = 0; i < dataList.length; i++) {
 					channelHtml += '<div class="row" style="background: #fefefe; margin-top: 5px">';
 					if ((i + 1) % 2 == 0) {
-						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left;">'
+						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left;position: static;">'
 								+ '<input type="hidden" class="channelId" value="'
 								+ dataList[i].id
 								+ '">'
@@ -225,7 +225,7 @@ function getHomeChannelList() {
 								+ '<div class="theChannelList"></div>'
 								+ '</div>';
 					} else {
-						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left; margin-top: 5px;">'
+						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left; margin-top: 5px;position: static;">'
 								+ '<input type="hidden" class="channelId" value="'
 								+ dataList[i].id
 								+ '">'
@@ -233,7 +233,7 @@ function getHomeChannelList() {
 								+ '<ul class="theChannelList"></ul>'
 								+ '</div>';
 					}
-					channelHtml += '<div class="col-md-12" style="border: 1px solid #eeeeee">'
+					channelHtml += '<div class="col-md-12" style="border: 1px solid #eeeeee;position: static;">'
 					+ '<label class="col-md-6 btn thisHomeChannelName" style="font-weight:bold;font-family: mFont;">'
 					+ dataList[i].channelname
 					+ '</label> '
@@ -273,7 +273,7 @@ function getHomeArticleList() {
 					var dataList = data.dataList;
 					for (var i = 0; i < dataList.length; i++) {
 						if ((index + 1) % 2 == 0) {
-							html += '<span class="col-xs-4 col-lg-4 col-md-4 content" style="padding-right: 2px;padding-left: 2px;">'
+							html += '<span class="col-xs-4 col-lg-4 col-md-4 content" style="padding-right: 2px;padding-left: 2px;position: static;">'
 							+ '<a href="#" onclick=openArticleContent("'
 							+ dataList[i].id
 							+ '")>'
@@ -357,14 +357,11 @@ function getArticleList() {
 					html += '<div class="oneArticle" onclick=openArticleContent("'
 							+ dataList[i].id
 							+ '")>'
-							+ '<div class="col-md-12" style="font-size: 24px;">'
-							+ dataList[i].articleName
-							+ '</div>'
 							+ '<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'
 							+ createTime
 							+ '</div>'
-							+ '<div class="col-md-12" style="font-size: 16px;">'
-							+ dataList[i].detail
+							+ '<div class="col-md-12 content2" style="font-size: 24px;font-family: mFont;height:70px;">'
+							+ dataList[i].articleName
 							+ '</div>'
 							+ '</div>';
 				}
@@ -460,7 +457,7 @@ function getChannelList() {
 				for (var i = 0; i < dataList.length; i++) {
 					html += '<div class="col-xs-12 col-lg-12 col-md-12">'
 							+ '<a href="#" onclick=openArticleList("'+dataList[i].id+'","'+dataList[i].hrefUrl+'")>'
-							+ '<img src="'+dataList[i].picUrl+'" alt="" onerror="excptionUrl(this)"><br> <label>'+dataList[i].channelname+'</label>'
+							+ '<img src="'+dataList[i].picUrl+'" alt="" onerror="excptionUrl(this)"><br> <label class="content2" style="font-family: mFont;height: 100px;">'+dataList[i].channelname+'</label>'
 							+ '</a>' + '</div>';
 				}
 				$("#main_icon").html(html);
@@ -493,10 +490,10 @@ function getArticle() {
 				var html = "";
 				var data = data.data;
 				var createTime = crtTimeFtt(data.createTime);
-				html += '<div class="col-md-12" style="font-size: 24px;">'+data.articleName+'</div>'
+				html += '<div class="col-md-12 content2" style="height: 80px;font-size: 24px;font-family: mFont;">'+data.articleName+'</div>'
 	      +'<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'+createTime+'&emsp;&emsp;分类:某某频道</div>'
 	      +'<hr>'
-	      +'<div class="col-md-12" style="font-size: 18px;">'+data.article+'</div>';
+	      +'<div class="col-md-12 content2" style="font-size: 18px;font-family: mFont;">'+data.article+'</div>';
 				$(".articleContent").html(html);
 			} else {
 				console.log(data.msg);

@@ -9,6 +9,19 @@
 <script type="text/javascript" src="common/commonJs.js"></script>
 <script type="text/javascript" src="common/commonCss.js"></script>
 <style type="text/css">
+@font-face {
+	font-family: mFont;
+	src: url('../fonts/MNR8102.ttf');
+}
+
+.content2 {
+	writing-mode: vertical-lr;
+	text-orientation: sideways-right;
+	white-space: normal;
+	word-break: keep-all;
+	text-align: justify;
+}
+
 .head-language {
   color: #fefefe;
   text-align: right;
@@ -109,11 +122,11 @@
           for (var i = 0; i < dataList.length; i++) {
             html +=  '<div>'
             +'<a href="#" onclick=openArticleContent("'+dataList[i].id+'")> '
-            +'<label class="col-xs-12 col-lg-12 col-md-12" style="padding-right: 2px; padding-left: 2px;">'+dataList[i].channelname+'</label><br>';
+            +'<label class="col-xs-12 col-lg-12 col-md-12 content2" style="padding-right: 2px; padding-left: 2px;font-family: mFont;">'+dataList[i].channelname+'</label><br>';
             var articleList = dataList[i].articleList;
             for(var y=0;y<articleList.length;y++){
 	            html += '<span class="col-xs-4 col-lg-4 col-md-4" style="padding-right: 2px; padding-left: 2px;text-align:center;">'
-	            +'<img src="'+articleList[i].picUrl+'" alt="" onerror="excptionUrl(this)"><br><div class="imgText">'+articleList[i].articleName+'</div></span> ';
+	            +'<img src="'+articleList[i].picUrl+'" alt="" onerror="excptionUrl(this)"><br><div class="imgText content2" style="font-family: mFont;">'+articleList[i].articleName+'</div></span> ';
             }
             html += '</a>'
             +'</div>'

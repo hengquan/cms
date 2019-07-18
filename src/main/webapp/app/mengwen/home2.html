@@ -9,6 +9,19 @@
 <script type="text/javascript" src="common/commonJs.js"></script>
 <script type="text/javascript" src="common/commonCss.js"></script>
 <style type="text/css">
+@font-face {
+	font-family: mFont;
+	src: url('../fonts/MNR8102.ttf');
+}
+
+.content2 {
+	writing-mode: vertical-lr;
+	text-orientation: sideways-right;
+	white-space: normal;
+	word-break: keep-all;
+	text-align: justify;
+}
+
 .head-language {
 	color: #fefefe;
 	text-align: right;
@@ -117,7 +130,7 @@
 								+ '")>' + '<span style="text-align: center;">'
 								+ '<img src="' + dataList[i].picUrl
 								+ '" alt="" onerror="excptionUrl(this)"><br>'
-								+ '<div class="imgText">'
+								+ '<div class="imgText content" style="font-family: mFont;">'
 								+ dataList[i].channelname
 								+ '</div></span></a></div>';
 					}

@@ -693,9 +693,20 @@ public class CmsApiController extends ControllerBase {
 									&& descn.equals("APP导航页")) {
 								Map<String, Object> map = new HashMap<String, Object>();
 								String allLanguage = channel.getLanguages();
+								// 访问地址所有语言（除蒙文外）
 								String hrefUrl = channel.getHrefUrl();
+								// 蒙文
+								String mengWenHrefUrl = hrefUrl = hrefUrl.replace("gqmd", "mengwen");
+								if (language.equals("Mongolian")) {
+									mengWenHrefUrl = mengWenHrefUrl + "?tab=" + tab + "&language=" + language
+											+ "&channelId=" + channel.getId();
+								} else {
+									hrefUrl = hrefUrl + "?tab=" + tab + "&language=" + language + "&channelId="
+											+ channel.getId();
+								}
 								map.put("homeChannelName", allLanguage);
 								map.put("homeChannelUrl", hrefUrl);
+								map.put("homeChannelMengWenUrl", mengWenHrefUrl);
 								dataList.add(map);
 							}
 						}

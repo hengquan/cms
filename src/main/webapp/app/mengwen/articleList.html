@@ -9,6 +9,26 @@
 <script type="text/javascript" src="common/commonJs.js"></script>
 <script type="text/javascript" src="common/commonCss.js"></script>
 <style type="text/css">
+@font-face {
+	font-family: mFont;
+	src: url('../fonts/MNR8102.ttf');
+}
+
+.content1 {
+	-webkit-animation: clockwiseRotate 2s infinite;
+	transform-origin: 0 0;
+	transform: rotate(90deg);
+	position: relative;
+}
+
+.content2 {
+	writing-mode: vertical-lr;
+	text-orientation: sideways-right;
+	white-space: normal;
+	word-break: keep-all;
+	text-align: justify;
+}
+
 .head-language {
 	color: #fefefe;
 	text-align: right;
