@@ -215,7 +215,7 @@ function excptionUrl1(obj) {
 //获取文章列表根据频道ID
 function getArticleList(channelId,channelName,channelHrefUrl,paramChannel) {
 	if(channelName == "" && paramChannel != null){
-		channelName = paramChannel.channelName;
+		channelName = $(paramChannel).attr("channelname");
 	}
 	$("#articleList").html("");
 	$(".channelTitle").html("");
@@ -420,8 +420,15 @@ function getArticle(articleId,articleName) {
 				//渲染首页频道列表
 				var html = "";
 				var data = data.data;
-				html += '<div class="col-md-12" style="font-size: 18px;">'+data.article+'</div>';
-				$("#articleList").html(html);
+				//外链地址
+				var videoUrl = data.videoUrl;
+				if(videoUrl != "" && videoUrl != null){
+					var iframeHtml = '<iframe src="'+videoUrl+'" width="100%" height="'+(contentDivHeight-100)+'px" frameborder="0" >';
+					$("#articleList").html(iframeHtml);
+				}else{
+					html += '<div class="col-md-12" style="font-size: 18px;">'+data.article+'</div>';
+					$("#articleList").html(html);
+				}
 				//赋值标题
 				$(".channelTitle").html(articleName);
 			} else {

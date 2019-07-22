@@ -450,8 +450,15 @@ function getArticle(obj) {
 				//渲染首页频道列表
 				var html = "";
 				var data = data.data;
-				html += '<div class="col-md-12 content2" style="font-size: 18px;font-family: mFont;overflow-x:auto;overflow-y:auto">'+data.article+'</div>';
-				$("#articleList").html(html);
+				//外链地址
+				var videoUrl = data.videoUrl;
+				if(videoUrl != "" && videoUrl != null){
+					var iframeHtml = '<iframe src="'+videoUrl+'" width="100%" height="'+(contentDivHeight-100)+'px" frameborder="0" >';
+					$("#articleList").html(iframeHtml);
+				}else{
+					html += '<div class="col-md-12 content2" style="font-size: 18px;font-family: mFont;overflow-x:auto;overflow-y:auto">'+data.article+'</div>';
+					$("#articleList").html(html);
+				}
 				//赋值标题
 				articleName = '<div style="font-family: mFont;">'+articleName+'</div>';
 				$(".channelTitle").html(articleName);

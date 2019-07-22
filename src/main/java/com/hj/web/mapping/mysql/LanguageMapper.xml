@@ -79,6 +79,6 @@
 		select
 		<include refid="Base_Column_List" />
 		from cms_language
-		where instr(#{languageId},id)
+		where instr(#{languageId},id) ORDER BY tab desc
 	</select>
 </mapper>
