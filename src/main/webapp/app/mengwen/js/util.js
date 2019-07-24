@@ -26,6 +26,38 @@ function openHome() {
 	getHomeChannelList();
 	//处理首页频道下面显示的文章
 	getHomeArticleList();
+	//蒙文适配
+	mengWenConfig();
+	//通知APP
+	messageAPP();
+}
+
+//通知APP
+function messageAPP(){
+	var language = window.sessionStorage.getItem("language");
+	window.kouan.jsSetTabLanguage(language);
+}
+
+//蒙文适配
+function mengWenConfig(){
+	//判断是否是蒙文如果是的话做适配
+	var language = window.sessionStorage.getItem("language");
+	if (language == 'Russian') {
+		//计算高度和宽度
+		var height = $("#channelListData").height();
+		var width = $("#channelListData").width();
+		//旋转
+		var a = $("#channelListData").html();
+		a = '<div class="content1">' + a + '<div>';
+		//
+		$("#channelListData").html(a);
+		$("#channelListData").height(width);
+		$("#channelListData").css({
+			"position" : "relative",
+			"left" : width + 10 + "px",
+			"top" : "14px"
+		});
+	}
 }
 
 // 获取站点信息
@@ -107,7 +139,12 @@ function selLanguage(selLanguage){
 	//获取站点和语言信息
 	getHomeData(tab, selLanguage);
 	//打开其他信息
-	window.location.href = requestUrl;
+	if (selLanguage == 'Russian') {
+		window.location.href = requestUrl;
+	}else{
+		requestUrl = requestUrl.replace("mengwen","mzl");
+		window.location.href = requestUrl;
+	}
 	if(requestUrl.indexOf("home.html") != -1 )
 	  openHome();
 	//关闭遮罩

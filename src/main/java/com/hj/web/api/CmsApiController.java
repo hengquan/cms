@@ -696,14 +696,10 @@ public class CmsApiController extends ControllerBase {
 								// 访问地址所有语言（除蒙文外）
 								String hrefUrl = channel.getHrefUrl();
 								// 蒙文
-								String mengWenHrefUrl = hrefUrl = hrefUrl.replace("gqmd", "mengwen");
-								if (language.equals("Mongolian")) {
-									mengWenHrefUrl = mengWenHrefUrl + "?tab=" + tab + "&language=" + language
-											+ "&channelId=" + channel.getId();
-								} else {
-									hrefUrl = hrefUrl + "?tab=" + tab + "&language=" + language + "&channelId="
-											+ channel.getId();
-								}
+								String mengWenHrefUrl = hrefUrl.replace("mzl", "mengwen");
+
+								mengWenHrefUrl = mengWenHrefUrl + "?tab=" + tab + "&channelId=" + channel.getId();
+								hrefUrl = hrefUrl + "?tab=" + tab + "&channelId=" + channel.getId();
 								map.put("homeChannelName", allLanguage);
 								map.put("homeChannelUrl", hrefUrl);
 								map.put("homeChannelMengWenUrl", mengWenHrefUrl);

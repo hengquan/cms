@@ -13,10 +13,13 @@
 <!-- Custom styles for this template -->
 <link href="${appRoot}/static/css/style.css" rel="stylesheet">
 <link href="${appRoot}/static/css/style-responsive.css" rel="stylesheet" />
-<link rel="stylesheet" type="text/css" href="${appRoot}/static/js/css/layui.css">
+<link rel="stylesheet" type="text/css"
+	href="${appRoot}/static/js/css/layui.css">
 <script src="${appRoot}/static/js/jquery.js" type="text/javascript"></script>
-<script type="text/javascript" charset="utf-8" src="${appRoot}/static/js/layui.all.js"></script>
-<script type="text/javascript" charset="utf-8" src="${appRoot}/static/js/layui.js"></script>
+<script type="text/javascript" charset="utf-8"
+	src="${appRoot}/static/js/layui.all.js"></script>
+<script type="text/javascript" charset="utf-8"
+	src="${appRoot}/static/js/layui.js"></script>
 <title>${appTitle}</title>
 </head>
 <body>
@@ -105,16 +108,16 @@
 										<tr class="odd gradeX theTr">
 											<td><input type="checkbox" name="box" class="checkboxes"
 												value="${u.id}" /></td>
-											<td class="hidden-phone">
-                        <c:choose>
-                          <c:when test="${empty u.picUrl }">
-                            <img src="${appRoot }/static/img/zanwu1.png" style="height: 50px;">
-                          </c:when>
-                          <c:otherwise>
-                            <img src="${u.picUrl }" style="height: 50px;" onerror="excptionUrl(this)">
-                          </c:otherwise>
-                        </c:choose>
-                      </td>
+											<td class="hidden-phone"><c:choose>
+													<c:when test="${empty u.picUrl }">
+														<img src="${appRoot }/static/img/zanwu1.png"
+															style="height: 50px;">
+													</c:when>
+													<c:otherwise>
+														<img src="${u.picUrl }" style="height: 50px;"
+															onerror="excptionUrl(this)">
+													</c:otherwise>
+												</c:choose></td>
 											<td class="hidden-phone"><a href="#"
 												onclick="doArticleList('${u.id}','${channeltype }','${u.roleId }')">${u.channelname}</a>
 											</td>
@@ -128,60 +131,64 @@
 											<td class="hidden-phone">${u.areaname}</td>
 											<td class="hidden-phone">${u.moduleName}</td>
 											<td class="hidden-phone">${u.hrefUrl}</td>
-										  <td class="hidden-phone">
-										   <input type="number" class="btn" style="width: 100px; border: 1px solid #ddd; text-align: left;" value="${u.sort }" wzid="${u.id }"  onchange="updateSort(this)">
-										  </td>
+											<td class="hidden-phone"><input type="number"
+												class="btn"
+												style="width: 100px; border: 1px solid #ddd; text-align: left;"
+												value="${u.sort }" wzid="${u.id }"
+												onchange="updateSort(this)"></td>
 											<td class="hidden-phone"><fmt:formatDate
 													value="${u.ctime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 											<td class="hidden-phone">
 												<button type="button"
-													onclick="edit('${u.id}','${u.channelname}','${u.areaname}','${u.descn}','${u.roleId }','${u.languages }','${u.picUrl }','${u.moduleId }','${u.hrefUrl }','${u.parentId }')"
+													onclick="edit('${u.id}','${u.channelname}','${u.areaname}','${u.descn}','${u.roleId }','${u.languages }','${u.picUrl }','${u.moduleId }','${u.hrefUrl }','${u.parentId }','${u.channeltype }')"
 													class="btn btn-send thisEdit">修改频道</button> <a
 												href="javascript:doAddArticle('${u.id }','${channeltype }','${u.roleId }');"
 												class="btn btn-send">添加文章</a>
 											</td>
 										</tr>
 										<c:forEach items="${u.channelList}" var="newu" varStatus="s">
-                    <tr class="odd gradeX theTr">
-                      <td><input type="checkbox" name="box" class="checkboxes"
-                        value="${newu.id}" /></td>
-                      <td class="hidden-phone">
-                        <c:choose>
-                          <c:when test="${empty newu.picUrl }">
-                            <img src="${appRoot }/static/img/zanwu1.png" style="height: 50px;">
-                          </c:when>
-                          <c:otherwise>
-                            <img src="${newu.picUrl }" style="height: 50px;" onerror="excptionUrl(this)">
-                          </c:otherwise>
-                        </c:choose>
-                      </td>
-                      <td class="hidden-phone"><a href="#"
-                        onclick="doArticleList('${newu.id}','${channeltype }','${newu.roleId }')">----${newu.channelname}</a>
-                      </td>
-                      <td class="hidden-phone">${newu.roleName}</td>
-                      <td class="hidden-phone"><c:if
-                          test="${newu.channeltype == 0}">暂无</c:if> <c:if
-                          test="${newu.channeltype == 1}">APP</c:if> <c:if
-                          test="${newu.channeltype == 2}">H5</c:if> <c:if
-                          test="${newu.channeltype == 3}">触摸板</c:if> <c:if
-                          test="${newu.channeltype == 4}">APP视频</c:if></td>
-                      <td class="hidden-phone">${newu.areaname}</td>
-                      <td class="hidden-phone">${newu.moduleName}</td>
-                      <td class="hidden-phone">${newu.hrefUrl}</td>
-                      <td class="hidden-phone">
-                       <input type="number" class="btn" style="width: 100px; border: 1px solid #ddd; text-align: left;" value="${u.sort }" wzid="${u.id }"  onchange="updateSort(this)">
-                      </td>
-                      <td class="hidden-phone"><fmt:formatDate
-                          value="${newu.ctime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-                      <td class="hidden-phone">
-                        <button type="button"
-                          onclick="edit('${newu.id}','${newu.channelname}','${newu.areaname}','${newu.descn}','${newu.roleId }','${newu.languages }','${newu.picUrl }','${newu.moduleId }','${newu.hrefUrl }','${newu.parentId }')"
-                          class="btn btn-send thisEdit">修改频道</button> <a
-                        href="javascript:doAddArticle('${newu.id }','${channeltype }','${newu.roleId }');"
-                        class="btn btn-send">添加文章</a>
-                      </td>
-                    </tr>
-                  </c:forEach>
+											<tr class="odd gradeX theTr">
+												<td><input type="checkbox" name="box"
+													class="checkboxes" value="${newu.id}" /></td>
+												<td class="hidden-phone"><c:choose>
+														<c:when test="${empty newu.picUrl }">
+															<img src="${appRoot }/static/img/zanwu1.png"
+																style="height: 50px;">
+														</c:when>
+														<c:otherwise>
+															<img src="${newu.picUrl }" style="height: 50px;"
+																onerror="excptionUrl(this)">
+														</c:otherwise>
+													</c:choose></td>
+												<td class="hidden-phone"><a href="#"
+													onclick="doArticleList('${newu.id}','${channeltype }','${newu.roleId }')">----${newu.channelname}</a>
+												</td>
+												<td class="hidden-phone">${newu.roleName}</td>
+												<td class="hidden-phone"><c:if
+														test="${newu.channeltype == 0}">暂无</c:if> <c:if
+														test="${newu.channeltype == 1}">APP</c:if> <c:if
+														test="${newu.channeltype == 2}">H5</c:if> <c:if
+														test="${newu.channeltype == 3}">触摸板</c:if> <c:if
+														test="${newu.channeltype == 4}">APP视频</c:if></td>
+												<td class="hidden-phone">${newu.areaname}</td>
+												<td class="hidden-phone">${newu.moduleName}</td>
+												<td class="hidden-phone">${newu.hrefUrl}</td>
+												<td class="hidden-phone"><input type="number"
+													class="btn"
+													style="width: 100px; border: 1px solid #ddd; text-align: left;"
+													value="${u.sort }" wzid="${u.id }"
+													onchange="updateSort(this)"></td>
+												<td class="hidden-phone"><fmt:formatDate
+														value="${newu.ctime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+												<td class="hidden-phone">
+													<button type="button"
+														onclick="edit('${newu.id}','${newu.channelname}','${newu.areaname}','${newu.descn}','${newu.roleId }','${newu.languages }','${newu.picUrl }','${newu.moduleId }','${newu.hrefUrl }','${newu.parentId }','${newu.channeltype }')"
+														class="btn btn-send thisEdit">修改频道</button> <a
+													href="javascript:doAddArticle('${newu.id }','${channeltype }','${newu.roleId }');"
+													class="btn btn-send">添加文章</a>
+												</td>
+											</tr>
+										</c:forEach>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -238,23 +245,16 @@
 					<form action="${appRoot}/channel/save" method="post"
 						class="form-horizontal" enctype="multipart/form-data" role="form"
 						id="addMessage" name="itemForm">
-						<input type="hidden" name="id" id="editId"> 
-						<input type="hidden" name="itemId" value="${itemId }"> 
-						<input type="hidden" name="positionId" value="${positionId }"> 
-						<input type="hidden" name="languages" id="languages">
+						<input type="hidden" name="id" id="editId"> <input
+							type="hidden" name="itemId" value="${itemId }"> <input
+							type="hidden" name="positionId" value="${positionId }"> <input
+							type="hidden" name="languages" id="languages">
 						<div class="form-group">
 							<label class="col-lg-2 control-label pd-r5">所属渠道<font
 								style="color: red;"></font></label>
 							<div class="col-lg-10">
-								<select class="form-control" id="selChanneltype" name="channeltype" onchange="putChannelList('')">
-									<option value="1"
-										<c:if test="${channeltype == 1}">selected</c:if>>APP</option>
-									<option value="2"
-										<c:if test="${channeltype == 2}">selected</c:if>>H5</option>
-									<option value="3"
-										<c:if test="${channeltype == 3}">selected</c:if>>触摸板</option>
-									<option value="4"
-										<c:if test="${channeltype == 4}">selected</c:if>>APP视频</option>
+								<select class="form-control" id="selChanneltype"
+									name="channeltype" onchange="putChannelList('')">
 								</select>
 							</div>
 						</div>
@@ -262,7 +262,8 @@
 							<label class="col-lg-2 control-label pd-r5">所属站点<font
 								style="color: red;"></font></label>
 							<div class="col-lg-10">
-								<select id="roleId" name="roleId" class="form-control selRoleId" onchange="eventHandling(this)"></select>
+								<select id="roleId" name="roleId" class="form-control selRoleId"
+									onchange="eventHandling(this)"></select>
 							</div>
 						</div>
 						<div class="form-group">
@@ -270,7 +271,7 @@
 								style="color: red;"></font></label>
 							<div class="col-lg-10">
 								<select id="parentId" name="parentId" class="form-control">
-								  <option value="0">暂无</option>
+									<option value="0">暂无</option>
 								</select>
 							</div>
 						</div>
@@ -292,28 +293,32 @@
 							</div>
 						</div>
 						<div class="form-group">
-              <label class="col-lg-2 control-label pd-r5">外链地址<font
-                style="color: red;"></font></label>
-              <div class="col-lg-10">
-                <input type="text" class="form-control" id="hrefUrl"
-                  name="hrefUrl" placeholder="请输入外链址,仅供前端使用">
-              </div>
-            </div>
-            <div id="selModule"></div>
-            <input type="hidden" name="moduleId" id="moduleId">
-						<div style="form-group">
-              <label class="col-lg-2 control-label pd-r5" style="margin-left: -15px;">封面图片<font
-                style="color: red;"></font></label> 
-              <div class="col-lg-10">
-                <div>
-                  <img class="my-img form-control btn" id="imgDJZS"
-                   style="float:left;width: 219px; height: 150px;margin-left: -6px;border:0px;margin-bottom: 14px;" onerror="excptionUrl(this)" />
-                </div>
-                <div id="titleDJZS" style="float: left;margin-top:122px;"><b>上传100*200缩略图,1M以内</b></div>
-              </div>
-              <input type="hidden" id=picUrl name="picUrl" />
-            </div>
-            <div style="clear:both"></div>
+							<label class="col-lg-2 control-label pd-r5">外链地址<font
+								style="color: red;"></font></label>
+							<div class="col-lg-10">
+								<input type="text" class="form-control" id="hrefUrl"
+									name="hrefUrl" placeholder="请输入外链址,仅供前端使用">
+							</div>
+						</div>
+						<div id="selModule"></div>
+						<input type="hidden" name="moduleId" id="moduleId">
+						<div style="">
+							<label class="col-lg-2 control-label pd-r5"
+								style="margin-left: -15px;">封面图片<font
+								style="color: red;"></font></label>
+							<div class="col-lg-10">
+								<div>
+									<img class="my-img form-control btn" id="imgDJZS"
+										style="float: left; width: 219px; height: 150px; margin-left: -6px; border: 0px; margin-bottom: 14px;"
+										onerror="excptionUrl(this)" />
+								</div>
+								<div id="titleDJZS" style="float: left; margin-top: 122px;">
+									<b>上传100*200缩略图,1M以内</b>
+								</div>
+							</div>
+							<input type="hidden" id=picUrl name="picUrl" />
+						</div>
+						<div style="clear: both"></div>
 						<div class="form-group">
 							<label class="col-lg-2 control-label pd-r5">频道描述<font
 								style="color: red;"></font></label>
@@ -420,21 +425,47 @@
 		}
 
 		//修改频道
-		function edit(id, channelname, areaname, descn, roleId, languages,picUrl,moduleId,hrefUrl,parentId) {
+		function edit(id, channelname, areaname, descn, roleId, languages,
+				picUrl, moduleId, hrefUrl, parentId,channelType) {
 			$("#thisChannelLanguage").html("");
 			$("#modal-title").val("修改频道");
+			//处理频道类型
+			var selHtml = "";
+			if (channelType == 1) {
+				selHtml = '<option value="1" selected>APP</option>'
+						+ '<option value="2">H5</option>'
+						+ '<option value="3">触摸板</option>'
+						+ '<option value="4">APP视频</option>';
+			} else if (channelType == 2) {
+				selHtml = '<option value="1">APP</option>'
+					+ '<option value="2" selected>H5</option>'
+					+ '<option value="3">触摸板</option>'
+					+ '<option value="4">APP视频</option>';
+			} else if (channelType == 3) {
+				selHtml = '<option value="1">APP</option>'
+					+ '<option value="2">H5</option>'
+					+ '<option value="3" selected>触摸板</option>'
+					+ '<option value="4">APP视频</option>';
+			} else if (channelType == 4) {
+				selHtml = '<option value="1">APP</option>'
+					+ '<option value="2">H5</option>'
+					+ '<option value="3">触摸板</option>'
+					+ '<option value="4" selected>APP视频</option>';
+			}
+			$("#selChanneltype").html(selHtml);
+			//处理其他信息
 			$("#channelname").val(channelname);
 			$("#areaname").val(areaname);
 			$("#descn").val(descn);
 			$("#editId").val(id);
 			$("#languages").val(languages);
-      if(picUrl !=null && picUrl != ''){
-        $("#imgDJZS").attr("src",picUrl);
-      }
-      $("#moduleId").val(moduleId);
-      $("#hrefUrl").val(hrefUrl);
-      //处理父级频道
-      putChannelList(parentId);
+			if (picUrl != null && picUrl != '') {
+				$("#imgDJZS").attr("src", picUrl);
+			}
+			$("#moduleId").val(moduleId);
+			$("#hrefUrl").val(hrefUrl);
+			//处理父级频道
+			putChannelList(parentId);
 			//处理多语言
 			addLanguage(languages);
 			//处理显示
@@ -462,13 +493,13 @@
 			$("#languages").val(rows);
 			//组所有模块的ID
 			var moduleId = "";
-			$("#selModule .selModuleId").each(function(index,obj){
+			$("#selModule .selModuleId").each(function(index, obj) {
 				var object = $(obj);
 				if (object.is(':checked')) {
 					moduleId += "," + object.val();
 				}
 			})
-			if(moduleId != "")
+			if (moduleId != "")
 				moduleId = moduleId.substr(1);
 			$("#moduleId").val(moduleId);
 			//提交
@@ -494,30 +525,31 @@
 		});
 
 		function addUserRole() {
-			$.ajax({
-				type : 'post',
-				data : "",
-				url : '${appRoot}/role/getAllList',
-				dataType : 'json',
-				success : function(data) {
-					if (data.msg == 0) {
-						var html = '<option value="">全部站点</option>';
-						var roleList = data.roleList;
-						for (var i = 0; i < roleList.length; i++) {
-							if (roleList[i].id == '${roleId}') {
-								html += '<option value="'+ roleList[i].id +'"  selected>'
-										+ roleList[i].roleName
-										+ '</option>'
-							} else {
-								html += '<option value="'+ roleList[i].id +'">'
-										+ roleList[i].roleName
-										+ '</option>'
+			$
+					.ajax({
+						type : 'post',
+						data : "",
+						url : '${appRoot}/role/getAllList',
+						dataType : 'json',
+						success : function(data) {
+							if (data.msg == 0) {
+								var html = '<option value="">全部站点</option>';
+								var roleList = data.roleList;
+								for (var i = 0; i < roleList.length; i++) {
+									if (roleList[i].id == '${roleId}') {
+										html += '<option value="'+ roleList[i].id +'"  selected>'
+												+ roleList[i].roleName
+												+ '</option>'
+									} else {
+										html += '<option value="'+ roleList[i].id +'">'
+												+ roleList[i].roleName
+												+ '</option>'
+									}
+								}
 							}
+							$("#roleId").html(html);
 						}
-					}
-					$("#roleId").html(html);
-				}
-			});
+					});
 		}
 
 		function doRefresh() {
@@ -553,38 +585,43 @@
 			//处理权限
 			addRolePage('');
 		}
-		
+
 		//处理该频道属于哪个模块
-		function channelInModule(roleId){
-			$.ajax({
-        type : 'post',
-        data : {"roleId" : roleId},
-        url : '${appRoot}/module/getDataByRoleId',
-        dataType : 'json',
-        success : function(data) {
-        	var parentIds = $("#moduleId").val();
-        	var code = data.code;
-          if (code == "200") {
-        	  var dataList = data.moduleList;
-        	  console.log(dataList);
-        	  var html = '<div class="form-group">'
-              +'<label class="col-lg-2 control-label pd-r5">所属模块<font style="color: red;"></font></label>'
-              +'<div class="col-lg-10 control-label pd-r5">';
-        	  for(var i=0;i<dataList.length;i++){
-        		  var moduleName = dataList[i].moduleName;
-        		  var moduleId = dataList[i].id;
-        		  if(parentIds.indexOf(moduleId) != -1){
-	        		  html += '<input type="checkbox" checked class="selModuleId" value="'+moduleId+'">&nbsp;<b>'+moduleName+'</b>&nbsp;';
-        		  }else{
-	        		  html += '<input type="checkbox" class="selModuleId" value="'+moduleId+'">&nbsp;<b>'+moduleName+'</b>&nbsp;';
-        		  }
-        	  }
-        	  html += '</div></div>';
-        	  if(dataList.length>0)
-        		  $("#selModule").html(html);
-          }
-        }
-      });
+		function channelInModule(roleId) {
+			$
+					.ajax({
+						type : 'post',
+						data : {
+							"roleId" : roleId
+						},
+						url : '${appRoot}/module/getDataByRoleId',
+						dataType : 'json',
+						success : function(data) {
+							var parentIds = $("#moduleId").val();
+							var code = data.code;
+							if (code == "200") {
+								var dataList = data.moduleList;
+								console.log(dataList);
+								var html = '<div class="form-group">'
+										+ '<label class="col-lg-2 control-label pd-r5">所属模块<font style="color: red;"></font></label>'
+										+ '<div class="col-lg-10 control-label pd-r5">';
+								for (var i = 0; i < dataList.length; i++) {
+									var moduleName = dataList[i].moduleName;
+									var moduleId = dataList[i].id;
+									if (parentIds.indexOf(moduleId) != -1) {
+										html += '<input type="checkbox" checked class="selModuleId" value="'+moduleId+'">&nbsp;<b>'
+												+ moduleName + '</b>&nbsp;';
+									} else {
+										html += '<input type="checkbox" class="selModuleId" value="'+moduleId+'">&nbsp;<b>'
+												+ moduleName + '</b>&nbsp;';
+									}
+								}
+								html += '</div></div>';
+								if (dataList.length > 0)
+									$("#selModule").html(html);
+							}
+						}
+					});
 		}
 
 		function doDelete() {
@@ -603,13 +640,16 @@
 			$("#deleForm").submit();
 		}
 
-		function doArticleList(channelId, channelType,roleId) {
+		function doArticleList(channelId, channelType, roleId) {
 			window.location.href = "${appRoot }/article/getDataList?articleType="
 					+ channelId
 					+ "&channelType="
 					+ channelType
 					+ "&itemId="
-					+ '${itemId}' + "&positionId=" + '${positionId}' + "&roleId=" + roleId;
+					+ '${itemId}'
+					+ "&positionId="
+					+ '${positionId}'
+					+ "&roleId=" + roleId;
 		}
 
 		//添加相关文章
@@ -622,80 +662,82 @@
 
 		//填充权限页面
 		function addRolePage(roleId) {
-			$.ajax({
-				type : 'post',
-				data : "",
-				url : '${appRoot}/role/getAllList',
-				dataType : 'json',
-				success : function(data) {
-					if (data.msg == 0) {
-						var html = '<option value="0">--请选择站点--</option>';
-						var roleList = data.roleList;
-						for (var i = 0; i < roleList.length; i++) {
-							if (roleList[i].id == roleId) {
-								html += '<option value="'+ roleList[i].id +'" selected>'
-										+ roleList[i].roleName
-										+ '</option>'
+			$
+					.ajax({
+						type : 'post',
+						data : "",
+						url : '${appRoot}/role/getAllList',
+						dataType : 'json',
+						success : function(data) {
+							if (data.msg == 0) {
+								var html = '<option value="0">--请选择站点--</option>';
+								var roleList = data.roleList;
+								for (var i = 0; i < roleList.length; i++) {
+									if (roleList[i].id == roleId) {
+										html += '<option value="'+ roleList[i].id +'" selected>'
+												+ roleList[i].roleName
+												+ '</option>'
+									} else {
+										html += '<option value="'+ roleList[i].id +'">'
+												+ roleList[i].roleName
+												+ '</option>'
+									}
+								}
+								$("#addPage #roleId").html(html);
+								var $modal = $('#addPage');
+								$modal.modal();
+							} else if (data.msg == 1) {
+								windowShow("您不是该站点负责人", "");
 							} else {
-								html += '<option value="'+ roleList[i].id +'">'
-										+ roleList[i].roleName
-										+ '</option>'
+								windowShow("获取权限列表失败", "");
 							}
 						}
-						$("#addPage #roleId").html(html);
-						var $modal = $('#addPage');
-						$modal.modal();
-					} else if (data.msg == 1) {
-						windowShow("您不是该站点负责人", "");
-					} else {
-						windowShow("获取权限列表失败", "");
-					}
-				}
-			});
+					});
 		}
 
-		function eventHandling(obj){
+		function eventHandling(obj) {
 			$("#thisChannelLanguage").html("");
 			$("#selModule").html("");
-      var obj = $(obj);
-      var roleId = obj.val();
-      //处理语言
-      selLanguage(roleId);
-      //处理所属模块
-      channelInModule(roleId);
-      //放置频道
-      putChannelList('');
+			var obj = $(obj);
+			var roleId = obj.val();
+			//处理语言
+			selLanguage(roleId);
+			//处理所属模块
+			channelInModule(roleId);
+			//放置频道
+			putChannelList('');
 		}
-		
+
 		//添加时选择语言
 		function selLanguage(roleId) {
-			$.ajax({
-				type : 'post',
-				data : {
-					"roleId" : roleId
-				},
-				url : '${appRoot}/role/getLanguageData',
-				dataType : 'json',
-				success : function(data) {
-					var html = '';
-					var dataList = data.dataList;
-					if (dataList != null) {
-						for (var i = 0; i < dataList.length; i++) {
-							html += '<div class="form-group">'
-									+ '<label class="col-lg-2 control-label pd-r5">'
-									+ dataList[i].name
-									+ '名称'
-									+ '</label>'
-									+ '<div class="col-lg-10 message">'
-									+ '<input type="hidden" class="form-control relatedLanguage" value="'+ dataList[i].name +'">'
-									+ '<input type="hidden" class="form-control relatedTab" value="'+ dataList[i].tab +'">'
-									+ '<input type="text" class="form-control relatedName">'
-									+ '</div>' + '</div>';
+			$
+					.ajax({
+						type : 'post',
+						data : {
+							"roleId" : roleId
+						},
+						url : '${appRoot}/role/getLanguageData',
+						dataType : 'json',
+						success : function(data) {
+							var html = '';
+							var dataList = data.dataList;
+							if (dataList != null) {
+								for (var i = 0; i < dataList.length; i++) {
+									html += '<div class="form-group">'
+											+ '<label class="col-lg-2 control-label pd-r5">'
+											+ dataList[i].name
+											+ '名称'
+											+ '</label>'
+											+ '<div class="col-lg-10 message">'
+											+ '<input type="hidden" class="form-control relatedLanguage" value="'+ dataList[i].name +'">'
+											+ '<input type="hidden" class="form-control relatedTab" value="'+ dataList[i].tab +'">'
+											+ '<input type="text" class="form-control relatedName">'
+											+ '</div>' + '</div>';
+								}
+								$("#thisChannelLanguage").html(html);
+							}
 						}
-						$("#thisChannelLanguage").html(html);
-					}
-				}
-			});
+					});
 		}
 		//修改时选择语言
 		function addLanguage(languages) {
@@ -723,84 +765,92 @@
 				$("#thisChannelLanguage").html(html);
 			}
 		}
-		
-    //layui处理文件上传
-    layui.use(['form', 'upload'], function(){
-       form = layui.form;
-       upload = layui.upload;
-       initImgForGroup();
-       form.render();
-     });
-        
-    function initImgForGroup() {
-      upload.render({
-        elem: '#imgDJZS,#titleDJZS', //绑定元素
-        url: '${appRoot}/apply/uploadFile' ,//上传接口
-        size:'1024',
-        before: function(obj){
-          console.log(obj);
-          //预读本地文件示例，不支持ie8
-          obj.preview(function(index, file, result){
-            $('#imgDJZS').attr('src', result); //图片链接（base64）
-          });
-          $("#picUrl").attr("title", "点击封面图");
-        },
-        data:{"tableName":"hl_kj","fileType":"主图片"},
-        done: function(res) {
-        console.log(res);
-          var fileName = res.fileName;
-          $("#picUrl").val(fileName);
-        }
-      });
-    }
-    
-    function excptionUrl(obj){
-      var obj = $(obj);
-      obj.attr("src",'${appRoot}/static/img/zanwu1.png');
-    }
-    
-    function putChannelList(parentId){
-    	var selChanneltype = $("#selChanneltype").val();
-    	var selRoleId = $(".selRoleId").val();
-    	$.ajax({
-        type : 'post',
-        data : {
-          "roleId" : selRoleId,
-          "channelType" : selChanneltype,
-          "parentId" : "0"
-        },
-        url : '${appRoot}/channel/getDataByType',
-        dataType : 'json',
-        success : function(data) {
-          var html = '<option value="0">暂无</option>';
-          var msg = data.msg;
-          if(msg == "0"){
-        	  var dataList = data.dataList;
-            if (dataList != null) {
-              for (var i = 0; i < dataList.length; i++) {
-            	  if(parentId == dataList[i].id){
-	            	  html += '<option value="'+dataList[i].id+'" selected>'+dataList[i].channelname+'</option>';
-            	  }else{
-	            	  html += '<option value="'+dataList[i].id+'">'+dataList[i].channelname+'</option>';
-            	  }
-              }
-              $("#parentId").html(html);
-            }
-          }
-        }
-      });
-    }
-    
-    function updateSort(obj) {
-      var obj = $(obj);
-      var id = obj.attr("wzid");
-      var sort = obj.val();
-      var channelType = '${channeltype}';
-      var url = "${appRoot }/channel/save?channeltype=" + channelType + "&itemId="
-          + '${itemId}' + "&positionId=" + '${positionId}' + "&id="
-          + id + "&sort=" + sort;
-      window.location.href = url;
-    }
+
+		//layui处理文件上传
+		layui.use([ 'form', 'upload' ], function() {
+			form = layui.form;
+			upload = layui.upload;
+			initImgForGroup();
+			form.render();
+		});
+
+		function initImgForGroup() {
+			upload.render({
+				elem : '#imgDJZS,#titleDJZS', //绑定元素
+				url : '${appRoot}/apply/uploadFile',//上传接口
+				size : '1024',
+				before : function(obj) {
+					console.log(obj);
+					//预读本地文件示例，不支持ie8
+					obj.preview(function(index, file, result) {
+						$('#imgDJZS').attr('src', result); //图片链接（base64）
+					});
+					$("#picUrl").attr("title", "点击封面图");
+				},
+				data : {
+					"tableName" : "hl_kj",
+					"fileType" : "主图片"
+				},
+				done : function(res) {
+					console.log(res);
+					var fileName = res.fileName;
+					$("#picUrl").val(fileName);
+				}
+			});
+		}
+
+		function excptionUrl(obj) {
+			var obj = $(obj);
+			obj.attr("src", '${appRoot}/static/img/zanwu1.png');
+		}
+
+		function putChannelList(parentId) {
+			var selChanneltype = $("#selChanneltype").val();
+			var selRoleId = $(".selRoleId").val();
+			$
+					.ajax({
+						type : 'post',
+						data : {
+							"roleId" : selRoleId,
+							"channelType" : selChanneltype,
+							"parentId" : "0"
+						},
+						url : '${appRoot}/channel/getDataByType',
+						dataType : 'json',
+						success : function(data) {
+							var html = '<option value="0">暂无</option>';
+							var msg = data.msg;
+							if (msg == "0") {
+								var dataList = data.dataList;
+								if (dataList != null) {
+									for (var i = 0; i < dataList.length; i++) {
+										if (parentId == dataList[i].id) {
+											html += '<option value="'+dataList[i].id+'" selected>'
+													+ dataList[i].channelname
+													+ '</option>';
+										} else {
+											html += '<option value="'+dataList[i].id+'">'
+													+ dataList[i].channelname
+													+ '</option>';
+										}
+									}
+									$("#parentId").html(html);
+								}
+							}
+						}
+					});
+		}
+
+		function updateSort(obj) {
+			var obj = $(obj);
+			var id = obj.attr("wzid");
+			var sort = obj.val();
+			var channelType = '${channeltype}';
+			var url = "${appRoot }/channel/save?channeltype=" + channelType
+					+ "&itemId=" + '${itemId}' + "&positionId="
+					+ '${positionId}' + "&id=" + id + "&sort=" + sort;
+			window.location.href = url;
+		}
 	</script>
 </body>
 </html>

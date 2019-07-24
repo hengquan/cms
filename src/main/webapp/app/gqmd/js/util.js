@@ -26,6 +26,14 @@ function openHome() {
 	getHomeChannelList();
 	//处理首页频道下面显示的文章
 	getHomeArticleList();
+	//通知APP
+	messageAPP();
+}
+
+//通知APP
+function messageAPP(){
+	var language = window.sessionStorage.getItem("language");
+	window.kouan.jsSetTabLanguage(language);
 }
 
 // 获取站点信息
@@ -107,7 +115,12 @@ function selLanguage(selLanguage){
 	//获取站点和语言信息
 	getHomeData(tab, selLanguage);
 	//打开其他信息
-	window.location.href = requestUrl;
+	if (selLanguage == 'Mongolian') {
+		requestUrl = requestUrl.replace("gqmd","mengwen");
+		window.location.href = requestUrl;
+	}else{
+		window.location.href = requestUrl;
+	}
 	if(requestUrl.indexOf("home.html") != -1 )
 	  openHome();
 	//关闭遮罩

@@ -147,24 +147,6 @@
 		$("#myCarousel").carousel('cycle');
 		//打开其他信息
 		openHome();
-		//判断是否是蒙文如果是的话做适配
-		var language = window.sessionStorage.getItem("language");
-		if (language == 'Russian') {
-			//计算高度和宽度
-			var height = $("#channelListData").height();
-			var width = $("#channelListData").width();
-			//旋转
-			var a = $("#channelListData").html();
-			a = '<div class="content1">' + a + '<div>';
-			//
-			$("#channelListData").html(a);
-			$("#channelListData").height(width);
-			$("#channelListData").css({
-				"position" : "relative",
-				"left" : width + 10 + "px",
-				"top" : "14px"
-			});
-		}
 	})
 </script>
 </html>
