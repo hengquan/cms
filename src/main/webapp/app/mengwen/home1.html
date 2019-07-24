@@ -93,7 +93,7 @@
 	})
 	
 //获取文章列表根据频道ID
-function getHome1ArticleList() {
+function getHome1ArticleList(language,channelId) {
   var nowPage = 1;
   var pageSize = 100;
   //请求数据
@@ -118,7 +118,7 @@ function getHome1ArticleList() {
         for (var i = 0; i < dataList.length; i++) {
           html += '<div>'
 	        +'<a href="#" onclick=openArticleContent("'+dataList[i].id+'")>'
-	        +'<label class="col-xs-12 col-lg-12 col-md-12 content2" style="font-family: mFont;padding-right: 2px; padding-left: 2px;">'+dataList[i].articleName+'</label><br>';
+	        +'<label class="col-xs-12 col-lg-12 col-md-12 content2" style="font-family: mFont;padding-right: 2px; padding-left: 2px;height: 40px;">'+dataList[i].articleName+'</label><br>';
 	        var contentImgList = dataList[i].contentImg;
 	        if(contentImgList !=null && contentImgList.length > 0){
 	        	for(var y=0;y<contentImgList.length;y++){
