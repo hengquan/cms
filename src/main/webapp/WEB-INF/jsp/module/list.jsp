@@ -21,6 +21,12 @@
 <script type="text/javascript" charset="utf-8"
 	src="${appRoot}/static/js/layui.js"></script>
 <title>${appTitle}</title>
+<style type="text/css">
+  @font-face {
+    font-family: mFont;
+    src: url('${appRoot}/static/fonts/MNR8102.ttf');
+  }
+</style>
 </head>
 <body>
 
@@ -636,7 +642,7 @@
 							+ '<div class="col-lg-10 message">'
 							+ '<input type="hidden" class="form-control relatedLanguage" value="'+ language +'">'
 							+ '<input type="hidden" class="form-control relatedTab" value="'+ tab +'">'
-							+ '<input type="text" class="form-control relatedName" value="'+ name +'">'
+							+ '<input type="text" style="font-family: mFont;" class="form-control relatedName" value="'+ name +'">'
 							+ '</div>' + '</div>';
 				}
 				$("#thisChannelLanguage").html(html);

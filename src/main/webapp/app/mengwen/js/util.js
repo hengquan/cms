@@ -42,7 +42,7 @@ function messageAPP(){
 function mengWenConfig(){
 	//判断是否是蒙文如果是的话做适配
 	var language = window.sessionStorage.getItem("language");
-	if (language == 'Russian') {
+	if (language == 'Mongolian') {
 		//计算高度和宽度
 		var height = $("#channelListData").height();
 		var width = $("#channelListData").width();
@@ -66,7 +66,7 @@ function getRoleData(tab, selLanguage) {
 	var roleName = window.sessionStorage.getItem("roleName");
 	if (roleName != "" || roleName != null || roleName != undefined) {
 		// 渲染口岸名称
-		$("#roleName").html(roleName);
+		//$("#roleName").html(roleName);
 	}
 	// 站点所属所有语言列表
 	var languageList = window.sessionStorage.getItem("languageList");
@@ -110,7 +110,7 @@ function getHomeData(tab, language) {
 				}
 				$("#nationalFlag").html(languageHtml);
 				// 渲染口岸名称
-				$("#roleName").html(data.roleName);
+				//$("#roleName").html(data.roleName);
 				// 存session--站点名称
 				window.sessionStorage.setItem("roleName", data.roleName);
 				// 存session--站点标识
@@ -139,10 +139,10 @@ function selLanguage(selLanguage){
 	//获取站点和语言信息
 	getHomeData(tab, selLanguage);
 	//打开其他信息
-	if (selLanguage == 'Russian') {
+	if (selLanguage == 'Mongolian') {
 		window.location.href = requestUrl;
 	}else{
-		requestUrl = requestUrl.replace("mengwen","mzl");
+		requestUrl = requestUrl.replace("mengwen","gqmd");
 		window.location.href = requestUrl;
 	}
 	if(requestUrl.indexOf("home.html") != -1 )
@@ -161,7 +161,7 @@ function isOkRole() {
 		var roleName = window.sessionStorage.getItem("roleName");
 		if (roleName != "" || roleName != null || roleName != undefined) {
 			// 渲染口岸名称
-			$("#roleName").html(roleName);
+			//$("#roleName").html(roleName);
 		}
 		// 站点所属所有语言列表
 		var languageList = window.sessionStorage.getItem("languageList");
@@ -205,7 +205,7 @@ function getHomePicUrl() {
 							+ '") src="'
 							+ dataList[i].picUrl
 							+ '" alt="First slide" onerror="excptionUrl(this)">'
-							+ '<div id="contentTitle">'+dataList[i].articleName+'</div>'
+							+ '<div class="content2" id="contentTitle" style="font-family: mFont;height:75px">'+dataList[i].articleName+'</div>'
 							+ '</div>';
 					} else {
 						imgJiaodian += '<li data-target="#myCarousel" data-slide-to="'
@@ -532,7 +532,7 @@ function getArticle() {
 					window.location.href = videoUrl;
 				}else{
 					var createTime = crtTimeFtt(data.createTime);
-					html += '<div class="col-md-12 content2" style="height: 80px;font-size: 24px;font-family: mFont;">'+data.articleName+'</div>'
+					html += '<div class="col-md-12 content2" style="height: 100px;font-size: 24px;font-family: mFont;">'+data.articleName+'</div>'
 					+'<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'+createTime+'&emsp;&emsp;分类:某某频道</div>'
 					+'<hr>'
 					+'<div class="col-md-12 content2" style="font-size: 18px;font-family: mFont;">'+data.article+'</div>';

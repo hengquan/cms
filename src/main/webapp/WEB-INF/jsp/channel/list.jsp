@@ -21,6 +21,12 @@
 <script type="text/javascript" charset="utf-8"
 	src="${appRoot}/static/js/layui.js"></script>
 <title>${appTitle}</title>
+<style type="text/css">
+  @font-face {
+    font-family: mFont;
+    src: url('${appRoot}/static/fonts/MNR8102.ttf');
+  }
+</style>
 </head>
 <body>
 
@@ -253,8 +259,15 @@
 							<label class="col-lg-2 control-label pd-r5">所属渠道<font
 								style="color: red;"></font></label>
 							<div class="col-lg-10">
-								<select class="form-control" id="selChanneltype"
-									name="channeltype" onchange="putChannelList('')">
+								<select class="form-control" id="selChanneltype" name="channeltype" onchange="putChannelList('')">
+									<option value="1"
+										<c:if test="${channeltype == 1}">selected</c:if>>APP</option>
+									<option value="2"
+										<c:if test="${channeltype == 2}">selected</c:if>>H5</option>
+									<option value="3"
+										<c:if test="${channeltype == 3}">selected</c:if>>触摸板</option>
+									<option value="4"
+										<c:if test="${channeltype == 4}">selected</c:if>>APP视频</option>
 								</select>
 							</div>
 						</div>
@@ -731,7 +744,7 @@
 											+ '<div class="col-lg-10 message">'
 											+ '<input type="hidden" class="form-control relatedLanguage" value="'+ dataList[i].name +'">'
 											+ '<input type="hidden" class="form-control relatedTab" value="'+ dataList[i].tab +'">'
-											+ '<input type="text" class="form-control relatedName">'
+											+ '<input type="text" style="font-family: mFont;" class="form-control relatedName">'
 											+ '</div>' + '</div>';
 								}
 								$("#thisChannelLanguage").html(html);
@@ -759,7 +772,7 @@
 							+ '<div class="col-lg-10 message">'
 							+ '<input type="hidden" class="form-control relatedLanguage" value="'+ language +'">'
 							+ '<input type="hidden" class="form-control relatedTab" value="'+ tab +'">'
-							+ '<input type="text" class="form-control relatedName" value="'+ name +'">'
+							+ '<input type="text" style="font-family: mFont;" class="form-control relatedName" value="'+ name +'">'
 							+ '</div>' + '</div>';
 				}
 				$("#thisChannelLanguage").html(html);

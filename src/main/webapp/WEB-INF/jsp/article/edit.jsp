@@ -74,7 +74,7 @@
 							<div style="margin-top: 16px; margin-left: 20px;" class="row">
 								<label class="btn col-lg-1">文章标题：</label> <input type="text"
 									class="btn col-lg-10"
-									style="border: 1px solid #ddd; text-align: left;"
+									style="border: 1px solid #ddd; text-align: left;font-family: mFont;"
 									placeholder="请输入文章标题" name="articleName" id="articleName"
 									value="${article.articleName }">
 							</div>
@@ -93,7 +93,7 @@
 							<div style="margin-top: 16px; margin-left: 20px;" class="row">
 								<label class="btn col-lg-1">关键词语：</label> <input type="text"
 									class="btn col-lg-10"
-									style="border: 1px solid #ddd; text-align: left;"
+									style="border: 1px solid #ddd; text-align: left;font-family: mFont;"
 									placeholder="请输入关键词语已逗号隔开" name="keyword" id="keyword"
 									value="${article.keyword }">
 							</div>

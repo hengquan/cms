@@ -115,9 +115,8 @@ function selLanguage(selLanguage){
 	//获取站点和语言信息
 	getHomeData(tab, selLanguage);
 	//打开其他信息
-	//打开其他信息
-	if (selLanguage == 'Russian') {
-		requestUrl = requestUrl.replace("mzl","mengwen");
+	if (selLanguage == 'Mongolian') {
+		requestUrl = requestUrl.replace("gqmd","mengwen");
 		window.location.href = requestUrl;
 	}else{
 		window.location.href = requestUrl;

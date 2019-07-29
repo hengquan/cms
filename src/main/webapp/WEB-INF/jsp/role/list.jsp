@@ -6,15 +6,19 @@
 <html class="no-js">
 <head>
 <%@ include file="/WEB-INF/jsp/inc/head_bootstrap.jsp"%>
-
 <link
 	href="${appRoot}/static/assets/jquery-file-upload/css/jquery.fileupload-ui.css"
 	rel="stylesheet" type="text/css">
 <!-- Custom styles for this template -->
 <link href="${appRoot}/static/css/style.css" rel="stylesheet">
 <link href="${appRoot}/static/css/style-responsive.css" rel="stylesheet" />
-
 <title>${appTitle}</title>
+<style type="text/css">
+  @font-face {
+    font-family: mFont;
+    src: url('${appRoot}/static/fonts/MNR8102.ttf');
+  }
+</style>
 </head>
 <body>
 
@@ -290,12 +294,12 @@
 	                 var xiangTab = xiang[1];
 	                 var xiangName = xiang[2];
 	                 if(xiangTab == dataList[i].tab){
-	                	 html += '<input type="text" style="text-align:center" class="form-control roleLanguageName" value="'+ xiangName +'" placeholder="请输入'+ dataList[i].name +'名称">'
+	                	 html += '<input type="text" style="text-align:center;font-family: mFont;" class="form-control roleLanguageName" value="'+ xiangName +'" placeholder="请输入'+ dataList[i].name +'名称">'
 	                   +'</span>';
 	                 }
 	               }
                }else{
-            	   html += '<input type="text" style="text-align:center" class="form-control roleLanguageName" placeholder="请输入'+ dataList[i].name +'名称">'
+            	   html += '<input type="text" style="text-align:center;font-family: mFont;" class="form-control roleLanguageName" placeholder="请输入'+ dataList[i].name +'名称">'
                  +'</span>';
                }
              }else{
@@ -303,7 +307,7 @@
                    +'<input type="checkbox" class="languageIds btn" value="'+ dataList[i].id +'"><label class="btn">' + dataList[i].name + '</label>'
                    +'<input type="hidden" class="languageTab" value="'+ dataList[i].tab +'">'
                    +'<input type="hidden" class="languageName" value="'+ dataList[i].name +'">'
-                   +'<input type="text" style="text-align:center" class="form-control roleLanguageName" placeholder="请输入'+ dataList[i].name +'名称">'
+                   +'<input type="text" style="text-align:center;font-family: mFont;" class="form-control roleLanguageName" placeholder="请输入'+ dataList[i].name +'名称">'
                    +'</span>';
              }
            }
