@@ -66,6 +66,7 @@
         </div>
       </div>
     </div>
+    <div class="row" id="moduleList"></div>
     <div class="row" id="main_icon" style="background: #fefefe; padding-left: 5px; padding-right: 5px;">
     </div>
     <div class="row"
@@ -84,6 +85,8 @@
     getRoleData(tab, language);
     //判断站点信息
     isOkRole();
+    //加载模块列表
+    getHome3ModuleList();
     //获取文章列表
     getHome2ChannelList(language,channelId);
   })
@@ -113,7 +116,7 @@
             var articleList = dataList[i].articleList;
             for(var y=0;y<articleList.length;y++){
 	            html += '<span class="col-xs-4 col-lg-4 col-md-4" style="padding-right: 2px; padding-left: 2px;text-align:center;">'
-	            +'<img src="'+articleList[i].picUrl+'" alt="" onerror="excptionUrl(this)"><br><div class="imgText">'+articleList[i].articleName+'</div></span> ';
+	            +'<img src="'+articleList[y].picUrl+'" alt="" onerror="excptionUrl(this)"><br><div class="imgText">'+articleList[y].articleName+'</div></span> ';
             }
             html += '</a>'
             +'</div>'
@@ -125,6 +128,38 @@
         }
       }
     });
+  }
+  
+	//获取模块列表信息
+  function getHome3ModuleList() {
+  	var roleId = window.sessionStorage.getItem("roleId");
+  	var language = window.sessionStorage.getItem("language");
+  	$.ajax({
+  		type : 'post',
+  		data : {
+  			"roleId" : roleId,
+  			"language" : language,
+  			"channelType" : 1
+  		},
+  		url : '../../api/getModuleList',
+  		dataType : 'json',
+  		async : false,
+  		success : function(data) {
+  			if (data.code == "200") {
+  				var html = "";
+  				var dataList = data.dataList;
+  				for (var i = 0; i < dataList.length; i++) {
+  					html += '<span style="width:20%">'
+  					+'<a href="#" onclick=gotoChannelPage("'+dataList[i].id+'")>'
+  					+'<img style="border-radius:50%; overflow:hidden;" src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label>'+dataList[i].moduleName+'</label>'
+  				  +'</a></span>';
+  				}
+  				$("#moduleList").html(html);
+  			} else {
+  				console.log(data.msg);
+  			}
+  		}
+  	});
   }
 </script>
 </html>
