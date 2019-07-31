@@ -27,7 +27,7 @@ function openHome() {
 	//处理首页频道下面显示的文章
 	getHomeArticleList();
 	//通知APP
-	messageAPP();
+	//messageAPP();
 }
 
 //通知APP
@@ -544,7 +544,7 @@ function getModuleList() {
 				var html = "";
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
-					html += '<span class="col-xs-3 col-lg-3 col-md-3">'
+					html += '<span style="width:20%">'
 					+'<a href="#" onclick=gotoChannelPage("'+dataList[i].id+'")>'
 					+'<img src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label>'+dataList[i].moduleName+'</label>'
 				  +'</a></span>';
