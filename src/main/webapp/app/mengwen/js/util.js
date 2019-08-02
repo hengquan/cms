@@ -29,14 +29,11 @@ function openHome() {
 	//蒙文适配
 	mengWenConfig();
 	//通知APP
-	messageAPP();
+	messageAPP(window.sessionStorage.getItem("language"));
 }
 
 //通知APP
-function messageAPP(){
-	var language = window.sessionStorage.getItem("language");
-	alert(language);
-	//window.kouan.jsSetTabLanguage(language);
+function messageAPP(language){
 	$("#roleName").attr("onclick","kouan.jsSetTabLanguage('"+language+"')");
 	document.getElementById("roleName").click();
 }

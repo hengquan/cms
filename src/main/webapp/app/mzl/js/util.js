@@ -27,14 +27,11 @@ function openHome() {
 	//处理首页频道下面显示的文章
 	getHomeArticleList();
 	//通知APP
-	messageAPP();
+	messageAPP(window.sessionStorage.getItem("language"));
 }
 
 //通知APP
-function messageAPP(){
-	var language = window.sessionStorage.getItem("language");
-	alert(language);
-	//window.kouan.jsSetTabLanguage(language);
+function messageAPP(language){
 	$("#roleName").attr("onclick","kouan.jsSetTabLanguage('"+language+"')");
 	document.getElementById("roleName").click();
 }
