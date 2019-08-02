@@ -27,13 +27,16 @@ function openHome() {
 	//处理首页频道下面显示的文章
 	getHomeArticleList();
 	//通知APP
-	//messageAPP();
+	messageAPP();
 }
 
 //通知APP
 function messageAPP(){
 	var language = window.sessionStorage.getItem("language");
-	window.kouan.jsSetTabLanguage(language);
+	alert(language);
+	//window.kouan.jsSetTabLanguage(language);
+	$("#roleName").attr("onclick","kouan.jsSetTabLanguage('"+language+"')");
+	document.getElementById("roleName").click();
 }
 
 // 获取站点信息

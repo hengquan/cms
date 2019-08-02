@@ -33,7 +33,10 @@ function openHome() {
 //通知APP
 function messageAPP(){
 	var language = window.sessionStorage.getItem("language");
-	window.kouan.jsSetTabLanguage(language);
+	alert(language);
+	//window.kouan.jsSetTabLanguage(language);
+	$("#roleName").attr("onclick","kouan.jsSetTabLanguage('"+language+"')");
+	document.getElementById("roleName").click();
 }
 
 // 获取站点信息
