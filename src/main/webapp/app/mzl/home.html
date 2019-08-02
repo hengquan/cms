@@ -127,6 +127,20 @@
     $("#myCarousel").carousel('cycle');
     //打开其他信息
     openHome();
+    //限制字数
+    astrict();
   })
+  
+  //限制字数
+  function astrict(){
+	  $("#channelListData .imgText").each(function(index,obj){
+		  var len=$(obj).text().length;   //当前HTML对象text的长度
+	       if(len>12){
+	           var str="";
+	           str=$(obj).text().substring(0,12)+"......";  //使用字符串截取，获取前30个字符，多余的字符使用“......”代替
+	           $(obj).html(str);  
+	       }
+	  })
+  }
 </script>
 </html>

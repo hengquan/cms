@@ -497,7 +497,7 @@ public class CmsApiController extends ControllerBase {
 					Map<String, Object> param = new HashMap<String, Object>();
 					param.put("channelId", id);
 					param.put("language", language);
-					param.put("page", 1);
+					param.put("page", 0);
 					param.put("pageSize", 100);
 					List<Article> articleList = articleService.getDataListByChannelIdAndLanguage(param);
 					if (articleList != null && articleList.size() > 0) {
