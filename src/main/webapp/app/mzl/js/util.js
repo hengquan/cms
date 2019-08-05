@@ -117,12 +117,17 @@ function selLanguage(selLanguage){
 	//打开其他信息
 	if (selLanguage == 'Mongolian') {
 		requestUrl = requestUrl.replace("gqmd","mengwen");
-		window.location.href = requestUrl;
-	}else{
-		window.location.href = requestUrl;
 	}
-	if(requestUrl.indexOf("home.html") != -1 )
-	  openHome();
+	var languageList = requestUrl.split("language");
+	if(languageList.length > 1 ){
+		requestUrl = languageList[0]+"language="+selLanguage;
+	}
+	window.location.href = requestUrl;
+	if(requestUrl.indexOf("home.html") != -1 ){
+		openHome();
+	}else{
+		messageAPP(selLanguage);
+	}
 	//关闭遮罩
     layer.close(loadIndex);
 }

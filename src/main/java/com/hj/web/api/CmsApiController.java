@@ -525,7 +525,7 @@ public class CmsApiController extends ControllerBase {
 									str1 = oneLanguage[1];
 								}
 								String str2 = "";
-								if (oneLanguage.length > 3 && StringUtils.isNotEmpty(oneLanguage[2])) {
+								if (oneLanguage.length > 2 && StringUtils.isNotEmpty(oneLanguage[2])) {
 									str2 = oneLanguage[2];
 								}
 								if (str1.equals(language)) {
