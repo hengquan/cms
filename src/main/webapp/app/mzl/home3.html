@@ -118,14 +118,14 @@
           var dataList = data.dataList;
           for (var i = 0; i < dataList.length; i++) {
             html +=  '<div>'
-            +'<a href="#" onclick=openArticleContent("'+dataList[i].id+'")> '
             +'<label class="col-xs-12 col-lg-12 col-md-12" style="padding-right: 2px; padding-left: 2px;">'+dataList[i].channelname+'</label><br>';
             var articleList = dataList[i].articleList;
             for(var y=0;y<articleList.length;y++){
 	            html += '<span class="col-xs-4 col-lg-4 col-md-4" style="padding-right: 2px; padding-left: 2px;text-align:center;">'
-	            +'<img src="'+articleList[y].picUrl+'" alt="" onerror="excptionUrl(this)"><br><div class="imgText">'+articleList[y].articleName+'</div></span> ';
+	            +'<a href="#" onclick=openArticleContent("'+articleList[y].id+'")> '
+	            +'<img src="'+articleList[y].picUrl+'" alt="" onerror="excptionUrl(this)"><br><div class="imgText">'+articleList[y].articleName+'</div>'
+	            +'</a></span> ';
             }
-            html += '</a>'
             +'</div>'
             +'<div style="clear: both"></div><div class="line"></div>';
           }

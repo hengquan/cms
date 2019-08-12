@@ -414,9 +414,6 @@ public class CmsApiController extends ControllerBase {
 									}
 								}
 							}
-							if (StringUtils.isEmpty(channelName)) {
-								channelName = languageZu[0].split(":")[2];
-							}
 						}
 						channel.setChannelname(channelName);
 						// 获取子级频道
@@ -444,9 +441,6 @@ public class CmsApiController extends ControllerBase {
 												ziChannelName = str2;
 											}
 										}
-									}
-									if (StringUtils.isEmpty(ziChannelName)) {
-										ziChannelName = ziLanguageZu[0].split(":")[2];
 									}
 								}
 								ziChannel.setChannelname(ziChannelName);
@@ -532,9 +526,6 @@ public class CmsApiController extends ControllerBase {
 									channelName = str2;
 								}
 							}
-						}
-						if (StringUtils.isEmpty(channelName)) {
-							channelName = languageZu[0].split(":")[2];
 						}
 					}
 					channel.setChannelname(channelName);
