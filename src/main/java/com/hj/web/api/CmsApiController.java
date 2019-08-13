@@ -688,7 +688,6 @@ public class CmsApiController extends ControllerBase {
 								String hrefUrl = channel.getHrefUrl();
 								// 蒙文
 								String mengWenHrefUrl = hrefUrl.replace("gqmd", "mengwen");
-
 								mengWenHrefUrl = mengWenHrefUrl + "?tab=" + tab + "&channelId=" + channel.getId();
 								hrefUrl = hrefUrl + "?tab=" + tab + "&channelId=" + channel.getId();
 								map.put("homeChannelName", allLanguage);
