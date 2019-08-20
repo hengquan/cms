@@ -272,10 +272,10 @@
 
 	<select id="getByIds" resultMap="BaseResultMap">
 		select * from cms_channel where
-		instr(#{channelIds},id)
+		instr(#{channelIds},id) isValidate=1
 	</select>
 	
 	<select id="getByParentId" resultMap="BaseResultMap">
-		select * from cms_channel where parentId = #{id}
+		select * from cms_channel where parentId = #{id} and isValidate=1
 	</select>
 </mapper>

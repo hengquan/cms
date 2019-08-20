@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>主页</title>
+<!-- Bootstrap -->
+<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/util.js"></script>
+
+<style type="text/css">
+#myCarousel img {
+	height: 300px;
+}
+
+.nav-justified label {
+	color: #fefefe;
+}
+
+.head-role {
+	font-size: 22px;
+	color: #fefefe;
+}
+
+#nationalFlag {
+	padding: 3px;
+}
+
+#bottomTitle {
+	text-align: center;
+	background: #5273D2;
+	text-align: center;
+	color: #fefefe;
+}
+
+#bottomTitle ul {
+	padding: 5px 20px 5px 20px;
+}
+
+#bottomTitle label {
+	margin-bottom: 0px;
+	font-weight: normal;
+	margin-top: 5px;
+}
+
+#channelListData li {
+	margin-left: -9px;
+	padding-top: 10px;
+}
+
+.imgText {
+	left: 0;
+	position: relative;
+	background-color: #000;
+	color: white;
+	opacity: 0.75;
+	width: 100%;
+}
+
+#contentTitle {
+	position: absolute;
+	bottom: 0px;
+	left: 20px;
+	color: #fff;
+}
+
+.nav-stacked>li {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.channelTitle {
+  	height: 30px;
+	display: inline-block;
+	color: #FFFFFF;
+	font-weight: bold;
+	padding: 4px 24px;
+	margin-left: 14px;
+	padding-bottom: 5px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	font-size: 18px;
+	background: url(img/right_content_title.jpg) no-repeat left;
+	-webkit-background-size: 350px 100%;
+	background-size: 350px 100%;
+	font-size: 18px;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover
+	{
+	color: #fff;
+	background-color: #7495F2;
+}
+
+.pagination{
+
+}
+</style>
+</head>
+<body style="background: #eeeeee; height: 100%">
+	<div class="container-fluid" style="height: 100%">
+		<nav class="navbar-default navbar-fixed-top" id="topTitle"
+			style="background-color: transparent;">
+			<div class="row" style="background: #5273D2;">
+				<div class="col-md-12">
+					<span id="roleName" class="head-role"></span> <span
+						class="pull-right" id="nationalFlag"></span>
+				</div>
+			</div>
+		</nav>
+
+		<div style="margin-top: 35px;">
+			<div class="row" id="homePage">
+				<input type="hidden" id="imgNumber" value="1">
+				<div class="item active" id="homePageImg"></div>
+				<div id="homePageDetail"
+					style="padding: 40px 0; font-size: 14px; line-height: 40px; width: 80%; margin: 0 auto;"></div>
+			</div>
+			<div class="row" id="otherPageContent">
+				<div class="col-md-2" id="leftDaoHang"
+					style="background: #5273D2; overflow-y: auto; overflow-x: hidden;">
+				</div>
+				<div class="col-md-10" id="rightContent"
+					style="background: #ffffff; overflow-y: auto; overflow-x: hidden;">
+					<div class="col-md-12 channelTitle"></div>
+					<div style="clear: both"></div>
+					<div id="articleList">
+					</div>
+					<div style="clear: both"></div>
+					<div class="pagination"></div>
+				</div>
+			</div>
+		</div>
+		<!-- 底部 -->
+		<footer class="row footer navbar-fixed-bottom" id="bottomTitle"
+			style="margin-top: 5px;">
+			<ul class="nav nav-pills nav-justified" id="moduleList">
+			</ul>
+		</footer>
+	</div>
+</body>
+<script type="text/javascript">
+	$(function() {
+		//设置获取的数据源;0-暂无，1-APP，2-H5，3-触摸板，4-APP视频
+		var channelType = window.sessionStorage.getItem("channelType");
+		if (channelType == null || channelType == ""
+				|| channelType == undefined) {
+			window.sessionStorage.setItem("channelType", "3");
+		}
+		//获取站点和语言信息
+		getRoleData("dandong", "Chinese");
+		//打开其他信息
+		openHome();
+	})
+</script>
+</html>

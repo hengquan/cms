@@ -601,11 +601,13 @@
 
 		//处理该频道属于哪个模块
 		function channelInModule(roleId) {
+			var moduleType  = $("#selChanneltype option:checked").text();
 			$
 					.ajax({
 						type : 'post',
 						data : {
-							"roleId" : roleId
+							"roleId" : roleId,
+							"moduleType" : moduleType
 						},
 						url : '${appRoot}/module/getDataByRoleId',
 						dataType : 'json',
