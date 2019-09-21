@@ -289,8 +289,7 @@
 		<if test="articleType != null and articleType != ''">
 			and instr(a.articleType,#{articleType,jdbcType=VARCHAR})
 		</if>
-		order by a.sort desc,a.createTime
-		desc
+		order by a.sort desc,a.createTime desc
 		limit #{page},#{pageSize}
 	</select>
 

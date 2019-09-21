@@ -59,10 +59,6 @@
 		</div>
 		<div class="row" id="main_icon" style="background: #fefefe; padding-left: 5px; padding-right: 5px;">
 		</div>
-		<!-- <div class="row"
-			style="background: #444; text-align: center; color: #fefefe; margin-top: 10px">
-			© 2019 <a href="http://xizang.unimedia.net.cn/zh">口岸</a> &nbsp;
-		</div> -->
 	</div>
 </body>
 <script type="text/javascript">
@@ -104,17 +100,18 @@ function getHome1ArticleList(language,channelId) {
         //渲染首页频道列表
         var html = "";
         var dataList = data.dataList;
+        console.log(dataList);
         for (var i = 0; i < dataList.length; i++) {
           html += '<div>'
 	        +'<a href="#" onclick=openArticleContent("'+dataList[i].id+'")>'
 	        +'<label class="col-xs-12 col-lg-12 col-md-12" style="padding-right: 2px; padding-left: 2px;">'+dataList[i].articleName+'</label><br>';
 	        var contentImgList = dataList[i].contentImg;
 	        if(contentImgList !=null && contentImgList.length > 0){
-	        	for(var y=0;y<contentImgList.length;y++){
-	        		if(y>2)
+	        	for(var y=0;y<contentImgList.length;y += 2){
+	        		if(y>5)
 	        			break;
 	        		html += '<span class="col-xs-4 col-lg-4 col-md-4" style="padding-right: 2px; padding-left: 2px;">'
-	        	  +'<img src="'+contentImgList[i]+'" alt="" onerror="excptionUrl(this)"></span>'; 
+	        	  +'<img src="'+contentImgList[y]+'" alt="" onerror="excptionUrl(this)"></span>'; 
 	        	}
 	        }
 	        html += '</a></div>'

@@ -543,3 +543,7 @@ function gotoChannelPage(moduleId) {
 	window.location.href = "./channelList.html?moduleId=" + moduleId;
 }
 
+//点击口岸返回首页
+function goHomePage(){
+	window.location.href = "./home.html";
+}

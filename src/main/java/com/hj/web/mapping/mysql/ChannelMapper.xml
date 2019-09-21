@@ -192,6 +192,7 @@
 		<if test="roleId != null and roleId != ''">
 			and a.roleId = #{roleId}
 		</if>
+		order by a.sort desc,a.cTime desc
 		LIMIT #{page},#{pageSize}
 	</select>
 
