@@ -181,7 +181,7 @@ function getHomePicUrl() {
 						imgJiaodian += '<li data-target="#myCarousel" data-slide-to="'
 								+ i + '" class="active"></li>';
 						imgHtml += '<div class="item active">'
-							+ '<img width="100%" height="100%" onclick=openArticleContent("'
+							+ '<img style="width:100%;height:200px" onclick=openArticleContent("'
 							+ dataList[i].id
 							+ '") src="'
 							+ dataList[i].picUrl
@@ -192,7 +192,7 @@ function getHomePicUrl() {
 						imgJiaodian += '<li data-target="#myCarousel" data-slide-to="'
 								+ i + '"></li>';
 						imgHtml += '<div class="item">'
-							+ '<img width="100%" height="100%" onclick=openArticleContent("'
+							+ '<img style="width:100%;height:200px" onclick=openArticleContent("'
 							+ dataList[i].id
 							+ '") src="'
 							+ dataList[i].picUrl
@@ -210,7 +210,7 @@ function getHomePicUrl() {
 	});
 }
 
-// 获取首面的频道列表
+//获取首面的频道列表
 function getHomeChannelList() {
 	var channelNumber = $("#channelNumber").val();
 	var roleId = window.sessionStorage.getItem("roleId");
@@ -372,19 +372,55 @@ function getArticleList() {
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
 					var createTime = crtTimeFtt(dataList[i].createTime);
-					html += '<div class="oneArticle" onclick=openArticleContent("'
-							+ dataList[i].id
-							+ '")>'
-							+ '<div class="col-md-12" style="font-size: 24px;">'
-							+ dataList[i].articleName
-							+ '</div>'
-							+ '<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'
-							+ createTime
-							+ '</div>'
-							+ '<div class="col-md-12" style="font-size: 16px;">'
-							+ dataList[i].detail
-							+ '</div>'
-							+ '</div>';
+					var picUrl = dataList[i].picUrl;
+					if(picUrl == "" || picUrl == null){
+						if(language=="Russian"){
+							html += '<div class="oneArticle" onclick=openArticleContent("'
+								+ dataList[i].id
+								+ '")>'
+								+ '<div class="col-md-12 col-xs-12 col-sm-12" style="font-size: 10px;line-height:1.0">'
+								+ dataList[i].articleName
+								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">Время выпуска:'+createTime+'</p>'
+								+ '</div>'
+								+ '<div style="clear:both"></div>'
+								+ '</div><hr>';
+						}else{
+							html += '<div class="oneArticle" onclick=openArticleContent("'
+								+ dataList[i].id
+								+ '")>'
+								+ '<div class="col-md-12 col-xs-12 col-sm-12" style="font-size: 15px;line-height:1.5">'
+								+ dataList[i].articleName
+								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">发布于:'+createTime+'</p>'
+								+ '</div>'
+								+ '<div style="clear:both"></div>'
+								+ '</div><hr>';
+						}
+					}
+					if(picUrl !="" && picUrl != null){
+						if(language=="Russian"){
+							html += '<div class="oneArticle" onclick=openArticleContent("'
+								+ dataList[i].id
+								+ '")>'
+								+ '<div class="col-md-7 col-xs-7 col-sm-7" style="font-size: 10px;line-height:1.0">'
+								+ dataList[i].articleName
+								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">Время выпуска:'+createTime+'</p>'
+								+ '</div>'
+								+ '<img class="col-md-5 col-xs-5 col-sm-5" style="width:150px;height:75px" src="'+picUrl+'">'
+								+ '<div style="clear:both"></div>'
+								+ '</div><hr>';
+						}else{
+							html += '<div class="oneArticle" onclick=openArticleContent("'
+								+ dataList[i].id
+								+ '")>'
+								+ '<div class="col-md-7 col-xs-7 col-sm-7" style="font-size: 15px;line-height:1.5">'
+								+ dataList[i].articleName
+								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">发布于:'+createTime+'</p>'
+								+ '</div>'
+								+ '<img class="col-md-5 col-xs-5 col-sm-5" style="width:150px;height:75px" src="'+picUrl+'">'
+								+ '<div style="clear:both"></div>'
+								+ '</div><hr>';
+						}
+					}
 				}
 				$(".articleContent").html(html);
 				//组分页
@@ -551,7 +587,7 @@ function getModuleList() {
 				for (var i = 0; i < dataList.length; i++) {
 					html += '<span style="width:20%">'
 					+'<a href="#" onclick=gotoChannelPage("'+dataList[i].id+'")>'
-					+'<img style="border-radius:50%; overflow:hidden;" src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label>'+dataList[i].moduleName+'</label>'
+					+'<img style="width:75px;height:75px;border-radius:50%; overflow:hidden;" src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label style="word-break : break-all;overflow:hidden;">'+dataList[i].moduleName+'</label>'
 				  +'</a></span>';
 				}
 				$("#main_icon").html(html);
