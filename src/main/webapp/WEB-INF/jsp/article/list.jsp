@@ -32,6 +32,10 @@
 								id="selectCheckMessage">
 								<input type="hidden" name="itemId" value="${itemId }"> <input
 									type="hidden" name="positionId" value="${positionId }">
+									<input type="hidden" name="articleType" id="articleType"
+									value="${articleType }"> <input type="hidden"
+									name="channelType" id="channelType" value="${channelType }">
+									<input type="hidden" name="roleId" value="${roleId }">
 								<!-- 根据用户昵称查询 -->
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">

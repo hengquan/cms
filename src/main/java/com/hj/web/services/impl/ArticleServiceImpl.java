@@ -53,6 +53,8 @@ public class ArticleServiceImpl implements ArticleService {
 		if (StringUtils.isNotEmpty(id)) {
 			entity.setUpdateTime(new Date());
 			result = dao.update(entity) > 0 ? true : false;
+			// 查一下子是否是中文的，如果是查一下子是否有相关联的文章，把相关联的文章的索引改成中文的索引
+			updateRelevanceArticleSort(entity);
 		} else {
 			entity.setId(keyGen.getUUIDKey());
 			entity.setUpdateTime(new Date());
@@ -67,6 +69,49 @@ public class ArticleServiceImpl implements ArticleService {
 			result = dao.insert(entity) > 0 ? true : false;
 		}
 		return result;
+	}
+
+	// 查一下子是否是中文的，如果是查一下子是否有相关联的文章，把相关联的文章的索引改成中文的索引
+	private void updateRelevanceArticleSort(Article entity) {
+		String articleId = entity.getId();
+		Article article = dao.get(articleId);
+		if (article != null) {
+			String language = article.getLanguage();
+			if (StringUtils.isNotEmpty(language)) {
+				if (language.equals("Chinese")) {
+					Integer sort = article.getSort();
+					// 查看语言
+					String relevancyId = article.getRelevancyId();
+					if (StringUtils.isNotEmpty(relevancyId)) {
+						if (relevancyId.equals("0")) {
+							// 查相关文章
+							List<Article> dataList = dao.getDataListByRelevancyId(articleId);
+							if (dataList != null && dataList.size() > 0) {
+								for (Article oneArticle : dataList) {
+									oneArticle.setSort(sort);
+									dao.update(oneArticle);
+								}
+							}
+						} else {
+							Article ziArticle = dao.get(relevancyId);
+							if (ziArticle != null) {
+								String id = ziArticle.getId();
+								if (StringUtils.isNotEmpty(id)) {
+									// 查相关文章
+									List<Article> dataList = dao.getDataListByRelevancyId(id);
+									if (dataList != null && dataList.size() > 0) {
+										for (Article oneArticle : dataList) {
+											oneArticle.setSort(sort);
+											dao.update(oneArticle);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override

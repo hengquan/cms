@@ -72,10 +72,6 @@
 		<div class="row" id="main_icon"
 			style="background: #fefefe; padding-left: 5px; padding-right: 5px;">
 		</div>
-		<!-- <div class="row"
-			style="background: #444; text-align: center; color: #fefefe; margin-top: 10px">
-			© 2019 <a href="http://xizang.unimedia.net.cn/zh">口岸</a> &nbsp;
-		</div> -->
 	</div>
 </body>
 <script type="text/javascript">
@@ -119,9 +115,8 @@
 								+ '")>' + '<span style="text-align: center;">'
 								+ '<img src="' + dataList[i].picUrl
 								+ '" alt="" onerror="excptionUrl(this)"><br>'
-								+ '<div class="imgText">'
-								+ dataList[i].channelname
-								+ '</div></span></a></div>';
+								/* + '<div class="imgText">'+ dataList[i].channelname + '</div>' */
+								+ '</span></a></div><hr>';
 					}
 					$("#main_icon").html(html);
 				} else {
