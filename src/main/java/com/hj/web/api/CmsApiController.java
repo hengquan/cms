@@ -345,6 +345,16 @@ public class CmsApiController extends ControllerBase {
 						}
 					}
 				}
+				// 获取该文章的频道信息
+				String articleType = article.getArticleType();
+				Channel channel = channelService.get(articleType);
+				if (channel != null) {
+					String channelname = channel.getChannelname();
+					if (StringUtils.isNotEmpty(channelname)) {
+						article.setSetArticleTypeName(channelname);
+					}
+				}
+
 				result.put("code", "200");
 				result.put("data", article);
 			} else {

@@ -546,6 +546,8 @@ function getArticle() {
 				//渲染首页频道列表
 				var html = "";
 				var data = data.data;
+				//频道名称
+				var articleTypeName = data.setArticleTypeName;
 				//外链地址
 				var videoUrl = data.videoUrl;
 				if(videoUrl != "" && videoUrl != null){
@@ -553,7 +555,7 @@ function getArticle() {
 				}else{
 					var createTime = crtTimeFtt(data.createTime);
 					html += '<div class="col-md-12" style="font-size: 24px;">'+data.articleName+'</div>'
-					+'<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'+createTime+'&emsp;&emsp;分类:某某频道</div>'
+					+'<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'+createTime+'&emsp;&emsp;分类：'+articleTypeName+'</div>'
 					+'<hr>'
 					+'<div class="col-md-12" style="font-size: 18px;">'+data.article+'</div>';
 					$(".articleContent").html(html);
