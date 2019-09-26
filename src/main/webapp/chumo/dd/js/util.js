@@ -107,8 +107,13 @@ function getHomeData(tab, language) {
 				// 渲染站点语言
 				var languageHtml = "";
 				var languageList = data.languageList;
+				console.log(languageList);
 				for (var i = 0; i < languageList.length; i++) {
-					languageHtml += '&nbsp;<img width="40px" height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					if(languageList[i].tab == 'Korean'){
+						languageHtml += '&nbsp;<img style="width:66px;height:25px;margin-right:10px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					}else{
+						languageHtml += '&nbsp;<img style="width:40px;height:25px;margin-right:10px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					}
 				}
 				$("#nationalFlag").html(languageHtml);
 				// 渲染口岸名称

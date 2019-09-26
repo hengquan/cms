@@ -167,6 +167,7 @@
 	<select id="getDataByRoleId" resultMap="BaseResultMap">
 		select * from cms_module
 		where roleId = #{roleId} and isValidate = 1 and instr(moduleType,#{moduleType})
+		order by sort desc
 	</select>
 
 	<update id="deletes">
