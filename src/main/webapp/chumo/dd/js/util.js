@@ -450,10 +450,19 @@ function getModuleList() {
 		dataType : 'json',
 		async : false,
 		success : function(data) {
+			var resultValue = "";
+			var homeValue = "";
+			if(language=="Chinese"){
+				resultValue = "返回上页";
+				homeValue = "返回首页";
+			}else if(language=="Korean"){
+				resultValue = "이전";
+				homeValue = "홈페이지";
+			}
 			if (data.code == "200") {
 				var html = '<li role="presentation" class="active" moduleId="goHomePage"'
 					+'onclick="getChannelList(this)"><a href="#">'
-					+'<img height="35px" src="img/home.jpg" alt=""><br> <label>返回首页</label></a></li>';
+					+'<img height="35px" src="img/home.jpg" alt=""><br> <label>'+ homeValue +'</label></a></li>';
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
 					html += '<li role="presentation" class="" moduleId="'+dataList[i].id+'" moduleName="'+dataList[i].moduleName+'"'
@@ -462,7 +471,7 @@ function getModuleList() {
 				}
 				html += '<li role="presentation" class="" moduleId="goBeforePage" id="goBeforePage"'
 					+'onclick="getChannelList(this)">'
-					+'<img height="35px" src="img/return.jpg" alt=""><br> <label>返回上页</label></li>';
+					+'<img height="35px" src="img/return.jpg" alt=""><br> <label>'+ resultValue +'</label></li>';
 				$("#moduleList").html(html);
 			} else {
 				console.log(data.msg);
