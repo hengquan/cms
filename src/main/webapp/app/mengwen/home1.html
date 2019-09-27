@@ -119,11 +119,11 @@ function getHome1ArticleList(language,channelId) {
 	        +'<label class="col-xs-12 col-lg-12 col-md-12 content2" style="font-family: mFont;padding-right: 2px; padding-left: 2px;height: 40px;">'+dataList[i].articleName+'</label><br>';
 	        var contentImgList = dataList[i].contentImg;
 	        if(contentImgList !=null && contentImgList.length > 0){
-	        	for(var y=0;y<contentImgList.length;y++){
-	        		if(y>2)
+	        	for(var y=0;y<contentImgList.length;y += 2){
+	        		if(y>5)
 	        			break;
 	        		html += '<span class="col-xs-4 col-lg-4 col-md-4" style="padding-right: 2px; padding-left: 2px;">'
-	        	  +'<img src="'+contentImgList[i]+'" alt="" onerror="excptionUrl(this)"></span>'; 
+	        	  +'<img src="'+contentImgList[y]+'" alt="" onerror="excptionUrl(this)"></span>'; 
 	        	}
 	        }
 	        html += '</a></div>'

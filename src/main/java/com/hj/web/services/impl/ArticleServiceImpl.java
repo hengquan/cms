@@ -141,7 +141,49 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public void deletes(String ids) {
+		// 更新至作废状态
 		dao.deletes(ids);
+		// 分隔吧
+		if (StringUtils.isNotEmpty(ids)) {
+			String[] idList = ids.split(",");
+			for (String id : idList) {
+				Article article = dao.get(id);
+				delTongShi(article);
+			}
+		}
+	}
+
+	//更新相关文章至删除状态
+	public void delTongShi(Article article) {
+		if (article != null) {
+			// 查看语言
+			String relevancyId = article.getRelevancyId();
+			if (StringUtils.isNotEmpty(relevancyId)) {
+				if (relevancyId.equals("0")) {
+					// 查相关文章
+					List<Article> dataList = dao.getDataListByRelevancyId(article.getId());
+					if (dataList != null && dataList.size() > 0) {
+						for (Article oneArticle : dataList) {
+							dao.deletes(oneArticle.getId());
+						}
+					}
+				} else {
+					Article ziArticle = dao.get(relevancyId);
+					if (ziArticle != null) {
+						String id = ziArticle.getId();
+						if (StringUtils.isNotEmpty(id)) {
+							// 查相关文章
+							List<Article> dataList = dao.getDataListByRelevancyId(id);
+							if (dataList != null && dataList.size() > 0) {
+								for (Article oneArticle : dataList) {
+									dao.deletes(oneArticle.getId());
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override
