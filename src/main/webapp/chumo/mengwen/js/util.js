@@ -227,7 +227,7 @@ function getArticleList(channelId,channelName,channelHrefUrl,paramObj) {
 	var pageSize = $("#pageSize").val();
 	var language = window.sessionStorage.getItem("language");
 	//给返回页赋值
-	$("#goBeforePage").attr("onclick","getArticleList('"+channelId+"','"+channelName+"','"+channelHrefUrl+"',"+paramObj+")");
+	$("#goBeforePage").attr("onclick","getArticleList('"+channelId+"','"+channelName+"','"+channelHrefUrl+"',null)");
 	//渲染标题
 	$(".channelTitle").html('<div style="font-family: mFont;">'+channelName+'</div>');
 	if(channelHrefUrl != null && channelHrefUrl != ""){

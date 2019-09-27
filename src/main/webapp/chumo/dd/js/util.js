@@ -228,7 +228,7 @@ function getArticleList(channelId,channelName,channelHrefUrl,paramChannel) {
 	var pageSize = $("#pageSize").val();
 	var language = window.sessionStorage.getItem("language");
 	//给返回页赋值
-	$("#goBeforePage").attr("onclick","getArticleList('"+channelId+"','"+channelName+"','"+channelHrefUrl+"',"+paramChannel+")");
+	$("#goBeforePage").attr("onclick","getArticleList('"+channelId+"','"+channelName+"','"+channelHrefUrl+"',null)");
 	//渲染标题
 	$(".channelTitle").html(channelName);
 	//判断外链是否为空;不为空跳转，为空显示其下的文章列表
