@@ -9,6 +9,11 @@
 <script type="text/javascript" src="common/commonJs.js"></script>
 <script type="text/javascript" src="common/commonCss.js"></script>
 <style type="text/css">
+@font-face {
+	font-family: mFont;
+	src: url('../fonts/MNR8102.ttf');
+}
+
 .head-language {
 	color: #fefefe;
 	text-align: right;
@@ -25,21 +30,29 @@
 }
 
 #nationalFlag {
-  padding: 3px;
+	padding: 3px;
+}
+
+body {
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 </style>
 </head>
 <body>
 	<div class="container-fluid">
 		<div id="heard">
-      <div class="row" style="background: #4169E1;">
-        <div class="col-md-12">
-          <span id="roleName" class="head-role"></span> <span
-            class="pull-right" id="nationalFlag"></span>
-        </div>
-      </div>
-    </div>
-		<div class="row articleContent">
+			<div class="row" style="background: #4169E1;">
+				<div class="col-md-12">
+					<span id="roleName" class="head-role"></span> <span
+						class="pull-right" id="nationalFlag"></span>
+				</div>
+			</div>
+		</div>
+		<div class="row articleContent"></div>
+		<div class="row"
+			style="background: #444; text-align: center; color: #fefefe; margin-top: 10px">
+			© 2019 <a href="#" onclick="goHomePage()">口岸</a> &nbsp;
 		</div>
 	</div>
 </body>
@@ -49,6 +62,8 @@
 		isOkRole();
 		//获取文章内容
 		getArticle();
+		//修改样式
+		$(".articleContent img").css("width", "100%");
 	})
 </script>
 </html>

@@ -120,6 +120,7 @@
 								<textarea class="col-lg-10" name="article" id="article"
 									style="margin-left: -15px; border: 0px;font-family: mFont">${article.article }</textarea>
 							</div>
+							<input type="hidden" name="sort" id="sort" value="${article.sort }">
 						</form>
 						<div style="clear: both"></div>
 						<hr>
