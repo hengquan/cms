@@ -73,9 +73,16 @@ function getHomeData(tab, language) {
 				// 渲染站点语言
 				var languageHtml = "";
 				var languageList = data.languageList;
+				var chineseHtml = "";
+				var koreanHtml = "";
 				for (var i = 0; i < languageList.length; i++) {
-					languageHtml += '&nbsp;<img width="40px" height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					if(languageList[i].tab == 'Korean'){
+						koreanHtml += '&nbsp;<img width="40px" height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					}else{
+						chineseHtml += '&nbsp;<img width="40px" height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					}
 				}
+				languageHtml = chineseHtml + koreanHtml;
 				$("#nationalFlag").html(languageHtml);
 				// 渲染口岸名称
 				$("#roleName").html(data.roleName);

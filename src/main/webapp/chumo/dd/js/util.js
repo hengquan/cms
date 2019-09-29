@@ -107,14 +107,16 @@ function getHomeData(tab, language) {
 				// 渲染站点语言
 				var languageHtml = "";
 				var languageList = data.languageList;
-				console.log(languageList);
+				var chineseHtml = "";
+				var koreanHtml = "";
 				for (var i = 0; i < languageList.length; i++) {
 					if(languageList[i].tab == 'Korean'){
-						languageHtml += '&nbsp;<img style="width:66px;height:25px;margin-right:10px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+						koreanHtml += '&nbsp;<img style="width:66px;height:25px;margin-right:10px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
 					}else{
-						languageHtml += '&nbsp;<img style="width:40px;height:25px;margin-right:10px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+						chineseHtml += '&nbsp;<img style="width:40px;height:25px;margin-right:10px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
 					}
 				}
+				languageHtml = chineseHtml + koreanHtml;
 				$("#nationalFlag").html(languageHtml);
 				// 渲染口岸名称
 				$("#roleName").html(data.roleName);
