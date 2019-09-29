@@ -11,6 +11,7 @@
 		<result column="languages" property="languages" jdbcType="VARCHAR" />
 		<result column="picUrl" property="picUrl" jdbcType="VARCHAR" />
 		<result column="isValidate" property="isvalidate" jdbcType="INTEGER" />
+		<result column="articleType" property="articleType" jdbcType="INTEGER" />
 		<result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
 		<result column="channelType" property="channeltype" jdbcType="INTEGER" />
 		<result column="moduleId" property="moduleId" jdbcType="VARCHAR" />
@@ -20,7 +21,7 @@
 	<sql id="Base_Column_List">
 		id, channelName, areaName, sort, descn,roleId,languages,
 		isValidate,
-		cTime,channelType,picUrl,moduleId,hrefUrl,parentId
+		cTime,channelType,picUrl,moduleId,hrefUrl,parentId,articleType
 	</sql>
 	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
@@ -79,6 +80,9 @@
 			<if test="parentId != null">
 				parentId,
 			</if>
+			<if test="articleType != null">
+				articleType,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -123,6 +127,9 @@
 			<if test="parentId != null">
 				#{parentId,jdbcType=VARCHAR},
 			</if>
+			<if test="articleType != null">
+				#{articleType,jdbcType=INTEGER},
+			</if>
 		</trim>
 	</insert>
 	<update id="update" parameterType="com.hj.web.entity.Channel">
@@ -166,6 +173,9 @@
 			</if>
 			<if test="parentId != null">
 				parentId = #{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="articleType != null">
+				articleType = #{articleType,jdbcType=INTEGER},
 			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}

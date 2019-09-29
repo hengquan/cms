@@ -146,7 +146,7 @@
 													value="${u.ctime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 											<td class="hidden-phone">
 												<button type="button"
-													onclick="edit('${u.id}','${u.channelname}','${u.areaname}','${u.descn}','${u.roleId }','${u.languages }','${u.picUrl }','${u.moduleId }','${u.hrefUrl }','${u.parentId }','${u.channeltype }')"
+													onclick="edit('${u.id}','${u.channelname}','${u.areaname}','${u.descn}','${u.roleId }','${u.languages }','${u.picUrl }','${u.moduleId }','${u.hrefUrl }','${u.parentId }','${u.channeltype }','${u.articleType }')"
 													class="btn btn-send thisEdit">修改频道</button> <a
 												href="javascript:doAddArticle('${u.id }','${channeltype }','${u.roleId }');"
 												class="btn btn-send">添加文章</a>
@@ -188,7 +188,7 @@
 														value="${newu.ctime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 												<td class="hidden-phone">
 													<button type="button"
-														onclick="edit('${newu.id}','${newu.channelname}','${newu.areaname}','${newu.descn}','${newu.roleId }','${newu.languages }','${newu.picUrl }','${newu.moduleId }','${newu.hrefUrl }','${newu.parentId }','${newu.channeltype }')"
+														onclick="edit('${newu.id}','${newu.channelname}','${newu.areaname}','${newu.descn}','${newu.roleId }','${newu.languages }','${newu.picUrl }','${newu.moduleId }','${newu.hrefUrl }','${newu.parentId }','${newu.channeltype }','${newu.articleType }')"
 														class="btn btn-send thisEdit">修改频道</button> <a
 													href="javascript:doAddArticle('${newu.id }','${channeltype }','${newu.roleId }');"
 													class="btn btn-send">添加文章</a>
@@ -311,6 +311,16 @@
 							<div class="col-lg-10">
 								<input type="text" class="form-control" id="hrefUrl"
 									name="hrefUrl" placeholder="请输入外链址,仅供前端使用">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-2 control-label pd-r5">展示方式<font
+								style="color: red;"></font></label>
+							<div class="col-lg-10">
+								<select id="articleType" name="articleType" class="form-control">
+									<option value="0" selected>图文混排</option>
+									<option value="1">文字列表</option>
+								</select>
 							</div>
 						</div>
 						<div id="selModule"></div>
@@ -439,7 +449,7 @@
 
 		//修改频道
 		function edit(id, channelname, areaname, descn, roleId, languages,
-				picUrl, moduleId, hrefUrl, parentId,channelType) {
+				picUrl, moduleId, hrefUrl, parentId,channelType,articleType) {
 			$("#thisChannelLanguage").html("");
 			$("#modal-title").val("修改频道");
 			//处理频道类型
@@ -485,6 +495,8 @@
 			addRolePage(roleId);
 			//处理所属模块
 			channelInModule(roleId);
+			//处理文章排列方式
+			$("#articleType").val(articleType);
 		}
 
 		//更新提交
