@@ -266,10 +266,12 @@ function getArticleList(articleType,channelId,channelName,channelHrefUrl,paramCh
 						}
 					}else{
 						for (var i = 0; i < dataList.length; i++) {
-							html += '<div class="col-md-3" style="padding-top: 5px; padding-bottom: 5px; text-align: left">'
-								+'<label style="margin-top: 10px;">'+dataList[i].articleName+'</label>'
-								+'</div>';
+							var createTime = dataList[i].createTime;
+							var time = new Date(createTime);
+							var birthday= time.getFullYear()+"年"+(parseInt(time.getMonth())+parseInt(1))+"月"+time.getDate()+"日";
+							html += '<li><a style="text-decoration: none" onclick=getArticle("'+dataList[i].id+'","'+dataList[i].articleName+'")>['+channelName+']&emsp;&emsp;'+dataList[i].articleName+'<span class="pull-right">['+birthday+']</span></a></li>';
 						}
+						html = '<ul style="font-size:20px">'+html+'</ul>';
 					}
 					$("#articleList").html(html);
 					//暂时不组分页
