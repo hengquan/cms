@@ -23,9 +23,11 @@ function openHome() {
 	//获取该站点的模块列表
 	getModuleList();
 	//获取首面的频道列表
-	getHomeChannelList();
+	//getHomeChannelList();
 	//处理首页频道下面显示的文章
-	getHomeArticleList();
+	//getHomeArticleList();
+	//获取该站点所有的文章
+	getArticleAllList();
 	//通知APP
 	messageAPP(window.sessionStorage.getItem("language"));
 }
@@ -342,6 +344,71 @@ function openArticleContent(articleId) {
 	window.location.href = "./content.html?articleId=" + articleId;
 }
 
+//获取该站点所有的文章列表
+function getArticleAllList(){
+	var nowPage = $("#nowPage").val();
+	var pageSize = $("#pageSize").val();
+	var roleId = window.sessionStorage.getItem("roleId");
+	var language = window.sessionStorage.getItem("language");
+	//请求数据
+	var data = {
+		"language" : language,
+		"nowPage" : nowPage,
+		"roleId" : roleId,
+		"pageSize" : pageSize
+	};
+	$.ajax({
+		type : 'post',
+		data : data,
+		url : '../../api/getArticleAllList',
+		dataType : 'json',
+		async : false,
+		success : function(data) {
+			console.log(data);
+			if (data.code == "200") {
+				//渲染首页频道列表
+				var html = "";
+				var dataList = data.dataList;
+				for (var i = 0; i < dataList.length; i++) {
+					var createTime = crtTimeFtt(dataList[i].createTime);
+					var picUrl = dataList[i].picUrl;
+					/*if(picUrl == "" || picUrl == null){
+						html += '<div class="oneArticle" onclick=openArticleContent("'
+							+ dataList[i].id
+							+ '")>'
+							+ '<div class="col-md-12 col-xs-12 col-sm-12" style="font-size: 16px;line-height:1.5;letter-spacing: 1px;">'
+							+ dataList[i].articleName
+							+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">发布于:'+createTime+'</p>'
+							+ '</div>'
+							+ '<div style="clear:both"></div>'
+							+ '</div><hr>';
+					}*/
+					if(picUrl !="" && picUrl != null){
+						html += '<div class="oneArticle" onclick=openArticleContent("'
+							+ dataList[i].id
+							+ '")>'
+							+ '<div class="col-md-7 col-xs-7 col-sm-7" style="font-size: 16px;line-height:1.5;letter-spacing: 1px;padding-right: 0px;">'
+							+ dataList[i].articleName
+							+ '</div>'
+							+ '<div class="col-md-5 col-xs-5 col-sm-5">'
+							+ '<img style="width:100%;height:90px" src="'+picUrl+'">'
+							+ '</div>'
+							+ '<div style="clear:both"></div>'
+							+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5;position: relative;left: 15px;bottom: 15px;">发布于:'+createTime+'</p>'
+							+ '</div><hr>';
+					}
+				}
+				$("#channelListData").html(html);
+				//组分页
+				compoundPage(data);
+			} else {
+				console.log(data.msg);
+			}
+		}
+	});
+}
+
+
 //获取文章列表根据频道ID
 function getArticleList() {
 	var nowPage = $("#nowPage").val();
@@ -589,7 +656,7 @@ function getModuleList() {
 				for (var i = 0; i < dataList.length; i++) {
 					html += '<span style="width:20%">'
 					+'<a href="#" onclick=gotoChannelPage("'+dataList[i].id+'")>'
-					+'<img style="width:75px;height:75px;border-radius:50%; overflow:hidden;" src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label style="word-break : break-all;overflow:hidden;">'+dataList[i].moduleName+'</label>'
+					+'<img style="width:60px;height:60px;border-radius:50%; overflow:hidden;" src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label style="word-break : break-all;overflow:hidden;">'+dataList[i].moduleName+'</label>'
 				  +'</a></span>';
 				}
 				$("#main_icon").html(html);

@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hj.web.mapping.ArticleMapper">
-	<resultMap id="BaseResultMap" type="com.hj.web.entity.Article">
+	<resultMap id="BaseResultMap"
+		type="com.hj.web.entity.Article">
 		<id column="id" property="id" jdbcType="VARCHAR" />
-		<result column="articleName" property="articleName" jdbcType="VARCHAR" />
-		<result column="articleType" property="articleType" jdbcType="VARCHAR" />
+		<result column="articleName" property="articleName"
+			jdbcType="VARCHAR" />
+		<result column="articleType" property="articleType"
+			jdbcType="VARCHAR" />
 		<result column="detail" property="detail" jdbcType="VARCHAR" />
 		<result column="isPush" property="isPush" jdbcType="INTEGER" />
 		<result column="source" property="source" jdbcType="VARCHAR" />
 		<result column="userId" property="userId" jdbcType="VARCHAR" />
 		<result column="picUrl" property="picUrl" jdbcType="VARCHAR" />
-		<result column="isComment" property="isComment" jdbcType="INTEGER" />
+		<result column="isComment" property="isComment"
+			jdbcType="INTEGER" />
 		<result column="keyword" property="keyword" jdbcType="VARCHAR" />
-		<result column="language" property="language" jdbcType="VARCHAR" />
+		<result column="language" property="language"
+			jdbcType="VARCHAR" />
 		<result column="collectionNum" property="collectionNum"
 			jdbcType="INTEGER" />
-		<result column="discussNum" property="discussNum" jdbcType="INTEGER" />
-		<result column="isValidate" property="isValidate" jdbcType="INTEGER" />
-		<result column="userName" property="userName" jdbcType="VARCHAR" />
-		<result column="partakeNum" property="partakeNum" jdbcType="INTEGER" />
+		<result column="discussNum" property="discussNum"
+			jdbcType="INTEGER" />
+		<result column="isValidate" property="isValidate"
+			jdbcType="INTEGER" />
+		<result column="userName" property="userName"
+			jdbcType="VARCHAR" />
+		<result column="partakeNum" property="partakeNum"
+			jdbcType="INTEGER" />
 		<result column="top" property="top" jdbcType="INTEGER" />
 		<result column="views" property="views" jdbcType="INTEGER" />
-		<result column="videoUrl" property="videoUrl" jdbcType="VARCHAR" />
-		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
-		<result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
-		<result column="article" property="article" jdbcType="LONGVARCHAR" />
-		<result column="relevancyId" property="relevancyId" jdbcType="VARCHAR" />
+		<result column="videoUrl" property="videoUrl"
+			jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime"
+			jdbcType="TIMESTAMP" />
+		<result column="updateTime" property="updateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="article" property="article"
+			jdbcType="LONGVARCHAR" />
+		<result column="relevancyId" property="relevancyId"
+			jdbcType="VARCHAR" />
 		<result column="sort" property="sort" jdbcType="INTEGER" />
 	</resultMap>
 	<sql id="Base_Column_List">
@@ -38,7 +52,8 @@
 		views, videoUrl, createTime,
 		updateTime,article,relevancyId,sort
 	</sql>
-	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.String">
+	<select id="get" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />
 		from cms_article
@@ -221,8 +236,12 @@
 			<if test="userId != null">
 				userId = #{userId,jdbcType=VARCHAR},
 			</if>
-			<if test="picUrl != null and picUrl != ''">
+			<if
+				test="picUrl != null and picUrl != '' and picUrl != 'clearImg' ">
 				picUrl = #{picUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="picUrl == 'clearImg'">
+				picUrl = '',
 			</if>
 			<if test="isComment != null">
 				isComment = #{isComment,jdbcType=INTEGER},
@@ -324,12 +343,14 @@
 		and
 		isValidate in ('0','1','2','3')
 	</select>
-	
-	<select id="getDataListByRelevancyIdAndMeId" resultMap="BaseResultMap">
+
+	<select id="getDataListByRelevancyIdAndMeId"
+		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from cms_article
-		where (relevancyId = #{id,jdbcType=VARCHAR} or id = #{id})
+		where (relevancyId = #{id,jdbcType=VARCHAR} or id =
+		#{id})
 		and
 		isValidate in ('0','1','2','3')
 	</select>
@@ -366,9 +387,10 @@
 		and picUrl != ""
 		and
 		instr(#{channelIds},articleType)
-		and 
+		and
 		language = #{language}
-		order by sort desc
+		order by sort
+		desc
 		limit
 		#{number}
 	</select>
@@ -378,7 +400,8 @@
 		instr(#{ids},id)
 	</update>
 
-	<select id="getDataListByChannelIdAndLanguage" resultMap="BaseResultMap">
+	<select id="getDataListByChannelIdAndLanguage"
+		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from cms_article
@@ -392,18 +415,59 @@
 		order by sort desc,createTime desc
 		limit #{page},#{pageSize}
 	</select>
-	
-	 <select id="getDataListByChannelIdAndLanguageCount" resultType="java.lang.Integer">
-    select
-    count(1) 
-    from cms_article
-    where isValidate in (0,1,2,3)
-    <if test="channelId != null and channelId != ''">
-      and instr(articleType, #{channelId,jdbcType=VARCHAR})
-    </if>
-    <if test="channelId != null and channelId != ''">
-      and language = #{language,jdbcType=VARCHAR}
-    </if>
-    order by sort desc,createTime desc
-  </select>
+
+	<select id="getDataListByChannelIdAndLanguageCount"
+		resultType="java.lang.Integer">
+		select
+		count(1)
+		from cms_article
+		where isValidate in (0,1,2,3)
+		<if test="channelId != null and channelId != ''">
+			and instr(articleType, #{channelId,jdbcType=VARCHAR})
+		</if>
+		<if test="channelId != null and channelId != ''">
+			and language = #{language,jdbcType=VARCHAR}
+		</if>
+		order by sort desc,createTime desc
+	</select>
+
+	<select id="getArticleAllList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cms_article
+		where isValidate in (0,1,2,3)
+		<if test="language != null and language != ''">
+			and language = #{language,jdbcType=VARCHAR}
+		</if>
+		order by sort desc,createTime desc
+		limit #{page},#{pageSize}
+	</select>
+
+	<select id="getArticleAllListCount"
+		resultType="java.lang.Integer">
+		select
+		count(1)
+		from cms_article
+		where isValidate in (0,1,2,3)
+		<if test="language != null and language != ''">
+			and language = #{language,jdbcType=VARCHAR}
+		</if>
+		order by sort desc,createTime desc
+	</select>
+
+	<select id="getArticleAllByRoleId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from cms_article
+		where isValidate in (0,1,2,3)
+		AND picUrl != ''
+		<if test="language != null and language != ''">
+			and language = #{language,jdbcType=VARCHAR}
+		</if>
+		<if test="roleId != null and roleId != ''">
+			and articleType in (SELECT id from cms_channel where roleId = #{roleId})
+		</if>
+		order by sort desc,createTime desc
+		limit #{page},#{pageSize}
+	</select>
 </mapper>

@@ -268,7 +268,7 @@ public class ArticleController extends ControllerBase {
 
 	// 删除文章
 	@RequestMapping(value = "/article/del")
-	public String delArticle(ModelMap model, Channel project) {
+	public String delArticle(ModelMap model) {
 		String channelType = getTrimParameter("channelType");
 		String articleType = getTrimParameter("articleType");
 		try {

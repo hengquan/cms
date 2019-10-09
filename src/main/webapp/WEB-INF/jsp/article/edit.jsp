@@ -99,7 +99,7 @@
 							</div>
 							<div style="margin-top: 16px; margin-left: 20px;" class="row">
 								<label class="btn col-lg-1">封面图片：</label>
-								<div class="controls">
+								<span class="controls col-lg-2">
 									<c:choose>
 										<c:when test="${empty article.picUrl }">
 											<img class="my-img" id="imgDJZS"
@@ -110,9 +110,11 @@
 												style="width: 200px; height: 150px;" />
 										</c:otherwise>
 									</c:choose>
+									<br>
 									<span id="titleDJZS"
-										style="margin-top: -30px; margin-left: -190px; color: #8e8e8e;">上传100*200缩略图,1M以内</span>
-								</div>
+										style="margin-top: -30px;color: #8e8e8e;">推荐(100*200),1M以下</span>
+								</span>
+								<span class="btn btn-danger col-lg-1" onclick="clearImg()" style="margin-left: -44px;width: 88px;margin-top: 115px;">删除图片</span>
 								<input type="hidden" id="picUrl" name="picUrl" />
 							</div>
 							<div style="margin-top: 16px; margin-left: 20px;" class="row">
@@ -383,6 +385,13 @@
            + "&itemId="
            + '${itemId}' + "&positionId=" + '${positionId}';
      }
+    
+    //清除图片
+    function clearImg(){
+    	$("#imgDJZS").removeAttr("src");
+    	//给清除的图片的添加一个默认值
+    	$("#picUrl").val("clearImg");
+    }
 	</script>
 </body>
 </html>

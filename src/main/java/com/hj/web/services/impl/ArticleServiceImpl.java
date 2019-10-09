@@ -221,4 +221,18 @@ public class ArticleServiceImpl implements ArticleService {
 		return dao.getDataListByRelevancyIdAndMeId(relevancyId);
 	}
 
+	public List<Article> getArticleAllList(Map<String, Object> result) {
+		return dao.getArticleAllList(result);
+	}
+
+	@Override
+	public int getArticleAllListCount(Map<String, Object> result) {
+		return dao.getArticleAllListCount(result);
+	}
+
+	@Override
+	public List<Article> getArticleAllByRoleId(Map<String, Object> result) {
+		return dao.getArticleAllByRoleId(result);
+	}
+
 }

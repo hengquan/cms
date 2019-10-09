@@ -739,4 +739,56 @@ public class CmsApiController extends ControllerBase {
 		result.put("data", channel);
 		return result;
 	}
+
+	/**
+	 * 获取全部文章列表
+	 * 
+	 * @author zhq
+	 * @return
+	 */
+	@RequestMapping("/getArticleAllList")
+	@ResponseBody
+	public Map<String, Object> getArticleAllList(PageService page) {
+		// 返回信息
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			// 语言标识
+			String language = getTrimParameter("language");
+			// 判断语言
+			if (StringUtils.isEmpty(language)) {
+				language = "Chinese";
+			}
+			// 站点ID
+			String roleId = getTrimParameter("roleId");
+			// 存页面起始位置信息
+			pageService.getPageLocation(page, result);
+			result.put("language", language);
+			result.put("roleId", roleId);
+			if (StringUtils.isNotEmpty(roleId)) {
+				// 根据站点ID获取该站点所有的文章列表
+				List<Article> articleList = articleService.getArticleAllByRoleId(result);
+				if (articleList != null && articleList.size() > 0) {
+					for (Article article : articleList) {
+						String picUrl = article.getPicUrl();
+						if (StringUtils.isNotEmpty(picUrl))
+							article.setPicUrl(path + picUrl);
+						// 获取内容中的图片
+						List<String> contentImgList = article.getContentImg();
+						contentImgList = getContentImg(article.getArticle());
+						article.setContentImg(contentImgList);
+					}
+				}
+				int articleListCount = articleService.getArticleAllListCount(result);
+				// 获取页面信息
+				pageService.getPageData(articleListCount, result, page);
+				result.put("code", "200");
+				result.put("dataList", articleList);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("code", "500");
+			result.put("msg", "系统错误,请联系管理员！");
+		}
+		return result;
+	}
 }
