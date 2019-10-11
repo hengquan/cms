@@ -502,8 +502,11 @@ function getArticle() {
 				}else{
 					var createTime = crtTimeFtt(data.createTime);
 					html += '<div class="col-md-12" style="font-size: 24px;">'+data.articleName+'</div>'
-					+'<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'+createTime+'&emsp;&emsp;分类：'+articleTypeName+'</div>'
-					+'<hr>'
+					+'<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'+createTime;
+					if(articleTypeName != null && articleTypeName != ''){
+						html += +'&emsp;&emsp;分类：'+articleTypeName+'</div>';
+					}
+					html += '<hr>'
 					+'<div class="col-md-12" style="font-size: 18px;">'+data.article+'</div>';
 					$(".articleContent").html(html);
 				}
@@ -536,7 +539,7 @@ function getModuleList() {
 				for (var i = 0; i < dataList.length; i++) {
 					html += '<span class="col-xs-3 col-lg-3 col-md-3">'
 					+'<a href="#" onclick=gotoChannelPage("'+dataList[i].id+'")>'
-					+'<img src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label>'+dataList[i].moduleName+'</label>'
+					+'<img src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label style="height:40px">'+dataList[i].moduleName+'</label>'
 				  +'</a></span>';
 				}
 				$("#main_icon").html(html);
