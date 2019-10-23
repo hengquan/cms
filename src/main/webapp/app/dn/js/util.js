@@ -84,7 +84,11 @@ function getHomeData(tab, language) {
 				var languageHtml = "";
 				var languageList = data.languageList;
 				for (var i = 0; i < languageList.length; i++) {
-					languageHtml += '&nbsp;<img width="40px" height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					if(languageList[i].tab == "Chinese"){
+						languageHtml += '&nbsp;<img width="40px" height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					}else if(languageList[i].tab == "Russian"){
+						languageHtml += '&nbsp;<img width="100px" height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					}
 				}
 				$("#nationalFlag").html(languageHtml);
 				// 渲染口岸名称
