@@ -107,9 +107,16 @@ function getHomeData(tab, language) {
 				// 渲染站点语言
 				var languageHtml = "";
 				var languageList = data.languageList;
+				var chineseHtml = "";
+				var koreanHtml = "";
 				for (var i = 0; i < languageList.length; i++) {
-					languageHtml += '&nbsp;<img width="40px" height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					if(languageList[i].tab == 'Russian'){
+						koreanHtml += '&nbsp;<img style="width:110px;height:25px;margin-right:10px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					}else{
+						chineseHtml += '&nbsp;<img style="width:40px;height:25px;margin-right:10px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					}
 				}
+				languageHtml = chineseHtml + koreanHtml;
 				$("#nationalFlag").html(languageHtml);
 				// 渲染口岸名称
 				$("#roleName").html(data.roleName);
@@ -251,10 +258,17 @@ function getArticleList(channelId,channelName,channelHrefUrl,paramChannel) {
 					var html = "";
 					var dataList = data.dataList;
 					for (var i = 0; i < dataList.length; i++) {
-						html += '<div class="col-md-3" style="padding-top: 5px; padding-bottom: 5px; text-align: center">'
-							+'<img width="100%" height="100%" onclick=getArticle("'+dataList[i].id+'","'+dataList[i].articleName+'") src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br>' 
-							+'<label style="margin-top: 10px;">'+dataList[i].articleName+'</label>'
-							+'</div>';
+						if(channelName == "影视剧场"){
+							html += '<div class="col-md-3" style="padding-top: 5px; padding-bottom: 5px; text-align: center">'
+								+'<img width="200px" height="300px" onclick=getArticle("'+dataList[i].id+'","'+dataList[i].articleName+'") src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br>' 
+								+'<label style="margin-top: 10px;">'+dataList[i].articleName+'</label>'
+								+'</div>';
+						}else{
+							html += '<div class="col-md-3" style="padding-top: 5px; padding-bottom: 5px; text-align: center">'
+								+'<img width="341px" height="256px" onclick=getArticle("'+dataList[i].id+'","'+dataList[i].articleName+'") src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br>' 
+								+'<label style="margin-top: 10px;">'+dataList[i].articleName+'</label>'
+								+'</div>';
+						}
 					}
 					$("#articleList").html(html);
 					//暂时不组分页
@@ -364,7 +378,7 @@ function getChannelList(object) {
 						var dataList = data.dataList;
 						console.log(dataList);
 						for (var i = 0; i < dataList.length; i++) {
-							html += '<label class="btn" style="color: #fefefe; font-size: 22px;"><b style="white-space: normal;">'+dataList[i].channelname+'</b></label>'
+							html += '<label class="btn" style="color: #fefefe; font-size: 20px;margin-left: -10px;text-align: left;"><b style="white-space: normal;">'+dataList[i].channelname+'</b></label>'
 							+'<ul class="nav nav-pills nav-stacked">';
 							var ziChannelList = dataList[i].channelList;
 							if(ziChannelList != null){
@@ -454,10 +468,19 @@ function getModuleList() {
 		dataType : 'json',
 		async : false,
 		success : function(data) {
+			var resultValue = "";
+			var homeValue = "";
+			if(language=="Chinese"){
+				resultValue = "返回上页";
+				homeValue = "返回首页";
+			}else if(language=="Russian"){
+				resultValue = "возвращение";
+				homeValue = "дома";
+			}
 			if (data.code == "200") {
 				var html = '<li role="presentation" class="active" moduleId="goHomePage"'
 					+'onclick="getChannelList(this)"><a href="#">'
-					+'<img height="35px" src="img/home.jpg" alt=""><br> <label>返回首页</label></a></li>';
+					+'<img height="35px" src="img/home.jpg" alt=""><br> <label>'+ homeValue +'</label></a></li>';
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
 					html += '<li role="presentation" class="" moduleId="'+dataList[i].id+'" moduleName="'+dataList[i].moduleName+'"'
@@ -466,7 +489,7 @@ function getModuleList() {
 				}
 				html += '<li role="presentation" class="" moduleId="goBeforePage" id="goBeforePage"'
 					+'onclick="getChannelList(this)">'
-					+'<img height="35px" src="img/return.jpg" alt=""><br> <label>返回上页</label></li>';
+					+'<img height="35px" src="img/return.jpg" alt=""><br> <label>'+ resultValue +'</label></li>';
 				$("#moduleList").html(html);
 			} else {
 				console.log(data.msg);

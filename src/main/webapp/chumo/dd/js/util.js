@@ -259,17 +259,21 @@ function getArticleList(articleType,channelId,channelName,channelHrefUrl,paramCh
 					var dataList = data.dataList;
 					if(articleType == 0){
 						for (var i = 0; i < dataList.length; i++) {
+							var articleId = dataList[i].id;
+							var articleName = dataList[i].articleName;
 							html += '<div class="col-md-3" style="padding-top: 5px; padding-bottom: 5px; text-align: center">'
-								+'<img width="100%" height="100%" onclick=getArticle("'+dataList[i].id+'","'+dataList[i].articleName+'") src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br>' 
+								+'<img articleId="'+ articleId +'" articleName="'+ articleName +'" width="100%" height="100%" onclick=getArticle(this) src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br>' 
 								+'<label style="margin-top: 10px;">'+dataList[i].articleName+'</label>'
 								+'</div>';
 						}
 					}else{
 						for (var i = 0; i < dataList.length; i++) {
+							var articleId = dataList[i].id;
+							var articleName = dataList[i].articleName;
 							var createTime = dataList[i].createTime;
 							var time = new Date(createTime);
 							var birthday= time.getFullYear()+"年"+(parseInt(time.getMonth())+parseInt(1))+"月"+time.getDate()+"日";
-							html += '<li><a style="text-decoration: none" onclick=getArticle("'+dataList[i].id+'","'+dataList[i].articleName+'")>['+channelName+']&emsp;&emsp;'+dataList[i].articleName+'<span class="pull-right">['+birthday+']</span></a></li>';
+							html += '<li><a articleId="'+ articleId +'" articleName="'+ articleName +'" style="text-decoration: none" onclick=getArticle(this)>['+channelName+']&emsp;&emsp;'+dataList[i].articleName+'<span class="pull-right">['+birthday+']</span></a></li>';
 						}
 						html = '<ul style="font-size:20px">'+html+'</ul>';
 					}
@@ -413,7 +417,9 @@ function getChannelList(object) {
 }
 
 //获取文章内容根据文章ID
-function getArticle(articleId,articleName) {
+function getArticle(obj) {
+	var articleId = $(obj).attr("articleId");
+	var articleName = $(obj).attr("articleName");
 	var language = window.sessionStorage.getItem("language");
 	//请求数据
 	var data = {

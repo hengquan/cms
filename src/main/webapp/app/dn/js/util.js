@@ -392,14 +392,18 @@ function getArticleAllList(){
 							+ dataList[i].id
 							+ '")>'
 							+ '<div class="col-md-7 col-xs-7 col-sm-7" style="font-size: 16px;line-height:1.5;letter-spacing: 1px;padding-right: 0px;">'
+							+ '<p style="word-wrap: break-word;">'
 							+ dataList[i].articleName
+							+ '</p>'
+							+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5;">发布于:'+createTime+'</p>'
 							+ '</div>'
 							+ '<div class="col-md-5 col-xs-5 col-sm-5">'
-							+ '<img style="width:100%;height:90px" src="'+picUrl+'">'
+							+ '<img style="width:100%;height:90px;margin-bottom: 10px;" src="'+picUrl+'">'
 							+ '</div>'
-							+ '<div style="clear:both"></div>'
-							+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5;position: relative;left: 15px;bottom: 15px;">发布于:'+createTime+'</p>'
 							+ '</div><hr>';
+							/*+ '<div style="clear:both"></div>'
+							+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5;position: relative;left: 15px;bottom: 15px;">发布于:'+createTime+'</p>'
+							+ '</div><hr>';*/
 					}
 				}
 				$("#channelListData").html(html);

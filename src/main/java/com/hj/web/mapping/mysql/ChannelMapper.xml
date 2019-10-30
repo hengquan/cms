@@ -268,7 +268,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from cms_channel
-		where roleId = #{roleId} and isValidate=1 and parentId = 0 
+		where roleId = #{roleId} and isValidate=1 and parentId = "0" 
 		<if test="moduleId != '' and moduleId!=null ">
 			and instr(moduleId,#{moduleId})
 		</if>

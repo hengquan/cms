@@ -182,7 +182,7 @@
 												<td class="hidden-phone"><input type="number"
 													class="btn"
 													style="width: 100px; border: 1px solid #ddd; text-align: left;"
-													value="${u.sort }" wzid="${u.id }"
+													value="${newu.sort }" wzid="${newu.id }"
 													onchange="updateSort(this)"></td>
 												<td class="hidden-phone"><fmt:formatDate
 														value="${newu.ctime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>

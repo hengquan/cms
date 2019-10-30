@@ -350,8 +350,10 @@ function openArticleContent(articleId) {
 }
 
 //获取文章列表根据频道ID
-function getArticleList() {
-	var nowPage = $("#nowPage").val();
+function getArticleList(nowPage) {
+	if(nowPage == 0){
+		nowPage = $("#nowPage").val();
+	}
 	var pageSize = $("#pageSize").val();
 	var channelId = $("#channelId").val();
 	var language = window.sessionStorage.getItem("language");
@@ -429,14 +431,22 @@ function getArticleList() {
 						}
 					}
 				}
-				$(".articleContent").html(html);
+				$(".articleContent").append(html);
 				//组分页
-				compoundPage(data);
+				//compoundPage(data);
 			} else {
 				console.log(data.msg);
 			}
 		}
 	});
+}
+
+//加载更多
+function loadMany(){
+	var nowPage = $("#nowPage").val();
+	nowPage = parseInt(nowPage) + 1;
+	//加载内容
+	getArticleList(nowPage);
 }
 
 //组分页

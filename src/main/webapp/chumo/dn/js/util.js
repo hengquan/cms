@@ -110,8 +110,8 @@ function getHomeData(tab, language) {
 				var chineseHtml = "";
 				var koreanHtml = "";
 				for (var i = 0; i < languageList.length; i++) {
-					if(languageList[i].tab == 'Korean'){
-						koreanHtml += '&nbsp;<img style="width:66px;height:25px;margin-right:10px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					if(languageList[i].tab == 'Russian'){
+						koreanHtml += '&nbsp;<img style="width:110px;height:25px;margin-right:10px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
 					}else{
 						chineseHtml += '&nbsp;<img style="width:40px;height:25px;margin-right:10px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
 					}
@@ -259,17 +259,21 @@ function getArticleList(articleType,channelId,channelName,channelHrefUrl,paramCh
 					var dataList = data.dataList;
 					if(articleType == 0){
 						for (var i = 0; i < dataList.length; i++) {
+							var articleId = dataList[i].id;
+							var articleName = dataList[i].articleName;
 							html += '<div class="col-md-3" style="padding-top: 5px; padding-bottom: 5px; text-align: center">'
-								+'<img width="100%" height="100%" onclick=getArticle("'+dataList[i].id+'","'+dataList[i].articleName+'") src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br>' 
+								+'<img articleId="'+ articleId +'" articleName="'+ articleName +'" width="100%" height="100%" onclick=getArticle(this) src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br>' 
 								+'<label style="margin-top: 10px;">'+dataList[i].articleName+'</label>'
 								+'</div>';
 						}
 					}else{
 						for (var i = 0; i < dataList.length; i++) {
+							var articleId = dataList[i].id;
+							var articleName = dataList[i].articleName;
 							var createTime = dataList[i].createTime;
 							var time = new Date(createTime);
 							var birthday= time.getFullYear()+"年"+(parseInt(time.getMonth())+parseInt(1))+"月"+time.getDate()+"日";
-							html += '<li><a style="text-decoration: none" onclick=getArticle("'+dataList[i].id+'","'+dataList[i].articleName+'")>['+channelName+']&emsp;&emsp;'+dataList[i].articleName+'<span class="pull-right">['+birthday+']</span></a></li>';
+							html += '<li><a articleId="'+ articleId +'" articleName="'+ articleName +'" style="text-decoration: none" onclick=getArticle(this)>['+channelName+']&emsp;&emsp;'+dataList[i].articleName+'<span class="pull-right">['+birthday+']</span></a></li>';
 						}
 						html = '<ul style="font-size:20px">'+html+'</ul>';
 					}
@@ -413,7 +417,9 @@ function getChannelList(object) {
 }
 
 //获取文章内容根据文章ID
-function getArticle(articleId,articleName) {
+function getArticle(obj) {
+	var articleId = $(obj).attr("articleId");
+	var articleName = $(obj).attr("articleName");
 	var language = window.sessionStorage.getItem("language");
 	//请求数据
 	var data = {
@@ -470,9 +476,9 @@ function getModuleList() {
 			if(language=="Chinese"){
 				resultValue = "返回上页";
 				homeValue = "返回首页";
-			}else if(language=="Korean"){
-				resultValue = "이전";
-				homeValue = "홈페이지";
+			}else if(language=="Russian"){
+				resultValue = "возвращение";
+				homeValue = "дома";
 			}
 			if (data.code == "200") {
 				var html = '<li role="presentation" class="active" moduleId="goHomePage"'

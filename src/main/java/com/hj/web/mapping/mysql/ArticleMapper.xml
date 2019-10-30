@@ -456,18 +456,21 @@
 	</select>
 
 	<select id="getArticleAllByRoleId" resultMap="BaseResultMap">
-		select
+		SELECT
 		<include refid="Base_Column_List" />
-		from cms_article
-		where isValidate in (0,1,2,3)
+		FROM
+		cms_article
+		WHERE
+		isValidate IN (0, 1, 2, 3)
 		AND picUrl != ''
 		<if test="language != null and language != ''">
 			and language = #{language,jdbcType=VARCHAR}
 		</if>
 		<if test="roleId != null and roleId != ''">
-			and articleType in (SELECT id from cms_channel where roleId = #{roleId})
+			AND userId = (SELECT userId from cms_userrole where roleId = #{roleId})
 		</if>
-		order by sort desc,createTime desc
+		ORDER BY
+		createTime DESC
 		limit #{page},#{pageSize}
 	</select>
 </mapper>
