@@ -1,3 +1,6 @@
+//全局变量
+var contentHtmlArticle = "";
+
 //html获取链接上面的参数
 function getQueryString(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -24,8 +27,8 @@ function openHome() {
 	getModuleList();
 	//获取首面的频道列表
 	//getHomeChannelList();
-	//处理首页频道下面显示的文章
-	//getHomeArticleList();
+	//处理首页视频新闻频道下面显示的文章
+	getHomeArticleList();
 	//获取该站点所有的文章
 	getArticleAllList();
 	//通知APP
@@ -275,55 +278,40 @@ function getHomeChannelList() {
 
 // 处理首页频道下面显示的文章
 function getHomeArticleList() {
-	$("#channelListData .row").each(function(index, obj) {
-		var theChannelList = $(obj).find(".theChannelList");
-		var channelId = $(obj).find(".channelId").val();
-		var articleNumber = $(obj).find(".articleNumber").val();
-		var language = window.sessionStorage.getItem("language");
-		$.ajax({
-			type : 'post',
-			data : {
-				"language" : language,
-				"channelId" : channelId,
-				"pageSize" : articleNumber
-			},
-			url : '../../api/getArticleList',
-			dataType : 'json',
-			async : false,
-			success : function(data) {
-				if (data.code == "200") {
-					// 渲染首页频道列表
-					var html = "";
-					var dataList = data.dataList;
-					for (var i = 0; i < dataList.length; i++) {
-						if ((index + 1) % 2 == 0) {
-							html += '<span class="col-xs-4 col-lg-4 col-md-4" style="padding-right: 2px;padding-left: 2px;">'
-									+ '<a href="#" onclick=openArticleContent("'
-									+ dataList[i].id
-									+ '")>'
-									+ '<img src="'
-									+ dataList[i].picUrl
-									+ '" width="100%" alt="" onerror="excptionUrl(this)"><br>'
-									+ '<div class="imgText">'
-									+ dataList[i].articleName
-									+ '</div>'
-									+ '</a>'
-									+ '</span>';
-						} else {
-							html += '<li><a href="#" onclick=openArticleContent("'
-									+ dataList[i].id
-									+ '")>'
-									+ dataList[i].articleName
-									+ '</a></li>';
-						}
-					}
-					theChannelList.html(html);
-				} else {
-					console.log(data.msg);
+	var videoDiv = $(".theVideoList");
+	var channelId = $(".videoChannelId").val();
+	var videoNumber = $(".videoNumber").val();
+	var language = window.sessionStorage.getItem("language");
+	$.ajax({
+		type : 'post',
+		data : {
+			"language" : language,
+			"channelId" : channelId,
+			"pageSize" : videoNumber
+		},
+		url : '../../api/getArticleList',
+		dataType : 'json',
+		async : false,
+		success : function(data) {
+			console.log(data);
+			if (data.code == "200") {
+				// 渲染首页频道列表
+				var html = "";
+				var dataList = data.dataList;
+				for (var i = 0; i < dataList.length; i++) {
+					html += '<span class="col-xs-4 col-lg-4 col-md-4" style="padding-right: 4px;padding-left: 4px;">'
+					+'<a href="#" onclick=openArticleContent("'+ dataList[i].id +'")>'
+					+'<img class="img-rounded" src="'+ dataList[i].picUrl +'" width="100%" alt="" onerror="excptionUrl(this)"><br>'
+					+'<div class="imgText" style="padding: 5px;">'+ dataList[i].articleName +'</div>'
+					+'</a>'
+					+'</span>';
 				}
+				videoDiv.html(html);
+			} else {
+				console.log(data.msg);
 			}
-		});
-	})
+		}
+	});
 }
 
 // 处理访问不到的图片给个默认图
@@ -359,61 +347,86 @@ function getArticleAllList(){
 		"language" : language,
 		"nowPage" : nowPage,
 		"roleId" : roleId,
-		"pageSize" : pageSize
+		"pageSize" : 1000
 	};
 	$.ajax({
 		type : 'post',
 		data : data,
 		url : '../../api/getArticleAllList',
+		async: false,
 		dataType : 'json',
 		async : false,
 		success : function(data) {
 			console.log(data);
 			if (data.code == "200") {
-				//渲染首页频道列表
+				//清空
+				contentHtmlArticle = "";
+				// 渲染首页频道列表
 				var html = "";
 				var dataList = data.dataList;
+				var numIndex = 1;
 				for (var i = 0; i < dataList.length; i++) {
 					var createTime = crtTimeFtt(dataList[i].createTime);
 					var picUrl = dataList[i].picUrl;
-					/*if(picUrl == "" || picUrl == null){
-						html += '<div class="oneArticle" onclick=openArticleContent("'
-							+ dataList[i].id
-							+ '")>'
-							+ '<div class="col-md-12 col-xs-12 col-sm-12" style="font-size: 16px;line-height:1.5;letter-spacing: 1px;">'
-							+ dataList[i].articleName
-							+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">发布于:'+createTime+'</p>'
-							+ '</div>'
-							+ '<div style="clear:both"></div>'
-							+ '</div><hr>';
-					}*/
-					if(picUrl !="" && picUrl != null){
-						html += '<div class="oneArticle" onclick=openArticleContent("'
-							+ dataList[i].id
-							+ '")>'
-							+ '<div class="col-md-7 col-xs-7 col-sm-7" style="font-size: 16px;line-height:1.5;letter-spacing: 1px;padding-right: 0px;">'
-							+ '<p style="word-wrap: break-word;">'
-							+ dataList[i].articleName
-							+ '</p>'
-							+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5;">发布于:'+createTime+'</p>'
-							+ '</div>'
-							+ '<div class="col-md-5 col-xs-5 col-sm-5">'
-							+ '<img style="width:100%;height:90px;margin-bottom: 10px;" src="'+picUrl+'">'
-							+ '</div>'
-							+ '</div><hr>';
-							/*+ '<div style="clear:both"></div>'
-							+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5;position: relative;left: 15px;bottom: 15px;">发布于:'+createTime+'</p>'
-							+ '</div><hr>';*/
+					var contentImgList = dataList[i].contentImg;
+					if(numIndex % 5 != 0){
+						if(picUrl !="" && picUrl != null){
+							html1(createTime,picUrl,contentImgList,dataList[i]);
+							numIndex ++;
+						}
+					}else{
+						if(contentImgList !=null && contentImgList.length > 2){
+							html2(createTime,picUrl,contentImgList,dataList[i]);
+							numIndex ++;
+						}
 					}
 				}
-				$("#channelListData").html(html);
-				//组分页
-				compoundPage(data);
+				$("#channelListData").html(contentHtmlArticle);
 			} else {
 				console.log(data.msg);
 			}
 		}
 	});
+}
+
+//第一种版式
+function html1(createTime,picUrl,contentImgList,data){
+	var html = '<div class="oneArticle" onclick=openArticleContent("'
+		+ data.id
+		+ '")>'
+		+ '<div class="col-md-7 col-xs-7 col-sm-7" style="font-size: 16px;line-height:1.5;letter-spacing: 1px;padding-right: 0px;">'
+		+ '<p style="word-wrap: break-word;">'
+		+ data.articleName
+		+ '</p>'
+		+ '</div>'
+		+ '<div class="col-md-5 col-xs-5 col-sm-5">'
+		+ '<img style="width:100%;height:90px;margin-bottom: 10px;" src="'+picUrl+'">'
+		+ '</div>'
+		+ '<p style="color: #06b705;position: relative;bottom: 30px;">'
+		+ '<img class="btn" src="img/icon.png" style="width: 110px;height: auto;">'
+		+ '<span class="btn" style="margin-left: -23px;font-size: 13px;margin-top: 2.5px;">'+createTime+'</span></p>'
+		+ '</div><hr style="margin-top: -33px;">';
+		contentHtmlArticle += html;
+}
+
+//第二种版式
+function html2(createTime,picUrl,contentImgList,data){
+	var html = '<div style="font-size: 16px;line-height: 1.5;letter-spacing: 1px;padding-right: 0px;">'
+		+'<a href="#" onclick=openArticleContent("'+data.id+'")>'
+		+'<p class="col-xs-12 col-lg-12 col-md-12" style="margin-bottom: 8px;">'+data.articleName+'</p><br>';
+	for(var y=0;y<contentImgList.length;y += 1){
+		if(y>2)
+			break;
+		html += '<span class="col-xs-4 col-lg-4 col-md-4" style="padding-right:5px;padding-left:5px">'
+	  +'<img style="width:100%;height:80px" src="'+contentImgList[y]+'" alt="" onerror="excptionUrl(this)"></span>'; 
+	}
+	html += '</a></div>'
+		+ '<p style="color: #06b705;position: relative;bottom: -1px;">'
+		+ '<img class="btn" src="img/icon.png" style="width: 110px;height: auto;">'
+		+ '<span class="btn" style="margin-left: -23px;font-size: 13px;margin-top: 2.5px;">'+createTime+'</span></p>'
+		+'<div style="clear: both"></div>'
+		+'<div class="line"></div><hr style="margin-top: 0px;">';
+	contentHtmlArticle += html;
 }
 
 

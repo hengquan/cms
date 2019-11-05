@@ -264,12 +264,12 @@ function getArticleList(articleType,channelId,channelName,channelHrefUrl,paramCh
 							if(channelName == "影视剧场" || channelName == 'Фильмы и телевидение'){
 								html += '<div class="col-md-3" style="padding-top: 5px; padding-bottom: 5px; text-align: center">'
 									+'<img articleId="'+ articleId +'" articleName="'+ articleName +'" width="200px" height="300px" onclick=getArticle(this) src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br>' 
-									+'<label style="margin-top: 10px;">'+dataList[i].articleName+'</label>'
+									+'<label style="margin-top: 10px;height: 40px;">'+dataList[i].articleName+'</label>'
 									+'</div>';
 							}else{
 								html += '<div class="col-md-3" style="padding-top: 5px; padding-bottom: 5px; text-align: center">'
 									+'<img articleId="'+ articleId +'" articleName="'+ articleName +'" width="341px" height="256px" onclick=getArticle(this) src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br>' 
-									+'<label style="margin-top: 10px;">'+dataList[i].articleName+'</label>'
+									+'<label style="margin-top: 10px;height: 40px;">'+dataList[i].articleName+'</label>'
 									+'</div>';
 							}
 						}

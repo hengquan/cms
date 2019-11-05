@@ -44,12 +44,12 @@
 }
 
 .imgText {
-	left: 0;
-	position: relative;
-	background-color: #000;
-	color: white;
-	opacity: 0.75;
-	width: 100%;
+    text-align: center;
+    left: 0;
+    position: relative;
+    color: #0a0a0a;
+    opacity: 0.75;
+    width: 100%;
 }
 
 #contentTitle {
@@ -112,8 +112,24 @@
 			</div>
 		</div>
 		<div style="clear: both;"></div>
+		<div class="row" id="videoDiv" style="background: #fefefe; margin-top: 5px">
+			<div class="col-md-12" style="padding-right: 4px;padding-left: 4px;margin-bottom: -8px;">
+				<p style="font-size: 17px;" class="col-md-6 btn thisHomeVideo">
+					视频新闻
+				</p> 
+				<label class="col-md-6 pull-right btn">
+				<a href="#" onclick="openArticleList('3A410147FFA8016949A70DBC09B0E8E7')"><span class="glyphicon glyphicon-list"></span>&nbsp;更多</a></label>
+			</div>
+			<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left; margin-top: 5px;padding-right: 4px;padding-left: 4px;">
+				<input type="hidden" class="videoNumber" value="3">
+				<input type="hidden" class="videoChannelId" value="3A410147FFA8016949A70DBC09B0E8E7">
+				<div class="theVideoList">
+				</div>
+			</div>
+		</div>
+		<div style="clear: both;"></div>
 		<div class="row" id="main_icon"
-			style="background: #fefefe; margin-top: 5px"></div>
+			style="background: #fefefe; margin-top: 5px;padding-top: 3px;"></div>
 		<div style="clear: both;"></div>
 		<input type="hidden" id="channelNumber" value="3">
 		<div class="row" id="channelListData"></div>
