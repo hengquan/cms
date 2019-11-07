@@ -54,6 +54,11 @@
 									<select name="roleId" id="roleId" class="btn"
 										style="border: 1px solid #ddd" onchange="selectDataList()"></select>
 								</div>
+								<div style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
+									<select name="selLanguage" id="selLanguage" class="btn"
+										style="border: 1px solid #ddd" onchange="selectDataList()">
+										</select>
+								</div>
 								<div
 									style="float: left; position: relative; margin-top: 16px; margin-left: 20px;">
 									<a href="javascript:doRefresh();" class="btn mini btn-white"><i
@@ -102,10 +107,10 @@
 											<td class="hidden-phone"><c:choose>
 													<c:when test="${empty u.picUrl }">
 														<img src="${appRoot }/static/img/zanwu1.png"
-															style="height: 50px;">
+															style="width:80px;height: 50px;">
 													</c:when>
 													<c:otherwise>
-														<img src="${u.picUrl }" style="height: 50px;">
+														<img src="${u.picUrl }" style="width:80px;height: 50px;">
 													</c:otherwise>
 												</c:choose></td>
 											<td class="hidden-phone">${u.articleName}</td>
@@ -294,6 +299,8 @@
 			if ('${role.logogram }' != '0') {
 				$("#thisRole").hide();
 			}
+			//加载一些东西
+			selectLanguage();
 		});
 
 		function doRefresh() {
@@ -373,7 +380,42 @@
 			window.location.href = "${appRoot }/article/save?articleType="
 					+ articleType + "&channelType=" + channelType + "&itemId="
 					+ '${itemId}' + "&positionId=" + '${positionId}' + "&id="
-					+ id + "&sort=" + sort;
+					+ id + "&sort=" + sort + "&roleId=" + '${roleId }';
+		}
+		
+		//加载该站点的所有语言
+		function selectLanguage(){
+			//所选 语言
+			var selLanguage = '${thisSelLanguage}';
+			//站点ID
+			var roleId = '${roleId}';
+			$.ajax({
+				type : 'post',
+				data : {"roleId":roleId},
+				url : '${appRoot}/api/getRoleLanguage',
+				dataType : 'json',
+				success : function(data) {
+					console.log("----------------------------------");
+					console.log(data);
+					console.log("----------------------------------");
+					if (data.code == "200") {
+						var html = '<option value="">全部文章</option>';
+						var languageList = data.languageList;
+						for (var i = 0; i < languageList.length; i++) {
+							if(selLanguage == languageList[i].val){
+								html += '<option selected value="'+ languageList[i].val +'">'
+								+ languageList[i].key
+								+ '文章</option>'
+							}else{
+								html += '<option value="'+ languageList[i].val +'">'
+								+ languageList[i].key
+								+ '文章</option>'
+							}
+						}
+					}
+					$("#selLanguage").html(html);
+				}
+			});
 		}
 	</script>
 </body>

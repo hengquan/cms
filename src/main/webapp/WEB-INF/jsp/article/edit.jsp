@@ -303,6 +303,7 @@
         url : '${appRoot}/channel/getDataByUrserRole',
         dataType : 'json',
         success : function(data) {
+        	console.log(data);
           if (data.msg == 0) {
             var html = "";
             var app = data.app;
@@ -311,7 +312,7 @@
             var h5 = data.h5;
             if(h5 != null && h5 != undefined && h5.length>0){
             	 html += '<div style="margin-top: 16px; margin-left: 20px;" class="row">'
-                    +'<label class="btn col-lg-1">H5：</label>'
+                    +'<label class="btn col-lg-1">WiFi：</label>'
                     +'<select  class="btn col-lg-10 channelIds" style="border: 1px solid #ddd;">'
                     +'<option value="">--请选择频道--</option>';
                for(var i=0;i<h5.length;i++){

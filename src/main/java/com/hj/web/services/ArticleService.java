@@ -16,7 +16,7 @@ public interface ArticleService {
 
 	public void del(String id);
 
-	public Boolean save(Article entity, UserInfo userInfo) throws Exception;
+	public Boolean save(Article entity, UserInfo userInfo,String roleId) throws Exception;
 
 	public Article get(String id);
 

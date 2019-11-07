@@ -56,6 +56,8 @@ public class ArticleController extends ControllerBase {
 		String channelType = getTrimParameter("channelType");
 		// 站点ID
 		String roleId = getTrimParameter("roleId");
+		// 语言标识
+		String language = getTrimParameter("selLanguage");
 		// 判断当前用户是啥级别的
 		UserInfo userInfo = super.getUserInfo();
 		if (userInfo != null) {
@@ -89,6 +91,8 @@ public class ArticleController extends ControllerBase {
 			} else {
 				map.put("articleType", "");
 			}
+			//存语言
+			map.put("language", language);
 			// 获取所有文章信息
 			List<Article> articleList = articleService.getDataList(map);
 			if (articleList != null && articleList.size() > 0) {
@@ -134,6 +138,7 @@ public class ArticleController extends ControllerBase {
 			model.addAttribute("articleType", articleType);
 			model.addAttribute("channelType", channelType);
 			model.addAttribute("roleId", roleId);
+			model.addAttribute("thisSelLanguage", language);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -242,13 +247,14 @@ public class ArticleController extends ControllerBase {
 	// 编辑文章
 	@RequestMapping(value = "/article/save")
 	public String addArticle(ModelMap model, Article article) {
+		String roleId = getTrimParameter("roleId");
 		String channelType = getTrimParameter("channelType");
 		String articleType = article.getArticleType();
 		try {
 			Object obj = request.getSession().getAttribute("adminSession");
 			if (null != obj) {
 				UserInfo userInfo = (UserInfo) obj;
-				articleService.save(article, userInfo);
+				articleService.save(article, userInfo,roleId);
 			} else {
 				return "{\"code\":\"error\"}";
 			}
@@ -261,7 +267,6 @@ public class ArticleController extends ControllerBase {
 		String positionId = getTrimParameter("positionId");
 		model.addAttribute("itemId", itemId);
 		model.addAttribute("positionId", positionId);
-		String roleId = getTrimParameter("roleId");
 		model.addAttribute("roleId", roleId);
 		return "redirect:getDataList";
 	}

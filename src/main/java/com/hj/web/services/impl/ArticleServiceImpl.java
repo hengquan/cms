@@ -10,10 +10,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import com.hj.web.entity.Article;
+import com.hj.web.entity.SysRole;
 import com.hj.web.entity.UserInfo;
 import com.hj.web.mapping.ArticleMapper;
 import com.hj.web.services.ArticleService;
 import com.hj.web.services.IKeyGen;
+import com.hj.web.services.SysRoleService;
 
 @Component
 public class ArticleServiceImpl implements ArticleService {
@@ -22,6 +24,8 @@ public class ArticleServiceImpl implements ArticleService {
 	private ArticleMapper dao;
 	@Resource
 	private IKeyGen keyGen;
+	@Resource
+	private SysRoleService roleService;
 
 	@Override
 	public boolean insert(Article entity) throws Exception {
@@ -47,14 +51,21 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public Boolean save(Article entity, UserInfo userInfo) throws Exception {
+	public Boolean save(Article entity, UserInfo userInfo, String roleId) throws Exception {
+		String roleName = "";
+		SysRole role = roleService.findById(roleId);
+		if (role != null) {
+			roleName = role.getRoleName();
+		}
+		// 返回状态
 		Boolean result = false;
 		String id = entity.getId();
 		if (StringUtils.isNotEmpty(id)) {
 			entity.setUpdateTime(new Date());
 			result = dao.update(entity) > 0 ? true : false;
 			// 查一下子是否是中文的，如果是查一下子是否有相关联的文章，把相关联的文章的索引改成中文的索引
-			updateRelevanceArticleSort(entity);
+			if (!roleName.equals("满洲里"))
+				updateRelevanceArticleSort(entity);
 		} else {
 			entity.setId(keyGen.getUUIDKey());
 			entity.setUpdateTime(new Date());
@@ -153,7 +164,7 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 	}
 
-	//更新相关文章至删除状态
+	// 更新相关文章至删除状态
 	public void delTongShi(Article article) {
 		if (article != null) {
 			// 查看语言

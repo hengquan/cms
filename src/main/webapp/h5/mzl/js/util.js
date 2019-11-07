@@ -26,6 +26,10 @@ function openHome() {
 	getHomeChannelList();
 	//处理首页频道下面显示的文章
 	getHomeArticleList();
+	//限制字数
+	astrict();
+	//限制字数
+	imgTextHp();
 }
 
 // 获取站点信息
@@ -74,7 +78,11 @@ function getHomeData(tab, language) {
 				var languageHtml = "";
 				var languageList = data.languageList;
 				for (var i = 0; i < languageList.length; i++) {
-					languageHtml += '&nbsp;<img width="40px" height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					if(languageList[i].tab == "Chinese"){
+						languageHtml += '&nbsp;<img width="40px" height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					}else if(languageList[i].tab == "Russian"){
+						languageHtml += '&nbsp;<img width="90px" height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					}
 				}
 				$("#nationalFlag").html(languageHtml);
 				// 渲染口岸名称
@@ -273,8 +281,8 @@ function getHomeArticleList() {
 									+ '")>'
 									+ '<img src="'
 									+ dataList[i].picUrl
-									+ '" width="100%" alt="" onerror="excptionUrl(this)"><br>'
-									+ '<div class="imgText">'
+									+ '" width="100%" height="83px" alt="" onerror="excptionUrl(this)"><br>'
+									+ '<div class="imgText imgTextHp">'
 									+ dataList[i].articleName
 									+ '</div>'
 									+ '</a>'

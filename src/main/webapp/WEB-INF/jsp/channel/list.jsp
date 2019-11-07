@@ -117,10 +117,10 @@
 											<td class="hidden-phone"><c:choose>
 													<c:when test="${empty u.picUrl }">
 														<img src="${appRoot }/static/img/zanwu1.png"
-															style="height: 50px;">
+															style="width:80px;height: 50px;">
 													</c:when>
 													<c:otherwise>
-														<img src="${u.picUrl }" style="height: 50px;"
+														<img src="${u.picUrl }" style="width:80px;height: 50px;"
 															onerror="excptionUrl(this)">
 													</c:otherwise>
 												</c:choose></td>

@@ -791,4 +791,65 @@ public class CmsApiController extends ControllerBase {
 		}
 		return result;
 	}
+	
+	/**
+	 * 根据站点的ID获取站点所有的语言
+	 * 
+	 * @author zhq
+	 * @param roleId
+	 * @return
+	 */
+	@RequestMapping("/getRoleLanguage")
+	@ResponseBody
+	public Map<String, Object> getRoleLanguage() {
+		// 返回信息
+		Map<String, Object> result = new HashMap<String, Object>();
+		// 站点标识
+		String roleId = getTrimParameter("roleId");
+		// 语言列表
+		List<Map<String, Object>> languageList = new ArrayList<Map<String, Object>>();
+		try {
+			if (StringUtils.isNotEmpty(roleId)) {
+				SysRole role = roleService.findById(roleId);
+				if (role != null) {
+					String languages = role.getLanguages();
+					String[] languageZu = languages.split(",");
+					if (languageZu != null && languageZu.length > 0) {
+						for (String languageStr : languageZu) {
+							String[] oneLanguage = languageStr.split(":");
+							if (oneLanguage != null && oneLanguage.length > 0) {
+								Map<String,Object> languageObj = new HashMap<String,Object>();
+								String str2 = "";
+								if (oneLanguage.length >= 2) {
+									str2 = oneLanguage[1];
+								}
+								String str1 = "";
+								if (oneLanguage.length >= 1) {
+									str1 = oneLanguage[0];
+								}
+								//存
+								languageObj.put("key", str1);
+								languageObj.put("val", str2);
+								//存
+								languageList.add(languageObj);
+							}
+						}
+					}
+					result.put("code", "200");
+					result.put("languageList", languageList);
+				} else {
+					result.put("code", "202");
+					result.put("msg", "未查找到该站信息！");
+				}
+			} else {
+				result.put("code", "201");
+				result.put("msg", "请输入正确的站点标识！");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("code", "500");
+			result.put("msg", "系统错误,请联系管理员！");
+		}
+		return result;
+	}
 }

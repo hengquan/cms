@@ -260,7 +260,7 @@ public class ChannelController extends ControllerBase {
 					if (StringUtils.isNotEmpty(moduleName)) {
 						if (moduleName.equals("APP")) {
 							channelType += "," + "1";
-						} else if (moduleName.equals("H5")) {
+						} else if (moduleName.equals("WiFi")) {
 							channelType += "," + "2";
 						} else if (moduleName.equals("触摸板") || moduleName.equals("触摸版")) {
 							channelType += "," + "3";

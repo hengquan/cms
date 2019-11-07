@@ -301,12 +301,17 @@
 		FROM
 		cms_article a
 		where
-		a.relevancyId = '0' and
 		instr(a.articleName,#{keyword}) and
 		a.isValidate in
 		(0,1,2,3)
 		<if test="articleType != null and articleType != ''">
 			and instr(a.articleType,#{articleType,jdbcType=VARCHAR})
+		</if>
+		<if test="language != null and language != ''">
+			and language = #{language}
+		</if>
+		<if test="language == null and language == ''">
+			a.relevancyId = '0'
 		</if>
 		order by a.sort desc,a.createTime desc
 		limit #{page},#{pageSize}
