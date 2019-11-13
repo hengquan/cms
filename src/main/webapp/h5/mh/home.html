@@ -103,8 +103,6 @@
 </body>
 <script type="text/javascript">
 	$(function() {
-		//判断是手机浏览还是电脑浏览
-		isPCorAPP();
 		//设置获取的数据源;0-暂无，1-APP，2-H5，3-触摸板，4-APP视频
 		var channelType = window.sessionStorage.getItem("channelType");
 		if (channelType == null || channelType == ""
@@ -112,13 +110,15 @@
 			window.sessionStorage.setItem("channelType", "2");
 		}
 		//获取站点和语言信息
-		getRoleData("manzhouli", "Chinese");
+		getRoleData("mohan", "Chinese");
 		//轮播图
 		getHomePicUrl();
 		// 初始化轮播旋转
 		$("#myCarousel").carousel('cycle');
 		//打开其他信息
 		openHome();
+		//限制字数
+	  astrict();
 	})
 	
 	//限制字数
@@ -128,18 +128,6 @@
 	       if(len>12){
 	           var str="";
 	           str=$(obj).text().substring(0,12)+"......";  //使用字符串截取，获取前30个字符，多余的字符使用“......”代替
-	           $(obj).html(str);  
-	       }
-	  })
-  }
-	
-	//限制字数
-  function imgTextHp(){
-	  $("#channelListData .imgTextHp").each(function(index,obj){
-		  var len=$(obj).text().length;   //当前HTML对象text的长度
-	       if(len>6){
-	           var str="";
-	           str=$(obj).text().substring(0,6)+"...";  //使用字符串截取，获取前30个字符，多余的字符使用“......”代替
 	           $(obj).html(str);  
 	       }
 	  })

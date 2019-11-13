@@ -42,7 +42,7 @@ function getRoleData(tab, selLanguage) {
 	var roleName = window.sessionStorage.getItem("roleName");
 	if (roleName != "" || roleName != null || roleName != undefined) {
 		// 渲染口岸名称
-		$("#roleName").html(roleName);
+		//$("#roleName").html(roleName);
 	}
 	// 站点所属所有语言列表
 	var languageList = window.sessionStorage.getItem("languageList");
@@ -85,15 +85,15 @@ function getHomeData(tab, language) {
 				var koreanHtml = "";
 				for (var i = 0; i < languageList.length; i++) {
 					if(languageList[i].tab == 'Russian'){
-						koreanHtml += '&nbsp;<img style="width:110px;height:25px;margin-right:10px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+						koreanHtml += '&nbsp;<img style="width: 97px;height: 20px;" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
 					}else{
-						chineseHtml += '&nbsp;<img style="width:40px;height:25px;margin-right:10px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+						chineseHtml += '&nbsp;<img style="width:30px;height:20px;margin-right:10px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
 					}
 				}
 				languageHtml = chineseHtml + koreanHtml;
 				$("#nationalFlag").html(languageHtml);
 				// 渲染口岸名称
-				$("#roleName").html(data.roleName);
+				//$("#roleName").html(data.roleName);
 				// 存session--站点名称
 				window.sessionStorage.setItem("roleName", data.roleName);
 				// 存session--站点标识
@@ -149,7 +149,7 @@ function isOkRole() {
 		var roleName = window.sessionStorage.getItem("roleName");
 		if (roleName != "" || roleName != null || roleName != undefined) {
 			// 渲染口岸名称
-			$("#roleName").html(roleName);
+			//$("#roleName").html(roleName);
 		}
 		// 站点所属所有语言列表
 		var languageList = window.sessionStorage.getItem("languageList");
@@ -242,12 +242,12 @@ function getHomeChannelList() {
 				for (var i = 0; i < dataList.length; i++) {
 					channelHtml += '<div class="row" style="background: #fefefe; margin-top: 5px">'
 							+ '<div class="col-md-12" style="border: 1px solid #eeeeee">'
-							+ '<label class="col-md-6 btn thisHomeChannelName" style="font-weight:bold;">'
+							+ '<label class="col-md-6 btn thisHomeChannelName" style="font-weight:bold;text-align: left;">'
 							+ dataList[i].channelname
 							+ '</label> '
-							+ '<label class="col-md-6 pull-right btn"><b><a href="#" onclick=openArticleList("'
+							+ '<label class="col-md-6 pull-right btn" style="text-align: right;"><b><a href="#" onclick=openArticleList("'
 							+ dataList[i].id
-							+ '","")>>></a></b></label>' + '</div>';
+							+ '","")>显示更多>></a></b></label>' + '</div>';
 					channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left; margin-top: 5px;">'
 							+ '<input type="hidden" class="channelId" value="'
 							+ dataList[i].id
@@ -568,11 +568,32 @@ function getModuleList() {
 			if (data.code == "200") {
 				var html = "";
 				var dataList = data.dataList;
+//				for (var i = 0; i < dataList.length; i++) {
+//					html += '<span style="width:20%">'
+//					+'<a href="#" onclick=gotoChannelPage("'+dataList[i].id+'")>'
+//					+'<img style="width:75px;height:75px;border-radius:50%; overflow:hidden;" src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label style="word-break : break-all;overflow:hidden;">'+dataList[i].moduleName+'</label>'
+//				  +'</a></span>';
+//				}
+				//写上固定的吃住游娱购
 				for (var i = 0; i < dataList.length; i++) {
+					//频道ID
+					var channelId = "";
+					var moduleName = dataList[i].moduleName;
+					if(moduleName == "吃"){
+						channelId = "4172B1B3FFA801697ADD3725823C02B4";
+					}else if(moduleName == "住"){
+						channelId = "41721BFAFFA801692A19D3F90DC04219";
+					}else if(moduleName == "游"){
+						channelId = "4173BA7AFFA8016903CF14EB431C677C";
+					}else if(moduleName == "娱"){
+						channelId = "41732EF7FFA8016953FC5AC02EA94B85";
+					}else if(moduleName == "购"){
+						channelId = "41741EEBFFA80169596142D61926472F";
+					}
 					html += '<span style="width:20%">'
-					+'<a href="#" onclick=gotoChannelPage("'+dataList[i].id+'")>'
-					+'<img style="width:75px;height:75px;border-radius:50%; overflow:hidden;" src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label style="word-break : break-all;overflow:hidden;">'+dataList[i].moduleName+'</label>'
-				  +'</a></span>';
+						+'<a href="#" onclick=openArticleList("'+channelId+'")>'
+						+'<img style="width:75px;height:75px;border-radius:50%; overflow:hidden;" src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label style="word-break : break-all;overflow:hidden;">'+moduleName+'</label>'
+						+'</a></span>';
 				}
 				$("#main_icon").html(html);
 			} else {

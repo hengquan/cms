@@ -26,10 +26,6 @@ function openHome() {
 	getHomeChannelList();
 	//处理首页频道下面显示的文章
 	getHomeArticleList();
-	//限制字数
-	astrict();
-	//限制字数
-	imgTextHp();
 }
 
 // 获取站点信息
@@ -219,10 +215,10 @@ function getHomeChannelList() {
 				for (var i = 0; i < dataList.length; i++) {
 					channelHtml += '<div class="row" style="background: #fefefe; margin-top: 5px">'
 							+ '<div class="col-md-12" style="border: 1px solid #eeeeee">'
-							+ '<label class="col-md-6 btn" style="text-align: left;"><b>'
+							+ '<label class="col-md-6 btn"><b>'
 							+ dataList[i].channelname
 							+ '</b></label> '
-							+ '<label class="col-md-6 pull-right btn" style="text-align: right;"><b><a href="#" onclick=openArticleList("'
+							+ '<label class="col-md-6 pull-right btn"><b><a href="#" onclick=openArticleList("'
 							+ dataList[i].id
 							+ '","")>>></a></b></label>' + '</div>';
 					if ((i + 1) % 2 == 0) {
@@ -281,8 +277,8 @@ function getHomeArticleList() {
 									+ '")>'
 									+ '<img src="'
 									+ dataList[i].picUrl
-									+ '" width="100%" height="83px" alt="" onerror="excptionUrl(this)"><br>'
-									+ '<div class="imgText imgTextHp">'
+									+ '" width="100%" alt="" onerror="excptionUrl(this)"><br>'
+									+ '<div class="imgText">'
 									+ dataList[i].articleName
 									+ '</div>'
 									+ '</a>'
@@ -356,55 +352,19 @@ function getArticleList() {
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
 					var createTime = crtTimeFtt(dataList[i].createTime);
-					var picUrl = dataList[i].picUrl;
-					if(picUrl == "" || picUrl == null){
-						if(language=="Russian"){
-							html += '<div class="oneArticle" onclick=openArticleContent("'
-								+ dataList[i].id
-								+ '")>'
-								+ '<div class="col-md-12 col-xs-12 col-sm-12" style="font-size: 10px;line-height:1.0">'
-								+ dataList[i].articleName
-								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">Время выпуска:'+createTime+'</p>'
-								+ '</div>'
-								+ '<div style="clear:both"></div>'
-								+ '</div><hr>';
-						}else{
-							html += '<div class="oneArticle" onclick=openArticleContent("'
-								+ dataList[i].id
-								+ '")>'
-								+ '<div class="col-md-12 col-xs-12 col-sm-12" style="font-size: 15px;line-height:1.5">'
-								+ dataList[i].articleName
-								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">发布于:'+createTime+'</p>'
-								+ '</div>'
-								+ '<div style="clear:both"></div>'
-								+ '</div><hr>';
-						}
-					}
-					if(picUrl !="" && picUrl != null){
-						if(language=="Russian"){
-							html += '<div class="oneArticle" onclick=openArticleContent("'
-								+ dataList[i].id
-								+ '")>'
-								+ '<div class="col-md-7 col-xs-7 col-sm-7" style="font-size: 10px;line-height:1.0">'
-								+ dataList[i].articleName
-								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">Время выпуска:'+createTime+'</p>'
-								+ '</div>'
-								+ '<img class="col-md-5 col-xs-5 col-sm-5" style="width:150px;height:75px" src="'+picUrl+'">'
-								+ '<div style="clear:both"></div>'
-								+ '</div><hr>';
-						}else{
-							html += '<div class="oneArticle" onclick=openArticleContent("'
-								+ dataList[i].id
-								+ '")>'
-								+ '<div class="col-md-7 col-xs-7 col-sm-7" style="font-size: 15px;line-height:1.5">'
-								+ dataList[i].articleName
-								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">发布于:'+createTime+'</p>'
-								+ '</div>'
-								+ '<img class="col-md-5 col-xs-5 col-sm-5" style="width:150px;height:75px" src="'+picUrl+'">'
-								+ '<div style="clear:both"></div>'
-								+ '</div><hr>';
-						}
-					}
+					html += '<div class="oneArticle" onclick=openArticleContent("'
+							+ dataList[i].id
+							+ '")>'
+							+ '<div class="col-md-12" style="font-size: 24px;">'
+							+ dataList[i].articleName
+							+ '</div>'
+							+ '<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'
+							+ createTime
+							+ '</div>'
+							+ '<div class="col-md-12" style="font-size: 16px;">'
+							+ dataList[i].detail
+							+ '</div>'
+							+ '</div>';
 				}
 				$(".articleContent").html(html);
 				//组分页
@@ -594,14 +554,3 @@ function goHomePage(){
 	window.location.href = "./home.html";
 }
 
-//判断是手机还是PC
-function isPCorAPP(){
- var system ={};  
- var p = navigator.platform;       
- system.win = p.indexOf("Win") == 0;  
- system.mac = p.indexOf("Mac") == 0;  
- system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);     
- if(system.win||system.mac||system.xll){//如果是电脑跳转到
-	 $(".container-fluid").css("width","400px");
- }
-}
