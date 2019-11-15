@@ -44,12 +44,12 @@
 }
 
 .imgText {
-    text-align: center;
-    left: 0;
-    position: relative;
-    color: #0a0a0a;
-    opacity: 0.75;
-    width: 100%;
+	text-align: center;
+	left: 0;
+	position: relative;
+	color: #0a0a0a;
+	opacity: 0.75;
+	width: 100%;
 }
 
 #contentTitle {
@@ -65,24 +65,24 @@
 
 #channelListData {
 	background: #ffffff;
-	margin-top:5px;
-	padding:0px;
+	margin-top: 5px;
+	padding: 0px;
 }
 
 #channelListData hr {
-    margin-top: -6px;
+	margin-top: -6px;
 }
 </style>
 </head>
-<body style="background: #eeeeee;overflow-x: hidden;">
-	<div class="container-fluid">
+<body style="background: #eeeeee; overflow-x: hidden;">
+	<div class="container-fluid" style="width: 100%">
 		<div id="heard">
 			<div class="row" style="background: #c31212;">
-        <div class="col-md-12">
-          <span id="roleName" class="head-role"></span> <span
-            class="pull-right" id="nationalFlag"></span>
-        </div>
-      </div>
+				<div class="col-md-12">
+					<span id="roleName" class="head-role"></span> <span
+						class="pull-right" id="nationalFlag"></span>
+				</div>
+			</div>
 		</div>
 		<div class="row">
 			<input type="hidden" id="imgNumber" value="3">
@@ -111,27 +111,27 @@
 				</a>
 			</div>
 		</div>
-		<div style="clear: both;"></div>
-		<div class="row" id="videoDiv" style="background: #fefefe; margin-top: 5px">
-			<div class="col-md-12" style="padding-right: 4px;padding-left: 4px;margin-bottom: -8px;">
+		<div class="row" id="videoDiv"
+			style="background: #fefefe; margin-top: 5px">
+			<div class="col-md-12"
+				style="padding-right: 4px; padding-left: 4px; margin-bottom: -8px;">
 				<p style="font-size: 17px;" class="col-md-6 btn thisHomeVideo">
-					视频新闻
-				</p> 
-				<label class="col-md-6 pull-right btn">
-				<a href="#" onclick="openArticleList('3A410147FFA8016949A70DBC09B0E8E7')"><span class="glyphicon glyphicon-list"></span>&nbsp;更多</a></label>
+					视频新闻</p>
+				<label class="col-md-6 pull-right btn"> <a href="#"
+					onclick="openArticleList('3A410147FFA8016949A70DBC09B0E8E7')"><span
+						class="glyphicon glyphicon-list"></span>&nbsp;更多</a></label>
 			</div>
-			<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left; margin-top: 5px;padding-right: 4px;padding-left: 4px;">
-				<input type="hidden" class="videoNumber" value="3">
-				<input type="hidden" class="videoChannelId" value="3A410147FFA8016949A70DBC09B0E8E7">
-				<div class="theVideoList">
-				</div>
+			<div class="col-xs-12 col-lg-12 col-md-12"
+				style="text-align: left; margin-top: 5px; padding-right: 4px; padding-left: 4px;">
+				<input type="hidden" class="videoNumber" value="3"> <input
+					type="hidden" class="videoChannelId"
+					value="3A410147FFA8016949A70DBC09B0E8E7">
+				<div class="theVideoList"></div>
 			</div>
 		</div>
-		<div style="clear: both;"></div>
 		<div class="row" id="main_icon"
-			style="background: #fefefe; margin-top: 5px;padding-top: 3px;"></div>
-		<div style="clear: both;"></div>
-		<input type="hidden" id="channelNumber" value="3">
+			style="background: #fefefe; margin-top: 5px; padding-top: 3px;"></div>
+		<input class="row" type="hidden" id="channelNumber" value="3">
 		<div class="row" id="channelListData"></div>
 	</div>
 </body>
@@ -166,5 +166,7 @@
 			}
 		})
 	}
+
+	//禁止滑动
 </script>
 </html>

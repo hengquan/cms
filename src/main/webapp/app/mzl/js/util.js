@@ -579,15 +579,15 @@ function getModuleList() {
 					//频道ID
 					var channelId = "";
 					var moduleName = dataList[i].moduleName;
-					if(moduleName == "吃"){
+					if(moduleName == "吃" || moduleName == "Русская кухня"){
 						channelId = "4172B1B3FFA801697ADD3725823C02B4";
-					}else if(moduleName == "住"){
+					}else if(moduleName == "住" || moduleName == "Жить в Маньчжурии"){
 						channelId = "41721BFAFFA801692A19D3F90DC04219";
-					}else if(moduleName == "游"){
+					}else if(moduleName == "游" || moduleName == "Очаровательная Маньчжурия"){
 						channelId = "4173BA7AFFA8016903CF14EB431C677C";
-					}else if(moduleName == "娱"){
+					}else if(moduleName == "娱" || moduleName == "План путешествия"){
 						channelId = "41732EF7FFA8016953FC5AC02EA94B85";
-					}else if(moduleName == "购"){
+					}else if(moduleName == "购" || moduleName == "Магазины"){
 						channelId = "41741EEBFFA80169596142D61926472F";
 					}
 					html += '<span style="width:20%">'

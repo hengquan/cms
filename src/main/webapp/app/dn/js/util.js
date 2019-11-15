@@ -23,10 +23,12 @@ function crtTimeFtt(millisecond) {
 function openHome() {
 	//判断站点信息
 	isOkRole();
+	//获取该站点的视频文章列表
+	getHomeVideoArticleList();
 	//获取该站点的模块列表
 	getModuleList();
 	//获取首面的频道列表
-	//getHomeChannelList();
+	getHomeChannelList();
 	//处理首页视频新闻频道下面显示的文章
 	getHomeArticleList();
 	//获取该站点所有的文章
@@ -242,31 +244,26 @@ function getHomeChannelList() {
 				var channelHtml = "";
 				var dataList = data.channelList;
 				for (var i = 0; i < dataList.length; i++) {
-					channelHtml += '<div class="row" style="background: #fefefe; margin-top: 5px">'
-							+ '<div class="col-md-12" style="border: 1px solid #eeeeee">'
-							+ '<label class="col-md-6 btn thisHomeChannelName" style="font-weight:bold;">'
+					channelHtml += '<div class="row" style="background: #fefefe;">';
+					if(i == 0){
+						channelHtml += '<div class="col-md-12">';
+					}else{
+						channelHtml += '<div class="col-md-12" style="margin-top:-8px">';
+					}
+					channelHtml += '<label class="col-md-6 btn thisHomeChannelName" style="font-size: 17px;">'
 							+ dataList[i].channelname
 							+ '</label> '
-							+ '<label class="col-md-6 pull-right btn"><b><a href="#" onclick=openArticleList("'
+							+ '<label class="col-md-6 pull-right btn"><a href="#" onclick=openArticleList("'
 							+ dataList[i].id
-							+ '","")>>></a></b></label>' + '</div>';
-					if ((i + 1) % 2 == 0) {
-						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left; margin-top: 20px;">'
+							+ '","")><span class="glyphicon glyphicon-list"></span>&nbsp;更多</a></label>' + '</div><hr>';
+					//处理文章列表
+						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left;">'
 								+ '<input type="hidden" class="channelId" value="'
 								+ dataList[i].id
 								+ '">'
 								+ '<input type="hidden" class="articleNumber" value="3">'
 								+ '<div class="theChannelList"></div>'
 								+ '</div></div>';
-					} else {
-						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left; margin-top: 5px;">'
-								+ '<input type="hidden" class="channelId" value="'
-								+ dataList[i].id
-								+ '">'
-								+ '<input type="hidden" class="articleNumber" value="3">'
-								+ '<ul class="theChannelList"></ul>'
-								+ '</div></div>';
-					}
 				}
 				$("#channelListData").html(channelHtml);
 			} else {
@@ -277,7 +274,7 @@ function getHomeChannelList() {
 }
 
 // 处理首页频道下面显示的文章
-function getHomeArticleList() {
+function getHomeVideoArticleList() {
 	var videoDiv = $(".theVideoList");
 	var channelId = $(".videoChannelId").val();
 	var videoNumber = $(".videoNumber").val();
@@ -312,6 +309,49 @@ function getHomeArticleList() {
 			}
 		}
 	});
+}
+
+//处理首页频道下面显示的文章
+function getHomeArticleList() {
+	$("#channelListData .row").each(function(index, obj) {
+		var theChannelList = $(obj).find(".theChannelList");
+		var channelId = $(obj).find(".channelId").val();
+		var articleNumber = $(obj).find(".articleNumber").val();
+		var language = window.sessionStorage.getItem("language");
+		$.ajax({
+			type : 'post',
+			data : {
+				"language" : language,
+				"channelId" : channelId,
+				"pageSize" : articleNumber
+			},
+			url : '../../api/getArticleList',
+			dataType : 'json',
+			async : false,
+			success : function(data) {
+				console.log(data);
+				if (data.code == "200") {
+					//清空
+					contentHtmlArticle = "";
+					// 渲染首页频道列表
+					var html = "";
+					var dataList = data.dataList;
+					var numIndex = 1;
+					for (var i = 0; i < dataList.length; i++) {
+						var createTime = crtTimeFtt(dataList[i].createTime);
+						var picUrl = dataList[i].picUrl;
+						var contentImgList = dataList[i].contentImg;
+						if(picUrl !="" && picUrl != null){
+							html1(createTime,picUrl,contentImgList,dataList[i]);
+						}
+					}
+					theChannelList.html(contentHtmlArticle);
+				} else {
+					console.log(data.msg);
+				}
+			}
+		});
+	})
 }
 
 // 处理访问不到的图片给个默认图
@@ -381,7 +421,7 @@ function getArticleAllList(){
 						}
 					}
 				}
-				$("#channelListData").html(contentHtmlArticle);
+				$("#channelListData123").html(contentHtmlArticle);
 			} else {
 				console.log(data.msg);
 			}
