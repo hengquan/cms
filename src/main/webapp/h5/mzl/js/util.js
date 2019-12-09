@@ -38,7 +38,7 @@ function getRoleData(tab, selLanguage) {
 	var roleName = window.sessionStorage.getItem("roleName");
 	if (roleName != "" || roleName != null || roleName != undefined) {
 		// 渲染口岸名称
-		$("#roleName").html(roleName);
+		//$("#roleName").html(roleName);
 	}
 	// 站点所属所有语言列表
 	var languageList = window.sessionStorage.getItem("languageList");
@@ -79,14 +79,14 @@ function getHomeData(tab, language) {
 				var languageList = data.languageList;
 				for (var i = 0; i < languageList.length; i++) {
 					if(languageList[i].tab == "Chinese"){
-						languageHtml += '&nbsp;<img width="40px" height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+						languageHtml += '&nbsp;<img width="40px" height="20px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
 					}else if(languageList[i].tab == "Russian"){
-						languageHtml += '&nbsp;<img width="90px" height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+						languageHtml += '&nbsp;<img width="110px" height="20px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
 					}
 				}
 				$("#nationalFlag").html(languageHtml);
 				// 渲染口岸名称
-				$("#roleName").html(data.roleName);
+				//$("#roleName").html(data.roleName);
 				// 存session--站点名称
 				window.sessionStorage.setItem("roleName", data.roleName);
 				// 存session--站点标识
@@ -126,7 +126,7 @@ function isOkRole() {
 		var roleName = window.sessionStorage.getItem("roleName");
 		if (roleName != "" || roleName != null || roleName != undefined) {
 			// 渲染口岸名称
-			$("#roleName").html(roleName);
+			//$("#roleName").html(roleName);
 		}
 		// 站点所属所有语言列表
 		var languageList = window.sessionStorage.getItem("languageList");
@@ -362,7 +362,7 @@ function getArticleList() {
 							html += '<div class="oneArticle" onclick=openArticleContent("'
 								+ dataList[i].id
 								+ '")>'
-								+ '<div class="col-md-12 col-xs-12 col-sm-12" style="font-size: 10px;line-height:1.0">'
+								+ '<div class="col-md-12 col-xs-12 col-sm-12" style="font-size: 14px;line-height:1.0">'
 								+ dataList[i].articleName
 								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">Время выпуска:'+createTime+'</p>'
 								+ '</div>'
@@ -385,7 +385,7 @@ function getArticleList() {
 							html += '<div class="oneArticle" onclick=openArticleContent("'
 								+ dataList[i].id
 								+ '")>'
-								+ '<div class="col-md-7 col-xs-7 col-sm-7" style="font-size: 10px;line-height:1.0">'
+								+ '<div class="col-md-7 col-xs-7 col-sm-7" style="font-size: 14px;line-height:1.0">'
 								+ dataList[i].articleName
 								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">Время выпуска:'+createTime+'</p>'
 								+ '</div>'
@@ -428,8 +428,8 @@ function compoundPage(data){
 	var totalPageNum = data.totalPageNum;
 	$("#totalPageNum").val(totalPageNum);
 	var html = "";
-	html += '<li><a href="#" onclick=doAppointPage("1")>首页</a></li>'
-		+'<li><a href="#" onclick=doUpPage("'+nowPage+'","'+totalPageNum+'")>上翻</a></li>';
+	html += '<li><a href="#" onclick=doAppointPage("1")><<</a></li>'
+		+'<li><a href="#" onclick=doUpPage("'+nowPage+'","'+totalPageNum+'")><</a></li>';
 	//组中间页数
 	//之间的差值
 	var begin = nowPage;
@@ -447,8 +447,8 @@ function compoundPage(data){
 		}
 	}
 	//组尾页面
-	html += '<li><a href="#" onclick=doNextPage("'+nowPage+'","'+totalPageNum+'")>下翻</a></li>'
-	+'<li><a href="#" onclick=doAppointPage("'+totalPageNum+'")>尾页</a></li>';
+	html += '<li><a href="#" onclick=doNextPage("'+nowPage+'","'+totalPageNum+'")>></a></li>'
+	+'<li><a href="#" onclick=doAppointPage("'+totalPageNum+'")>>></a></li>';
 	//填充页面
 	$(".pagination").html(html);
 }

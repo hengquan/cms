@@ -505,7 +505,7 @@ function getModuleList() {
 			if (data.code == "200") {
 				var html = '<li role="presentation" class="active" moduleId="goHomePage"'
 					+'onclick="getChannelList(this)"><a href="#">'
-					+'<img height="35px" src="img/home.jpg" alt=""></a></li>';
+					+'<img height="35px" src="img/home.jpg" alt=""><br> <label class="content2" style="font-family: mFont;">ᠲᠦᠷᠦᠭᠦᠸ ᠨᠢᠭᠤᠷ</label></a></li>';
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
 					html += '<li role="presentation" class="" moduleId="'+dataList[i].id+'" moduleName="'+dataList[i].moduleName+'"'
@@ -514,7 +514,7 @@ function getModuleList() {
 				}
 				html += '<li role="presentation" class="" moduleId="goBeforePage" id="goBeforePage"'
 					+'onclick="getChannelList(this)">'
-					+'<img height="35px" src="img/return.jpg" alt=""></li>';
+					+'<img height="35px" src="img/return.jpg" alt=""><br> <label class="content2" style="font-family: mFont;"> ᠪᠤᠴᠠᠵᠤ ᠢᠷ᠎ᠡ </label></li>';
 				$("#moduleList").html(html);
 			} else {
 				console.log(data.msg);

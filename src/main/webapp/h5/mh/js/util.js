@@ -76,8 +76,8 @@ function getHomeData(tab, language) {
 				for (var i = 0; i < languageList.length; i++) {
 					if(languageList[i].tab == "Chinese"){
 						languageHtml += '&nbsp;<img width="40px" height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
-					}else if(languageList[i].tab == "Russian"){
-						languageHtml += '&nbsp;<img width="90px" height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
+					}else{
+						languageHtml += '&nbsp;<img height="25px" src="'+languageList[i].picUrl+'" onclick=selLanguage("'+ languageList[i].tab + '")>';
 					}
 				}
 				$("#nationalFlag").html(languageHtml);

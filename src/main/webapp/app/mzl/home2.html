@@ -109,14 +109,23 @@
 					var html = "";
 					var dataList = data.dataList;
 					for (var i = 0; i < dataList.length; i++) {
-						html += '<div>'
+						var channelname = dataList[i].channelname;
+						if(channelname == "航班时刻表" || channelname == "Рейс аэропорта Маньчжурии"){
+							html += '<a href="#" onclick=openArticleContent("690FEAFFFFA801693EFD6ECF0FE15885")>';
+						}else if(channelname == "列车时刻表" || channelname == "Расписание поездов Маньчжурии"){
+							html += '<a href="#" onclick=openArticleContent("69124C08FFA80169231823716EE06FCA")>';
+						}else if(channelname == "客运时刻表" || channelname == "Расписание международных автобусов"){
+							html += '<a href="#" onclick=openArticleContent("4B0842C6FFA801691EBDBF3888F9046A")>';
+						}else{
+							html += '<div>'
 								+ '<a href="#" onclick=openArticleList("'
 								+ dataList[i].id + '","' + dataList[i].hrefUrl
-								+ '")>' + '<span style="text-align: center;">'
-								+ '<img src="' + dataList[i].picUrl
-								+ '" alt="" onerror="excptionUrl(this)"><br>'
-								/* + '<div class="imgText">'+ dataList[i].channelname + '</div>' */
-								+ '</span></a></div><hr>';
+								+ '")>'; 
+						}
+						html += '<span style="text-align: center;">'
+						+ '<img src="' + dataList[i].picUrl
+						+ '" alt="" onerror="excptionUrl(this)"><br>'
+						+ '</span></a></div><hr>';
 					}
 					$("#main_icon").html(html);
 				} else {

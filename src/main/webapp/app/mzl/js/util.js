@@ -247,7 +247,7 @@ function getHomeChannelList() {
 							+ '</label> '
 							+ '<label class="col-md-6 pull-right btn" style="text-align: right;"><b><a href="#" onclick=openArticleList("'
 							+ dataList[i].id
-							+ '","")>显示更多>></a></b></label>' + '</div>';
+							+ '","")>>></a></b></label>' + '</div>';
 					channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left; margin-top: 5px;">'
 							+ '<input type="hidden" class="channelId" value="'
 							+ dataList[i].id
@@ -426,8 +426,8 @@ function compoundPage(data){
 	var totalPageNum = data.totalPageNum;
 	$("#totalPageNum").val(totalPageNum);
 	var html = "";
-	html += '<li><a href="#" onclick=doAppointPage("1")>首页</a></li>'
-		+'<li><a href="#" onclick=doUpPage("'+nowPage+'","'+totalPageNum+'")>上翻</a></li>';
+	html += '<li><a href="#" onclick=doAppointPage("1")><<</a></li>'
+		+'<li><a href="#" onclick=doUpPage("'+nowPage+'","'+totalPageNum+'")><</a></li>';
 	//组中间页数
 	//之间的差值
 	var begin = nowPage;
@@ -445,8 +445,8 @@ function compoundPage(data){
 		}
 	}
 	//组尾页面
-	html += '<li><a href="#" onclick=doNextPage("'+nowPage+'","'+totalPageNum+'")>下翻</a></li>'
-	+'<li><a href="#" onclick=doAppointPage("'+totalPageNum+'")>尾页</a></li>';
+	html += '<li><a href="#" onclick=doNextPage("'+nowPage+'","'+totalPageNum+'")>></a></li>'
+	+'<li><a href="#" onclick=doAppointPage("'+totalPageNum+'")>>></a></li>';
 	//填充页面
 	$(".pagination").html(html);
 }
@@ -584,9 +584,9 @@ function getModuleList() {
 					}else if(moduleName == "住" || moduleName == "Жить в Маньчжурии"){
 						channelId = "41721BFAFFA801692A19D3F90DC04219";
 					}else if(moduleName == "游" || moduleName == "Очаровательная Маньчжурия"){
-						channelId = "4173BA7AFFA8016903CF14EB431C677C";
-					}else if(moduleName == "娱" || moduleName == "План путешествия"){
 						channelId = "41732EF7FFA8016953FC5AC02EA94B85";
+					}else if(moduleName == "娱" || moduleName == "Путешествие по Китаю"){
+						channelId = "4173BA7AFFA8016903CF14EB431C677C";
 					}else if(moduleName == "购" || moduleName == "Магазины"){
 						channelId = "41741EEBFFA80169596142D61926472F";
 					}

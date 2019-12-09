@@ -280,7 +280,7 @@ function getArticleList(articleType,channelId,channelName,channelHrefUrl,paramCh
 							var createTime = dataList[i].createTime;
 							var time = new Date(createTime);
 							var birthday= time.getFullYear()+"年"+(parseInt(time.getMonth())+parseInt(1))+"月"+time.getDate()+"日";
-							html += '<li><a articleId="'+ articleId +'" articleName="'+ articleName +'" style="text-decoration: none" onclick=getArticle(this)>['+channelName+']&emsp;&emsp;'+dataList[i].articleName+'<span class="pull-right">['+birthday+']</span></a></li>';
+							html += '<li><a articleId="'+ articleId +'" articleName="'+ articleName +'" style="text-decoration: none" onclick=getArticle(this)>'+dataList[i].articleName+'<span class="pull-right">['+birthday+']</span></a></li>';
 						}
 						html = '<ul style="font-size:20px">'+html+'</ul>';
 					}

@@ -32,7 +32,7 @@ function openHome() {
 	//处理首页视频新闻频道下面显示的文章
 	getHomeArticleList();
 	//获取该站点所有的文章
-	getArticleAllList();
+	//getArticleAllList();
 	//通知APP
 	messageAPP(window.sessionStorage.getItem("language"));
 }
@@ -244,20 +244,20 @@ function getHomeChannelList() {
 				var channelHtml = "";
 				var dataList = data.channelList;
 				for (var i = 0; i < dataList.length; i++) {
-					channelHtml += '<div class="row" style="background: #fefefe;">';
+					channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12 thisRow" style="background: #fefefe;padding:0px">';
 					if(i == 0){
-						channelHtml += '<div class="col-md-12">';
+						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="padding: 0px;">';
 					}else{
-						channelHtml += '<div class="col-md-12" style="margin-top:-8px">';
+						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="margin-top:-8px;padding:0px">';
 					}
-					channelHtml += '<label class="col-md-6 btn thisHomeChannelName" style="font-size: 17px;">'
+					channelHtml += '<label class="col-xs-6 col-lg-6 col-md-6 btn thisHomeChannelName" style="font-size: 17px;text-align:left">'
 							+ dataList[i].channelname
 							+ '</label> '
-							+ '<label class="col-md-6 pull-right btn"><a href="#" onclick=openArticleList("'
+							+ '<label class="col-xs-6 col-lg-6 col-md-6 pull-right btn" style="text-align:right"><a href="#" onclick=openArticleList("'
 							+ dataList[i].id
 							+ '","")><span class="glyphicon glyphicon-list"></span>&nbsp;更多</a></label>' + '</div><hr>';
 					//处理文章列表
-						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left;">'
+						channelHtml += '<div class="col-xs-12 col-lg-12 col-md-12" style="text-align: left;padding:0px">'
 								+ '<input type="hidden" class="channelId" value="'
 								+ dataList[i].id
 								+ '">'
@@ -313,7 +313,7 @@ function getHomeVideoArticleList() {
 
 //处理首页频道下面显示的文章
 function getHomeArticleList() {
-	$("#channelListData .row").each(function(index, obj) {
+	$("#channelListData .thisRow").each(function(index, obj) {
 		var theChannelList = $(obj).find(".theChannelList");
 		var channelId = $(obj).find(".channelId").val();
 		var articleNumber = $(obj).find(".articleNumber").val();
@@ -436,7 +436,7 @@ function html1(createTime,picUrl,contentImgList,data){
 		+ '")>'
 		+ '<div class="col-md-7 col-xs-7 col-sm-7" style="font-size: 16px;line-height:1.5;letter-spacing: 1px;padding-right: 0px;">'
 		+ '<p style="word-wrap: break-word;">'
-		+ data.articleName
+		+ data.articleName.substr(0,31)
 		+ '</p>'
 		+ '</div>'
 		+ '<div class="col-md-5 col-xs-5 col-sm-5">'

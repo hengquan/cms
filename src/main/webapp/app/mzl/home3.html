@@ -71,8 +71,8 @@
         </div>
       </div>
     </div>
-    <div class="row" id="moduleList"></div>
-    <div class="row" id="main_icon" style="background: #fefefe; padding-left: 5px; padding-right: 5px;">
+    <div class="row" id="moduleList" style="margin-top: 10px;"></div>
+    <div class="row" id="main_icon" style="background: #fefefe; padding:5px">
     </div>
   </div>
 </body>
@@ -113,17 +113,29 @@
           var html = "";
           var dataList = data.dataList;
           for (var i = 0; i < dataList.length; i++) {
-            html +=  '<div>'
-            +'<label class="col-xs-12 col-lg-12 col-md-12" style="padding-right: 2px; padding-left: 2px;">'+dataList[i].channelname+'</label><br>';
+            html += '<div class="col-xs-12 col-lg-12 col-md-12" style="padding: 1px;">'
+						+ '<label class="col-xs-6 col-lg-6 col-md-6 btn" style="font-weight:bold;text-align: left;">'
+						+ dataList[i].channelname
+						+ '</label> '
+						+ '<label class="col-xs-6 col-lg-6 col-md-6 pull-right btn" style="text-align: right;"><b><a href="#" onclick=openArticleList("'
+						+ dataList[i].id
+						+ '","")>>></a></b></label>';
             var articleList = dataList[i].articleList;
             for(var y=0;y<articleList.length;y++){
+            	var articleName = articleList[y].articleName;
+            	var len=articleName.length;   //当前HTML对象text的长度
+	     	      if(len>12){
+	   	           var str="";
+	   	           str=articleName.substring(0,12)+"...";  //使用字符串截取，获取前12个字符，多余的字符使用“......”代替
+	   	        	 articleName = str; 
+	     	      }
 	            html += '<span class="col-xs-4 col-lg-4 col-md-4" style="padding-right: 2px; padding-left: 2px;text-align:center;">'
 	            +'<a href="#" onclick=openArticleContent("'+articleList[y].id+'")> '
-	            +'<img style="width:118px;height:75px" src="'+articleList[y].picUrl+'" alt="" onerror="excptionUrl(this)"><br><div style="width:118px;" class="imgText">'+articleList[y].articleName+'</div>'
+	            +'<img style="width:117px;height:72px" src="'+articleList[y].picUrl+'" alt="" onerror="excptionUrl(this)"><br>'
+	            +'<div style="width:117px;" class="imgText">'+articleName+'</div>'
 	            +'</a></span> ';
             }
-            +'</div>'
-            +'<div style="clear: both"></div><div class="line"></div>';
+            html += '</div>';
           }
           $("#main_icon").html(html);
         } else {
@@ -151,12 +163,27 @@
   			if (data.code == "200") {
   				var html = "";
   				var dataList = data.dataList;
-  				for (var i = 0; i < dataList.length; i++) {
-  					html += '<span style="width:20%">'
-  					+'<a href="#" onclick=gotoChannelPage("'+dataList[i].id+'")>'
-  					+'<img style="border-radius:50%; overflow:hidden;width:60px;height:60px" src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label style="word-break : break-all;overflow:hidden;">'+dataList[i].moduleName+'</label>'
-  				  +'</a></span>';
-  				}
+	  			//写上固定的吃住游娱购
+					for (var i = 0; i < dataList.length; i++) {
+						//频道ID
+						var channelId = "";
+						var moduleName = dataList[i].moduleName;
+						if(moduleName == "吃" || moduleName == "Русская кухня"){
+							channelId = "4172B1B3FFA801697ADD3725823C02B4";
+						}else if(moduleName == "住" || moduleName == "Жить в Маньчжурии"){
+							channelId = "41721BFAFFA801692A19D3F90DC04219";
+						}else if(moduleName == "游" || moduleName == "Очаровательная Маньчжурия"){
+							channelId = "41732EF7FFA8016953FC5AC02EA94B85";
+						}else if(moduleName == "娱" || moduleName == "Путешествие по Китаю"){
+							channelId = "4173BA7AFFA8016903CF14EB431C677C";
+						}else if(moduleName == "购" || moduleName == "Магазины"){
+							channelId = "41741EEBFFA80169596142D61926472F";
+						}
+						html += '<span style="width:20%">'
+							+'<a href="#" onclick=openArticleList("'+channelId+'")>'
+							+'<img style="width:60px;height:60px;border-radius:50%; overflow:hidden;" src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label style="word-break : break-all;overflow:hidden;">'+moduleName+'</label>'
+							+'</a></span>';
+					}
   				$("#moduleList").html(html);
   			} else {
   				console.log(data.msg);

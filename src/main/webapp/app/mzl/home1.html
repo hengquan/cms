@@ -72,10 +72,16 @@
 		//判断站点信息
     isOkRole();
 		//获取文章列表
-		getHome1ArticleList(language,channelId);
+		getHome1ArticleList1(language,channelId);
 		//通知APP
 		//messageAPP(language);
 	})
+
+	//满洲里要求整版第一版
+	function getHome1ArticleList1(language,channelId){
+		window.location.href = "./articleList.html?channelId=" + channelId
+		+ "&language=" + language;
+	}
 	
 //获取文章列表根据频道ID
 function getHome1ArticleList(language,channelId) {
