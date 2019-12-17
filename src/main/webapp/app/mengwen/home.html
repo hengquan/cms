@@ -82,13 +82,14 @@
 }
 </style>
 </head>
-<body style="background: #eeeeee;overflow: -Scroll;overflow-x: hidden;">
+<body id="thisBody"
+	style="background: #eeeeee; overflow: -Scroll; overflow-x: hidden;">
 	<div class="container-fluid">
 		<div id="heard">
 			<div class="row" style="background: #4169E1;">
 				<div class="col-md-12">
-					<span id="roleName" class="head-role" style="font-family: mFont;"></span> <span
-						class="pull-right" id="nationalFlag"></span>
+					<span id="roleName" class="head-role" style="font-family: mFont;"></span>
+					<span class="pull-right" id="nationalFlag"></span>
 				</div>
 			</div>
 		</div>
@@ -122,8 +123,10 @@
 		<div style="clear: both;"></div>
 		<div class="row" id="main_icon" style="background: #fefefe"></div>
 		<div style="clear: both;"></div>
-		<input type="hidden" id="channelNumber" value="3">
-		<div class="row" id="channelListData"></div>
+		<input type="hidden" id="channelNumber" value="3"> <input
+			type="hidden" id="articleNumber" value="3">
+		<div class="row" id="channelListData"
+			style="background: #fefefe; margin-top: 5px"></div>
 		<div style="clear: both;"></div>
 	</div>
 </body>
@@ -143,6 +146,42 @@
 		$("#myCarousel").carousel('cycle');
 		//打开其他信息
 		openHome();
+		//限制字数
+		astrict();
+		//木有办法了限制一下宽高
+		//setHeightWidth();
 	})
+
+	//限制字数
+	function astrict() {
+		$("#channelListData .imgText").each(function(index, obj) {
+			var len = $(obj).text().length; //当前HTML对象text的长度
+			if (len > 60) {
+				var str = "";
+				str = $(obj).text().substring(0, 60) + "..."; //使用字符串截取，获取前30个字符，多余的字符使用“......”代替
+				$(obj).html(str);
+			}
+		})
+		$("#channelListData .aText").each(function(index, obj) {
+			var len = $(obj).text().length; //当前HTML对象text的长度
+			if (len > 70) {
+				var str = "";
+				str = $(obj).text().substring(0, 70) + "..."; //使用字符串截取，获取前30个字符，多余的字符使用“......”代替
+				$(obj).html(str);
+			}
+		})
+	}
+
+	//限制一下宽高
+	function setHeightWidth() {
+		//获取屏幕高度
+		var middleHeight = $(window).height();
+		//设置高度
+		document.getElementById("thisBody").style.height = middleHeight + "px";
+		//获取屏幕宽度
+		var middleWidth = $(window).width();
+		//设置宽度
+		document.getElementById("thisBody").style.width = middleWidth + "px";
+	}
 </script>
 </html>
