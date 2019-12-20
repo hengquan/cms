@@ -257,7 +257,7 @@ function getHomeChannelList() {
 				var channelHtml = "";
 				var dataList = data.channelList;
 				for (var i = 0; i < dataList.length; i++) {
-					channelHtml += '<span class="col-xs-4 col-sm-4 col-md-4 col-lg-4 content2" style="font-family: mFont;vertical-align: text-top;padding: 0px;">'
+					channelHtml += '<span class="col-xs-4 col-sm-4 col-md-4 col-lg-4 content2" style="font-family: mFont;vertical-align: text-top;padding: 0px;margin-top: 10px;">'
 						+ '<a class="col-xs-1 col-sm-1 col-md-1 col-lg-1" onclick=openArticleList("'+dataList[i].id+'","") style="font-family: mFont;text-decoration:none;font-weight: bolder;">'
 						+ dataList[i].channelname
 						+ '&emsp;&emsp;>>&emsp;</a>';
@@ -540,7 +540,8 @@ function getModuleList() {
 				for (var i = 0; i < dataList.length; i++) {
 					html += '<span class="col-xs-3 col-lg-3 col-md-3">'
 					+'<a href="#" onclick=gotoChannelPage("'+dataList[i].id+'")>'
-					+'<img src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)"><br> <label class="content2" style="font-family: mFont;height:45px">'+dataList[i].moduleName+'</label>'
+					+'<img src="'+dataList[i].picUrl+'" onerror="excptionUrl(this)">'
+					+'<label class="content2" style="font-family: mFont;height:70px">'+dataList[i].moduleName+'</label>'
 				  +'</a></span>';
 				}
 				$("#main_icon").html(html);
