@@ -58,9 +58,4 @@ public class MD5Utils
     		return null;
     	}
     }
-
-    public static void main(String args1[])
-    {
-    	System.out.println(MD5("123456"));
-    }
 }

@@ -109,11 +109,9 @@ public class BaseDao{
 				 char[] chs = f.getName().toCharArray();
 				 for(int i = 0; i < chs.length; i++){
 					 if(chs[i] < 'Z' && chs[i] > 'A'){
-						 System.out.println(chs[i]);
 						 field = String.valueOf(chs[i]);
 					 }
 				 }
-				 System.out.println(field);
 				 if(field != null && !field.equals("")){
 					 sql+=f.getName().toString().replace(field, "_"+field.toLowerCase())+",";
 				 }else{
@@ -134,8 +132,6 @@ public class BaseDao{
 				}
 				
 		});
-		
-		System.out.println(sql);
 	}
 	
 	public <T> List<T> find(String sql, Object[] parameters, Class<T> clazz) {

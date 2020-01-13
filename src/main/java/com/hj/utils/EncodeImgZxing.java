@@ -1,10 +1,8 @@
 package com.hj.utils;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,14 +10,12 @@ import java.io.OutputStream;
 import java.util.EnumMap;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.hj.web.entity.UserInfo;
 
 public final class EncodeImgZxing { 
 	//二维码颜色
@@ -61,7 +57,7 @@ public final class EncodeImgZxing {
 				}
 			}
 		}catch(Exception e){
-			System.out.println("生成二维码失败"+e.getMessage());
+			e.getMessage();
 		}
 		return image;
 	}
@@ -77,7 +73,7 @@ public final class EncodeImgZxing {
 		try {
 			ImageIO.write(image, format, file);
 		} catch (IOException e) {
-			System.out.println("二维码写入文件失败"+e.getMessage());
+			e.getMessage();
 		}
 	}
 	/**
@@ -91,7 +87,7 @@ public final class EncodeImgZxing {
 		try {
 			ImageIO.write(image, format, stream);
 		} catch (IOException e) {
-			System.out.println("二维码写入流失败"+e.getMessage());
+			e.getMessage();
 		}
 	}
 	

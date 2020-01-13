@@ -470,14 +470,6 @@ public class Base64Utils {
 
 				return 3;
 			} catch (Exception e) {
-				System.out.println("" + source[srcOffset] + ": "
-						+ (DECODABET[source[srcOffset]]));
-				System.out.println("" + source[srcOffset + 1] + ": "
-						+ (DECODABET[source[srcOffset + 1]]));
-				System.out.println("" + source[srcOffset + 2] + ": "
-						+ (DECODABET[source[srcOffset + 2]]));
-				System.out.println("" + source[srcOffset + 3] + ": "
-						+ (DECODABET[source[srcOffset + 3]]));
 				return -1;
 			} // e nd catch
 		}
@@ -1064,21 +1056,4 @@ public class Base64Utils {
 		s = s.substring(0,1)+s.substring(3);
 		return decodeToString(s);
 	}
-	
-	/**
-	 * Testing. Feel free--in fact I encourage you--to throw out this entire
-	 * "main" method when you actually deploy this code.
-	 */
-	public static void main(String[] args) {
-		//~!@#$%^&*()_+
-		String ss = "123456";//00-27-19-aa-10-9a--maya e0-3f-49-ab-c1-9e   68-a3-c4-8c-cc-b1//20-10-7a-19-29-28--ch00-e0-4c-ef-52-64 
-		String s = Base64Utils.encodeBaseString(ss);		
-		System.out.println(ss + ":" + s+"----length:"+s.length());
-		String s1 = Base64Utils.decodeToBaseString("MYZAWICAUUGMMQYGBDCMKQSIZQPVTSJLEHEDZTWAPADBAFYVZGHLXEEZEOMIOBAXGQ==");
-		System.out.println("\npp" + s + ":" + s1);	
-		
-		System.out.println("userId:"+Base64Utils.decodeToFixLenString("MHezE5"));
-    
-	} // end main
-
 }

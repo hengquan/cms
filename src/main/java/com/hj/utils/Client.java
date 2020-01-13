@@ -14,7 +14,6 @@ public class Client {
             socket = new Socket("139.129.212.8", 10020);  
             
            boolean b = socket.isConnected();
-           System.out.println("conn==="+b);
             /* 
              * 创建Socket的同时就发起连接，若连接异常会抛出异常。 
              *  我们通常创建Socket时会传入服务端的地址以及服务端口号。 
@@ -35,11 +34,8 @@ public class Client {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            System.out.println();
-            
             GetMessageHandler ghHandler = new GetMessageHandler();  
             Thread thread = new Thread(ghHandler);  
-            System.out.println(thread.getName()); 
             thread.start();
     }  
       
@@ -77,7 +73,6 @@ public class Client {
                               byte[] ReceiveData = new byte[datalen];
                               System.arraycopy(result, 30, ReceiveData, 0, datalen);
                               String str = new String(ReceiveData,"UTF-8");
-                              System.out.println(str);
                               sbf.append(str);
                           }
                           else if (result[2] == 0x8d)   //回报统计结果
@@ -85,7 +80,6 @@ public class Client {
                               byte[] ReceiveData = new byte[datalen];
                               System.arraycopy(result, 30, ReceiveData, 0, datalen);
                               String str = new String(ReceiveData,"UTF-8");
-                              System.out.println(str);
                               sbf.append(str);
                           }
                           else if (result[2] == 0x8f)   //回报在线结果
@@ -93,17 +87,14 @@ public class Client {
                               byte[] ReceiveData = new byte[datalen];
                               System.arraycopy(result, 30, ReceiveData, 0, datalen);
                               String str = new String(ReceiveData,"UTF-8");
-                              System.out.println(str);
                               sbf.append(str);
                           }else{
                         	  byte[] ReceiveData = new byte[datalen];
                               System.arraycopy(result, 30, ReceiveData, 0, datalen);
                               String str = new String(ReceiveData,"UTF-8");
-                              System.out.println(str);
                               sbf.append(str);
                           }
                       }
-        		   	 System.out.println(sbf.toString());
             	  }   	 
             }catch (IOException e) {  
                 // TODO Auto-generated catch block  

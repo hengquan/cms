@@ -18,7 +18,6 @@ public class MD5 {
     // ������ʽΪ���ָ��ַ�
     private static String byteToArrayString(byte bByte) {
         int iRet = bByte;
-        // System.out.println("iRet="+iRet);
         if (iRet < 0) {
             iRet += 256;
         }
@@ -30,7 +29,6 @@ public class MD5 {
     // ������ʽֻΪ����
     private static String byteToNum(byte bByte) {
         int iRet = bByte;
-        System.out.println("iRet1=" + iRet);
         if (iRet < 0) {
             iRet += 256;
         }
@@ -58,9 +56,4 @@ public class MD5 {
         }
         return resultString;
     }
-
-//    public static void main(String[] args) {
-//        MD5 getMD5 = new MD5();
-//        System.out.println(getMD5.GetMD5Code("123456").toUpperCase());
-//    }
 }

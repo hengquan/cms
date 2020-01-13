@@ -1,6 +1,8 @@
 package com.hj.web.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,7 +93,7 @@ public class ArticleController extends ControllerBase {
 			} else {
 				map.put("articleType", "");
 			}
-			//存语言
+			// 存语言
 			map.put("language", language);
 			// 获取所有文章信息
 			List<Article> articleList = articleService.getDataList(map);
@@ -246,7 +248,14 @@ public class ArticleController extends ControllerBase {
 
 	// 编辑文章
 	@RequestMapping(value = "/article/save")
-	public String addArticle(ModelMap model, Article article) {
+	public String addArticle(ModelMap model, Article article) throws Exception {
+		String pushTimeString = getTrimParameter("pushTimeString");
+		if (StringUtils.isEmpty(pushTimeString)) {
+			article.setPushTime(new Date());
+		} else {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			article.setPushTime(simpleDateFormat.parse(pushTimeString));
+		}
 		String roleId = getTrimParameter("roleId");
 		String channelType = getTrimParameter("channelType");
 		String articleType = article.getArticleType();
@@ -254,7 +263,7 @@ public class ArticleController extends ControllerBase {
 			Object obj = request.getSession().getAttribute("adminSession");
 			if (null != obj) {
 				UserInfo userInfo = (UserInfo) obj;
-				articleService.save(article, userInfo,roleId);
+				articleService.save(article, userInfo, roleId);
 			} else {
 				return "{\"code\":\"error\"}";
 			}

@@ -107,7 +107,6 @@ public class XmlUtils {
         Element root = doc.getRootElement();  
         for (Iterator iterator = root.elementIterator(); iterator.hasNext();) {  
             Element e = (Element) iterator.next();  
-            //System.out.println(e.getName());  
             List list = e.elements();  
             if(list.size() > 0){  
                 map.put(e.getName(), Dom2Map(e));  

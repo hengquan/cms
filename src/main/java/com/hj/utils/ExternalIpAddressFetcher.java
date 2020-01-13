@@ -11,8 +11,6 @@ public class ExternalIpAddressFetcher {
 
 	    for(int i=0;i<chars.length;i++){//输出结果
 	    	int sascii = (int)chars[i];
-	        System.out.println(" "+chars[i]+":"+sascii);
-	        
 	        String hex = Integer.toHexString(sascii);
 	        if(hex.length()%2!=0){
 	        	hex = "0"+hex;
@@ -25,7 +23,6 @@ public class ExternalIpAddressFetcher {
 			}
 	        //"0123"-- 01,23
 	    }
-	    System.out.println(buf.toString().substring(0,buf.length()-1));
 	    StringBuffer sb = new StringBuffer();
 	    String length = Integer.toHexString(421);
 	    while(length.length() < 8){
@@ -36,16 +33,5 @@ public class ExternalIpAddressFetcher {
         		sb.append(length.substring(z,z+2)+","); // 0,1  2,3 4,5
         	}
 		}
-		System.out.println(sb);
-//		str = sb.toString().substring(0,sb.length()-1);
-//		StringBuffer sb1= new StringBuffer();
-//		String[] strs = str.split(",");
-//		for(String s : strs){
-//			if(s.length() == 1){
-//				sb1.append("0").append(s);
-//			}else{
-//				sb1.append(s);
-//			}
-//		}
     }
 }

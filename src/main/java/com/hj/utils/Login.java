@@ -101,20 +101,9 @@ public class Login {
     	System.arraycopy(aaa, 0, ab, 2, aaa.length);
     	
     	
-    	//System.out.println(result.toString());
     	ab[ab.length-1] = 0x17;
     	ab[ab.length-2] = 0x03;
     	return ab;
-//    	String dataByte = ThreadPoolUtil.newThreadPool("139.129.212.8", 10020, ab);
-//		
-//    	System.out.println("dataByteConfLogin:"+dataByte);
-		
-//    	try {
-//			Thread.sleep(5000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
 }
 

@@ -640,9 +640,6 @@ public class CmsApiController extends ControllerBase {
 				contentImg = contentImg.replace("/..", serverPath);
 				contentImgList.add(contentImg);
 			}
-			System.out.println("----------------------------------------------");
-			System.out.println(contentImg);
-			System.out.println("----------------------------------------------");
 		}
 		return contentImgList;
 	}

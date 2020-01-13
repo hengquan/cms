@@ -107,10 +107,6 @@ public class UsUtils {
 			}
 		}
 		
-		public static void print(String str){
-			System.out.println(str);
-		}
-
 		/**
 		 * 将字符串数组转换为List集合
 		 * @param strs

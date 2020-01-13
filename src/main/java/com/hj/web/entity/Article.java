@@ -47,6 +47,8 @@ public class Article {
 	private Date createTime;
 
 	private Date updateTime;
+	
+	private Date pushTime;
 
 	private String article;
 	
@@ -59,6 +61,14 @@ public class Article {
 	private String roleName;
 	
 	private List<String> contentImg;
+
+	public Date getPushTime() {
+		return pushTime;
+	}
+
+	public void setPushTime(Date pushTime) {
+		this.pushTime = pushTime;
+	}
 
 	public List<String> getContentImg() {
 		return contentImg;

@@ -151,14 +151,9 @@ public class AyasAuthenticationFilter extends FormAuthenticationFilter{
 		CmsUser user = cmsUserMng.findByUsername(username);
 		String ip = RequestUtils.getIpAddr(req);
 		userMng.updateLoginInfo(user.getId(), ip);*/
-		
 		String userName = (String) subject.getPrincipal();
-		System.out.println("loginSuccess--userName:"+userName);
-		
 		//1.调用crm接口
 		//2.绑定oepnid和手机号及其crm接口返回的信息
-		
-		
 		return super.onLoginSuccess(token, subject, request, response);
 	}
 

@@ -16,13 +16,10 @@ private static int num = 0;
         try {
             if(tag.equals("a")){
                 num = 100;
-                System.out.println("tag a, set num over!");
                 Thread.sleep(1000);
             } else {
                 num = 200;
-                System.out.println("tag b, set num over!");
             }
-            System.out.println("tag " + tag + ", num = " + num);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

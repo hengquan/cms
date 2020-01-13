@@ -185,6 +185,5 @@ public class XmlConverUtils {
 		xml = "<xml><appid><![CDATA[wx1d4dd53cdbfed0b2]]></appid><attach><![CDATA[78A809C7FFA8016A2B2CBC8EDB14FAF1]]></attach><bank_type><![CDATA[CCB_DEBIT]]></bank_type><cash_fee><![CDATA[1]]></cash_fee><fee_type><![CDATA[CNY]]></fee_type><is_subscribe><![CDATA[Y]]></is_subscribe><mch_id><![CDATA[1323949601]]></mch_id><nonce_str><![CDATA[18C160B17F0000010849328AF276074A]]></nonce_str><openid><![CDATA[oi_zvs4WLMR9EjpXXr-bN15zk2vg]]></openid><out_trade_no><![CDATA[2016041515100645FC9431]]></out_trade_no><result_code><![CDATA[SUCCESS]]></result_code><return_code><![CDATA[SUCCESS]]></return_code><sign><![CDATA[3750BD4F588CC375405A01B47BCCD75D]]></sign><time_end><![CDATA[20160415154446]]></time_end><total_fee>1</total_fee><trade_type><![CDATA[JSAPI]]></trade_type><transaction_id><![CDATA[4000732001201604154866893214]]></transaction_id></xml>";
 
 		Map<String, Object> mp = xml2Map(xml);
-		System.out.println("transaction_id:" + mp.get("transaction_id")+"--out_trade_no:" + mp.get("out_trade_no")+"--time_end:"+mp.get("time_end"));
 	}
 }

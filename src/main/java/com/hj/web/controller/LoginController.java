@@ -57,11 +57,22 @@ public class LoginController extends ControllerBase {
 
 	@RequestMapping(value = "/login.ky", method = RequestMethod.POST)
 	public String doLogin(ModelMap map) {
-		String userName = getTrimParameter("userName");
-		String password = getTrimParameter("password");
-
 		String fallbackUrl = "/";
 		String successUrl = null;
+		// 获取用户IP
+		getUserIP();
+		String userName = getTrimParameter("userName");
+		String password = getTrimParameter("password");
+		String imgCode = getTrimParameter("imgCode");
+		// 从session里面取验证码
+		String iCode = request.getSession().getAttribute("iCode").toString();
+		// 对比验证码
+		if (!iCode.equals(imgCode)) {
+			map.put("loginId", userName);
+			map.put("loginFaild", "请输入正确验证码！");
+			successUrl = "login/new_login";
+			return successUrl;
+		}
 		try {
 			UserInfo userInfo = loginService.getUserInfo(userName);
 			if (null != userInfo) {
@@ -90,12 +101,12 @@ public class LoginController extends ControllerBase {
 					successUrl = "redirect:" + successUrl;
 				} else {
 					map.put("loginId", userName);
-					map.put("loginFaild", "用户密码错误，请核实或联系管理员！");
+					map.put("loginFaild", "用户名或密码错误，请核实或联系管理员！");
 					successUrl = "login/new_login";
 				}
 			} else {
 				map.put("loginId", userName);
-				map.put("loginFaild", "该用户未注册，请核实或联系管理员！");
+				map.put("loginFaild", "用户名或密码错误，请核实或联系管理员！");
 				successUrl = "login/new_login";
 			}
 		} catch (Exception e) {
@@ -141,4 +152,23 @@ public class LoginController extends ControllerBase {
 		return JsonUtils.map2json(map);
 	}
 
+	public String getUserIP() {
+		String ip = request.getHeader("X-Forwarded-For");
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_CLIENT_IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		return ip;
+	}
 }

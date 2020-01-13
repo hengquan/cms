@@ -361,12 +361,12 @@ function getArticleList() {
 				var html = "";
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
-					var createTime = crtTimeFtt(dataList[i].createTime);
+					var pushTime = crtTimeFtt(dataList[i].pushTime);
 					html += '<div class="oneArticle" onclick=openArticleContent("'
 							+ dataList[i].id
 							+ '")>'
 							+ '<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'
-							+ createTime
+							+ pushTime
 							+ '</div>'
 							+ '<div class="col-md-12 content2" style="font-size: 24px;font-family: mFont;height:70px;">'
 							+ dataList[i].articleName
@@ -504,9 +504,9 @@ function getArticle() {
 				if(videoUrl != "" && videoUrl != null){
 					window.location.href = videoUrl;
 				}else{
-					var createTime = crtTimeFtt(data.createTime);
+					var pushTime = crtTimeFtt(data.pushTime);
 					html += '<div class="col-md-12 content2" style="height: 100px;font-size: 24px;font-family: mFont;">'+data.articleName+'</div>'
-					+'<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'+createTime+'&emsp;&emsp;分类：'+articleTypeName+'</div>'
+					+'<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'+pushTime+'&emsp;&emsp;分类：'+articleTypeName+'</div>'
 					+'<hr>'
 					+'<div class="col-md-12 content2" style="font-size: 18px;font-family: mFont;">'+data.article+'</div>';
 					$(".articleContent").html(html);

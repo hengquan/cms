@@ -163,25 +163,4 @@ public class PageUtil {
 			
 			return map;			
 		}
-		
-		
-		/**
-		 * 例子，测试使用
-		 * */
-		public static void main(String[] arg){
-			PageUtil p = new PageUtil();
-			//p.setCount(10);
-			p.setCount(10);
-			p.setRecord(45);
-			//p.setCurrentPage(1);
-			//p.setFirstPage(1);
-			p.setNextPage(2);
-			System.out.println("总共："+p.getTotalPage()+"页");
-			System.out.println("当前是第"+p.getCurrentPage()+"页");
-			System.out.println("每页"+p.getCount()+"条");
-			System.out.println("第一页："+p.getFirstPage());
-			System.out.println("下一页："+p.getNextPage());
-			System.out.println("上一页："+p.getPrePage());
-			System.out.println("最后一页："+p.getLastPage());
-		}
 }

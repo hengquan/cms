@@ -101,8 +101,4 @@ public class DicUtils {
 		
 		return name;
 	}
-	
-	public static void main(String[] args) {
-		System.out.println(getCertTypeName("0"));
-	}
 }

@@ -37,9 +37,6 @@ public class SendUtil {
             // ��ȡ������Ӧͷ�ֶ�
             Map<String, List<String>> map = connection.getHeaderFields();
             // �������е���Ӧͷ�ֶ�
-            for (String key : map.keySet()) {
-                System.out.println(key + "--->" + map.get(key));
-            }
             // ���� BufferedReader����������ȡURL����Ӧ
             in = new BufferedReader(new InputStreamReader(
                     connection.getInputStream()));
@@ -48,7 +45,6 @@ public class SendUtil {
                 result += line;
             }
         } catch (Exception e) {
-            System.out.println("����GET��������쳣��" + e);
             e.printStackTrace();
         }
         // ʹ��finally�����ر�������
@@ -103,7 +99,6 @@ public class SendUtil {
                 result += line;
             }
         } catch (Exception e) {
-            System.out.println("���� POST ��������쳣��"+e);
             e.printStackTrace();
         }
         //ʹ��finally�����ر��������������

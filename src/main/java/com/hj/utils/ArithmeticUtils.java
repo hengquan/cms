@@ -252,8 +252,6 @@ public class ArithmeticUtils {
 	
 	public static void main(String[] args) {
 		double a = round(Double.valueOf("12.999"), 2);
-		System.out.println(a);
-		System.out.println(BigDecimal.valueOf(a));
 	}
 	
 	/**

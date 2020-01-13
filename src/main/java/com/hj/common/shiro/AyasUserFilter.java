@@ -18,17 +18,7 @@ public class AyasUserFilter extends UserFilter {
 		HttpServletResponse response = (HttpServletResponse) resp;
 		String loginUrl;
 		//后台地址跳转到后台登录地址，前台需要登录的跳转到shiro配置的登录地址
-		/*if (request.getRequestURI().startsWith(request.getContextPath() + getAdminPrefix())) {
-			loginUrl = getAdminLogin();
-		} else {
-			loginUrl = getLoginUrl();
-		}*/
-		
 		loginUrl = getLoginUrl();
-		
-		System.out.println("admin-filter:"+loginUrl);
-		
-		
 		WebUtils.issueRedirect(request, response, loginUrl);
 	}
 }

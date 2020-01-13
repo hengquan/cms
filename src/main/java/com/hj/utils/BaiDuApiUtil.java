@@ -47,16 +47,4 @@ public class BaiDuApiUtil {
 	    }
 	    return result;
 	}
-	
-	public static void main(String[] args) {
-		String jsonResult = request("169.58.17.236");
-		System.out.println(jsonResult);
-		JSONObject jsonObject = JSONObject.fromObject(jsonResult.toString());
-		JSONObject jsonObject1  =  jsonObject.getJSONObject("result");
-		String province = jsonObject1.get("area").toString();
-		//String city = jsonObject1.get("city").toString();
-		System.out.println(province);
-	}
-	
-	
 }

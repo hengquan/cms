@@ -132,7 +132,6 @@ public class SendSocket {
 	          try {
 	              ia=ia.getLocalHost();
 	              String localip=ia.getHostAddress();
-	              System.out.println("本机的ip是 ："+localip);
 	          } catch (Exception e) {
 	              // TODO Auto-generated catch block
 	              e.printStackTrace();
@@ -170,21 +169,6 @@ public class SendSocket {
 	    
 	public static byte[] returnData() throws UnsupportedEncodingException{
 		
-		//byte[] b= "1".getBytes(); //Login.login();
-		//ScoketTest.getData(b);
-//		
-		
-		//String dataByte = ThreadPoolUtil.newThreadPool("127.0.0.1", 12345, b);
-		
-		//ScoketTest.getData("1");
-		//System.out.println("dataByte111"+dataByte);
-//		String json = "{\"MARKET\":\"SH\",\"CODE\":\"600600\",\"FUNC_ID\":\"Func_YDM_SMA\","
-//				+ "\"PARADETAILS\":[{\"ID\":1,\"From\":1,\"To\":10,\"Step\":2,\"value\":0},"
-//				+ "{\"ID\":2,\"From\":1,\"To\":10,\"Step\":2,\"value\":0},"
-//				+ "{\"ID\":3,\"From\":1,\"To\":10,\"Step\":2,\"value\":0}],"
-//				+ "\"PARACOUNT\":3,\"TASKID\":\"c6d33034-5c78-4bee-a2e8-ce99a4e1975c\","
-//				+ "\"SUMTASKCOUNT\":1,\"ZY\":{\"RiskTYPE\":1,\"VALUE\":0.59},\"ZS\":{\"RiskTYPE\":0,\"VALUE\":0},"
-//				+ "\"STARTDATE\":\"20000101\",\"ENDDATE\":\"20150101\"}";
 		String json = "{\"CODE\":\"600600\",\"ENDDATE\":\"20150101\","
 				+ "\"FUNC_ID\":\"Func_YDM_SMA\",\"MARKET\":\"SH\",\"PARACOUNT\":3,"
 				+ "\"PARADETAILS\":[{\"From\":1,\"ID\":1,\"Step\":2,\"To\":10,\"value\":0},"
@@ -193,9 +177,6 @@ public class SendSocket {
 				+ "\"STARTDATE\":\"20000101\",\"SUMTASKCOUNT\":1,"
 				+ "\"TASKID\":\"c6d33034-5c78-4bee-a2e8-ce99a4e1975c\","
 				+ "\"ZS\":{\"RiskTYPE\":0,\"VALUE\":0},\"ZY\":{\"RiskTYPE\":1,\"VALUE\":0.59}}";
-	//	String s1 = stringToHexString(json);
-		
-		//String json = "{\"BESTPARA\":{\"CODE\":\"600600\",\"FUNC_ID\":\"Func_YDM_SMA\",\"MARKET\":\"SH\",\"PARADETAILS\":[{\"From\":0,\"ID\":1,\"Step\":0,\"To\":0,\"value\":1},{\"From\":0,\"ID\":2,\"Step\":0,\"To\":0,\"value\":1},{\"From\":0,\"ID\":3,\"Step\":0,\"To\":0,\"value\":1}],\"SUMTASKCOUNT\":1,\"ZS\":{\"RiskTYPE\":0,\"VALUE\":0},\"ZY\":{\"RiskTYPE\":1,\"VALUE\":0.59}},\"TASKID\":\"9b836bcc-01c0-49a5-a99b-d56d6a506812\"}";
 		
 		StringBuffer sbf = new StringBuffer();
 		String dataMain = msgHeader("8a","0,0,1,a5","88");//a5
@@ -207,9 +188,6 @@ public class SendSocket {
 				sbf.append(ds[i]);
 			}
 		}
-			System.out.print(sbf+getJsonTohexData(json).replace(",", ""));
-		
-		System.out.println(new String(HexString2Bytes(getJsonTohexData(json).replace(",", "")),"UTF-8"));
 		
 		byte[] aaa1 = HexString2Bytes(sbf+getJsonTohexData(json).replace(",", ""));
 		//byte[] aaa1 = HexString2Bytes("8a,87,0,1,88,0,0,81,0,0,0,0,58,1a,b7,71,0,0,0,0,0,0,0,0,0,0,1,a5,7b,22,43,4f,44,45,22,3a,22,36,30,30,36,30,30,22,2c,22,45,4e,44,44,41,54,45,22,3a,22,32,30,31,35,30,31,30,31,22,2c,22,46,55,4e,43,5f,49,44,22,3a,22,46,75,6e,63,5f,59,44,4d,5f,53,4d,41,22,2c,22,4d,41,52,4b,45,54,22,3a,22,53,48,22,2c,22,50,41,52,41,43,4f,55,4e,54,22,3a,33,2c,22,50,41,52,41,44,45,54,41,49,4c,53,22,3a,5b,7b,22,46,72,6f,6d,22,3a,31,2c,22,49,44,22,3a,31,2c,22,53,74,65,70,22,3a,32,2c,22,54,6f,22,3a,31,30,2c,22,76,61,6c,75,65,22,3a,30,7d,2c,7b,22,46,72,6f,6d,22,3a,31,2c,22,49,44,22,3a,32,2c,22,53,74,65,70,22,3a,32,2c,22,54,6f,22,3a,31,30,2c,22,76,61,6c,75,65,22,3a,30,7d,2c,7b,22,46,72,6f,6d,22,3a,31,2c,22,49,44,22,3a,33,2c,22,53,74,65,70,22,3a,32,2c,22,54,6f,22,3a,31,30,2c,22,76,61,6c,75,65,22,3a,30,7d,5d,2c,22,53,54,41,52,54,44,41,54,45,22,3a,22,32,30,30,30,30,31,30,31,22,2c,22,53,55,4d,54,41,53,4b,43,4f,55,4e,54,22,3a,31,2c,22,54,41,53,4b,49,44,22,3a,22,63,36,64,33,33,30,33,34,2d,35,63,37,38,2d,34,62,65,65,2d,61,32,65,38,2d,63,65,39,39,61,34,65,31,39,37,35,63,22,2c,22,5a,53,22,3a,7b,22,52,69,73,6b,54,59,50,45,22,3a,30,2c,22,56,41,4c,55,45,22,3a,30,7d,2c,22,5a,59,22,3a,7b,22,52,69,73,6b,54,59,50,45,22,3a,31,2c,22,56,41,4c,55,45,22,3a,30,2e,35,39,7d,7d");
@@ -225,16 +203,6 @@ public class SendSocket {
     	
     	
     	return ab1;
-//    	TestSocket ts1 = new TestSocket();
-//    	String dataByte = ts1.client("139.129.212.8", 10020, ab1);
-//    	System.out.println("dataByte:"+dataByte);
-    	//ScoketTest.getData(ab1);
-//    	String dataByte1 = ThreadPoolUtil.newThreadPool("139.129.212.8", 10020, ab1);
-//    	System.out.println("dataByte:"+dataByte1);
-    	
-//    	String dataByte321= ThreadPoolUtil.newThreadPool("127.0.0.1", 12345, ab1);
-//    	System.out.println("dataByte321"+dataByte321);
-//    	
 	}
 	
 	public static String getJsonTohexData(String data){
@@ -245,7 +213,6 @@ public class SendSocket {
 
 	    for(int i=0;i<chars.length;i++){//输出结果
 	    	int sascii = (int)chars[i];
-	     //   System.out.println(" "+chars[i]+":"+sascii);
 	        
 	        String hex = Integer.toHexString(sascii);
 	        if(hex.length()%2!=0){
@@ -257,9 +224,7 @@ public class SendSocket {
 	        	 buf.append(hex.substring(j,j+2)+","); // 0,1  2,3 4,5
 	        	}
 			}
-	        //"0123"-- 01,23
 	    }
-	  //  System.out.println(buf.toString().substring(0,buf.length()-1));
 		return buf.toString().substring(0,buf.length()-1);
 	}
 		

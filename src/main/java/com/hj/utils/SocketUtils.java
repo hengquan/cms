@@ -49,26 +49,17 @@ public class SocketUtils implements Callable<String>{
 	                	 System.arraycopy(result, 30, ReceiveData, 0, datalen);
 	                	 String str = new String(ReceiveData,"UTF-8");
 	                	 sb.append(str+",\n");
-	                System.out.println("服务器端返回过来的是: " + str); 
-//	                if(str.equals("ok")){
-//	                	flag = false;
-//	                }
-//	                if(str != null && !str.equals("")){
-//	                	flag = false;
-//	                }
-//	                Thread.sleep(1000);
-//                }
                 out.close();
                 input.close();  
             } catch (Exception e) {  
-                System.out.println("客户端异常:" + e.getMessage());   
+                e.getMessage();   
             } finally {  
                 if (socket != null) {  
                     try {  
                         socket.close();  
                     } catch (IOException e) {  
                         socket = null;   
-                        System.out.println("客户端 finally 异常:" + e.getMessage());   
+                        e.getMessage();   
                     }  
                 }  
             }

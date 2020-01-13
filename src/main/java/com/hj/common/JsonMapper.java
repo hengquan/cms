@@ -146,13 +146,11 @@ public class JsonMapper {
 		try {
 			@SuppressWarnings("unchecked")
 			List<LinkedHashMap<String, Object>> list = objectMapper.readValue(json, List.class);
-			System.out.println(list.size());
 			for (int i = 0; i < list.size(); i++) {
 				Map<String, Object> map = list.get(i);
 				Set<String> set = map.keySet();
 				for (Iterator<String> it = set.iterator(); it.hasNext();) {
 					String key = it.next();
-					System.out.println(key + ":" + map.get(key));
 				}
 			}
 			return list;

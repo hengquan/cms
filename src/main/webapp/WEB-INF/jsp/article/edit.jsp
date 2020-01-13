@@ -98,6 +98,13 @@
 									value="${article.keyword }">
 							</div>
 							<div style="margin-top: 16px; margin-left: 20px;" class="row">
+								<label class="btn col-lg-1">发布时间：</label> <input type="date"
+									class="btn col-lg-10"
+									style="border: 1px solid #ddd; text-align: left;font-family: mFont;"
+									placeholder="请选择发布时间"  name="pushTimeString" id="pushTimeString"
+									value='<fmt:formatDate value="${article.pushTime}" pattern="yyyy-MM-dd"/>'>
+							</div>
+							<div style="margin-top: 16px; margin-left: 20px;" class="row">
 								<label class="btn col-lg-1">封面图片：</label>
 								<span class="controls col-lg-2">
 									<c:choose>

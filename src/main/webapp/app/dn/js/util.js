@@ -338,11 +338,11 @@ function getHomeArticleList() {
 					var dataList = data.dataList;
 					var numIndex = 1;
 					for (var i = 0; i < dataList.length; i++) {
-						var createTime = crtTimeFtt(dataList[i].createTime);
+						var pushTime = crtTimeFtt(dataList[i].pushTime);
 						var picUrl = dataList[i].picUrl;
 						var contentImgList = dataList[i].contentImg;
 						if(picUrl !="" && picUrl != null){
-							html1(createTime,picUrl,contentImgList,dataList[i]);
+							html1(pushTime,picUrl,contentImgList,dataList[i]);
 						}
 					}
 					theChannelList.html(contentHtmlArticle);
@@ -406,17 +406,17 @@ function getArticleAllList(){
 				var dataList = data.dataList;
 				var numIndex = 1;
 				for (var i = 0; i < dataList.length; i++) {
-					var createTime = crtTimeFtt(dataList[i].createTime);
+					var pushTime = crtTimeFtt(dataList[i].pushTime);
 					var picUrl = dataList[i].picUrl;
 					var contentImgList = dataList[i].contentImg;
 					if(numIndex % 5 != 0){
 						if(picUrl !="" && picUrl != null){
-							html1(createTime,picUrl,contentImgList,dataList[i]);
+							html1(pushTime,picUrl,contentImgList,dataList[i]);
 							numIndex ++;
 						}
 					}else{
 						if(contentImgList !=null && contentImgList.length > 2){
-							html2(createTime,picUrl,contentImgList,dataList[i]);
+							html2(pushTime,picUrl,contentImgList,dataList[i]);
 							numIndex ++;
 						}
 					}
@@ -430,7 +430,7 @@ function getArticleAllList(){
 }
 
 //第一种版式
-function html1(createTime,picUrl,contentImgList,data){
+function html1(pushTime,picUrl,contentImgList,data){
 	var html = '<div class="oneArticle" onclick=openArticleContent("'
 		+ data.id
 		+ '")>'
@@ -444,13 +444,13 @@ function html1(createTime,picUrl,contentImgList,data){
 		+ '</div>'
 		+ '<p style="color: #06b705;position: relative;bottom: 30px;">'
 		+ '<img class="btn" src="img/icon.png" style="width: 110px;height: auto;">'
-		+ '<span class="btn" style="margin-left: -23px;font-size: 13px;margin-top: 2.5px;">'+createTime+'</span></p>'
+		+ '<span class="btn" style="margin-left: -23px;font-size: 13px;margin-top: 2.5px;">'+pushTime+'</span></p>'
 		+ '</div><hr style="margin-top: -33px;">';
 		contentHtmlArticle += html;
 }
 
 //第二种版式
-function html2(createTime,picUrl,contentImgList,data){
+function html2(pushTime,picUrl,contentImgList,data){
 	var html = '<div style="font-size: 16px;line-height: 1.5;letter-spacing: 1px;padding-right: 0px;">'
 		+'<a href="#" onclick=openArticleContent("'+data.id+'")>'
 		+'<p class="col-xs-12 col-lg-12 col-md-12" style="margin-bottom: 8px;">'+data.articleName+'</p><br>';
@@ -463,7 +463,7 @@ function html2(createTime,picUrl,contentImgList,data){
 	html += '</a></div>'
 		+ '<p style="color: #06b705;position: relative;bottom: -1px;">'
 		+ '<img class="btn" src="img/icon.png" style="width: 110px;height: auto;">'
-		+ '<span class="btn" style="margin-left: -23px;font-size: 13px;margin-top: 2.5px;">'+createTime+'</span></p>'
+		+ '<span class="btn" style="margin-left: -23px;font-size: 13px;margin-top: 2.5px;">'+pushTime+'</span></p>'
 		+'<div style="clear: both"></div>'
 		+'<div class="line"></div><hr style="margin-top: 0px;">';
 	contentHtmlArticle += html;
@@ -499,7 +499,7 @@ function getArticleList() {
 				var html = "";
 				var dataList = data.dataList;
 				for (var i = 0; i < dataList.length; i++) {
-					var createTime = crtTimeFtt(dataList[i].createTime);
+					var pushTime = crtTimeFtt(dataList[i].pushTime);
 					var picUrl = dataList[i].picUrl;
 					if(picUrl == "" || picUrl == null){
 						if(language=="Russian"){
@@ -508,7 +508,7 @@ function getArticleList() {
 								+ '")>'
 								+ '<div class="col-md-12 col-xs-12 col-sm-12" style="font-size: 10px;line-height:1.0">'
 								+ dataList[i].articleName
-								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">Время выпуска:'+createTime+'</p>'
+								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">Время выпуска:'+pushTime+'</p>'
 								+ '</div>'
 								+ '<div style="clear:both"></div>'
 								+ '</div><hr>';
@@ -518,7 +518,7 @@ function getArticleList() {
 								+ '")>'
 								+ '<div class="col-md-12 col-xs-12 col-sm-12" style="font-size: 15px;line-height:1.5">'
 								+ dataList[i].articleName
-								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">发布于:'+createTime+'</p>'
+								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">发布于:'+pushTime+'</p>'
 								+ '</div>'
 								+ '<div style="clear:both"></div>'
 								+ '</div><hr>';
@@ -531,7 +531,7 @@ function getArticleList() {
 								+ '")>'
 								+ '<div class="col-md-7 col-xs-7 col-sm-7" style="font-size: 10px;line-height:1.0">'
 								+ dataList[i].articleName
-								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">Время выпуска:'+createTime+'</p>'
+								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">Время выпуска:'+pushTime+'</p>'
 								+ '</div>'
 								+ '<img class="col-md-5 col-xs-5 col-sm-5" style="width:150px;height:75px" src="'+picUrl+'">'
 								+ '<div style="clear:both"></div>'
@@ -542,7 +542,7 @@ function getArticleList() {
 								+ '")>'
 								+ '<div class="col-md-7 col-xs-7 col-sm-7" style="font-size: 15px;line-height:1.5">'
 								+ dataList[i].articleName
-								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">发布于:'+createTime+'</p>'
+								+ '<p style="font-size: 10px; color: #277ce1;line-height:1.5">发布于:'+pushTime+'</p>'
 								+ '</div>'
 								+ '<img class="col-md-5 col-xs-5 col-sm-5" style="width:150px;height:75px" src="'+picUrl+'">'
 								+ '<div style="clear:both"></div>'
@@ -681,9 +681,9 @@ function getArticle() {
 				if(videoUrl != "" && videoUrl != null){
 					window.location.href = videoUrl;
 				}else{
-					var createTime = crtTimeFtt(data.createTime);
+					var pushTime = crtTimeFtt(data.pushTime);
 					html += '<div class="col-md-12" style="font-size: 24px;">'+data.articleName+'</div>'
-					+'<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'+createTime+'</div>'
+					+'<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'+pushTime+'</div>'
 					+'<hr>'
 					+'<div class="col-md-12" style="font-size: 18px;">'+data.article+'</div>';
 					$(".articleContent").html(html);

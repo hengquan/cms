@@ -52,8 +52,4 @@ public class HMacUtil {
 		}
 		return null;
 	}
-
-	public static void main(String[] args) {
-		System.out.println("result:"+encryptHMAC("1234567","p3Bo9HQfdVTqij/gWTrkPbLK2oIB15KCsmDLOUM//M9YCgCEuU/Jv6gkbBMtcO2WbO39HjCjfMSYduRwwTPO0g=="));
-	}
 }

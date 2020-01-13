@@ -36,6 +36,8 @@
 			jdbcType="TIMESTAMP" />
 		<result column="updateTime" property="updateTime"
 			jdbcType="TIMESTAMP" />
+		<result column="pushTime" property="pushTime"
+			jdbcType="TIMESTAMP" />
 		<result column="article" property="article"
 			jdbcType="LONGVARCHAR" />
 		<result column="relevancyId" property="relevancyId"
@@ -50,7 +52,7 @@
 		isValidate, userName,
 		partakeNum, top,
 		views, videoUrl, createTime,
-		updateTime,article,relevancyId,sort
+		updateTime,article,relevancyId,sort,pushTime
 	</sql>
 	<select id="get" resultMap="BaseResultMap"
 		parameterType="java.lang.String">
@@ -139,6 +141,9 @@
 			<if test="sort != null">
 				sort,
 			</if>
+			<if test="pushTime != null">
+				pushTime,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -212,6 +217,9 @@
 			</if>
 			<if test="sort != null">
 				#{sort,jdbcType=INTEGER},
+			</if>
+			<if test="pushTime != null">
+				#{pushTime,jdbcType=TIMESTAMP},
 			</if>
 		</trim>
 	</insert>
@@ -290,6 +298,9 @@
 			</if>
 			<if test="sort != null">
 				sort = #{sort,jdbcType=INTEGER},
+			</if>
+			<if test="pushTime != null">
+				pushTime = #{pushTime,jdbcType=TIMESTAMP},
 			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}

@@ -415,16 +415,9 @@ public class IdcardValidator {
 		IdcardValidator iv = new IdcardValidator();
 		boolean flag = false;
 		flag = iv.isValidate18Idcard(idcard18);
-		System.out.println(flag);
 
 		flag = iv.isValidate15Idcard(idcard15);
-		System.out.println(flag);
 
-		System.out.println(iv.convertIdcarBy15bit(idcard15));
 		flag = iv.isValidate18Idcard(iv.convertIdcarBy15bit(idcard15));
-		System.out.println(flag);
-
-		System.out.println(iv.isValidatedAllIdcard(idcard18));
-
 	}
 }

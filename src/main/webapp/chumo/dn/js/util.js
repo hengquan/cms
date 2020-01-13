@@ -270,8 +270,8 @@ function getArticleList(articleType,channelId,channelName,channelHrefUrl,paramCh
 						for (var i = 0; i < dataList.length; i++) {
 							var articleId = dataList[i].id;
 							var articleName = dataList[i].articleName;
-							var createTime = dataList[i].createTime;
-							var time = new Date(createTime);
+							var pushTime = dataList[i].pushTime;
+							var time = new Date(pushTime);
 							var birthday= time.getFullYear()+"年"+(parseInt(time.getMonth())+parseInt(1))+"月"+time.getDate()+"日";
 							html += '<li><a articleId="'+ articleId +'" articleName="'+ articleName +'" style="text-decoration: none" onclick=getArticle(this)>['+channelName+']&emsp;&emsp;'+dataList[i].articleName+'<span class="pull-right">['+birthday+']</span></a></li>';
 						}

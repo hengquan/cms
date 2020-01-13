@@ -189,10 +189,4 @@ public class IdcardInfoExtractor {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	
-	public static void main(String[] args) {
-		String idcard = "150423197809305011";
-		IdcardInfoExtractor ie = new IdcardInfoExtractor(idcard);
-		System.out.println(ie.getGender());
-	}
 }

@@ -26,9 +26,7 @@ public class PinYinUtils {
 		
 		char[] t1 = null;
 		t1 = src.toCharArray();
-		// System.out.println(t1.length);
 		String[] t2 = new String[t1.length];
-		// System.out.println(t2.length);
 		// 设置汉字拼音输出的格式
 		HanyuPinyinOutputFormat t3 = new HanyuPinyinOutputFormat();
 		t3.setCaseType(HanyuPinyinCaseType.LOWERCASE);
@@ -39,7 +37,6 @@ public class PinYinUtils {
 		try {
 			for (int i = 0; i < t0; i++) {
 				// 判断是否为汉字字符
-				// System.out.println(t1[i]);
 				if (Character.toString(t1[i]).matches("[\\u4E00-\\u9FA5]+")) {
 					t2 = PinyinHelper.toHanyuPinyinStringArray(t1[i], t3);// 将汉字的几种全拼都存到t2数组中
 					if(t2!=null)
@@ -92,7 +89,6 @@ public class PinYinUtils {
 		// 将字符串转换成字节序列
 		byte[] bGBK = cnStr.getBytes();
 		for (int i = 0; i < bGBK.length; i++) {
-			// System.out.println(Integer.toHexString(bGBK[i] & 0xff));
 			// 将每个字符转换成ASCII码
 			strBuf.append(Integer.toHexString(bGBK[i] & 0xff));
 		}
@@ -102,8 +98,5 @@ public class PinYinUtils {
 	public static void main(String[] args) {
 		String cnStr = "中华人民共和国";
 		cnStr="瑕疲  聩聱覃顸颀";
-		System.out.println(getPinYin(cnStr));
-		System.out.println(getPinYinHeadChar(cnStr));
-		System.out.println(getCnASCII(cnStr));
 	}
 }

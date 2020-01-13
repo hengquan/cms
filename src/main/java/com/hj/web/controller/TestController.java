@@ -35,14 +35,5 @@ public class TestController {
 		String paramReslt = "uuid=" + uuid + "&" + "topicID=" + topicID + "&" + "platformSource=" + platformSource + "&"
 				+ "version=" + version + "&" + "time=" + time + "&" + "ltime=" + ltime + "&" + "ranNum=" + ranNum;
 		String sr = SendUtil.sendPost(url, paramReslt);
-		System.out.println("------------------------------");
-		System.out.println(sr);
-		System.out.println("------------------------------");
-	}
-
-	public static void main(String[] args) {
-		Locale defaultLocale = Locale.getDefault();
-		System.out.println("地区：country=" + defaultLocale.getCountry());
-		System.out.println("语言：language=" + defaultLocale.getLanguage());
 	}
 }
