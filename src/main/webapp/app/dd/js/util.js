@@ -447,6 +447,8 @@ function loadMany(){
 	nowPage = parseInt(nowPage) + 1;
 	//加载内容
 	getArticleList(nowPage);
+	//确定当前页数
+	$("#nowPage").val(nowPage);
 }
 
 //组分页

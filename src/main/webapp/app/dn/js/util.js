@@ -606,7 +606,7 @@ function doUpPage(nowPage,totalPageNum){
 
 //下翻
 function doNextPage(nowPage,totalPageNum){
-	nowPage = parseInt(nowPage + 1) > totalPageNum ? totalPageNum : parseInt(nowPage + 1);
+	nowPage = parseInt(nowPage) + 1 > totalPageNum ? totalPageNum : parseInt(nowPage) + 1;
 	$("#nowPage").val(nowPage);
 	getArticleList();
 }
