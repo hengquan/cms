@@ -117,7 +117,9 @@ function selLanguage(selLanguage){
     var loadIndex = layer.load(0, {
       shade: [0.1,'#fff'] //0.1透明度的白色背景
     });
-	var requestUrl = window.location.href;
+    //不在当前页面切换语言了---改成切换语言就跳到首面
+	//var requestUrl = window.location.href;
+    var requestUrl = "./home.html";
 	var tab = window.sessionStorage.getItem("tab");
 	//获取站点和语言信息
 	getHomeData(tab, selLanguage);

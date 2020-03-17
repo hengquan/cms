@@ -355,13 +355,13 @@ function getArticleList() {
 					html += '<div class="oneArticle" onclick=openArticleContent("'
 							+ dataList[i].id
 							+ '")>'
-							+ '<div class="col-md-12" style="font-size: 24px;">'
+							+ '<div class="col-md-12" style="font-size: 20px;">'
 							+ dataList[i].articleName
 							+ '</div>'
-							+ '<div class="col-md-12" style="font-size: 16px; color: #277ce1;">发布于:'
+							+ '<div class="col-md-12" style="font-size: 14px; color: #277ce1;">发布于:'
 							+ pushTime
 							+ '</div>'
-							+ '<div class="col-md-12" style="font-size: 16px;">'
+							+ '<div class="col-md-12" style="font-size: 14px;">'
 							+ dataList[i].detail
 							+ '</div>'
 							+ '</div>';
