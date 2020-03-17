@@ -105,7 +105,9 @@ function getHomeData(tab, language) {
 }
 
 function selLanguage(selLanguage){
-	var requestUrl = window.location.href;
+	//不在当前页面切换语言了---改成切换语言就跳到首面
+	//var requestUrl = window.location.href;
+    var requestUrl = "./home.html";
 	var tab = window.sessionStorage.getItem("tab");
 	//获取站点和语言信息
 	getHomeData(tab, selLanguage);
