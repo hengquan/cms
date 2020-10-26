@@ -5,12 +5,15 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.hj.common.JsonMapper;
 
 public class JsonUtils {
@@ -224,4 +227,17 @@ public class JsonUtils {
 		
 		return new JsonMapper().json2Map(json);
 	}
+	
+	// json转map集合
+    public static Map<String, String> jsonToMap(String json){
+        // json字符串转JSONObject对象
+        JSONObject jsonObject = JSONObject.parseObject(json);
+        Iterator<Map.Entry<String, Object>> iterator = jsonObject.entrySet().iterator();
+        HashMap<String, String> map = new HashMap<>();
+        while (iterator.hasNext()){
+            Map.Entry<String, Object> next = iterator.next();
+            map.put(next.getKey(), next.getValue().toString());
+        }
+        return map;
+    }
 }
