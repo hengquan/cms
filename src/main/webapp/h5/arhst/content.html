@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>文章内容</title>
+<script type="text/javascript" src="common/commonJs.js"></script>
+<script type="text/javascript" src="common/commonCss.js"></script>
+<style type="text/css">
+@font-face {
+	font-family: mFont;
+	src: url('../fonts/MNR8102.ttf');
+}
+
+.head-language {
+	color: #fefefe;
+	text-align: right;
+	font-size: 20px;
+}
+
+.head-role {
+	font-size: 20px;
+	color: #fefefe;
+}
+
+.articleContent div {
+	padding: 5px;
+}
+
+#nationalFlag {
+	padding: 3px;
+}
+
+body {
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div id="heard">
+			<div class="row" style="background: #4169E1;">
+				<div class="col-md-12">
+					<span id="roleName" class="head-role"></span> <span
+						class="pull-right" id="nationalFlag"></span>
+				</div>
+			</div>
+		</div>
+		<div class="row articleContent"></div>
+		<div class="row"
+			style="background: #444; text-align: center; color: #fefefe; margin-top: 10px">
+			© 2019 <a href="#" onclick="goHomePage()">口岸</a> &nbsp;
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	$(function() {
+		//判断站点信息
+		isOkRole();
+		//获取文章内容
+		getArticle();
+		//修改样式
+		$(".articleContent img").css("width", "100%");
+		$(".articleContent img").css("height", "auto");
+	})
+</script>
+</html>

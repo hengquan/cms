@@ -288,6 +288,100 @@ function getArticleList(articleType,channelId,channelName,channelHrefUrl,paramCh
 	}
 }
 
+//获取新闻列表
+function getXinWenList(channelId,channelName){
+	$("#articleList").html("");
+	$(".channelTitle").html("");
+	//给返回页赋值
+	$("#goBeforePage").attr("onclick","getXinWenList('"+channelId+"','"+channelName+"')");
+	//渲染标题
+	$(".channelTitle").html(channelName);
+	//请求数据
+	var data = {
+		"channel_id" : channelId,
+		"page" : 1,
+		"size" : 20
+	};
+	$.ajax({
+		type : 'post',
+		data : data,
+		url : '../../api/getXinWenList',
+		dataType : 'json',
+		async : false,
+		success : function(data) {
+			console.log(data);
+			if (data.code == "200") {
+				//渲染首页频道列表
+				var html = "";
+				var dataList = JSON.parse(data.data);
+				for (var i = 0; i < dataList.length; i++) {
+					console.log(dataList[i]);
+					var url = dataList[i].url;
+					var title = dataList[i].title;
+					var pic_path = dataList[i].pic_path;
+					var create_time = dataList[i].create_time;
+					var time = new Date(create_time);
+					var birthday= time.getFullYear()+"年"+(parseInt(time.getMonth())+parseInt(1))+"月"+time.getDate()+"日";
+					html += '<li><a style="text-decoration: none" onclick=goXinWen("'+url+'")>['+channelName+']&emsp;&emsp;'+title+'<span class="pull-right">['+birthday+']</span></a></li>';
+				}
+				html = '<ul style="font-size:20px">'+html+'</ul>';
+				$("#articleList").html(html);
+			}
+		}
+	});
+}
+
+//获取动新闻列表
+function getDongXinWenList(channelId,channelName){
+	$("#articleList").html("");
+	$(".channelTitle").html("");
+	//给返回页赋值
+	$("#goBeforePage").attr("onclick","getDongXinWenList('"+channelId+"','"+channelName+"')");
+	//渲染标题
+	$(".channelTitle").html(channelName);
+	//请求数据
+	var data = {
+		"channel_id" : channelId,
+		"page" : 1,
+		"size" : 20
+	};
+	$.ajax({
+		type : 'post',
+		data : data,
+		url : '../../api/getDongXinWenList',
+		dataType : 'json',
+		async : false,
+		success : function(data) {
+			console.log(data);
+			if (data.code == "200") {
+				//渲染首页频道列表
+				var html = "";
+				var dataList = JSON.parse(data.data);
+				for (var i = 0; i < dataList.length; i++) {
+					console.log(dataList[i]);
+					var url = dataList[i].url;
+					var title = dataList[i].title;
+					var pic_path = dataList[i].pic_path;
+					html += '<div class="col-md-3" style="padding-top: 5px; padding-bottom: 5px; text-align: center">'
+					+'<img url="'+ url +'" width="100%" height="100%" onclick=goXinWen("'+url+'") src="'+pic_path+'" onerror="excptionUrl(this)"><br>' 
+					+'<label style="margin-top: 10px;font-size: 14px;">'+title+'</label>'
+					+'</div>';
+				}
+				html = '<ul style="font-size:20px">'+html+'</ul>';
+				$("#articleList").html(html);
+			}
+		}
+	});
+} 
+
+//转到新闻详情页
+function goXinWen(url){
+	if(url != "" && url != null){
+		var iframeHtml = '<iframe src="'+url+'" width="100%" height="'+(contentDivHeight-100)+'px" frameborder="0" >';
+		$("#articleList").html(iframeHtml);
+	}
+}
+
 //组分页
 function compoundPage(data){
 	//当前页数
@@ -358,9 +452,86 @@ function getChannelList(object) {
 		obj.attr("class", "active");
 		//切换到模块页
 		var moduleId = obj.attr("moduleId");
+		var moduleName = obj.attr("moduleName");
 		if (moduleId == "goHomePage") {
 			$("#otherPageContent").hide();
 			$("#homePage").show();
+		}else if (moduleName == "边境之窗"){
+			$("#otherPageContent").show();
+			$("#homePage").hide();
+			$.ajax({
+				type : 'post',
+				url : '../../api/getXinWenChannel',
+				dataType : 'json',
+				async : false,
+				success : function(data) {
+					if (data.code == "200") {
+						var html = "";
+						var dataList = JSON.parse(data.data);
+						for(var i = 0;i<dataList.length;i++){
+							var oneMsg = dataList[i];
+							var oneId = oneMsg.id;
+							if(oneId == "20170101"){
+								var channelList = oneMsg.lists;
+								html += '<ul class="nav nav-pills nav-stacked">';
+								for(var x=0;x<channelList.length;x++){
+									var ziChannelId = channelList[x].id;
+									var ziChannelName = channelList[x].name;
+									html += '<li ChannelName="'+ziChannelName+'" role="presentation" onclick=getXinWenList("'+ziChannelId+'","'+ziChannelName+'") class="active"><a href="#">'+ziChannelName+'</a></li>';
+								}
+								html += '</ul>';
+							}
+						}
+						$("#leftDaoHang").html(html);
+						//默认显示第一个
+						var firstChannelId = "";
+						var firstChannelName = "";
+						if(dataList.length>0){
+							var firstChannel = dataList[0].lists;
+							if(firstChannel.length>0){
+								firstChannelId = firstChannel[0].id;
+								firstChannelName = firstChannel[0].name;
+							}
+						}
+						//getXinWenList("20170102","推荐");
+						getXinWenList(firstChannelId,firstChannelName);
+					}
+				}
+			});
+		}else if (moduleName == "边境资讯"){
+			$("#otherPageContent").show();
+			$("#homePage").hide();
+			$.ajax({
+				type : 'post',
+				url : '../../api/getDongXinWenChannel',
+				dataType : 'json',
+				async : false,
+				success : function(data) {
+					if (data.code == "200") {
+						var html = "";
+						var dataList = JSON.parse(data.data);
+						console.log(dataList);
+						for(var i = 0;i<dataList.length;i++){
+							html += '<ul class="nav nav-pills nav-stacked">';
+							var ziChannelId = dataList[i].id;
+							var ziChannelName = dataList[i].name;
+							html += '<li ChannelName="'+ziChannelName+'" role="presentation" onclick=getDongXinWenList("'+ziChannelId+'","'+ziChannelName+'") class="active"><a href="#">'+ziChannelName+'</a></li>';
+							html += '</ul>';
+							
+						}
+						$("#leftDaoHang").html(html);
+						//默认显示第一个
+						var firstChannelId = "";
+						var firstChannelName = "";
+						if(dataList.length>0){
+							firstChannelId = dataList[0].id;
+							firstChannelName = dataList[0].name;
+						}
+						//getXinWenList("20170102","推荐");
+						getDongXinWenList(firstChannelId,firstChannelName);
+					}
+				}
+			});
 		}else{
 			//模块名字
 			var moduleName = obj.attr("moduleName");

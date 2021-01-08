@@ -56,12 +56,10 @@ public class CmsOtherApiController extends ControllerBase {
     	Map<String,String> param = new HashMap<String,String>();
     	qianMing(param);
     	//获取参数
-    	String app_id = request.getParameter("app_id");//应用号ID
-    	param.put("app_id", app_id);
     	String channel_id = request.getParameter("channel_id");//频道ID
-    	param.put("channel_id", channel_id);
-    	String title = request.getParameter("title");//关键字
-    	param.put("title", title);
+		param.put("channel_id", channel_id);
+		//param.put("page", "1");
+		//param.put("size", "20");
     	//请求URL
     	String spenUrl = domain + "/api/ml/getNewsLists";
     	String doPost = HttpUtil.doPost(spenUrl, param);
@@ -71,6 +69,51 @@ public class CmsOtherApiController extends ControllerBase {
     	Map<String, String> jsonToMap = JsonUtils.jsonToMap(doPost);
 		return jsonToMap;
     }
+    
+    /**
+         * 获取动新闻频道
+	* @return
+	* @throws Exception
+	*/
+	@ResponseBody
+	@RequestMapping("/getDongXinWenChannel")
+	public Map<String, String> getDongXinWenChannel() throws Exception {
+		Map<String,String> param = new HashMap<String,String>();
+		qianMing(param);
+		//请求URL
+		String spenUrl = domain + "/api/ml/getVideoChannelLists";
+		String doPost = HttpUtil.doPost(spenUrl, param);
+		System.out.println("----------------------------------");
+		System.out.println(doPost);
+		System.out.println("----------------------------------");
+		Map<String, String> jsonToMap = JsonUtils.jsonToMap(doPost);
+		return jsonToMap;
+	}
+	
+   /**
+         * 获取动新闻列表
+	* @return
+	* @throws Exception
+	*/
+	@ResponseBody
+	@RequestMapping("/getDongXinWenList")
+	public Map<String, String> getDongXinWenList() throws Exception {
+		Map<String,String> param = new HashMap<String,String>();
+		qianMing(param);
+		//获取参数
+		String channel_id = request.getParameter("channel_id");//频道ID
+		param.put("channel_id", channel_id);
+		//param.put("page", "1");
+		//param.put("size", "20");
+		//请求URL
+		String spenUrl = domain + "/api/ml/getVideoLists";
+		String doPost = HttpUtil.doPost(spenUrl, param);
+		System.out.println("----------------------------------");
+		System.out.println(doPost);
+		System.out.println("----------------------------------");
+		Map<String, String> jsonToMap = JsonUtils.jsonToMap(doPost);
+		return jsonToMap;
+	}
     
     //拼签名参数
     public void qianMing(Map<String,String> param) {

@@ -228,7 +228,11 @@ public class JsonUtils {
 		return new JsonMapper().json2Map(json);
 	}
 	
-	// json转map集合
+	/**
+	 * json转map集合
+	 * @param json
+	 * @return
+	 */
     public static Map<String, String> jsonToMap(String json){
         // json字符串转JSONObject对象
         JSONObject jsonObject = JSONObject.parseObject(json);
