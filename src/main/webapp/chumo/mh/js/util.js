@@ -616,6 +616,7 @@ function getArticle(obj) {
 				}else{
 					html += '<div class="col-md-12" style="font-size: 18px;">'+data.article+'</div>';
 					$("#articleList").html(html);
+					$("img").attr("srcset","");
 				}
 				//赋值标题
 				$(".channelTitle").html(articleName);
